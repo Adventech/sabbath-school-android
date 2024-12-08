@@ -39,9 +39,12 @@ ksp {
 }
 
 dependencies {
+    implementation(projects.common.auth)
+    implementation(projects.common.core)
     implementation(projects.common.designCompose)
     implementation(projects.common.translations)
     implementation(projects.libraries.circuit.api)
+    implementation(projects.services.auth.overlay)
     implementation(projects.services.resources.api)
 
     implementation(libs.coil.compose)

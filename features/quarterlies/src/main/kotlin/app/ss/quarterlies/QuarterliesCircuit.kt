@@ -25,10 +25,10 @@ package app.ss.quarterlies
 import androidx.compose.runtime.Immutable
 import app.ss.models.QuarterlyGroup
 import app.ss.quarterlies.model.GroupedQuarterlies
-import app.ss.quarterlies.overlay.AccountDialogOverlay
-import app.ss.quarterlies.overlay.UserInfo
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
+import ss.services.auth.overlay.AccountDialogOverlay
+import ss.services.auth.overlay.UserInfo
 
 @Immutable
 data class State(
@@ -57,6 +57,7 @@ sealed interface OverlayState {
     @Immutable
     data class AccountInfo(
         val userInfo: UserInfo,
+        val showSettings: Boolean,
         val onResult: (AccountDialogOverlay.Result) -> Unit
     ): OverlayState
 

@@ -170,6 +170,6 @@ class AppNavigatorImplTest {
         val intent = shadow.nextStartedActivity
 
         val screen = BundleCompat.getParcelable(intent.extras!!, ARG_EXTRA_SCREEN, Screen::class.java)
-        screen shouldBeEqualTo QuarterliesScreen
+        screen shouldBeEqualTo QuarterliesScreen()
     }
 }

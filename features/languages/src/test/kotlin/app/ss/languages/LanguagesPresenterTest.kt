@@ -36,6 +36,7 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeInstanceOf
 import org.junit.Test
 import ss.lessons.api.repository.LanguagesRepository
+import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.libraries.circuit.navigation.LanguagesScreen
 import ss.prefs.api.test.FakeSSPrefs
 import ss.workers.api.test.FakeWorkScheduler
@@ -98,8 +99,6 @@ class LanguagesPresenterTest {
 
             languagesFlow.emit(result)
 
-            awaitItem()
-
             state = awaitItem() as State.Languages
 
             state.models.first().code shouldBeEqualTo "en"
@@ -120,8 +119,6 @@ class LanguagesPresenterTest {
             var state = awaitItem() as State.Languages
 
             state.eventSink(LanguagesEvent.Search("   hello   "))
-
-            awaitItem()
 
             languagesFlow.emit(result)
 
@@ -146,6 +143,50 @@ class LanguagesPresenterTest {
 
             fakeSSPrefs.setLanguageCode shouldBeEqualTo "es"
             fakeSSPrefs.setLastQuarterlyIndex shouldBeEqualTo null
+
+            ensureAllEventsConsumed()
+        }
+    }
+
+    @Test
+    fun `present - event - Select - language changed`() = runTest {
+        fakeSSPrefs.setLanguageCode("en")
+
+        underTest.test {
+            awaitItem() shouldBeInstanceOf State.Loading::class.java
+
+            languagesFlow.emit(Result.success(emptyList()))
+
+            val state = awaitItem() as State.Languages
+
+            state.eventSink(LanguagesEvent.Select(LanguageModel("es", "Spanish", "Español", false)))
+
+            fakeSSPrefs.setLanguageCode shouldBeEqualTo "es"
+            fakeSSPrefs.setLastQuarterlyIndex shouldBeEqualTo null
+
+            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo HomeNavScreen
+
+            ensureAllEventsConsumed()
+        }
+    }
+
+    @Test
+    fun `present - event - Select - no language change`() = runTest {
+        fakeSSPrefs.setLanguageCode("en")
+
+        underTest.test {
+            awaitItem() shouldBeInstanceOf State.Loading::class.java
+
+            languagesFlow.emit(Result.success(emptyList()))
+
+            val state = awaitItem() as State.Languages
+
+            state.eventSink(LanguagesEvent.Select(LanguageModel("en", "English", "English", false)))
+
+            fakeSSPrefs.setLanguageCode shouldBeEqualTo "en"
+            fakeSSPrefs.setLastQuarterlyIndex shouldBeEqualTo null
+
+            fakeNavigator.awaitPop().result shouldBeEqualTo null
 
             ensureAllEventsConsumed()
         }

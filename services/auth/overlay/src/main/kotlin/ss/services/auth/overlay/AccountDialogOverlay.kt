@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.quarterlies.overlay
+package ss.services.auth.overlay
 
 import android.content.Context
 import androidx.compose.foundation.clickable
@@ -61,6 +61,7 @@ import app.ss.translations.R.string as L10nR
 
 class AccountDialogOverlay(
     private val userInfo: UserInfo,
+    private val showSettings: Boolean,
 ) : Overlay<AccountDialogOverlay.Result> {
 
     @OptIn(ExperimentalMaterial3Api::class)
@@ -73,7 +74,12 @@ class AccountDialogOverlay(
                     color = AlertDialogDefaults.containerColor,
                     tonalElevation = AlertDialogDefaults.TonalElevation,
                 ) {
-                    DialogContent(userInfo = userInfo, modifier = Modifier, onResult = navigator::finish)
+                    DialogContent(
+                        userInfo = userInfo,
+                        showSettings = showSettings,
+                        modifier = Modifier,
+                        onResult = navigator::finish,
+                    )
                 }
             },
             onDismissRequest = {
@@ -93,7 +99,7 @@ class AccountDialogOverlay(
 }
 
 @Composable
-private fun DialogContent(userInfo: UserInfo, modifier: Modifier = Modifier, onResult: (AccountDialogOverlay.Result) -> Unit = { }) {
+private fun DialogContent(userInfo: UserInfo, showSettings: Boolean, modifier: Modifier = Modifier, onResult: (AccountDialogOverlay.Result) -> Unit = { }) {
     val context = LocalContext.current
     val listItemColors = ListItemDefaults.colors(
         containerColor = AlertDialogDefaults.containerColor
@@ -156,22 +162,24 @@ private fun DialogContent(userInfo: UserInfo, modifier: Modifier = Modifier, onR
 
         Divider(modifier = Modifier.padding(vertical = 16.dp))
 
-        ListItem(
-            headlineContent = {
-                Text(
-                    text = stringResource(id = L10nR.ss_settings),
-                    style = SsTheme.typography.titleMedium
-                )
-            },
-            modifier = Modifier.clickable { onResult(AccountDialogOverlay.Result.GoToSettings) },
-            leadingContent = {
-                IconBox(
-                    icon = Icons.Settings,
-                    modifier = Modifier
-                )
-            },
-            colors = listItemColors,
-        )
+        if (showSettings) {
+            ListItem(
+                headlineContent = {
+                    Text(
+                        text = stringResource(id = L10nR.ss_settings),
+                        style = SsTheme.typography.titleMedium
+                    )
+                },
+                modifier = Modifier.clickable { onResult(AccountDialogOverlay.Result.GoToSettings) },
+                leadingContent = {
+                    IconBox(
+                        icon = Icons.Settings,
+                        modifier = Modifier
+                    )
+                },
+                colors = listItemColors,
+            )
+        }
 
         ListItem(
             headlineContent = {
@@ -234,7 +242,7 @@ private val AccountImgSize = 48.dp
 private fun PreviewDialogContent() {
     SsTheme {
         Surface(color = AlertDialogDefaults.containerColor) {
-            DialogContent(userInfo = UserInfo())
+            DialogContent(userInfo = UserInfo(), true)
         }
     }
 }

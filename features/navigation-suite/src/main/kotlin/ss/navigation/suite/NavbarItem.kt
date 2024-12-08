@@ -39,7 +39,7 @@ enum class NavbarItem(@DrawableRes val iconRes: Int, @StringRes val title: Int) 
 }
 
 fun NavbarItem.screen(): Screen = when (this) {
-    NavbarItem.SabbathSchool -> QuarterliesScreen
+    NavbarItem.SabbathSchool -> QuarterliesScreen(true)
     NavbarItem.AliveInJesus -> FeedScreen(FeedScreen.Type.ALIVE_IN_JESUS)
     NavbarItem.PersonalMinistries -> FeedScreen(FeedScreen.Type.PERSONAL_MINISTRIES)
     NavbarItem.Devotionals -> FeedScreen(FeedScreen.Type.DEVOTIONALS)

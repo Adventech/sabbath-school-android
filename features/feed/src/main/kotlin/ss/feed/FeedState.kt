@@ -22,22 +22,58 @@
 
 package ss.feed
 
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import app.ss.models.feed.FeedGroup
 import app.ss.models.feed.FeedResource
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
+import ss.services.auth.overlay.AccountDialogOverlay
+import ss.services.auth.overlay.UserInfo
 
 sealed interface State : CircuitUiState {
-    object Loading : State
+    val photoUrl: String?
+    val overlayState: OverlayState?
+    val eventSink: (Event) -> Unit
+
+    data class Loading(
+        override val photoUrl: String?,
+        override val overlayState: OverlayState?,
+        override val eventSink: (Event) -> Unit,
+    ) : State
+
     data class Success(
+        override val photoUrl: String?,
         val title: String,
         val groups: ImmutableList<FeedGroup>,
-        val eventSink: (Event) -> Unit
+        override val overlayState: OverlayState?,
+        override val eventSink: (Event) -> Unit
     ) : State
 }
 
 sealed interface Event : CircuitUiEvent {
+    /** The profile icon is clicked. */
+    data object ProfileClick : Event
+
+    /** The filer languages menu is clicked. */
+    data object FilterLanguages : Event
+}
+
+sealed interface SuccessEvent : Event {
+    /** The see all button for the [group] is clicked. */
     data class OnSeeAllClick(val group: FeedGroup) : Event
+
+    /** A feed [resource] is clicked. */
     data class OnItemClick(val resource: FeedResource) : Event
+}
+
+@Stable
+sealed interface OverlayState {
+    @Immutable
+    data class AccountInfo(
+        val userInfo: UserInfo,
+        val showSettings: Boolean,
+        val onResult: (AccountDialogOverlay.Result) -> Unit
+    ) : OverlayState
 }

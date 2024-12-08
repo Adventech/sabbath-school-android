@@ -86,6 +86,7 @@ include(
     ":libraries:test_utils:robolectric-core",
     ":libraries:ui:placeholder",
     ":libraries:workers:api",
+    ":services:auth:overlay",
     ":services:circuit:impl",
     ":services:lessons:impl",
     ":services:media:impl",
