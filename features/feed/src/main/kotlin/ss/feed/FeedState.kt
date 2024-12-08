@@ -23,6 +23,8 @@
 package ss.feed
 
 import app.ss.models.feed.FeedGroup
+import app.ss.models.feed.FeedResource
+import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
 
@@ -30,6 +32,12 @@ sealed interface State : CircuitUiState {
     object Loading : State
     data class Success(
         val title: String,
-        val groups: ImmutableList<FeedGroup>
+        val groups: ImmutableList<FeedGroup>,
+        val eventSink: (Event) -> Unit
     ) : State
+}
+
+sealed interface Event : CircuitUiEvent {
+    data class OnSeeAllClick(val group: FeedGroup) : Event
+    data class OnItemClick(val resource: FeedResource) : Event
 }

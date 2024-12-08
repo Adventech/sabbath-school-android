@@ -24,20 +24,23 @@ package ss.feed
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
 import app.ss.design.compose.widget.appbar.TopAppBarType
-import app.ss.design.compose.widget.placeholder.PlaceholderScreen
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
 import ss.feed.components.FeedGroupList
+import ss.feed.components.view.FeedLoadingView
 import ss.libraries.circuit.navigation.FeedScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -71,15 +74,26 @@ fun FeedScreenUi(state: State, modifier: Modifier = Modifier) {
     ) { contentPadding ->
         when (state) {
             State.Loading -> {
-                PlaceholderScreen()
+                FeedLoadingView(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = contentPadding,
+                )
             }
             is State.Success -> {
                 FeedGroupList(
                     groups = state.groups,
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = contentPadding,
+                    seeAllClick = { state.eventSink(Event.OnSeeAllClick(it)) },
+                    itemClick = { state.eventSink(Event.OnItemClick(it)) }
                 )
             }
         }
     }
+}
+
+@PreviewLightDark
+@Composable
+private fun LoadingPreview() {
+    SsTheme { Surface { FeedScreenUi(state = State.Loading) } }
 }

@@ -60,7 +60,16 @@ class FeedPresenter @AssistedInject constructor(
             else -> State.Success(
                 title = feedModel.title,
                 groups = feedModel.groups.toImmutableList(),
-            )
+            ) { event ->
+                when (event) {
+                    is Event.OnSeeAllClick -> {
+                        // Navigate to FeedGroupScreen
+                    }
+                    is Event.OnItemClick -> {
+                        // Navigate to FeedItemScreen
+                    }
+                }
+            }
         }
     }
 
