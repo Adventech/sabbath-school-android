@@ -185,7 +185,7 @@ private fun CoverPreview() {
 /**
  * Calculate the size of the cover based on the [coverType], [direction], and [viewType].
  */
-private fun coverSize(
+internal fun coverSize(
     coverType: ResourceCoverType,
     direction: FeedDirection,
     viewType: FeedView,
