@@ -20,16 +20,35 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models.feed
+package ss.feed.components
 
-import androidx.annotation.Keep
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import app.ss.models.feed.FeedResource
+import app.ss.models.feed.FeedResourceKind
+import app.ss.models.feed.FeedType
+import app.ss.models.resource.ResourceCovers
 
-@Keep
-@JsonClass(generateAdapter = false)
-enum class FeedDirection {
-    UNKNOWN,
-    @Json(name = "vertical") VERTICAL,
-    @Json(name = "horizontal") HORIZONTAL,
+object PlaceHolders {
+    val FEED_RESOURCE = FeedResource(
+        id = "1",
+        name = "name",
+        title = "Resource Title",
+        startDate = "startDate",
+        endDate = "endDate",
+        description = "Resource description",
+        introduction = "Resource introduction",
+        index = "index",
+        type = FeedType.DEVO,
+        credits = emptyList(),
+        features = emptyList(),
+        primaryColor = "#d8d8d8",
+        primaryColorDark = "#d8d8d8",
+        subtitle = "subtitle",
+        covers = ResourceCovers(
+            portrait = "portrait",
+            landscape = "landscape",
+            square = "square",
+            splash = "splash",
+        ),
+        kind = FeedResourceKind.BOOK,
+    )
 }

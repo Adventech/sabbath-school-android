@@ -20,15 +20,11 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models.resource
+package ss.feed.components
 
-import androidx.annotation.Keep
-import app.ss.models.feed.FeedGroup
-import com.squareup.moshi.JsonClass
-
-@Keep
-@JsonClass(generateAdapter = true)
-data class FeedResource(
-    val title: String,
-    val groups: List<FeedGroup>
-)
+enum class ResourceCoverType(val aspectRatio: Float) {
+    LANDSCAPE(1280f / 720f),
+    PORTRAIT(854f / 1280f),
+    SPLASH(1f),
+    SQUARE(1f)
+}

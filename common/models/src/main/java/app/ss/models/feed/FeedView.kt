@@ -23,14 +23,15 @@
 package app.ss.models.feed
 
 import androidx.annotation.Keep
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @Keep
 @JsonClass(generateAdapter = false)
 enum class FeedView {
     UNKNOWN,
-    tile,
-    banner,
-    square,
-    folio,
+    @Json(name = "tile") TILE,
+    @Json(name = "banner")BANNER,
+    @Json(name = "square") SQUARE,
+    @Json(name = "folio") FOLIO,
 }

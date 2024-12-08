@@ -32,6 +32,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
+import kotlinx.collections.immutable.toImmutableList
 import ss.libraries.circuit.navigation.FeedScreen
 import ss.resources.api.ResourcesRepository
 import ss.resources.model.FeedModel
@@ -56,13 +57,25 @@ class FeedPresenter @AssistedInject constructor(
         val feedModel = model
         return when {
             feedModel == null -> State.Loading
-            else -> State.Success(feedModel.title)
+            else -> State.Success(
+                title = feedModel.title,
+                groups = feedModel.groups.toImmutableList(),
+            ) { event ->
+                when (event) {
+                    is Event.OnSeeAllClick -> {
+                        // Navigate to FeedGroupScreen
+                    }
+                    is Event.OnItemClick -> {
+                        // Navigate to FeedItemScreen
+                    }
+                }
+            }
         }
     }
 
     private fun FeedScreen.Type.toFeedType() = when (this) {
-        FeedScreen.Type.ALIVE_IN_JESUS -> FeedType.aij
-        FeedScreen.Type.PERSONAL_MINISTRIES -> FeedType.pm
-        FeedScreen.Type.DEVOTIONALS -> FeedType.devo
+        FeedScreen.Type.ALIVE_IN_JESUS -> FeedType.AIJ
+        FeedScreen.Type.PERSONAL_MINISTRIES -> FeedType.PM
+        FeedScreen.Type.DEVOTIONALS -> FeedType.DEVO
     }
 }

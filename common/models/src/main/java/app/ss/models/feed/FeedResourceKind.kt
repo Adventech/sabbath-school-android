@@ -28,8 +28,12 @@ import com.squareup.moshi.JsonClass
 
 @Keep
 @JsonClass(generateAdapter = false)
-enum class FeedDirection {
+enum class FeedResourceKind {
     UNKNOWN,
-    @Json(name = "vertical") VERTICAL,
-    @Json(name = "horizontal") HORIZONTAL,
+    @Json(name = "book") BOOK,
+    @Json(name = "devotional") DEVOTIONAL,
+    @Json(name = "plan") PLAN,
+    @Json(name = "external") EXTERNAL,
+    @Json(name = "blog") BLOG,
+    @Json(name = "magazine") MAGAZINE,
 }

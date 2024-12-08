@@ -23,12 +23,15 @@
 package app.ss.models.feed
 
 import androidx.annotation.Keep
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @Keep
 @JsonClass(generateAdapter = false)
 enum class FeedScope {
     UNKNOWN,
-    resource,
-    document
+    @Json(name = "resource")
+    RESOURCE,
+    @Json(name = "document")
+    DOCUMENT,
 }

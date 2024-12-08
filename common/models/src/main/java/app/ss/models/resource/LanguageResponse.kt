@@ -20,16 +20,18 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models.feed
+package app.ss.models.resource
 
 import androidx.annotation.Keep
-import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @Keep
-@JsonClass(generateAdapter = false)
-enum class FeedDirection {
-    UNKNOWN,
-    @Json(name = "vertical") VERTICAL,
-    @Json(name = "horizontal") HORIZONTAL,
-}
+@JsonClass(generateAdapter = true)
+data class LanguageResponse(
+    val name: String,
+    val code: String,
+    val devo: Boolean,
+    val pm: Boolean,
+    val aij: Boolean,
+    val ss: Boolean,
+)

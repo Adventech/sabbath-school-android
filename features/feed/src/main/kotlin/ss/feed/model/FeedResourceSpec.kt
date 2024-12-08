@@ -20,16 +20,36 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models.feed
+package ss.feed.model
 
-import androidx.annotation.Keep
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import androidx.compose.runtime.Immutable
+import app.ss.models.feed.FeedDirection
+import app.ss.models.feed.FeedGroup
+import app.ss.models.feed.FeedResource
+import app.ss.models.feed.FeedView
+import app.ss.models.resource.ResourceCovers
 
-@Keep
-@JsonClass(generateAdapter = false)
-enum class FeedDirection {
-    UNKNOWN,
-    @Json(name = "vertical") VERTICAL,
-    @Json(name = "horizontal") HORIZONTAL,
+@Immutable
+internal data class FeedResourceSpec(
+    val id: String,
+    val name: String,
+    val title: String,
+    val view: FeedView,
+    val covers: ResourceCovers,
+    val direction: FeedDirection,
+    val date: String,
+    val primaryColor: String,
+)
+
+internal fun FeedResource.toSpec(group: FeedGroup): FeedResourceSpec {
+    return FeedResourceSpec(
+        id = id,
+        name = name,
+        title = title,
+        view = group.view,
+        covers = covers,
+        direction = group.direction,
+        date = "October · November · December 2024",
+        primaryColor = primaryColorDark,
+    )
 }
