@@ -79,7 +79,7 @@ constructor(
             when (destination) {
                 Destination.READ -> {
                     with(TaskStackBuilder.create(activity)) {
-                        addNextIntent(screenIntent(activity, QuarterliesScreen))
+                        addNextIntent(screenIntent(activity, QuarterliesScreen()))
                         ssPrefs.getLastQuarterlyIndex()?.let { index ->
                             addNextIntent(screenIntent(activity, LessonsScreen(index)))
                         }
@@ -153,7 +153,7 @@ constructor(
         val lessonIndex: String
         val endIntent: Intent
         val taskBuilder = TaskStackBuilder.create(activity)
-        taskBuilder.addNextIntent(screenIntent(activity, QuarterliesScreen))
+        taskBuilder.addNextIntent(screenIntent(activity, QuarterliesScreen()))
 
         if (uri.path?.matches(WEB_LINK_REGEX.toRegex()) == true && segments.size >= 2) {
             quarterlyIndex = "${segments.first()}-${segments[1]}"
@@ -185,7 +185,7 @@ constructor(
     }
 
     private fun launchNormalFlow(activity: Activity) {
-        val intent = screenIntent(activity, QuarterliesScreen).apply {
+        val intent = screenIntent(activity, QuarterliesScreen()).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         activity.startActivity(intent)

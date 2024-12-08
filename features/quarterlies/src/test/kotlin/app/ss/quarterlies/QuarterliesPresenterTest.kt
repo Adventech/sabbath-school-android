@@ -8,7 +8,6 @@ import app.ss.quarterlies.list.QuarterliesListScreen
 import app.ss.quarterlies.model.GroupedQuarterlies
 import app.ss.quarterlies.model.placeHolderQuarterlies
 import app.ss.quarterlies.model.spec
-import app.ss.quarterlies.overlay.UserInfo
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
@@ -27,7 +26,8 @@ import ss.libraries.circuit.navigation.LoginScreen
 import ss.libraries.circuit.navigation.QuarterliesScreen
 import ss.libraries.circuit.navigation.SettingsScreen
 import ss.prefs.api.test.FakeSSPrefs
-import app.ss.quarterlies.overlay.AccountDialogOverlay.Result as OverlayResult
+import ss.services.auth.overlay.UserInfo
+import ss.services.auth.overlay.AccountDialogOverlay.Result as OverlayResult
 
 private const val QUARTERLY_INDEX = "2024-02"
 
@@ -35,7 +35,8 @@ class QuarterliesPresenterTest {
 
     private val selectedLanguageFlow = MutableStateFlow("en")
 
-    private val fakeNavigator = FakeNavigator(QuarterliesScreen)
+    private val screen = QuarterliesScreen()
+    private val fakeNavigator = FakeNavigator(screen)
     private val fakeRepository = FakeQuarterliesRepository()
     private val fakeAuthRepository = FakeAuthRepository()
     private val fakePrefs = FakeSSPrefs(
@@ -45,6 +46,7 @@ class QuarterliesPresenterTest {
 
     private val underTest = QuarterliesPresenter(
         navigator = fakeNavigator,
+        screen = screen,
         repository = fakeRepository,
         authRepository = fakeAuthRepository,
         ssPrefs = fakePrefs,

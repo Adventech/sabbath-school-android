@@ -64,7 +64,6 @@ import ss.libraries.circuit.navigation.SettingsScreen
 import ss.misc.DateHelper.isNowInRange
 import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
-import ss.services.auth.overlay.AccountDialogOverlay
 import ss.services.auth.overlay.UserInfo
 import timber.log.Timber
 import app.ss.translations.R as L10nR
@@ -72,6 +71,7 @@ import ss.services.auth.overlay.AccountDialogOverlay.Result as OverlayResult
 
 class QuarterliesPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
+    @Assisted private val screen: QuarterliesScreen,
     private val repository: QuarterliesRepository,
     private val authRepository: AuthRepository,
     private val ssPrefs: SSPrefs,
@@ -82,7 +82,7 @@ class QuarterliesPresenter @AssistedInject constructor(
     @CircuitInject(QuarterliesScreen::class, SingletonComponent::class)
     @AssistedFactory
     interface Factory {
-        fun create(navigator: Navigator): QuarterliesPresenter
+        fun create(navigator: Navigator, screen: QuarterliesScreen): QuarterliesPresenter
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -128,7 +128,7 @@ class QuarterliesPresenter @AssistedInject constructor(
                     Event.FilterLanguages -> navigator.goTo(LanguagesScreen)
                     Event.ProfileClick -> {
                         userInfo?.let {
-                            overlayState = OverlayState.AccountInfo(it) { result ->
+                            overlayState = OverlayState.AccountInfo(it, !screen.hasNavigation) { result ->
                                 overlayState = null
                                 handleOverlayResult(result, coroutineScope)
                             }

@@ -26,4 +26,4 @@ import com.slack.circuit.runtime.screen.Screen
 import kotlinx.parcelize.Parcelize
 
 /** A circuit [Screen] for opening the quarterlies screen. */
-@Parcelize object QuarterliesScreen : Screen
+@Parcelize data class QuarterliesScreen(val hasNavigation: Boolean = false) : Screen

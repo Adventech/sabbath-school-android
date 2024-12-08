@@ -116,7 +116,7 @@ class FeedPresenter @AssistedInject constructor(
             Event.FilterLanguages -> navigator.goTo(LanguagesScreen)
             Event.ProfileClick -> {
                 userInfo?.let {
-                    overlayState.value = OverlayState.AccountInfo(it) { result ->
+                    overlayState.value = OverlayState.AccountInfo(it, false) { result ->
                         overlayState.value = null
                         handleOverlayResult(result, coroutineScope)
                     }

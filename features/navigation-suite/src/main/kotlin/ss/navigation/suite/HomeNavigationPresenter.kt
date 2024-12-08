@@ -61,13 +61,14 @@ class HomeNavigationPresenter @AssistedInject constructor(
     @Composable
     override fun present(): State {
         val navigationItems by rememberNavbarItems()
-        var selectedScreen by rememberRetained { mutableStateOf<Screen>(QuarterliesScreen) }
+        var hasNavigation by rememberRetained(navigationItems) { mutableStateOf(navigationItems?.isNotEmpty() == true) }
+        var selectedScreen by rememberRetained(hasNavigation) { mutableStateOf<Screen>(QuarterliesScreen(hasNavigation)) }
 
         val items = navigationItems
         return when {
             items == null -> State.Loading
             items.isEmpty() -> State.Fallback(
-                selectedItem = selectedScreen,
+                selectedItem = QuarterliesScreen(false),
                 eventSink = { event ->
                     when (event) {
                         is State.Fallback.Event.OnNavEvent -> {

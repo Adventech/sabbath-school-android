@@ -83,7 +83,9 @@ fun FeedScreenUi(state: State, modifier: Modifier = Modifier) {
     state.overlayState?.let { overlayState ->
         OverlayEffect(overlayState) {
             when (overlayState) {
-                is OverlayState.AccountInfo -> overlayState.onResult(show(AccountDialogOverlay(overlayState.userInfo)))
+                is OverlayState.AccountInfo -> overlayState.onResult(
+                    show(AccountDialogOverlay(overlayState.userInfo, overlayState.showSettings))
+                )
             }
         }
     }
