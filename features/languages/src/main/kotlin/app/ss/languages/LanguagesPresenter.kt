@@ -43,6 +43,7 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import ss.lessons.api.repository.LanguagesRepository
+import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.libraries.circuit.navigation.LanguagesScreen
 import ss.prefs.api.SSPrefs
 
@@ -84,8 +85,11 @@ constructor(
                 State.Languages(models) { event ->
                     when (event) {
                         is LanguagesEvent.Select -> {
-                            modelSelected(event.model)
-                            navigator.pop()
+                            if (modelSelected(event.model)) {
+                                navigator.resetRoot(HomeNavScreen)
+                            } else {
+                                navigator.pop()
+                            }
                         }
 
                         LanguagesEvent.NavBack -> navigator.pop()
@@ -95,9 +99,11 @@ constructor(
         }
     }
 
-    private fun modelSelected(model: LanguageModel) {
+    private fun modelSelected(model: LanguageModel): Boolean {
+        val languageChanged = model.code != ssPrefs.getLanguageCode()
         ssPrefs.setLanguageCode(model.code)
         ssPrefs.setLastQuarterlyIndex(null)
+        return languageChanged
     }
 
     private fun List<Language>.toModels() =
