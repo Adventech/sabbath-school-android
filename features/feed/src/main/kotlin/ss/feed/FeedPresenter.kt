@@ -24,6 +24,7 @@ package ss.feed
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import app.ss.auth.AuthRepository
 import app.ss.models.feed.FeedType
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
@@ -36,9 +37,11 @@ import kotlinx.collections.immutable.toImmutableList
 import ss.libraries.circuit.navigation.FeedScreen
 import ss.resources.api.ResourcesRepository
 import ss.resources.model.FeedModel
+import ss.services.auth.overlay.UserInfo
 
 class FeedPresenter @AssistedInject constructor(
     @Assisted private val screen: FeedScreen,
+    private val authRepository: AuthRepository,
     private val resourcesRepository: ResourcesRepository,
 ) : Presenter<State> {
 
@@ -50,26 +53,44 @@ class FeedPresenter @AssistedInject constructor(
 
     @Composable
     override fun present(): State {
+        val userInfo by produceRetainedState<UserInfo?>(initialValue = null) {
+            value = authRepository.getUser().getOrNull()?.run {
+                UserInfo(displayName, email, photo)
+            }
+        }
         val model by produceRetainedState<FeedModel?>(initialValue = null) {
             value = resourcesRepository.feed(screen.type.toFeedType()).getOrNull()
         }
 
-        val feedModel = model
-        return when {
-            feedModel == null -> State.Loading
-            else -> State.Success(
-                title = feedModel.title,
-                groups = feedModel.groups.toImmutableList(),
-            ) { event ->
-                when (event) {
-                    is Event.OnSeeAllClick -> {
-                        // Navigate to FeedGroupScreen
-                    }
-                    is Event.OnItemClick -> {
-                        // Navigate to FeedItemScreen
-                    }
+        val eventSink = { event: Event ->
+            when (event) {
+                Event.FilterLanguages -> {
+                    // Navigate to LanguagesScreen
+                }
+                Event.ProfileClick -> {
+                    // Navigate to AccountDialogOverlay
+                }
+                is SuccessEvent.OnItemClick -> {
+                    // Navigate to FeedItemScreen
+                }
+                is SuccessEvent.OnSeeAllClick -> {
+                    // Navigate to FeedGroupScreen
                 }
             }
+        }
+
+        val feedModel = model
+        return when {
+            feedModel == null -> State.Loading(
+                photoUrl = userInfo?.photo,
+                eventSink = eventSink,
+            )
+            else -> State.Success(
+                photoUrl = userInfo?.photo,
+                title = feedModel.title,
+                groups = feedModel.groups.toImmutableList(),
+                eventSink = eventSink,
+            )
         }
     }
 

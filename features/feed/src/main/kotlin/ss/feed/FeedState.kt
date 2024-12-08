@@ -29,15 +29,34 @@ import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
 
 sealed interface State : CircuitUiState {
-    object Loading : State
+    val photoUrl: String?
+    val eventSink: (Event) -> Unit
+
+    data class Loading(
+        override val photoUrl: String?,
+        override val eventSink: (Event) -> Unit,
+    ) : State
+
     data class Success(
+        override val photoUrl: String?,
         val title: String,
         val groups: ImmutableList<FeedGroup>,
-        val eventSink: (Event) -> Unit
+        override val eventSink: (Event) -> Unit
     ) : State
 }
 
 sealed interface Event : CircuitUiEvent {
+    /** The profile icon is clicked. */
+    data object ProfileClick : Event
+
+    /** The filer languages menu is clicked. */
+    data object FilterLanguages : Event
+}
+
+sealed interface SuccessEvent : Event {
+    /** The see all button for the [group] is clicked. */
     data class OnSeeAllClick(val group: FeedGroup) : Event
+
+    /** A feed [resource] is clicked. */
     data class OnItemClick(val resource: FeedResource) : Event
 }
