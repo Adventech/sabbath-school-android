@@ -22,40 +22,28 @@
 
 package app.ss.quarterlies
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.rounded.Translate
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
 import app.ss.design.compose.widget.appbar.TopAppBarType
-import app.ss.design.compose.widget.content.ContentBox
-import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButtonSlot
-import app.ss.design.compose.widget.icon.Icons
-import app.ss.design.compose.widget.image.RemoteImage
+import app.ss.design.compose.widget.navigation.AvatarNavigationIcon
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import app.ss.quarterlies.components.QuarterlyList
-import app.ss.quarterlies.overlay.AccountDialogOverlay
 import app.ss.quarterlies.overlay.AppBrandingOverlay
 import com.slack.circuit.codegen.annotations.CircuitInject
-import com.slack.circuit.overlay.LocalOverlayHost
+import com.slack.circuit.overlay.OverlayEffect
 import dagger.hilt.components.SingletonComponent
 import ss.libraries.circuit.navigation.QuarterliesScreen
+import ss.services.auth.overlay.AccountDialogOverlay
 import androidx.compose.material.icons.Icons as MaterialIcons
 import app.ss.translations.R.string as L10nR
 
@@ -73,7 +61,7 @@ fun QuarterliesScreenUi(state: State, modifier: Modifier = Modifier) {
                 modifier = Modifier,
                 title = { Text(text = stringResource(id = L10nR.ss_app_name)) },
                 navigationIcon = {
-                    NavIcon(photoUrl = state.photoUrl) {
+                    AvatarNavigationIcon(photoUrl = state.photoUrl) {
                         state.eventSink(Event.ProfileClick)
                     }
                 },
@@ -100,13 +88,11 @@ fun QuarterliesScreenUi(state: State, modifier: Modifier = Modifier) {
 
 @Composable
 private fun OverlayContent(state: OverlayState) {
-    val overlayHost = LocalOverlayHost.current
-
-    LaunchedEffect(state) {
+    OverlayEffect(state) {
         when (state) {
-            is OverlayState.AccountInfo -> state.onResult(overlayHost.show(AccountDialogOverlay(state.userInfo)))
+            is OverlayState.AccountInfo -> state.onResult(show(AccountDialogOverlay(state.userInfo)))
             is OverlayState.BrandingInfo -> {
-                overlayHost.show(AppBrandingOverlay())
+                show(AppBrandingOverlay())
                 state.onResult()
             }
         }
@@ -127,41 +113,3 @@ private fun getTopAppBarSpec(
         )
     )
 )
-
-@Composable
-private fun NavIcon(
-    photoUrl: String?,
-    onClick: () -> Unit
-) {
-    ContentBox(
-        content = RemoteImage(
-            data = photoUrl,
-            contentDescription = stringResource(id = L10nR.ss_account),
-            loading = {
-                Spacer(
-                    modifier = Modifier
-                        .size(AccountImgSize)
-                        .asPlaceholder(
-                            visible = true,
-                            shape = CircleShape
-                        )
-                )
-            },
-            error = {
-                IconBox(
-                    icon = Icons.AccountCircle,
-                    modifier = Modifier
-                        .size(AccountImgSize)
-                        .clickable { onClick() }
-                )
-            }
-        ),
-        modifier = Modifier
-            .padding(horizontal = 16.dp)
-            .size(AccountImgSize)
-            .clip(CircleShape)
-            .clickable { onClick() }
-    )
-}
-
-private val AccountImgSize = 32.dp

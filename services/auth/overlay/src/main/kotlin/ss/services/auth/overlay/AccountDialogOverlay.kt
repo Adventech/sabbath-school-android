@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.quarterlies.overlay
+package ss.services.auth.overlay
 
 import android.content.Context
 import androidx.compose.foundation.clickable

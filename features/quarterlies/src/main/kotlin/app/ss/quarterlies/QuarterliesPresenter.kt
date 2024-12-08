@@ -35,8 +35,6 @@ import app.ss.models.SSQuarterly
 import app.ss.quarterlies.list.QuarterliesListScreen
 import app.ss.quarterlies.model.GroupedQuarterlies
 import app.ss.quarterlies.model.placeHolderQuarterlies
-import app.ss.quarterlies.overlay.AccountDialogOverlay
-import app.ss.quarterlies.overlay.UserInfo
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
@@ -66,9 +64,11 @@ import ss.libraries.circuit.navigation.SettingsScreen
 import ss.misc.DateHelper.isNowInRange
 import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
+import ss.services.auth.overlay.AccountDialogOverlay
+import ss.services.auth.overlay.UserInfo
 import timber.log.Timber
-import app.ss.quarterlies.overlay.AccountDialogOverlay.Result as OverlayResult
 import app.ss.translations.R as L10nR
+import ss.services.auth.overlay.AccountDialogOverlay.Result as OverlayResult
 
 class QuarterliesPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
