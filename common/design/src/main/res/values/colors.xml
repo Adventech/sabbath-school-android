@@ -23,13 +23,9 @@
 
 <resources>
 
-    <color name="ss_color_secondary">#b4b4b4</color>
     <color name="ss_color_secondary_light">#cccccc</color>
     <color name="ss_color_secondary_lighter">#f2f2f2</color>
-    <color name="ss_color_secondary_dark">#616161</color>
-    <color name="ss_color_overlay">#5b000000</color>
     <color name="ss_color_display_theme_sepia">#f2dec3</color>
-    <color name="ss_color_display_theme_dark">#484848</color>
     <color name="ss_blue">#2E5797</color>
     <color name="ss_blue_dark">#27407d</color>
     <color name="ss_red_300">#FF5C44</color>
@@ -44,7 +40,6 @@
 
     <color name="white">#FFFFFF</color>
     <color name="white_70">#B3FFFFFF</color>
-    <color name="dark_grey">#121212</color>
     <color name="black">#000000</color>
     <color name="black_40">#66000000</color>
     <color name="color_navigation_full">@android:color/transparent</color>
@@ -54,16 +49,10 @@
     <color name="ss_gray_1">#EFEFEF</color>
     <color name="ss_gray_2">#8F8E94</color>
     <color name="ss_gray_3">#606060</color>
-    <color name="ss_gray_4">#383838</color>
     <color name="ss_gray_5">#1A1A1A</color>
-    <color name="ss_gray_6">#FAFAFA</color>
-    <color name="ss_grey_7">#E2E2E5</color>
     <color name="ss_logo_tint">@color/black</color>
 
     <color name="text_primary">@color/ss_gray_3</color>
     <color name="text_secondary">@color/ss_gray_2</color>
-    <color name="text_secondary_50">#808F8E94</color>
-    <color name="text_markdown">#222222</color>
-    <color name="text_link">#94BDFD</color>
 
 </resources>
