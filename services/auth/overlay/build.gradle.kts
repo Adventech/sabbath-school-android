@@ -6,14 +6,10 @@ plugins {
 
 foundry {
     features { compose() }
-    android { features { robolectric() } }
 }
 
 dependencies {
     implementation(projects.common.designCompose)
     implementation(projects.common.translations)
     implementation(projects.libraries.circuit.api)
-
-    implementation(libs.kotlinx.collectionsImmutable)
-    implementation(libs.timber)
 }
