@@ -25,12 +25,15 @@ package ss.feed.group
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
 import app.ss.design.compose.widget.appbar.TopAppBarType
@@ -80,12 +83,25 @@ fun FeedGroupUi(state: State, modifier: Modifier = Modifier) {
 
             is State.Success -> {
                 FeedGroupList(
-                    group = state.feedGroup,
+                    resources = state.resources,
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = contentPadding,
                     itemClick = { state.eventSink(Event.OnItemClick(it)) }
                 )
             }
+        }
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun Preview() {
+    SsTheme {
+        Surface {
+            FeedGroupUi(
+                state = State.Loading(title = "Title", eventSink = {}),
+                modifier = Modifier
+            )
         }
     }
 }

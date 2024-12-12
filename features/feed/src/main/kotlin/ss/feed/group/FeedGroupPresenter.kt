@@ -23,9 +23,9 @@
 package ss.feed.group
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
 import app.ss.models.feed.FeedGroup
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
@@ -36,8 +36,12 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import ss.feed.group.FeedGroupScreen.Event
 import ss.feed.group.FeedGroupScreen.State
+import ss.feed.model.FeedResourceSpec
+import ss.feed.model.toSpec
 import ss.resources.api.ResourcesRepository
 
 class FeedGroupPresenter @AssistedInject constructor(
@@ -49,11 +53,13 @@ class FeedGroupPresenter @AssistedInject constructor(
     @Composable
     override fun present(): State {
         var title by rememberRetained { mutableStateOf(screen.title) }
-        val group by produceRetainedState<FeedGroup?>(null) {
+        val feedGroup by produceRetainedState<FeedGroup?>(null) {
             value = resourcesRepository.feedGroup(screen.id, screen.feedType).getOrNull()?.also {
                 title = it.title
             }
         }
+
+        val feedResources by rememberResources(feedGroup)
 
         val eventSink: (Event) -> Unit = { event ->
             when (event) {
@@ -64,20 +70,29 @@ class FeedGroupPresenter @AssistedInject constructor(
             }
         }
 
-        val feedGroup = group
-
         return when {
-            feedGroup != null -> State.Success(
+            feedResources.isNotEmpty() -> State.Success(
+                resources = feedResources,
                 title = title,
-                feedGroup = feedGroup,
                 eventSink = eventSink
             )
+
             else -> State.Loading(
                 title = title,
                 eventSink = eventSink
             )
         }
     }
+
+    @Composable
+    private fun rememberResources(group: FeedGroup?) =
+        rememberRetained(group) {
+            mutableStateOf(
+                group?.resources?.map {
+                    it.toSpec(group, FeedResourceSpec.ContentDirection.HORIZONTAL)
+                }?.toImmutableList() ?: persistentListOf()
+            )
+        }
 
     @CircuitInject(FeedGroupScreen::class, SingletonComponent::class)
     @AssistedFactory

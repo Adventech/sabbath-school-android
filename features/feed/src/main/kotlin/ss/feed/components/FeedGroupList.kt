@@ -45,7 +45,7 @@ import app.ss.models.feed.FeedResource
 import kotlinx.collections.immutable.ImmutableList
 import ss.feed.components.view.FeedGroupView
 import ss.feed.components.view.FeedResourceView
-import ss.feed.model.FeedResourceSpec.ContentDirection
+import ss.feed.model.FeedResourceSpec
 import ss.feed.model.toSpec
 
 @Composable
@@ -130,23 +130,23 @@ private fun LazyListScope.checkDirection(
 
 @Composable
 internal fun FeedGroupList(
-    group: FeedGroup,
+    resources: ImmutableList<FeedResourceSpec>,
     modifier: Modifier = Modifier,
     state: LazyListState = rememberLazyListState(),
     contentPadding: PaddingValues = PaddingValues(),
-    itemClick: (FeedResource) -> Unit = {},
+    itemClick: (String) -> Unit = {},
 ) {
     LazyColumn(
-        modifier = modifier.navigationBarsPadding(),
+        modifier = modifier,
         state = state,
         contentPadding = contentPadding,
     ) {
-        items(group.resources, key = { it.id }) { resource ->
+        items(resources, key = { it.id }) { spec ->
             FeedResourceView(
-                spec = resource.toSpec(group, direction = ContentDirection.HORIZONTAL),
+                spec = spec,
                 modifier = Modifier.padding(8.dp)
             ) {
-                itemClick(resource)
+                itemClick(spec.id)
             }
         }
     }

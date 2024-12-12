@@ -22,13 +22,13 @@
 
 package ss.feed.group
 
-import app.ss.models.feed.FeedGroup
-import app.ss.models.feed.FeedResource
 import app.ss.models.feed.FeedType
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.parcelize.Parcelize
+import ss.feed.model.FeedResourceSpec
 
 @Parcelize
 data class FeedGroupScreen(
@@ -44,8 +44,8 @@ data class FeedGroupScreen(
         data class Loading(override val title: String, override val eventSink: (Event) -> Unit) : State
 
         data class Success(
+            val resources: ImmutableList<FeedResourceSpec>,
             override val title: String,
-            val feedGroup: FeedGroup,
             override val eventSink: (Event) -> Unit
         ) : State
     }
@@ -54,7 +54,7 @@ data class FeedGroupScreen(
         /** Navigation icon is clicked. */
         data object OnNavBack : Event
 
-        /** A feed [resource] is clicked. */
-        data class OnItemClick(val resource: FeedResource):  Event
+        /** A feed resource with [id] is clicked. */
+        data class OnItemClick(val id: String):  Event
     }
 }

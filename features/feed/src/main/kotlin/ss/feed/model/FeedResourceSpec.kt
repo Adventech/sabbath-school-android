@@ -32,7 +32,7 @@ import ss.feed.components.ResourceCoverType
 import ss.feed.model.FeedResourceSpec.ContentDirection
 
 @Immutable
-internal data class FeedResourceSpec(
+data class FeedResourceSpec(
     val id: String,
     val name: String,
     val title: String,
