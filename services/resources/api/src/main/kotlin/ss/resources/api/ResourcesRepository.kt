@@ -22,6 +22,7 @@
 
 package ss.resources.api
 
+import app.ss.models.feed.FeedGroup
 import app.ss.models.feed.FeedType
 import ss.resources.model.FeedModel
 import ss.resources.model.LanguageModel
@@ -30,4 +31,6 @@ interface ResourcesRepository {
     suspend fun languages(): Result<List<LanguageModel>>
 
     suspend fun feed(type: FeedType): Result<FeedModel>
+
+    suspend fun feedGroup(id: String, type: FeedType): Result<FeedGroup>
 }
