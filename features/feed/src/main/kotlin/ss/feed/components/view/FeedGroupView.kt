@@ -51,7 +51,6 @@ import app.ss.models.feed.FeedResource
 import app.ss.models.feed.FeedScope
 import app.ss.models.feed.FeedType
 import app.ss.models.feed.FeedView
-import ss.feed.components.FeedResource
 import ss.feed.components.PlaceHolders
 import ss.feed.model.toSpec
 
@@ -70,7 +69,7 @@ internal fun FeedGroupView(
 
         SnappingLazyRow(modifier = Modifier.fillMaxWidth()) {
             items(group.resources, key = { it.id }) { resource ->
-                FeedResource(resource.toSpec(group), Modifier.padding(8.dp)) {
+                FeedResourceView(resource.toSpec(group), Modifier.padding(8.dp)) {
                     itemClick(resource)
                 }
             }
@@ -149,7 +148,6 @@ private fun FeedGroupViewPreview() {
                         ),
                         PlaceHolders.FEED_RESOURCE.copy(
                             id = "id3",
-                            primaryColor = "#E8E9E0"
                         ),
                     ),
                     type = FeedType.AIJ,

@@ -22,9 +22,13 @@
 
 package ss.feed.components
 
+import app.ss.models.feed.FeedDirection
+import app.ss.models.feed.FeedGroup
 import app.ss.models.feed.FeedResource
 import app.ss.models.feed.FeedResourceKind
+import app.ss.models.feed.FeedScope
 import app.ss.models.feed.FeedType
+import app.ss.models.feed.FeedView
 import app.ss.models.resource.ResourceCovers
 
 object PlaceHolders {
@@ -50,5 +54,16 @@ object PlaceHolders {
             splash = "splash",
         ),
         kind = FeedResourceKind.BOOK,
+    )
+
+    val FEED_GROUP = FeedGroup(
+        id = "1",
+        type = FeedType.DEVO,
+        scope = FeedScope.DOCUMENT,
+        direction = FeedDirection.VERTICAL,
+        title = "Group Title",
+        view = FeedView.FOLIO,
+        resources = listOf(FEED_RESOURCE),
+        seeAll = "See All",
     )
 }

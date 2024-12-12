@@ -27,9 +27,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -42,76 +43,142 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.theme.SsTheme
-import app.ss.models.feed.FeedDirection
 import app.ss.models.feed.FeedView
-import app.ss.models.resource.ResourceCovers
 import ss.feed.components.FeedResourceCover
-import ss.feed.components.FeedResourceCoverSpec
-import ss.feed.components.ResourceCoverType
+import ss.feed.components.PlaceHolders
+import ss.feed.model.FeedResourceSpec
+import ss.feed.model.FeedResourceSpec.ContentDirection
+import ss.feed.model.toSpec
 
 /** Composable for a [FeedView]. */
 @Composable
 internal fun FeedResourceView(
-    title: String,
-    coverSpec: FeedResourceCoverSpec,
+    spec: FeedResourceSpec,
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
 ) {
+    FeedResourceContainer(
+        direction = spec.direction,
+        cover = { FeedResourceCover(spec.coverSpec) },
+        content = { FeedResourceTitle(spec.title, spec.subtitle, spec.direction) },
+        modifier = modifier,
+        onClick = onClick,
+    )
+}
+
+@Composable
+private fun FeedResourceContainer(
+    direction: ContentDirection,
+    cover: @Composable () -> Unit,
+    content: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
+) {
+    when (direction) {
+        ContentDirection.VERTICAL -> {
+            Column(
+                modifier = modifier
+                    .width(IntrinsicSize.Min)
+                    .padding(bottom = Dimens.grid_1)
+                    .clickable(enabled = onClick != null) { onClick?.invoke() },
+                verticalArrangement = Arrangement.spacedBy(Dimens.grid_2)
+            ) {
+                cover()
+                content()
+            }
+        }
+
+        ContentDirection.HORIZONTAL -> {
+            Row(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(bottom = Dimens.grid_1)
+                    .clickable(enabled = onClick != null) { onClick?.invoke() },
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(Dimens.grid_2),
+            ) {
+                cover()
+                content()
+            }
+        }
+    }
+}
+
+@Composable
+private fun FeedResourceTitle(
+    title: String,
+    subtitle: String?,
+    direction: ContentDirection,
+    modifier: Modifier = Modifier,
+) {
     Column(
         modifier = modifier
-            .width(IntrinsicSize.Min)
-            .padding(bottom = Dimens.grid_1)
-            .clickable(enabled = onClick != null) { onClick?.invoke() },
-        verticalArrangement = Arrangement.spacedBy(Dimens.grid_2)
+            .fillMaxWidth()
+            .padding(horizontal = Dimens.grid_1),
     ) {
-        FeedResourceCover(coverSpec)
+        Text(
+            text = title,
+            modifier = Modifier,
+            style = SsTheme.typography.titleSmall.copy(
+                fontSize = 15.sp
+            ),
+            color = SsTheme.colors.primaryForeground,
+            lineHeight = 18.sp,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis
+        )
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .sizeIn(minHeight = TitleMinHeight),
-            verticalAlignment = Alignment.Top
-        ) {
-            Text(
+        if (direction == ContentDirection.HORIZONTAL) {
+            Spacer(
                 modifier = Modifier
-                    .weight(1f)
-                    .padding(horizontal = Dimens.grid_1),
-                text = title,
-                style = SsTheme.typography.titleSmall.copy(
-                    fontSize = 15.sp
-                ),
-                color = SsTheme.colors.primaryForeground,
-                lineHeight = 18.sp,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                    .fillMaxWidth()
+                    .height(4.dp)
+            )
+
+            subtitle?.let {
+                Text(
+                    text = it,
+                    modifier = Modifier,
+                    style = SsTheme.typography.bodySmall.copy(
+                        fontSize = 14.sp
+                    ),
+                    color = SsTheme.colors.secondaryForeground,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+        }
+    }
+}
+
+
+// Begin Preview
+
+@PreviewLightDark
+@Composable
+private fun VerticalPreview() {
+    SsTheme {
+        Surface {
+            FeedResourceView(
+                spec = PlaceHolders.FEED_RESOURCE.toSpec(PlaceHolders.FEED_GROUP),
+                modifier = Modifier.padding(8.dp)
             )
         }
     }
 }
 
-private val TitleMinHeight = 20.dp
-
 @PreviewLightDark
 @Composable
-private fun Preview() {
-    val coverSpec = FeedResourceCoverSpec(
-        title = "The title of the view",
-        type = ResourceCoverType.PORTRAIT,
-        direction = FeedDirection.VERTICAL,
-        covers = ResourceCovers(
-            portrait = "https://via.placeholder.com/150",
-            landscape = "https://via.placeholder.com/150",
-            square = "https://via.placeholder.com/150",
-            splash = "https://via.placeholder.com/150"
-        ),
-        view = FeedView.FOLIO,
-        primaryColor = "#94BDFD"
-    )
-
+private fun HorizontalPreview() {
     SsTheme {
         Surface {
-            FeedResourceView(title = coverSpec.title, coverSpec, Modifier.padding(8.dp))
+            FeedResourceView(
+                spec = PlaceHolders.FEED_RESOURCE.toSpec(PlaceHolders.FEED_GROUP, ContentDirection.HORIZONTAL),
+                modifier = Modifier.padding(8.dp)
+            )
         }
     }
 }
+
+// End Preview
 
