@@ -20,42 +20,41 @@
  * THE SOFTWARE.
  */
 
-package ss.feed.components
+package ss.feed.group
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
-import app.ss.models.feed.FeedView
-import ss.feed.components.view.FeedResourceView
+import app.ss.models.feed.FeedType
+import com.slack.circuit.runtime.CircuitUiEvent
+import com.slack.circuit.runtime.CircuitUiState
+import com.slack.circuit.runtime.screen.Screen
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.parcelize.Parcelize
 import ss.feed.model.FeedResourceSpec
 
-@Composable
-internal fun FeedResource(
-    spec: FeedResourceSpec,
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
-) {
-    val coverSpec by remember(spec) {
-        mutableStateOf(
-            FeedResourceCoverSpec(
-                title = spec.title,
-                type = when (spec.view) {
-                    FeedView.UNKNOWN,
-                    FeedView.TILE,
-                    FeedView.BANNER -> ResourceCoverType.LANDSCAPE
-                    FeedView.SQUARE -> ResourceCoverType.SQUARE
-                    FeedView.FOLIO -> ResourceCoverType.PORTRAIT
-                },
-                direction = spec.direction,
-                covers = spec.covers,
-                view = spec.view,
-                primaryColor = spec.primaryColor
-            )
-        )
+@Parcelize
+data class FeedGroupScreen(
+    val id: String,
+    val title: String,
+    val feedType: FeedType,
+) : Screen {
+
+    sealed interface State : CircuitUiState {
+        val title: String
+        val eventSink: (Event) -> Unit
+
+        data class Loading(override val title: String, override val eventSink: (Event) -> Unit) : State
+
+        data class Success(
+            val resources: ImmutableList<FeedResourceSpec>,
+            override val title: String,
+            override val eventSink: (Event) -> Unit
+        ) : State
     }
 
-    FeedResourceView(spec.title, coverSpec, modifier, onClick)
-}
+    sealed interface Event : CircuitUiEvent {
+        /** Navigation icon is clicked. */
+        data object OnNavBack : Event
 
+        /** A feed resource with [id] is clicked. */
+        data class OnItemClick(val id: String):  Event
+    }
+}

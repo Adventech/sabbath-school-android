@@ -44,6 +44,7 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import ss.feed.group.FeedGroupScreen
 import ss.libraries.circuit.navigation.CustomTabsIntentScreen
 import ss.libraries.circuit.navigation.FeedScreen
 import ss.libraries.circuit.navigation.LanguagesScreen
@@ -73,6 +74,7 @@ class FeedPresenter @AssistedInject constructor(
     @Composable
     override fun present(): State {
         val coroutineScope = rememberCoroutineScope()
+        val feedType by rememberRetained { mutableStateOf(screen.type.toFeedType()) }
         val userInfo by produceRetainedState<UserInfo?>(initialValue = null) {
             value = authRepository.getUser().getOrNull()?.run {
                 UserInfo(displayName, email, photo)
@@ -85,7 +87,7 @@ class FeedPresenter @AssistedInject constructor(
         var overlayState = rememberRetained { mutableStateOf<OverlayState?>(null) }
 
         val eventSink: (Event) -> Unit = {
-            eventSink(it, userInfo, overlayState, coroutineScope)
+            eventSink(it, userInfo, overlayState, coroutineScope, feedType)
         }
 
         val feedModel = model
@@ -111,6 +113,7 @@ class FeedPresenter @AssistedInject constructor(
         userInfo: UserInfo?,
         overlayState: MutableState<OverlayState?>,
         coroutineScope: CoroutineScope,
+        feedType: FeedType,
     ) {
         when (event) {
             Event.FilterLanguages -> navigator.goTo(LanguagesScreen)
@@ -128,7 +131,13 @@ class FeedPresenter @AssistedInject constructor(
             }
 
             is SuccessEvent.OnSeeAllClick -> {
-                // Navigate to FeedGroupScreen
+                navigator.goTo(
+                    FeedGroupScreen(
+                        id = event.group.id,
+                        title = event.group.title,
+                        feedType = feedType
+                    )
+                )
             }
         }
     }

@@ -44,6 +44,8 @@ import app.ss.models.feed.FeedGroup
 import app.ss.models.feed.FeedResource
 import kotlinx.collections.immutable.ImmutableList
 import ss.feed.components.view.FeedGroupView
+import ss.feed.components.view.FeedResourceView
+import ss.feed.model.FeedResourceSpec
 import ss.feed.model.toSpec
 
 @Composable
@@ -71,7 +73,7 @@ internal fun FeedGroupList(
                     FeedDirection.UNKNOWN -> Unit
                     FeedDirection.VERTICAL -> {
                         group.resources.forEach { resource ->
-                            FeedResource(resource.toSpec(group), Modifier.padding(8.dp)) {
+                            FeedResourceView(resource.toSpec(group), Modifier.padding(8.dp)) {
                                 itemClick(resource)
                             }
                         }
@@ -85,7 +87,11 @@ internal fun FeedGroupList(
         }
 
         item("insets") {
-            Spacer(Modifier.fillMaxWidth().windowInsetsBottomHeight(WindowInsets.navigationBars))
+            Spacer(
+                Modifier
+                    .fillMaxWidth()
+                    .windowInsetsBottomHeight(WindowInsets.navigationBars)
+            )
         }
 
         item("spacer") {
@@ -108,7 +114,7 @@ private fun LazyListScope.checkDirection(
         FeedDirection.UNKNOWN -> Unit
         FeedDirection.VERTICAL -> {
             items(group.resources, key = { it.id }) { resource ->
-                FeedResource(resource.toSpec(group), Modifier.padding(8.dp)) {
+                FeedResourceView(resource.toSpec(group), Modifier.padding(8.dp)) {
                     itemClick(resource)
                 }
             }
@@ -117,6 +123,30 @@ private fun LazyListScope.checkDirection(
         FeedDirection.HORIZONTAL -> {
             item(key = group.id) {
                 FeedGroupView(group = group, seeAllClick = seeAllClick, itemClick = itemClick)
+            }
+        }
+    }
+}
+
+@Composable
+internal fun FeedGroupList(
+    resources: ImmutableList<FeedResourceSpec>,
+    modifier: Modifier = Modifier,
+    state: LazyListState = rememberLazyListState(),
+    contentPadding: PaddingValues = PaddingValues(),
+    itemClick: (String) -> Unit = {},
+) {
+    LazyColumn(
+        modifier = modifier,
+        state = state,
+        contentPadding = contentPadding,
+    ) {
+        items(resources, key = { it.id }) { spec ->
+            FeedResourceView(
+                spec = spec,
+                modifier = Modifier.padding(8.dp)
+            ) {
+                itemClick(spec.id)
             }
         }
     }

@@ -22,6 +22,7 @@
 
 package ss.lessons.api
 
+import app.ss.models.feed.FeedGroup
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -35,4 +36,11 @@ interface ResourcesApi {
 
     @GET("api/v3/{language}/{type}/index.json")
     suspend fun feed(@Path("language") language: String, @Path("type") type: String): Response<FeedResponse>
+
+    @GET("api/v3/{language}/{type}/feeds/{groupId}/index.json")
+    suspend fun feedGroup(
+        @Path("language") language: String,
+        @Path("type") type: String,
+        @Path("groupId") groupId: String,
+    ): Response<FeedGroup>
 }

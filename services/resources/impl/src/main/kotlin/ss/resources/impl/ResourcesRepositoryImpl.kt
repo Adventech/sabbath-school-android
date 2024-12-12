@@ -22,6 +22,7 @@
 
 package ss.resources.impl
 
+import app.ss.models.feed.FeedGroup
 import app.ss.models.feed.FeedType
 import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
@@ -86,6 +87,28 @@ internal class ResourcesRepositoryImpl @Inject constructor(
                             FeedModel(title = it.title, it.groups)
                         )
                     } ?: Result.failure(Throwable("Failed to fetch feed, body is null"))
+                }
+            }
+        }
+    }
+
+    override suspend fun feedGroup(id: String, type: FeedType): Result<FeedGroup> {
+        return withContext(dispatcherProvider.default) {
+            when (val resource = safeApiCall(connectivityHelper) {
+                resourcesApi.feedGroup(
+                    language = ssPrefs.get().getLanguageCode(),
+                    type = type.name.lowercase(),
+                    groupId = id
+                )
+            }) {
+                is NetworkResource.Failure -> {
+                    Result.failure(Throwable("Failed to fetch feed group, ${resource.errorBody}"))
+                }
+
+                is NetworkResource.Success -> {
+                    resource.value.body()?.let {
+                        Result.success(it)
+                    } ?: Result.failure(Throwable("Failed to fetch feed group, body is null"))
                 }
             }
         }

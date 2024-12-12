@@ -27,29 +27,49 @@ import app.ss.models.feed.FeedDirection
 import app.ss.models.feed.FeedGroup
 import app.ss.models.feed.FeedResource
 import app.ss.models.feed.FeedView
-import app.ss.models.resource.ResourceCovers
+import ss.feed.components.FeedResourceCoverSpec
+import ss.feed.components.ResourceCoverType
+import ss.feed.model.FeedResourceSpec.ContentDirection
 
 @Immutable
-internal data class FeedResourceSpec(
+data class FeedResourceSpec(
     val id: String,
     val name: String,
     val title: String,
-    val view: FeedView,
-    val covers: ResourceCovers,
-    val direction: FeedDirection,
-    val date: String,
-    val primaryColor: String,
-)
+    val subtitle: String?,
+    val direction: ContentDirection,
+    val coverSpec: FeedResourceCoverSpec,
+) {
+    /** Direction of the Image, title and subtitle, Not to be confused with [FeedDirection]. */
+    enum class ContentDirection {
+        VERTICAL,
+        HORIZONTAL
+    }
+}
 
-internal fun FeedResource.toSpec(group: FeedGroup): FeedResourceSpec {
+internal fun FeedResource.toSpec(
+    group: FeedGroup,
+    direction: ContentDirection = ContentDirection.VERTICAL,
+): FeedResourceSpec {
     return FeedResourceSpec(
         id = id,
         name = name,
         title = title,
-        view = group.view,
-        covers = covers,
-        direction = group.direction,
-        date = "October · November · December 2024",
-        primaryColor = primaryColorDark,
+        subtitle = subtitle,
+        direction = direction,
+        coverSpec = FeedResourceCoverSpec(
+            title = title,
+            type = when (group.view) {
+                FeedView.UNKNOWN,
+                FeedView.TILE,
+                FeedView.BANNER -> ResourceCoverType.LANDSCAPE
+                FeedView.SQUARE -> ResourceCoverType.SQUARE
+                FeedView.FOLIO -> ResourceCoverType.PORTRAIT
+            },
+            direction = group.direction,
+            covers = covers,
+            view = group.view,
+            primaryColor = primaryColor
+        )
     )
 }
