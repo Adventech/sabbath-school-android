@@ -22,7 +22,7 @@
 
 package app.ss.languages
 
-import app.ss.languages.state.LanguageModel
+import app.ss.languages.state.LanguageUiModel
 import app.ss.languages.state.LanguagesEvent
 import app.ss.languages.state.State
 import app.ss.models.Language
@@ -39,7 +39,6 @@ import ss.lessons.api.repository.LanguagesRepository
 import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.libraries.circuit.navigation.LanguagesScreen
 import ss.prefs.api.test.FakeSSPrefs
-import ss.workers.api.test.FakeWorkScheduler
 
 /** Tests for [LanguagesPresenter]. */
 class LanguagesPresenterTest {
@@ -74,9 +73,9 @@ class LanguagesPresenterTest {
             val models = (awaitItem() as State.Languages).models
             models.toList() shouldBeEqualTo
                 listOf(
-                    LanguageModel("en", "English", "English", true),
-                    LanguageModel("es", "Spanish", "Español", false),
-                    LanguageModel("fr", "French", "Français", false),
+                    LanguageUiModel("en", "English", "English", true),
+                    LanguageUiModel("es", "Spanish", "Español", false),
+                    LanguageUiModel("fr", "French", "Français", false),
                 )
 
             ensureAllEventsConsumed()
@@ -139,7 +138,7 @@ class LanguagesPresenterTest {
 
             val state = awaitItem() as State.Languages
 
-            state.eventSink(LanguagesEvent.Select(LanguageModel("es", "Spanish", "Español", false)))
+            state.eventSink(LanguagesEvent.Select(LanguageUiModel("es", "Spanish", "Español", false)))
 
             fakeSSPrefs.setLanguageCode shouldBeEqualTo "es"
             fakeSSPrefs.setLastQuarterlyIndex shouldBeEqualTo null
@@ -159,7 +158,7 @@ class LanguagesPresenterTest {
 
             val state = awaitItem() as State.Languages
 
-            state.eventSink(LanguagesEvent.Select(LanguageModel("es", "Spanish", "Español", false)))
+            state.eventSink(LanguagesEvent.Select(LanguageUiModel("es", "Spanish", "Español", false)))
 
             fakeSSPrefs.setLanguageCode shouldBeEqualTo "es"
             fakeSSPrefs.setLastQuarterlyIndex shouldBeEqualTo null
@@ -181,7 +180,7 @@ class LanguagesPresenterTest {
 
             val state = awaitItem() as State.Languages
 
-            state.eventSink(LanguagesEvent.Select(LanguageModel("en", "English", "English", false)))
+            state.eventSink(LanguagesEvent.Select(LanguageUiModel("en", "English", "English", false)))
 
             fakeSSPrefs.setLanguageCode shouldBeEqualTo "en"
             fakeSSPrefs.setLastQuarterlyIndex shouldBeEqualTo null

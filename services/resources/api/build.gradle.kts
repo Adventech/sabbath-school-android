@@ -28,4 +28,5 @@ plugins {
 
 dependencies {
     api(projects.services.resources.model)
+    api(projects.libraries.foundation.coroutines)
 }

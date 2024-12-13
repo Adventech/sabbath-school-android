@@ -28,6 +28,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ss.resources.api.ResourcesRepository
 import ss.resources.impl.ResourcesRepositoryImpl
+import ss.resources.impl.sync.SyncHelper
+import ss.resources.impl.sync.SyncHelperImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -35,4 +37,7 @@ abstract class BindingsModule {
 
     @Binds
     internal abstract fun bindResourcesRepository(impl: ResourcesRepositoryImpl): ResourcesRepository
+
+    @Binds
+    internal abstract fun bindSyncHelper(impl: SyncHelperImpl): SyncHelper
 }

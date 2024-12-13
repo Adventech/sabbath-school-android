@@ -30,7 +30,7 @@ sealed interface State : CircuitUiState {
     data class Loading(val eventSink: (Event) -> Unit) : State
 
     data class Languages(
-        val models: ImmutableList<LanguageModel>,
+        val models: ImmutableList<LanguageUiModel>,
         val eventSink: (LanguagesEvent) -> Unit,
     ) : State
 }
@@ -44,5 +44,5 @@ sealed interface LanguagesEvent : CircuitUiEvent {
 
     data class Search(val query: String?) : LanguagesEvent
 
-    data class Select(val model: LanguageModel) : LanguagesEvent
+    data class Select(val model: LanguageUiModel) : LanguagesEvent
 }

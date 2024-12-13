@@ -44,13 +44,13 @@ import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.divider.Divider
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
-import app.ss.languages.state.LanguageModel
+import app.ss.languages.state.LanguageUiModel
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 internal fun LanguagesList(
-    models: ImmutableList<LanguageModel>,
-    onItemClick: (LanguageModel) -> Unit,
+    models: ImmutableList<LanguageUiModel>,
+    onItemClick: (LanguageUiModel) -> Unit,
     modifier: Modifier = Modifier,
     mainPadding: PaddingValues = PaddingValues(0.dp)
 ) {
@@ -77,7 +77,7 @@ internal fun LanguagesList(
 
 @Composable
 private fun LanguageItem(
-    model: LanguageModel,
+    model: LanguageUiModel,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -115,17 +115,17 @@ private fun LanguageItem(
 @PreviewLightDark
 @Composable
 private fun Preview() {
-    PreviewItem(model = LanguageModel("en", "English", "English", false))
+    PreviewItem(model = LanguageUiModel("en", "English", "English", false))
 }
 
 @PreviewLightDark
 @Composable
 private fun PreviewSelected() {
-    PreviewItem(model = LanguageModel("es", "Spanish", "Español", true))
+    PreviewItem(model = LanguageUiModel("es", "Spanish", "Español", true))
 }
 
 @Composable
-private fun PreviewItem(model: LanguageModel) {
+private fun PreviewItem(model: LanguageUiModel) {
     SsTheme {
         Surface {
             LanguageItem(model = model)

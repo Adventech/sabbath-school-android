@@ -34,6 +34,7 @@ dependencies {
     implementation(projects.libraries.foundation.android)
     implementation(projects.libraries.lessons.api)
     implementation(projects.libraries.prefs.api)
+    implementation(projects.libraries.storage.api)
 
     implementation(libs.androidx.annotations)
     implementation(libs.google.hilt.android)

@@ -25,7 +25,7 @@ package app.ss.languages.state
 import androidx.compose.runtime.Immutable
 
 @Immutable
-data class LanguageModel(
+data class LanguageUiModel(
     val code: String,
     val name: String,
     val nativeName: String,

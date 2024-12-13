@@ -25,11 +25,14 @@ package ss.resources.api
 import app.ss.models.feed.FeedGroup
 import app.ss.models.feed.FeedType
 import app.ss.models.resource.Resource
+import kotlinx.coroutines.flow.Flow
 import ss.resources.model.FeedModel
 import ss.resources.model.LanguageModel
 
 interface ResourcesRepository {
-    suspend fun languages(): Result<List<LanguageModel>>
+    fun languages(query: String? = null): Flow<List<LanguageModel>>
+
+    fun language(code: String): Flow<LanguageModel>
 
     suspend fun feed(type: FeedType): Result<FeedModel>
 

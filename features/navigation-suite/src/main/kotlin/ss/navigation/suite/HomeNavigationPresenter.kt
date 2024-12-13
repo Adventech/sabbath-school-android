@@ -40,6 +40,9 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
 import ss.libraries.circuit.navigation.FeedScreen
 import ss.libraries.circuit.navigation.HomeNavScreen
@@ -95,33 +98,34 @@ class HomeNavigationPresenter @AssistedInject constructor(
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Composable
     private fun rememberNavbarItems() = produceRetainedState<ImmutableList<NavbarItem>?>(initialValue = null) {
         ssPrefs.getLanguageCodeFlow()
-            .map { fetchItems(it) }
+            .flatMapConcat { getLanguageNavigation(it) }
             .collect { value = it }
     }
 
     /** Returns a list of [NavbarItem]s based on the selected [language]. */
-    private suspend fun fetchItems(language: String): ImmutableList<NavbarItem> {
-        val languages = resourcesRepository.languages()
-        val model = languages.getOrElse { emptyList() }
-            .firstOrNull { it.code == language }
-            ?.takeUnless { !it.aij && !it.pm && !it.devo }
-            ?: return persistentListOf()
-
-        return buildList {
-            add(NavbarItem.SabbathSchool)
-            if (model.aij) {
-                add(NavbarItem.AliveInJesus)
+    private fun getLanguageNavigation(language: String): Flow<ImmutableList<NavbarItem>> {
+        return resourcesRepository.language(language).map { model ->
+            if (model.aij || model.pm || model.devo) {
+                buildList {
+                    add(NavbarItem.SabbathSchool)
+                    if (model.aij) {
+                        add(NavbarItem.AliveInJesus)
+                    }
+                    if (model.pm) {
+                        add(NavbarItem.PersonalMinistries)
+                    }
+                    if (model.devo) {
+                        add(NavbarItem.Devotionals)
+                    }
+                    add(NavbarItem.Account)
+                }.toImmutableList()
+            } else {
+                persistentListOf()
             }
-            if (model.pm) {
-                add(NavbarItem.PersonalMinistries)
-            }
-            if (model.devo) {
-                add(NavbarItem.Devotionals)
-            }
-            add(NavbarItem.Account)
-        }.toImmutableList()
+        }
     }
 }

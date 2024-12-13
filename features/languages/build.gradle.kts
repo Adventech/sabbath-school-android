@@ -48,6 +48,7 @@ dependencies {
     implementation(projects.libraries.lessons.api)
     implementation(projects.libraries.prefs.api)
     implementation(projects.libraries.workers.api)
+    implementation(projects.services.resources.api)
 
     implementation(libs.androidx.lifecycle.extensions)
     implementation(libs.google.hilt.android)
