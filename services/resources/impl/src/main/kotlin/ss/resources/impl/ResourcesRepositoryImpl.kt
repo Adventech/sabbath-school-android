@@ -24,6 +24,7 @@ package ss.resources.impl
 
 import app.ss.models.feed.FeedGroup
 import app.ss.models.feed.FeedType
+import app.ss.models.resource.Resource
 import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
 import kotlinx.coroutines.withContext
@@ -109,6 +110,24 @@ internal class ResourcesRepositoryImpl @Inject constructor(
                     resource.value.body()?.let {
                         Result.success(it)
                     } ?: Result.failure(Throwable("Failed to fetch feed group, body is null"))
+                }
+            }
+        }
+    }
+
+    override suspend fun resource(index: String): Result<Resource> {
+        return withContext(dispatcherProvider.default) {
+            when (val resource = safeApiCall(connectivityHelper) {
+                resourcesApi.resource(index)
+            }) {
+                is NetworkResource.Failure -> {
+                    Result.failure(Throwable("Failed to fetch Resource, ${resource.errorBody}"))
+                }
+
+                is NetworkResource.Success -> {
+                    resource.value.body()?.let {
+                        Result.success(it)
+                    } ?: Result.failure(Throwable("Failed to fetch Resource, body is null"))
                 }
             }
         }

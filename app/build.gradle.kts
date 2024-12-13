@@ -151,6 +151,7 @@ dependencies {
     implementation(projects.features.pdf)
     implementation(projects.features.quarterlies)
     implementation(projects.features.readings)
+    implementation(projects.features.resource)
     implementation(projects.features.settings)
     implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.foundation.coroutines)

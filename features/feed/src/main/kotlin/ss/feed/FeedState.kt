@@ -74,8 +74,8 @@ sealed interface SuccessEvent : Event {
     /** The see all button for the [group] is clicked. */
     data class OnSeeAllClick(val group: FeedGroup) : Event
 
-    /** A feed resource with [id] is clicked. */
-    data class OnItemClick(val id: String) : Event
+    /** A feed resource with [index] is clicked. */
+    data class OnItemClick(val index: String) : Event
 }
 
 @Stable

@@ -63,6 +63,7 @@ include(
     ":features:quarterlies",
     ":features:reader",
     ":features:readings",
+    ":features:resource",
     ":features:settings",
     ":libraries:app-widget:api",
     ":libraries:app-widget:test-fixtures",

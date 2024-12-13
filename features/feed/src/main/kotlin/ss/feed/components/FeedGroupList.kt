@@ -42,7 +42,7 @@ import androidx.compose.ui.unit.dp
 import app.ss.design.compose.theme.Dimens
 import app.ss.models.feed.FeedDirection
 import app.ss.models.feed.FeedGroup
-import app.ss.models.feed.FeedResource
+import app.ss.models.resource.Resource
 import kotlinx.collections.immutable.ImmutableList
 import ss.feed.components.view.FeedGroupView
 import ss.feed.components.view.FeedResourceView
@@ -56,7 +56,7 @@ internal fun FeedLazyColum(
     state: LazyListState = rememberLazyListState(),
     contentPadding: PaddingValues = PaddingValues(),
     seeAllClick: (FeedGroup) -> Unit = {},
-    itemClick: (FeedResource) -> Unit = {},
+    itemClick: (Resource) -> Unit = {},
 ) {
     LazyColumn(
         modifier = modifier.navigationBarsPadding(),
@@ -109,7 +109,7 @@ internal fun FeedLazyColum(
 private fun LazyListScope.checkDirection(
     group: FeedGroup,
     seeAllClick: () -> Unit,
-    itemClick: (FeedResource) -> Unit
+    itemClick: (Resource) -> Unit
 ) {
     when (group.direction) {
         FeedDirection.UNKNOWN -> Unit
@@ -147,7 +147,7 @@ internal fun FeedLazyColum(
                 spec = spec,
                 modifier = Modifier.padding(horizontal = Dimens.grid_4, vertical = Dimens.grid_3)
             ) {
-                itemClick(spec.id)
+                itemClick(spec.index)
             }
         }
     }

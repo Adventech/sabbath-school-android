@@ -20,31 +20,36 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models.feed
+plugins {
+    alias(libs.plugins.foundry.base)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.hilt)
+}
 
-import androidx.annotation.Keep
-import app.ss.models.Credit
-import app.ss.models.Feature
-import app.ss.models.resource.ResourceCovers
-import com.squareup.moshi.JsonClass
+foundry {
+    features { compose() }
+}
 
-@Keep
-@JsonClass(generateAdapter = true)
-data class FeedResource(
-    val id: String,
-    val name: String,
-    val title: String,
-    val startDate: String?,
-    val endDate: String?,
-    val description: String?,
-    val introduction: String?,
-    val index: String,
-    val type: FeedType,
-    val credits: List<Credit>,
-    val features: List<Feature>,
-    val primaryColor: String,
-    val primaryColorDark: String,
-    val subtitle: String?,
-    val covers: ResourceCovers,
-    val kind: FeedResourceKind,
-)
+
+ksp {
+    arg("circuit.codegen.mode", "hilt")
+}
+
+dependencies {
+    implementation(projects.common.designCompose)
+    implementation(projects.common.translations)
+    implementation(projects.libraries.circuit.api)
+    implementation(projects.services.auth.overlay)
+    implementation(projects.services.resources.api)
+
+    implementation(libs.coil.compose)
+    implementation(libs.google.hilt.android)
+    ksp(libs.google.hilt.compiler)
+    ksp(libs.circuit.codegen)
+
+    testImplementation(libs.bundles.testing.common)
+}
+

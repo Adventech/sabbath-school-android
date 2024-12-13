@@ -20,41 +20,34 @@
  * THE SOFTWARE.
  */
 
-package ss.feed.group
+package app.ss.models.resource
 
+import androidx.annotation.Keep
+import app.ss.models.Credit
+import app.ss.models.Feature
+import app.ss.models.feed.FeedResourceKind
 import app.ss.models.feed.FeedType
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
-import com.slack.circuit.runtime.screen.Screen
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.parcelize.Parcelize
-import ss.feed.model.FeedResourceSpec
+import com.squareup.moshi.JsonClass
 
-@Parcelize
-data class FeedGroupScreen(
+@Keep
+@JsonClass(generateAdapter = true)
+data class Resource(
     val id: String,
-    val title: String?,
-    val feedType: FeedType,
-) : Screen {
-
-    sealed interface State : CircuitUiState {
-        val title: String
-        val eventSink: (Event) -> Unit
-
-        data class Loading(override val title: String, override val eventSink: (Event) -> Unit) : State
-
-        data class Success(
-            val resources: ImmutableList<FeedResourceSpec>,
-            override val title: String,
-            override val eventSink: (Event) -> Unit
-        ) : State
-    }
-
-    sealed interface Event : CircuitUiEvent {
-        /** Navigation icon is clicked. */
-        data object OnNavBack : Event
-
-        /** A feed resource with [index] is clicked. */
-        data class OnItemClick(val index: String):  Event
-    }
-}
+    val name: String,
+    val title: String,
+    val startDate: String?,
+    val endDate: String?,
+    val description: String?,
+    val introduction: String?,
+    val index: String,
+    val type: FeedType,
+    val credits: List<Credit>,
+    val features: List<Feature>,
+    val primaryColor: String,
+    val primaryColorDark: String,
+    val subtitle: String?,
+    val covers: ResourceCovers,
+    val kind: FeedResourceKind,
+    val sectionView: ResourceSectionViewType?,
+    val sections: List<ResourceSection>?,
+)

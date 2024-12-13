@@ -20,41 +20,10 @@
  * THE SOFTWARE.
  */
 
-package ss.feed.group
+package ss.libraries.circuit.navigation
 
-import app.ss.models.feed.FeedType
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
-import kotlinx.collections.immutable.ImmutableList
 import kotlinx.parcelize.Parcelize
-import ss.feed.model.FeedResourceSpec
 
 @Parcelize
-data class FeedGroupScreen(
-    val id: String,
-    val title: String?,
-    val feedType: FeedType,
-) : Screen {
-
-    sealed interface State : CircuitUiState {
-        val title: String
-        val eventSink: (Event) -> Unit
-
-        data class Loading(override val title: String, override val eventSink: (Event) -> Unit) : State
-
-        data class Success(
-            val resources: ImmutableList<FeedResourceSpec>,
-            override val title: String,
-            override val eventSink: (Event) -> Unit
-        ) : State
-    }
-
-    sealed interface Event : CircuitUiEvent {
-        /** Navigation icon is clicked. */
-        data object OnNavBack : Event
-
-        /** A feed resource with [index] is clicked. */
-        data class OnItemClick(val index: String):  Event
-    }
-}
+data class ResourceScreen(val index: String) : Screen

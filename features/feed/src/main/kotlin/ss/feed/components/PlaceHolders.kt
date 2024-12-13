@@ -24,15 +24,15 @@ package ss.feed.components
 
 import app.ss.models.feed.FeedDirection
 import app.ss.models.feed.FeedGroup
-import app.ss.models.feed.FeedResource
 import app.ss.models.feed.FeedResourceKind
 import app.ss.models.feed.FeedScope
 import app.ss.models.feed.FeedType
 import app.ss.models.feed.FeedView
+import app.ss.models.resource.Resource
 import app.ss.models.resource.ResourceCovers
 
 object PlaceHolders {
-    val FEED_RESOURCE = FeedResource(
+    val FEED_RESOURCE = Resource(
         id = "1",
         name = "name",
         title = "Resource Title",
@@ -54,6 +54,8 @@ object PlaceHolders {
             splash = "splash",
         ),
         kind = FeedResourceKind.BOOK,
+        sectionView = null,
+        sections = null
     )
 
     val FEED_GROUP = FeedGroup(

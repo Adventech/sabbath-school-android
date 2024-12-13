@@ -74,7 +74,7 @@ fun FeedScreenUi(state: State, modifier: Modifier = Modifier) {
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = contentPadding,
                     seeAllClick = { state.eventSink(SuccessEvent.OnSeeAllClick(it)) },
-                    itemClick = { state.eventSink(SuccessEvent.OnItemClick(it.id)) }
+                    itemClick = { state.eventSink(SuccessEvent.OnItemClick(it.index)) }
                 )
             }
 
