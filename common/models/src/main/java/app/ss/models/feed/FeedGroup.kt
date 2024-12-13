@@ -23,6 +23,7 @@
 package app.ss.models.feed
 
 import androidx.annotation.Keep
+import app.ss.models.resource.Resource
 import com.squareup.moshi.JsonClass
 
 @Keep
@@ -34,6 +35,6 @@ data class FeedGroup(
     val direction: FeedDirection,
     val title: String?,
     val view: FeedView,
-    val resources: List<FeedResource>,
+    val resources: List<Resource>,
     val seeAll: String?
 )

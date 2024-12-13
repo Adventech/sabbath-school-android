@@ -25,8 +25,8 @@ package ss.feed.model
 import androidx.compose.runtime.Immutable
 import app.ss.models.feed.FeedDirection
 import app.ss.models.feed.FeedGroup
-import app.ss.models.feed.FeedResource
 import app.ss.models.feed.FeedView
+import app.ss.models.resource.Resource
 import ss.feed.components.FeedResourceCoverSpec
 import ss.feed.components.ResourceCoverType
 import ss.feed.model.FeedResourceSpec.ContentDirection
@@ -34,6 +34,7 @@ import ss.feed.model.FeedResourceSpec.ContentDirection
 @Immutable
 data class FeedResourceSpec(
     val id: String,
+    val index: String,
     val name: String,
     val title: String,
     val subtitle: String?,
@@ -47,12 +48,13 @@ data class FeedResourceSpec(
     }
 }
 
-internal fun FeedResource.toSpec(
+internal fun Resource.toSpec(
     group: FeedGroup,
     direction: ContentDirection = ContentDirection.VERTICAL,
 ): FeedResourceSpec {
     return FeedResourceSpec(
         id = id,
+        index = index,
         name = name,
         title = title,
         subtitle = subtitle,

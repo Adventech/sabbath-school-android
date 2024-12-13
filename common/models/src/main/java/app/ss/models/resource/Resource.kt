@@ -20,17 +20,18 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models.feed
+package app.ss.models.resource
 
 import androidx.annotation.Keep
 import app.ss.models.Credit
 import app.ss.models.Feature
-import app.ss.models.resource.ResourceCovers
+import app.ss.models.feed.FeedResourceKind
+import app.ss.models.feed.FeedType
 import com.squareup.moshi.JsonClass
 
 @Keep
 @JsonClass(generateAdapter = true)
-data class FeedResource(
+data class Resource(
     val id: String,
     val name: String,
     val title: String,
@@ -47,4 +48,6 @@ data class FeedResource(
     val subtitle: String?,
     val covers: ResourceCovers,
     val kind: FeedResourceKind,
+    val sectionView: ResourceSectionViewType?,
+    val sections: List<ResourceSection>?,
 )

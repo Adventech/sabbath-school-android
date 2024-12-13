@@ -54,6 +54,7 @@ import ss.libraries.circuit.navigation.FeedScreen
 import ss.libraries.circuit.navigation.LanguagesScreen
 import ss.libraries.circuit.navigation.LegacyDestination
 import ss.libraries.circuit.navigation.LoginScreen
+import ss.libraries.circuit.navigation.ResourceScreen
 import ss.libraries.circuit.navigation.SettingsScreen
 import ss.misc.SSConstants
 import ss.resources.api.ResourcesRepository
@@ -140,7 +141,7 @@ class FeedPresenter @AssistedInject constructor(
             }
 
             is SuccessEvent.OnItemClick -> {
-                // Navigate to FeedItemScreen
+                navigator.goTo(ResourceScreen(event.index))
             }
 
             is SuccessEvent.OnSeeAllClick -> {

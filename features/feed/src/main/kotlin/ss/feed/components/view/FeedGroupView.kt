@@ -47,10 +47,10 @@ import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.list.SnappingLazyRow
 import app.ss.models.feed.FeedDirection
 import app.ss.models.feed.FeedGroup
-import app.ss.models.feed.FeedResource
 import app.ss.models.feed.FeedScope
 import app.ss.models.feed.FeedType
 import app.ss.models.feed.FeedView
+import app.ss.models.resource.Resource
 import ss.feed.components.PlaceHolders
 import ss.feed.model.toSpec
 
@@ -59,7 +59,7 @@ internal fun FeedGroupView(
     group: FeedGroup,
     modifier: Modifier = Modifier,
     seeAllClick: () -> Unit = {},
-    itemClick: (FeedResource) -> Unit = {},
+    itemClick: (Resource) -> Unit = {},
 ) {
     Column(
         modifier = modifier.fillMaxWidth().padding(bottom = Dimens.grid_4),

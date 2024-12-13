@@ -28,6 +28,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import app.ss.models.resource.FeedResponse
 import app.ss.models.resource.LanguageResponse
+import app.ss.models.resource.Resource
 
 interface ResourcesApi {
 
@@ -43,4 +44,7 @@ interface ResourcesApi {
         @Path("type") type: String,
         @Path("groupId") groupId: String,
     ): Response<FeedGroup>
+
+    @GET("api/v3/{index}/sections/index.json")
+    suspend fun resource(@Path("index") index: String): Response<Resource>
 }
