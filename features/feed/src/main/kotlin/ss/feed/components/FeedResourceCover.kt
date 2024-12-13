@@ -22,7 +22,6 @@
 
 package ss.feed.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -87,8 +86,11 @@ internal fun FeedResourceCover(
         Spacer(
             modifier = Modifier
                 .fillMaxSize()
-                .background(primaryColor, RoundedCornerShape(CoverCornerRadius))
-                .asPlaceholder(visible = !LocalInspectionMode.current)
+                .asPlaceholder(
+                    visible = !LocalInspectionMode.current,
+                    color = primaryColor,
+                    shape = RoundedCornerShape(CoverCornerRadius)
+                )
         )
     }
 
