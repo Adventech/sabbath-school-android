@@ -41,13 +41,9 @@ ksp {
 
 dependencies {
     implementation(projects.common.designCompose)
-    implementation(projects.common.lessonsData)
     implementation(projects.common.translations)
     implementation(projects.libraries.circuit.api)
-    implementation(projects.libraries.foundation.coroutines)
-    implementation(projects.libraries.lessons.api)
     implementation(projects.libraries.prefs.api)
-    implementation(projects.libraries.workers.api)
     implementation(projects.services.resources.api)
 
     implementation(libs.androidx.lifecycle.extensions)

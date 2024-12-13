@@ -20,11 +20,38 @@
  * THE SOFTWARE.
  */
 
-package ss.lessons.api.repository
+package ss.resources.api.test
 
-import app.ss.models.Language
+import androidx.annotation.VisibleForTesting
+import app.ss.models.feed.FeedGroup
+import app.ss.models.feed.FeedType
+import app.ss.models.resource.Resource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
+import ss.resources.api.ResourcesRepository
+import ss.resources.model.FeedModel
+import ss.resources.model.LanguageModel
 
-interface LanguagesRepository {
-    fun get(query: String? = null): Flow<Result<List<Language>>>
+@VisibleForTesting(otherwise = VisibleForTesting.NONE)
+class FakeResourcesRepository(
+    private val languagesFlow: Flow<List<LanguageModel>> = emptyFlow()
+) : ResourcesRepository {
+
+    override fun languages(query: String?): Flow<List<LanguageModel>> = languagesFlow
+
+    override fun language(code: String): Flow<LanguageModel> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun feed(type: FeedType): Result<FeedModel> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun feedGroup(id: String, type: FeedType): Result<FeedGroup> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun resource(index: String): Result<Resource> {
+        TODO("Not yet implemented")
+    }
 }

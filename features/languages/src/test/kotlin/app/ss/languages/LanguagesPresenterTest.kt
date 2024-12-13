@@ -25,27 +25,26 @@ package app.ss.languages
 import app.ss.languages.state.LanguageUiModel
 import app.ss.languages.state.LanguagesEvent
 import app.ss.languages.state.State
-import app.ss.models.Language
 import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeInstanceOf
 import org.junit.Test
-import ss.lessons.api.repository.LanguagesRepository
 import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.libraries.circuit.navigation.LanguagesScreen
 import ss.prefs.api.test.FakeSSPrefs
+import ss.resources.api.test.FakeResourcesRepository
+import ss.resources.model.LanguageModel
 
 /** Tests for [LanguagesPresenter]. */
 class LanguagesPresenterTest {
 
-    private val languagesFlow = MutableSharedFlow<Result<List<Language>>>()
+    private val languagesFlow = MutableSharedFlow<List<LanguageModel>>()
     private val fakeNavigator = FakeNavigator(LanguagesScreen)
-    private val fakeRepository = FakeLanguagesRepository(languagesFlow)
+    private val fakeRepository = FakeResourcesRepository(languagesFlow)
     private val fakeSSPrefs = FakeSSPrefs(MutableStateFlow("en"))
 
     private val underTest =
@@ -61,12 +60,10 @@ class LanguagesPresenterTest {
             awaitItem() shouldBeInstanceOf State.Loading::class.java
 
             languagesFlow.emit(
-                Result.success(
-                    listOf(
-                        Language("en", "English", "English"),
-                        Language("es", "Spanish", "Español"),
-                        Language("fr", "French", "Français"),
-                    ),
+                listOf(
+                    LanguageModel("en", "English", "English"),
+                    LanguageModel("es", "Spanish", "Español"),
+                    LanguageModel("fr", "French", "Français"),
                 )
             )
 
@@ -85,12 +82,12 @@ class LanguagesPresenterTest {
     @Test
     fun `present - event - Search`() = runTest {
         val query = "english"
-        val result = Result.success(listOf(Language("en", "English", "English")))
+        val result = listOf(LanguageModel("en", "English", "English"))
 
         underTest.test {
             awaitItem() shouldBeInstanceOf State.Loading::class.java
 
-            languagesFlow.emit(Result.success(emptyList()))
+            languagesFlow.emit(emptyList())
 
             var state = awaitItem() as State.Languages
 
@@ -108,12 +105,12 @@ class LanguagesPresenterTest {
 
     @Test
     fun `present - event - Search - trim query`() = runTest {
-        val result = Result.success(listOf(Language("hello", "English", "English")))
+        val result = listOf(LanguageModel("hello", "English", "English"))
 
         underTest.test {
             awaitItem() shouldBeInstanceOf State.Loading::class.java
 
-            languagesFlow.emit(Result.success(emptyList()))
+            languagesFlow.emit(emptyList())
 
             var state = awaitItem() as State.Languages
 
@@ -134,7 +131,7 @@ class LanguagesPresenterTest {
         underTest.test {
             awaitItem() shouldBeInstanceOf State.Loading::class.java
 
-            languagesFlow.emit(Result.success(emptyList()))
+            languagesFlow.emit(emptyList())
 
             val state = awaitItem() as State.Languages
 
@@ -154,7 +151,7 @@ class LanguagesPresenterTest {
         underTest.test {
             awaitItem() shouldBeInstanceOf State.Loading::class.java
 
-            languagesFlow.emit(Result.success(emptyList()))
+            languagesFlow.emit(emptyList())
 
             val state = awaitItem() as State.Languages
 
@@ -176,7 +173,7 @@ class LanguagesPresenterTest {
         underTest.test {
             awaitItem() shouldBeInstanceOf State.Loading::class.java
 
-            languagesFlow.emit(Result.success(emptyList()))
+            languagesFlow.emit(emptyList())
 
             val state = awaitItem() as State.Languages
 
@@ -190,8 +187,4 @@ class LanguagesPresenterTest {
             ensureAllEventsConsumed()
         }
     }
-}
-
-private class FakeLanguagesRepository(private val languagesFlow: Flow<Result<List<Language>>>) : LanguagesRepository {
-    override fun get(query: String?): Flow<Result<List<Language>>> = languagesFlow
 }

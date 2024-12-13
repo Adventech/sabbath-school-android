@@ -30,13 +30,9 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 import ss.lessons.model.PublishingInfoData
-import ss.lessons.model.SSLanguage
 import ss.lessons.model.request.PublishingInfoRequest
 
 interface SSQuarterliesApi {
-
-    @GET("api/v2/languages/index.json")
-    suspend fun getLanguages(): Response<List<SSLanguage>>
 
     @GET("api/v2/{lang}/quarterlies/index.json")
     suspend fun getQuarterlies(
