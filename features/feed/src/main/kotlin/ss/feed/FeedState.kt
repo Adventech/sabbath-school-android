@@ -25,28 +25,38 @@ package ss.feed
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import app.ss.models.feed.FeedGroup
-import app.ss.models.feed.FeedResource
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
+import ss.feed.model.FeedResourceSpec
 import ss.services.auth.overlay.AccountDialogOverlay
 import ss.services.auth.overlay.UserInfo
 
 sealed interface State : CircuitUiState {
     val photoUrl: String?
+    val title: String
     val overlayState: OverlayState?
     val eventSink: (Event) -> Unit
 
     data class Loading(
+        override val title: String,
         override val photoUrl: String?,
         override val overlayState: OverlayState?,
         override val eventSink: (Event) -> Unit,
     ) : State
 
-    data class Success(
+    data class Group(
         override val photoUrl: String?,
-        val title: String,
+        override val title: String,
         val groups: ImmutableList<FeedGroup>,
+        override val overlayState: OverlayState?,
+        override val eventSink: (Event) -> Unit
+    ) : State
+
+    data class List(
+        override val photoUrl: String?,
+        override val title: String,
+        val resources: ImmutableList<FeedResourceSpec>,
         override val overlayState: OverlayState?,
         override val eventSink: (Event) -> Unit
     ) : State
@@ -64,8 +74,8 @@ sealed interface SuccessEvent : Event {
     /** The see all button for the [group] is clicked. */
     data class OnSeeAllClick(val group: FeedGroup) : Event
 
-    /** A feed [resource] is clicked. */
-    data class OnItemClick(val resource: FeedResource) : Event
+    /** A feed resource with [id] is clicked. */
+    data class OnItemClick(val id: String) : Event
 }
 
 @Stable

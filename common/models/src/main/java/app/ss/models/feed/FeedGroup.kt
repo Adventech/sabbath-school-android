@@ -32,7 +32,7 @@ data class FeedGroup(
     val type: FeedType,
     val scope: FeedScope,
     val direction: FeedDirection,
-    val title: String,
+    val title: String?,
     val view: FeedView,
     val resources: List<FeedResource>,
     val seeAll: String?
