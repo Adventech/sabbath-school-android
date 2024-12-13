@@ -26,7 +26,6 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.slack.circuit.runtime.screen.Screen
 import ss.libraries.circuit.navigation.FeedScreen
-import ss.libraries.circuit.navigation.QuarterliesScreen
 import ss.libraries.circuit.navigation.SettingsScreen
 import app.ss.translations.R as L10nR
 
@@ -39,7 +38,7 @@ enum class NavbarItem(@DrawableRes val iconRes: Int, @StringRes val title: Int) 
 }
 
 fun NavbarItem.screen(): Screen = when (this) {
-    NavbarItem.SabbathSchool -> QuarterliesScreen(true)
+    NavbarItem.SabbathSchool -> FeedScreen(FeedScreen.Type.SABBATH_SCHOOL)
     NavbarItem.AliveInJesus -> FeedScreen(FeedScreen.Type.ALIVE_IN_JESUS)
     NavbarItem.PersonalMinistries -> FeedScreen(FeedScreen.Type.PERSONAL_MINISTRIES)
     NavbarItem.Devotionals -> FeedScreen(FeedScreen.Type.DEVOTIONALS)

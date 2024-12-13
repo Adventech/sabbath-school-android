@@ -41,8 +41,8 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.map
+import ss.libraries.circuit.navigation.FeedScreen
 import ss.libraries.circuit.navigation.HomeNavScreen
-import ss.libraries.circuit.navigation.QuarterliesScreen
 import ss.prefs.api.SSPrefs
 import ss.resources.api.ResourcesRepository
 
@@ -62,13 +62,13 @@ class HomeNavigationPresenter @AssistedInject constructor(
     override fun present(): State {
         val navigationItems by rememberNavbarItems()
         var hasNavigation by rememberRetained(navigationItems) { mutableStateOf(navigationItems?.isNotEmpty() == true) }
-        var selectedScreen by rememberRetained(hasNavigation) { mutableStateOf<Screen>(QuarterliesScreen(hasNavigation)) }
+        var selectedScreen by rememberRetained(hasNavigation) { mutableStateOf<Screen>(FeedScreen(FeedScreen.Type.SABBATH_SCHOOL)) }
 
         val items = navigationItems
         return when {
             items == null -> State.Loading
             items.isEmpty() -> State.Fallback(
-                selectedItem = QuarterliesScreen(false),
+                selectedItem = FeedScreen(FeedScreen.Type.SABBATH_SCHOOL),
                 eventSink = { event ->
                     when (event) {
                         is State.Fallback.Event.OnNavEvent -> {

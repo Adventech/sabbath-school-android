@@ -39,6 +39,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import app.ss.design.compose.theme.Dimens
 import app.ss.models.feed.FeedDirection
 import app.ss.models.feed.FeedGroup
 import app.ss.models.feed.FeedResource
@@ -49,7 +50,7 @@ import ss.feed.model.FeedResourceSpec
 import ss.feed.model.toSpec
 
 @Composable
-internal fun FeedGroupList(
+internal fun FeedLazyColum(
     groups: ImmutableList<FeedGroup>,
     modifier: Modifier = Modifier,
     state: LazyListState = rememberLazyListState(),
@@ -129,7 +130,7 @@ private fun LazyListScope.checkDirection(
 }
 
 @Composable
-internal fun FeedGroupList(
+internal fun FeedLazyColum(
     resources: ImmutableList<FeedResourceSpec>,
     modifier: Modifier = Modifier,
     state: LazyListState = rememberLazyListState(),
@@ -144,7 +145,7 @@ internal fun FeedGroupList(
         items(resources, key = { it.id }) { spec ->
             FeedResourceView(
                 spec = spec,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(horizontal = Dimens.grid_4, vertical = Dimens.grid_3)
             ) {
                 itemClick(spec.id)
             }

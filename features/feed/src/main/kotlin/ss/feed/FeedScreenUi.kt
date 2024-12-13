@@ -36,7 +36,7 @@ import app.ss.design.compose.widget.scaffold.HazeScaffold
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.overlay.OverlayEffect
 import dagger.hilt.components.SingletonComponent
-import ss.feed.components.FeedGroupList
+import ss.feed.components.FeedLazyColum
 import ss.feed.components.view.FeedLoadingView
 import ss.libraries.circuit.navigation.FeedScreen
 import ss.services.auth.overlay.AccountDialogOverlay
@@ -52,7 +52,7 @@ fun FeedScreenUi(state: State, modifier: Modifier = Modifier) {
         topBar = {
             FeedTopAppBar(
                 photoUrl = state.photoUrl,
-                title = (state as? State.Success)?.title ?: "",
+                title = state.title,
                 scrollBehavior = scrollBehavior,
                 onNavigationClick = { state.eventSink(Event.ProfileClick) },
                 onFilterLanguagesClick = { state.eventSink(Event.FilterLanguages) }
@@ -68,12 +68,21 @@ fun FeedScreenUi(state: State, modifier: Modifier = Modifier) {
                 )
             }
 
-            is State.Success -> {
-                FeedGroupList(
+            is State.Group -> {
+                FeedLazyColum(
                     groups = state.groups,
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = contentPadding,
                     seeAllClick = { state.eventSink(SuccessEvent.OnSeeAllClick(it)) },
+                    itemClick = { state.eventSink(SuccessEvent.OnItemClick(it.id)) }
+                )
+            }
+
+            is State.List -> {
+                FeedLazyColum(
+                    resources = state.resources,
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = contentPadding,
                     itemClick = { state.eventSink(SuccessEvent.OnItemClick(it)) }
                 )
             }
@@ -94,5 +103,5 @@ fun FeedScreenUi(state: State, modifier: Modifier = Modifier) {
 @PreviewLightDark
 @Composable
 private fun LoadingPreview() {
-    SsTheme { Surface { FeedScreenUi(state = State.Loading(null, null) {}) } }
+    SsTheme { Surface { FeedScreenUi(state = State.Loading("", null, null) {}) } }
 }

@@ -42,7 +42,7 @@ import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
-import ss.feed.components.FeedGroupList
+import ss.feed.components.FeedLazyColum
 import ss.feed.components.view.FeedLoadingView
 import ss.feed.group.FeedGroupScreen.Event
 import ss.feed.group.FeedGroupScreen.State
@@ -82,7 +82,7 @@ fun FeedGroupUi(state: State, modifier: Modifier = Modifier) {
             }
 
             is State.Success -> {
-                FeedGroupList(
+                FeedLazyColum(
                     resources = state.resources,
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = contentPadding,

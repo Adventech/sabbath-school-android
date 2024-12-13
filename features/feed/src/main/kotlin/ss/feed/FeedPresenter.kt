@@ -30,6 +30,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.core.app.ShareCompat
 import app.ss.auth.AuthRepository
+import app.ss.models.feed.FeedGroup
 import app.ss.models.feed.FeedType
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -41,10 +42,13 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ss.feed.group.FeedGroupScreen
+import ss.feed.model.FeedResourceSpec
+import ss.feed.model.toSpec
 import ss.libraries.circuit.navigation.CustomTabsIntentScreen
 import ss.libraries.circuit.navigation.FeedScreen
 import ss.libraries.circuit.navigation.LanguagesScreen
@@ -93,12 +97,21 @@ class FeedPresenter @AssistedInject constructor(
         val feedModel = model
         return when {
             feedModel == null -> State.Loading(
+                title = "",
                 photoUrl = userInfo?.photo,
                 overlayState = overlayState.value,
                 eventSink = eventSink,
             )
 
-            else -> State.Success(
+            feedModel.groups.size == 1 -> State.List(
+                photoUrl = userInfo?.photo,
+                title = feedModel.title,
+                resources = feedModel.groups.first().toSpec(),
+                overlayState = overlayState.value,
+                eventSink = eventSink,
+            )
+
+            else -> State.Group(
                 photoUrl = userInfo?.photo,
                 title = feedModel.title,
                 groups = feedModel.groups.toImmutableList(),
@@ -175,5 +188,10 @@ class FeedPresenter @AssistedInject constructor(
         FeedScreen.Type.ALIVE_IN_JESUS -> FeedType.AIJ
         FeedScreen.Type.PERSONAL_MINISTRIES -> FeedType.PM
         FeedScreen.Type.DEVOTIONALS -> FeedType.DEVO
+        FeedScreen.Type.SABBATH_SCHOOL -> FeedType.SS
     }
+
+    private fun FeedGroup?.toSpec() = this?.resources?.map {
+        it.toSpec(this, FeedResourceSpec.ContentDirection.HORIZONTAL)
+    }?.toImmutableList() ?: persistentListOf()
 }

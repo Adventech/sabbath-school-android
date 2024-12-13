@@ -79,7 +79,7 @@ internal fun FeedGroupView(
 
 @Composable
 private fun FeedGroupHeader(
-    title: String,
+    title: String?,
     seeAll: String?,
     modifier: Modifier = Modifier,
     seeAllClick: () -> Unit = {},
@@ -90,7 +90,7 @@ private fun FeedGroupHeader(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = title.uppercase(),
+            text = title?.uppercase() ?: "",
             modifier = Modifier.padding(
                 start = Dimens.grid_4,
                 end = Dimens.grid_2

@@ -33,7 +33,7 @@ import ss.feed.model.FeedResourceSpec
 @Parcelize
 data class FeedGroupScreen(
     val id: String,
-    val title: String,
+    val title: String?,
     val feedType: FeedType,
 ) : Screen {
 
