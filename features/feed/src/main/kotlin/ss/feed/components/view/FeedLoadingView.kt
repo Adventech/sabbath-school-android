@@ -48,6 +48,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.theme.SsTheme
 import app.ss.models.feed.FeedDirection
@@ -101,7 +102,7 @@ internal fun FeedLoadingView(
             ) {
                 Box(
                     modifier = Modifier
-                        .size(coverSize(ResourceCoverType.PORTRAIT, FeedDirection.VERTICAL, FeedView.FOLIO, screenWidth))
+                        .size(coverSize(ResourceCoverType.PORTRAIT, FeedDirection.VERTICAL, FeedView.FOLIO, screenWidth, isLargeScreen()))
                         .clip(RoundedCornerShape(cornerRadius))
                         .then(shimmerEffect)
                 )

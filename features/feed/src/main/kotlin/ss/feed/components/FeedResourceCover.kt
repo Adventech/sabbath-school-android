@@ -37,6 +37,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalInspectionMode
@@ -44,6 +45,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.color.parse
+import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.theme.SsTheme
@@ -53,6 +55,7 @@ import app.ss.models.feed.FeedDirection
 import app.ss.models.feed.FeedView
 import app.ss.models.resource.ResourceCovers
 import coil.size.Scale
+import kotlin.math.min
 
 @Immutable
 data class FeedResourceCoverSpec(
@@ -94,7 +97,7 @@ internal fun FeedResourceCover(
     CoverBox(
         color = primaryColor,
         modifier = modifier
-            .size(coverSize(spec.type, spec.direction, spec.view, initialWidth)),
+            .size(coverSize(spec.type, spec.direction, spec.view, initialWidth, isLargeScreen())),
     ) {
         ContentBox(
             content = RemoteImage(
@@ -118,7 +121,8 @@ private fun CoverBox(
 ) {
     ElevatedCard(
         modifier = modifier
-            .padding(Dimens.grid_1),
+            .padding(Dimens.grid_1)
+            .clip(RoundedCornerShape(CoverCornerRadius)),
         shape = RoundedCornerShape(CoverCornerRadius),
         colors = CardDefaults.cardColors(
             containerColor = color
@@ -189,7 +193,8 @@ internal fun coverSize(
     coverType: ResourceCoverType,
     direction: FeedDirection,
     viewType: FeedView,
-    initialWidth: Float
+    initialWidth: Float,
+    isLargeScreen: Boolean,
 ): DpSize {
     var width = initialWidth - 40
     var height = 200.0f
@@ -232,7 +237,16 @@ internal fun coverSize(
         }
     }
 
+    if (isLargeScreen
+        && ((direction == FeedDirection.HORIZONTAL && (viewType == FeedView.SQUARE || viewType == FeedView.FOLIO))
+            || (direction == FeedDirection.VERTICAL && (viewType == FeedView.SQUARE || viewType == FeedView.FOLIO)))
+    ) {
+        width = min(width, COVER_MAX_WIDTH)
+    }
+
     height = width / coverType.aspectRatio
 
     return DpSize(width.dp, height.dp)
 }
+
+private const val COVER_MAX_WIDTH = 210f
