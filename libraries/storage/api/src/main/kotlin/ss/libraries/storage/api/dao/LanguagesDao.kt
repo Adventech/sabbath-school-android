@@ -33,6 +33,9 @@ interface LanguagesDao : BaseDao<LanguageEntity> {
     @Query("SELECT * FROM languages")
     fun get(): Flow<List<LanguageEntity>>
 
+    @Query("SELECT * FROM languages WHERE :code = code")
+    fun get(code: String): Flow<LanguageEntity?>
+
     @Query(
         """
         SELECT * FROM languages 

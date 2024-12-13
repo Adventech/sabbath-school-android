@@ -20,48 +20,55 @@
  * THE SOFTWARE.
  */
 
-package ss.lessons.impl.repository
+package ss.resources.impl.sync
 
-import app.ss.models.Language
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
+import app.ss.network.NetworkResource
+import app.ss.network.safeApiCall
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.launch
+import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
-import ss.lessons.api.helper.SyncHelper
-import ss.lessons.api.repository.LanguagesRepository
+import ss.foundation.coroutines.Scopable
+import ss.foundation.coroutines.ioScopable
+import ss.lessons.api.ResourcesApi
 import ss.libraries.storage.api.dao.LanguagesDao
+import ss.libraries.storage.api.entity.LanguageEntity
 import timber.log.Timber
 import java.util.Locale
 import javax.inject.Inject
 
-internal class LanguagesRepositoryImpl @Inject constructor(
+interface SyncHelper {
+    fun syncLanguages()
+}
+
+class SyncHelperImpl @Inject constructor(
+    private val resourcesApi: ResourcesApi,
     private val languagesDao: LanguagesDao,
-    private val syncHelper: SyncHelper,
-    private val dispatcherProvider: DispatcherProvider,
-) : LanguagesRepository {
-    override fun get(query: String?): Flow<Result<List<Language>>> {
-        return (if (query.isNullOrEmpty()) {
-            languagesDao.get().onStart { syncHelper.syncLanguages() }
-        } else {
-            languagesDao.search("%$query%")
-        }).map { entities ->
-            Result.success(
-                entities.map { entity ->
-                    Language(
-                        code = entity.code,
-                        name = entity.name,
-                        nativeName = entity.nativeName.takeUnless { it.isEmpty() } ?: getNativeLanguageName(entity.code, entity.name)
-                    )
+    private val connectivityHelper: ConnectivityHelper,
+    dispatcherProvider: DispatcherProvider
+) : SyncHelper, Scopable by ioScopable(dispatcherProvider) {
+
+    private val exceptionLogger = CoroutineExceptionHandler { _, exception -> Timber.e(exception) }
+
+    override fun syncLanguages() {
+        scope.launch(exceptionLogger) {
+            when (val response = safeApiCall(connectivityHelper) { resourcesApi.languages() }) {
+                is NetworkResource.Failure -> Unit
+                is NetworkResource.Success -> response.value.body()?.let { data ->
+                    languagesDao.insertAll(data.map {
+                        LanguageEntity(
+                            code = it.code,
+                            name = it.name,
+                            nativeName = getNativeLanguageName(it.code, it.name),
+                            devo = it.devo,
+                            pm = it.pm,
+                            aij = it.aij,
+                            ss = it.ss,
+                        )
+                    })
                 }
-            )
-        }
-            .flowOn(dispatcherProvider.io)
-            .catch {
-                Timber.e(it)
-                emit(Result.failure(it))
             }
+        }
     }
 
     private fun getNativeLanguageName(languageCode: String, languageName: String): String {

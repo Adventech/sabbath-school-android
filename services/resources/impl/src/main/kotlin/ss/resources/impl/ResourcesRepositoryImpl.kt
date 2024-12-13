@@ -37,38 +37,56 @@ import ss.resources.model.FeedModel
 import ss.resources.model.LanguageModel
 import javax.inject.Inject
 import dagger.Lazy
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
+import ss.libraries.storage.api.dao.LanguagesDao
+import ss.libraries.storage.api.entity.LanguageEntity
+import ss.resources.impl.sync.SyncHelper
+import timber.log.Timber
 
 internal class ResourcesRepositoryImpl @Inject constructor(
     private val resourcesApi: ResourcesApi,
+    private val languagesDao: LanguagesDao,
+    private val syncHelper: SyncHelper,
     private val dispatcherProvider: DispatcherProvider,
     private val connectivityHelper: ConnectivityHelper,
     private val ssPrefs: Lazy<SSPrefs>,
 ) : ResourcesRepository {
 
-    override suspend fun languages(): Result<List<LanguageModel>> {
-        return withContext(dispatcherProvider.default) {
-            when (val resource = safeApiCall(connectivityHelper) { resourcesApi.languages() }) {
-                is NetworkResource.Failure -> {
-                    Result.failure(Throwable("Failed to fetch languages, ${resource.errorBody}"))
-                }
-
-                is NetworkResource.Success -> {
-                    val languages = resource.value.body()?.map {
-                        LanguageModel(
-                            name = it.name,
-                            code = it.code,
-                            devo = it.devo,
-                            pm = it.pm,
-                            aij = it.aij,
-                            ss = it.ss,
-                        )
-                    } ?: emptyList()
-
-                    Result.success(languages)
-                }
+    override fun languages(query: String?): Flow<List<LanguageModel>> {
+        return return (if (query.isNullOrEmpty()) {
+            languagesDao.get().onStart { syncHelper.syncLanguages() }
+        } else {
+            languagesDao.search("%$query%")
+        }).map { entities -> entities.map { it.toModel() } }
+            .flowOn(dispatcherProvider.io)
+            .catch {
+                Timber.e(it)
+                emit(emptyList())
             }
-        }
     }
+
+    override fun language(code: String): Flow<LanguageModel> =
+        languagesDao.get(code)
+            .onStart { syncHelper.syncLanguages() }
+            .filterNotNull()
+            .map { entity -> entity.toModel() }
+            .flowOn(dispatcherProvider.io)
+            .catch { Timber.e(it) }
+
+    private fun LanguageEntity.toModel() = LanguageModel(
+        code = code,
+        name = name,
+        nativeName = nativeName,
+        devo = devo,
+        pm = pm,
+        aij = aij,
+        ss = ss,
+    )
 
     override suspend fun feed(type: FeedType): Result<FeedModel> {
         return withContext(dispatcherProvider.default) {

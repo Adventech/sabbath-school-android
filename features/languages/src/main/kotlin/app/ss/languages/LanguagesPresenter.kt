@@ -27,10 +27,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import app.ss.languages.state.Event
-import app.ss.languages.state.LanguageModel
+import app.ss.languages.state.LanguageUiModel
 import app.ss.languages.state.LanguagesEvent
 import app.ss.languages.state.State
-import app.ss.models.Language
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
@@ -42,16 +41,17 @@ import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
-import ss.lessons.api.repository.LanguagesRepository
 import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.libraries.circuit.navigation.LanguagesScreen
 import ss.prefs.api.SSPrefs
+import ss.resources.api.ResourcesRepository
+import ss.resources.model.LanguageModel
 
 class LanguagesPresenter
 @AssistedInject
 constructor(
     @Assisted private val navigator: Navigator,
-    private val repository: LanguagesRepository,
+    private val repository: ResourcesRepository,
     private val ssPrefs: SSPrefs,
 ) : Presenter<State> {
 
@@ -65,12 +65,12 @@ constructor(
     override fun present(): State {
         var query by rememberRetained { mutableStateOf<String?>(null) }
         val viewModels by
-        produceRetainedState<ImmutableList<LanguageModel>?>(
+        produceRetainedState<ImmutableList<LanguageUiModel>?>(
             initialValue = null,
             key1 = query,
         ) {
-            repository.get(query)
-                .collect { value = it.getOrElse { emptyList() }.toModels() }
+            repository.languages(query)
+                .collect { value = it.toModels() }
         }
 
         return when (val models = viewModels) {
@@ -99,21 +99,20 @@ constructor(
         }
     }
 
-    private fun modelSelected(model: LanguageModel): Boolean {
+    private fun modelSelected(model: LanguageUiModel): Boolean {
         val languageChanged = model.code != ssPrefs.getLanguageCode()
         ssPrefs.setLanguageCode(model.code)
         ssPrefs.setLastQuarterlyIndex(null)
         return languageChanged
     }
 
-    private fun List<Language>.toModels() =
+    private fun List<LanguageModel>.toModels() =
         map {
-            LanguageModel(
+            LanguageUiModel(
                 code = it.code,
                 nativeName = it.nativeName,
                 name = it.name,
                 selected = it.code == ssPrefs.getLanguageCode(),
             )
-        }
-            .toImmutableList()
+        }.toImmutableList()
 }

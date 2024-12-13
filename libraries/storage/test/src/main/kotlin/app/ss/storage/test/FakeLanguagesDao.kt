@@ -24,6 +24,7 @@ package app.ss.storage.test
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import ss.libraries.storage.api.dao.LanguagesDao
 import ss.libraries.storage.api.entity.LanguageEntity
@@ -36,6 +37,9 @@ class FakeLanguagesDao(
 ) : LanguagesDao {
 
     override fun get(): Flow<List<LanguageEntity>> = languagesFlow
+    override fun get(code: String): Flow<LanguageEntity?> {
+        return languagesFlow.map { languages -> languages.firstOrNull { it.code == code } }
+    }
 
     override fun search(query: String): Flow<List<LanguageEntity>> = languagesFlow
 

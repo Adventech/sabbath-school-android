@@ -30,9 +30,15 @@ import androidx.room.PrimaryKey
 data class LanguageEntity(
     @PrimaryKey
     val code: String,
-
     val name: String,
-
     @ColumnInfo(defaultValue = "")
-    val nativeName: String
+    val nativeName: String,
+    @ColumnInfo(defaultValue = "0")
+    val devo: Boolean = false,
+    @ColumnInfo(defaultValue = "0")
+    val pm: Boolean = false,
+    @ColumnInfo(defaultValue = "0")
+    val aij: Boolean = false,
+    @ColumnInfo(defaultValue = "1")
+    val ss: Boolean = true,
 )

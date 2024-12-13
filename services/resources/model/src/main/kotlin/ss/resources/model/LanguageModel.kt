@@ -23,10 +23,11 @@
 package ss.resources.model
 
 data class LanguageModel(
-    val name: String,
     val code: String,
-    val devo: Boolean,
-    val pm: Boolean,
-    val aij: Boolean,
-    val ss: Boolean,
+    val name: String,
+    val nativeName: String,
+    val devo: Boolean = false,
+    val pm: Boolean = false,
+    val aij: Boolean = false,
+    val ss: Boolean = false,
 )

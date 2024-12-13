@@ -8,5 +8,4 @@ interface SyncHelper {
     suspend fun syncQuarterlyInfo(index: String): SSQuarterlyInfo?
     fun syncQuarterlies(language: String)
     fun syncPublishingInfo(country: String, language: String)
-    fun syncLanguages()
 }

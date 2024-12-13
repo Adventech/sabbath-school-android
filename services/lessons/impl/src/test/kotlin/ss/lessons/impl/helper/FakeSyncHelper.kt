@@ -22,6 +22,8 @@
 
 package ss.lessons.impl.helper
 
+import ss.lessons.api.helper.SyncHelper
+
 import app.ss.models.SSQuarterlyInfo
 
 class FakeSyncHelper : SyncHelper {
@@ -38,10 +40,6 @@ class FakeSyncHelper : SyncHelper {
     }
 
     override fun syncPublishingInfo(country: String, language: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun syncLanguages() {
         TODO("Not yet implemented")
     }
 }
