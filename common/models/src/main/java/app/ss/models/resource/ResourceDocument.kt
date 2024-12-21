@@ -32,6 +32,7 @@ data class ResourceDocument(
     val index: String,
     val name: String,
     val title: String,
+    val subtitle : String?,
     val resourceId: String,
     val resourceIndex: String,
     val sequence: String,

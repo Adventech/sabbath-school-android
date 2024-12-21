@@ -52,6 +52,7 @@ import ss.resource.components.ResourceTopAppBar
 import ss.resource.components.ScrollAlpha
 import ss.resource.components.footerBackgroundColor
 import ss.resource.components.rememberScrollAlpha
+import ss.resource.components.resourceSections
 
 @OptIn(ExperimentalMaterial3Api::class)
 @CircuitInject(ResourceScreen::class, SingletonComponent::class)
@@ -111,16 +112,7 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
                             content = { CoverContent(state.resource, it) }
                         )
                     }
-                    items(50) {
-                        Surface {
-                            Text(
-                                "Item $it",
-                                Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp)
-                            )
-                        }
-                    }
+                    resourceSections(state.resource)
                 }
             }
         }

@@ -40,6 +40,7 @@ ksp {
 
 dependencies {
     implementation(projects.common.designCompose)
+    implementation(projects.common.misc)
     implementation(projects.common.translations)
     implementation(projects.libraries.circuit.api)
     implementation(projects.services.auth.overlay)
@@ -47,6 +48,7 @@ dependencies {
 
     implementation(libs.coil.compose)
     implementation(libs.google.hilt.android)
+    implementation(libs.joda.android)
     ksp(libs.google.hilt.compiler)
     ksp(libs.circuit.codegen)
 
