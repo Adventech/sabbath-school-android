@@ -22,6 +22,7 @@
 
 package ss.resource
 
+import app.ss.models.resource.Resource
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 
@@ -32,6 +33,12 @@ sealed interface State: CircuitUiState {
 
     data class Loading(
         override val title: String,
+        override val eventSink: (Event) -> Unit
+    ): State
+
+    data class Success(
+        override val title: String,
+        val resource: Resource,
         override val eventSink: (Event) -> Unit
     ): State
 

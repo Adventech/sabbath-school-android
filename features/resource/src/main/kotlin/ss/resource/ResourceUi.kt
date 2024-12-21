@@ -22,52 +22,106 @@
 
 package ss.resource
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import app.ss.design.compose.widget.appbar.SsTopAppBar
-import app.ss.design.compose.widget.appbar.TopAppBarSpec
-import app.ss.design.compose.widget.appbar.TopAppBarType
-import app.ss.design.compose.widget.icon.IconBox
-import app.ss.design.compose.widget.icon.Icons
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.unit.dp
+import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
 import ss.libraries.circuit.navigation.ResourceScreen
+import ss.resource.components.CoverContent
+import ss.resource.components.ResourceCover
+import ss.resource.components.ResourceLoadingView
+import ss.resource.components.ResourceTopAppBar
+import ss.resource.components.ScrollAlpha
+import ss.resource.components.footerBackgroundColor
+import ss.resource.components.rememberScrollAlpha
 
 @OptIn(ExperimentalMaterial3Api::class)
 @CircuitInject(ResourceScreen::class, SingletonComponent::class)
 @Composable
 fun ResourceUi(state: State, modifier: Modifier = Modifier) {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val listState: LazyListState = rememberLazyListState()
+    val scrollAlpha: ScrollAlpha = rememberScrollAlpha(listState = listState)
+    val collapsed by remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
+
     HazeScaffold(
-        modifier = modifier,
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            SsTopAppBar(
-                spec = TopAppBarSpec(TopAppBarType.Large),
-                modifier = modifier,
-                title = { Text(text = state.title) },
-                navigationIcon = {
-                    IconButton(onClick = { state.eventSink(Event.OnNavBack) }) {
-                        IconBox(Icons.ArrowBack)
-                    }
-                },
-                scrollBehavior = scrollBehavior,
-                colors = TopAppBarDefaults.largeTopAppBarColors(
-                    containerColor = Color.Transparent,
-                    scrolledContainerColor = Color.Transparent,
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = SsTheme.colors.primaryBackground.copy(
+                    alpha = if (collapsed) 1f else scrollAlpha.alpha
+                ),
+                tonalElevation = if (collapsed) 4.dp else 0.dp
+            ) {
+                ResourceTopAppBar(
+                    isShowingNavigationBar = collapsed,
+                    title = state.title,
+                    primaryColorDark = (state as? State.Success)?.resource?.primaryColorDark,
+                    modifier = Modifier,
+                    scrollBehavior = scrollBehavior,
+                    onNavBack = { state.eventSink(Event.OnNavBack) }
                 )
-            )
+            }
+
         },
-        blurTopBar = true,
+        blurTopBar = false,
     ) {
+        val color by animateColorAsState(
+            targetValue = if (state is State.Success) {
+                footerBackgroundColor()
+            } else {
+                SsTheme.colors.primaryBackground
+            }, label = "background-color"
+        )
+
         when (state) {
             is State.Loading -> {
-                // Loading
+                ResourceLoadingView(state = listState)
+            }
+
+            is State.Success -> {
+                LazyColumn(
+                    modifier = Modifier.background(color),
+                    state = listState,
+                ) {
+                    item("cover") {
+                        ResourceCover(
+                            resource = state.resource,
+                            modifier = Modifier,
+                            scrollOffset = { listState.firstVisibleItemScrollOffset.toFloat() },
+                            content = { CoverContent(state.resource, it) }
+                        )
+                    }
+                    items(50) {
+                        Surface {
+                            Text(
+                                "Item $it",
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp)
+                            )
+                        }
+                    }
+                }
             }
         }
     }

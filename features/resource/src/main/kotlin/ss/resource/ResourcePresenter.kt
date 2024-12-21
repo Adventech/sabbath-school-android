@@ -47,13 +47,27 @@ class ResourcePresenter @AssistedInject constructor(
 
     @Composable
     override fun present(): State {
-        val resource by rememberResource()
-        var title by rememberRetained(resource) { mutableStateOf(resource?.title ?: "") }
+        val resourceResponse by rememberResource()
+        var title by rememberRetained(resourceResponse) { mutableStateOf(resourceResponse?.title ?: "") }
 
-        return State.Loading(title) { event ->
+        val eventSink: (Event) -> Unit = { event ->
             when (event) {
                 Event.OnNavBack -> navigator.pop()
             }
+        }
+
+        val resource = resourceResponse
+        return when {
+            resource != null -> State.Success(
+                title = title,
+                resource = resource,
+                eventSink = eventSink
+            )
+
+            else -> State.Loading(
+                title = title,
+                eventSink = eventSink
+            )
         }
     }
 
