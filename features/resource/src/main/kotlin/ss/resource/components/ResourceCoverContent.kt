@@ -26,13 +26,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -80,7 +81,7 @@ internal fun ColumnScope.CoverContent(
         resource.description?.let {
             ReadMoreText(
                 text = it,
-                style = MaterialTheme.typography.bodyMedium.copy(
+                style = SsTheme.typography.bodyMedium.copy(
                     fontSize = 15.sp
                 ),
                 color = Color.White,
@@ -90,7 +91,7 @@ internal fun ColumnScope.CoverContent(
                     .padding(horizontal = SsTheme.dimens.grid_4, vertical = 8.dp)
                     .clickable { }
             )
-        }
+        } ?: Spacer(Modifier.fillMaxWidth().height(16.dp))
     }
 
     val readButton: @Composable () -> Unit = {
@@ -112,7 +113,7 @@ internal fun ColumnScope.CoverContent(
 
     Text(
         text = resource.title,
-        style = MaterialTheme.typography.titleLarge.copy(
+        style = SsTheme.typography.titleLarge.copy(
             fontSize = 30.sp
         ),
         color = Color.White, // Needs color from style
@@ -126,7 +127,7 @@ internal fun ColumnScope.CoverContent(
     resource.subtitle?.let {
         Text(
             text = it,
-            style = MaterialTheme.typography.titleSmall.copy(
+            style = SsTheme.typography.titleSmall.copy(
                 fontSize = 13.sp
             ),
             color = SsColors.White70, // Needs color from style
@@ -175,7 +176,7 @@ private fun ColumnScope.CtaButton(
         ) {
             Text(
                 text = text ?: stringResource(id = L10n.string.ss_lessons_read).uppercase(),
-                style = MaterialTheme.typography.titleMedium.copy(
+                style = SsTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.Bold
                 )
             )

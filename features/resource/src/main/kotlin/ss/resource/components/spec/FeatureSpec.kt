@@ -20,38 +20,22 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    alias(libs.plugins.foundry.base)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.parcelize)
-    alias(libs.plugins.hilt)
-}
+package ss.resource.components.spec
 
-foundry {
-    features { compose() }
-}
+import app.ss.models.Feature
+import javax.annotation.concurrent.Immutable
 
+@Immutable
+internal data class FeatureSpec(
+    val name: String,
+    val title: String,
+    val description: String,
+    val image: String
+)
 
-ksp {
-    arg("circuit.codegen.mode", "hilt")
-}
-
-dependencies {
-    implementation(projects.common.designCompose)
-    implementation(projects.common.misc)
-    implementation(projects.common.translations)
-    implementation(projects.libraries.circuit.api)
-    implementation(projects.services.auth.overlay)
-    implementation(projects.services.resources.api)
-
-    implementation(libs.coil.compose)
-    implementation(libs.google.hilt.android)
-    implementation(libs.joda.android)
-    ksp(libs.google.hilt.compiler)
-    ksp(libs.circuit.codegen)
-
-    testImplementation(libs.bundles.testing.common)
-}
-
+internal fun Feature.toSpec() = FeatureSpec(
+    name,
+    title,
+    description,
+    image
+)

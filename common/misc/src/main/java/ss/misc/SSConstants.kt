@@ -25,6 +25,7 @@ object SSConstants {
     const val SS_APP_RATE_INSTALL_DAYS = 7
     const val SS_DATE_FORMAT = "dd/MM/yyyy"
     const val SS_DATE_FORMAT_OUTPUT = "MMMM dd"
+    const val SS_DATE_FORMAT_LESSON_OUTPUT = "MMM dd"
     const val SS_DATE_FORMAT_OUTPUT_DAY = "EEEE, MMMM dd"
     const val SS_DATE_FORMAT_OUTPUT_DAY_SHORT = "EEE, MMMM dd"
     const val SS_QUARTERLY_INDEX_EXTRA = "SS_QUARTERLY_INDEX"

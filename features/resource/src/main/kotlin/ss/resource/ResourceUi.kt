@@ -25,13 +25,11 @@ package ss.resource
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -44,14 +42,18 @@ import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
+import kotlinx.collections.immutable.toImmutableList
 import ss.libraries.circuit.navigation.ResourceScreen
 import ss.resource.components.CoverContent
 import ss.resource.components.ResourceCover
 import ss.resource.components.ResourceLoadingView
 import ss.resource.components.ResourceTopAppBar
 import ss.resource.components.ScrollAlpha
+import ss.resource.components.footer
 import ss.resource.components.footerBackgroundColor
 import ss.resource.components.rememberScrollAlpha
+import ss.resource.components.resourceSections
+import ss.resource.components.spec.toSpec
 
 @OptIn(ExperimentalMaterial3Api::class)
 @CircuitInject(ResourceScreen::class, SingletonComponent::class)
@@ -99,28 +101,25 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
             }
 
             is State.Success -> {
+                val resource = state.resource
+                val credits = remember(resource) { resource.credits.map { it.toSpec() }.toImmutableList() }
+                val features = remember(resource) { resource.features.map { it.toSpec() }.toImmutableList() }
+
                 LazyColumn(
                     modifier = Modifier.background(color),
                     state = listState,
                 ) {
                     item("cover") {
                         ResourceCover(
-                            resource = state.resource,
+                            resource = resource,
                             modifier = Modifier,
                             scrollOffset = { listState.firstVisibleItemScrollOffset.toFloat() },
-                            content = { CoverContent(state.resource, it) }
+                            content = { CoverContent(resource, it) }
                         )
                     }
-                    items(50) {
-                        Surface {
-                            Text(
-                                "Item $it",
-                                Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp)
-                            )
-                        }
-                    }
+                    resourceSections(resource)
+
+                    footer(credits, features)
                 }
             }
         }
