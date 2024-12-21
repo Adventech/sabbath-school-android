@@ -23,33 +23,26 @@
 package app.ss.models.resource
 
 import androidx.annotation.Keep
-import app.ss.models.Credit
-import app.ss.models.Feature
-import app.ss.models.feed.FeedResourceKind
-import app.ss.models.feed.FeedType
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
+enum class ResourceCoverType(val aspectRatio: Float) {
+    LANDSCAPE(1280f / 720f),
+    PORTRAIT(854f / 1280f),
+    SPLASH(1f),
+    SQUARE(1f)
+}
+
 @Keep
-@JsonClass(generateAdapter = true)
-data class Resource(
-    val id: String,
-    val name: String,
-    val title: String,
-    val startDate: String?,
-    val endDate: String?,
-    val description: String?,
-    val introduction: String?,
-    val index: String,
-    val type: FeedType,
-    val credits: List<Credit>,
-    val features: List<Feature>,
-    val primaryColor: String,
-    val primaryColorDark: String,
-    val subtitle: String?,
-    val covers: ResourceCovers,
-    val kind: FeedResourceKind,
-    val sectionView: ResourceSectionViewType?,
-    val sections: List<ResourceSection>?,
-    val cta: ResourceCTA?,
-    val preferredCover: ResourcePreferredCover?,
-)
+@JsonClass(generateAdapter = false)
+enum class ResourcePreferredCover {
+    UNKNOWN,
+    @Json(name = "landscape")
+    LANDSCAPE,
+    @Json(name = "portrait")
+    PORTRAIT,
+    @Json(name = "splash")
+    SPLASH,
+    @Json(name = "square")
+    SQUARE
+}

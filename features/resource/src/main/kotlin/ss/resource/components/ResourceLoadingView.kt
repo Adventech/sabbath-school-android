@@ -20,124 +20,142 @@
  * THE SOFTWARE.
  */
 
-package ss.feed.components.view
+package ss.resource.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.theme.SsTheme
-import app.ss.models.feed.FeedDirection
-import app.ss.models.feed.FeedView
-import app.ss.models.resource.ResourceCoverType
-import ss.feed.components.coverSize
 
 private val horizontalPadding = 16.dp
 private val cornerRadius = 10.dp
-private val spaceBetweenCoverAndTitle = 16.dp
 
 @Composable
-internal fun FeedLoadingView(
+fun ResourceLoadingView(
     modifier: Modifier = Modifier,
     state: LazyListState = rememberLazyListState(),
-    contentPadding: PaddingValues = PaddingValues(horizontal = horizontalPadding, vertical = 20.dp),
 ) {
-    val shimmerEffect = Modifier.asPlaceholder(true)
     val screenWidth = LocalConfiguration.current.screenWidthDp.toFloat()
 
     LazyColumn(
-        modifier = modifier.navigationBarsPadding(),
+        modifier = modifier,
         state = state,
-        contentPadding = contentPadding,
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
+
         item {
-            Row(
-                modifier = Modifier
+            Spacer(
+                Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = horizontalPadding),
-                horizontalArrangement = Arrangement.Start
-            ) {
-                Box(
-                    modifier = Modifier
-                        .width((screenWidth * 0.4f).dp)
-                        .height(30.dp)
-                        .clip(RoundedCornerShape(cornerRadius))
-                        .then(shimmerEffect)
-                )
-            }
+                    .height(400.dp)
+                    .asPlaceholder(true, shape = RectangleShape))
         }
 
-        items(5) { position ->
+        item {
+            LoadingRectangle(
+                Modifier
+                    .size(
+                        width = (screenWidth * 0.8f).dp,
+                        height = 20.dp
+                    )
+                    .padding(horizontal = horizontalPadding)
+            )
+        }
+
+        item {
+            LoadingRectangle(
+                Modifier
+                    .size(
+                        width = (screenWidth * 0.57f).dp,
+                        height = 15.dp
+                    )
+                    .padding(horizontal = horizontalPadding)
+            )
+        }
+
+        itemsIndexed(listOf(1, 2, 3)) { index, item ->
+            LoadingRectangle(
+                Modifier
+                    .size(
+                        width = (screenWidth * if (item == 2) 0.5f else 0.9f).dp,
+                        height = 8.dp
+                    )
+                    .padding(horizontal = horizontalPadding)
+            )
+        }
+
+        items(13) {
             Row(
+                horizontalArrangement = Arrangement.spacedBy(20.dp),
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = horizontalPadding),
-                horizontalArrangement = Arrangement.spacedBy(spaceBetweenCoverAndTitle),
-                verticalAlignment = Alignment.CenterVertically
+                    .padding(horizontal = horizontalPadding)
             ) {
-                Box(
-                    modifier = Modifier
-                        .size(coverSize(ResourceCoverType.PORTRAIT, FeedDirection.VERTICAL, FeedView.FOLIO, screenWidth, isLargeScreen()))
-                        .clip(RoundedCornerShape(cornerRadius))
-                        .then(shimmerEffect)
+                LoadingRectangle(
+                    Modifier.size(
+                        width = 15.dp,
+                        height = 15.dp
+                    )
                 )
-
-                // Randomized width
-                val pair = remember(position) {
-                    mutableStateOf((150..200).random() to (150..200).random())
-                }
-
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
+                    verticalArrangement = Arrangement.spacedBy(5.dp),
+                    modifier = Modifier.fillMaxWidth(0.8f)
                 ) {
-                    val (top, bottom) = pair.value
-                    repeat(2) {
-                        val size = if (it == 0) top else bottom
-
-                        Box(
-                            modifier = Modifier
-                                .height(15.dp)
-                                .width(size.dp)
-                                .clip(RoundedCornerShape(cornerRadius))
-                                .then(shimmerEffect)
+                    LoadingRectangle(
+                        Modifier.size(
+                            width = (screenWidth * 0.6f).dp,
+                            height = 15.dp
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
+                    )
+                    LoadingRectangle(
+                        Modifier.size(
+                            width = (screenWidth * 0.3f).dp,
+                            height = 10.dp
+                        )
+                    )
                 }
             }
         }
+
     }
+}
+
+@Composable
+private fun LoadingRectangle(
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .asPlaceholder(true, shape = RoundedCornerShape(cornerRadius))
+    )
 }
 
 @PreviewLightDark
 @Composable
 private fun Preview() {
-    SsTheme { Surface { FeedLoadingView() } }
+    SsTheme {
+        Surface { ResourceLoadingView() }
+    }
 }
+

@@ -28,7 +28,7 @@ import app.ss.models.feed.FeedGroup
 import app.ss.models.feed.FeedView
 import app.ss.models.resource.Resource
 import ss.feed.components.FeedResourceCoverSpec
-import ss.feed.components.ResourceCoverType
+import app.ss.models.resource.ResourceCoverType
 import ss.feed.model.FeedResourceSpec.ContentDirection
 
 @Immutable

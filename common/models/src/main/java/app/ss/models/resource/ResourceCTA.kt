@@ -20,11 +20,14 @@
  * THE SOFTWARE.
  */
 
-package ss.feed.components
+package app.ss.models.resource
 
-enum class ResourceCoverType(val aspectRatio: Float) {
-    LANDSCAPE(1280f / 720f),
-    PORTRAIT(854f / 1280f),
-    SPLASH(1f),
-    SQUARE(1f)
-}
+import androidx.annotation.Keep
+import com.squareup.moshi.JsonClass
+
+@Keep
+@JsonClass(generateAdapter = true)
+data class ResourceCTA(
+    val hidden: Boolean?,
+    val text: String?
+)

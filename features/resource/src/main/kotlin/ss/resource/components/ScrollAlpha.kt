@@ -20,36 +20,40 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models.resource
+package ss.resource.components
 
-import androidx.annotation.Keep
-import app.ss.models.Credit
-import app.ss.models.Feature
-import app.ss.models.feed.FeedResourceKind
-import app.ss.models.feed.FeedType
-import com.squareup.moshi.JsonClass
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 
-@Keep
-@JsonClass(generateAdapter = true)
-data class Resource(
-    val id: String,
-    val name: String,
-    val title: String,
-    val startDate: String?,
-    val endDate: String?,
-    val description: String?,
-    val introduction: String?,
-    val index: String,
-    val type: FeedType,
-    val credits: List<Credit>,
-    val features: List<Feature>,
-    val primaryColor: String,
-    val primaryColorDark: String,
-    val subtitle: String?,
-    val covers: ResourceCovers,
-    val kind: FeedResourceKind,
-    val sectionView: ResourceSectionViewType?,
-    val sections: List<ResourceSection>?,
-    val cta: ResourceCTA?,
-    val preferredCover: ResourcePreferredCover?,
+@Immutable
+internal data class ScrollAlpha(
+    val alpha: Float
 )
+
+@Composable
+internal fun rememberScrollAlpha(
+    listState: LazyListState
+): ScrollAlpha {
+    val scrollAlpha by remember {
+        derivedStateOf {
+            ScrollAlpha(alpha = listState.scrollAlpha())
+        }
+    }
+    return scrollAlpha
+}
+
+private fun LazyListState.scrollAlpha(): Float {
+    return when (firstVisibleItemIndex) {
+        0 -> {
+            val size = layoutInfo.visibleItemsInfo.firstOrNull()?.size ?: run {
+                return 0f
+            }
+            (firstVisibleItemScrollOffset.toFloat() / size.toFloat()).coerceIn(0f, 1f)
+        }
+        else -> 1f
+    }
+}

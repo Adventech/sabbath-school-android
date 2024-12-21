@@ -20,36 +20,17 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models.resource
+package ss.resource.components
 
-import androidx.annotation.Keep
-import app.ss.models.Credit
-import app.ss.models.Feature
-import app.ss.models.feed.FeedResourceKind
-import app.ss.models.feed.FeedType
-import com.squareup.moshi.JsonClass
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.ui.graphics.Color
+import app.ss.design.compose.extensions.color.lighter
+import app.ss.design.compose.theme.SsTheme
+import app.ss.design.compose.theme.color.SsColors
 
-@Keep
-@JsonClass(generateAdapter = true)
-data class Resource(
-    val id: String,
-    val name: String,
-    val title: String,
-    val startDate: String?,
-    val endDate: String?,
-    val description: String?,
-    val introduction: String?,
-    val index: String,
-    val type: FeedType,
-    val credits: List<Credit>,
-    val features: List<Feature>,
-    val primaryColor: String,
-    val primaryColorDark: String,
-    val subtitle: String?,
-    val covers: ResourceCovers,
-    val kind: FeedResourceKind,
-    val sectionView: ResourceSectionViewType?,
-    val sections: List<ResourceSection>?,
-    val cta: ResourceCTA?,
-    val preferredCover: ResourcePreferredCover?,
-)
+@Stable
+@Composable
+internal fun footerBackgroundColor(): Color = if (SsTheme.colors.isDark) {
+    Color.Black.lighter()
+} else SsColors.BaseGrey1
