@@ -76,16 +76,6 @@ internal fun LazyListScope.resourceSections(resource: Resource) {
         ResourceSectionViewType.DROPDOWN -> {}
         else -> Unit
     }
-
-    item {
-        Surface {
-            Spacer(
-                Modifier
-                    .fillMaxWidth()
-                    .height(16.dp)
-            )
-        }
-    }
 }
 
 @Composable
@@ -114,7 +104,7 @@ private fun ResourceSectionView(
             )
         }
 
-        section.documents.forEach { document ->
+        section.documents.forEachIndexed { index, document ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -170,11 +160,19 @@ private fun ResourceSectionView(
                 }
             }
 
-            Divider(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 4.dp)
-            )
+            if (index == section.documents.lastIndex) {
+                Spacer(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp)
+                )
+            } else {
+                Divider(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp)
+                )
+            }
         }
     }
 
