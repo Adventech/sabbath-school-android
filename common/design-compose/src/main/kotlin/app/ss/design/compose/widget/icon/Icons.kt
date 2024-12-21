@@ -25,6 +25,7 @@ package app.ss.design.compose.widget.icon
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
+import androidx.compose.material.icons.filled.ArrowCircleLeft
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.rounded.AccessTime
@@ -60,6 +61,7 @@ enum class Icons(
     AlarmOff(MaterialIcons.Rounded.AlarmOff, L10n.ss_settings_reminder),
     AlarmOn(MaterialIcons.Rounded.AlarmOn, L10n.ss_settings_reminder),
     ArrowBack(MaterialIcons.AutoMirrored.Rounded.ArrowBack, L10n.ss_action_arrow_back),
+    ArrowBackFilled(MaterialIcons.Filled.ArrowCircleLeft, L10n.ss_action_arrow_back),
     ArrowDropDown(MaterialIcons.Rounded.ArrowDropDown, L10n.ss_action_arrow_drop_down),
     ArrowRight(MaterialIcons.AutoMirrored.Rounded.KeyboardArrowRight, L10n.ss_action_arrow_right),
     Cancel(MaterialIcons.Rounded.Cancel, android.R.string.cancel),
