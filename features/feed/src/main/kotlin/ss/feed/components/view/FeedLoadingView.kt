@@ -53,7 +53,7 @@ import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.theme.SsTheme
 import app.ss.models.feed.FeedDirection
 import app.ss.models.feed.FeedView
-import ss.feed.components.ResourceCoverType
+import app.ss.models.resource.ResourceCoverType
 import ss.feed.components.coverSize
 
 private val horizontalPadding = 16.dp
