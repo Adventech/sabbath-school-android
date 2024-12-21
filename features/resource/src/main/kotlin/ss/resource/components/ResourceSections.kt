@@ -34,10 +34,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,11 +51,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.divider.Divider
+import app.ss.design.compose.widget.icon.IconBox
+import app.ss.design.compose.widget.icon.Icons
 import app.ss.models.resource.Resource
 import app.ss.models.resource.ResourceDocument
 import app.ss.models.resource.ResourceSection
 import app.ss.models.resource.ResourceSectionViewType
+import org.joda.time.DateTime
+import org.joda.time.Interval
 import org.joda.time.format.DateTimeFormat
+import ss.misc.DateHelper
 import ss.misc.SSConstants
 
 internal fun LazyListScope.resourceSections(resource: Resource) {
@@ -68,12 +78,77 @@ internal fun LazyListScope.resourceSections(resource: Resource) {
         ResourceSectionViewType.NORMAL -> {
             items(resource.sections.orEmpty(), key = { it.id }) { section ->
                 Surface {
-                    ResourceSectionView(section)
+                    ResourceSectionView(section = section, displaySectionName = true)
                 }
             }
         }
 
-        ResourceSectionViewType.DROPDOWN -> {}
+        ResourceSectionViewType.DROPDOWN -> {
+            val sections = resource.sections.orEmpty()
+
+            item("popup") {
+                var expanded by remember { mutableStateOf(false) }
+                var selectedSection by remember { mutableStateOf<ResourceSection?>(resource.defaultSection()) }
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false },
+                    shape = RoundedCornerShape(16.dp),
+                ) {
+                    sections.forEach { section ->
+                        DropdownMenuItem(
+                            text = {
+                                Text(
+                                    text = section.title,
+                                    modifier = Modifier,
+                                    style = SsTheme.typography.titleMedium
+                                )
+                            },
+                            onClick = {
+                                expanded = false
+                                selectedSection = section
+                            },
+                            modifier = Modifier,
+                            trailingIcon = {
+                                if (section == selectedSection) {
+                                    IconBox(Icons.Check)
+                                }
+                            }
+                        )
+                    }
+                }
+
+                Surface {
+                    Column(modifier = Modifier.fillMaxWidth()) {
+                        Row(
+                            modifier = Modifier
+                                .padding(horizontal = 6.dp)
+                                .clip(RoundedCornerShape(12.dp))
+                                .clickable { expanded = true }
+                                .padding(horizontal = 12.dp)
+                                .padding(vertical = 12.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            Text(
+                                text = selectedSection?.title ?: "",
+                                modifier = Modifier,
+                                style = SsTheme.typography.titleMedium.copy(
+                                    fontSize = 18.sp
+                                ),
+                                maxLines = 1
+                            )
+
+                            IconBox(Icons.ArrowDropDown)
+                        }
+
+                        selectedSection?.let {
+                            ResourceSectionView(section = it, displaySectionName = false)
+                        }
+                    }
+                }
+            }
+        }
+
         else -> Unit
     }
 }
@@ -82,9 +157,10 @@ internal fun LazyListScope.resourceSections(resource: Resource) {
 private fun ResourceSectionView(
     section: ResourceSection,
     modifier: Modifier = Modifier,
+    displaySectionName: Boolean = true,
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
-        if (!section.isRoot) {
+        if (!section.isRoot && displaySectionName) {
             Text(
                 text = section.title.uppercase(),
                 modifier = Modifier
@@ -200,6 +276,21 @@ private fun ResourceDocument.dateDisplay(): String? {
         .print(dateEnd)
 
     return "$startDateOut - $endDateOut".replaceFirstChar { it.uppercase() }
+}
+
+private fun Resource.defaultSection(today: DateTime = DateTime.now()): ResourceSection? {
+    sections.orEmpty().forEach { section ->
+        section.documents.forEach { document ->
+            val startDate = document.startDate?.let { DateHelper.parseDate(it) } ?: return@forEach
+            val endDate = document.endDate?.let {  DateHelper.parseDate(it) } ?: return@forEach
+            val fallsBetween = Interval(startDate, endDate.plusDays(1)).contains(today)
+            if (fallsBetween) {
+                return section
+            }
+        }
+    }
+
+    return sections.orEmpty().first { it.isRoot == false }
 }
 
 @PreviewLightDark

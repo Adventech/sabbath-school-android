@@ -23,8 +23,8 @@
 package ss.resource
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import app.ss.models.resource.Resource
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -36,7 +36,10 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import ss.libraries.circuit.navigation.ResourceScreen
+import ss.resource.components.spec.toSpec
 import ss.resources.api.ResourcesRepository
 
 class ResourcePresenter @AssistedInject constructor(
@@ -57,10 +60,14 @@ class ResourcePresenter @AssistedInject constructor(
         }
 
         val resource = resourceResponse
+        val credits = rememberRetained(resource) { resource?.credits?.map { it.toSpec() }?.toImmutableList() ?: persistentListOf() }
+        val features = rememberRetained(resource) { resource?.features?.map { it.toSpec() }?.toImmutableList() ?: persistentListOf() }
         return when {
             resource != null -> State.Success(
                 title = title,
                 resource = resource,
+                credits = credits,
+                features = features,
                 eventSink = eventSink
             )
 
