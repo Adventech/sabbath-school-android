@@ -55,7 +55,9 @@ object PlaceHolders {
         ),
         kind = FeedResourceKind.BOOK,
         sectionView = null,
-        sections = null
+        sections = null,
+        cta = null,
+        preferredCover = null
     )
 
     val FEED_GROUP = FeedGroup(

@@ -23,33 +23,11 @@
 package app.ss.models.resource
 
 import androidx.annotation.Keep
-import app.ss.models.Credit
-import app.ss.models.Feature
-import app.ss.models.feed.FeedResourceKind
-import app.ss.models.feed.FeedType
 import com.squareup.moshi.JsonClass
 
 @Keep
 @JsonClass(generateAdapter = true)
-data class Resource(
-    val id: String,
-    val name: String,
-    val title: String,
-    val startDate: String?,
-    val endDate: String?,
-    val description: String?,
-    val introduction: String?,
-    val index: String,
-    val type: FeedType,
-    val credits: List<Credit>,
-    val features: List<Feature>,
-    val primaryColor: String,
-    val primaryColorDark: String,
-    val subtitle: String?,
-    val covers: ResourceCovers,
-    val kind: FeedResourceKind,
-    val sectionView: ResourceSectionViewType?,
-    val sections: List<ResourceSection>?,
-    val cta: ResourceCTA?,
-    val preferredCover: ResourcePreferredCover?,
+data class ResourceCTA(
+    val hidden: Boolean?,
+    val text: String?
 )
