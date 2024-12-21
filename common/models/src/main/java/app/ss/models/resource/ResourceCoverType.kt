@@ -20,11 +20,29 @@
  * THE SOFTWARE.
  */
 
-package ss.feed.components
+package app.ss.models.resource
+
+import androidx.annotation.Keep
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 enum class ResourceCoverType(val aspectRatio: Float) {
     LANDSCAPE(1280f / 720f),
     PORTRAIT(854f / 1280f),
     SPLASH(1f),
     SQUARE(1f)
+}
+
+@Keep
+@JsonClass(generateAdapter = false)
+enum class ResourcePreferredCover {
+    UNKNOWN,
+    @Json(name = "landscape")
+    LANDSCAPE,
+    @Json(name = "portrait")
+    PORTRAIT,
+    @Json(name = "splash")
+    SPLASH,
+    @Json(name = "square")
+    SQUARE
 }

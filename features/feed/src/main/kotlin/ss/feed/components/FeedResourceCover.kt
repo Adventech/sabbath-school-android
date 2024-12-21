@@ -52,6 +52,7 @@ import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.models.feed.FeedDirection
 import app.ss.models.feed.FeedView
+import app.ss.models.resource.ResourceCoverType
 import app.ss.models.resource.ResourceCovers
 import coil.size.Scale
 import kotlin.math.min
