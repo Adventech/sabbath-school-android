@@ -61,6 +61,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.extensions.isLargeScreen
+import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
@@ -227,13 +228,23 @@ private fun ContentSecondary(
     ) {
         Spacer(modifier = Modifier.height(64.dp))
 
+        val placeholder: @Composable () -> Unit = {
+            Spacer(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.parse(resource.primaryColorDark), CoverImageShape)
+            )
+        }
+
         ContentBox(
             content = RemoteImage(
-                data = cover
+                data = cover,
+                loading = placeholder,
+                error = placeholder
             ),
             modifier = Modifier
                 .size(nonSplashCover(coverType))
-                .background(Color.parse(resource.primaryColorDark))
+                .background(Color.parse(resource.primaryColorDark), CoverImageShape)
                 .shadow(12.dp, CoverImageShape)
                 .clip(CoverImageShape)
                 .align(Alignment.CenterHorizontally)
@@ -281,13 +292,23 @@ private fun ContentSecondaryLarge(
     ) {
         Spacer(modifier = Modifier.width(32.dp))
 
+        val placeholder: @Composable () -> Unit = {
+            Spacer(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.parse(resource.primaryColorDark), CoverImageShape)
+            )
+        }
+
         ContentBox(
             content = RemoteImage(
-                data = cover
+                data = cover,
+                loading = placeholder,
+                error = placeholder
             ),
             modifier = Modifier
                 .size(nonSplashCover(coverType))
-                .background(Color.parse(resource.primaryColorDark))
+                .background(Color.parse(resource.primaryColorDark), CoverImageShape)
                 .shadow(12.dp, CoverImageShape)
                 .clip(CoverImageShape)
         )
