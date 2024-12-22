@@ -50,7 +50,8 @@ internal object Placeholder {
                     endDate = null,
                     segments = null,
                     showSegmentChips = false,
-                    titleBelowCover = true
+                    titleBelowCover = true,
+                    externalURL = null
                 ),
                 ResourceDocument(
                     id = "1-2",
@@ -66,7 +67,8 @@ internal object Placeholder {
                     endDate = null,
                     segments = null,
                     showSegmentChips = false,
-                    titleBelowCover = true
+                    titleBelowCover = true,
+                    externalURL = null,
                 )
             )
         ),
@@ -91,7 +93,8 @@ internal object Placeholder {
                     endDate = null,
                     segments = null,
                     showSegmentChips = true,
-                    titleBelowCover = false
+                    titleBelowCover = false,
+                    externalURL = null,
                 )
             )
         )
@@ -130,7 +133,8 @@ internal object Placeholder {
                         )
                     ),
                     showSegmentChips = true,
-                    titleBelowCover = false
+                    titleBelowCover = false,
+                    externalURL = null,
                 ),
                 ResourceDocument(
                     id = "doc2",
@@ -157,7 +161,8 @@ internal object Placeholder {
                         )
                     ),
                     showSegmentChips = true,
-                    titleBelowCover = false
+                    titleBelowCover = false,
+                    externalURL = null,
                 )
             )
         ),
@@ -193,7 +198,8 @@ internal object Placeholder {
                         )
                     ),
                     showSegmentChips = true,
-                    titleBelowCover = true
+                    titleBelowCover = true,
+                    externalURL = null,
                 )
             )
         )

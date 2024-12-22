@@ -28,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.dp
+import app.ss.models.feed.FeedResourceKind
 import app.ss.models.resource.Resource
 import app.ss.models.resource.ResourceDocument
 import app.ss.models.resource.ResourceSection
@@ -62,7 +63,6 @@ internal class ResourceSectionsStateProducerImpl @Inject constructor() : Resourc
     @Composable
     override fun invoke(resource: Resource): ResourceSectionsState {
         val specs = buildList<ResourceSectionSpec> {
-            add(ResourceSectionSpacer(16.dp, id = "spacer_${resource.id}"))
             val content = when (resource.sectionView) {
                 ResourceSectionViewType.NORMAL -> rememberNormalViewTypeSpecs(resource)
                 ResourceSectionViewType.DROPDOWN -> rememberDropdownViewTypeSpecs(resource)
@@ -93,7 +93,7 @@ internal class ResourceSectionsStateProducerImpl @Inject constructor() : Resourc
                         )
                     )
                 }
-                addAll(documentsSpecs(section))
+                addAll(documentsSpecs(section, resource.kind))
             }
         }
     }
@@ -115,12 +115,12 @@ internal class ResourceSectionsStateProducerImpl @Inject constructor() : Resourc
                     )
                 )
 
-                selectedSection?.let { addAll(documentsSpecs(it)) }
+                selectedSection?.let { addAll(documentsSpecs(it, resource.kind)) }
             }
         }
     }
 
-    private fun documentsSpecs(section: ResourceSection) = buildList {
+    private fun documentsSpecs(section: ResourceSection, kind: FeedResourceKind) = buildList {
         section.documents.forEachIndexed { index, document ->
             val dateDisplay = document.dateDisplay()
 
@@ -130,7 +130,9 @@ internal class ResourceSectionsStateProducerImpl @Inject constructor() : Resourc
                     leadingContent = document.sequence.takeIf { section.displaySequence },
                     overlineContent = document.subtitle,
                     headLineContent = document.title,
-                    supportingContent = dateDisplay
+                    supportingContent = dateDisplay,
+                    isArticle = document.externalURL != null,
+                    blogCover = document.cover?.takeIf { kind == FeedResourceKind.BLOG }
                 )
             )
 

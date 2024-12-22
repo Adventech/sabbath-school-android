@@ -42,4 +42,5 @@ data class ResourceDocument(
     val segments: List<Segment>?,
     val showSegmentChips: Boolean?,
     val titleBelowCover: Boolean?,
+    val externalURL: String?
 )

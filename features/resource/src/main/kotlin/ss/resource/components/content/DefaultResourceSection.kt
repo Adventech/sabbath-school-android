@@ -22,13 +22,20 @@
 
 package ss.resource.components.content
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,10 +43,16 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.theme.SsTheme
+import app.ss.design.compose.widget.content.ContentBox
+import app.ss.design.compose.widget.icon.IconBox
+import app.ss.design.compose.widget.icon.Icons
+import app.ss.design.compose.widget.image.RemoteImage
 
 @Immutable
 data class DefaultResourceSection(
@@ -48,6 +61,8 @@ data class DefaultResourceSection(
     val overlineContent: String?,
     val headLineContent: String,
     val supportingContent: String?,
+    val isArticle: Boolean,
+    val blogCover: String?
 ) : ResourceSectionSpec {
 
     @Composable
@@ -55,6 +70,7 @@ data class DefaultResourceSection(
         Row(
             modifier = modifier
                 .fillMaxWidth()
+                .sizeIn(minHeight = 44.dp)
                 .padding(horizontal = 6.dp, vertical = 4.dp)
                 .clip(RoundedCornerShape(12.dp))
                 .clickable {}
@@ -104,10 +120,43 @@ data class DefaultResourceSection(
                     )
                 }
             }
+
+            if (isArticle) {
+                IconBox(Icons.OpenInBrowser)
+            }
+
+            blogCover?.let {
+                ContentBox(
+                    content = RemoteImage(
+                        data = it,
+                        loading = {
+                            Spacer(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .asPlaceholder(true)
+                            )
+                        },
+                        error = {
+                            Spacer(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(MaterialTheme.colorScheme.secondaryContainer, CoverImageShape)
+                            )
+                        }
+                    ),
+                    modifier = Modifier
+                        .width(80.dp)
+                        .aspectRatio(16f / 9f)
+                        .background(MaterialTheme.colorScheme.secondaryContainer, CoverImageShape)
+                        .shadow(4.dp, CoverImageShape)
+                )
+            }
         }
 
     }
 }
+
+private val CoverImageShape = RoundedCornerShape(6.dp)
 
 @PreviewLightDark
 @Composable
@@ -117,9 +166,11 @@ private fun Preview() {
             DefaultResourceSection(
                 id = "123",
                 leadingContent = "1",
-                overlineContent = "Overline",
-                headLineContent = "Headline",
-                supportingContent = "Supporting"
+                overlineContent = "This is the overline",
+                headLineContent = "This is the Headline",
+                supportingContent = "Dec 22 - Dec 28",
+                isArticle = true,
+                blogCover = "https://via"
             ).Content()
         }
     }
