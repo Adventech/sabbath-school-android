@@ -20,17 +20,16 @@
  * THE SOFTWARE.
  */
 
-package ss.resource.components
+package ss.resource.components.content
 
-import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
-import kotlinx.collections.immutable.ImmutableList
-import ss.resource.components.content.ResourceSectionSpec
 
-internal fun LazyListScope.resourceSections(sections: ImmutableList<ResourceSectionSpec>) {
-    items(sections, key = { it.id }) { section ->
-        Surface { section.Content(Modifier.animateItem()) }
-    }
+@Stable
+sealed interface ResourceSectionSpec {
+    val id: String
+
+    @Composable
+    fun Content(modifier: Modifier = Modifier)
 }

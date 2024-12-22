@@ -39,13 +39,15 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import ss.libraries.circuit.navigation.ResourceScreen
+import ss.resource.components.content.ResourceSectionsStateProducer
 import ss.resource.components.spec.toSpec
 import ss.resources.api.ResourcesRepository
 
 class ResourcePresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     @Assisted private val screen: ResourceScreen,
-    private val resourcesRepository: ResourcesRepository
+    private val resourcesRepository: ResourcesRepository,
+    private val resourceSectionStateProducer: ResourceSectionsStateProducer,
 ) : Presenter<State> {
 
     @Composable
@@ -62,10 +64,14 @@ class ResourcePresenter @AssistedInject constructor(
         val resource = resourceResponse
         val credits = rememberRetained(resource) { resource?.credits?.map { it.toSpec() }?.toImmutableList() ?: persistentListOf() }
         val features = rememberRetained(resource) { resource?.features?.map { it.toSpec() }?.toImmutableList() ?: persistentListOf() }
+
+        val sectionsState = resource?.let { resourceSectionStateProducer(it) }
+
         return when {
             resource != null -> State.Success(
                 title = title,
                 resource = resource,
+                sections = sectionsState?.specs ?: persistentListOf(),
                 credits = credits,
                 features = features,
                 eventSink = eventSink

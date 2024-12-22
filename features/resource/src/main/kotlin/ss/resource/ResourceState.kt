@@ -26,6 +26,7 @@ import app.ss.models.resource.Resource
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
+import ss.resource.components.content.ResourceSectionSpec
 import ss.resource.components.spec.CreditSpec
 import ss.resource.components.spec.FeatureSpec
 
@@ -42,6 +43,7 @@ sealed interface State: CircuitUiState {
     data class Success(
         override val title: String,
         val resource: Resource,
+        val sections: ImmutableList<ResourceSectionSpec>,
         val credits: ImmutableList<CreditSpec>,
         val features: ImmutableList<FeatureSpec>,
         override val eventSink: (Event) -> Unit

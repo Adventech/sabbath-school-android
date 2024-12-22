@@ -113,7 +113,8 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
                             content = { CoverContent(resource, it) }
                         )
                     }
-                    resourceSections(resource)
+
+                    resourceSections(state.sections)
 
                     footer(state.credits, state.features)
                 }

@@ -61,10 +61,6 @@ internal fun LazyListScope.footer(
     credits: ImmutableList<CreditSpec>,
     features: ImmutableList<FeatureSpec>,
 ) {
-    if (credits.isEmpty() && features.isEmpty()) {
-        return
-    }
-
     item {
         Spacer(
             modifier = Modifier
