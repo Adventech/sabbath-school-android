@@ -27,7 +27,7 @@ import java.util.UUID
 import javax.annotation.concurrent.Immutable
 
 @Immutable
-internal data class CreditSpec(
+data class CreditSpec(
     val id: String,
     val name: String,
     val value: String

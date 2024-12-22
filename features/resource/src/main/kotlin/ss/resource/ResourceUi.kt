@@ -42,7 +42,6 @@ import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
-import kotlinx.collections.immutable.toImmutableList
 import ss.libraries.circuit.navigation.ResourceScreen
 import ss.resource.components.CoverContent
 import ss.resource.components.ResourceCover
@@ -53,7 +52,6 @@ import ss.resource.components.footer
 import ss.resource.components.footerBackgroundColor
 import ss.resource.components.rememberScrollAlpha
 import ss.resource.components.resourceSections
-import ss.resource.components.spec.toSpec
 
 @OptIn(ExperimentalMaterial3Api::class)
 @CircuitInject(ResourceScreen::class, SingletonComponent::class)
@@ -102,8 +100,6 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
 
             is State.Success -> {
                 val resource = state.resource
-                val credits = remember(resource) { resource.credits.map { it.toSpec() }.toImmutableList() }
-                val features = remember(resource) { resource.features.map { it.toSpec() }.toImmutableList() }
 
                 LazyColumn(
                     modifier = Modifier.background(color),
@@ -117,9 +113,10 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
                             content = { CoverContent(resource, it) }
                         )
                     }
-                    resourceSections(resource)
 
-                    footer(credits, features)
+                    resourceSections(state.sections)
+
+                    footer(state.credits, state.features)
                 }
             }
         }

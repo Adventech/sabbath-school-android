@@ -20,17 +20,18 @@
  * THE SOFTWARE.
  */
 
-package ss.resource.components
+package ss.resource.di
 
-import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Surface
-import androidx.compose.ui.Modifier
-import kotlinx.collections.immutable.ImmutableList
-import ss.resource.components.content.ResourceSectionSpec
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import ss.resource.components.content.ResourceSectionsStateProducer
+import ss.resource.components.content.ResourceSectionsStateProducerImpl
 
-internal fun LazyListScope.resourceSections(sections: ImmutableList<ResourceSectionSpec>) {
-    items(sections, key = { it.id }) { section ->
-        Surface { section.Content(Modifier.animateItem()) }
-    }
+@Module
+@InstallIn(SingletonComponent::class)
+internal abstract class BindingsModule {
+    @Binds
+    internal abstract fun bindResourceSectionsStateProducer(impl: ResourceSectionsStateProducerImpl): ResourceSectionsStateProducer
 }

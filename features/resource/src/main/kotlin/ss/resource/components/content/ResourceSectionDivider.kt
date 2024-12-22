@@ -20,17 +20,39 @@
  * THE SOFTWARE.
  */
 
-package ss.resource.components
+package ss.resource.components.content
 
-import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Surface
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import kotlinx.collections.immutable.ImmutableList
-import ss.resource.components.content.ResourceSectionSpec
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import app.ss.design.compose.widget.divider.Divider
 
-internal fun LazyListScope.resourceSections(sections: ImmutableList<ResourceSectionSpec>) {
-    items(sections, key = { it.id }) { section ->
-        Surface { section.Content(Modifier.animateItem()) }
+data class ResourceSectionDivider(override val id: String = "divider") : ResourceSectionSpec {
+    @Composable
+    override fun Content(modifier: Modifier) {
+        Divider(
+            modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp)
+        )
+    }
+}
+
+data class ResourceSectionSpacer(
+    private val height: Dp,
+    override val id: String
+) : ResourceSectionSpec {
+    @Composable
+    override fun Content(modifier: Modifier) {
+        Spacer(
+            modifier
+                .fillMaxWidth()
+                .height(height)
+        )
     }
 }

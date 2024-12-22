@@ -91,7 +91,10 @@ internal fun ColumnScope.CoverContent(
                     .padding(horizontal = SsTheme.dimens.grid_4, vertical = 8.dp)
                     .clickable { }
             )
-        } ?: Spacer(Modifier.fillMaxWidth().height(16.dp))
+        } ?: Spacer(
+            Modifier
+                .fillMaxWidth()
+                .height(16.dp))
     }
 
     val readButton: @Composable () -> Unit = {
@@ -108,6 +111,12 @@ internal fun ColumnScope.CoverContent(
         if (resource.features.isNotEmpty()) {
             // Needs color from style
             ResourceFeatures(resource.features.toImmutableList())
+        } else {
+            Spacer(
+                Modifier
+                    .fillMaxWidth()
+                    .height(16.dp)
+            )
         }
     }
 
