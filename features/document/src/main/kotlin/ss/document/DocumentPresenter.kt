@@ -69,6 +69,7 @@ class DocumentPresenter @AssistedInject constructor(
                 title = selectedPage?.title ?: resourceDocument.title,
                 initialPage = documentPages.indexOf(selectedPage),
                 segments = documentPages,
+                selectedSegment = selectedPage,
                 eventSink = eventSink,
             )
         }

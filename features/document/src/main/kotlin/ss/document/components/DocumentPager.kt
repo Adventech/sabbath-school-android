@@ -23,6 +23,10 @@
 package ss.document.components
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -34,39 +38,51 @@ import app.ss.models.resource.Segment
 import app.ss.models.resource.SegmentType
 import kotlinx.collections.immutable.ImmutableList
 import ss.document.components.segment.SegmentBlockView
+import ss.document.components.segment.SegmentCover
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DocumentPager(
     segments: ImmutableList<Segment>,
+    selectedSegment: Segment?,
     modifier: Modifier = Modifier,
-    onScrollAlpha: (Float, Boolean) -> Unit = { _, _ -> },
+    listState: LazyListState = rememberLazyListState(),
     onPageChange: (Int) -> Unit = {},
 ) {
     val pagerState = rememberPagerState(
         pageCount = { segments.size },
     )
 
-    HorizontalPager(
-        state = pagerState,
-        modifier = modifier.fillMaxSize(),
-    ) { page ->
-
-        val segment = segments[page]
-        when (segment.type) {
-            SegmentType.UNKNOWN -> Unit
-            SegmentType.BLOCK -> SegmentBlockView(segment, onScrollAlpha = onScrollAlpha)
-            SegmentType.STORY -> Unit
-            SegmentType.PDF -> Unit
-            SegmentType.VIDEO -> Unit
+    LazyColumn(
+        modifier = Modifier.fillMaxWidth(),
+        state = listState,
+    ) {
+        item("cover") {
+            selectedSegment?.let {
+                SegmentCover(cover = selectedSegment.cover)
+            }
         }
+        item {
+            HorizontalPager(
+                state = pagerState,
+                modifier = modifier.fillMaxSize(),
+            ) { page ->
 
-    }
+                val segment = segments[page]
+                when (segment.type) {
+                    SegmentType.UNKNOWN -> Unit
+                    SegmentType.BLOCK -> SegmentBlockView(segment)
+                    SegmentType.STORY -> Unit
+                    SegmentType.PDF -> Unit
+                    SegmentType.VIDEO -> Unit
+                }
+            }
 
-
-    LaunchedEffect(pagerState) {
-        snapshotFlow { pagerState.currentPage }.collect { page ->
-            onPageChange(page)
+            LaunchedEffect(pagerState) {
+                snapshotFlow { pagerState.currentPage }.collect { page ->
+                    onPageChange(page)
+                }
+            }
         }
     }
 }

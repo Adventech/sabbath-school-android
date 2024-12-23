@@ -23,6 +23,7 @@
 package ss.document
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -47,6 +48,7 @@ import dagger.hilt.components.SingletonComponent
 import ss.document.components.DocumentLoadingView
 import ss.document.components.DocumentPager
 import ss.document.components.DocumentTopAppBar
+import ss.document.components.segment.SegmentCover
 import ss.libraries.circuit.navigation.DocumentScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,8 +57,9 @@ import ss.libraries.circuit.navigation.DocumentScreen
 fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
-    var scrollAlpha by remember { mutableFloatStateOf(0f) }
-    var collapsed by remember { mutableStateOf(false) }
+    val listState = rememberLazyListState()
+    val scrollAlpha: ScrollAlpha = rememberScrollAlpha(listState = listState)
+    val collapsed by remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
     val toolbarTitle by remember(state) { derivedStateOf { if (collapsed) state.title else "" } }
 
     HazeScaffold(
@@ -65,7 +68,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
             Surface(
                 modifier = Modifier.fillMaxWidth(),
                 color = SsTheme.colors.primaryBackground.copy(
-                    alpha = if (collapsed) 1f else scrollAlpha
+                    alpha = if (collapsed) 1f else scrollAlpha.alpha
                 ),
                 tonalElevation = if (collapsed) 4.dp else 0.dp
             ) {
@@ -85,13 +88,12 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
             is State.Success -> {
                 DocumentPager(
                     segments = state.segments,
-                    onScrollAlpha = { alpha, pageCollapsed ->
-                        scrollAlpha = alpha
-                        collapsed = pageCollapsed
-                    }
+                    selectedSegment = state.selectedSegment,
+                    listState = listState
                 ) {
                     state.eventSink(SuccessEvent.OnPageChange(it))
                 }
+
             }
         }
     }

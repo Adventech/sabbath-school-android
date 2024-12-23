@@ -22,23 +22,15 @@
 
 package ss.document.components.segment
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import app.ss.design.compose.extensions.scroll.rememberScrollAlpha
 import app.ss.design.compose.theme.SsTheme
 import app.ss.models.resource.Segment
 
@@ -46,45 +38,32 @@ import app.ss.models.resource.Segment
 fun SegmentBlockView(
     segment: Segment,
     modifier: Modifier = Modifier,
-    onScrollAlpha: (Float, Boolean) -> Unit = { _, _ -> },
 ) {
-    val listState = rememberLazyListState()
-    val scrollAlpha = rememberScrollAlpha(listState = listState)
-    val collapsed by remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
 
-    LazyColumn(
+    Column(
         modifier = modifier.fillMaxSize(),
-        state = listState,
     ) {
-        item("cover") {
-            SegmentCover(cover = segment.cover)
-        }
+//        item("cover") {
+//            SegmentCover(cover = segment.cover)
+//        }
 
-        item {
-            Spacer(
-                Modifier
-                    .fillMaxWidth()
-                    .height(12.dp)
-            )
-        }
+        Modifier
+            .fillMaxWidth()
+            .height(12.dp)
 
-        item {
-            Text(
-                text = segment.subtitle ?: "",
-                modifier = Modifier,
-                style = SsTheme.typography.titleMedium
-            )
-        }
+        Text(
+            text = segment.subtitle ?: "",
+            modifier = Modifier,
+            style = SsTheme.typography.titleMedium
+        )
 
-        item {
-            Spacer(
-                Modifier
-                    .fillMaxWidth()
-                    .height(12.dp)
-            )
-        }
+        Spacer(
+            Modifier
+                .fillMaxWidth()
+                .height(12.dp)
+        )
 
-        items(segment.blocks.orEmpty(), key = { it.id }) { item ->
+        segment.blocks.orEmpty().forEach { item ->
             Text(
                 text = "Block with ID: ${item.id}",
                 modifier = Modifier,
@@ -98,7 +77,7 @@ fun SegmentBlockView(
             )
         }
 
-        items(segment.blocks.orEmpty(), key = { "${it.id} - rand" }) { item ->
+        segment.blocks.orEmpty().forEach { item ->
             Text(
                 text = "Block with ID: ${item.id}",
                 modifier = Modifier,
@@ -110,12 +89,6 @@ fun SegmentBlockView(
                     .fillMaxWidth()
                     .height(12.dp)
             )
-        }
-    }
-
-    LaunchedEffect(scrollAlpha) {
-        snapshotFlow { scrollAlpha.alpha }.collect { alpha ->
-            onScrollAlpha(alpha, collapsed)
         }
     }
 }

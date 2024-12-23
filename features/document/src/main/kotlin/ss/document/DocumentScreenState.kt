@@ -38,6 +38,7 @@ sealed interface State : CircuitUiState {
         override val eventSink: (Event) -> Unit,
         val initialPage: Int,
         val segments: ImmutableList<Segment>,
+        val selectedSegment: Segment?,
     ) : State
 
 }
