@@ -28,6 +28,24 @@ import app.ss.models.resource.Segment
 
 internal object Placeholder {
 
+    val document = ResourceDocument(
+        id = "1-1",
+        index = "1",
+        name = "what-is-discipleship",
+        title = "What is Discipleship?",
+        subtitle = "A comprehensive guide to understanding discipleship.",
+        resourceId = "discipleship-handbook",
+        resourceIndex = "pm",
+        sequence = "1",
+        cover = "https://example.com/cover1.jpg",
+        startDate = null,
+        endDate = null,
+        segments = null,
+        showSegmentChips = false,
+        titleBelowCover = true,
+        externalURL = null
+    )
+
     val resources: List<ResourceSection> = listOf(
         ResourceSection(
             id = "1",
@@ -36,23 +54,7 @@ internal object Placeholder {
             displaySequence = true,
             isRoot = true,
             documents = listOf(
-                ResourceDocument(
-                    id = "1-1",
-                    index = "1",
-                    name = "what-is-discipleship",
-                    title = "What is Discipleship?",
-                    subtitle = "A comprehensive guide to understanding discipleship.",
-                    resourceId = "discipleship-handbook",
-                    resourceIndex = "pm",
-                    sequence = "1",
-                    cover = "https://example.com/cover1.jpg",
-                    startDate = null,
-                    endDate = null,
-                    segments = null,
-                    showSegmentChips = false,
-                    titleBelowCover = true,
-                    externalURL = null
-                ),
+                document,
                 ResourceDocument(
                     id = "1-2",
                     index = "2",

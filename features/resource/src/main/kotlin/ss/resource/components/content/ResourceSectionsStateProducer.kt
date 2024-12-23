@@ -35,19 +35,18 @@ import app.ss.models.resource.ResourceSection
 import app.ss.models.resource.ResourceSectionViewType
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.CircuitUiState
+import com.slack.circuit.runtime.Navigator
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import org.joda.time.DateTime
 import org.joda.time.Interval
-import org.joda.time.format.DateTimeFormat
+import ss.libraries.circuit.navigation.CustomTabsIntentScreen
 import ss.misc.DateHelper
-import ss.misc.SSConstants
 import javax.inject.Inject
 import kotlin.collections.lastIndex
 
 data class ResourceSectionsState(
     val specs: ImmutableList<ResourceSectionSpec>,
-    val eventSink: () -> Unit
 ) : CircuitUiState
 
 /** Produces [ResourceSectionsState] by building out the required [ResourceSectionSpec]s.*/
@@ -55,33 +54,39 @@ data class ResourceSectionsState(
 interface ResourceSectionsStateProducer {
 
     @Composable
-    operator fun invoke(resource: Resource): ResourceSectionsState
+    operator fun invoke(navigator: Navigator, resource: Resource): ResourceSectionsState
 }
 
 internal class ResourceSectionsStateProducerImpl @Inject constructor() : ResourceSectionsStateProducer {
 
     @Composable
-    override fun invoke(resource: Resource): ResourceSectionsState {
+    override fun invoke(navigator: Navigator, resource: Resource): ResourceSectionsState {
+        val onDocumentClick: (ResourceDocument) -> Unit = { document ->
+            when {
+                !document.externalURL.isNullOrEmpty() -> document.externalURL?.let {
+                    navigator.goTo(CustomTabsIntentScreen(it))
+                }
+                else -> Unit
+            }
+        }
+
         val specs = buildList<ResourceSectionSpec> {
             val content = when (resource.sectionView) {
-                ResourceSectionViewType.NORMAL -> rememberNormalViewTypeSpecs(resource)
-                ResourceSectionViewType.DROPDOWN -> rememberDropdownViewTypeSpecs(resource)
+                ResourceSectionViewType.NORMAL -> rememberNormalViewTypeSpecs(resource, onDocumentClick)
+                ResourceSectionViewType.DROPDOWN -> rememberDropdownViewTypeSpecs(resource, onDocumentClick)
                 else -> emptyList()
             }
             addAll(content)
 
         }.toImmutableList()
 
-        return ResourceSectionsState(
-            specs = specs,
-        ) {
-
-        }
+        return ResourceSectionsState(specs)
     }
 
     @Composable
     private fun rememberNormalViewTypeSpecs(
-        resource: Resource
+        resource: Resource,
+        onDocumentClick: (ResourceDocument) -> Unit,
     ): List<ResourceSectionSpec> = rememberRetained(resource) {
         buildList {
             resource.sections.orEmpty().forEachIndexed { index, section ->
@@ -93,14 +98,15 @@ internal class ResourceSectionsStateProducerImpl @Inject constructor() : Resourc
                         )
                     )
                 }
-                addAll(documentsSpecs(section, resource.kind))
+                addAll(documentsSpecs(section, resource.kind, onDocumentClick))
             }
         }
     }
 
     @Composable
     private fun rememberDropdownViewTypeSpecs(
-        resource: Resource
+        resource: Resource,
+        onDocumentClick: (ResourceDocument) -> Unit,
     ): List<ResourceSectionSpec> {
         var selectedSection by rememberRetained(resource) { mutableStateOf(resource.defaultSection()) }
 
@@ -115,24 +121,23 @@ internal class ResourceSectionsStateProducerImpl @Inject constructor() : Resourc
                     )
                 )
 
-                selectedSection?.let { addAll(documentsSpecs(it, resource.kind)) }
+                selectedSection?.let { addAll(documentsSpecs(it, resource.kind, onDocumentClick)) }
             }
         }
     }
 
-    private fun documentsSpecs(section: ResourceSection, kind: FeedResourceKind) = buildList {
+    private fun documentsSpecs(
+        section: ResourceSection,
+        kind: FeedResourceKind,
+        onDocumentClick: (ResourceDocument) -> Unit = {}
+    ) = buildList {
         section.documents.forEachIndexed { index, document ->
-            val dateDisplay = document.dateDisplay()
-
             add(
-                DefaultResourceSection(
-                    id = document.id,
-                    leadingContent = document.sequence.takeIf { section.displaySequence },
-                    overlineContent = document.subtitle,
-                    headLineContent = document.title,
-                    supportingContent = dateDisplay,
-                    isArticle = document.externalURL != null,
-                    blogCover = document.cover?.takeIf { kind == FeedResourceKind.BLOG }
+                DocumentResourceSection(
+                    document = document,
+                    displaySequence = section.displaySequence,
+                    resourceKind = kind,
+                    onClick = { onDocumentClick(document) }
                 )
             )
 
@@ -142,31 +147,6 @@ internal class ResourceSectionsStateProducerImpl @Inject constructor() : Resourc
                 add(ResourceSectionDivider("divider_${document.id}_$index"))
             }
         }
-    }
-
-
-    private fun ResourceDocument.dateDisplay(): String? {
-        val dateStart = startDate?.let {
-            DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                .parseLocalDate(it)
-        } ?: return null
-        val dateEnd = endDate?.let {
-            DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
-                .parseLocalDate(it)
-        } ?: return null
-
-        if (dateStart.isEqual(dateEnd)) {
-            return DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT_DAY)
-                .print(dateStart)
-        }
-
-        val startDateOut = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_LESSON_OUTPUT)
-            .print(dateStart)
-
-        val endDateOut = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_LESSON_OUTPUT)
-            .print(dateEnd)
-
-        return "$startDateOut - $endDateOut".replaceFirstChar { it.uppercase() }
     }
 
     private fun Resource.defaultSection(today: DateTime = DateTime.now()): ResourceSection? {

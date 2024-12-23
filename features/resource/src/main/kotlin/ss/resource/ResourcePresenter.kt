@@ -64,14 +64,13 @@ class ResourcePresenter @AssistedInject constructor(
         val resource = resourceResponse
         val credits = rememberRetained(resource) { resource?.credits?.map { it.toSpec() }?.toImmutableList() ?: persistentListOf() }
         val features = rememberRetained(resource) { resource?.features?.map { it.toSpec() }?.toImmutableList() ?: persistentListOf() }
-
-        val sectionsState = resource?.let { resourceSectionStateProducer(it) }
+        val sections = resource?.let { resourceSectionStateProducer(navigator, it) }?.specs ?: persistentListOf()
 
         return when {
             resource != null -> State.Success(
                 title = title,
                 resource = resource,
-                sections = sectionsState?.specs ?: persistentListOf(),
+                sections = sections,
                 credits = credits,
                 features = features,
                 eventSink = eventSink

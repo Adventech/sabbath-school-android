@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -92,11 +93,11 @@ data class MenuResourceSection(
         Surface(modifier.fillMaxWidth()) {
             Row(
                 modifier = Modifier
-                    .padding(horizontal = 6.dp)
+                    .sizeIn(minHeight = 48.dp)
+                    .padding(horizontal = 6.dp, vertical = 2.dp)
                     .clip(RoundedCornerShape(12.dp))
                     .clickable { expanded = true }
-                    .padding(horizontal = 12.dp)
-                    .padding(vertical = 12.dp),
+                    .padding(horizontal = 12.dp, vertical = 12.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
