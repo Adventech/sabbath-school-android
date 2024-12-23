@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package ss.resource.components
+package app.ss.design.compose.extensions.scroll
 
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
@@ -30,12 +30,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 
 @Immutable
-internal data class ScrollAlpha(
+data class ScrollAlpha(
     val alpha: Float
 )
 
 @Composable
-internal fun rememberScrollAlpha(
+fun rememberScrollAlpha(
     listState: LazyListState
 ): ScrollAlpha {
     val scrollAlpha by remember {

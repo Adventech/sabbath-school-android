@@ -38,6 +38,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
+import app.ss.design.compose.extensions.scroll.ScrollAlpha
+import app.ss.design.compose.extensions.scroll.rememberScrollAlpha
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -47,10 +49,8 @@ import ss.resource.components.CoverContent
 import ss.resource.components.ResourceCover
 import ss.resource.components.ResourceLoadingView
 import ss.resource.components.ResourceTopAppBar
-import ss.resource.components.ScrollAlpha
 import ss.resource.components.footer
 import ss.resource.components.footerBackgroundColor
-import ss.resource.components.rememberScrollAlpha
 import ss.resource.components.resourceSections
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -83,7 +83,6 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
             }
 
         },
-        blurTopBar = false,
     ) {
         val color by animateColorAsState(
             targetValue = if (state is State.Success) {
