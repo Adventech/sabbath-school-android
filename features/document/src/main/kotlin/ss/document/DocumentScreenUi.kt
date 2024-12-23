@@ -23,8 +23,6 @@
 package ss.document
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
@@ -32,9 +30,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -48,7 +43,6 @@ import dagger.hilt.components.SingletonComponent
 import ss.document.components.DocumentLoadingView
 import ss.document.components.DocumentPager
 import ss.document.components.DocumentTopAppBar
-import ss.document.components.segment.SegmentCover
 import ss.libraries.circuit.navigation.DocumentScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -75,6 +69,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                 DocumentTopAppBar(
                     title = toolbarTitle,
                     scrollBehavior = scrollBehavior,
+                    collapsed = collapsed,
                     onNavBack = { state.eventSink(Event.OnNavBack) }
                 )
             }
@@ -93,7 +88,6 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                 ) {
                     state.eventSink(SuccessEvent.OnPageChange(it))
                 }
-
             }
         }
     }

@@ -22,6 +22,7 @@
 
 package ss.document.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -32,13 +33,18 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import app.ss.models.resource.Segment
 import app.ss.models.resource.SegmentType
 import kotlinx.collections.immutable.ImmutableList
 import ss.document.components.segment.SegmentBlockView
 import ss.document.components.segment.SegmentCover
+import ss.document.components.segment.SegmentHeader
+import ss.document.components.segment.hasCover
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,9 +63,31 @@ fun DocumentPager(
         modifier = Modifier.fillMaxWidth(),
         state = listState,
     ) {
-        item("cover") {
-            selectedSegment?.let {
-                SegmentCover(cover = selectedSegment.cover)
+        if (selectedSegment?.hasCover() == true) {
+            item("cover") {
+                SegmentCover(
+                    cover = selectedSegment.cover,
+                    headerContent = { contentColor ->
+                        val gradient = remember(contentColor) {
+                            Brush.verticalGradient(
+                                colors = listOf(
+                                    Color.Transparent,
+                                    Color.Black.copy(0.1f),
+                                    contentColor,
+                                )
+                            )
+                        }
+
+                        SegmentHeader(
+                            title = selectedSegment.title,
+                            subtitle = selectedSegment.subtitle,
+                            date = selectedSegment.date,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(gradient)
+                        )
+                    }
+                )
             }
         }
         item {
@@ -67,7 +95,6 @@ fun DocumentPager(
                 state = pagerState,
                 modifier = modifier.fillMaxSize(),
             ) { page ->
-
                 val segment = segments[page]
                 when (segment.type) {
                     SegmentType.UNKNOWN -> Unit
