@@ -20,40 +20,33 @@
  * THE SOFTWARE.
  */
 
-package ss.resource
+package ss.document
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import app.ss.models.resource.Resource
+import app.ss.models.resource.ResourceDocument
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
-import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
-import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toImmutableList
-import ss.libraries.circuit.navigation.ResourceScreen
-import ss.resource.components.content.ResourceSectionsStateProducer
-import ss.resource.components.spec.toSpec
+import ss.libraries.circuit.navigation.DocumentScreen
 import ss.resources.api.ResourcesRepository
 
-class ResourcePresenter @AssistedInject constructor(
+class DocumentPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
-    @Assisted private val screen: ResourceScreen,
+    @Assisted private val screen: DocumentScreen,
     private val resourcesRepository: ResourcesRepository,
-    private val resourceSectionStateProducer: ResourceSectionsStateProducer,
 ) : Presenter<State> {
 
     @Composable
     override fun present(): State {
-        val resourceResponse by rememberResource()
-        var title by rememberRetained(resourceResponse) { mutableStateOf(resourceResponse?.title ?: "") }
+        val response by rememberDocument()
+
+        val resourceDocument = response
 
         val eventSink: (Event) -> Unit = { event ->
             when (event) {
@@ -61,37 +54,20 @@ class ResourcePresenter @AssistedInject constructor(
             }
         }
 
-        val resource = resourceResponse
-        val credits = rememberRetained(resource) { resource?.credits?.map { it.toSpec() }?.toImmutableList() ?: persistentListOf() }
-        val features = rememberRetained(resource) { resource?.features?.map { it.toSpec() }?.toImmutableList() ?: persistentListOf() }
-        val sections = resource?.let { resourceSectionStateProducer(navigator, it) }?.specs ?: persistentListOf()
-
         return when {
-            resource != null -> State.Success(
-                title = title,
-                resource = resource,
-                sections = sections,
-                credits = credits,
-                features = features,
-                eventSink = eventSink
-            )
-
-            else -> State.Loading(
-                title = title,
-                eventSink = eventSink
-            )
+            resourceDocument == null -> State.Loading(screen.title, eventSink)
+            else -> State.Success(resourceDocument.title, eventSink)
         }
     }
 
     @Composable
-    private fun rememberResource() = produceRetainedState<Resource?>(null) {
-        val resource = resourcesRepository.resource(screen.index)
-        value = resource.getOrNull()
+    private fun rememberDocument() = produceRetainedState<ResourceDocument?>(null) {
+        value = resourcesRepository.document(screen.index).getOrNull()
     }
 
-    @CircuitInject(ResourceScreen::class, SingletonComponent::class)
+    @CircuitInject(DocumentScreen::class, SingletonComponent::class)
     @AssistedFactory
     interface Factory {
-        fun create(navigator: Navigator, screen: ResourceScreen): ResourcePresenter
+        fun create(navigator: Navigator, screen: DocumentScreen): DocumentPresenter
     }
 }

@@ -40,6 +40,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -53,16 +54,18 @@ import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.image.RemoteImage
+import app.ss.models.feed.FeedResourceKind
+import app.ss.models.resource.ResourceDocument
+import org.joda.time.format.DateTimeFormat
+import ss.misc.SSConstants
 
 @Immutable
-data class DefaultResourceSection(
-    override val id: String,
-    val leadingContent: String?,
-    val overlineContent: String?,
-    val headLineContent: String,
-    val supportingContent: String?,
-    val isArticle: Boolean,
-    val blogCover: String?
+data class DocumentResourceSection(
+    private val document: ResourceDocument,
+    override val id: String = document.id,
+    private val displaySequence: Boolean,
+    private val resourceKind: FeedResourceKind,
+    private val onClick: () -> Unit
 ) : ResourceSectionSpec {
 
     @Composable
@@ -70,15 +73,14 @@ data class DefaultResourceSection(
         Row(
             modifier = modifier
                 .fillMaxWidth()
-                .sizeIn(minHeight = 44.dp)
-                .padding(horizontal = 6.dp, vertical = 4.dp)
+                .sizeIn(minHeight = 48.dp)
+                .padding(horizontal = 6.dp, vertical = 2.dp)
                 .clip(RoundedCornerShape(12.dp))
-                .clickable {}
-                .padding(horizontal = 12.dp)
-                .padding(vertical = 8.dp),
+                .clickable { onClick() }
+                .padding(horizontal = 12.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            leadingContent?.let {
+            document.sequence.takeIf { displaySequence }?.let {
                 Text(
                     text = it,
                     modifier = Modifier.padding(end = 12.dp),
@@ -92,7 +94,7 @@ data class DefaultResourceSection(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                overlineContent?.let {
+                document.subtitle?.let {
                     Text(
                         text = it,
                         modifier = Modifier,
@@ -103,14 +105,16 @@ data class DefaultResourceSection(
                 }
 
                 Text(
-                    text = headLineContent,
+                    text = document.title,
                     modifier = Modifier,
                     style = SsTheme.typography.titleMedium.copy(fontSize = 18.sp),
                     color = SsTheme.colors.primaryForeground,
                     maxLines = 2,
                 )
 
-                supportingContent?.let {
+                val dateDisplay = remember(document) { document.dateDisplay() }
+
+                dateDisplay?.let {
                     Text(
                         text = it,
                         modifier = Modifier,
@@ -121,11 +125,11 @@ data class DefaultResourceSection(
                 }
             }
 
-            if (isArticle) {
+            if (document.externalURL != null) {
                 IconBox(Icons.OpenInBrowser)
             }
 
-            blogCover?.let {
+            document.cover?.takeIf { resourceKind == FeedResourceKind.BLOG }?.let {
                 ContentBox(
                     content = RemoteImage(
                         data = it,
@@ -133,7 +137,7 @@ data class DefaultResourceSection(
                             Spacer(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .asPlaceholder(true)
+                                    .asPlaceholder(true, shape = CoverImageShape)
                             )
                         },
                         error = {
@@ -154,6 +158,30 @@ data class DefaultResourceSection(
         }
 
     }
+
+    private fun ResourceDocument.dateDisplay(): String? {
+        val dateStart = startDate?.let {
+            DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                .parseLocalDate(it)
+        } ?: return null
+        val dateEnd = endDate?.let {
+            DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT)
+                .parseLocalDate(it)
+        } ?: return null
+
+        if (dateStart.isEqual(dateEnd)) {
+            return DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_OUTPUT_DAY)
+                .print(dateStart)
+        }
+
+        val startDateOut = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_LESSON_OUTPUT)
+            .print(dateStart)
+
+        val endDateOut = DateTimeFormat.forPattern(SSConstants.SS_DATE_FORMAT_LESSON_OUTPUT)
+            .print(dateEnd)
+
+        return "$startDateOut - $endDateOut".replaceFirstChar { it.uppercase() }
+    }
 }
 
 private val CoverImageShape = RoundedCornerShape(6.dp)
@@ -163,14 +191,11 @@ private val CoverImageShape = RoundedCornerShape(6.dp)
 private fun Preview() {
     SsTheme {
         Surface {
-            DefaultResourceSection(
-                id = "123",
-                leadingContent = "1",
-                overlineContent = "This is the overline",
-                headLineContent = "This is the Headline",
-                supportingContent = "Dec 22 - Dec 28",
-                isArticle = true,
-                blogCover = "https://via"
+            DocumentResourceSection(
+                document = Placeholder.document,
+                displaySequence = true,
+                resourceKind = FeedResourceKind.PLAN,
+                onClick = {}
             ).Content()
         }
     }

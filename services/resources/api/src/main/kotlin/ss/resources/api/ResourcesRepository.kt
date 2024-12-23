@@ -25,6 +25,7 @@ package ss.resources.api
 import app.ss.models.feed.FeedGroup
 import app.ss.models.feed.FeedType
 import app.ss.models.resource.Resource
+import app.ss.models.resource.ResourceDocument
 import kotlinx.coroutines.flow.Flow
 import ss.resources.model.FeedModel
 import ss.resources.model.LanguageModel
@@ -39,4 +40,6 @@ interface ResourcesRepository {
     suspend fun feedGroup(id: String, type: FeedType): Result<FeedGroup>
 
     suspend fun resource(index: String): Result<Resource>
+
+    suspend fun document(index: String): Result<ResourceDocument>
 }

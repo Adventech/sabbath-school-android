@@ -20,35 +20,40 @@
  * THE SOFTWARE.
  */
 
-package ss.lessons.api
+package app.ss.design.compose.extensions.scroll
 
-import app.ss.models.feed.FeedGroup
-import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Path
-import app.ss.models.resource.FeedResponse
-import app.ss.models.resource.LanguageResponse
-import app.ss.models.resource.Resource
-import app.ss.models.resource.ResourceDocument
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 
-interface ResourcesApi {
+@Immutable
+data class ScrollAlpha(
+    val alpha: Float
+)
 
-    @GET("api/v3/resources/index.json")
-    suspend fun languages(): Response<List<LanguageResponse>>
+@Composable
+fun rememberScrollAlpha(
+    listState: LazyListState
+): ScrollAlpha {
+    val scrollAlpha by remember {
+        derivedStateOf {
+            ScrollAlpha(alpha = listState.scrollAlpha())
+        }
+    }
+    return scrollAlpha
+}
 
-    @GET("api/v3/{language}/{type}/index.json")
-    suspend fun feed(@Path("language") language: String, @Path("type") type: String): Response<FeedResponse>
-
-    @GET("api/v3/{language}/{type}/feeds/{groupId}/index.json")
-    suspend fun feedGroup(
-        @Path("language") language: String,
-        @Path("type") type: String,
-        @Path("groupId") groupId: String,
-    ): Response<FeedGroup>
-
-    @GET("api/v3/{index}/sections/index.json")
-    suspend fun resource(@Path("index") index: String): Response<Resource>
-
-    @GET("api/v3/{index}/index.json")
-    suspend fun document(@Path("index") index: String): Response<ResourceDocument>
+private fun LazyListState.scrollAlpha(): Float {
+    return when (firstVisibleItemIndex) {
+        0 -> {
+            val size = layoutInfo.visibleItemsInfo.firstOrNull()?.size ?: run {
+                return 0f
+            }
+            (firstVisibleItemScrollOffset.toFloat() / size.toFloat()).coerceIn(0f, 1f)
+        }
+        else -> 1f
+    }
 }

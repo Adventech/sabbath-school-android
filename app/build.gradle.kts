@@ -143,6 +143,7 @@ dependencies {
     implementation(projects.features.appWidgets)
     implementation(projects.features.auth)
     implementation(projects.features.bible)
+    implementation(projects.features.document)
     implementation(projects.features.feed)
     implementation(projects.features.languages)
     implementation(projects.features.lessons)

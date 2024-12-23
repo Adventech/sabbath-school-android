@@ -20,40 +20,13 @@
  * THE SOFTWARE.
  */
 
-package ss.resource.components
+package ss.libraries.circuit.navigation
 
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import com.slack.circuit.runtime.screen.Screen
+import kotlinx.parcelize.Parcelize
 
-@Immutable
-internal data class ScrollAlpha(
-    val alpha: Float
-)
-
-@Composable
-internal fun rememberScrollAlpha(
-    listState: LazyListState
-): ScrollAlpha {
-    val scrollAlpha by remember {
-        derivedStateOf {
-            ScrollAlpha(alpha = listState.scrollAlpha())
-        }
-    }
-    return scrollAlpha
-}
-
-private fun LazyListState.scrollAlpha(): Float {
-    return when (firstVisibleItemIndex) {
-        0 -> {
-            val size = layoutInfo.visibleItemsInfo.firstOrNull()?.size ?: run {
-                return 0f
-            }
-            (firstVisibleItemScrollOffset.toFloat() / size.toFloat()).coerceIn(0f, 1f)
-        }
-        else -> 1f
-    }
-}
+@Parcelize
+data class DocumentScreen(
+    val index: String,
+    val title: String,
+): Screen

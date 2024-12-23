@@ -20,35 +20,26 @@
  * THE SOFTWARE.
  */
 
-package ss.lessons.api
+package ss.document
 
-import app.ss.models.feed.FeedGroup
-import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Path
-import app.ss.models.resource.FeedResponse
-import app.ss.models.resource.LanguageResponse
-import app.ss.models.resource.Resource
-import app.ss.models.resource.ResourceDocument
+import com.slack.circuit.runtime.CircuitUiEvent
+import com.slack.circuit.runtime.CircuitUiState
 
-interface ResourcesApi {
+sealed interface State : CircuitUiState {
+    val title: String
+    val eventSink: (Event) -> Unit
 
-    @GET("api/v3/resources/index.json")
-    suspend fun languages(): Response<List<LanguageResponse>>
+    data class Loading(override val title: String, override val eventSink: (Event) -> Unit) : State
 
-    @GET("api/v3/{language}/{type}/index.json")
-    suspend fun feed(@Path("language") language: String, @Path("type") type: String): Response<FeedResponse>
+    data class Success(
+        override val title: String,
+        override val eventSink: (Event) -> Unit
+    ) : State
 
-    @GET("api/v3/{language}/{type}/feeds/{groupId}/index.json")
-    suspend fun feedGroup(
-        @Path("language") language: String,
-        @Path("type") type: String,
-        @Path("groupId") groupId: String,
-    ): Response<FeedGroup>
+}
 
-    @GET("api/v3/{index}/sections/index.json")
-    suspend fun resource(@Path("index") index: String): Response<Resource>
+sealed interface Event : CircuitUiEvent {
 
-    @GET("api/v3/{index}/index.json")
-    suspend fun document(@Path("index") index: String): Response<ResourceDocument>
+    /** Navigation icon is clicked. */
+    data object OnNavBack : Event
 }
