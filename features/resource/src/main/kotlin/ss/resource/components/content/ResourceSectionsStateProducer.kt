@@ -41,6 +41,7 @@ import kotlinx.collections.immutable.toImmutableList
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import ss.libraries.circuit.navigation.CustomTabsIntentScreen
+import ss.libraries.circuit.navigation.DocumentScreen
 import ss.misc.DateHelper
 import javax.inject.Inject
 import kotlin.collections.lastIndex
@@ -66,7 +67,7 @@ internal class ResourceSectionsStateProducerImpl @Inject constructor() : Resourc
                 !document.externalURL.isNullOrEmpty() -> document.externalURL?.let {
                     navigator.goTo(CustomTabsIntentScreen(it))
                 }
-                else -> Unit
+                else -> navigator.goTo(DocumentScreen(document.index, document.title))
             }
         }
 
@@ -129,7 +130,7 @@ internal class ResourceSectionsStateProducerImpl @Inject constructor() : Resourc
     private fun documentsSpecs(
         section: ResourceSection,
         kind: FeedResourceKind,
-        onDocumentClick: (ResourceDocument) -> Unit = {}
+        onDocumentClick: (ResourceDocument) -> Unit
     ) = buildList {
         section.documents.forEachIndexed { index, document ->
             add(

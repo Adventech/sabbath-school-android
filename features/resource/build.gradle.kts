@@ -43,7 +43,6 @@ dependencies {
     implementation(projects.common.misc)
     implementation(projects.common.translations)
     implementation(projects.libraries.circuit.api)
-    implementation(projects.services.auth.overlay)
     implementation(projects.services.resources.api)
 
     implementation(libs.coil.compose)
