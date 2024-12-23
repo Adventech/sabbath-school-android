@@ -23,7 +23,10 @@
 package ss.document
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import app.ss.models.resource.ResourceDocument
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
@@ -31,19 +34,35 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
 import ss.libraries.circuit.navigation.DocumentScreen
+import ss.resources.api.ResourcesRepository
 
 class DocumentPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     @Assisted private val screen: DocumentScreen,
+    private val resourcesRepository: ResourcesRepository,
 ) : Presenter<State> {
 
     @Composable
     override fun present(): State {
-        return State.Loading(screen.title) { event ->
+        val response by rememberDocument()
+
+        val resourceDocument = response
+
+        val eventSink: (Event) -> Unit = { event ->
             when (event) {
                 Event.OnNavBack -> navigator.pop()
             }
         }
+
+        return when {
+            resourceDocument == null -> State.Loading(screen.title, eventSink)
+            else -> State.Success(resourceDocument.title, eventSink)
+        }
+    }
+
+    @Composable
+    private fun rememberDocument() = produceRetainedState<ResourceDocument?>(null) {
+        value = resourcesRepository.document(screen.index).getOrNull()
     }
 
     @CircuitInject(DocumentScreen::class, SingletonComponent::class)

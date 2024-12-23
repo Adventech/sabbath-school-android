@@ -31,6 +31,11 @@ sealed interface State : CircuitUiState {
 
     data class Loading(override val title: String, override val eventSink: (Event) -> Unit) : State
 
+    data class Success(
+        override val title: String,
+        override val eventSink: (Event) -> Unit
+    ) : State
+
 }
 
 sealed interface Event : CircuitUiEvent {

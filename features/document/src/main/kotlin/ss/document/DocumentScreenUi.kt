@@ -58,6 +58,10 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
             is State.Loading -> {
                 DocumentLoadingView(state = listState)
             }
+
+            is State.Success -> {
+
+            }
         }
     }
 }

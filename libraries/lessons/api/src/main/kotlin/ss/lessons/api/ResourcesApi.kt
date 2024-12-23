@@ -29,6 +29,7 @@ import retrofit2.http.Path
 import app.ss.models.resource.FeedResponse
 import app.ss.models.resource.LanguageResponse
 import app.ss.models.resource.Resource
+import app.ss.models.resource.ResourceDocument
 
 interface ResourcesApi {
 
@@ -47,4 +48,7 @@ interface ResourcesApi {
 
     @GET("api/v3/{index}/sections/index.json")
     suspend fun resource(@Path("index") index: String): Response<Resource>
+
+    @GET("api/v3/{index}/index.json")
+    suspend fun document(@Path("index") index: String): Response<ResourceDocument>
 }

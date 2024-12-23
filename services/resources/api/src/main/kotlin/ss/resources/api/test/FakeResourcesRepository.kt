@@ -26,6 +26,7 @@ import androidx.annotation.VisibleForTesting
 import app.ss.models.feed.FeedGroup
 import app.ss.models.feed.FeedType
 import app.ss.models.resource.Resource
+import app.ss.models.resource.ResourceDocument
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import ss.resources.api.ResourcesRepository
@@ -52,6 +53,10 @@ class FakeResourcesRepository(
     }
 
     override suspend fun resource(index: String): Result<Resource> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun document(index: String): Result<ResourceDocument> {
         TODO("Not yet implemented")
     }
 }
