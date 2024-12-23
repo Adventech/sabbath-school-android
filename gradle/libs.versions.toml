@@ -17,6 +17,7 @@ androidx-hilt = "1.2.0"
 androidx-lifecyle = "2.8.7"
 androidx-lifecyle-ext = "2.2.0"
 androidx-media3 = "1.5.0"
+androidx-palette = "1.0.0"
 androidx-preference = "1.2.1"
 androidx-profileinstaller = "1.4.1"
 androidx-room = "2.6.1"
@@ -112,6 +113,7 @@ androidx-media3-common = { module = "androidx.media3:media3-common", version.ref
 androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "androidx-media3" }
 androidx-media3-ui = { module = "androidx.media3:media3-ui", version.ref = "androidx-media3" }
 androidx-media3-session = { module = "androidx.media3:media3-session", version.ref = "androidx-media3" }
+androidx-palette = { module = "androidx.palette:palette", version.ref = "androidx-palette" }
 androidx-preference = { module = "androidx.preference:preference-ktx", version.ref = "androidx-preference" }
 androidx-profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "androidx-profileinstaller" }
 androidx-room = { module = "androidx.room:room-ktx", version.ref = "androidx-room" }
