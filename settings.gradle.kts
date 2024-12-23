@@ -55,6 +55,7 @@ include(
     ":features:app-widgets",
     ":features:auth",
     ":features:bible",
+    ":features:document",
     ":features:feed",
     ":features:lessons",
     ":features:media",
