@@ -22,8 +22,10 @@
 
 package ss.document
 
+import app.ss.models.resource.Segment
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
+import kotlinx.collections.immutable.ImmutableList
 
 sealed interface State : CircuitUiState {
     val title: String
@@ -33,7 +35,9 @@ sealed interface State : CircuitUiState {
 
     data class Success(
         override val title: String,
-        override val eventSink: (Event) -> Unit
+        override val eventSink: (Event) -> Unit,
+        val initialPage: Int,
+        val segments: ImmutableList<Segment>,
     ) : State
 
 }
@@ -42,4 +46,8 @@ sealed interface Event : CircuitUiEvent {
 
     /** Navigation icon is clicked. */
     data object OnNavBack : Event
+}
+
+sealed interface SuccessEvent : Event {
+    data class OnPageChange(val page: Int) : SuccessEvent
 }

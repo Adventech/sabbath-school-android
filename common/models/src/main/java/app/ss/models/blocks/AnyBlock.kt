@@ -20,27 +20,11 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models.resource
+package app.ss.models.blocks
 
 import androidx.annotation.Keep
-import app.ss.models.blocks.AnyBlock
 import com.squareup.moshi.JsonClass
 
 @Keep
 @JsonClass(generateAdapter = true)
-data class Segment(
-    val id: String,
-    val index: String,
-    val name: String,
-    val title: String = "",
-    val type: SegmentType = SegmentType.UNKNOWN,
-    val resourceId: String = "",
-    val markdownTitle: String? = null,
-    val subtitle: String? = null,
-    val markdownSubtitle: String? = null,
-    val titleBelowCover: Boolean? = null,
-    val cover: String? = null,
-    val blocks: List<AnyBlock>? = null,
-    val date: String? = null,
-    val background: String? = null
-)
+data class AnyBlock(val id: String)

@@ -20,27 +20,33 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models.resource
+package ss.document.components.segment
 
-import androidx.annotation.Keep
-import app.ss.models.blocks.AnyBlock
-import com.squareup.moshi.JsonClass
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.unit.dp
+import app.ss.design.compose.extensions.modifier.asPlaceholder
+import app.ss.design.compose.widget.content.ContentBox
+import app.ss.design.compose.widget.image.RemoteImage
 
-@Keep
-@JsonClass(generateAdapter = true)
-data class Segment(
-    val id: String,
-    val index: String,
-    val name: String,
-    val title: String = "",
-    val type: SegmentType = SegmentType.UNKNOWN,
-    val resourceId: String = "",
-    val markdownTitle: String? = null,
-    val subtitle: String? = null,
-    val markdownSubtitle: String? = null,
-    val titleBelowCover: Boolean? = null,
-    val cover: String? = null,
-    val blocks: List<AnyBlock>? = null,
-    val date: String? = null,
-    val background: String? = null
-)
+@Composable
+fun SegmentCover(cover: String?, modifier: Modifier = Modifier) {
+    val height = LocalConfiguration.current.screenHeightDp
+
+    if (cover == null) {
+        Box(modifier = modifier.fillMaxWidth().height((height * 0.2).dp))
+    } else {
+        ContentBox(
+            content = RemoteImage(
+                data = cover,
+                loading = { Box(modifier = Modifier.asPlaceholder(true, shape = RectangleShape)) },
+            ),
+            modifier = modifier.fillMaxWidth().height((height * 0.5).dp)
+        )
+    }
+}

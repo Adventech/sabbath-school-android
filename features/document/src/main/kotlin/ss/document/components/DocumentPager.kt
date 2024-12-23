@@ -22,45 +22,51 @@
 
 package ss.document.components
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import app.ss.design.compose.widget.appbar.SsTopAppBar
-import app.ss.design.compose.widget.appbar.TopAppBarSpec
-import app.ss.design.compose.widget.appbar.TopAppBarType
-import app.ss.design.compose.widget.icon.IconBox
-import app.ss.design.compose.widget.icon.Icons
+import app.ss.models.resource.Segment
+import app.ss.models.resource.SegmentType
+import kotlinx.collections.immutable.ImmutableList
+import ss.document.components.segment.SegmentBlockView
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DocumentTopAppBar(
-    title: String,
+fun DocumentPager(
+    segments: ImmutableList<Segment>,
     modifier: Modifier = Modifier,
-    scrollBehavior: TopAppBarScrollBehavior? = null,
-    onNavBack: () -> Unit = {},
+    onScrollAlpha: (Float, Boolean) -> Unit = { _, _ -> },
+    onPageChange: (Int) -> Unit = {},
 ) {
-    SsTopAppBar(
-        spec = TopAppBarSpec(
-            topAppBarType = TopAppBarType.Small,
-        ),
-        modifier = modifier,
-        navigationIcon = {
-            IconButton(onClick = onNavBack) {
-                IconBox(icon = Icons.ArrowBack)
-            }
-        },
-        title = {
-            Text(text = title)
-        },
-        scrollBehavior = scrollBehavior,
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.Transparent,
-            scrolledContainerColor = Color.Transparent,
-        )
+    val pagerState = rememberPagerState(
+        pageCount = { segments.size },
     )
+
+    HorizontalPager(
+        state = pagerState,
+        modifier = modifier.fillMaxSize(),
+    ) { page ->
+
+        val segment = segments[page]
+        when (segment.type) {
+            SegmentType.UNKNOWN -> Unit
+            SegmentType.BLOCK -> SegmentBlockView(segment, onScrollAlpha = onScrollAlpha)
+            SegmentType.STORY -> Unit
+            SegmentType.PDF -> Unit
+            SegmentType.VIDEO -> Unit
+        }
+
+    }
+
+
+    LaunchedEffect(pagerState) {
+        snapshotFlow { pagerState.currentPage }.collect { page ->
+            onPageChange(page)
+        }
+    }
 }

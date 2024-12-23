@@ -24,15 +24,19 @@ package ss.document
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
 import app.ss.models.resource.ResourceDocument
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
+import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
+import kotlinx.collections.immutable.toImmutableList
 import ss.libraries.circuit.navigation.DocumentScreen
 import ss.resources.api.ResourcesRepository
 
@@ -45,24 +49,42 @@ class DocumentPresenter @AssistedInject constructor(
     @Composable
     override fun present(): State {
         val response by rememberDocument()
+        val documentPages by rememberDocumentSegments(response)
+        var selectedPage by rememberRetained(documentPages) { mutableStateOf(documentPages.firstOrNull()) }
 
         val resourceDocument = response
 
         val eventSink: (Event) -> Unit = { event ->
             when (event) {
                 Event.OnNavBack -> navigator.pop()
+                is SuccessEvent.OnPageChange -> {
+                    selectedPage = documentPages.getOrNull(event.page)
+                }
             }
         }
 
         return when {
             resourceDocument == null -> State.Loading(screen.title, eventSink)
-            else -> State.Success(resourceDocument.title, eventSink)
+            else -> State.Success(
+                title = selectedPage?.title ?: resourceDocument.title,
+                initialPage = documentPages.indexOf(selectedPage),
+                segments = documentPages,
+                eventSink = eventSink,
+            )
         }
     }
 
     @Composable
     private fun rememberDocument() = produceRetainedState<ResourceDocument?>(null) {
         value = resourcesRepository.document(screen.index).getOrNull()
+    }
+
+    @Composable
+    private fun rememberDocumentSegments(document: ResourceDocument?) = rememberRetained(document) {
+        mutableStateOf(
+            (document?.segments?.map { it.copy(cover = it.cover ?: screen.cover) } ?: emptyList())
+                .toImmutableList()
+        )
     }
 
     @CircuitInject(DocumentScreen::class, SingletonComponent::class)
