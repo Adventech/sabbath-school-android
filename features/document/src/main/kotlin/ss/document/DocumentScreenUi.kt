@@ -43,6 +43,7 @@ import dagger.hilt.components.SingletonComponent
 import ss.document.components.DocumentLoadingView
 import ss.document.components.DocumentPager
 import ss.document.components.DocumentTopAppBar
+import ss.document.components.segment.hasCover
 import ss.libraries.circuit.navigation.DocumentScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -69,6 +70,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                 DocumentTopAppBar(
                     title = toolbarTitle,
                     scrollBehavior = scrollBehavior,
+                    collapsible = state.hasCover,
                     collapsed = collapsed,
                     onNavBack = { state.eventSink(Event.OnNavBack) }
                 )
@@ -84,6 +86,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                 DocumentPager(
                     segments = state.segments,
                     selectedSegment = state.selectedSegment,
+                    titleBelowCover = state.titleBelowCover,
                     listState = listState
                 ) {
                     state.eventSink(SuccessEvent.OnPageChange(it))

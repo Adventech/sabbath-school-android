@@ -40,6 +40,7 @@ fun SegmentHeader(
     title: String,
     subtitle: String?,
     date: String?,
+    contentColor: Color,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -54,7 +55,7 @@ fun SegmentHeader(
                 style = SsTheme.typography.titleLarge.copy(
                     fontSize = 15.sp
                 ),
-                color = Color.White.copy(alpha = 0.6f),
+                color = contentColor.copy(alpha = 0.6f),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
             )
@@ -67,7 +68,7 @@ fun SegmentHeader(
                 style = SsTheme.typography.titleLarge.copy(
                     fontSize = 15.sp
                 ),
-                color = Color.White.copy(alpha = 0.7f),
+                color = contentColor.copy(alpha = 0.7f),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
             )
@@ -79,7 +80,7 @@ fun SegmentHeader(
             style = SsTheme.typography.titleLarge.copy(
                 fontSize = 26.sp
             ),
-            color = Color.White,
+            color = contentColor,
             maxLines = 3,
             overflow = TextOverflow.Ellipsis,
         )

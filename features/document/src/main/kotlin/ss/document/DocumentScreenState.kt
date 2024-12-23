@@ -29,16 +29,22 @@ import kotlinx.collections.immutable.ImmutableList
 
 sealed interface State : CircuitUiState {
     val title: String
+    val hasCover: Boolean
     val eventSink: (Event) -> Unit
 
-    data class Loading(override val title: String, override val eventSink: (Event) -> Unit) : State
+    data class Loading(
+        override val title: String,
+        override val hasCover: Boolean,
+        override val eventSink: (Event) -> Unit) : State
 
     data class Success(
         override val title: String,
+        override val hasCover: Boolean,
         override val eventSink: (Event) -> Unit,
         val initialPage: Int,
         val segments: ImmutableList<Segment>,
         val selectedSegment: Segment?,
+        val titleBelowCover: Boolean,
     ) : State
 
 }

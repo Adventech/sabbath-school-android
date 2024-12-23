@@ -44,6 +44,7 @@ import app.ss.design.compose.widget.icon.Icons
 fun DocumentTopAppBar(
     title: String,
     modifier: Modifier = Modifier,
+    collapsible: Boolean = false,
     collapsed: Boolean = false,
     scrollBehavior: TopAppBarScrollBehavior? = null,
     onNavBack: () -> Unit = {},
@@ -56,7 +57,7 @@ fun DocumentTopAppBar(
         navigationIcon = {
             IconButton(onClick = onNavBack) {
                 val iconColor by animateColorAsState(
-                    targetValue = if (collapsed) LocalContentColor.current else Color.White,
+                    targetValue = if (collapsible && !collapsed) Color.White else LocalContentColor.current,
                     label = "icon-color"
                 )
                 IconBox(

@@ -24,6 +24,7 @@ package ss.document.components.segment
 
 import android.graphics.drawable.BitmapDrawable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
@@ -54,9 +55,11 @@ fun SegmentCover(
 
     Box(modifier.fillMaxWidth(), contentAlignment = Alignment.BottomCenter) {
         if (cover == null) {
-            Box(modifier = Modifier
-                .fillMaxWidth()
-                .height((height * 0.2).dp))
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height((height * 0.2).dp),
+            )
 
             headerContent?.invoke(contentColor.value)
         } else {

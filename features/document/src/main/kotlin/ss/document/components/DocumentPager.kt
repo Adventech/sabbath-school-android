@@ -38,19 +38,21 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import app.ss.design.compose.extensions.modifier.thenIf
+import app.ss.design.compose.theme.SsTheme
 import app.ss.models.resource.Segment
 import app.ss.models.resource.SegmentType
 import kotlinx.collections.immutable.ImmutableList
 import ss.document.components.segment.SegmentBlockView
 import ss.document.components.segment.SegmentCover
 import ss.document.components.segment.SegmentHeader
-import ss.document.components.segment.hasCover
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DocumentPager(
     segments: ImmutableList<Segment>,
     selectedSegment: Segment?,
+    titleBelowCover: Boolean,
     modifier: Modifier = Modifier,
     listState: LazyListState = rememberLazyListState(),
     onPageChange: (Int) -> Unit = {},
@@ -63,17 +65,17 @@ fun DocumentPager(
         modifier = Modifier.fillMaxWidth(),
         state = listState,
     ) {
-        if (selectedSegment?.hasCover() == true) {
-            item("cover") {
-                SegmentCover(
-                    cover = selectedSegment.cover,
-                    headerContent = { contentColor ->
-                        val gradient = remember(contentColor) {
+        item("cover") {
+            SegmentCover(
+                cover = selectedSegment?.cover,
+                headerContent = { dominantColor ->
+                    if (titleBelowCover == false && selectedSegment != null) {
+                        val gradient = remember(dominantColor) {
                             Brush.verticalGradient(
                                 colors = listOf(
                                     Color.Transparent,
                                     Color.Black.copy(0.1f),
-                                    contentColor,
+                                    dominantColor,
                                 )
                             )
                         }
@@ -82,14 +84,30 @@ fun DocumentPager(
                             title = selectedSegment.title,
                             subtitle = selectedSegment.subtitle,
                             date = selectedSegment.date,
+                            contentColor = if (selectedSegment.cover != null) Color.White else SsTheme.colors.primaryForeground,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .background(gradient)
+                                .thenIf(selectedSegment.cover != null) {
+                                    background(gradient)
+                                }
                         )
                     }
+                }
+            )
+        }
+
+        if (titleBelowCover && selectedSegment != null) {
+            item("header") {
+                SegmentHeader(
+                    title = selectedSegment.title,
+                    subtitle = selectedSegment.subtitle,
+                    date = selectedSegment.date,
+                    contentColor = SsTheme.colors.primaryForeground,
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
         }
+
         item {
             HorizontalPager(
                 state = pagerState,

@@ -37,6 +37,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
 import kotlinx.collections.immutable.toImmutableList
+import ss.document.components.segment.hasCover
 import ss.libraries.circuit.navigation.DocumentScreen
 import ss.resources.api.ResourcesRepository
 
@@ -64,12 +65,14 @@ class DocumentPresenter @AssistedInject constructor(
         }
 
         return when {
-            resourceDocument == null -> State.Loading(screen.title, eventSink)
+            resourceDocument == null -> State.Loading(screen.title, false, eventSink)
             else -> State.Success(
                 title = selectedPage?.title ?: resourceDocument.title,
+                hasCover = selectedPage?.hasCover() == true,
                 initialPage = documentPages.indexOf(selectedPage),
                 segments = documentPages,
                 selectedSegment = selectedPage,
+                titleBelowCover = resourceDocument.titleBelowCover == true,
                 eventSink = eventSink,
             )
         }
