@@ -22,13 +22,10 @@
 
 package io.adventech.blockkit.model
 
-import com.squareup.moshi.JsonClass
+data class TableCell(
+    val items: List<BlockItem>
+)
 
-@JsonClass(generateAdapter = true)
-data class Question(
-    override val id: String,
-    override val style: BlockStyle?,
-    override val data: BlockData?,
-    override val nested: Boolean?,
-    val markdown: String,
-) : AnyBlock
+data class TableRow(
+    val items: List<TableCell>
+)
