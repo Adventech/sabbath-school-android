@@ -27,21 +27,19 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = false)
 data class Excerpt(
     override val id: String,
-    override val type: BlockType,
     override val style: BlockStyle?,
     override val data: BlockData?,
     override val nested: Boolean?,
     val options: List<String>,
     val items: List<ExcerptItem>,
-): AnyBlock
+) : AnyBlock
 
 @JsonClass(generateAdapter = false)
 data class ExcerptItem(
     override val id: String,
-    override val type: BlockType,
     override val style: BlockStyle?,
     override val data: BlockData?,
     override val nested: Boolean?,
     val option: String,
     val items: List<AnyBlock>,
-): AnyBlock
+) : AnyBlock

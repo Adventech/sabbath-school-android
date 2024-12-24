@@ -30,19 +30,18 @@ import io.adventech.blockkit.model.resource.Segment
 
 @JsonClass(generateAdapter = false)
 data class Reference(
-    val id: String,
-    val type: BlockType,
-    val style: BlockStyle?,
-    val data: BlockData?,
+    override val id: String,
+    override val style: BlockStyle?,
+    override val data: BlockData?,
+    override val nested: Boolean?,
+    val segment: Segment?,
     val target: String,
     val scope: ReferenceScope,
     val title: String,
     val subtitle: String?,
     val resource: Resource?,
     val document: ResourceDocument?,
-    val nested: Boolean?,
-    val segment: Segment?
-)
+) : AnyBlock
 
 @JsonClass(generateAdapter = false)
 enum class ReferenceScope {

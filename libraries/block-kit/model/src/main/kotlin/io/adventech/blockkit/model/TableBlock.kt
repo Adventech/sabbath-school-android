@@ -27,7 +27,6 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = false)
 data class TableBlock(
     override val id: String,
-    override var type: BlockType,
     override val style: BlockStyle?,
     override val data: BlockData?,
     override val nested: Boolean?,

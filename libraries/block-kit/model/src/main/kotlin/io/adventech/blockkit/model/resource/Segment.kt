@@ -24,6 +24,7 @@ package io.adventech.blockkit.model.resource
 
 import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass
+import io.adventech.blockkit.model.AnyBlock
 
 @Keep
 @JsonClass(generateAdapter = true)
@@ -39,6 +40,7 @@ data class Segment(
     val markdownSubtitle: String? = null,
     val titleBelowCover: Boolean? = null,
     val cover: String? = null,
+    val blocks: List<AnyBlock>? = null,
     val date: String? = null,
     val background: String? = null
 )

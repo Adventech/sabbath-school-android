@@ -58,18 +58,12 @@ data class BlockImageStyle(
 @JsonClass(generateAdapter = false)
 enum class BlockStyleSpacing {
     UNKNOWN,
-    @Json(name = "none")
-    NONE,
-    @Json(name = "xs")
-    XS,
-    @Json(name = "sm")
-    SM,
-    @Json(name = "base")
-    BASE,
-    @Json(name = "lg")
-    LG,
-    @Json(name = "xl")
-    XL
+    @Json(name = "none") NONE,
+    @Json(name = "xs") XS,
+    @Json(name = "sm") SM,
+    @Json(name = "base") BASE,
+    @Json(name = "lg") LG,
+    @Json(name = "xl") XL
 }
 
 @JsonClass(generateAdapter = false)
@@ -89,32 +83,24 @@ data class SpacingStyle(
 @JsonClass(generateAdapter = false)
 enum class BlockStylePositionX {
     UNKNOWN,
-    @Json(name = "start")
-    START,
-    @Json(name = "end")
-    END,
-    @Json(name = "center")
-    CENTER
+    @Json(name = "start") START,
+    @Json(name = "end") END,
+    @Json(name = "center") CENTER
 }
 
 @JsonClass(generateAdapter = false)
 enum class BlockStylePositionY {
     UNKNOWN,
-    @Json(name = "top")
-    TOP,
-    @Json(name = "bottom")
-    BOTTOM,
-    @Json(name = "center")
-    CENTER
+    @Json(name = "top") TOP,
+    @Json(name = "bottom") BOTTOM,
+    @Json(name = "center") CENTER
 }
 
 @JsonClass(generateAdapter = false)
 enum class ImageStyleTextAlignment {
     UNKNOWN,
-    @Json(name = "top")
-    TOP,
-    @Json(name = "bottom")
-    BOTTOM
+    @Json(name = "top") TOP,
+    @Json(name = "bottom") BOTTOM
 }
 
 @JsonClass(generateAdapter = false)

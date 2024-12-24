@@ -27,7 +27,6 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = false)
 data class Hr(
     override val id: String,
-    override val type: BlockType,
     override val style: BlockStyle?,
     override val data: BlockData?,
     override val nested: Boolean?

@@ -24,7 +24,6 @@ package io.adventech.blockkit.model
 
 data class Paragraph(
     override val id: String,
-    override val type: BlockType,
     override val style: BlockStyle?,
     override val data: BlockData?,
     override val nested: Boolean?,

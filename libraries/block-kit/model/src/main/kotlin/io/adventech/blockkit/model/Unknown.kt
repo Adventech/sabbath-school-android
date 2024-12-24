@@ -28,8 +28,7 @@ import java.util.UUID
 @JsonClass(generateAdapter = false)
 data class Unknown(
     override var id: String = UUID.randomUUID().toString(),
-    override var type: BlockType = BlockType.UNKNOWN,
     override var style: BlockStyle? = null,
     override var data: BlockData? = null,
     override var nested: Boolean? = null
-): AnyBlock
+) : AnyBlock

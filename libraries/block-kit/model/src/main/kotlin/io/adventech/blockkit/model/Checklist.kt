@@ -27,22 +27,20 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = false)
 data class Checklist(
     override val id: String,
-    override val type: BlockType,
     override val style: BlockStyle?,
     override val data: BlockData?,
     override val nested: Boolean?,
     val ordered: Boolean?,
     val start: Int?,
     val items: List<ChecklistItem>,
-): AnyBlock
+) : AnyBlock
 
 @JsonClass(generateAdapter = false)
 data class ChecklistItem(
     override val id: String,
-    override val type: BlockType,
     override val style: BlockStyle?,
     override val data: BlockData?,
     override val nested: Boolean?,
     val index: Int,
     val markdown: String,
-): AnyBlock
+) : AnyBlock

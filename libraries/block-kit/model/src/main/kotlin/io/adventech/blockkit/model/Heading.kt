@@ -22,27 +22,14 @@
 
 package io.adventech.blockkit.model
 
-import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-
-@JsonClass(generateAdapter = false)
-enum class HeadingDepth {
-    @Json(name = "1") ONE,
-    @Json(name = "2") TWO,
-    @Json(name = "3") THREE,
-    @Json(name = "4") FOUR,
-    @Json(name = "5") FIVE,
-    @Json(name = "6") SIX,
-    UNKNOWN
-}
 
 @JsonClass(generateAdapter = false)
 data class Heading(
     override val id: String,
-    override var type: BlockType,
     override val style: BlockStyle?,
     override val data: BlockData?,
     override val nested: Boolean?,
     val markdown: String,
-    val depth: HeadingDepth,
+    val depth: Int,
 ) : AnyBlock

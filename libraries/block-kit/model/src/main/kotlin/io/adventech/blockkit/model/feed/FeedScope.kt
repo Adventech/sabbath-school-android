@@ -30,8 +30,6 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = false)
 enum class FeedScope {
     UNKNOWN,
-    @Json(name = "resource")
-    RESOURCE,
-    @Json(name = "document")
-    DOCUMENT,
+    @Json(name = "resource") RESOURCE,
+    @Json(name = "document") DOCUMENT,
 }

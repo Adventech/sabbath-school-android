@@ -27,7 +27,6 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = false)
 data class Blockquote(
     override val id: String,
-    override val type: BlockType,
     override val style: BlockStyle?,
     override val data: BlockData?,
     override val nested: Boolean?,
@@ -36,4 +35,4 @@ data class Blockquote(
     val callout: Boolean?,
     val caption: String?,
     val items: List<AnyBlock>,
-): AnyBlock
+) : AnyBlock

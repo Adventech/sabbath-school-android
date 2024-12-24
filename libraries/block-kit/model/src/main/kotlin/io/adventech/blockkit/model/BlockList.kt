@@ -27,7 +27,6 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = false)
 data class BlockList(
     override val id: String,
-    override val type: BlockType,
     override val style: BlockStyle?,
     override val data: BlockData?,
     override val nested: Boolean?,
@@ -35,7 +34,7 @@ data class BlockList(
     val depth: Int?,
     val ordered: Boolean?,
     val start: Int?,
-): AnyBlock {
+) : AnyBlock {
     val bullet: String
         get() {
             val depth = this.depth ?: return "•"
@@ -47,10 +46,9 @@ data class BlockList(
 @JsonClass(generateAdapter = false)
 data class BlockListItem(
     override val id: String,
-    override val type: BlockType,
     override val style: BlockStyle?,
     override val data: BlockData?,
     override val nested: Boolean?,
     val index: Int?,
     val markdown: String,
-): AnyBlock
+) : AnyBlock

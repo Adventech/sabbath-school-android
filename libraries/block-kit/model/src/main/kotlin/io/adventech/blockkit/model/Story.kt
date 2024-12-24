@@ -27,7 +27,6 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = false)
 data class Story(
     override val id: String,
-    override val type: BlockType,
     override val style: BlockStyle?,
     override val data: BlockData?,
     override val nested: Boolean?,
@@ -37,7 +36,6 @@ data class Story(
 @JsonClass(generateAdapter = false)
 data class StorySlide(
     override val id: String,
-    override val type: BlockType,
     override val style: BlockStyle?,
     override val data: BlockData?,
     override val nested: Boolean?,

@@ -22,9 +22,12 @@
 
 package io.adventech.blockkit.model
 
-interface AnyBlock {
+import dev.zacsweers.moshix.adapters.AdaptedBy
+import io.adventech.blockkit.model.adapter.AnyBlockJsonAdapterFactory
+
+@AdaptedBy(AnyBlockJsonAdapterFactory::class)
+sealed interface AnyBlock {
     val id: String
-    val type: BlockType
     val style: BlockStyle?
     val data: BlockData?
     val nested: Boolean?
