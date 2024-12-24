@@ -24,6 +24,7 @@ package io.adventech.blockkit.model.resource
 
 import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass
+import io.adventech.blockkit.model.Style
 
 @Keep
 @JsonClass(generateAdapter = true)
@@ -42,5 +43,7 @@ data class ResourceDocument(
     val segments: List<Segment>?,
     val showSegmentChips: Boolean?,
     val titleBelowCover: Boolean?,
-    val externalURL: String?
+    val externalURL: String?,
+    val segmentChipsStyle: SegmentChipsStyle?,
+    val style: Style?,
 )

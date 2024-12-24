@@ -24,7 +24,7 @@ package io.adventech.blockkit.model
 
 import com.squareup.moshi.JsonClass
 
-@JsonClass(generateAdapter = false)
+@JsonClass(generateAdapter = true)
 data class Story(
     override val id: String,
     override val style: BlockStyle?,
@@ -33,7 +33,7 @@ data class Story(
     val items: List<StorySlide>,
 ) : AnyBlock
 
-@JsonClass(generateAdapter = false)
+@JsonClass(generateAdapter = true)
 data class StorySlide(
     override val id: String,
     override val style: BlockStyle?,

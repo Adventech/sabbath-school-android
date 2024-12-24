@@ -24,14 +24,14 @@ package io.adventech.blockkit.model
 
 import com.squareup.moshi.JsonClass
 
-@JsonClass(generateAdapter = false)
+@JsonClass(generateAdapter = true)
 data class CompletionData(
     val length: Int,
     val placeholder: String,
     val correctCompletion: String?
 )
 
-@JsonClass(generateAdapter = false)
+@JsonClass(generateAdapter = true)
 data class BlockData(
     val bible: Map<String, Excerpt>?,
     val egw: Map<String, List<AnyBlock>>?,

@@ -25,10 +25,27 @@ package io.adventech.blockkit.model
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class Question(
-    override val id: String,
-    override val style: BlockStyle?,
-    override val data: BlockData?,
-    override val nested: Boolean?,
-    val markdown: String,
-) : AnyBlock
+data class VideoAuxArtist(
+    val id: String,
+    val artist: String,
+    val title: String,
+    val target: String,
+    val targetIndex: String,
+    val src: String,
+    val thumbnail: String,
+)
+
+@JsonClass(generateAdapter = true)
+data class VideoAux(
+    val artist: String,
+    val clips: List<VideoAuxArtist>,
+)
+
+@JsonClass(generateAdapter = true)
+data class VideoClipSegment(
+    val src: String,
+    val artist: String?,
+    val title: String?,
+    val thumbnail: String?,
+    val hls: String?,
+)

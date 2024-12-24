@@ -20,15 +20,21 @@
  * THE SOFTWARE.
  */
 
-package io.adventech.blockkit.model
+package io.adventech.blockkit.model.input
 
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
-@JsonClass(generateAdapter = true)
-data class Question(
-    override val id: String,
-    override val style: BlockStyle?,
-    override val data: BlockData?,
-    override val nested: Boolean?,
-    val markdown: String,
-) : AnyBlock
+@JsonClass(generateAdapter = false)
+enum class UserInputType {
+    @Json(name = "annotation") ANNOTATION,
+    @Json(name = "appeal") APPEAL,
+    @Json(name = "checklist") CHECKLIST,
+    @Json(name = "comment") COMMENT,
+    @Json(name = "completion") COMPLETION,
+    @Json(name = "highlights") HIGHLIGHTS,
+    @Json(name = "multiple-choice") MULTIPLE_CHOICE,
+    @Json(name = "poll") POLL,
+    @Json(name = "question") QUESTION,
+    UNKNOWN;
+}

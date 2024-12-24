@@ -20,15 +20,12 @@
  * THE SOFTWARE.
  */
 
-package io.adventech.blockkit.model
+package io.adventech.blockkit.model.input
 
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class Question(
-    override val id: String,
-    override val style: BlockStyle?,
-    override val data: BlockData?,
-    override val nested: Boolean?,
-    val markdown: String,
-) : AnyBlock
+data class PDFAuxAnnotations(
+    val pageIndex: Int,
+    val annotations: List<String>
+)

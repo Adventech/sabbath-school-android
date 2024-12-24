@@ -20,15 +20,24 @@
  * THE SOFTWARE.
  */
 
-package io.adventech.blockkit.model
+package io.adventech.blockkit.model.input
 
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class Question(
-    override val id: String,
-    override val style: BlockStyle?,
-    override val data: BlockData?,
-    override val nested: Boolean?,
-    val markdown: String,
-) : AnyBlock
+data class Highlight(
+    val startIndex: Int,
+    val endIndex: Int,
+    val length: Int,
+    val color: HighlightColor
+)
+
+@JsonClass(generateAdapter = false)
+enum class HighlightColor {
+    UNKNOWN,
+    @Json(name = "blue") BLUE,
+    @Json(name = "yellow") YELLOW,
+    @Json(name = "orange") ORANGE,
+    @Json(name = "green") GREEN
+}

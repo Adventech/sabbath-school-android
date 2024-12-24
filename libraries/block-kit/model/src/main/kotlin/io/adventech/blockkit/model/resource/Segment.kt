@@ -23,6 +23,7 @@
 package io.adventech.blockkit.model.resource
 
 import androidx.annotation.Keep
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import io.adventech.blockkit.model.AnyBlock
 
@@ -44,3 +45,10 @@ data class Segment(
     val date: String? = null,
     val background: String? = null
 )
+
+@JsonClass(generateAdapter = false)
+enum class SegmentChipsStyle {
+    UNKNOWN,
+    @Json(name = "menu") MENU,
+    @Json(name = "carousel") CAROUSEL,
+}

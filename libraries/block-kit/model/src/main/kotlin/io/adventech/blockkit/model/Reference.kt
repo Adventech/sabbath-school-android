@@ -28,7 +28,7 @@ import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.model.resource.ResourceDocument
 import io.adventech.blockkit.model.resource.Segment
 
-@JsonClass(generateAdapter = false)
+@JsonClass(generateAdapter = true)
 data class Reference(
     override val id: String,
     override val style: BlockStyle?,

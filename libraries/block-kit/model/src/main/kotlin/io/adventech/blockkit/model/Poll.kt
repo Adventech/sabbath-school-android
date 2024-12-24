@@ -24,7 +24,7 @@ package io.adventech.blockkit.model
 
 import com.squareup.moshi.JsonClass
 
-@JsonClass(generateAdapter = false)
+@JsonClass(generateAdapter = true)
 data class Poll(
     override val id: String,
     override val style: BlockStyle?,
@@ -34,7 +34,7 @@ data class Poll(
     val items: List<PollItem>,
 ) : AnyBlock
 
-@JsonClass(generateAdapter = false)
+@JsonClass(generateAdapter = true)
 data class PollItem(
     override val id: String,
     override val style: BlockStyle?,

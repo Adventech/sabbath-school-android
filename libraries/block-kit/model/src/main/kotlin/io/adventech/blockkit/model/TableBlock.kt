@@ -24,7 +24,7 @@ package io.adventech.blockkit.model
 
 import com.squareup.moshi.JsonClass
 
-@JsonClass(generateAdapter = false)
+@JsonClass(generateAdapter = true)
 data class TableBlock(
     override val id: String,
     override val style: BlockStyle?,
@@ -34,12 +34,12 @@ data class TableBlock(
     val header: List<TableCell>
 ) : AnyBlock
 
-@JsonClass(generateAdapter = false)
+@JsonClass(generateAdapter = true)
 data class TableCell(
     val items: List<AnyBlock>
 )
 
-@JsonClass(generateAdapter = false)
+@JsonClass(generateAdapter = true)
 data class TableRow(
     val items: List<TableCell>
 )

@@ -25,10 +25,10 @@ package io.adventech.blockkit.model
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class Question(
-    override val id: String,
-    override val style: BlockStyle?,
-    override val data: BlockData?,
-    override val nested: Boolean?,
-    val markdown: String,
-) : AnyBlock
+data class PDFAux(
+    val id: String,
+    val src: String,
+    val title: String,
+    val target: String?,
+    val targetIndex: String?
+)
