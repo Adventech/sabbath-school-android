@@ -7,5 +7,7 @@ plugins {
 
 dependencies {
     implementation(libs.androidx.annotations)
+    implementation(libs.moshix.adapters)
+    implementation(libs.square.moshi.adapters)
     implementation(libs.square.moshi.kotlin)
 }
