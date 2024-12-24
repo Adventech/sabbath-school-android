@@ -24,68 +24,68 @@ package io.adventech.blockkit.model.input
 
 import com.squareup.moshi.JsonClass
 import dev.zacsweers.moshix.adapters.AdaptedBy
-import io.adventech.blockkit.model.adapter.AnyUserInputJsonAdapterFactory
+import io.adventech.blockkit.model.adapter.UserInputJsonAdapterFactory
 
-@AdaptedBy(AnyUserInputJsonAdapterFactory::class)
-sealed interface AnyUserInput {
+@AdaptedBy(UserInputJsonAdapterFactory::class)
+sealed interface UserInput {
     val blockId: String
 
     @JsonClass(generateAdapter = true)
     data class Appeal(
         override val blockId: String,
         val appeal: Boolean
-    ) : AnyUserInput
+    ) : UserInput
 
     @JsonClass(generateAdapter = true)
     data class Checklist(
         override val blockId: String,
         val checked: List<Int>
-    ) : AnyUserInput
+    ) : UserInput
 
     @JsonClass(generateAdapter = true)
     data class Comment(
         override val blockId: String,
         val comment: String
-    ) : AnyUserInput
+    ) : UserInput
 
     @JsonClass(generateAdapter = true)
     data class Completion(
         override val blockId: String,
         val completion: Map<String, String>
-    ) : AnyUserInput
+    ) : UserInput
 
     @JsonClass(generateAdapter = true)
     data class Highlights(
         override val blockId: String,
         val highlights: List<Highlight>
-    ) : AnyUserInput
+    ) : UserInput
 
     @JsonClass(generateAdapter = true)
     data class MultipleChoice(
         override val blockId: String,
         val choice: Int
-    ) : AnyUserInput
+    ) : UserInput
 
     @JsonClass(generateAdapter = true)
     data class Poll(
         override val blockId: String,
         val vote: Int
-    ) : AnyUserInput
+    ) : UserInput
 
     @JsonClass(generateAdapter = true)
     data class Question(
         override val blockId: String,
         val answer: String
-    ) : AnyUserInput
+    ) : UserInput
 
     @JsonClass(generateAdapter = true)
     data class Annotation(
         override val blockId: String,
         val pdfId: String,
         val data: List<PDFAuxAnnotations>,
-    ) : AnyUserInput
+    ) : UserInput
 
-    data object Unknown : AnyUserInput {
+    data object Unknown : UserInput {
         override val blockId: String = ""
     }
 }

@@ -26,27 +26,27 @@ import androidx.annotation.Keep
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
-import io.adventech.blockkit.model.input.AnyUserInput
+import io.adventech.blockkit.model.input.UserInput
 import java.lang.reflect.Type
 
 @Keep
-class AnyUserInputJsonAdapterFactory : JsonAdapter.Factory {
+class UserInputJsonAdapterFactory : JsonAdapter.Factory {
     override fun create(
         type: Type,
         annotations: Set<Annotation?>,
         moshi: Moshi
     ): JsonAdapter<*>? {
-        return PolymorphicJsonAdapterFactory.of(AnyUserInput::class.java, "inputType")
-            .withSubtype(AnyUserInput.Appeal::class.java, "appeal")
-            .withSubtype(AnyUserInput.Checklist::class.java, "checklist")
-            .withSubtype(AnyUserInput.Comment::class.java, "comment")
-            .withSubtype(AnyUserInput.Completion::class.java, "completion")
-            .withSubtype(AnyUserInput.Highlights::class.java, "highlights")
-            .withSubtype(AnyUserInput.MultipleChoice::class.java, "multiple-choice")
-            .withSubtype(AnyUserInput.Poll::class.java, "poll")
-            .withSubtype(AnyUserInput.Question::class.java, "question")
-            .withSubtype(AnyUserInput.Annotation::class.java, "annotation")
-            .withDefaultValue(AnyUserInput.Unknown)
+        return PolymorphicJsonAdapterFactory.of(UserInput::class.java, "inputType")
+            .withSubtype(UserInput.Appeal::class.java, "appeal")
+            .withSubtype(UserInput.Checklist::class.java, "checklist")
+            .withSubtype(UserInput.Comment::class.java, "comment")
+            .withSubtype(UserInput.Completion::class.java, "completion")
+            .withSubtype(UserInput.Highlights::class.java, "highlights")
+            .withSubtype(UserInput.MultipleChoice::class.java, "multiple-choice")
+            .withSubtype(UserInput.Poll::class.java, "poll")
+            .withSubtype(UserInput.Question::class.java, "question")
+            .withSubtype(UserInput.Annotation::class.java, "annotation")
+            .withDefaultValue(UserInput.Unknown)
             .create(type, annotations, moshi)
     }
 }
