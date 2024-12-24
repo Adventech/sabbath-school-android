@@ -22,13 +22,13 @@
 
 package io.adventech.blockkit.model
 
-import dev.zacsweers.moshix.adapters.AdaptedBy
-import io.adventech.blockkit.model.adapter.AnyBlockJsonAdapterFactory
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-@AdaptedBy(AnyBlockJsonAdapterFactory::class)
-sealed interface AnyBlock {
-    val id: String
-    val style: BlockStyle?
-    val data: BlockData?
-    val nested: Boolean?
+@JsonClass(generateAdapter = false)
+enum class ReferenceScope {
+    @Json(name = "document") DOCUMENT,
+    @Json(name = "resource") RESOURCE,
+    @Json(name = "segment") SEGMENT,
+    UNKNOWN
 }
