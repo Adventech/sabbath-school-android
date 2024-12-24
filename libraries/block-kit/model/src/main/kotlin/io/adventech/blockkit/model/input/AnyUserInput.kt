@@ -30,62 +30,61 @@ import io.adventech.blockkit.model.adapter.AnyUserInputJsonAdapterFactory
 sealed interface AnyUserInput {
     val blockId: String
 
-    @JsonClass(generateAdapter = false)
+    @JsonClass(generateAdapter = true)
     data class Appeal(
         override val blockId: String,
         val appeal: Boolean
     ) : AnyUserInput
 
-    @JsonClass(generateAdapter = false)
+    @JsonClass(generateAdapter = true)
     data class Checklist(
         override val blockId: String,
         val checked: List<Int>
     ) : AnyUserInput
 
-    @JsonClass(generateAdapter = false)
+    @JsonClass(generateAdapter = true)
     data class Comment(
         override val blockId: String,
         val comment: String
     ) : AnyUserInput
 
-    @JsonClass(generateAdapter = false)
+    @JsonClass(generateAdapter = true)
     data class Completion(
         override val blockId: String,
         val completion: Map<String, String>
     ) : AnyUserInput
 
-    @JsonClass(generateAdapter = false)
+    @JsonClass(generateAdapter = true)
     data class Highlights(
         override val blockId: String,
         val highlights: List<Highlight>
     ) : AnyUserInput
 
-    @JsonClass(generateAdapter = false)
+    @JsonClass(generateAdapter = true)
     data class MultipleChoice(
         override val blockId: String,
         val choice: Int
     ) : AnyUserInput
 
-    @JsonClass(generateAdapter = false)
+    @JsonClass(generateAdapter = true)
     data class Poll(
         override val blockId: String,
         val vote: Int
     ) : AnyUserInput
 
-    @JsonClass(generateAdapter = false)
+    @JsonClass(generateAdapter = true)
     data class Question(
         override val blockId: String,
         val answer: String
     ) : AnyUserInput
 
-    @JsonClass(generateAdapter = false)
+    @JsonClass(generateAdapter = true)
     data class Annotation(
         override val blockId: String,
         val pdfId: String,
         val data: List<PDFAuxAnnotations>,
     ) : AnyUserInput
 
-    @JsonClass(generateAdapter = false)
     data object Unknown : AnyUserInput {
         override val blockId: String = ""
     }

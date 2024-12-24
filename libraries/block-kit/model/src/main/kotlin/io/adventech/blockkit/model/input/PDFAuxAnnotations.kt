@@ -24,7 +24,7 @@ package io.adventech.blockkit.model.input
 
 import com.squareup.moshi.JsonClass
 
-@JsonClass(generateAdapter = false)
+@JsonClass(generateAdapter = true)
 data class PDFAuxAnnotations(
     val pageIndex: Int,
     val annotations: List<String>

@@ -43,7 +43,9 @@ internal object Placeholder {
         segments = null,
         showSegmentChips = false,
         titleBelowCover = true,
-        externalURL = null
+        externalURL = null,
+        segmentChipsStyle = null,
+        style = null,
     )
 
     val resources: List<ResourceSection> = listOf(
@@ -71,6 +73,8 @@ internal object Placeholder {
                     showSegmentChips = false,
                     titleBelowCover = true,
                     externalURL = null,
+                    segmentChipsStyle = null,
+                    style = null,
                 )
             )
         ),
@@ -97,6 +101,8 @@ internal object Placeholder {
                     showSegmentChips = true,
                     titleBelowCover = false,
                     externalURL = null,
+                    segmentChipsStyle = null,
+                    style = null,
                 )
             )
         )
@@ -137,6 +143,8 @@ internal object Placeholder {
                     showSegmentChips = true,
                     titleBelowCover = false,
                     externalURL = null,
+                    segmentChipsStyle = null,
+                    style = null,
                 ),
                 ResourceDocument(
                     id = "doc2",
@@ -165,6 +173,8 @@ internal object Placeholder {
                     showSegmentChips = true,
                     titleBelowCover = false,
                     externalURL = null,
+                    segmentChipsStyle = null,
+                    style = null,
                 )
             )
         ),
@@ -202,6 +212,8 @@ internal object Placeholder {
                     showSegmentChips = true,
                     titleBelowCover = true,
                     externalURL = null,
+                    segmentChipsStyle = null,
+                    style = null
                 )
             )
         )

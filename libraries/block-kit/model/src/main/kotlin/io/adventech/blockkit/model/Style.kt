@@ -50,7 +50,7 @@ enum class TextStyleOffset {
     UNKNOWN
 }
 
-@JsonClass(generateAdapter = false)
+@JsonClass(generateAdapter = true)
 data class TextStyle(
     val typeface: String?,
     val color: String?,
@@ -59,26 +59,26 @@ data class TextStyle(
     val offset: TextStyleOffset?
 )
 
-@JsonClass(generateAdapter = false)
+@JsonClass(generateAdapter = true)
 data class TitleTextStyle(
     val text: TextStyle?
 )
 
-@JsonClass(generateAdapter = false)
+@JsonClass(generateAdapter = true)
 data class ResourceStyle(
     val title: TitleTextStyle?,
     val subtitle: TitleTextStyle?,
     val description: TitleTextStyle?
 )
 
-@JsonClass(generateAdapter = false)
+@JsonClass(generateAdapter = true)
 data class SegmentStyle(
     val title: TitleTextStyle?,
     val subtitle: TitleTextStyle?,
     val date: TitleTextStyle?
 )
 
-@JsonClass(generateAdapter = false)
+@JsonClass(generateAdapter = true)
 data class Style(
     val resource: ResourceStyle?,
     val segment: SegmentStyle?,

@@ -24,7 +24,7 @@ package io.adventech.blockkit.model
 
 import com.squareup.moshi.JsonClass
 
-@JsonClass(generateAdapter = false)
+@JsonClass(generateAdapter = true)
 data class PDFAux(
     val id: String,
     val src: String,

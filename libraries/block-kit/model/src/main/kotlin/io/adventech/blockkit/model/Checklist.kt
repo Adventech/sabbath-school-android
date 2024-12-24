@@ -24,7 +24,7 @@ package io.adventech.blockkit.model
 
 import com.squareup.moshi.JsonClass
 
-@JsonClass(generateAdapter = false)
+@JsonClass(generateAdapter = true)
 data class Checklist(
     override val id: String,
     override val style: BlockStyle?,
@@ -35,7 +35,7 @@ data class Checklist(
     val items: List<ChecklistItem>,
 ) : AnyBlock
 
-@JsonClass(generateAdapter = false)
+@JsonClass(generateAdapter = true)
 data class ChecklistItem(
     override val id: String,
     override val style: BlockStyle?,

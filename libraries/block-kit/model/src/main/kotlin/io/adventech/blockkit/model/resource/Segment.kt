@@ -46,7 +46,7 @@ data class Segment(
     val background: String? = null
 )
 
-@JsonClass(generateAdapter = true)
+@JsonClass(generateAdapter = false)
 enum class SegmentChipsStyle {
     UNKNOWN,
     @Json(name = "menu") MENU,

@@ -24,7 +24,7 @@ package io.adventech.blockkit.model
 
 import com.squareup.moshi.JsonClass
 
-@JsonClass(generateAdapter = false)
+@JsonClass(generateAdapter = true)
 data class VideoAuxArtist(
     val id: String,
     val artist: String,
@@ -35,13 +35,13 @@ data class VideoAuxArtist(
     val thumbnail: String,
 )
 
-@JsonClass(generateAdapter = false)
+@JsonClass(generateAdapter = true)
 data class VideoAux(
     val artist: String,
     val clips: List<VideoAuxArtist>,
 )
 
-@JsonClass(generateAdapter = false)
+@JsonClass(generateAdapter = true)
 data class VideoClipSegment(
     val src: String,
     val artist: String?,

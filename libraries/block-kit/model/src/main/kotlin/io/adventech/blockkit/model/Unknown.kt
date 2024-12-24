@@ -25,7 +25,7 @@ package io.adventech.blockkit.model
 import com.squareup.moshi.JsonClass
 import java.util.UUID
 
-@JsonClass(generateAdapter = false)
+@JsonClass(generateAdapter = true)
 data class Unknown(
     override var id: String = UUID.randomUUID().toString(),
     override var style: BlockStyle? = null,

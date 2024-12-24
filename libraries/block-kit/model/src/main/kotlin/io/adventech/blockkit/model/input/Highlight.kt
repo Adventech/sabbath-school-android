@@ -25,7 +25,7 @@ package io.adventech.blockkit.model.input
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
-@JsonClass(generateAdapter = false)
+@JsonClass(generateAdapter = true)
 data class Highlight(
     val startIndex: Int,
     val endIndex: Int,
