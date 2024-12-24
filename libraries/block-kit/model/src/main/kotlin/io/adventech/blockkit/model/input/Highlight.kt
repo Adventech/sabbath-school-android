@@ -20,35 +20,24 @@
  * THE SOFTWARE.
  */
 
-package io.adventech.blockkit.model.resource
+package io.adventech.blockkit.model.input
 
-import androidx.annotation.Keep
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import io.adventech.blockkit.model.AnyBlock
 
-@Keep
-@JsonClass(generateAdapter = true)
-data class Segment(
-    val id: String,
-    val index: String,
-    val name: String,
-    val title: String = "",
-    val type: SegmentType = SegmentType.UNKNOWN,
-    val resourceId: String = "",
-    val markdownTitle: String? = null,
-    val subtitle: String? = null,
-    val markdownSubtitle: String? = null,
-    val titleBelowCover: Boolean? = null,
-    val cover: String? = null,
-    val blocks: List<AnyBlock>? = null,
-    val date: String? = null,
-    val background: String? = null
+@JsonClass(generateAdapter = false)
+data class Highlight(
+    val startIndex: Int,
+    val endIndex: Int,
+    val length: Int,
+    val color: HighlightColor
 )
 
-@JsonClass(generateAdapter = true)
-enum class SegmentChipsStyle {
+@JsonClass(generateAdapter = false)
+enum class HighlightColor {
     UNKNOWN,
-    @Json(name = "menu") MENU,
-    @Json(name = "carousel") CAROUSEL,
+    @Json(name = "blue") BLUE,
+    @Json(name = "yellow") YELLOW,
+    @Json(name = "orange") ORANGE,
+    @Json(name = "green") GREEN
 }

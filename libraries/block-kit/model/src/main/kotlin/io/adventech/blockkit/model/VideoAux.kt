@@ -20,35 +20,32 @@
  * THE SOFTWARE.
  */
 
-package io.adventech.blockkit.model.resource
+package io.adventech.blockkit.model
 
-import androidx.annotation.Keep
-import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import io.adventech.blockkit.model.AnyBlock
 
-@Keep
-@JsonClass(generateAdapter = true)
-data class Segment(
+@JsonClass(generateAdapter = false)
+data class VideoAuxArtist(
     val id: String,
-    val index: String,
-    val name: String,
-    val title: String = "",
-    val type: SegmentType = SegmentType.UNKNOWN,
-    val resourceId: String = "",
-    val markdownTitle: String? = null,
-    val subtitle: String? = null,
-    val markdownSubtitle: String? = null,
-    val titleBelowCover: Boolean? = null,
-    val cover: String? = null,
-    val blocks: List<AnyBlock>? = null,
-    val date: String? = null,
-    val background: String? = null
+    val artist: String,
+    val title: String,
+    val target: String,
+    val targetIndex: String,
+    val src: String,
+    val thumbnail: String,
 )
 
-@JsonClass(generateAdapter = true)
-enum class SegmentChipsStyle {
-    UNKNOWN,
-    @Json(name = "menu") MENU,
-    @Json(name = "carousel") CAROUSEL,
-}
+@JsonClass(generateAdapter = false)
+data class VideoAux(
+    val artist: String,
+    val clips: List<VideoAuxArtist>,
+)
+
+@JsonClass(generateAdapter = false)
+data class VideoClipSegment(
+    val src: String,
+    val artist: String?,
+    val title: String?,
+    val thumbnail: String?,
+    val hls: String?,
+)
