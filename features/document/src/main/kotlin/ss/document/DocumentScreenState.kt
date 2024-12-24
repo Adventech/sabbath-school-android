@@ -22,9 +22,9 @@
 
 package ss.document
 
-import app.ss.models.resource.Segment
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
+import io.adventech.blockkit.model.resource.Segment
 import kotlinx.collections.immutable.ImmutableList
 
 sealed interface State : CircuitUiState {

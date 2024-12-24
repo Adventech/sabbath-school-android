@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models.feed
+package io.adventech.blockkit.model.feed
 
 import androidx.annotation.Keep
 import com.squareup.moshi.Json
@@ -28,10 +28,8 @@ import com.squareup.moshi.JsonClass
 
 @Keep
 @JsonClass(generateAdapter = false)
-enum class FeedView {
+enum class FeedDirection {
     UNKNOWN,
-    @Json(name = "tile") TILE,
-    @Json(name = "banner")BANNER,
-    @Json(name = "square") SQUARE,
-    @Json(name = "folio") FOLIO,
+    @Json(name = "vertical") VERTICAL,
+    @Json(name = "horizontal") HORIZONTAL,
 }

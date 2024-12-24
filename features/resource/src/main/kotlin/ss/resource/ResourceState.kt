@@ -22,9 +22,9 @@
 
 package ss.resource
 
-import app.ss.models.resource.Resource
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
+import io.adventech.blockkit.model.resource.Resource
 import kotlinx.collections.immutable.ImmutableList
 import ss.resource.components.content.ResourceSectionSpec
 import ss.resource.components.spec.CreditSpec

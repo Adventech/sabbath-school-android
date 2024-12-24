@@ -22,9 +22,9 @@
 
 package ss.resource.components.content
 
-import app.ss.models.resource.ResourceDocument
-import app.ss.models.resource.ResourceSection
-import app.ss.models.resource.Segment
+import io.adventech.blockkit.model.resource.ResourceDocument
+import io.adventech.blockkit.model.resource.ResourceSection
+import io.adventech.blockkit.model.resource.Segment
 
 internal object Placeholder {
 

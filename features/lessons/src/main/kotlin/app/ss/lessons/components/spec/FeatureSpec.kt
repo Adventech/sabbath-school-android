@@ -22,7 +22,7 @@
 
 package app.ss.lessons.components.spec
 
-import app.ss.models.Feature
+import io.adventech.blockkit.model.resource.Feature
 import javax.annotation.concurrent.Immutable
 
 @Immutable

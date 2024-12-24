@@ -20,27 +20,29 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models.resource
+package io.adventech.blockkit.model.resource
 
 import androidx.annotation.Keep
-import app.ss.models.blocks.AnyBlock
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
+enum class ResourceCoverType(val aspectRatio: Float) {
+    LANDSCAPE(1280f / 720f),
+    PORTRAIT(854f / 1280f),
+    SPLASH(1f),
+    SQUARE(1f)
+}
+
 @Keep
-@JsonClass(generateAdapter = true)
-data class Segment(
-    val id: String,
-    val index: String,
-    val name: String,
-    val title: String = "",
-    val type: SegmentType = SegmentType.UNKNOWN,
-    val resourceId: String = "",
-    val markdownTitle: String? = null,
-    val subtitle: String? = null,
-    val markdownSubtitle: String? = null,
-    val titleBelowCover: Boolean? = null,
-    val cover: String? = null,
-    val blocks: List<AnyBlock>? = null,
-    val date: String? = null,
-    val background: String? = null
-)
+@JsonClass(generateAdapter = false)
+enum class ResourcePreferredCover {
+    UNKNOWN,
+    @Json(name = "landscape")
+    LANDSCAPE,
+    @Json(name = "portrait")
+    PORTRAIT,
+    @Json(name = "splash")
+    SPLASH,
+    @Json(name = "square")
+    SQUARE
+}

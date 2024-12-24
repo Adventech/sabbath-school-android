@@ -50,7 +50,7 @@ import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.color.SsColors
 import app.ss.design.compose.widget.button.SsButtonDefaults
 import app.ss.design.compose.widget.text.ReadMoreText
-import app.ss.models.resource.Resource
+import io.adventech.blockkit.model.resource.Resource
 import kotlinx.collections.immutable.toImmutableList
 import app.ss.translations.R as L10n
 

@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models.resource
+package io.adventech.blockkit.model.resource
 
 import androidx.annotation.Keep
 import com.squareup.moshi.Json

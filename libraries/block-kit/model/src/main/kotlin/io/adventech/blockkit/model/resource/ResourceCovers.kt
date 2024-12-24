@@ -20,11 +20,16 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models.blocks
+package io.adventech.blockkit.model.resource
 
 import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass
 
 @Keep
 @JsonClass(generateAdapter = true)
-data class AnyBlock(val id: String)
+data class ResourceCovers(
+    val portrait: String,
+    val landscape: String,
+    val square: String,
+    val splash: String?,
+)

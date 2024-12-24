@@ -24,9 +24,9 @@ package ss.feed
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
-import app.ss.models.feed.FeedGroup
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
+import io.adventech.blockkit.model.feed.FeedGroup
 import kotlinx.collections.immutable.ImmutableList
 import ss.feed.model.FeedResourceSpec
 import ss.services.auth.overlay.AccountDialogOverlay

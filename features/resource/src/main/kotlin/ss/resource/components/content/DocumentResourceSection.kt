@@ -54,8 +54,8 @@ import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.image.RemoteImage
-import app.ss.models.feed.FeedResourceKind
-import app.ss.models.resource.ResourceDocument
+import io.adventech.blockkit.model.feed.FeedResourceKind
+import io.adventech.blockkit.model.resource.ResourceDocument
 import org.joda.time.format.DateTimeFormat
 import ss.misc.SSConstants
 

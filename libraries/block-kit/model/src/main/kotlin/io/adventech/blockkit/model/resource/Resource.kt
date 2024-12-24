@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,23 +13,41 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
-package app.ss.models
+package io.adventech.blockkit.model.resource
 
 import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass
+import io.adventech.blockkit.model.feed.FeedResourceKind
+import io.adventech.blockkit.model.feed.FeedType
 
 @Keep
 @JsonClass(generateAdapter = true)
-data class Feature(
+data class Resource(
+    val id: String,
     val name: String,
-    val title: String = "",
-    val description: String = "",
-    val image: String = ""
+    val title: String,
+    val startDate: String?,
+    val endDate: String?,
+    val description: String?,
+    val introduction: String?,
+    val index: String,
+    val type: FeedType,
+    val credits: List<Credit>,
+    val features: List<Feature>,
+    val primaryColor: String,
+    val primaryColorDark: String,
+    val subtitle: String?,
+    val covers: ResourceCovers,
+    val kind: FeedResourceKind,
+    val sectionView: ResourceSectionViewType?,
+    val sections: List<ResourceSection>?,
+    val cta: ResourceCTA?,
+    val preferredCover: ResourcePreferredCover?,
 )

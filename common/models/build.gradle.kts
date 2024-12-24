@@ -32,6 +32,7 @@ android {
 }
 
 dependencies {
+    api(projects.libraries.blockKit.model)
     implementation(libs.androidx.annotations)
     implementation(libs.square.moshi.kotlin)
 }

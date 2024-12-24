@@ -23,12 +23,12 @@
 package ss.feed.model
 
 import androidx.compose.runtime.Immutable
-import app.ss.models.feed.FeedDirection
-import app.ss.models.feed.FeedGroup
-import app.ss.models.feed.FeedView
-import app.ss.models.resource.Resource
+import io.adventech.blockkit.model.feed.FeedDirection
+import io.adventech.blockkit.model.feed.FeedGroup
+import io.adventech.blockkit.model.feed.FeedView
+import io.adventech.blockkit.model.resource.Resource
+import io.adventech.blockkit.model.resource.ResourceCoverType
 import ss.feed.components.FeedResourceCoverSpec
-import app.ss.models.resource.ResourceCoverType
 import ss.feed.model.FeedResourceSpec.ContentDirection
 
 @Immutable

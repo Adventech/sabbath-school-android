@@ -40,8 +40,8 @@ import androidx.palette.graphics.Palette
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
-import app.ss.models.resource.Segment
-import app.ss.models.resource.SegmentType
+import io.adventech.blockkit.model.resource.Segment
+import io.adventech.blockkit.model.resource.SegmentType
 
 @Composable
 fun SegmentCover(

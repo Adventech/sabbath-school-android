@@ -20,16 +20,18 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models.resource
+package io.adventech.blockkit.model.feed
 
 import androidx.annotation.Keep
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @Keep
-@JsonClass(generateAdapter = true)
-data class ResourceCovers(
-    val portrait: String,
-    val landscape: String,
-    val square: String,
-    val splash: String?,
-)
+@JsonClass(generateAdapter = false)
+enum class FeedView {
+    UNKNOWN,
+    @Json(name = "tile") TILE,
+    @Json(name = "banner")BANNER,
+    @Json(name = "square") SQUARE,
+    @Json(name = "folio") FOLIO,
+}

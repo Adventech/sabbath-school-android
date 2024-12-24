@@ -20,18 +20,25 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models.resource
+package io.adventech.blockkit.model.resource
 
 import androidx.annotation.Keep
-import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @Keep
-@JsonClass(generateAdapter = false)
-enum class SegmentType {
-    UNKNOWN,
-    @Json(name = "block") BLOCK,
-    @Json(name = "story") STORY,
-    @Json(name = "pdf") PDF,
-    @Json(name = "video") VIDEO,
-}
+@JsonClass(generateAdapter = true)
+data class Segment(
+    val id: String,
+    val index: String,
+    val name: String,
+    val title: String = "",
+    val type: SegmentType = SegmentType.UNKNOWN,
+    val resourceId: String = "",
+    val markdownTitle: String? = null,
+    val subtitle: String? = null,
+    val markdownSubtitle: String? = null,
+    val titleBelowCover: Boolean? = null,
+    val cover: String? = null,
+    val date: String? = null,
+    val background: String? = null
+)

@@ -45,12 +45,12 @@ import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.list.SnappingLazyRow
-import app.ss.models.feed.FeedDirection
-import app.ss.models.feed.FeedGroup
-import app.ss.models.feed.FeedScope
-import app.ss.models.feed.FeedType
-import app.ss.models.feed.FeedView
-import app.ss.models.resource.Resource
+import io.adventech.blockkit.model.feed.FeedDirection
+import io.adventech.blockkit.model.feed.FeedGroup
+import io.adventech.blockkit.model.feed.FeedScope
+import io.adventech.blockkit.model.feed.FeedType
+import io.adventech.blockkit.model.feed.FeedView
+import io.adventech.blockkit.model.resource.Resource
 import ss.feed.components.PlaceHolders
 import ss.feed.model.toSpec
 

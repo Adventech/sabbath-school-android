@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models.feed
+package io.adventech.blockkit.model.resource
 
 import androidx.annotation.Keep
 import com.squareup.moshi.Json
@@ -28,12 +28,10 @@ import com.squareup.moshi.JsonClass
 
 @Keep
 @JsonClass(generateAdapter = false)
-enum class FeedResourceKind {
+enum class SegmentType {
     UNKNOWN,
-    @Json(name = "book") BOOK,
-    @Json(name = "devotional") DEVOTIONAL,
-    @Json(name = "plan") PLAN,
-    @Json(name = "external") EXTERNAL,
-    @Json(name = "blog") BLOG,
-    @Json(name = "magazine") MAGAZINE,
+    @Json(name = "block") BLOCK,
+    @Json(name = "story") STORY,
+    @Json(name = "pdf") PDF,
+    @Json(name = "video") VIDEO,
 }

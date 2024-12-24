@@ -22,7 +22,7 @@
 
 package ss.resource.components.spec
 
-import app.ss.models.Credit
+import io.adventech.blockkit.model.resource.Credit
 import java.util.UUID
 import javax.annotation.concurrent.Immutable
 

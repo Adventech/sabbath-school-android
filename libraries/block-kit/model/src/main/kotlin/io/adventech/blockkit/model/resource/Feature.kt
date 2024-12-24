@@ -20,14 +20,16 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models
+package io.adventech.blockkit.model.resource
 
 import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass
 
 @Keep
 @JsonClass(generateAdapter = true)
-data class Credit(
+data class Feature(
     val name: String,
-    val value: String,
+    val title: String = "",
+    val description: String = "",
+    val image: String = ""
 )

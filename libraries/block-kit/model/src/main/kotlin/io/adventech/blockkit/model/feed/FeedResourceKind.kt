@@ -20,21 +20,20 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models.feed
+package io.adventech.blockkit.model.feed
 
 import androidx.annotation.Keep
-import app.ss.models.resource.Resource
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @Keep
-@JsonClass(generateAdapter = true)
-data class FeedGroup(
-    val id: String,
-    val type: FeedType,
-    val scope: FeedScope,
-    val direction: FeedDirection,
-    val title: String?,
-    val view: FeedView,
-    val resources: List<Resource>,
-    val seeAll: String?
-)
+@JsonClass(generateAdapter = false)
+enum class FeedResourceKind {
+    UNKNOWN,
+    @Json(name = "book") BOOK,
+    @Json(name = "devotional") DEVOTIONAL,
+    @Json(name = "plan") PLAN,
+    @Json(name = "external") EXTERNAL,
+    @Json(name = "blog") BLOG,
+    @Json(name = "magazine") MAGAZINE,
+}

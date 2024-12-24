@@ -47,7 +47,7 @@ import androidx.compose.ui.unit.sp
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
-import app.ss.models.resource.ResourceSection
+import io.adventech.blockkit.model.resource.ResourceSection
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 

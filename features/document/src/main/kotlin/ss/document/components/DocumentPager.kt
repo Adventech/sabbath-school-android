@@ -40,8 +40,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.theme.SsTheme
-import app.ss.models.resource.Segment
-import app.ss.models.resource.SegmentType
+import io.adventech.blockkit.model.resource.Segment
+import io.adventech.blockkit.model.resource.SegmentType
 import kotlinx.collections.immutable.ImmutableList
 import ss.document.components.segment.SegmentBlockView
 import ss.document.components.segment.SegmentCover

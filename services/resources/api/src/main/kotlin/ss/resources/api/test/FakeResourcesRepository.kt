@@ -23,10 +23,10 @@
 package ss.resources.api.test
 
 import androidx.annotation.VisibleForTesting
-import app.ss.models.feed.FeedGroup
-import app.ss.models.feed.FeedType
-import app.ss.models.resource.Resource
-import app.ss.models.resource.ResourceDocument
+import io.adventech.blockkit.model.feed.FeedGroup
+import io.adventech.blockkit.model.feed.FeedType
+import io.adventech.blockkit.model.resource.Resource
+import io.adventech.blockkit.model.resource.ResourceDocument
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import ss.resources.api.ResourcesRepository

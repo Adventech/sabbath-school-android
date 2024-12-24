@@ -20,18 +20,37 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models.feed
+package io.adventech.blockkit.model
 
-import androidx.annotation.Keep
-import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
-@Keep
 @JsonClass(generateAdapter = false)
-enum class FeedType {
-    UNKNOWN,
-    @Json(name = "ss") SS,
-    @Json(name = "aij") AIJ,
-    @Json(name = "devo") DEVO,
-    @Json(name = "pm") PM,
+data class BlockList(
+    override val id: String,
+    override val type: BlockType,
+    override val style: BlockStyle?,
+    override val data: BlockData?,
+    override val nested: Boolean?,
+    val items: List<BlockListItem>,
+    val depth: Int?,
+    val ordered: Boolean?,
+    val start: Int?,
+): AnyBlock {
+    val bullet: String
+        get() {
+            val depth = this.depth ?: return "•"
+            val bullets = listOf("•", "◦", "▪", "▫", "►", "▻")
+            return bullets[(depth - 1) % bullets.size]
+        }
 }
+
+@JsonClass(generateAdapter = false)
+data class BlockListItem(
+    override val id: String,
+    override val type: BlockType,
+    override val style: BlockStyle?,
+    override val data: BlockData?,
+    override val nested: Boolean?,
+    val index: Int?,
+    val markdown: String,
+): AnyBlock

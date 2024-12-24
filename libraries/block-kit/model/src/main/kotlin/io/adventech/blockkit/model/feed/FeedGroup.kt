@@ -20,14 +20,21 @@
  * THE SOFTWARE.
  */
 
-package app.ss.models.resource
+package io.adventech.blockkit.model.feed
 
 import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass
+import io.adventech.blockkit.model.resource.Resource
 
 @Keep
 @JsonClass(generateAdapter = true)
-data class ResourceCTA(
-    val hidden: Boolean?,
-    val text: String?
+data class FeedGroup(
+    val id: String,
+    val type: FeedType,
+    val scope: FeedScope,
+    val direction: FeedDirection,
+    val title: String?,
+    val view: FeedView,
+    val resources: List<Resource>,
+    val seeAll: String?
 )

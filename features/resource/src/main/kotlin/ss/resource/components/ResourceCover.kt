@@ -61,14 +61,13 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.extensions.isLargeScreen
-import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
-import app.ss.models.resource.Resource
-import app.ss.models.resource.ResourceCoverType
-import app.ss.models.resource.ResourcePreferredCover
 import coil.size.Scale
+import io.adventech.blockkit.model.resource.Resource
+import io.adventech.blockkit.model.resource.ResourceCoverType
+import io.adventech.blockkit.model.resource.ResourcePreferredCover
 
 @Composable
 fun ResourceCover(

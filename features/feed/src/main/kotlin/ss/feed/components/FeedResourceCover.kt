@@ -50,11 +50,11 @@ import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
-import app.ss.models.feed.FeedDirection
-import app.ss.models.feed.FeedView
-import app.ss.models.resource.ResourceCoverType
-import app.ss.models.resource.ResourceCovers
 import coil.size.Scale
+import io.adventech.blockkit.model.feed.FeedDirection
+import io.adventech.blockkit.model.feed.FeedView
+import io.adventech.blockkit.model.resource.ResourceCoverType
+import io.adventech.blockkit.model.resource.ResourceCovers
 import kotlin.math.min
 
 @Immutable
