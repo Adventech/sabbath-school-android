@@ -25,6 +25,7 @@ package io.adventech.blockkit.model.input
 import com.squareup.moshi.JsonClass
 import dev.zacsweers.moshix.adapters.AdaptedBy
 import io.adventech.blockkit.model.adapter.UserInputJsonAdapterFactory
+import java.util.UUID
 
 @AdaptedBy(UserInputJsonAdapterFactory::class)
 sealed interface UserInput {
@@ -86,6 +87,6 @@ sealed interface UserInput {
     ) : UserInput
 
     data object Unknown : UserInput {
-        override val blockId: String = ""
+        override val blockId: String = UUID.randomUUID().toString()
     }
 }

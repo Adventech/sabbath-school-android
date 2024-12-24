@@ -22,6 +22,7 @@
 
 package io.adventech.blockkit.model
 
+import androidx.annotation.Keep
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -50,6 +51,7 @@ enum class TextStyleOffset {
     UNKNOWN
 }
 
+@Keep
 @JsonClass(generateAdapter = true)
 data class TextStyle(
     val typeface: String?,
@@ -59,11 +61,13 @@ data class TextStyle(
     val offset: TextStyleOffset?
 )
 
+@Keep
 @JsonClass(generateAdapter = true)
 data class TitleTextStyle(
     val text: TextStyle?
 )
 
+@Keep
 @JsonClass(generateAdapter = true)
 data class ResourceStyle(
     val title: TitleTextStyle?,
@@ -71,6 +75,7 @@ data class ResourceStyle(
     val description: TitleTextStyle?
 )
 
+@Keep
 @JsonClass(generateAdapter = true)
 data class SegmentStyle(
     val title: TitleTextStyle?,
@@ -78,9 +83,10 @@ data class SegmentStyle(
     val date: TitleTextStyle?
 )
 
+@Keep
 @JsonClass(generateAdapter = true)
 data class Style(
     val resource: ResourceStyle?,
     val segment: SegmentStyle?,
-    val blocks: BlocksStyle?
+    val blocks: BlocksStyle?,
 )

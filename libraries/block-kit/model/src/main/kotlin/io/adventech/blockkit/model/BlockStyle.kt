@@ -22,9 +22,11 @@
 
 package io.adventech.blockkit.model
 
+import androidx.annotation.Keep
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
+@Keep
 @JsonClass(generateAdapter = true)
 data class BlockStyle(
     val block: BlockLevelStyle?,
@@ -33,6 +35,7 @@ data class BlockStyle(
     val text: TextStyle?,
 )
 
+@Keep
 @JsonClass(generateAdapter = true)
 data class BlockLevelStyle(
     val backgroundColor: String?,
@@ -43,12 +46,14 @@ data class BlockLevelStyle(
     val rounded: Boolean?
 )
 
+@Keep
 @JsonClass(generateAdapter = true)
 data class BlockStyleOverride(
     val type: BlockType,
     val style: BlockStyle
 )
 
+@Keep
 @JsonClass(generateAdapter = true)
 data class BlockImageStyle(
     val aspectRatio: Float?,
@@ -66,12 +71,14 @@ enum class BlockStyleSpacing {
     @Json(name = "xl") XL
 }
 
+@Keep
 @JsonClass(generateAdapter = true)
 data class BackgroundPositionStyle(
     val x: BlockStylePositionX,
     val y: BlockStylePositionY
 )
 
+@Keep
 @JsonClass(generateAdapter = true)
 data class SpacingStyle(
     val top: BlockStyleSpacing?,
@@ -103,18 +110,21 @@ enum class ImageStyleTextAlignment {
     @Json(name = "bottom") BOTTOM
 }
 
+@Keep
 @JsonClass(generateAdapter = true)
 data class BlocksStyle(
     val inline: InlineBlocksStyle?,
     val nested: NestedBlocksStyle?
 )
 
+@Keep
 @JsonClass(generateAdapter = true)
 data class InlineBlocksStyle(
     val all: BlockStyle?,
     val blocks: List<BlockStyleOverride>?
 )
 
+@Keep
 @JsonClass(generateAdapter = true)
 data class NestedBlocksStyle(
     val all: BlockStyle?,
