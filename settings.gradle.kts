@@ -68,6 +68,8 @@ include(
     ":features:settings",
     ":libraries:app-widget:api",
     ":libraries:app-widget:test-fixtures",
+    ":libraries:block-kit:model",
+    ":libraries:block-kit:ui",
     ":libraries:circuit:api",
     ":libraries:foundation:android",
     ":libraries:foundation:coroutines",
