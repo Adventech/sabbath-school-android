@@ -22,12 +22,19 @@
 
 package io.adventech.blockkit.model
 
+import androidx.annotation.Keep
+import com.squareup.moshi.JsonClass
+
+@Keep
+@JsonClass(generateAdapter = true)
 data class CompletionData(
     val length: Int,
     val placeholder: String,
     val correctCompletion: String?
 )
 
+@Keep
+@JsonClass(generateAdapter = true)
 data class BlockData(
     val bible: Map<String, BlockItem.Excerpt>?,
     val egw: Map<String, List<BlockItem>>?,

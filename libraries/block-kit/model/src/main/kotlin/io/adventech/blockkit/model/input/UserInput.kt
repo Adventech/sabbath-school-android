@@ -22,11 +22,13 @@
 
 package io.adventech.blockkit.model.input
 
+import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass
 import dev.zacsweers.moshix.adapters.AdaptedBy
 import io.adventech.blockkit.model.adapter.UserInputJsonAdapterFactory
 import java.util.UUID
 
+@Keep
 @AdaptedBy(UserInputJsonAdapterFactory::class)
 sealed interface UserInput {
     val blockId: String

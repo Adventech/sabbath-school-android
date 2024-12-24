@@ -22,6 +22,8 @@
 
 package io.adventech.blockkit.model
 
+import androidx.annotation.Keep
+import com.squareup.moshi.JsonClass
 import dev.zacsweers.moshix.adapters.AdaptedBy
 import io.adventech.blockkit.model.adapter.BlockItemJsonAdapterFactory
 import io.adventech.blockkit.model.resource.Resource
@@ -29,6 +31,7 @@ import io.adventech.blockkit.model.resource.ResourceDocument
 import io.adventech.blockkit.model.resource.Segment
 import java.util.UUID
 
+@Keep
 @AdaptedBy(BlockItemJsonAdapterFactory::class)
 sealed interface BlockItem {
     val id: String
@@ -36,6 +39,7 @@ sealed interface BlockItem {
     val data: BlockData?
     val nested: Boolean?
 
+    @JsonClass(generateAdapter = true)
     data class Appeal(
         override val id: String,
         override val style: BlockStyle?,
@@ -44,6 +48,7 @@ sealed interface BlockItem {
         val markdown: String,
     ) : BlockItem
 
+    @JsonClass(generateAdapter = true)
     data class Audio(
         override val id: String,
         override val style: BlockStyle?,
@@ -54,6 +59,7 @@ sealed interface BlockItem {
         val credits: AudioBlockCredits?
     ) : BlockItem
 
+    @JsonClass(generateAdapter = true)
     data class Quote(
         override val id: String,
         override val style: BlockStyle?,
@@ -66,6 +72,7 @@ sealed interface BlockItem {
         val items: List<BlockItem>,
     ) : BlockItem
 
+    @JsonClass(generateAdapter = true)
     data class Checklist(
         override val id: String,
         override val style: BlockStyle?,
@@ -76,6 +83,7 @@ sealed interface BlockItem {
         val items: List<ChecklistItem>,
     ) : BlockItem
 
+    @JsonClass(generateAdapter = true)
     data class ChecklistItem(
         override val id: String,
         override val style: BlockStyle?,
@@ -85,6 +93,7 @@ sealed interface BlockItem {
         val markdown: String,
     ) : BlockItem
 
+    @JsonClass(generateAdapter = true)
     data class Collapse(
         override val id: String,
         override val style: BlockStyle?,
@@ -94,6 +103,7 @@ sealed interface BlockItem {
         val items: List<BlockItem>,
     ) : BlockItem
 
+    @JsonClass(generateAdapter = true)
     data class Excerpt(
         override val id: String,
         override val style: BlockStyle?,
@@ -103,6 +113,7 @@ sealed interface BlockItem {
         val items: List<ExcerptItem>,
     ) : BlockItem
 
+    @JsonClass(generateAdapter = true)
     data class ExcerptItem(
         override val id: String,
         override val style: BlockStyle?,
@@ -112,6 +123,7 @@ sealed interface BlockItem {
         val items: List<BlockItem>,
     ) : BlockItem
 
+    @JsonClass(generateAdapter = true)
     data class Heading(
         override val id: String,
         override val style: BlockStyle?,
@@ -121,6 +133,7 @@ sealed interface BlockItem {
         val depth: Int,
     ) : BlockItem
 
+    @JsonClass(generateAdapter = true)
     data class Hr(
         override val id: String,
         override val style: BlockStyle?,
@@ -128,6 +141,7 @@ sealed interface BlockItem {
         override val nested: Boolean?
     ) : BlockItem
 
+    @JsonClass(generateAdapter = true)
     data class Image(
         override val id: String,
         override val style: BlockStyle?,
@@ -137,6 +151,7 @@ sealed interface BlockItem {
         val caption: String?,
     ) : BlockItem
 
+    @JsonClass(generateAdapter = true)
     data class BlockList(
         override val id: String,
         override val style: BlockStyle?,
@@ -155,6 +170,7 @@ sealed interface BlockItem {
             }
     }
 
+    @JsonClass(generateAdapter = true)
     data class BlockListItem(
         override val id: String,
         override val style: BlockStyle?,
@@ -164,6 +180,7 @@ sealed interface BlockItem {
         val markdown: String,
     ) : BlockItem
 
+    @JsonClass(generateAdapter = true)
     data class MultipleChoice(
         override val id: String,
         override val style: BlockStyle?,
@@ -175,6 +192,7 @@ sealed interface BlockItem {
         val answer: Int,
     ) : BlockItem
 
+    @JsonClass(generateAdapter = true)
     data class MultipleChoiceItem(
         override val id: String,
         override val style: BlockStyle?,
@@ -184,6 +202,7 @@ sealed interface BlockItem {
         val markdown: String,
     ) : BlockItem
 
+    @JsonClass(generateAdapter = true)
     data class Paragraph(
         override val id: String,
         override val style: BlockStyle?,
@@ -192,6 +211,7 @@ sealed interface BlockItem {
         val markdown: String,
     ) : BlockItem
 
+    @JsonClass(generateAdapter = true)
     data class Poll(
         override val id: String,
         override val style: BlockStyle?,
@@ -201,6 +221,7 @@ sealed interface BlockItem {
         val items: List<PollItem>,
     ) : BlockItem
 
+    @JsonClass(generateAdapter = true)
     data class PollItem(
         override val id: String,
         override val style: BlockStyle?,
@@ -210,6 +231,7 @@ sealed interface BlockItem {
         val markdown: String,
     ) : BlockItem
 
+    @JsonClass(generateAdapter = true)
     data class Reference(
         override val id: String,
         override val style: BlockStyle?,
@@ -224,6 +246,7 @@ sealed interface BlockItem {
         val document: ResourceDocument?,
     ) : BlockItem
 
+    @JsonClass(generateAdapter = true)
     data class Story(
         override val id: String,
         override val style: BlockStyle?,
@@ -232,6 +255,7 @@ sealed interface BlockItem {
         val items: List<StorySlide>,
     ) : BlockItem
 
+    @JsonClass(generateAdapter = true)
     data class StorySlide(
         override val id: String,
         override val style: BlockStyle?,
@@ -242,6 +266,7 @@ sealed interface BlockItem {
         val markdown: String,
     ) : BlockItem
 
+    @JsonClass(generateAdapter = true)
     data class TableBlock(
         override val id: String,
         override val style: BlockStyle?,
@@ -251,6 +276,7 @@ sealed interface BlockItem {
         val header: List<TableCell>,
     ) : BlockItem
 
+    @JsonClass(generateAdapter = true)
     data class Question(
         override val id: String,
         override val style: BlockStyle?,
@@ -259,6 +285,7 @@ sealed interface BlockItem {
         val markdown: String,
     ) : BlockItem
 
+    @JsonClass(generateAdapter = true)
     data class Video(
         override val id: String,
         override val style: BlockStyle?,

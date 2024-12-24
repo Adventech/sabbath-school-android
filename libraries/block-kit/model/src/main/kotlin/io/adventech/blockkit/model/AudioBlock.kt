@@ -22,11 +22,15 @@
 
 package io.adventech.blockkit.model
 
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class AudioBlockCredit(
     val key: String,
     val value: String
 )
 
+@JsonClass(generateAdapter = true)
 data class AudioBlockCredits(
     val title: String?,
     val credits: List<AudioBlockCredit>,
