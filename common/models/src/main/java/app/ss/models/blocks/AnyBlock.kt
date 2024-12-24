@@ -20,41 +20,11 @@
  * THE SOFTWARE.
  */
 
-package ss.document
+package app.ss.models.blocks
 
-import app.ss.models.resource.Segment
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
-import kotlinx.collections.immutable.ImmutableList
+import androidx.annotation.Keep
+import com.squareup.moshi.JsonClass
 
-sealed interface State : CircuitUiState {
-    val title: String
-    val hasCover: Boolean
-    val eventSink: (Event) -> Unit
-
-    data class Loading(
-        override val title: String,
-        override val hasCover: Boolean,
-        override val eventSink: (Event) -> Unit) : State
-
-    data class Success(
-        override val title: String,
-        override val hasCover: Boolean,
-        override val eventSink: (Event) -> Unit,
-        val initialPage: Int,
-        val segments: ImmutableList<Segment>,
-        val selectedSegment: Segment?,
-        val titleBelowCover: Boolean,
-    ) : State
-
-}
-
-sealed interface Event : CircuitUiEvent {
-
-    /** Navigation icon is clicked. */
-    data object OnNavBack : Event
-}
-
-sealed interface SuccessEvent : Event {
-    data class OnPageChange(val page: Int) : SuccessEvent
-}
+@Keep
+@JsonClass(generateAdapter = true)
+data class AnyBlock(val id: String)

@@ -22,12 +22,15 @@
 
 package ss.document.components
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import app.ss.design.compose.widget.appbar.SsTopAppBar
@@ -41,17 +44,26 @@ import app.ss.design.compose.widget.icon.Icons
 fun DocumentTopAppBar(
     title: String,
     modifier: Modifier = Modifier,
+    collapsible: Boolean = false,
+    collapsed: Boolean = false,
     scrollBehavior: TopAppBarScrollBehavior? = null,
     onNavBack: () -> Unit = {},
 ) {
     SsTopAppBar(
         spec = TopAppBarSpec(
-            topAppBarType = TopAppBarType.Large,
+            topAppBarType = TopAppBarType.Small,
         ),
         modifier = modifier,
         navigationIcon = {
             IconButton(onClick = onNavBack) {
-                IconBox(icon = Icons.ArrowBack)
+                val iconColor by animateColorAsState(
+                    targetValue = if (collapsible && !collapsed) Color.White else LocalContentColor.current,
+                    label = "icon-color"
+                )
+                IconBox(
+                    icon = Icons.ArrowBack,
+                    contentColor = iconColor,
+                )
             }
         },
         title = {

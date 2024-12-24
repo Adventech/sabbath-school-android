@@ -22,45 +22,75 @@
 
 package ss.document
 
-import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.unit.dp
+import app.ss.design.compose.extensions.scroll.ScrollAlpha
+import app.ss.design.compose.extensions.scroll.rememberScrollAlpha
+import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
 import ss.document.components.DocumentLoadingView
+import ss.document.components.DocumentPager
 import ss.document.components.DocumentTopAppBar
+import ss.document.components.segment.hasCover
 import ss.libraries.circuit.navigation.DocumentScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @CircuitInject(DocumentScreen::class, SingletonComponent::class)
 @Composable
 fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
-    // Switch based on document type
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    val listState: LazyListState = rememberLazyListState()
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+
+    val listState = rememberLazyListState()
+    val scrollAlpha: ScrollAlpha = rememberScrollAlpha(listState = listState)
+    val collapsed by remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
+    val toolbarTitle by remember(state) { derivedStateOf { if (collapsed) state.title else "" } }
 
     HazeScaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-             DocumentTopAppBar(
-                 title = state.title,
-                 scrollBehavior = scrollBehavior,
-                 onNavBack = { state.eventSink(Event.OnNavBack) }
-             )
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = SsTheme.colors.primaryBackground.copy(
+                    alpha = if (collapsed) 1f else scrollAlpha.alpha
+                ),
+                tonalElevation = if (collapsed) 4.dp else 0.dp
+            ) {
+                DocumentTopAppBar(
+                    title = toolbarTitle,
+                    scrollBehavior = scrollBehavior,
+                    collapsible = state.hasCover,
+                    collapsed = collapsed,
+                    onNavBack = { state.eventSink(Event.OnNavBack) }
+                )
+            }
         },
     ) {
         when (state) {
             is State.Loading -> {
-                DocumentLoadingView(state = listState)
+                DocumentLoadingView()
             }
 
             is State.Success -> {
-
+                DocumentPager(
+                    segments = state.segments,
+                    selectedSegment = state.selectedSegment,
+                    titleBelowCover = state.titleBelowCover,
+                    listState = listState
+                ) {
+                    state.eventSink(SuccessEvent.OnPageChange(it))
+                }
             }
         }
     }

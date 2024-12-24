@@ -22,6 +22,7 @@
 
 package app.ss.design.compose.widget.image
 
+import android.graphics.drawable.Drawable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -60,7 +61,8 @@ data class RemoteImage(
     val scale: Scale = Scale.FIT,
     val colorFilter: ColorFilter? = null,
     val loading: @Composable () -> Unit = {},
-    val error: @Composable () -> Unit = {}
+    val error: @Composable () -> Unit = {},
+    val onSuccess: @Composable (Drawable) -> Unit = {},
 ) : ContentSlot {
 
     @Composable
@@ -70,10 +72,11 @@ data class RemoteImage(
                 .data(data)
                 .crossfade(true)
                 .scale(scale = scale)
+                .allowHardware(false)
                 .build()
         )
 
-        when (painter.state) {
+        when (val state = painter.state) {
             is AsyncImagePainter.State.Loading -> {
                 loading()
             }
@@ -81,7 +84,9 @@ data class RemoteImage(
             is AsyncImagePainter.State.Error -> {
                 error()
             }
-            is AsyncImagePainter.State.Success -> {}
+            is AsyncImagePainter.State.Success -> {
+                onSuccess(state.result.drawable)
+            }
         }
 
         Image(

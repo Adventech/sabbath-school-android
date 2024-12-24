@@ -29,4 +29,5 @@ import kotlinx.parcelize.Parcelize
 data class DocumentScreen(
     val index: String,
     val title: String,
+    val cover: String?
 ): Screen
