@@ -30,8 +30,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.core.app.ShareCompat
 import app.ss.auth.AuthRepository
-import app.ss.models.feed.FeedGroup
-import app.ss.models.feed.FeedType
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
@@ -42,6 +40,8 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
+import io.adventech.blockkit.model.feed.FeedGroup
+import io.adventech.blockkit.model.feed.FeedType
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineScope

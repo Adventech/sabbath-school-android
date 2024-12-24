@@ -51,9 +51,9 @@ import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.theme.SsTheme
-import app.ss.models.feed.FeedDirection
-import app.ss.models.feed.FeedView
-import app.ss.models.resource.ResourceCoverType
+import io.adventech.blockkit.model.feed.FeedDirection
+import io.adventech.blockkit.model.feed.FeedView
+import io.adventech.blockkit.model.resource.ResourceCoverType
 import ss.feed.components.coverSize
 
 private val horizontalPadding = 16.dp

@@ -22,14 +22,14 @@
 
 package ss.lessons.api
 
-import app.ss.models.feed.FeedGroup
+import app.ss.models.resource.FeedResponse
+import app.ss.models.resource.LanguageResponse
+import io.adventech.blockkit.model.feed.FeedGroup
+import io.adventech.blockkit.model.resource.Resource
+import io.adventech.blockkit.model.resource.ResourceDocument
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
-import app.ss.models.resource.FeedResponse
-import app.ss.models.resource.LanguageResponse
-import app.ss.models.resource.Resource
-import app.ss.models.resource.ResourceDocument
 
 interface ResourcesApi {
 

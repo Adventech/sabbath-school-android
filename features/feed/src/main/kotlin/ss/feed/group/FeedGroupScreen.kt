@@ -22,10 +22,10 @@
 
 package ss.feed.group
 
-import app.ss.models.feed.FeedType
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
+import io.adventech.blockkit.model.feed.FeedType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.parcelize.Parcelize
 import ss.feed.model.FeedResourceSpec

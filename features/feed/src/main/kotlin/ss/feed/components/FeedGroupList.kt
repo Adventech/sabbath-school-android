@@ -40,9 +40,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.theme.Dimens
-import app.ss.models.feed.FeedDirection
-import app.ss.models.feed.FeedGroup
-import app.ss.models.resource.Resource
+import io.adventech.blockkit.model.feed.FeedDirection
+import io.adventech.blockkit.model.feed.FeedGroup
+import io.adventech.blockkit.model.resource.Resource
 import kotlinx.collections.immutable.ImmutableList
 import ss.feed.components.view.FeedGroupView
 import ss.feed.components.view.FeedResourceView

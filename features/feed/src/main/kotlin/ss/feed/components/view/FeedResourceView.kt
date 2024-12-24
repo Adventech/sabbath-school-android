@@ -43,7 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.theme.SsTheme
-import app.ss.models.feed.FeedView
+import io.adventech.blockkit.model.feed.FeedView
 import ss.feed.components.FeedResourceCover
 import ss.feed.components.PlaceHolders
 import ss.feed.model.FeedResourceSpec

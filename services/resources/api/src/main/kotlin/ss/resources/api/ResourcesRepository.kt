@@ -22,10 +22,10 @@
 
 package ss.resources.api
 
-import app.ss.models.feed.FeedGroup
-import app.ss.models.feed.FeedType
-import app.ss.models.resource.Resource
-import app.ss.models.resource.ResourceDocument
+import io.adventech.blockkit.model.feed.FeedGroup
+import io.adventech.blockkit.model.feed.FeedType
+import io.adventech.blockkit.model.resource.Resource
+import io.adventech.blockkit.model.resource.ResourceDocument
 import kotlinx.coroutines.flow.Flow
 import ss.resources.model.FeedModel
 import ss.resources.model.LanguageModel

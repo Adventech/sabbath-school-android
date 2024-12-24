@@ -30,6 +30,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.zacsweers.moshix.adapters.AdaptedBy
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -49,6 +50,7 @@ object ApiModule {
 
     private val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
+        .add(AdaptedBy.Factory())
         .build()
 
     private fun retrofit(okHttpClient: OkHttpClient, baseUrl: String): Retrofit = Retrofit.Builder()

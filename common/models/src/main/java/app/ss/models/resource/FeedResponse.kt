@@ -23,8 +23,8 @@
 package app.ss.models.resource
 
 import androidx.annotation.Keep
-import app.ss.models.feed.FeedGroup
 import com.squareup.moshi.JsonClass
+import io.adventech.blockkit.model.feed.FeedGroup
 
 @Keep
 @JsonClass(generateAdapter = true)

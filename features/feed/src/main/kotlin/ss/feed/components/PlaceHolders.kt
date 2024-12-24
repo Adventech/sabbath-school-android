@@ -22,14 +22,14 @@
 
 package ss.feed.components
 
-import app.ss.models.feed.FeedDirection
-import app.ss.models.feed.FeedGroup
-import app.ss.models.feed.FeedResourceKind
-import app.ss.models.feed.FeedScope
-import app.ss.models.feed.FeedType
-import app.ss.models.feed.FeedView
-import app.ss.models.resource.Resource
-import app.ss.models.resource.ResourceCovers
+import io.adventech.blockkit.model.feed.FeedDirection
+import io.adventech.blockkit.model.feed.FeedGroup
+import io.adventech.blockkit.model.feed.FeedResourceKind
+import io.adventech.blockkit.model.feed.FeedScope
+import io.adventech.blockkit.model.feed.FeedType
+import io.adventech.blockkit.model.feed.FeedView
+import io.adventech.blockkit.model.resource.Resource
+import io.adventech.blockkit.model.resource.ResourceCovers
 
 object PlaceHolders {
     val FEED_RESOURCE = Resource(

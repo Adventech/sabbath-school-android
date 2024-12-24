@@ -23,6 +23,8 @@ package app.ss.models
 
 import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass
+import io.adventech.blockkit.model.resource.Credit
+import io.adventech.blockkit.model.resource.Feature
 
 @Keep
 @JsonClass(generateAdapter = true)

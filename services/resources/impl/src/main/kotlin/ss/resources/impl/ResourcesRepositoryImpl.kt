@@ -22,32 +22,32 @@
 
 package ss.resources.impl
 
-import app.ss.models.feed.FeedGroup
-import app.ss.models.feed.FeedType
-import app.ss.models.resource.Resource
-import app.ss.models.resource.ResourceDocument
 import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
-import kotlinx.coroutines.withContext
-import ss.foundation.android.connectivity.ConnectivityHelper
-import ss.foundation.coroutines.DispatcherProvider
-import ss.prefs.api.SSPrefs
-import ss.lessons.api.ResourcesApi
-import ss.resources.api.ResourcesRepository
-import ss.resources.model.FeedModel
-import ss.resources.model.LanguageModel
-import javax.inject.Inject
 import dagger.Lazy
+import io.adventech.blockkit.model.feed.FeedGroup
+import io.adventech.blockkit.model.feed.FeedType
+import io.adventech.blockkit.model.resource.Resource
+import io.adventech.blockkit.model.resource.ResourceDocument
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.withContext
+import ss.foundation.android.connectivity.ConnectivityHelper
+import ss.foundation.coroutines.DispatcherProvider
+import ss.lessons.api.ResourcesApi
 import ss.libraries.storage.api.dao.LanguagesDao
 import ss.libraries.storage.api.entity.LanguageEntity
+import ss.prefs.api.SSPrefs
+import ss.resources.api.ResourcesRepository
 import ss.resources.impl.sync.SyncHelper
+import ss.resources.model.FeedModel
+import ss.resources.model.LanguageModel
 import timber.log.Timber
+import javax.inject.Inject
 
 internal class ResourcesRepositoryImpl @Inject constructor(
     private val resourcesApi: ResourcesApi,

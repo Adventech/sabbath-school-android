@@ -32,21 +32,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.theme.SsTheme
-import app.ss.models.resource.Segment
+import io.adventech.blockkit.model.resource.Segment
 
 @Composable
 fun SegmentBlockView(
     segment: Segment,
     modifier: Modifier = Modifier,
 ) {
-
     Column(
         modifier = modifier.fillMaxSize(),
     ) {
-//        item("cover") {
-//            SegmentCover(cover = segment.cover)
-//        }
-
         Modifier
             .fillMaxWidth()
             .height(12.dp)
@@ -63,31 +58,18 @@ fun SegmentBlockView(
                 .height(12.dp)
         )
 
-        segment.blocks.orEmpty().forEach { item ->
+
+        segment.blocks.orEmpty().forEach { block ->
             Text(
-                text = "Block with ID: ${item.id}",
+                text = "${block::class.simpleName}",
                 modifier = Modifier,
-                style = SsTheme.typography.titleMedium
+                style = SsTheme.typography.bodyMedium
             )
 
             Spacer(
                 Modifier
                     .fillMaxWidth()
-                    .height(12.dp)
-            )
-        }
-
-        segment.blocks.orEmpty().forEach { item ->
-            Text(
-                text = "Block with ID: ${item.id}",
-                modifier = Modifier,
-                style = SsTheme.typography.titleMedium
-            )
-
-            Spacer(
-                Modifier
-                    .fillMaxWidth()
-                    .height(12.dp)
+                    .height(4.dp)
             )
         }
     }

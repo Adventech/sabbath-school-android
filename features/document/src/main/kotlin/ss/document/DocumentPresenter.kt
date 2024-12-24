@@ -24,9 +24,8 @@ package ss.document
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
-import app.ss.models.resource.ResourceDocument
+import androidx.compose.runtime.setValue
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
@@ -36,6 +35,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
+import io.adventech.blockkit.model.resource.ResourceDocument
 import kotlinx.collections.immutable.toImmutableList
 import ss.document.components.segment.hasCover
 import ss.libraries.circuit.navigation.DocumentScreen

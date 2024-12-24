@@ -23,8 +23,7 @@
 package ss.services.storage.impl
 
 import androidx.room.TypeConverter
-import app.ss.models.Credit
-import app.ss.models.Feature
+import app.ss.models.AppWidgetDay
 import app.ss.models.LessonPdf
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSBibleVerses
@@ -36,7 +35,8 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import app.ss.models.AppWidgetDay
+import io.adventech.blockkit.model.resource.Credit
+import io.adventech.blockkit.model.resource.Feature
 import timber.log.Timber
 import java.lang.reflect.Type
 

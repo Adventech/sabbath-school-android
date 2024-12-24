@@ -25,10 +25,10 @@ package ss.libraries.storage.api.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import app.ss.models.Credit
-import app.ss.models.Feature
 import app.ss.models.OfflineState
 import app.ss.models.QuarterlyGroup
+import io.adventech.blockkit.model.resource.Credit
+import io.adventech.blockkit.model.resource.Feature
 
 @Entity(tableName = "quarterlies")
 data class QuarterlyEntity(

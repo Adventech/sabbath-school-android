@@ -43,7 +43,7 @@ import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
-import app.ss.models.Feature
+import io.adventech.blockkit.model.resource.Feature
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 

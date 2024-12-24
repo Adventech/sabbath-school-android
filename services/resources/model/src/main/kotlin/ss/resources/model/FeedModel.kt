@@ -22,7 +22,7 @@
 
 package ss.resources.model
 
-import app.ss.models.feed.FeedGroup
+import io.adventech.blockkit.model.feed.FeedGroup
 
 data class FeedModel(
     val title: String,
