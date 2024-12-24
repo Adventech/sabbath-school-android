@@ -57,5 +57,20 @@ fun SegmentBlockView(
                 .fillMaxWidth()
                 .height(12.dp)
         )
+
+
+        segment.blocks.orEmpty().forEach { block ->
+            Text(
+                text = "${block::class.simpleName}",
+                modifier = Modifier,
+                style = SsTheme.typography.bodyMedium
+            )
+
+            Spacer(
+                Modifier
+                    .fillMaxWidth()
+                    .height(4.dp)
+            )
+        }
     }
 }
