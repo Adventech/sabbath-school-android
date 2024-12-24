@@ -3,5 +3,5 @@
   "extends": [
     "config:base"
   ],
-  "enabled": false
+  "enabled": true
 }
