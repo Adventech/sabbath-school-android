@@ -42,6 +42,7 @@ import ss.feed.group.FeedGroupScreen.Event
 import ss.feed.group.FeedGroupScreen.State
 import ss.feed.model.FeedResourceSpec
 import ss.feed.model.toSpec
+import ss.libraries.circuit.navigation.ResourceScreen
 import ss.resources.api.ResourcesRepository
 
 class FeedGroupPresenter @AssistedInject constructor(
@@ -64,9 +65,7 @@ class FeedGroupPresenter @AssistedInject constructor(
         val eventSink: (Event) -> Unit = { event ->
             when (event) {
                 is Event.OnNavBack -> navigator.pop()
-                is Event.OnItemClick -> {
-                    // Handle item click
-                }
+                is Event.OnItemClick -> navigator.goTo(ResourceScreen(event.index))
             }
         }
 
