@@ -25,6 +25,9 @@ package ss.resources.impl
 import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
 import dagger.Lazy
+import io.adventech.blockkit.model.AudioAux
+import io.adventech.blockkit.model.PDFAux
+import io.adventech.blockkit.model.VideoAux
 import io.adventech.blockkit.model.feed.FeedGroup
 import io.adventech.blockkit.model.feed.FeedType
 import io.adventech.blockkit.model.resource.Resource
@@ -165,6 +168,60 @@ internal class ResourcesRepositoryImpl @Inject constructor(
                     resource.value.body()?.let {
                         Result.success(it)
                     } ?: Result.failure(Throwable("Failed to fetch Document, body is null"))
+                }
+            }
+        }
+    }
+
+    override suspend fun audio(resourceIndex: String, documentIndex: String): Result<List<AudioAux>> {
+        return withContext(dispatcherProvider.default) {
+            when (val resource = safeApiCall(connectivityHelper) {
+                resourcesApi.audio(resourceIndex)
+            }) {
+                is NetworkResource.Failure -> {
+                    Result.failure(Throwable("Failed to fetch Audio, ${resource.errorBody}"))
+                }
+
+                is NetworkResource.Success -> {
+                    resource.value.body()?.let {
+                        Result.success(it.filter { it.target.startsWith(documentIndex) })
+                    } ?: Result.failure(Throwable("Failed to fetch Audio, body is null"))
+                }
+            }
+        }
+    }
+
+    override suspend fun video(resourceIndex: String, documentIndex: String): Result<List<VideoAux>> {
+        return withContext(dispatcherProvider.default) {
+            when (val resource = safeApiCall(connectivityHelper) {
+                resourcesApi.video(resourceIndex)
+            }) {
+                is NetworkResource.Failure -> {
+                    Result.failure(Throwable("Failed to fetch Videos, ${resource.errorBody}"))
+                }
+
+                is NetworkResource.Success -> {
+                    resource.value.body()?.let {
+                        Result.success(it)
+                    } ?: Result.failure(Throwable("Failed to fetch Videos, body is null"))
+                }
+            }
+        }
+    }
+
+    override suspend fun pdf(resourceIndex: String, documentIndex: String): Result<List<PDFAux>> {
+        return withContext(dispatcherProvider.default) {
+            when (val resource = safeApiCall(connectivityHelper) {
+                resourcesApi.pdf(resourceIndex)
+            }) {
+                is NetworkResource.Failure -> {
+                    Result.failure(Throwable("Failed to fetch PDFs, ${resource.errorBody}"))
+                }
+
+                is NetworkResource.Success -> {
+                    resource.value.body()?.let {
+                        Result.success(it.filter { it.target == documentIndex })
+                    } ?: Result.failure(Throwable("Failed to fetch PDFs, body is null"))
                 }
             }
         }

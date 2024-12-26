@@ -20,15 +20,20 @@
  * THE SOFTWARE.
  */
 
-package ss.libraries.circuit.navigation
+package io.adventech.blockkit.model
 
-import com.slack.circuit.runtime.screen.Screen
-import kotlinx.parcelize.Parcelize
+import androidx.annotation.Keep
+import com.squareup.moshi.JsonClass
 
-@Parcelize
-data class DocumentScreen(
-    val index: String,
+@Keep
+@JsonClass(generateAdapter = true)
+data class AudioAux(
+    val id: String,
+    val target: String,
+    val targetIndex: String,
     val title: String,
-    val cover: String?,
-    val resourceIndex: String,
-): Screen
+    val artist: String,
+    val src: String,
+    val image: String,
+    val imageRatio: String
+)

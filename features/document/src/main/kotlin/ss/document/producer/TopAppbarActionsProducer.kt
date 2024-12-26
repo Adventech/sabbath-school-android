@@ -24,27 +24,62 @@ package ss.document.producer
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
-import io.adventech.blockkit.model.resource.ResourceDocument
+import androidx.compose.runtime.getValue
+import com.slack.circuit.retained.produceRetainedState
+import io.adventech.blockkit.model.AudioAux
+import io.adventech.blockkit.model.PDFAux
+import io.adventech.blockkit.model.VideoAux
+import io.adventech.blockkit.model.resource.Segment
+import io.adventech.blockkit.model.resource.SegmentType
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import ss.document.components.DocumentTopAppBarAction
+import ss.resources.api.ResourcesRepository
 import javax.inject.Inject
 
 @Stable
 interface TopAppbarActionsProducer {
 
     @Composable
-    operator fun invoke(document: ResourceDocument?): ImmutableList<DocumentTopAppBarAction>
+    operator fun invoke(
+        resourceIndex: String,
+        documentIndex: String,
+        segment: Segment?
+    ): ImmutableList<DocumentTopAppBarAction>
 }
 
-internal class TopAppbarActionsProducerImpl @Inject constructor() : TopAppbarActionsProducer {
+internal class TopAppbarActionsProducerImpl @Inject constructor(
+    private val repository: ResourcesRepository,
+) : TopAppbarActionsProducer {
+
     @Composable
-    override fun invoke(document: ResourceDocument?): ImmutableList<DocumentTopAppBarAction> {
-        return persistentListOf(
-            DocumentTopAppBarAction.Audio,
-            DocumentTopAppBarAction.Video,
-            DocumentTopAppBarAction.Pdf,
-            DocumentTopAppBarAction.DisplayOptions
-        )
+    override fun invoke(
+        resourceIndex: String,
+        documentIndex: String,
+        segment: Segment?
+    ): ImmutableList<DocumentTopAppBarAction> {
+        val audio by produceRetainedState<List<AudioAux>>(emptyList()) {
+            value = repository.audio(resourceIndex, documentIndex).getOrNull().orEmpty()
+        }
+        val video by produceRetainedState<List<VideoAux>>(emptyList()) {
+            value = repository.video(resourceIndex, documentIndex).getOrNull().orEmpty()
+        }
+        val pdfs by produceRetainedState<List<PDFAux>>(emptyList()) {
+            value = repository.pdf(resourceIndex, documentIndex).getOrNull().orEmpty()
+        }
+        return buildList {
+            if (audio.isNotEmpty()) {
+                add(DocumentTopAppBarAction.Audio)
+            }
+            if (video.isNotEmpty()) {
+                add(DocumentTopAppBarAction.Video)
+            }
+            if (segment?.type == SegmentType.BLOCK) {
+                if (pdfs.isNotEmpty()) {
+                    add(DocumentTopAppBarAction.Pdf)
+                }
+                add(DocumentTopAppBarAction.DisplayOptions)
+            }
+        }.toImmutableList()
     }
 }

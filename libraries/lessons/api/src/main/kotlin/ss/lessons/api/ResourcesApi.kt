@@ -24,6 +24,9 @@ package ss.lessons.api
 
 import app.ss.models.resource.FeedResponse
 import app.ss.models.resource.LanguageResponse
+import io.adventech.blockkit.model.AudioAux
+import io.adventech.blockkit.model.PDFAux
+import io.adventech.blockkit.model.VideoAux
 import io.adventech.blockkit.model.feed.FeedGroup
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.model.resource.ResourceDocument
@@ -51,4 +54,13 @@ interface ResourcesApi {
 
     @GET("api/v3/{index}/index.json")
     suspend fun document(@Path("index") index: String): Response<ResourceDocument>
+
+    @GET("api/v3/{index}/audio.json")
+    suspend fun audio(@Path("index") index: String): Response<List<AudioAux>>
+
+    @GET("api/v3/{index}/video.json")
+    suspend fun video(@Path("index") index: String): Response<List<VideoAux>>
+
+    @GET("api/v3/{index}/pdf.json")
+    suspend fun pdf(@Path("index") index: String): Response<List<PDFAux>>
 }

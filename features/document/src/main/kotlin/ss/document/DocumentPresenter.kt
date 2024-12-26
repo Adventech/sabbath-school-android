@@ -57,7 +57,7 @@ class DocumentPresenter @AssistedInject constructor(
 
         val resourceDocument = response
 
-        val actions = actionsProducer(resourceDocument)
+        val actions = actionsProducer(screen.resourceIndex, screen.index, selectedPage)
 
         val eventSink: (Event) -> Unit = { event ->
             when (event) {

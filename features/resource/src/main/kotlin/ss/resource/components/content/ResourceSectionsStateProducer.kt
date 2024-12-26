@@ -67,7 +67,14 @@ internal class ResourceSectionsStateProducerImpl @Inject constructor() : Resourc
                 !document.externalURL.isNullOrEmpty() -> document.externalURL?.let {
                     navigator.goTo(CustomTabsIntentScreen(it))
                 }
-                else -> navigator.goTo(DocumentScreen(document.index, document.title, document.cover))
+                else -> navigator.goTo(
+                    DocumentScreen(
+                        index = document.index,
+                        title = document.title,
+                        cover = document.cover,
+                        resourceIndex = resource.index,
+                    )
+                )
             }
         }
 

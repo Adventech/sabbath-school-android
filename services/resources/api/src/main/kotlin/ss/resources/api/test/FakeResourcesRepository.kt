@@ -23,6 +23,9 @@
 package ss.resources.api.test
 
 import androidx.annotation.VisibleForTesting
+import io.adventech.blockkit.model.AudioAux
+import io.adventech.blockkit.model.PDFAux
+import io.adventech.blockkit.model.VideoAux
 import io.adventech.blockkit.model.feed.FeedGroup
 import io.adventech.blockkit.model.feed.FeedType
 import io.adventech.blockkit.model.resource.Resource
@@ -57,6 +60,27 @@ class FakeResourcesRepository(
     }
 
     override suspend fun document(index: String): Result<ResourceDocument> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun audio(
+        resourceIndex: String,
+        documentIndex: String
+    ): Result<List<AudioAux>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun video(
+        resourceIndex: String,
+        documentIndex: String
+    ): Result<List<VideoAux>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun pdf(
+        resourceIndex: String,
+        documentIndex: String
+    ): Result<List<PDFAux>> {
         TODO("Not yet implemented")
     }
 }
