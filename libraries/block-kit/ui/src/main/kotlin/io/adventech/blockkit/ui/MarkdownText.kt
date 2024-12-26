@@ -26,7 +26,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,6 +33,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
@@ -67,12 +67,11 @@ internal const val TAG_IMAGE_URL = "imageUrl"
 @Composable
 internal fun MarkdownText(
     markdownText: String,
-    style: TextStyle,
     modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colorScheme.onSurface,
+    style: TextStyle = MaterialTheme.typography.bodyLarge,
     onHandleUri: (String) -> Unit = {},
 ) {
-    val colors = MaterialTheme.colorScheme
-
     val parsedNode = remember(markdownText) {
         val parser = Parser.builder().build()
         val root = parser.parse(markdownText) as Document
@@ -82,7 +81,7 @@ internal fun MarkdownText(
     val styledText = remember(parsedNode) {
         buildAnnotatedString {
             pushStyle(style.toSpanStyle())
-            appendMarkdownChildren(parsedNode, colors)
+            appendMarkdownChildren(parsedNode, color)
             pop()
         }
     }
@@ -105,6 +104,7 @@ internal fun MarkdownText(
                 }
             }
         },
+        color = color,
         style = style,
         inlineContent = mapOf(
             TAG_IMAGE_URL to InlineTextContent(
@@ -130,23 +130,23 @@ internal fun MarkdownText(
 }
 
 internal fun AnnotatedString.Builder.appendMarkdownChildren(
-    parent: Node, colors: ColorScheme,
+    parent: Node, color: Color,
 ) {
     var child = parent.firstChild
     while (child != null) {
         when (child) {
-            is Paragraph -> appendMarkdownChildren(child, colors)
+            is Paragraph -> appendMarkdownChildren(child, color)
             is Text -> append(child.literal)
             is Image -> appendInlineContent(TAG_IMAGE_URL, child.destination)
             is Emphasis -> {
                 pushStyle(SpanStyle(fontStyle = FontStyle.Italic))
-                appendMarkdownChildren(child, colors)
+                appendMarkdownChildren(child, color)
                 pop()
             }
 
             is StrongEmphasis -> {
                 pushStyle(SpanStyle(fontWeight = FontWeight.Bold))
-                appendMarkdownChildren(child, colors)
+                appendMarkdownChildren(child, color)
                 pop()
             }
 
@@ -161,10 +161,10 @@ internal fun AnnotatedString.Builder.appendMarkdownChildren(
             }
 
             is Link -> {
-                val underline = SpanStyle(colors.onSurface, textDecoration = TextDecoration.Underline)
+                val underline = SpanStyle(color, textDecoration = TextDecoration.Underline)
                 pushStyle(underline)
                 pushStringAnnotation(TAG_URL, child.destination)
-                appendMarkdownChildren(child, colors)
+                appendMarkdownChildren(child, color)
                 pop()
                 pop()
             }
