@@ -122,7 +122,7 @@ internal fun DocumentTopAppBar(
         expanded = expanded,
         onDismissRequest = { expanded = false },
         modifier = modifier,
-        offset = DpOffset(300.dp, 0.dp),
+        offset = DpOffset((-16).dp,  0.dp),
         shape = RoundedCornerShape(16.dp),
         containerColor = SsTheme.colors.primaryBackground,
     ) {
