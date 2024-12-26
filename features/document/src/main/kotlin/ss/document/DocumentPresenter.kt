@@ -38,6 +38,7 @@ import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.model.resource.ResourceDocument
 import kotlinx.collections.immutable.toImmutableList
 import ss.document.components.segment.hasCover
+import ss.document.producer.TopAppbarActionsProducer
 import ss.libraries.circuit.navigation.DocumentScreen
 import ss.resources.api.ResourcesRepository
 
@@ -45,6 +46,7 @@ class DocumentPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     @Assisted private val screen: DocumentScreen,
     private val resourcesRepository: ResourcesRepository,
+    private val actionsProducer: TopAppbarActionsProducer,
 ) : Presenter<State> {
 
     @Composable
@@ -55,11 +57,17 @@ class DocumentPresenter @AssistedInject constructor(
 
         val resourceDocument = response
 
+        val actions = actionsProducer(screen.resourceIndex, screen.index, selectedPage)
+
         val eventSink: (Event) -> Unit = { event ->
             when (event) {
                 Event.OnNavBack -> navigator.pop()
                 is SuccessEvent.OnPageChange -> {
                     selectedPage = documentPages.getOrNull(event.page)
+                }
+
+                is SuccessEvent.OnSegmentSelection -> {
+                    selectedPage = event.segment
                 }
             }
         }
@@ -69,6 +77,7 @@ class DocumentPresenter @AssistedInject constructor(
             else -> State.Success(
                 title = selectedPage?.title ?: resourceDocument.title,
                 hasCover = selectedPage?.hasCover() == true,
+                actions = actions,
                 initialPage = documentPages.indexOf(selectedPage),
                 segments = documentPages,
                 selectedSegment = selectedPage,

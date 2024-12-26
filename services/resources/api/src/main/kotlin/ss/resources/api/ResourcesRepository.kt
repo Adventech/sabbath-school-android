@@ -22,6 +22,9 @@
 
 package ss.resources.api
 
+import app.ss.models.AudioAux
+import app.ss.models.PDFAux
+import app.ss.models.VideoAux
 import io.adventech.blockkit.model.feed.FeedGroup
 import io.adventech.blockkit.model.feed.FeedType
 import io.adventech.blockkit.model.resource.Resource
@@ -42,4 +45,10 @@ interface ResourcesRepository {
     suspend fun resource(index: String): Result<Resource>
 
     suspend fun document(index: String): Result<ResourceDocument>
+
+    suspend fun audio(resourceIndex: String, documentIndex: String): Result<List<AudioAux>>
+
+    suspend fun video(resourceIndex: String, documentIndex: String): Result<List<VideoAux>>
+
+    suspend fun pdf(resourceIndex: String, documentIndex: String): Result<List<PDFAux>>
 }

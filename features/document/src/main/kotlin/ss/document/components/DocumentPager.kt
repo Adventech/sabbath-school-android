@@ -35,6 +35,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -54,15 +55,19 @@ fun DocumentPager(
     selectedSegment: Segment?,
     titleBelowCover: Boolean,
     modifier: Modifier = Modifier,
+    initialPage: Int = 0,
     listState: LazyListState = rememberLazyListState(),
     onPageChange: (Int) -> Unit = {},
 ) {
     val pagerState = rememberPagerState(
+        initialPage = initialPage,
         pageCount = { segments.size },
     )
 
+    LaunchedEffect(initialPage) { pagerState.animateScrollToPage(initialPage) }
+
     LazyColumn(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxSize(),
         state = listState,
     ) {
         item("cover") {
@@ -111,7 +116,9 @@ fun DocumentPager(
         item {
             HorizontalPager(
                 state = pagerState,
-                modifier = modifier.fillMaxSize(),
+                modifier = Modifier,
+                verticalAlignment = Alignment.Top,
+                beyondViewportPageCount = 1,
             ) { page ->
                 val segment = segments[page]
                 when (segment.type) {

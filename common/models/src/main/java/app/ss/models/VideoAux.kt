@@ -20,15 +20,32 @@
  * THE SOFTWARE.
  */
 
-package ss.libraries.circuit.navigation
+package app.ss.models
 
-import com.slack.circuit.runtime.screen.Screen
-import kotlinx.parcelize.Parcelize
+import com.squareup.moshi.JsonClass
 
-@Parcelize
-data class DocumentScreen(
-    val index: String,
+@JsonClass(generateAdapter = true)
+data class VideoAuxArtist(
+    val id: String,
+    val artist: String,
     val title: String,
-    val cover: String?,
-    val resourceIndex: String,
-): Screen
+    val target: String,
+    val targetIndex: String,
+    val src: String,
+    val thumbnail: String,
+)
+
+@JsonClass(generateAdapter = true)
+data class VideoAux(
+    val artist: String,
+    val clips: List<VideoAuxArtist>,
+)
+
+@JsonClass(generateAdapter = true)
+data class VideoClipSegment(
+    val src: String,
+    val artist: String?,
+    val title: String?,
+    val thumbnail: String?,
+    val hls: String?,
+)

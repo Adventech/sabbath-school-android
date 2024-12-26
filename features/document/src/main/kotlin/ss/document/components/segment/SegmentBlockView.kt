@@ -49,7 +49,8 @@ fun SegmentBlockView(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(readerStyle.theme.background()),
+            .background(readerStyle.theme.background())
+            .padding(horizontal = SsTheme.dimens.grid_4),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         segment.subtitle?.let {
@@ -61,7 +62,7 @@ fun SegmentBlockView(
         }
 
         segment.blocks.orEmpty().forEach { block ->
-            BlockContent(block, Modifier.padding(horizontal = 16.dp, vertical = 12.dp))
+            BlockContent(block, Modifier.padding(vertical = 12.dp))
         }
 
         Spacer(Modifier.fillMaxWidth().height(SsTheme.dimens.grid_4))

@@ -20,32 +20,20 @@
  * THE SOFTWARE.
  */
 
-package io.adventech.blockkit.model
+package app.ss.models
 
+import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass
 
+@Keep
 @JsonClass(generateAdapter = true)
-data class VideoAuxArtist(
+data class AudioAux(
     val id: String,
-    val artist: String,
-    val title: String,
     val target: String,
     val targetIndex: String,
-    val src: String,
-    val thumbnail: String,
-)
-
-@JsonClass(generateAdapter = true)
-data class VideoAux(
+    val title: String,
     val artist: String,
-    val clips: List<VideoAuxArtist>,
-)
-
-@JsonClass(generateAdapter = true)
-data class VideoClipSegment(
     val src: String,
-    val artist: String?,
-    val title: String?,
-    val thumbnail: String?,
-    val hls: String?,
+    val image: String,
+    val imageRatio: String
 )

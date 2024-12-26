@@ -63,7 +63,7 @@ fun SegmentHeader(
 
         date?.dateDisplay()?.let {
             Text(
-                text = it,
+                text = it.uppercase(),
                 modifier = Modifier,
                 style = SsTheme.typography.titleLarge.copy(
                     fontSize = 15.sp
@@ -87,6 +87,6 @@ fun SegmentHeader(
     }
 }
 
-private fun String?.dateDisplay(): String? {
-    return this?.let { DateHelper.formatDate(it).uppercase() }
+internal fun String?.dateDisplay(): String? {
+    return this?.let { DateHelper.formatDate(it) }
 }

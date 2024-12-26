@@ -26,6 +26,7 @@ import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import io.adventech.blockkit.model.resource.Segment
 import kotlinx.collections.immutable.ImmutableList
+import ss.document.components.DocumentTopAppBarAction
 
 sealed interface State : CircuitUiState {
     val title: String
@@ -41,6 +42,7 @@ sealed interface State : CircuitUiState {
         override val title: String,
         override val hasCover: Boolean,
         override val eventSink: (Event) -> Unit,
+        val actions: ImmutableList<DocumentTopAppBarAction>,
         val initialPage: Int,
         val segments: ImmutableList<Segment>,
         val selectedSegment: Segment?,
@@ -57,4 +59,5 @@ sealed interface Event : CircuitUiEvent {
 
 sealed interface SuccessEvent : Event {
     data class OnPageChange(val page: Int) : SuccessEvent
+    data class OnSegmentSelection(val segment: Segment) : SuccessEvent
 }

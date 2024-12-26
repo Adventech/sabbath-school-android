@@ -20,15 +20,18 @@
  * THE SOFTWARE.
  */
 
-package ss.libraries.circuit.navigation
+package ss.document.di
 
-import com.slack.circuit.runtime.screen.Screen
-import kotlinx.parcelize.Parcelize
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import ss.document.producer.TopAppbarActionsProducer
+import ss.document.producer.TopAppbarActionsProducerImpl
 
-@Parcelize
-data class DocumentScreen(
-    val index: String,
-    val title: String,
-    val cover: String?,
-    val resourceIndex: String,
-): Screen
+@Module
+@InstallIn(SingletonComponent::class)
+internal abstract class BindingsModule {
+    @Binds
+    internal abstract fun bindTopAppbarActionsProducer(impl: TopAppbarActionsProducerImpl): TopAppbarActionsProducer
+}
