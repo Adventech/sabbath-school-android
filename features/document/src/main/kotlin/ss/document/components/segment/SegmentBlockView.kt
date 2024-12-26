@@ -22,55 +22,48 @@
 
 package ss.document.components.segment
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.theme.SsTheme
 import io.adventech.blockkit.model.resource.Segment
+import io.adventech.blockkit.ui.BlockContent
+import io.adventech.blockkit.ui.style.LocalReaderStyle
+import io.adventech.blockkit.ui.style.background
 
 @Composable
 fun SegmentBlockView(
     segment: Segment,
     modifier: Modifier = Modifier,
 ) {
+    val readerStyle = LocalReaderStyle.current
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .background(readerStyle.theme.background()),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Modifier
-            .fillMaxWidth()
-            .height(12.dp)
-
-        Text(
-            text = segment.subtitle ?: "",
-            modifier = Modifier,
-            style = SsTheme.typography.titleMedium
-        )
-
-        Spacer(
-            Modifier
-                .fillMaxWidth()
-                .height(12.dp)
-        )
-
-
-        segment.blocks.orEmpty().forEach { block ->
+        segment.subtitle?.let {
             Text(
-                text = "${block::class.simpleName}",
+                text = it,
                 modifier = Modifier,
-                style = SsTheme.typography.bodyMedium
-            )
-
-            Spacer(
-                Modifier
-                    .fillMaxWidth()
-                    .height(4.dp)
+                style = SsTheme.typography.titleMedium
             )
         }
+
+        segment.blocks.orEmpty().forEach { block ->
+            BlockContent(block, Modifier.padding(horizontal = 16.dp, vertical = 12.dp))
+        }
+
+        Spacer(Modifier.fillMaxWidth().height(SsTheme.dimens.grid_4))
     }
 }

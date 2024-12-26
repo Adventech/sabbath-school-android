@@ -25,6 +25,7 @@ androidx-startup = "1.2.0"
 androidx-tv = "1.0.0-alpha11"
 androidx-tv-material = "1.0.0"
 androidx-work = "2.10.0"
+atlassian-commonmark = "0.17.0"
 cash-app-turbine = "1.2.0"
 circuit = "0.25.0"
 coil = "2.7.0"
@@ -124,6 +125,7 @@ androidx-startup = { module = "androidx.startup:startup-runtime", version.ref = 
 androidx-tv-foundation = { module = "androidx.tv:tv-foundation", version.ref = "androidx-tv" }
 androidx-tv-material = { module = "androidx.tv:tv-material", version.ref = "androidx-tv-material" }
 androidx-work = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
+atlassian-commonmark = { module = "com.atlassian.commonmark:commonmark", version.ref = "atlassian-commonmark" }
 circuit-codegen = { module = "com.slack.circuit:circuit-codegen", version.ref = "circuit" }
 circuit-codegen-annotations = { module = "com.slack.circuit:circuit-codegen-annotations", version.ref = "circuit" }
 circuit-foundation = { module = "com.slack.circuit:circuit-foundation", version.ref = "circuit" }
