@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -40,10 +41,11 @@ import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
+import kotlinx.collections.immutable.persistentListOf
 import ss.document.components.DocumentLoadingView
 import ss.document.components.DocumentPager
+import ss.document.components.DocumentTitleBar
 import ss.document.components.DocumentTopAppBar
-import ss.document.components.segment.hasCover
 import ss.libraries.circuit.navigation.DocumentScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -68,10 +70,24 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                 tonalElevation = if (collapsed) 4.dp else 0.dp
             ) {
                 DocumentTopAppBar(
-                    title = toolbarTitle,
+                    title = {
+                        when (state) {
+                            is State.Success -> {
+                                DocumentTitleBar(
+                                    segments = state.segments,
+                                    selectedSegment = state.selectedSegment,
+                                    onSelection = { state.eventSink(SuccessEvent.OnSegmentSelection(it)) }
+                                )
+                            }
+                            is State.Loading -> {
+                                Text(toolbarTitle)
+                            }
+                        }
+                    },
                     scrollBehavior = scrollBehavior,
                     collapsible = state.hasCover,
                     collapsed = collapsed,
+                    actions = (state as? State.Success)?.actions ?: persistentListOf(),
                     onNavBack = { state.eventSink(Event.OnNavBack) }
                 )
             }
@@ -87,6 +103,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                     segments = state.segments,
                     selectedSegment = state.selectedSegment,
                     titleBelowCover = state.titleBelowCover,
+                    initialPage = state.initialPage,
                     listState = listState
                 ) {
                     state.eventSink(SuccessEvent.OnPageChange(it))

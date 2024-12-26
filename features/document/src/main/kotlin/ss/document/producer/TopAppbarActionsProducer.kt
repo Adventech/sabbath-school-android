@@ -20,44 +20,31 @@
  * THE SOFTWARE.
  */
 
-package ss.document
+package ss.document.producer
 
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
-import io.adventech.blockkit.model.resource.Segment
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import io.adventech.blockkit.model.resource.ResourceDocument
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import ss.document.components.DocumentTopAppBarAction
+import javax.inject.Inject
 
-sealed interface State : CircuitUiState {
-    val title: String
-    val hasCover: Boolean
-    val eventSink: (Event) -> Unit
+@Stable
+interface TopAppbarActionsProducer {
 
-    data class Loading(
-        override val title: String,
-        override val hasCover: Boolean,
-        override val eventSink: (Event) -> Unit) : State
-
-    data class Success(
-        override val title: String,
-        override val hasCover: Boolean,
-        override val eventSink: (Event) -> Unit,
-        val actions: ImmutableList<DocumentTopAppBarAction>,
-        val initialPage: Int,
-        val segments: ImmutableList<Segment>,
-        val selectedSegment: Segment?,
-        val titleBelowCover: Boolean,
-    ) : State
-
+    @Composable
+    operator fun invoke(document: ResourceDocument?): ImmutableList<DocumentTopAppBarAction>
 }
 
-sealed interface Event : CircuitUiEvent {
-
-    /** Navigation icon is clicked. */
-    data object OnNavBack : Event
-}
-
-sealed interface SuccessEvent : Event {
-    data class OnPageChange(val page: Int) : SuccessEvent
-    data class OnSegmentSelection(val segment: Segment) : SuccessEvent
+internal class TopAppbarActionsProducerImpl @Inject constructor() : TopAppbarActionsProducer {
+    @Composable
+    override fun invoke(document: ResourceDocument?): ImmutableList<DocumentTopAppBarAction> {
+        return persistentListOf(
+            DocumentTopAppBarAction.Audio,
+            DocumentTopAppBarAction.Video,
+            DocumentTopAppBarAction.Pdf,
+            DocumentTopAppBarAction.DisplayOptions
+        )
+    }
 }
