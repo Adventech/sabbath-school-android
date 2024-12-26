@@ -42,6 +42,7 @@ dependencies {
     implementation(projects.common.designCompose)
     implementation(projects.common.misc)
     implementation(projects.common.translations)
+    implementation(projects.libraries.blockKit.ui)
     implementation(projects.libraries.circuit.api)
     implementation(projects.services.resources.api)
 

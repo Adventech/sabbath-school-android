@@ -22,17 +22,17 @@
 
 package ss.document.components.segment
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.theme.SsTheme
 import io.adventech.blockkit.model.resource.Segment
+import io.adventech.blockkit.ui.BlockContent
 
 @Composable
 fun SegmentBlockView(
@@ -41,36 +41,18 @@ fun SegmentBlockView(
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Modifier
-            .fillMaxWidth()
-            .height(12.dp)
-
-        Text(
-            text = segment.subtitle ?: "",
-            modifier = Modifier,
-            style = SsTheme.typography.titleMedium
-        )
-
-        Spacer(
-            Modifier
-                .fillMaxWidth()
-                .height(12.dp)
-        )
-
+        segment.subtitle?.let {
+            Text(
+                text = it,
+                modifier = Modifier,
+                style = SsTheme.typography.titleMedium
+            )
+        }
 
         segment.blocks.orEmpty().forEach { block ->
-            Text(
-                text = "${block::class.simpleName}",
-                modifier = Modifier,
-                style = SsTheme.typography.bodyMedium
-            )
-
-            Spacer(
-                Modifier
-                    .fillMaxWidth()
-                    .height(4.dp)
-            )
+            BlockContent(block, Modifier.padding(horizontal = 16.dp, vertical = 12.dp))
         }
     }
 }
