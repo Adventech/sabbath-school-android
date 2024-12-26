@@ -22,11 +22,11 @@
 
 package ss.lessons.api
 
+import app.ss.models.AudioAux
+import app.ss.models.PDFAux
+import app.ss.models.VideoAux
 import app.ss.models.resource.FeedResponse
 import app.ss.models.resource.LanguageResponse
-import io.adventech.blockkit.model.AudioAux
-import io.adventech.blockkit.model.PDFAux
-import io.adventech.blockkit.model.VideoAux
 import io.adventech.blockkit.model.feed.FeedGroup
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.model.resource.ResourceDocument

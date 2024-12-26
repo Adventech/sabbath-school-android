@@ -20,20 +20,17 @@
  * THE SOFTWARE.
  */
 
-package io.adventech.blockkit.model
+package app.ss.models
 
 import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass
 
 @Keep
 @JsonClass(generateAdapter = true)
-data class AudioAux(
+data class PDFAux(
     val id: String,
-    val target: String,
-    val targetIndex: String,
-    val title: String,
-    val artist: String,
     val src: String,
-    val image: String,
-    val imageRatio: String
+    val title: String,
+    val target: String?,
+    val targetIndex: String?
 )

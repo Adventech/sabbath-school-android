@@ -25,10 +25,10 @@ package ss.document.producer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import app.ss.models.AudioAux
+import app.ss.models.PDFAux
+import app.ss.models.VideoAux
 import com.slack.circuit.retained.produceRetainedState
-import io.adventech.blockkit.model.AudioAux
-import io.adventech.blockkit.model.PDFAux
-import io.adventech.blockkit.model.VideoAux
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.SegmentType
 import kotlinx.collections.immutable.ImmutableList

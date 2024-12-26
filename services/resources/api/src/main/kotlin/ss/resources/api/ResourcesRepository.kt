@@ -22,9 +22,9 @@
 
 package ss.resources.api
 
-import io.adventech.blockkit.model.AudioAux
-import io.adventech.blockkit.model.PDFAux
-import io.adventech.blockkit.model.VideoAux
+import app.ss.models.AudioAux
+import app.ss.models.PDFAux
+import app.ss.models.VideoAux
 import io.adventech.blockkit.model.feed.FeedGroup
 import io.adventech.blockkit.model.feed.FeedType
 import io.adventech.blockkit.model.resource.Resource
