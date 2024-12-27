@@ -36,7 +36,6 @@ dependencies {
     api(projects.libraries.blockKit.model)
 
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.google.fonts)
     implementation(libs.atlassian.commonmark)
     implementation(libs.bundles.compose)
     implementation(libs.bundles.compose.tooling)
