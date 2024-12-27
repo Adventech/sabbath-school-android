@@ -22,21 +22,9 @@
 
 package io.adventech.blockkit.ui
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.unit.dp
 import io.adventech.blockkit.model.BlockItem
-import io.adventech.blockkit.ui.style.BlockStyleTemplate
-import io.adventech.blockkit.ui.style.HeadingStyleTemplate
 
 @Composable
 fun BlockContent(blockItem: BlockItem, modifier: Modifier = Modifier) {
@@ -51,66 +39,25 @@ fun BlockContent(blockItem: BlockItem, modifier: Modifier = Modifier) {
         is BlockItem.Excerpt -> Unit
         is BlockItem.ExcerptItem -> Unit
         is BlockItem.Heading -> {
-            val style = HeadingStyleTemplate(blockItem.depth)
-            Text(
-                text = blockItem.markdown,
-                modifier = modifier,
-                style = MaterialTheme.typography.titleLarge.copy(
-                    fontSize = style.textSizeDefault()
-                ),
-                color = style.textColorDefault()
-            )
+            HeadingContent(blockItem, modifier)
         }
-
         is BlockItem.Hr -> {
-            val style = BlockStyleTemplate.DEFAULT
-            val color = style.textColorDefault().copy(alpha = 0.7f)
-            HorizontalDivider(
-                modifier = modifier.padding(vertical = 4.dp),
-                color = color,
-            )
+            HrContent(blockItem, modifier)
         }
-
-        is BlockItem.Image -> Unit
+        is BlockItem.Image -> {
+            ImageContent(blockItem, modifier)
+        }
         is BlockItem.MultipleChoice -> Unit
         is BlockItem.MultipleChoiceItem -> Unit
         is BlockItem.Paragraph -> {
-            val style = BlockStyleTemplate.DEFAULT
-            MarkdownText(
-                markdownText = blockItem.markdown,
-                modifier = modifier,
-                color = style.textColorDefault(),
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    fontSize = style.textSizeDefault()
-                ),
-                onHandleUri = {}
-            )
+            ParagraphContent(blockItem, modifier)
         }
-
         is BlockItem.Poll -> Unit
         is BlockItem.PollItem -> Unit
         is BlockItem.Question -> Unit
         is BlockItem.Quote -> {
-            val style = BlockStyleTemplate.DEFAULT
-            val color = style.textColorDefault()
-            Column(
-                modifier = modifier
-                    .drawBehind {
-                        drawLine(
-                            color = color,
-                            strokeWidth = 10f,
-                            start = Offset(12.dp.value, 0f),
-                            end = Offset(12.dp.value, size.height),
-                            cap = StrokeCap.Round
-                        )
-                    }
-                    .padding(start = 16.dp, top = 8.dp, bottom = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                blockItem.items.forEach { BlockContent(it) }
-            }
+            QuoteContent(blockItem, modifier)
         }
-
         is BlockItem.Reference -> Unit
         is BlockItem.Story -> Unit
         is BlockItem.StorySlide -> Unit

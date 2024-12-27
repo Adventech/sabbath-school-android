@@ -24,6 +24,7 @@ package io.adventech.blockkit.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material3.MaterialTheme
@@ -46,6 +47,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
@@ -70,6 +72,7 @@ internal fun MarkdownText(
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.onSurface,
     style: TextStyle = MaterialTheme.typography.bodyLarge,
+    textAlign: TextAlign? = null,
     onHandleUri: (String) -> Unit = {},
 ) {
     val parsedNode = remember(markdownText) {
@@ -90,22 +93,26 @@ internal fun MarkdownText(
 
     Text(
         text = styledText,
-        modifier = modifier.pointerInput(Unit) {
-            detectTapGestures { offset ->
-                layoutResult.value?.let { layoutResult ->
-                    val position = layoutResult.getOffsetForPosition(offset)
-                    styledText.getStringAnnotations(position, position)
-                        .firstOrNull()
-                        ?.let { annotation ->
-                            if (annotation.tag == TAG_URL) {
-                                onHandleUri(annotation.item)
+        modifier = modifier
+            .fillMaxWidth()
+            .pointerInput(Unit) {
+                detectTapGestures { offset ->
+                    layoutResult.value?.let { layoutResult ->
+                        val position = layoutResult.getOffsetForPosition(offset)
+                        styledText
+                            .getStringAnnotations(position, position)
+                            .firstOrNull()
+                            ?.let { annotation ->
+                                if (annotation.tag == TAG_URL) {
+                                    onHandleUri(annotation.item)
+                                }
                             }
-                        }
+                    }
                 }
-            }
-        },
+            },
         color = color,
         style = style,
+        textAlign = textAlign,
         inlineContent = mapOf(
             TAG_IMAGE_URL to InlineTextContent(
                 Placeholder(style.fontSize, style.fontSize, PlaceholderVerticalAlign.Bottom)

@@ -107,3 +107,6 @@ val Color.Companion.Sepia300: Color
 
 val Color.Companion.Sepia400: Color
     get() = Color(0xFF3E3634)
+
+fun Color.Companion.parse(colorString: String): Color =
+    Color(color = android.graphics.Color.parseColor(colorString))
