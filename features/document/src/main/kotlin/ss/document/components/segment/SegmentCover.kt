@@ -58,7 +58,7 @@ fun SegmentCover(
             Spacer(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height((height * 0.2).dp),
+                    .height((height * 0.25).dp),
             )
 
             headerContent?.invoke(contentColor.value)

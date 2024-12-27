@@ -215,7 +215,31 @@ internal fun DocumentTopAppBar(
 }
 
 @Composable
-fun DocumentTitleBar(
+internal fun DocumentTitleBar(
+    segments: ImmutableList<Segment>,
+    selectedSegment: Segment?,
+    modifier: Modifier = Modifier,
+    onSelection: (Segment) -> Unit = {},
+) {
+    if (segments.size == 1) {
+        Text(
+            text = segments.first().title,
+            modifier = modifier,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
+    } else {
+        DocumentSegmentDropdown(
+            segments = segments,
+            selectedSegment = selectedSegment,
+            modifier = modifier,
+            onSelection = onSelection
+        )
+    }
+}
+
+@Composable
+private fun DocumentSegmentDropdown(
     segments: ImmutableList<Segment>,
     selectedSegment: Segment?,
     modifier: Modifier = Modifier,
