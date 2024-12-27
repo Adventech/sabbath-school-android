@@ -42,6 +42,7 @@ import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
+import io.adventech.blockkit.ui.style.LocalBlocksStyle
 import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
 import kotlinx.collections.immutable.persistentListOf
 import ss.document.components.DocumentLoadingView
@@ -101,7 +102,10 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
             }
 
             is State.Success -> {
-                CompositionLocalProvider(LocalFontFamilyProvider provides state.fontFamilyProvider) {
+                CompositionLocalProvider(
+                    LocalFontFamilyProvider provides state.fontFamilyProvider,
+                    LocalBlocksStyle provides state.style?.blocks
+                ) {
                     DocumentPager(
                         segments = state.segments,
                         selectedSegment = state.selectedSegment,

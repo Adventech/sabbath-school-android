@@ -44,6 +44,8 @@ import app.ss.design.compose.theme.SsTheme
 import io.adventech.blockkit.model.SegmentStyle
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.SegmentType
+import io.adventech.blockkit.ui.style.LocalReaderStyle
+import io.adventech.blockkit.ui.style.background
 import kotlinx.collections.immutable.ImmutableList
 import ss.document.components.segment.SegmentBlockView
 import ss.document.components.segment.SegmentCover
@@ -67,6 +69,8 @@ fun DocumentPager(
     )
 
     LaunchedEffect(initialPage) { pagerState.animateScrollToPage(initialPage) }
+
+    val readerStyle = LocalReaderStyle.current
 
     LazyColumn(
         modifier = modifier.fillMaxSize(),
@@ -113,6 +117,7 @@ fun DocumentPager(
                     contentColor = SsTheme.colors.primaryForeground,
                     style = segmentStyle,
                     modifier = Modifier.fillMaxWidth()
+                        .background(readerStyle.theme.background())
                 )
             }
         }

@@ -23,13 +23,19 @@
 package io.adventech.blockkit.ui.style
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.adventech.blockkit.model.BlockLevelStyle
+import io.adventech.blockkit.model.BlocksStyle
+import io.adventech.blockkit.model.SpacingStyle
 import io.adventech.blockkit.model.TextStyleAlignment
 import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
 import io.adventech.blockkit.model.TextStyle as BlockTextStyle
@@ -84,8 +90,66 @@ object Styler {
 
     @Composable
     private fun fontFamily(blockStyle: BlockTextStyle?): FontFamily {
-        return blockStyle?.typeface?.let {
-            typeface -> LocalFontFamilyProvider.current.invoke(typeface)
-        } ?: LatoFontFamily
+        val blocksStyle = LocalBlocksStyle.current
+        val typeface = blockStyle?.typeface ?: blocksStyle?.nested?.all?.text?.typeface
+        return typeface?.let { LocalFontFamilyProvider.current.invoke(typeface) } ?: LatoFontFamily
+    }
+
+    fun padding(
+        style: SpacingStyle?,
+        template: StyleTemplate = BlockStyleTemplate.DEFAULT,
+    ): PaddingValues {
+        return PaddingValues(
+            start = template.paddingSizePoints(style?.start).dp,
+            top = template.paddingSizePoints(style?.top).dp,
+            end = template.paddingSizePoints(style?.end).dp,
+            bottom = template.paddingSizePoints(style?.bottom).dp,
+        )
+    }
+
+    @Composable
+    fun backgroundColor(style: BlockLevelStyle?): Color {
+        val readerStyle = LocalReaderStyle.current
+        val blocksStyle = LocalBlocksStyle.current
+
+        // This block's level style
+        style?.backgroundColor?.let {
+            return when (readerStyle.theme) {
+                ReaderStyle.Theme.Light -> Color.parse(it)
+                ReaderStyle.Theme.Auto -> {
+                    if (isSystemInDarkTheme()) {
+                        genericBackgroundColorForInteractiveBlock(readerStyle.theme)
+                    } else {
+                        Color.parse(it)
+                    }
+                }
+                else -> genericBackgroundColorForInteractiveBlock(readerStyle.theme)
+            }
+        }
+
+        // Global blocks background color
+        blocksStyle?.nested?.all?.block?.backgroundColor?.let {
+            return Color.parse(it)
+        }
+
+        // Default to no background color
+        return Color.Unspecified
+
+    }
+
+    @Composable
+    fun genericBackgroundColorForInteractiveBlock(theme: ReaderStyle.Theme): Color {
+        val light = Color.Gray100
+        val sepia = Color.Sepia300
+        val dark = Color.Primary950
+        return when (theme) {
+            ReaderStyle.Theme.Light -> light
+            ReaderStyle.Theme.Dark -> dark
+            ReaderStyle.Theme.Auto -> if (isSystemInDarkTheme()) dark else light
+            ReaderStyle.Theme.Sepia -> sepia
+        }
     }
 }
+
+
+val LocalBlocksStyle = staticCompositionLocalOf<BlocksStyle?> { null }

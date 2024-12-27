@@ -24,6 +24,7 @@ package ss.document.components.segment
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -54,7 +55,7 @@ fun SegmentHeader(
         subtitle?.let {
             Text(
                 text = it.uppercase(),
-                modifier = Modifier,
+                modifier = Modifier.fillMaxWidth(),
                 style = (style?.subtitle?.text?.let {
                     Styler.textStyle(it)
                 } ?: SsTheme.typography.titleLarge).copy(
@@ -69,7 +70,7 @@ fun SegmentHeader(
         date?.dateDisplay()?.let {
             Text(
                 text = it.uppercase(),
-                modifier = Modifier,
+                modifier = Modifier.fillMaxWidth(),
                 style = (style?.date?.text?.let {
                     Styler.textStyle(it)
                 } ?: SsTheme.typography.titleLarge).copy(
@@ -83,7 +84,7 @@ fun SegmentHeader(
 
         Text(
             text = title,
-            modifier = Modifier,
+            modifier = Modifier.fillMaxWidth(),
             style = (style?.title?.text?.let {
                 Styler.textStyle(it)
             } ?: SsTheme.typography.titleLarge).copy(

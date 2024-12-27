@@ -25,9 +25,12 @@ package io.adventech.blockkit.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import io.adventech.blockkit.model.BlockItem
+import io.adventech.blockkit.ui.style.background
 
 @Composable
 fun BlockContent(blockItem: BlockItem, modifier: Modifier = Modifier) {
+    val blockModifier = modifier.background(blockItem)
+
     when (blockItem) {
         is BlockItem.Appeal -> Unit
         is BlockItem.Audio -> Unit
@@ -39,24 +42,24 @@ fun BlockContent(blockItem: BlockItem, modifier: Modifier = Modifier) {
         is BlockItem.Excerpt -> Unit
         is BlockItem.ExcerptItem -> Unit
         is BlockItem.Heading -> {
-            HeadingContent(blockItem, modifier)
+            HeadingContent(blockItem, blockModifier)
         }
         is BlockItem.Hr -> {
-            HrContent(blockItem, modifier)
+            HrContent(blockItem, blockModifier)
         }
         is BlockItem.Image -> {
-            ImageContent(blockItem, modifier)
+            ImageContent(blockItem, blockModifier)
         }
         is BlockItem.MultipleChoice -> Unit
         is BlockItem.MultipleChoiceItem -> Unit
         is BlockItem.Paragraph -> {
-            ParagraphContent(blockItem, modifier)
+            ParagraphContent(blockItem, blockModifier)
         }
         is BlockItem.Poll -> Unit
         is BlockItem.PollItem -> Unit
         is BlockItem.Question -> Unit
         is BlockItem.Quote -> {
-            QuoteContent(blockItem, modifier)
+            QuoteContent(blockItem, blockModifier)
         }
         is BlockItem.Reference -> Unit
         is BlockItem.Story -> Unit
