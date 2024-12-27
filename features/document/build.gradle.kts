@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.google.hilt.android)
     implementation(libs.joda.android)
+    implementation(libs.timber)
     ksp(libs.google.hilt.compiler)
     ksp(libs.circuit.codegen)
 

@@ -20,23 +20,31 @@
  * THE SOFTWARE.
  */
 
-package ss.document.di
+package ss.document.producer
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import android.graphics.Typeface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.text.font.FontFamily
+import app.ss.design.compose.theme.LatoFontFamily
+import com.slack.circuit.retained.produceRetainedState
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
-import ss.document.producer.FontFamilyProviderImpl
-import ss.document.producer.TopAppbarActionsProducer
-import ss.document.producer.TopAppbarActionsProducerImpl
+import jakarta.inject.Inject
+import ss.resources.api.ResourcesRepository
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal abstract class BindingsModule {
-    @Binds
-    internal abstract fun bindTopAppbarActionsProducer(impl: TopAppbarActionsProducerImpl): TopAppbarActionsProducer
+internal class FontFamilyProviderImpl @Inject constructor(
+    private val repository: ResourcesRepository,
+) : FontFamilyProvider {
 
-    @Binds
-    internal abstract fun bindFontFamilyProvider(impl: FontFamilyProviderImpl): FontFamilyProvider
+    @Composable
+    override fun invoke(name: String): FontFamily {
+        val customFontFamily by produceRetainedState<FontFamily?>(null) {
+            repository.fontFile(name).collect {
+                value = it?.let { FontFamily(Typeface.createFromFile(it)) }
+            }
+        }
+
+        return customFontFamily ?: LatoFontFamily
+    }
+
 }

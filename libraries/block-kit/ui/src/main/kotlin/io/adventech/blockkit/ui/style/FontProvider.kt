@@ -25,14 +25,7 @@ package io.adventech.blockkit.ui.style
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.googlefonts.GoogleFont
 import io.adventech.blockkit.ui.R
-
-internal val GoogleFontProvider = GoogleFont.Provider(
-    providerAuthority = "com.google.android.gms.fonts",
-    providerPackage = "com.google.android.gms",
-    certificates = R.array.com_google_android_gms_fonts_certs
-)
 
 internal val LatoFontFamily = FontFamily(
     Font(R.font.lato_regular, FontWeight.Normal),
