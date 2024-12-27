@@ -26,6 +26,7 @@ import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import io.adventech.blockkit.model.Style
 import io.adventech.blockkit.model.resource.Segment
+import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import kotlinx.collections.immutable.ImmutableList
 import ss.document.components.DocumentTopAppBarAction
 
@@ -49,6 +50,7 @@ sealed interface State : CircuitUiState {
         val selectedSegment: Segment?,
         val titleBelowCover: Boolean,
         val style: Style?,
+        val fontFamilyProvider: FontFamilyProvider,
     ) : State
 
 }

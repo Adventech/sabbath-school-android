@@ -27,12 +27,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.googlefonts.Font
-import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import io.adventech.blockkit.model.TextStyleAlignment
+import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
 import io.adventech.blockkit.model.TextStyle as BlockTextStyle
 
 object Styler {
@@ -83,10 +82,10 @@ object Styler {
         )
     }
 
+    @Composable
     private fun fontFamily(blockStyle: BlockTextStyle?): FontFamily {
-        return blockStyle?.typeface?.let { typeface ->
-            val fontName = GoogleFont(typeface)
-            FontFamily(Font(googleFont = fontName, fontProvider = GoogleFontProvider))
+        return blockStyle?.typeface?.let {
+            typeface -> LocalFontFamilyProvider.current.invoke(typeface)
         } ?: LatoFontFamily
     }
 }
