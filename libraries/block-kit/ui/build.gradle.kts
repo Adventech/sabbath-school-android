@@ -26,6 +26,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
 }
 
+android { namespace = "io.adventech.blockkit.ui" }
+
 foundry {
     features { compose() }
 }
@@ -34,6 +36,7 @@ dependencies {
     api(projects.libraries.blockKit.model)
 
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.google.fonts)
     implementation(libs.atlassian.commonmark)
     implementation(libs.bundles.compose)
     implementation(libs.bundles.compose.tooling)

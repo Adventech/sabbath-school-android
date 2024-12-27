@@ -41,6 +41,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.theme.SsTheme
+import io.adventech.blockkit.model.SegmentStyle
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.SegmentType
 import kotlinx.collections.immutable.ImmutableList
@@ -56,6 +57,7 @@ fun DocumentPager(
     titleBelowCover: Boolean,
     modifier: Modifier = Modifier,
     initialPage: Int = 0,
+    segmentStyle: SegmentStyle? = null,
     listState: LazyListState = rememberLazyListState(),
     onPageChange: (Int) -> Unit = {},
 ) {
@@ -90,6 +92,7 @@ fun DocumentPager(
                             subtitle = selectedSegment.subtitle,
                             date = selectedSegment.date,
                             contentColor = if (selectedSegment.cover != null) Color.White else SsTheme.colors.primaryForeground,
+                            style = segmentStyle.takeIf { selectedSegment.cover == null },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .thenIf(selectedSegment.cover != null) {
@@ -108,6 +111,7 @@ fun DocumentPager(
                     subtitle = selectedSegment.subtitle,
                     date = selectedSegment.date,
                     contentColor = SsTheme.colors.primaryForeground,
+                    style = segmentStyle,
                     modifier = Modifier.fillMaxWidth()
                 )
             }

@@ -22,7 +22,6 @@
 
 package io.adventech.blockkit.ui
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -32,16 +31,13 @@ import io.adventech.blockkit.ui.style.Styler
 
 @Composable
 internal fun HeadingContent(blockItem: BlockItem.Heading, modifier: Modifier = Modifier) {
-    val style = HeadingStyleTemplate(blockItem.depth)
-    val blockStyle = blockItem.style
+    val template = HeadingStyleTemplate(blockItem.depth)
+    val blockStyle = blockItem.style?.text
 
     Text(
         text = blockItem.markdown,
         modifier = modifier,
-        style = MaterialTheme.typography.titleLarge.copy(
-            fontSize = style.textSizeDefault()
-        ),
-        color = Styler.textColor(style, blockStyle),
+        style = Styler.textStyle(blockStyle, template),
         textAlign = Styler.textAlign(blockStyle)
     )
 }

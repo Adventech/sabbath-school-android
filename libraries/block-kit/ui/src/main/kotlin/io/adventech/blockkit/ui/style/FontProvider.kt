@@ -20,21 +20,23 @@
  * THE SOFTWARE.
  */
 
-package io.adventech.blockkit.ui
+package io.adventech.blockkit.ui.style
 
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import io.adventech.blockkit.model.BlockItem
-import io.adventech.blockkit.ui.style.Styler
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.googlefonts.GoogleFont
+import io.adventech.blockkit.ui.R
 
-@Composable
-internal fun HrContent(blockItem: BlockItem.Hr, modifier: Modifier = Modifier) {
-    val color = Styler.textColor(blockItem.style?.text).copy(alpha = 0.7f)
-    HorizontalDivider(
-        modifier = modifier.padding(vertical = 4.dp),
-        color = color,
-    )
-}
+internal val GoogleFontProvider = GoogleFont.Provider(
+    providerAuthority = "com.google.android.gms.fonts",
+    providerPackage = "com.google.android.gms",
+    certificates = R.array.com_google_android_gms_fonts_certs
+)
+
+internal val LatoFontFamily = FontFamily(
+    Font(R.font.lato_regular, FontWeight.Normal),
+    Font(R.font.lato_medium, FontWeight.Medium),
+    Font(R.font.lato_bold, FontWeight.Bold),
+    Font(R.font.lato_black, FontWeight.Black)
+)

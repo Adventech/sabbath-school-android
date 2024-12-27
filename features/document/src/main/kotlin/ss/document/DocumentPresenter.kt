@@ -82,6 +82,7 @@ class DocumentPresenter @AssistedInject constructor(
                 segments = documentPages,
                 selectedSegment = selectedPage,
                 titleBelowCover = resourceDocument.titleBelowCover == true,
+                style = resourceDocument.style,
                 eventSink = eventSink,
             )
         }

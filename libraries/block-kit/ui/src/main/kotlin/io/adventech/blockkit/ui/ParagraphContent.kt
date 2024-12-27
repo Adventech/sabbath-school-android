@@ -22,25 +22,20 @@
 
 package io.adventech.blockkit.ui
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import io.adventech.blockkit.model.BlockItem
-import io.adventech.blockkit.ui.style.BlockStyleTemplate
 import io.adventech.blockkit.ui.style.Styler
 
 @Composable
 internal fun ParagraphContent(blockItem: BlockItem.Paragraph, modifier: Modifier = Modifier) {
-    val style = BlockStyleTemplate.DEFAULT
-    val blockStyle = blockItem.style
+    val blockStyle = blockItem.style?.text
 
     MarkdownText(
         markdownText = blockItem.markdown,
         modifier = modifier,
-        color = Styler.textColor(style, blockStyle),
-        style = MaterialTheme.typography.bodyLarge.copy(
-            fontSize = style.textSizeDefault()
-        ),
+        color = Styler.textColor(blockStyle),
+        style = Styler.textStyle(blockStyle),
         textAlign = Styler.textAlign(blockStyle),
         onHandleUri = {}
     )

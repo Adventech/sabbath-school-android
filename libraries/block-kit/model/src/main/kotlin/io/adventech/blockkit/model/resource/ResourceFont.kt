@@ -20,21 +20,15 @@
  * THE SOFTWARE.
  */
 
-package io.adventech.blockkit.ui
+package io.adventech.blockkit.model.resource
 
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import io.adventech.blockkit.model.BlockItem
-import io.adventech.blockkit.ui.style.Styler
+import androidx.annotation.Keep
+import com.squareup.moshi.JsonClass
 
-@Composable
-internal fun HrContent(blockItem: BlockItem.Hr, modifier: Modifier = Modifier) {
-    val color = Styler.textColor(blockItem.style?.text).copy(alpha = 0.7f)
-    HorizontalDivider(
-        modifier = modifier.padding(vertical = 4.dp),
-        color = color,
-    )
-}
+@Keep
+@JsonClass(generateAdapter = true)
+data class ResourceFont(
+    val name: String,
+    val weight: Int,
+    val src: String,
+)

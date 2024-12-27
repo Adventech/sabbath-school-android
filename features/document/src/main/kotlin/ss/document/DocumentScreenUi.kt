@@ -104,6 +104,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                     selectedSegment = state.selectedSegment,
                     titleBelowCover = state.titleBelowCover,
                     initialPage = state.initialPage,
+                    segmentStyle = state.style?.segment,
                     listState = listState
                 ) {
                     state.eventSink(SuccessEvent.OnPageChange(it))

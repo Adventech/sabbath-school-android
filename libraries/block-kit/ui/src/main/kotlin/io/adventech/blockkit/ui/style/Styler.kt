@@ -25,16 +25,25 @@ package io.adventech.blockkit.ui.style
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.googlefonts.Font
+import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.text.style.TextAlign
-import io.adventech.blockkit.model.BlockStyle
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
 import io.adventech.blockkit.model.TextStyleAlignment
+import io.adventech.blockkit.model.TextStyle as BlockTextStyle
 
-internal object Styler {
+object Styler {
 
     @Composable
-    fun textColor(template: StyleTemplate, blockStyle: BlockStyle?): Color {
+    fun textColor(
+        blockStyle: BlockTextStyle?,
+        template: StyleTemplate = BlockStyleTemplate.DEFAULT,
+    ): Color {
         val readerStyle = LocalReaderStyle.current
-        val blockStyleColor = blockStyle?.text?.color?.let { Color.parse(it) }
+        val blockStyleColor = blockStyle?.color?.let { Color.parse(it) }
         val color = when (readerStyle.theme) {
             ReaderStyle.Theme.Light -> blockStyleColor
             ReaderStyle.Theme.Auto -> blockStyleColor?.takeUnless { isSystemInDarkTheme() }
@@ -43,12 +52,41 @@ internal object Styler {
         return color ?: template.textColorDefault()
     }
 
-    fun textAlign(blockStyle: BlockStyle?): TextAlign? {
-        return when (blockStyle?.text?.align) {
+    fun textAlign(textStyle: BlockTextStyle?): TextAlign? {
+        return when (textStyle?.align) {
             TextStyleAlignment.START -> TextAlign.Start
             TextStyleAlignment.END -> TextAlign.End
             TextStyleAlignment.CENTER -> TextAlign.Center
             else -> null
         }
+    }
+
+    @Composable
+    fun textSize(
+        blockStyle: BlockTextStyle?,
+        template: StyleTemplate = BlockStyleTemplate.DEFAULT,
+    ): TextUnit {
+        return blockStyle?.size?.let {
+            template.textSizePoints(LocalReaderStyle.current.size, it).sp
+        } ?: template.textSizeDefault()
+    }
+
+    @Composable
+    fun textStyle(
+        blockStyle: BlockTextStyle?,
+        template: StyleTemplate = BlockStyleTemplate.DEFAULT,
+    ): TextStyle {
+        return TextStyle(
+            color = textColor(blockStyle, template),
+            fontSize = textSize(blockStyle, template),
+            fontFamily = fontFamily(blockStyle),
+        )
+    }
+
+    private fun fontFamily(blockStyle: BlockTextStyle?): FontFamily {
+        return blockStyle?.typeface?.let { typeface ->
+            val fontName = GoogleFont(typeface)
+            FontFamily(Font(googleFont = fontName, fontProvider = GoogleFontProvider))
+        } ?: LatoFontFamily
     }
 }

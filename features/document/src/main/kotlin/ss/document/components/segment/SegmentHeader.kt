@@ -33,6 +33,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.design.compose.theme.SsTheme
+import io.adventech.blockkit.model.SegmentStyle
+import io.adventech.blockkit.ui.style.Styler
 import ss.misc.DateHelper
 
 @Composable
@@ -41,6 +43,7 @@ fun SegmentHeader(
     subtitle: String?,
     date: String?,
     contentColor: Color,
+    style: SegmentStyle?,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -52,7 +55,9 @@ fun SegmentHeader(
             Text(
                 text = it.uppercase(),
                 modifier = Modifier,
-                style = SsTheme.typography.titleLarge.copy(
+                style = (style?.subtitle?.text?.let {
+                    Styler.textStyle(it)
+                } ?: SsTheme.typography.titleLarge).copy(
                     fontSize = 15.sp
                 ),
                 color = contentColor.copy(alpha = 0.6f),
@@ -65,7 +70,9 @@ fun SegmentHeader(
             Text(
                 text = it.uppercase(),
                 modifier = Modifier,
-                style = SsTheme.typography.titleLarge.copy(
+                style = (style?.date?.text?.let {
+                    Styler.textStyle(it)
+                } ?: SsTheme.typography.titleLarge).copy(
                     fontSize = 15.sp
                 ),
                 color = contentColor.copy(alpha = 0.7f),
@@ -77,12 +84,15 @@ fun SegmentHeader(
         Text(
             text = title,
             modifier = Modifier,
-            style = SsTheme.typography.titleLarge.copy(
+            style = (style?.title?.text?.let {
+                Styler.textStyle(it)
+            } ?: SsTheme.typography.titleLarge).copy(
                 fontSize = 26.sp
             ),
-            color = contentColor,
+            color = style?.title?.text?.color?.let { Styler.textColor(style.title?.text) } ?: contentColor,
             maxLines = 3,
             overflow = TextOverflow.Ellipsis,
+            textAlign = style?.let { Styler.textAlign(it.title?.text) }
         )
     }
 }

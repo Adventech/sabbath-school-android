@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import io.adventech.blockkit.model.TextStyleSize
 
-internal interface StyleTemplate {
+interface StyleTemplate {
     @Composable
     fun textSizeDefault(): TextUnit
 
