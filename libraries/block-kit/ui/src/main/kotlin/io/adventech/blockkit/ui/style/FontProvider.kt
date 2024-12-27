@@ -20,23 +20,16 @@
  * THE SOFTWARE.
  */
 
-package ss.document.di
+package io.adventech.blockkit.ui.style
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import io.adventech.blockkit.ui.style.font.FontFamilyProvider
-import ss.document.producer.FontFamilyProviderImpl
-import ss.document.producer.TopAppbarActionsProducer
-import ss.document.producer.TopAppbarActionsProducerImpl
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import io.adventech.blockkit.ui.R
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal abstract class BindingsModule {
-    @Binds
-    internal abstract fun bindTopAppbarActionsProducer(impl: TopAppbarActionsProducerImpl): TopAppbarActionsProducer
-
-    @Binds
-    internal abstract fun bindFontFamilyProvider(impl: FontFamilyProviderImpl): FontFamilyProvider
-}
+internal val LatoFontFamily = FontFamily(
+    Font(R.font.lato_regular, FontWeight.Normal),
+    Font(R.font.lato_medium, FontWeight.Medium),
+    Font(R.font.lato_bold, FontWeight.Bold),
+    Font(R.font.lato_black, FontWeight.Black)
+)

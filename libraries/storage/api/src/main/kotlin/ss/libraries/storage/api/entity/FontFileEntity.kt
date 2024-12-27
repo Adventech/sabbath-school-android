@@ -20,23 +20,13 @@
  * THE SOFTWARE.
  */
 
-package ss.document.di
+package ss.libraries.storage.api.entity
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import io.adventech.blockkit.ui.style.font.FontFamilyProvider
-import ss.document.producer.FontFamilyProviderImpl
-import ss.document.producer.TopAppbarActionsProducer
-import ss.document.producer.TopAppbarActionsProducerImpl
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal abstract class BindingsModule {
-    @Binds
-    internal abstract fun bindTopAppbarActionsProducer(impl: TopAppbarActionsProducerImpl): TopAppbarActionsProducer
-
-    @Binds
-    internal abstract fun bindFontFamilyProvider(impl: FontFamilyProviderImpl): FontFamilyProvider
-}
+@Entity(tableName = "font_files")
+data class FontFileEntity(
+    @PrimaryKey val fileName: String,
+    val name: String,
+)

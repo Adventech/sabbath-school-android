@@ -20,23 +20,19 @@
  * THE SOFTWARE.
  */
 
-package ss.document.di
+package ss.libraries.storage.api.dao
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import io.adventech.blockkit.ui.style.font.FontFamilyProvider
-import ss.document.producer.FontFamilyProviderImpl
-import ss.document.producer.TopAppbarActionsProducer
-import ss.document.producer.TopAppbarActionsProducerImpl
+import androidx.room.Dao
+import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
+import ss.libraries.storage.api.entity.FontFileEntity
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal abstract class BindingsModule {
-    @Binds
-    internal abstract fun bindTopAppbarActionsProducer(impl: TopAppbarActionsProducerImpl): TopAppbarActionsProducer
+@Dao
+interface FontFilesDao : BaseDao<FontFileEntity> {
 
-    @Binds
-    internal abstract fun bindFontFamilyProvider(impl: FontFamilyProviderImpl): FontFamilyProvider
+    @Query("SELECT * FROM font_files WHERE name = :name")
+    fun get(name: String): Flow<FontFileEntity?>
+
+    @Query("SELECT * FROM font_files WHERE name = :name")
+    suspend fun find(name: String): FontFileEntity?
 }

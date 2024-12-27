@@ -20,23 +20,28 @@
  * THE SOFTWARE.
  */
 
-package ss.document.di
+package io.adventech.blockkit.ui.style.font
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import io.adventech.blockkit.ui.style.font.FontFamilyProvider
-import ss.document.producer.FontFamilyProviderImpl
-import ss.document.producer.TopAppbarActionsProducer
-import ss.document.producer.TopAppbarActionsProducerImpl
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.text.font.FontFamily
+import io.adventech.blockkit.ui.style.LatoFontFamily
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal abstract class BindingsModule {
-    @Binds
-    internal abstract fun bindTopAppbarActionsProducer(impl: TopAppbarActionsProducerImpl): TopAppbarActionsProducer
-
-    @Binds
-    internal abstract fun bindFontFamilyProvider(impl: FontFamilyProviderImpl): FontFamilyProvider
+@Stable
+interface FontFamilyProvider {
+    @Composable
+    operator fun invoke(name: String): FontFamily
 }
+
+internal data object DefaultFontFamilyProvider : FontFamilyProvider {
+
+    @Composable
+    override fun invoke(name: String): FontFamily {
+        return LatoFontFamily
+    }
+}
+
+val LocalFontFamilyProvider= staticCompositionLocalOf<FontFamilyProvider> { DefaultFontFamilyProvider }
+
+

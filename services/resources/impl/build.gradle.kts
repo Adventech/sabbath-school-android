@@ -37,8 +37,11 @@ dependencies {
     implementation(projects.libraries.storage.api)
 
     implementation(libs.androidx.annotations)
+    implementation(libs.androidx.hilt.work)
+    implementation(libs.androidx.work)
     implementation(libs.google.hilt.android)
     implementation(libs.timber)
 
     ksp(libs.google.hilt.compiler)
+    ksp(libs.androidx.hilt.compiler)
 }

@@ -29,6 +29,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -41,6 +42,8 @@ import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
+import io.adventech.blockkit.ui.style.LocalBlocksStyle
+import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
 import kotlinx.collections.immutable.persistentListOf
 import ss.document.components.DocumentLoadingView
 import ss.document.components.DocumentPager
@@ -99,14 +102,20 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
             }
 
             is State.Success -> {
-                DocumentPager(
-                    segments = state.segments,
-                    selectedSegment = state.selectedSegment,
-                    titleBelowCover = state.titleBelowCover,
-                    initialPage = state.initialPage,
-                    listState = listState
+                CompositionLocalProvider(
+                    LocalFontFamilyProvider provides state.fontFamilyProvider,
+                    LocalBlocksStyle provides state.style?.blocks
                 ) {
-                    state.eventSink(SuccessEvent.OnPageChange(it))
+                    DocumentPager(
+                        segments = state.segments,
+                        selectedSegment = state.selectedSegment,
+                        titleBelowCover = state.titleBelowCover,
+                        initialPage = state.initialPage,
+                        segmentStyle = state.style?.segment,
+                        listState = listState
+                    ) {
+                        state.eventSink(SuccessEvent.OnPageChange(it))
+                    }
                 }
             }
         }

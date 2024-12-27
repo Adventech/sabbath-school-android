@@ -36,6 +36,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.model.resource.ResourceDocument
+import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import kotlinx.collections.immutable.toImmutableList
 import ss.document.components.segment.hasCover
 import ss.document.producer.TopAppbarActionsProducer
@@ -47,6 +48,7 @@ class DocumentPresenter @AssistedInject constructor(
     @Assisted private val screen: DocumentScreen,
     private val resourcesRepository: ResourcesRepository,
     private val actionsProducer: TopAppbarActionsProducer,
+    private val fontFamilyProvider: FontFamilyProvider,
 ) : Presenter<State> {
 
     @Composable
@@ -82,6 +84,8 @@ class DocumentPresenter @AssistedInject constructor(
                 segments = documentPages,
                 selectedSegment = selectedPage,
                 titleBelowCover = resourceDocument.titleBelowCover == true,
+                style = resourceDocument.style,
+                fontFamilyProvider = fontFamilyProvider,
                 eventSink = eventSink,
             )
         }

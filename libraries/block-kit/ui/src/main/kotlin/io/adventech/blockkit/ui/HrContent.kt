@@ -20,23 +20,21 @@
  * THE SOFTWARE.
  */
 
-package ss.document.di
+package io.adventech.blockkit.ui
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import io.adventech.blockkit.ui.style.font.FontFamilyProvider
-import ss.document.producer.FontFamilyProviderImpl
-import ss.document.producer.TopAppbarActionsProducer
-import ss.document.producer.TopAppbarActionsProducerImpl
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import io.adventech.blockkit.model.BlockItem
+import io.adventech.blockkit.ui.style.Styler
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal abstract class BindingsModule {
-    @Binds
-    internal abstract fun bindTopAppbarActionsProducer(impl: TopAppbarActionsProducerImpl): TopAppbarActionsProducer
-
-    @Binds
-    internal abstract fun bindFontFamilyProvider(impl: FontFamilyProviderImpl): FontFamilyProvider
+@Composable
+internal fun HrContent(blockItem: BlockItem.Hr, modifier: Modifier = Modifier) {
+    val color = Styler.textColor(blockItem.style?.text).copy(alpha = 0.7f)
+    HorizontalDivider(
+        modifier = modifier.padding(vertical = 4.dp),
+        color = color,
+    )
 }

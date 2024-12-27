@@ -26,9 +26,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import io.adventech.blockkit.model.BlockStyleSpacing
 import io.adventech.blockkit.model.TextStyleSize
 
-internal interface StyleTemplate {
+interface StyleTemplate {
     @Composable
     fun textSizeDefault(): TextUnit
 
@@ -41,6 +42,8 @@ internal interface StyleTemplate {
 
     @Composable
     fun textTypefaceDefault(): String
+
+    val paddingSizePoints: (BlockStyleSpacing?) -> Int
 }
 
 internal interface BlockStyleTemplate : StyleTemplate {
@@ -111,6 +114,18 @@ internal interface BlockStyleTemplate : StyleTemplate {
             )
 
             sizeMatrix[size]?.get(textStyleSize) ?: 21f
+        }
+
+    override val paddingSizePoints: (BlockStyleSpacing?) -> Int
+        get() = { spacing ->
+            when (spacing) {
+                BlockStyleSpacing.XS -> 4
+                BlockStyleSpacing.SM -> 8
+                BlockStyleSpacing.BASE -> 16
+                BlockStyleSpacing.LG -> 24
+                BlockStyleSpacing.XL -> 32
+                else -> 0
+            }
         }
 
     companion object {

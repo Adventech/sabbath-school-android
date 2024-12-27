@@ -20,23 +20,15 @@
  * THE SOFTWARE.
  */
 
-package ss.document.di
+package io.adventech.blockkit.model.resource
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import io.adventech.blockkit.ui.style.font.FontFamilyProvider
-import ss.document.producer.FontFamilyProviderImpl
-import ss.document.producer.TopAppbarActionsProducer
-import ss.document.producer.TopAppbarActionsProducerImpl
+import androidx.annotation.Keep
+import com.squareup.moshi.JsonClass
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal abstract class BindingsModule {
-    @Binds
-    internal abstract fun bindTopAppbarActionsProducer(impl: TopAppbarActionsProducerImpl): TopAppbarActionsProducer
-
-    @Binds
-    internal abstract fun bindFontFamilyProvider(impl: FontFamilyProviderImpl): FontFamilyProvider
-}
+@Keep
+@JsonClass(generateAdapter = true)
+data class ResourceFont(
+    val name: String,
+    val weight: Int,
+    val src: String,
+)

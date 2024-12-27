@@ -32,6 +32,7 @@ import io.adventech.blockkit.model.resource.ResourceDocument
 import kotlinx.coroutines.flow.Flow
 import ss.resources.model.FeedModel
 import ss.resources.model.LanguageModel
+import java.io.File
 
 interface ResourcesRepository {
     fun languages(query: String? = null): Flow<List<LanguageModel>>
@@ -51,4 +52,6 @@ interface ResourcesRepository {
     suspend fun video(resourceIndex: String, documentIndex: String): Result<List<VideoAux>>
 
     suspend fun pdf(resourceIndex: String, documentIndex: String): Result<List<PDFAux>>
+
+    suspend fun fontFile(name: String): Flow<File?>
 }

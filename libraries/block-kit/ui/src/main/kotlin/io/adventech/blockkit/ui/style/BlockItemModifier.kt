@@ -20,23 +20,21 @@
  * THE SOFTWARE.
  */
 
-package ss.document.di
+package io.adventech.blockkit.ui.style
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import io.adventech.blockkit.ui.style.font.FontFamilyProvider
-import ss.document.producer.FontFamilyProviderImpl
-import ss.document.producer.TopAppbarActionsProducer
-import ss.document.producer.TopAppbarActionsProducerImpl
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import io.adventech.blockkit.model.BlockItem
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal abstract class BindingsModule {
-    @Binds
-    internal abstract fun bindTopAppbarActionsProducer(impl: TopAppbarActionsProducerImpl): TopAppbarActionsProducer
-
-    @Binds
-    internal abstract fun bindFontFamilyProvider(impl: FontFamilyProviderImpl): FontFamilyProvider
+@Composable
+internal fun Modifier.background(blockItem: BlockItem): Modifier {
+    return this
+        .background(Styler.backgroundColor(blockItem.style?.block), defaultShape)
+        .padding(Styler.padding(blockItem.style?.block?.padding))
 }
+
+private val defaultShape = RoundedCornerShape(8.dp)

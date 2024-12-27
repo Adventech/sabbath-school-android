@@ -50,4 +50,5 @@ data class Resource(
     val sections: List<ResourceSection>?,
     val cta: ResourceCTA?,
     val preferredCover: ResourcePreferredCover?,
+    val fonts: List<ResourceFont>? = null,
 )

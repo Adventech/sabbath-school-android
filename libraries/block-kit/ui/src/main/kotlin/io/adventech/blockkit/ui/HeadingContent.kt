@@ -20,23 +20,24 @@
  * THE SOFTWARE.
  */
 
-package ss.document.di
+package io.adventech.blockkit.ui
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import io.adventech.blockkit.ui.style.font.FontFamilyProvider
-import ss.document.producer.FontFamilyProviderImpl
-import ss.document.producer.TopAppbarActionsProducer
-import ss.document.producer.TopAppbarActionsProducerImpl
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import io.adventech.blockkit.model.BlockItem
+import io.adventech.blockkit.ui.style.HeadingStyleTemplate
+import io.adventech.blockkit.ui.style.Styler
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal abstract class BindingsModule {
-    @Binds
-    internal abstract fun bindTopAppbarActionsProducer(impl: TopAppbarActionsProducerImpl): TopAppbarActionsProducer
+@Composable
+internal fun HeadingContent(blockItem: BlockItem.Heading, modifier: Modifier = Modifier) {
+    val template = HeadingStyleTemplate(blockItem.depth)
+    val blockStyle = blockItem.style?.text
 
-    @Binds
-    internal abstract fun bindFontFamilyProvider(impl: FontFamilyProviderImpl): FontFamilyProvider
+    Text(
+        text = blockItem.markdown,
+        modifier = modifier,
+        style = Styler.textStyle(blockStyle, template),
+        textAlign = Styler.textAlign(blockStyle)
+    )
 }
