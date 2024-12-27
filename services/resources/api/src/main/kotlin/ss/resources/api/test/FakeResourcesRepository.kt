@@ -35,6 +35,7 @@ import kotlinx.coroutines.flow.emptyFlow
 import ss.resources.api.ResourcesRepository
 import ss.resources.model.FeedModel
 import ss.resources.model.LanguageModel
+import java.io.File
 
 @VisibleForTesting(otherwise = VisibleForTesting.NONE)
 class FakeResourcesRepository(
@@ -81,6 +82,10 @@ class FakeResourcesRepository(
         resourceIndex: String,
         documentIndex: String
     ): Result<List<PDFAux>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun fontFile(name: String): Flow<File?> {
         TODO("Not yet implemented")
     }
 }

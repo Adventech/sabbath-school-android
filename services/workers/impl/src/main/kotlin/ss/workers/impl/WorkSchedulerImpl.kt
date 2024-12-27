@@ -65,7 +65,7 @@ internal class WorkSchedulerImpl @Inject constructor(
         images: Set<String>? = null
     ) {
         val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.UNMETERED)
+            .setRequiredNetworkType(NetworkType.CONNECTED)
             .setRequiresBatteryNotLow(true)
             .setRequiresStorageNotLow(true)
             .build()

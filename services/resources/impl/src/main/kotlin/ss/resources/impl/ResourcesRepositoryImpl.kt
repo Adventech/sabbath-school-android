@@ -22,18 +22,27 @@
 
 package ss.resources.impl
 
+import android.content.Context
+import androidx.work.Constraints
+import androidx.work.ExistingWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import app.ss.models.AudioAux
 import app.ss.models.PDFAux
 import app.ss.models.VideoAux
 import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
 import dagger.Lazy
+import dagger.hilt.android.qualifiers.ApplicationContext
 import io.adventech.blockkit.model.feed.FeedGroup
 import io.adventech.blockkit.model.feed.FeedType
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.model.resource.ResourceDocument
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -42,18 +51,23 @@ import kotlinx.coroutines.withContext
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.ResourcesApi
+import ss.libraries.storage.api.dao.FontFilesDao
 import ss.libraries.storage.api.dao.LanguagesDao
 import ss.libraries.storage.api.entity.LanguageEntity
 import ss.prefs.api.SSPrefs
 import ss.resources.api.ResourcesRepository
 import ss.resources.impl.sync.SyncHelper
+import ss.resources.impl.work.DownloadResourceWork
 import ss.resources.model.FeedModel
 import ss.resources.model.LanguageModel
 import timber.log.Timber
+import java.io.File
 import javax.inject.Inject
 
 internal class ResourcesRepositoryImpl @Inject constructor(
+    @ApplicationContext private val appContext: Context,
     private val resourcesApi: ResourcesApi,
+    private val fontFilesDao: FontFilesDao,
     private val languagesDao: LanguagesDao,
     private val syncHelper: SyncHelper,
     private val dispatcherProvider: DispatcherProvider,
@@ -147,12 +161,31 @@ internal class ResourcesRepositoryImpl @Inject constructor(
                 }
 
                 is NetworkResource.Success -> {
+                    downloadResource(index)
+
                     resource.value.body()?.let {
                         Result.success(it)
                     } ?: Result.failure(Throwable("Failed to fetch Resource, body is null"))
                 }
             }
         }
+    }
+
+    private fun downloadResource(index: String) {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+        val request = OneTimeWorkRequestBuilder<DownloadResourceWork>()
+            .setConstraints(constraints)
+            .setInputData(workDataOf(DownloadResourceWork.INDEX_KEY to index,))
+            .build()
+
+        val workManager = WorkManager.getInstance(appContext)
+        workManager.enqueueUniqueWork(
+            DownloadResourceWork::class.java.simpleName,
+            ExistingWorkPolicy.REPLACE,
+            request
+        )
     }
 
     override suspend fun document(index: String): Result<ResourceDocument> {
@@ -225,5 +258,13 @@ internal class ResourcesRepositoryImpl @Inject constructor(
                 }
             }
         }
+    }
+
+    override suspend fun fontFile(name: String): Flow<File?> {
+        return fontFilesDao.get(name)
+            .filterNotNull()
+            .map { File(appContext.filesDir, "fonts/${it.fileName}") }
+            .filter { it.exists() }
+            .flowOn(dispatcherProvider.io)
     }
 }
