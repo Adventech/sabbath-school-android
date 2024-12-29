@@ -44,10 +44,12 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
@@ -66,9 +68,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.theme.SsTheme
-import app.ss.design.compose.widget.appbar.SsTopAppBar
-import app.ss.design.compose.widget.appbar.TopAppBarSpec
-import app.ss.design.compose.widget.appbar.TopAppBarType
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButtonSlot
 import app.ss.design.compose.widget.icon.Icons
@@ -122,7 +121,7 @@ internal fun DocumentTopAppBar(
         expanded = expanded,
         onDismissRequest = { expanded = false },
         modifier = modifier,
-        offset = DpOffset((-16).dp,  0.dp),
+        offset = DpOffset((-16).dp, 0.dp),
         shape = RoundedCornerShape(16.dp),
         containerColor = SsTheme.colors.primaryBackground,
     ) {
@@ -151,45 +150,7 @@ internal fun DocumentTopAppBar(
         }
     }
 
-    SsTopAppBar(
-        spec = TopAppBarSpec(
-            topAppBarType = TopAppBarType.Small,
-            actions = buildList {
-                actions.filter { it.primary }.forEach {
-                    add(
-                        IconButtonSlot(
-                            imageVector = it.icon,
-                            contentDescription = stringResource(it.title),
-                            onClick = {},
-                            tint = SsTheme.colors.primaryForeground
-                        )
-                    )
-                }
-                if (actions.any { it.primary == false }) {
-                    add(
-                        IconButtonSlot(
-                            imageVector = MaterialIcons.Rounded.MoreVert,
-                            contentDescription = stringResource(L10nR.string.ss_more),
-                            onClick = { expanded = true },
-                            tint = SsTheme.colors.primaryForeground
-                        )
-                    )
-                }
-            }
-        ),
-        modifier = modifier,
-        navigationIcon = {
-            IconButton(onClick = onNavBack) {
-                val iconColor by animateColorAsState(
-                    targetValue = if (collapsible && !collapsed) Color.White else LocalContentColor.current,
-                    label = "icon-color"
-                )
-                IconBox(
-                    icon = Icons.ArrowBack,
-                    contentColor = iconColor,
-                )
-            }
-        },
+    TopAppBar(
         title = {
             val density = LocalDensity.current
             AnimatedVisibility(
@@ -206,6 +167,54 @@ internal fun DocumentTopAppBar(
                 title()
             }
         },
+        modifier = modifier,
+        navigationIcon = {
+            val containerColor by topAppBarContainerColor(collapsible, collapsed)
+            val iconColor by topAppBarContentColor(collapsible, collapsed)
+            IconButton(
+                onClick = onNavBack,
+                colors = IconButtonDefaults.iconButtonColors(containerColor = containerColor),
+            ) {
+                IconBox(
+                    icon = Icons.ArrowBack,
+                    contentColor = iconColor,
+                )
+            }
+        },
+        actions = {
+            buildList {
+                actions.filter { it.primary }.forEach {
+                    add(
+                        IconButtonSlot(
+                            imageVector = it.icon,
+                            contentDescription = stringResource(it.title),
+                            onClick = {},
+                        )
+                    )
+                }
+                if (actions.any { it.primary == false }) {
+                    add(
+                        IconButtonSlot(
+                            imageVector = MaterialIcons.Rounded.MoreVert,
+                            contentDescription = stringResource(L10nR.string.ss_more),
+                            onClick = { expanded = true },
+                        )
+                    )
+                }
+            }.forEach { icon ->
+                val containerColor by topAppBarContainerColor(collapsible, collapsed)
+                val iconColor by topAppBarContentColor(collapsible, collapsed)
+                IconButton(
+                    onClick = icon.onClick,
+                    colors = IconButtonDefaults.iconButtonColors(containerColor = containerColor),
+                ) {
+                    icon.Content(
+                        contentColor = iconColor,
+                        modifier = Modifier
+                    )
+                }
+            }
+        },
         scrollBehavior = scrollBehavior,
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.Transparent,
@@ -213,6 +222,32 @@ internal fun DocumentTopAppBar(
         )
     )
 }
+
+@Composable
+private fun topAppBarContainerColor(
+    collapsible: Boolean,
+    collapsed: Boolean,
+) = animateColorAsState(
+    targetValue = when {
+        !collapsible -> Color.Transparent
+        collapsible && !collapsed -> Color.Black.copy(alpha = 0.5f)
+        else -> Color.Transparent
+    },
+    label = "container color"
+)
+
+@Composable
+private fun topAppBarContentColor(
+    collapsible: Boolean,
+    collapsed: Boolean,
+) = animateColorAsState(
+    targetValue = when {
+        !collapsible -> LocalContentColor.current
+        collapsible && !collapsed -> Color.White
+        else -> LocalContentColor.current
+    },
+    label = "icon-color"
+)
 
 @Composable
 internal fun DocumentTitleBar(

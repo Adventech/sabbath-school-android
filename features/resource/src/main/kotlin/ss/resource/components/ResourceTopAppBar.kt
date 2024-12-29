@@ -23,6 +23,7 @@
 package ss.resource.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -30,12 +31,14 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,7 +46,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
@@ -56,7 +58,6 @@ import app.ss.design.compose.widget.icon.Icons
 internal fun ResourceTopAppBar(
     isShowingNavigationBar: Boolean,
     title: String,
-    primaryColorDark: String?,
     modifier: Modifier = Modifier,
     scrollBehavior: TopAppBarScrollBehavior? = null,
     onNavBack: () -> Unit = {},
@@ -86,11 +87,14 @@ internal fun ResourceTopAppBar(
             }
         },
         navigationIcon = {
-            IconButton(onClick = onNavBack) {
-                IconBox(
-                    icon = if (isShowingNavigationBar) Icons.ArrowBack else Icons.ArrowBackFilled,
-                    contentColor = topAppBarContentColor(isShowingNavigationBar, primaryColorDark)
-                )
+            val containerColor by topAppBarContainerColor(isShowingNavigationBar)
+            val contentColor by topAppBarContentColor(isShowingNavigationBar)
+
+            IconButton(
+                onClick = onNavBack,
+                colors = IconButtonDefaults.iconButtonColors(containerColor = containerColor),
+            ) {
+                IconBox(icon = Icons.ArrowBack, contentColor = contentColor)
             }
         },
         scrollBehavior = scrollBehavior,
@@ -105,15 +109,27 @@ internal fun ResourceTopAppBar(
 @Composable
 private fun topAppBarContentColor(
     isShowingNavigationBar: Boolean,
-    primaryColorDark: String?,
     isNightMode: Boolean = isSystemInDarkTheme(),
-): Color {
-    return if (isShowingNavigationBar) {
+) = animateColorAsState(
+    if (isShowingNavigationBar) {
         if (isNightMode) Color.White else Color.Black
     } else {
-        primaryColorDark?.let { Color.parse(primaryColorDark) } ?: Color(0xFF000000)
-    }
-}
+        Color.White
+    },
+    label = "content color"
+)
+
+@Composable
+private fun topAppBarContainerColor(
+    isShowingNavigationBar: Boolean,
+) = animateColorAsState(
+    targetValue = if (isShowingNavigationBar) {
+        Color.Transparent
+    } else {
+        Color.Black.copy(alpha = 0.5f)
+    },
+    label = "container color"
+)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @PreviewLightDark
@@ -124,7 +140,6 @@ private fun Preview() {
             ResourceTopAppBar(
                 isShowingNavigationBar = true,
                 title = "Resource",
-                primaryColorDark = "#541B23",
             )
         }
     }
@@ -139,7 +154,6 @@ private fun PreviewTwo() {
             ResourceTopAppBar(
                 isShowingNavigationBar = false,
                 title = "Resource",
-                primaryColorDark = "#541B23",
             )
         }
     }

@@ -77,7 +77,6 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
                 ResourceTopAppBar(
                     isShowingNavigationBar = collapsed,
                     title = state.title,
-                    primaryColorDark = (state as? State.Success)?.resource?.primaryColorDark,
                     modifier = Modifier,
                     scrollBehavior = scrollBehavior,
                     onNavBack = { state.eventSink(Event.OnNavBack) }
