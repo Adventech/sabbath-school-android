@@ -26,7 +26,6 @@ import io.adventech.blockkit.model.TextStyle
 import io.adventech.blockkit.model.TextStyleSize
 import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeInstanceOf
-import org.commonmark.node.Text
 import org.junit.Test
 
 class AttributedTextParserTest {
@@ -34,30 +33,27 @@ class AttributedTextParserTest {
     private val parser = AttributedTextParser()
 
     @Test
-    fun `replaceNode - detect an InlineAttributeNode`() {
+    fun `findALlMatches - detect an InlineAttributeNode`() {
         val markdown = "^[Part 2]({\"style\": {\"text\": {\"color\": \"#a65726\", \"size\": \"xl\", \"typeface\": \"BaskervilleBT-Bold\"}}})â€”The Sabbath School Program"
 
-        val node = parser.replaceNode(Text(markdown))
+        val matches = parser.findAllMatches(markdown)
 
-        node shouldBeInstanceOf InlineAttributeNode::class
-        node as InlineAttributeNode
+        matches.count() shouldBeEqualTo 1
+    }
 
-        node.style shouldBeEqualTo TextStyle(
+    @Test
+    fun `parse json style`() {
+        val json = "{\"style\": {\"text\": {\"color\": \"#a65726\", \"size\": \"xl\", \"typeface\": \"BaskervilleBT-Bold\"}}}"
+        val style = parser.parseJsonStyle(json)
+
+        style shouldBeInstanceOf TextStyle::class
+        style shouldBeEqualTo TextStyle(
             typeface = "BaskervilleBT-Bold",
             color = "#a65726",
             size = TextStyleSize.XL,
             align = null,
             offset = null,
         )
-    }
-
-    @Test
-    fun `replaceNode - no custom styled attributes - node is not replaced`() {
-        val markdown = "Part 1 â€” The Sabbath School Program"
-        val original = Text(markdown)
-
-        val replaced = parser.replaceNode(original)
-        replaced shouldBeEqualTo original
     }
 
     @Test

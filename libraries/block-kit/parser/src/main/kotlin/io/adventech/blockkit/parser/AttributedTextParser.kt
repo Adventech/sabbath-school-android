@@ -25,12 +25,13 @@ package io.adventech.blockkit.parser
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.adventech.blockkit.model.StyleContainer
-import io.adventech.blockkit.model.TitleTextStyle
-import org.commonmark.node.Node
-import org.commonmark.node.Text
+import io.adventech.blockkit.model.TextStyle
+import timber.log.Timber
 
 interface AttributedTextParserDelegate {
-    fun replaceNode(node: Text): Node
+    fun findAllMatches(markdown: String): Sequence<MatchResult>
+
+    fun parseJsonStyle(json: String): TextStyle?
 
     fun parseTypeface(markdown: String): Set<String>
 }
@@ -43,38 +44,30 @@ class AttributedTextParser() : AttributedTextParserDelegate {
             .build()
     }
 
-    override fun replaceNode(node: Text): Node {
-        val regex = Regex(REGEX)
-        val matchResult = regex.find(node.literal)
-
-        if (matchResult != null) {
-            val text = matchResult.groups[1]?.value ?: return node
-            val attributesString = matchResult.groups[2]?.value ?: return node
-
-            val style = parseJsonStyle(attributesString)?.text ?: return node
-
-            return InlineAttributeNode(text, style)
-        }
-
-        return node
+    override fun findAllMatches(markdown: String): Sequence<MatchResult> {
+        return REGEX.toRegex().findAll(markdown)
     }
 
-    private fun parseJsonStyle(json: String): TitleTextStyle? {
-        val styleAdapter = moshi.adapter(StyleContainer::class.java)
-        val style = styleAdapter.fromJson(json)
-        return style?.style
+    override fun parseJsonStyle(json: String): TextStyle? {
+        try {
+            val styleAdapter = moshi.adapter(StyleContainer::class.java)
+            val style = styleAdapter.fromJson(json)
+            return style?.style?.text
+        } catch (exception: Exception) {
+            Timber.e(exception)
+            return null
+        }
     }
 
     override fun parseTypeface(markdown: String): Set<String> {
-        val regex = Regex(REGEX)
         val result = mutableListOf<String>()
 
-        regex.findAll(markdown).forEach { match ->
+        findAllMatches(markdown).forEach { match ->
             // Extract the styled text
             val style = match.groupValues[2] // The style inside (style-json)
 
             val textStyle = parseJsonStyle(style)
-            textStyle?.text?.typeface?.let { result.add(it) }
+            textStyle?.typeface?.let { result.add(it) }
         }
 
         return result.toSet()

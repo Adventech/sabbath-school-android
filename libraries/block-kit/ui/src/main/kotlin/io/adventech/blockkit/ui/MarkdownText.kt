@@ -58,7 +58,6 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import io.adventech.blockkit.model.TextStyleSize
 import io.adventech.blockkit.parser.AttributedTextParser
-import io.adventech.blockkit.parser.InlineAttributeNode
 import io.adventech.blockkit.ui.style.BlockStyleTemplate
 import io.adventech.blockkit.ui.style.LatoFontFamily
 import io.adventech.blockkit.ui.style.StyleTemplate
@@ -176,14 +175,7 @@ internal fun AnnotatedString.Builder.appendMarkdownChildren(
             }
 
             is Text -> {
-                when (val node = parser.replaceNode(child)) {
-                    is InlineAttributeNode -> {
-                        withStyle(node.style.toSpanStyle(fontProvider, fontSizeProvider)) {
-                            append(node.text)
-                        }
-                    }
-                    else -> append(child.literal)
-                }
+                appendText(child, parser, fontProvider, fontSizeProvider)
             }
 
             is Image -> appendInlineContent(TAG_IMAGE_URL, child.destination)
@@ -219,6 +211,52 @@ internal fun AnnotatedString.Builder.appendMarkdownChildren(
             }
         }
         child = child.next
+    }
+}
+
+/**
+ * Append text to the [AnnotatedString.Builder] with custom style handling.
+ *
+ * @param text The text node to append.
+ * @param parser The attributed text parser to use for parsing custom styles.
+ * @param fontProvider The font provider to use for custom fonts.
+ * @param fontSizeProvider The font size provider to use for custom font sizes.
+ */
+private fun AnnotatedString.Builder.appendText(
+    text: Text,
+    parser: AttributedTextParser,
+    fontProvider: (String?) -> FontFamily,
+    fontSizeProvider: (TextStyleSize?) -> TextUnit,
+) {
+    val markdown = text.literal
+    var lastIndex = 0
+    parser.findAllMatches(markdown).forEach { matchResult ->
+        val matchStart = matchResult.range.first
+        val matchEnd = matchResult.range.last
+        val text = matchResult.groups[1]?.value ?: ""
+        val styleJson = matchResult.groups[2]?.value ?: ""
+
+        // Append text before the match
+        if (matchStart > lastIndex) {
+            append(markdown.substring(lastIndex, matchStart))
+        }
+
+        // Extract inline text style from JSON
+        val inlineTextStyle = parser.parseJsonStyle(styleJson)
+        if (inlineTextStyle != null) {
+            withStyle(inlineTextStyle.toSpanStyle(fontProvider, fontSizeProvider)) {
+                append(text)
+            }
+        } else {
+            append(text)
+        }
+
+        lastIndex = matchEnd + 1
+    }
+
+    // Append remaining text after the last match
+    if (lastIndex < markdown.length) {
+        append(markdown.substring(lastIndex))
     }
 }
 
