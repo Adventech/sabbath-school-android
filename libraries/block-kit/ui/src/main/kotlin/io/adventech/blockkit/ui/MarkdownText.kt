@@ -51,14 +51,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.util.fastAny
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import io.adventech.blockkit.model.AttributedText
 import io.adventech.blockkit.model.TextStyleSize
 import io.adventech.blockkit.parser.AttributedTextParser
+import io.adventech.blockkit.parser.InlineAttributeNode
 import io.adventech.blockkit.ui.style.BlockStyleTemplate
 import io.adventech.blockkit.ui.style.LatoFontFamily
 import io.adventech.blockkit.ui.style.StyleTemplate
@@ -92,18 +92,8 @@ fun MarkdownText(
     onHandleUri: (String) -> Unit = {},
 ) {
     val attributedTextParser by remember { mutableStateOf(AttributedTextParser()) }
-    val attributes by remember(markdownText) { mutableStateOf(attributedTextParser.parse(markdownText)) }
-    var fonts = attributes.associate { attr ->
-        when (attr) {
-            is AttributedText.Plain -> {
-                null to null
-            }
-            is AttributedText.Styled -> {
-                attr.style?.typeface to attr.style?.typeface?.let { LocalFontFamilyProvider.current.invoke(it) }
-            }
-        }
-
-    }
+    val typefaces by remember(markdownText) { mutableStateOf(attributedTextParser.parseTypeface(markdownText)) }
+    var fonts = typefaces.associate { name -> name to LocalFontFamilyProvider.current.invoke(name) }
     val fontProvider: (String?) -> FontFamily = {
         it?.let { fonts[it] } ?: LatoFontFamily
     }
@@ -112,18 +102,13 @@ fun MarkdownText(
     }
 
     val styledText = buildAnnotatedString {
-        if (attributes.fastAny { it is AttributedText.Styled }) {
-            pushStyle(style.toSpanStyle())
-            appendAttributedText(attributes, fontProvider, fontSizeProvider, color)
-        } else {
-            val parsedNode = remember(markdownText) {
-                val parser = Parser.builder().build()
-                val root = parser.parse(markdownText) as Document
-                root.firstChild
-            }
-            pushStyle(style.toSpanStyle())
-            appendMarkdownChildren(parsedNode, color)
-            pop()
+        val parsedNode = remember(markdownText) {
+            val parser = Parser.builder().build()
+            val root = parser.parse(markdownText) as Document
+            root.firstChild
+        }
+        withStyle(style.toSpanStyle()) {
+            appendMarkdownChildren(parsedNode, color, attributedTextParser, fontProvider, fontSizeProvider)
         }
     }
 
@@ -177,23 +162,40 @@ fun MarkdownText(
 }
 
 internal fun AnnotatedString.Builder.appendMarkdownChildren(
-    parent: Node, color: Color,
+    parent: Node,
+    color: Color,
+    parser: AttributedTextParser,
+    fontProvider: (String?) -> FontFamily,
+    fontSizeProvider: (TextStyleSize?) -> TextUnit,
 ) {
     var child = parent.firstChild
     while (child != null) {
         when (child) {
-            is Paragraph -> appendMarkdownChildren(child, color)
-            is Text -> append(child.literal)
+            is Paragraph -> {
+                appendMarkdownChildren(child, color, parser, fontProvider, fontSizeProvider)
+            }
+
+            is Text -> {
+                when (val node = parser.replaceNode(child)) {
+                    is InlineAttributeNode -> {
+                        withStyle(node.style.toSpanStyle(fontProvider, fontSizeProvider)) {
+                            append(node.text)
+                        }
+                    }
+                    else -> append(child.literal)
+                }
+            }
+
             is Image -> appendInlineContent(TAG_IMAGE_URL, child.destination)
             is Emphasis -> {
                 pushStyle(SpanStyle(fontStyle = FontStyle.Italic))
-                appendMarkdownChildren(child, color)
+                appendMarkdownChildren(child, color, parser, fontProvider, fontSizeProvider)
                 pop()
             }
 
             is StrongEmphasis -> {
                 pushStyle(SpanStyle(fontWeight = FontWeight.Bold))
-                appendMarkdownChildren(child, color)
+                appendMarkdownChildren(child, color, parser, fontProvider, fontSizeProvider)
                 pop()
             }
 
@@ -211,39 +213,12 @@ internal fun AnnotatedString.Builder.appendMarkdownChildren(
                 val underline = SpanStyle(color, textDecoration = TextDecoration.Underline)
                 pushStyle(underline)
                 pushStringAnnotation(TAG_URL, child.destination)
-                appendMarkdownChildren(child, color)
+                appendMarkdownChildren(child, color, parser, fontProvider, fontSizeProvider)
                 pop()
                 pop()
             }
         }
         child = child.next
-    }
-}
-
-private fun AnnotatedString.Builder.appendAttributedText(
-    attributes: List<AttributedText>,
-    fontProvider: (String?) -> FontFamily,
-    fontSizeProvider: (TextStyleSize?) -> TextUnit,
-    color: Color
-) {
-    attributes.forEachIndexed { index, attribute ->
-        when (attribute) {
-            is AttributedText.Plain -> {
-                if (attribute.label == "\\") {
-                    appendLine()
-                } else {
-                    val node = Parser.builder().build().parse(attribute.label)
-                    appendMarkdownChildren(node.firstChild, color)
-                }
-            }
-
-            is AttributedText.Styled -> {
-                attribute.style?.toSpanStyle(fontProvider, fontSizeProvider)?.let { pushStyle(it) }
-                val node = Parser.builder().build().parse(attribute.label)
-                appendMarkdownChildren(node.firstChild, color)
-                pop()
-            }
-        }
     }
 }
 

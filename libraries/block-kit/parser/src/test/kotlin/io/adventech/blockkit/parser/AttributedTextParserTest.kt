@@ -22,10 +22,11 @@
 
 package io.adventech.blockkit.parser
 
-import io.adventech.blockkit.model.AttributedText
 import io.adventech.blockkit.model.TextStyle
 import io.adventech.blockkit.model.TextStyleSize
-import org.amshove.kluent.internal.assertEquals
+import org.amshove.kluent.shouldBeEqualTo
+import org.amshove.kluent.shouldBeInstanceOf
+import org.commonmark.node.Text
 import org.junit.Test
 
 class AttributedTextParserTest {
@@ -33,59 +34,38 @@ class AttributedTextParserTest {
     private val parser = AttributedTextParser()
 
     @Test
-    fun `parse - custom text style attributes`() {
+    fun `replaceNode - detect an InlineAttributeNode`() {
         val markdown = "^[Part 2]({\"style\": {\"text\": {\"color\": \"#a65726\", \"size\": \"xl\", \"typeface\": \"BaskervilleBT-Bold\"}}})â€”The Sabbath School Program"
 
-        val attributes = parser.parse(markdown)
-        assertEquals(2, attributes.size)
-        assertEquals("Part 2", (attributes[0] as AttributedText.Styled).label)
-        assertEquals(
-            TextStyle(
-                typeface = "BaskervilleBT-Bold",
-                color = "#a65726",
-                size = TextStyleSize.XL,
-                align = null,
-                offset = null,
-            ), (attributes[0] as AttributedText.Styled).style
+        val node = parser.replaceNode(Text(markdown))
+
+        node shouldBeInstanceOf InlineAttributeNode::class
+        node as InlineAttributeNode
+
+        node.style shouldBeEqualTo TextStyle(
+            typeface = "BaskervilleBT-Bold",
+            color = "#a65726",
+            size = TextStyleSize.XL,
+            align = null,
+            offset = null,
         )
     }
 
     @Test
-    fun `parse - multiple styled attributes in the same markdown`() {
+    fun `replaceNode - no custom styled attributes - node is not replaced`() {
+        val markdown = "Part 1 â€” The Sabbath School Program"
+        val original = Text(markdown)
+
+        val replaced = parser.replaceNode(original)
+        replaced shouldBeEqualTo original
+    }
+
+    @Test
+    fun `parseTypeface - returns all custom typefaces in the inline styles`() {
         val markdown = "^[Part 1]({\"style\": {\"text\": {\"color\": \"#a65726\", \"size\": \"xl\", \"typeface\": \"BaskervilleBT-Bold\"}}})â€”The Sabbath School Program ^[Part 2]({\"style\": {\"text\": {\"color\": \"#a65726\", \"size\": \"xl\", \"typeface\": \"BaskervilleBT-Bold\"}}})â€”The Sabbath School Program"
 
-        val attributes = parser.parse(markdown)
-        assertEquals(4, attributes.size)
-        assertEquals("Part 1", (attributes[0] as AttributedText.Styled).label)
-        assertEquals(
-            TextStyle(
-                typeface = "BaskervilleBT-Bold",
-                color = "#a65726",
-                size = TextStyleSize.XL,
-                align = null,
-                offset = null,
-            ), (attributes[0] as AttributedText.Styled).style
-        )
-        assertEquals("â€”The Sabbath School Program", (attributes[1] as AttributedText.Plain).label)
-        assertEquals("Part 2", (attributes[2] as AttributedText.Styled).label)
-        assertEquals(
-            TextStyle(
-                typeface = "BaskervilleBT-Bold",
-                color = "#a65726",
-                size = TextStyleSize.XL,
-                align = null,
-                offset = null,
-            ), (attributes[2] as AttributedText.Styled).style
-        )
-        assertEquals("â€”The Sabbath School Program", (attributes[3] as AttributedText.Plain).label)
-    }
+        val typefaces = parser.parseTypeface(markdown)
 
-    @Test
-    fun `parse - no custom styled attributes`() {
-        val markdown = "Part 1 â€” The Sabbath School Program"
-
-        val attributes = parser.parse(markdown)
-        assertEquals(1, attributes.size)
-        assertEquals("Part 1 â€” The Sabbath School Program", (attributes[0] as AttributedText.Plain).label)
+        typefaces shouldBeEqualTo setOf("BaskervilleBT-Bold")
     }
 }

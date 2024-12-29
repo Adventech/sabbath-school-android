@@ -8,6 +8,7 @@ dependencies {
     implementation(projects.libraries.blockKit.model)
 
     implementation(libs.androidx.annotations)
+    implementation(libs.atlassian.commonmark)
     implementation(libs.square.moshi.adapters)
     implementation(libs.square.moshi.kotlin)
 

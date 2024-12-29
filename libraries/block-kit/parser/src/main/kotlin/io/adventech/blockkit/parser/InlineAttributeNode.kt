@@ -20,19 +20,11 @@
  * THE SOFTWARE.
  */
 
-package io.adventech.blockkit.model
+package io.adventech.blockkit.parser
 
 import androidx.annotation.Keep
+import io.adventech.blockkit.model.TextStyle
+import org.commonmark.node.CustomNode
 
-sealed interface AttributedText {
-    @Keep
-    data class Styled(
-        val label: String,
-        val style: TextStyle?
-    ) : AttributedText
-
-    @Keep
-    data class Plain(
-        val label: String
-    ) : AttributedText
-}
+@Keep
+data class InlineAttributeNode(val text: String, val style: TextStyle) : CustomNode()
