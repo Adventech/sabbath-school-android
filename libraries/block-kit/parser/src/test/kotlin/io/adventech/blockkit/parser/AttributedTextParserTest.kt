@@ -22,6 +22,7 @@
 
 package io.adventech.blockkit.parser
 
+import io.adventech.blockkit.model.AttributedText
 import io.adventech.blockkit.model.TextStyle
 import io.adventech.blockkit.model.TextStyleSize
 import org.amshove.kluent.internal.assertEquals

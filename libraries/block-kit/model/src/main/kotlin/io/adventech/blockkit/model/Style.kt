@@ -90,3 +90,7 @@ data class Style(
     val segment: SegmentStyle?,
     val blocks: BlocksStyle?,
 )
+
+@Keep
+@JsonClass(generateAdapter = true)
+data class StyleContainer(val style: TitleTextStyle)

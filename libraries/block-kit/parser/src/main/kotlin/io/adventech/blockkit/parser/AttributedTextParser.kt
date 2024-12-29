@@ -22,10 +22,10 @@
 
 package io.adventech.blockkit.parser
 
-import com.squareup.moshi.JsonClass
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import io.adventech.blockkit.model.TitleTextStyle
+import io.adventech.blockkit.model.AttributedText
+import io.adventech.blockkit.model.StyleContainer
 
 interface AttributedTextParserDelegate {
     fun parse(markdown: String): List<AttributedText>
@@ -112,6 +112,3 @@ class AttributedTextParser() : AttributedTextParserDelegate {
             .replace("\\/", "/")
     }
 }
-
-@JsonClass(generateAdapter = true)
-private data class StyleContainer(val style: TitleTextStyle)

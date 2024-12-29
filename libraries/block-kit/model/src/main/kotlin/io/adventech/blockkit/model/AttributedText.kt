@@ -20,10 +20,9 @@
  * THE SOFTWARE.
  */
 
-package io.adventech.blockkit.parser
+package io.adventech.blockkit.model
 
 import androidx.annotation.Keep
-import io.adventech.blockkit.model.TextStyle
 
 sealed interface AttributedText {
     @Keep
