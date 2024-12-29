@@ -46,7 +46,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.ListItem
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -208,9 +207,9 @@ internal fun DocumentTopAppBar(
                     onClick = icon.onClick,
                     colors = IconButtonDefaults.iconButtonColors(containerColor = containerColor),
                 ) {
-                    icon.Content(
+                    IconBox(
+                        icon = icon,
                         contentColor = iconColor,
-                        modifier = Modifier
                     )
                 }
             }
@@ -242,9 +241,9 @@ private fun topAppBarContentColor(
     collapsed: Boolean,
 ) = animateColorAsState(
     targetValue = when {
-        !collapsible -> LocalContentColor.current
+        !collapsible -> SsTheme.colors.primaryForeground
         collapsible && !collapsed -> Color.White
-        else -> LocalContentColor.current
+        else -> SsTheme.colors.primaryForeground
     },
     label = "icon-color"
 )

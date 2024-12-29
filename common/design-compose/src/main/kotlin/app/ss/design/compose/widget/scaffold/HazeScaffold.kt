@@ -22,6 +22,8 @@
 
 package app.ss.design.compose.widget.scaffold
 
+import android.app.Activity
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
@@ -31,9 +33,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowCompat
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.HazeStyle
 import dev.chrisbanes.haze.haze
@@ -57,6 +62,7 @@ fun HazeScaffold(
     hazeStyle: HazeStyle = HazeMaterials.regular(MaterialTheme.colorScheme.surface),
     blurTopBar: Boolean = false,
     blurBottomBar: Boolean = false,
+    lightStatusBar: Boolean = !isSystemInDarkTheme(),
     content: @Composable (PaddingValues) -> Unit,
 ) {
     Scaffold(
@@ -94,6 +100,14 @@ fun HazeScaffold(
     ) { contentPadding ->
         Box(Modifier.haze(state = hazeState)) {
             content(contentPadding)
+        }
+    }
+
+    val localView = LocalView.current
+    if (!localView.isInEditMode) {
+        SideEffect {
+            val window = (localView.context as Activity).window
+            WindowCompat.getInsetsController(window, localView).isAppearanceLightStatusBars = lightStatusBar
         }
     }
 }

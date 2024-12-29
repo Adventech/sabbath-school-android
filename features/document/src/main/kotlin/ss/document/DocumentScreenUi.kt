@@ -22,10 +22,9 @@
 
 package ss.document
 
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -35,10 +34,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.unit.dp
-import app.ss.design.compose.extensions.scroll.ScrollAlpha
-import app.ss.design.compose.extensions.scroll.rememberScrollAlpha
-import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
@@ -58,43 +53,47 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     val listState = rememberLazyListState()
-    val scrollAlpha: ScrollAlpha = rememberScrollAlpha(listState = listState)
     val collapsed by remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
     val toolbarTitle by remember(state) { derivedStateOf { if (collapsed) state.title else "" } }
+    val isSystemInDarkTheme = isSystemInDarkTheme()
+    val lightStatusBar by remember {
+        derivedStateOf {
+            when {
+                isSystemInDarkTheme -> false
+                state.hasCover -> collapsed
+                else -> true // Check reader theme here
+            }
+        }
+    }
 
     HazeScaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            Surface(
-                modifier = Modifier.fillMaxWidth(),
-                color = SsTheme.colors.primaryBackground.copy(
-                    alpha = if (collapsed) 1f else scrollAlpha.alpha
-                ),
-                tonalElevation = if (collapsed) 4.dp else 0.dp
-            ) {
-                DocumentTopAppBar(
-                    title = {
-                        when (state) {
-                            is State.Success -> {
-                                DocumentTitleBar(
-                                    segments = state.segments,
-                                    selectedSegment = state.selectedSegment,
-                                    onSelection = { state.eventSink(SuccessEvent.OnSegmentSelection(it)) }
-                                )
-                            }
-                            is State.Loading -> {
-                                Text(toolbarTitle)
-                            }
+            DocumentTopAppBar(
+                title = {
+                    when (state) {
+                        is State.Success -> {
+                            DocumentTitleBar(
+                                segments = state.segments,
+                                selectedSegment = state.selectedSegment,
+                                onSelection = { state.eventSink(SuccessEvent.OnSegmentSelection(it)) }
+                            )
                         }
-                    },
-                    scrollBehavior = scrollBehavior,
-                    collapsible = state.hasCover,
-                    collapsed = collapsed,
-                    actions = (state as? State.Success)?.actions ?: persistentListOf(),
-                    onNavBack = { state.eventSink(Event.OnNavBack) }
-                )
-            }
+
+                        is State.Loading -> {
+                            Text(toolbarTitle)
+                        }
+                    }
+                },
+                scrollBehavior = scrollBehavior,
+                collapsible = state.hasCover,
+                collapsed = collapsed,
+                actions = (state as? State.Success)?.actions ?: persistentListOf(),
+                onNavBack = { state.eventSink(Event.OnNavBack) }
+            )
         },
+        blurTopBar = !state.hasCover || collapsed,
+        lightStatusBar = lightStatusBar,
     ) {
         when (state) {
             is State.Loading -> {

@@ -24,12 +24,11 @@ package ss.resource
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -38,9 +37,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.unit.dp
-import app.ss.design.compose.extensions.scroll.ScrollAlpha
-import app.ss.design.compose.extensions.scroll.rememberScrollAlpha
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -61,29 +57,31 @@ import ss.resource.components.resourceSections
 fun ResourceUi(state: State, modifier: Modifier = Modifier) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val listState: LazyListState = rememberLazyListState()
-    val scrollAlpha: ScrollAlpha = rememberScrollAlpha(listState = listState)
     val collapsed by remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
+    val isSystemInDarkTheme = isSystemInDarkTheme()
+    val lightStatusBar by remember {
+        derivedStateOf {
+            when {
+                isSystemInDarkTheme -> false
+                else -> collapsed
+            }
+        }
+    }
 
     HazeScaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            Surface(
-                modifier = Modifier.fillMaxWidth(),
-                color = SsTheme.colors.primaryBackground.copy(
-                    alpha = if (collapsed) 1f else scrollAlpha.alpha
-                ),
-                tonalElevation = if (collapsed) 4.dp else 0.dp
-            ) {
-                ResourceTopAppBar(
-                    isShowingNavigationBar = collapsed,
-                    title = state.title,
-                    modifier = Modifier,
-                    scrollBehavior = scrollBehavior,
-                    onNavBack = { state.eventSink(Event.OnNavBack) }
-                )
-            }
+            ResourceTopAppBar(
+                isShowingNavigationBar = collapsed,
+                title = state.title,
+                modifier = Modifier,
+                scrollBehavior = scrollBehavior,
+                onNavBack = { state.eventSink(Event.OnNavBack) }
+            )
 
         },
+        blurTopBar = collapsed,
+        lightStatusBar = lightStatusBar,
     ) {
         val color by animateColorAsState(
             targetValue = if (state is State.Success) {

@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.timber)
     implementation(libs.kotlin.coroutines)
 
+    implementation(libs.androidx.core)
     implementation(libs.androidx.compose.material)
     implementation(libs.snapper)
 
