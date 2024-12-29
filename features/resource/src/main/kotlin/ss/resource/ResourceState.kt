@@ -25,6 +25,7 @@ package ss.resource
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import io.adventech.blockkit.model.resource.Resource
+import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import kotlinx.collections.immutable.ImmutableList
 import ss.resource.components.content.ResourceSectionSpec
 import ss.resource.components.spec.CreditSpec
@@ -46,6 +47,7 @@ sealed interface State: CircuitUiState {
         val sections: ImmutableList<ResourceSectionSpec>,
         val credits: ImmutableList<CreditSpec>,
         val features: ImmutableList<FeatureSpec>,
+        val fontFamilyProvider: FontFamilyProvider,
         override val eventSink: (Event) -> Unit
     ): State
 

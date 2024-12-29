@@ -20,25 +20,20 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    alias(libs.plugins.foundry.base)
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-}
+package io.adventech.blockkit.parser
 
-android { namespace = "io.adventech.blockkit.ui" }
+import androidx.annotation.Keep
+import io.adventech.blockkit.model.TextStyle
 
-foundry {
-    features { compose() }
-}
+sealed interface AttributedText {
+    @Keep
+    data class Styled(
+        val label: String,
+        val style: TextStyle?
+    ) : AttributedText
 
-dependencies {
-    api(projects.libraries.blockKit.model)
-    api(projects.libraries.blockKit.parser)
-
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.atlassian.commonmark)
-    implementation(libs.bundles.compose)
-    implementation(libs.bundles.compose.tooling)
-    implementation(libs.coil.compose)
+    @Keep
+    data class Plain(
+        val label: String
+    ) : AttributedText
 }

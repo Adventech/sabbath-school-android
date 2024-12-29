@@ -32,6 +32,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -44,6 +45,7 @@ import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
+import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
 import ss.libraries.circuit.navigation.ResourceScreen
 import ss.resource.components.CoverContent
 import ss.resource.components.ResourceCover
@@ -100,22 +102,26 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
             is State.Success -> {
                 val resource = state.resource
 
-                LazyColumn(
-                    modifier = Modifier.background(color),
-                    state = listState,
+                CompositionLocalProvider(
+                    LocalFontFamilyProvider provides state.fontFamilyProvider,
                 ) {
-                    item("cover") {
-                        ResourceCover(
-                            resource = resource,
-                            modifier = Modifier,
-                            scrollOffset = { listState.firstVisibleItemScrollOffset.toFloat() },
-                            content = { CoverContent(resource, it) }
-                        )
+                    LazyColumn(
+                        modifier = Modifier.background(color),
+                        state = listState,
+                    ) {
+                        item("cover") {
+                            ResourceCover(
+                                resource = resource,
+                                modifier = Modifier,
+                                scrollOffset = { listState.firstVisibleItemScrollOffset.toFloat() },
+                                content = { CoverContent(resource, it) }
+                            )
+                        }
+
+                        resourceSections(state.sections)
+
+                        footer(state.credits, state.features)
                     }
-
-                    resourceSections(state.sections)
-
-                    footer(state.credits, state.features)
                 }
             }
         }
