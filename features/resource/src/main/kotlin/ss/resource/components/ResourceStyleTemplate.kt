@@ -20,23 +20,39 @@
  * THE SOFTWARE.
  */
 
-package io.adventech.blockkit.ui
+package ss.resource.components
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import io.adventech.blockkit.model.BlockItem
-import io.adventech.blockkit.ui.style.HeadingStyleTemplate
-import io.adventech.blockkit.ui.style.Styler
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
+import io.adventech.blockkit.model.TextStyleSize
+import io.adventech.blockkit.ui.style.BlockStyleTemplate
+import io.adventech.blockkit.ui.style.ReaderStyle
 
-@Composable
-internal fun HeadingContent(blockItem: BlockItem.Heading, modifier: Modifier = Modifier) {
-    val template = HeadingStyleTemplate(blockItem.depth)
-    val blockStyle = blockItem.style?.text
+class ResourceStyleTemplate : BlockStyleTemplate {
 
-    MarkdownText(
-        markdownText = blockItem.markdown,
-        modifier = modifier,
-        style = Styler.textStyle(blockStyle, template),
-        textAlign = Styler.textAlign(blockStyle)
-    )
+    @Composable
+    override fun textSizeDefault(): TextUnit = 30.sp
+
+    @Composable
+    override fun textColorDefault(): Color = Color.White
+
+    @Composable
+    override fun textTypefaceDefault(): String = "Lato-Medium"
+
+    override val textSizePoints: (ReaderStyle.Size, TextStyleSize) -> Float
+        get() = { _, size ->
+            when (size) {
+                TextStyleSize.XS -> 12f
+                TextStyleSize.SM -> 14f
+                TextStyleSize.BASE -> 16f
+                TextStyleSize.LG -> 18f
+                TextStyleSize.XL -> 20f
+                else -> 0f
+            }
+        }
+
+    override val defaultTextSizePoints: (TextStyleSize?) -> Float
+        get() = { size -> 30f }
 }
