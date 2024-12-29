@@ -24,6 +24,7 @@ package io.adventech.blockkit.model.resource
 
 import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass
+import io.adventech.blockkit.model.Style
 import io.adventech.blockkit.model.feed.FeedResourceKind
 import io.adventech.blockkit.model.feed.FeedType
 
@@ -33,9 +34,11 @@ data class Resource(
     val id: String,
     val name: String,
     val title: String,
+    val markdownTitle: String?,
     val startDate: String?,
     val endDate: String?,
     val description: String?,
+    val markdownDescription: String?,
     val introduction: String?,
     val index: String,
     val type: FeedType,
@@ -44,6 +47,7 @@ data class Resource(
     val primaryColor: String,
     val primaryColorDark: String,
     val subtitle: String?,
+    val markdownSubtitle: String?,
     val covers: ResourceCovers,
     val kind: FeedResourceKind,
     val sectionView: ResourceSectionViewType?,
@@ -51,4 +55,5 @@ data class Resource(
     val cta: ResourceCTA?,
     val preferredCover: ResourcePreferredCover?,
     val fonts: List<ResourceFont>? = null,
+    val style: Style? = null
 )

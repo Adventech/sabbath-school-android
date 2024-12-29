@@ -50,7 +50,8 @@ import kotlinx.collections.immutable.persistentListOf
 @Composable
 internal fun ResourceFeatures(
     features: ImmutableList<Feature>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    tint: Color = Color.White,
 ) {
     LazyRow(
         modifier = modifier,
@@ -64,7 +65,8 @@ internal fun ResourceFeatures(
                 modifier = Modifier.size(
                     width = ImageWidth,
                     height = ImageHeight
-                )
+                ),
+                tint = tint,
             )
         }
     }

@@ -36,6 +36,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.model.resource.Resource
+import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import ss.libraries.circuit.navigation.ResourceScreen
@@ -48,6 +49,7 @@ class ResourcePresenter @AssistedInject constructor(
     @Assisted private val screen: ResourceScreen,
     private val resourcesRepository: ResourcesRepository,
     private val resourceSectionStateProducer: ResourceSectionsStateProducer,
+    private val fontFamilyProvider: FontFamilyProvider,
 ) : Presenter<State> {
 
     @Composable
@@ -73,6 +75,7 @@ class ResourcePresenter @AssistedInject constructor(
                 sections = sections,
                 credits = credits,
                 features = features,
+                fontFamilyProvider = fontFamilyProvider,
                 eventSink = eventSink
             )
 
