@@ -22,7 +22,9 @@
 
 package app.ss.design.compose.widget.scaffold
 
+import android.app.Activity
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,9 +40,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.extensions.previews.DevicePreviews
 import app.ss.design.compose.theme.SsTheme
@@ -134,6 +139,21 @@ private fun Preview() {
                     )
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun SystemUiEffect(
+    lightStatusBar: Boolean,
+    isSystemInDarkTheme: Boolean = isSystemInDarkTheme()
+) {
+    val localView = LocalView.current
+    if (!localView.isInEditMode) {
+        DisposableEffect(lightStatusBar) {
+            val window = (localView.context as Activity).window
+            WindowCompat.getInsetsController(window, localView).isAppearanceLightStatusBars = lightStatusBar
+            onDispose { WindowCompat.getInsetsController(window, localView).isAppearanceLightStatusBars = !isSystemInDarkTheme }
         }
     }
 }

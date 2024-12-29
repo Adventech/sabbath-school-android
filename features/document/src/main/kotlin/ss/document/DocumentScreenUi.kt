@@ -35,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import app.ss.design.compose.widget.scaffold.HazeScaffold
+import app.ss.design.compose.widget.scaffold.SystemUiEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.ui.style.LocalBlocksStyle
@@ -56,7 +57,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
     val collapsed by remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
     val toolbarTitle by remember(state) { derivedStateOf { if (collapsed) state.title else "" } }
     val isSystemInDarkTheme = isSystemInDarkTheme()
-    val lightStatusBar by remember {
+    val lightStatusBar by remember(isSystemInDarkTheme, state.hasCover, collapsed) {
         derivedStateOf {
             when {
                 isSystemInDarkTheme -> false
@@ -93,7 +94,6 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
             )
         },
         blurTopBar = !state.hasCover || collapsed,
-        lightStatusBar = lightStatusBar,
     ) {
         when (state) {
             is State.Loading -> {
@@ -119,4 +119,6 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
             }
         }
     }
+
+    SystemUiEffect(lightStatusBar)
 }

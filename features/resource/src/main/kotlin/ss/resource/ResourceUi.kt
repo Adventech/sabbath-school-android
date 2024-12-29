@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.HazeScaffold
+import app.ss.design.compose.widget.scaffold.SystemUiEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
@@ -59,14 +60,7 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
     val listState: LazyListState = rememberLazyListState()
     val collapsed by remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
     val isSystemInDarkTheme = isSystemInDarkTheme()
-    val lightStatusBar by remember {
-        derivedStateOf {
-            when {
-                isSystemInDarkTheme -> false
-                else -> collapsed
-            }
-        }
-    }
+    val lightStatusBar by remember(collapsed, isSystemInDarkTheme) { derivedStateOf { !isSystemInDarkTheme && collapsed } }
 
     HazeScaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -78,10 +72,8 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
                 scrollBehavior = scrollBehavior,
                 onNavBack = { state.eventSink(Event.OnNavBack) }
             )
-
         },
         blurTopBar = collapsed,
-        lightStatusBar = lightStatusBar,
     ) {
         val color by animateColorAsState(
             targetValue = if (state is State.Success) {
@@ -123,4 +115,6 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
             }
         }
     }
+
+    SystemUiEffect(lightStatusBar)
 }
