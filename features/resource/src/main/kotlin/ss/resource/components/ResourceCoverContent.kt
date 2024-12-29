@@ -42,6 +42,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -51,6 +52,8 @@ import app.ss.design.compose.theme.color.SsColors
 import app.ss.design.compose.widget.button.SsButtonDefaults
 import app.ss.design.compose.widget.text.ReadMoreText
 import io.adventech.blockkit.model.resource.Resource
+import io.adventech.blockkit.ui.MarkdownText
+import io.adventech.blockkit.ui.style.Styler
 import kotlinx.collections.immutable.toImmutableList
 import app.ss.translations.R as L10n
 
@@ -77,20 +80,42 @@ internal fun ColumnScope.CoverContent(
         }
     }
 
+    val descriptionStyle = resource.style?.resource?.description?.text
+    val descriptionColor = descriptionStyle?.color?.let { Color.parse(it) } ?: Color.White
+
     val description: @Composable () -> Unit = {
         resource.description?.let {
-            ReadMoreText(
-                text = it,
-                style = SsTheme.typography.bodyMedium.copy(
-                    fontSize = 15.sp
-                ),
-                color = Color.White,
-                readMoreMaxLines = 3,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = SsTheme.dimens.grid_4, vertical = 8.dp)
-                    .clickable { }
-            )
+            resource.markdownDescription?.let {
+                MarkdownText(
+                    markdownText = it,
+                    style = Styler.textStyle(descriptionStyle).copy(
+                        fontSize = 15.sp,
+                        color = descriptionColor
+                    ),
+                    color = descriptionColor,
+                    maxLines = 3,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = SsTheme.dimens.grid_4, vertical = 8.dp)
+                )
+            }
+
+            if (resource.markdownDescription.isNullOrEmpty()) {
+                ReadMoreText(
+                    text = it,
+                    style = Styler.textStyle(descriptionStyle).copy(
+                        fontSize = 15.sp,
+                        color = descriptionColor
+                    ),
+                    color = descriptionColor,
+                    readMoreMaxLines = 3,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = SsTheme.dimens.grid_4, vertical = 8.dp)
+                        .clickable { }
+                )
+            }
+
         } ?: Spacer(
             Modifier
                 .fillMaxWidth()
@@ -109,8 +134,10 @@ internal fun ColumnScope.CoverContent(
 
     val featuresRow: @Composable () -> Unit = {
         if (resource.features.isNotEmpty()) {
-            // Needs color from style
-            ResourceFeatures(resource.features.toImmutableList())
+            ResourceFeatures(
+                features = resource.features.toImmutableList(),
+                tint = descriptionColor,
+            )
         } else {
             Spacer(
                 Modifier
@@ -120,32 +147,59 @@ internal fun ColumnScope.CoverContent(
         }
     }
 
-    Text(
-        text = resource.title,
+    val styleTemplate = ResourceStyleTemplate()
+    val style = resource.style?.resource?.title?.text
+    MarkdownText(
+        markdownText = resource.markdownTitle ?: resource.title,
         style = SsTheme.typography.titleLarge.copy(
-            fontSize = 30.sp
+            fontSize = 30.sp,
         ),
-        color = Color.White, // Needs color from style
-        textAlign = textAlign,
+        color = Styler.textColor(style, styleTemplate),
+        textAlign = Styler.textAlign(style) ?: textAlign,
+        styleTemplate = styleTemplate,
+        maxLines = 3,
+        overflow = TextOverflow.Ellipsis,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = SsTheme.dimens.grid_4)
             .padding(top = paddingTop, bottom = 8.dp)
     )
 
-    resource.subtitle?.let {
-        Text(
-            text = it,
-            style = SsTheme.typography.titleSmall.copy(
-                fontSize = 13.sp
+    resource.markdownSubtitle?.let {
+        val subtitleStyle = resource.style?.resource?.subtitle?.text
+        val subtitleColor = subtitleStyle?.color?.let { Color.parse(it) } ?: SsColors.White70
+
+        MarkdownText(
+            markdownText = it,
+            style = Styler.textStyle(subtitleStyle, styleTemplate).copy(
+                fontSize = 16.sp,
+                color = subtitleColor
             ),
-            color = SsColors.White70, // Needs color from style
-            textAlign = textAlign,
+            color = subtitleColor,
+            textAlign = Styler.textAlign(subtitleStyle) ?: textAlign,
+            styleTemplate = styleTemplate,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = SsTheme.dimens.grid_4)
-                .padding(top = 8.dp, bottom = 16.dp)
+                .padding(top = 4.dp, bottom = 16.dp)
         )
+    }
+
+    if (resource.markdownSubtitle == null) {
+        resource.subtitle?.let {
+            Text(
+                text = it,
+                style = SsTheme.typography.titleSmall.copy(
+                    fontSize = 16.sp
+                ),
+                color = SsColors.White70,
+                textAlign = textAlign,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = SsTheme.dimens.grid_4)
+                    .padding(top = 8.dp, bottom = 16.dp)
+            )
+        }
     }
 
     if (type == CoverContentType.SECONDARY_LARGE) {

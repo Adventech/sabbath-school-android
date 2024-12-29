@@ -54,5 +54,14 @@ class ResourceStyleTemplate : BlockStyleTemplate {
         }
 
     override val defaultTextSizePoints: (TextStyleSize?) -> Float
-        get() = { size -> 30f }
+        get() = { size ->
+            when (size) {
+                TextStyleSize.XS -> 22f
+                TextStyleSize.SM -> 26f
+                TextStyleSize.BASE -> 30f
+                TextStyleSize.LG -> 34f
+                TextStyleSize.XL -> 42f
+                else -> 30f
+            }
+        }
 }

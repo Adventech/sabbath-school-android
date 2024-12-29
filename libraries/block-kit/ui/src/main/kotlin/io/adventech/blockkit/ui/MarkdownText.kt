@@ -50,6 +50,8 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.style.TextOverflow.Companion
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.fastAny
@@ -87,6 +89,7 @@ fun MarkdownText(
     textAlign: TextAlign? = null,
     styleTemplate: StyleTemplate = BlockStyleTemplate.DEFAULT,
     maxLines: Int = Integer.MAX_VALUE,
+    overflow: TextOverflow = TextOverflow.Clip,
     onHandleUri: (String) -> Unit = {},
 ) {
     val attributedTextParser by remember { mutableStateOf(AttributedTextParser()) }
@@ -150,6 +153,7 @@ fun MarkdownText(
         style = style,
         textAlign = textAlign,
         maxLines = maxLines,
+        overflow = overflow,
         inlineContent = mapOf(
             TAG_IMAGE_URL to InlineTextContent(
                 Placeholder(style.fontSize, style.fontSize, PlaceholderVerticalAlign.Bottom)
