@@ -183,7 +183,7 @@ internal fun AnnotatedString.Builder.appendMarkdownChildren(
 
             is Image -> appendInlineContent(TAG_IMAGE_URL, child.destination)
             is Emphasis -> {
-                withStyle(SpanStyle(fontStyle = FontStyle.Italic, fontWeight = FontWeight.Normal)) {
+                withStyle(SpanStyle(fontStyle = FontStyle.Italic)) {
                     appendMarkdownChildren(child, color, parser, fontProvider, fontSizeProvider)
                 }
             }
