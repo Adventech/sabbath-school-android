@@ -35,12 +35,12 @@ internal fun Modifier.background(blockItem: BlockItem, nested: Boolean? = blockI
     val blockStyle = blockItem.style?.block
     val blockPaddingStyle = blockStyle?.padding
 
-    val wrapperPadding = blocksStyle?.inline?.all?.wrapper?.padding?.takeUnless {
+    val defaultWrapperPaddingStyle = blocksStyle?.inline?.all?.wrapper?.padding?.takeUnless {
         blockPaddingStyle != null || (blockItem.nested ?: nested) == true
     }
 
     return this
-        .padding(Styler.padding(wrapperPadding))
+        .padding(Styler.padding(blockPaddingStyle ?: defaultWrapperPaddingStyle))
         .background(
             color = Styler.backgroundColor(blockStyle),
             shape = if (blockStyle?.rounded == true) Styler.roundedShape() else RectangleShape,

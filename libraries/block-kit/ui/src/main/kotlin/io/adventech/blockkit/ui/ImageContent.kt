@@ -23,8 +23,10 @@
 package io.adventech.blockkit.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,6 +35,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
@@ -57,7 +60,10 @@ internal fun ImageContent(blockItem: BlockItem.Image, modifier: Modifier = Modif
 
     val readerStyle = LocalReaderStyle.current
 
-    Column(modifier = modifier.fillMaxWidth()) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
         Image(
             painter = painter,
             contentDescription = blockItem.caption,
@@ -69,10 +75,12 @@ internal fun ImageContent(blockItem: BlockItem.Image, modifier: Modifier = Modif
             contentScale = ContentScale.Crop,
         )
 
-        blockItem.caption?.let {
+        blockItem.caption?.takeUnless { it.isEmpty() }?.let {
             Text(
                 text = it,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 14.sp, fontStyle = FontStyle.Italic),
                 color = readerStyle.theme.primaryForeground().copy(alpha = 0.7f)
             )

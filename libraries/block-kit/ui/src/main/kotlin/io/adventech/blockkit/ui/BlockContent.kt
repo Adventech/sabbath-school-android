@@ -34,8 +34,12 @@ fun BlockContent(blockItem: BlockItem, modifier: Modifier = Modifier, nested: Bo
     when (blockItem) {
         is BlockItem.Appeal -> Unit
         is BlockItem.Audio -> Unit
-        is BlockItem.BlockList -> Unit
-        is BlockItem.BlockListItem -> Unit
+        is BlockItem.BlockList -> {
+            BlockListContent(blockItem, blockModifier)
+        }
+        is BlockItem.BlockListItem -> {
+            BlockListItemContent(blockItem, blockModifier)
+        }
         is BlockItem.Checklist -> Unit
         is BlockItem.ChecklistItem -> Unit
         is BlockItem.Collapse -> Unit
