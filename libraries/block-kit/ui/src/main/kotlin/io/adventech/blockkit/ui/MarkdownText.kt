@@ -39,6 +39,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.SpanStyle
@@ -51,12 +52,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withAnnotation
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.util.fastAny
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import io.adventech.blockkit.model.AttributedText
 import io.adventech.blockkit.model.TextStyleSize
 import io.adventech.blockkit.parser.AttributedTextParser
 import io.adventech.blockkit.ui.style.BlockStyleTemplate
@@ -92,18 +93,8 @@ fun MarkdownText(
     onHandleUri: (String) -> Unit = {},
 ) {
     val attributedTextParser by remember { mutableStateOf(AttributedTextParser()) }
-    val attributes by remember(markdownText) { mutableStateOf(attributedTextParser.parse(markdownText)) }
-    var fonts = attributes.associate { attr ->
-        when (attr) {
-            is AttributedText.Plain -> {
-                null to null
-            }
-            is AttributedText.Styled -> {
-                attr.style?.typeface to attr.style?.typeface?.let { LocalFontFamilyProvider.current.invoke(it) }
-            }
-        }
-
-    }
+    val typefaces by remember(markdownText) { mutableStateOf(attributedTextParser.parseTypeface(markdownText)) }
+    var fonts = typefaces.associate { name -> name to LocalFontFamilyProvider.current.invoke(name) }
     val fontProvider: (String?) -> FontFamily = {
         it?.let { fonts[it] } ?: LatoFontFamily
     }
@@ -112,18 +103,13 @@ fun MarkdownText(
     }
 
     val styledText = buildAnnotatedString {
-        if (attributes.fastAny { it is AttributedText.Styled }) {
-            pushStyle(style.toSpanStyle())
-            appendAttributedText(attributes, fontProvider, fontSizeProvider, color)
-        } else {
-            val parsedNode = remember(markdownText) {
-                val parser = Parser.builder().build()
-                val root = parser.parse(markdownText) as Document
-                root.firstChild
-            }
-            pushStyle(style.toSpanStyle())
-            appendMarkdownChildren(parsedNode, color)
-            pop()
+        val parsedNode = remember(markdownText) {
+            val parser = Parser.builder().build()
+            val root = parser.parse(markdownText) as Document
+            root.firstChild
+        }
+        withStyle(style.toSpanStyle()) {
+            appendMarkdownChildren(parsedNode, color, attributedTextParser, fontProvider, fontSizeProvider)
         }
     }
 
@@ -176,31 +162,42 @@ fun MarkdownText(
     )
 }
 
+@OptIn(ExperimentalTextApi::class)
 internal fun AnnotatedString.Builder.appendMarkdownChildren(
-    parent: Node, color: Color,
+    parent: Node,
+    color: Color,
+    parser: AttributedTextParser,
+    fontProvider: (String?) -> FontFamily,
+    fontSizeProvider: (TextStyleSize?) -> TextUnit,
 ) {
     var child = parent.firstChild
     while (child != null) {
         when (child) {
-            is Paragraph -> appendMarkdownChildren(child, color)
-            is Text -> append(child.literal)
+            is Paragraph -> {
+                appendMarkdownChildren(child, color, parser, fontProvider, fontSizeProvider)
+            }
+
+            is Text -> {
+                appendText(child, parser, fontProvider, fontSizeProvider)
+            }
+
             is Image -> appendInlineContent(TAG_IMAGE_URL, child.destination)
             is Emphasis -> {
-                pushStyle(SpanStyle(fontStyle = FontStyle.Italic))
-                appendMarkdownChildren(child, color)
-                pop()
+                withStyle(SpanStyle(fontStyle = FontStyle.Italic)) {
+                    appendMarkdownChildren(child, color, parser, fontProvider, fontSizeProvider)
+                }
             }
 
             is StrongEmphasis -> {
-                pushStyle(SpanStyle(fontWeight = FontWeight.Bold))
-                appendMarkdownChildren(child, color)
-                pop()
+                withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                    appendMarkdownChildren(child, color, parser, fontProvider, fontSizeProvider)
+                }
             }
 
             is Code -> {
-                pushStyle(TextStyle(fontFamily = FontFamily.Monospace).toSpanStyle())
-                append(child.literal)
-                pop()
+                withStyle(SpanStyle(fontFamily = FontFamily.Monospace)) {
+                    append(child.literal)
+                }
             }
 
             is HardLineBreak -> {
@@ -208,42 +205,60 @@ internal fun AnnotatedString.Builder.appendMarkdownChildren(
             }
 
             is Link -> {
-                val underline = SpanStyle(color, textDecoration = TextDecoration.Underline)
-                pushStyle(underline)
-                pushStringAnnotation(TAG_URL, child.destination)
-                appendMarkdownChildren(child, color)
-                pop()
-                pop()
+               withStyle(SpanStyle(color, textDecoration = TextDecoration.Underline)) {
+                   withAnnotation(TAG_URL, child.destination) {
+                       appendMarkdownChildren(child, color, parser, fontProvider, fontSizeProvider)
+                   }
+               }
             }
         }
         child = child.next
     }
 }
 
-private fun AnnotatedString.Builder.appendAttributedText(
-    attributes: List<AttributedText>,
+/**
+ * Append text to the [AnnotatedString.Builder] with custom style handling.
+ *
+ * @param text The text node to append.
+ * @param parser The attributed text parser to use for parsing custom styles.
+ * @param fontProvider The font provider to use for custom fonts.
+ * @param fontSizeProvider The font size provider to use for custom font sizes.
+ */
+private fun AnnotatedString.Builder.appendText(
+    text: Text,
+    parser: AttributedTextParser,
     fontProvider: (String?) -> FontFamily,
     fontSizeProvider: (TextStyleSize?) -> TextUnit,
-    color: Color
 ) {
-    attributes.forEachIndexed { index, attribute ->
-        when (attribute) {
-            is AttributedText.Plain -> {
-                if (attribute.label == "\\") {
-                    appendLine()
-                } else {
-                    val node = Parser.builder().build().parse(attribute.label)
-                    appendMarkdownChildren(node.firstChild, color)
-                }
-            }
+    val markdown = text.literal
+    var lastIndex = 0
+    parser.findAllMatches(markdown).forEach { matchResult ->
+        val matchStart = matchResult.range.first
+        val matchEnd = matchResult.range.last
+        val text = matchResult.groups[1]?.value ?: ""
+        val styleJson = matchResult.groups[2]?.value ?: ""
 
-            is AttributedText.Styled -> {
-                attribute.style?.toSpanStyle(fontProvider, fontSizeProvider)?.let { pushStyle(it) }
-                val node = Parser.builder().build().parse(attribute.label)
-                appendMarkdownChildren(node.firstChild, color)
-                pop()
-            }
+        // Append text before the match
+        if (matchStart > lastIndex) {
+            append(markdown.substring(lastIndex, matchStart))
         }
+
+        // Extract inline text style from JSON
+        val inlineTextStyle = parser.parseJsonStyle(styleJson)
+        if (inlineTextStyle != null) {
+            withStyle(inlineTextStyle.toSpanStyle(fontProvider, fontSizeProvider)) {
+                append(text)
+            }
+        } else {
+            append(text)
+        }
+
+        lastIndex = matchEnd + 1
+    }
+
+    // Append remaining text after the last match
+    if (lastIndex < markdown.length) {
+        append(markdown.substring(lastIndex))
     }
 }
 

@@ -41,7 +41,7 @@ enum class TextStyleSize {
     @Json(name = "base") BASE,
     @Json(name = "lg") LG,
     @Json(name = "xl") XL,
-    UNKNOWN
+    UNKNOWN;
 }
 
 @JsonClass(generateAdapter = false)

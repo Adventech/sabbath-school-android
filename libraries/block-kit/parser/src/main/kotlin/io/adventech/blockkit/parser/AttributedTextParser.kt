@@ -24,11 +24,16 @@ package io.adventech.blockkit.parser
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import io.adventech.blockkit.model.AttributedText
 import io.adventech.blockkit.model.StyleContainer
+import io.adventech.blockkit.model.TextStyle
+import timber.log.Timber
 
 interface AttributedTextParserDelegate {
-    fun parse(markdown: String): List<AttributedText>
+    fun findAllMatches(markdown: String): Sequence<MatchResult>
+
+    fun parseJsonStyle(json: String): TextStyle?
+
+    fun parseTypeface(markdown: String): Set<String>
 }
 
 class AttributedTextParser() : AttributedTextParserDelegate {
@@ -39,76 +44,37 @@ class AttributedTextParser() : AttributedTextParserDelegate {
             .build()
     }
 
-    override fun parse(markdown: String): List<AttributedText> {
-        val attributes = mutableListOf<AttributedText>()
-        val styleAdapter = moshi.adapter(StyleContainer::class.java)
-        parseAttributedText(markdown)
-            .forEach { text ->
-                when (text) {
-                    is AttributedTextType.Plain -> {
-                        attributes.add(AttributedText.Plain(text.label))
-                    }
-
-                    is AttributedTextType.Styled -> {
-                        val style = styleAdapter.fromJson(text.style) ?: return@forEach
-                        attributes.add(
-                            AttributedText.Styled(
-                                label = text.label,
-                                style = style.style.text
-                            )
-                        )
-                    }
-                }
-
-            }
-
-        return attributes
+    override fun findAllMatches(markdown: String): Sequence<MatchResult> {
+        return REGEX.toRegex().findAll(markdown)
     }
 
-    private sealed interface AttributedTextType {
-        data class Plain(val label: String) : AttributedTextType
-        data class Styled(val label: String, val style: String) : AttributedTextType
+    override fun parseJsonStyle(json: String): TextStyle? {
+        try {
+            val styleAdapter = moshi.adapter(StyleContainer::class.java)
+            val style = styleAdapter.fromJson(json)
+            return style?.style?.text
+        } catch (exception: Exception) {
+            Timber.e(exception)
+            return null
+        }
     }
 
-    private fun parseAttributedText(input: String): List<AttributedTextType> {
-        val regex = Regex("\\^\\[(.+?)]\\((.+?)\\)") // Matches `^[Label](style-json)`
-        val result = mutableListOf<AttributedTextType>()
+    override fun parseTypeface(markdown: String): Set<String> {
+        val result = mutableListOf<String>()
 
-        var currentIndex = 0 // Tracks the current position in the input string
-
-        regex.findAll(input).forEach { match ->
-            // Extract the text before the current match as plain text
-            val startIndex = match.range.first
-            if (startIndex > currentIndex) {
-                val plainText = input.substring(currentIndex, startIndex).trim()
-                if (plainText.isNotEmpty()) {
-                    result.add(AttributedTextType.Plain(plainText))
-                }
-            }
-
+        findAllMatches(markdown).forEach { match ->
             // Extract the styled text
-            val label = match.groupValues[1] // The label inside [Label]
             val style = match.groupValues[2] // The style inside (style-json)
-            result.add(AttributedTextType.Styled(label, unescapeJsonString(style)))
 
-            // Update the current index to the end of the current match
-            currentIndex = match.range.last + 1
+            val textStyle = parseJsonStyle(style)
+            textStyle?.typeface?.let { result.add(it) }
         }
 
-        // Add any remaining plain text after the last match
-        if (currentIndex < input.length) {
-            val remainingText = input.substring(currentIndex).trim()
-            if (remainingText.isNotEmpty()) {
-                result.add(AttributedTextType.Plain(remainingText))
-            }
-        }
-
-        return result
+        return result.toSet()
     }
 
-    private fun unescapeJsonString(escapedJson: String): String {
-        return escapedJson.replace("\\\"", "\"")
-            .replace("\\\\", "\\")
-            .replace("\\/", "/")
+    companion object {
+        // Matches `^[text](style-json)`
+        private const val REGEX = "\\^\\[(.*?)]\\((\\s*?\\{.+?\\}\\s*?)\\)"
     }
 }

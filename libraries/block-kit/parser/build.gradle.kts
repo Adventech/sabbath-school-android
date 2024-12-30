@@ -10,6 +10,7 @@ dependencies {
     implementation(libs.androidx.annotations)
     implementation(libs.square.moshi.adapters)
     implementation(libs.square.moshi.kotlin)
+    implementation(libs.timber)
 
     testImplementation(libs.bundles.testing.common)
 }
