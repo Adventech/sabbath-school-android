@@ -22,15 +22,18 @@
 
 package ss.document.producer
 
-import android.graphics.Typeface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import app.ss.design.compose.theme.LatoFontFamily
 import com.slack.circuit.retained.produceRetainedState
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import jakarta.inject.Inject
 import ss.resources.api.ResourcesRepository
+import io.adventech.blockkit.ui.R as BlockkitR
 
 internal class FontFamilyProviderImpl @Inject constructor(
     private val repository: ResourcesRepository,
@@ -39,9 +42,16 @@ internal class FontFamilyProviderImpl @Inject constructor(
     @Composable
     override fun invoke(name: String): FontFamily {
         val customFontFamily by produceRetainedState<FontFamily?>(null) {
-            repository.fontFile(name).collect {
-                value = it?.let { FontFamily(Typeface.createFromFile(it)) }
-            }
+            repository.fontFile(name)
+                .collect { file ->
+                    value = file?.let {
+                        FontFamily(
+                            Font(it, FontWeight.Normal),
+                            Font(it, FontWeight.Bold),
+                            Font(BlockkitR.font.lato_italic, FontWeight.Normal, FontStyle.Italic),
+                        )
+                    }
+                }
         }
 
         return customFontFamily ?: LatoFontFamily
