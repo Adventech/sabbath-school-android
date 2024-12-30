@@ -39,6 +39,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.SpanStyle
@@ -51,6 +52,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withAnnotation
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
@@ -160,6 +162,7 @@ fun MarkdownText(
     )
 }
 
+@OptIn(ExperimentalTextApi::class)
 internal fun AnnotatedString.Builder.appendMarkdownChildren(
     parent: Node,
     color: Color,
@@ -180,21 +183,21 @@ internal fun AnnotatedString.Builder.appendMarkdownChildren(
 
             is Image -> appendInlineContent(TAG_IMAGE_URL, child.destination)
             is Emphasis -> {
-                pushStyle(SpanStyle(fontStyle = FontStyle.Italic))
-                appendMarkdownChildren(child, color, parser, fontProvider, fontSizeProvider)
-                pop()
+                withStyle(SpanStyle(fontStyle = FontStyle.Italic, fontWeight = FontWeight.Normal)) {
+                    appendMarkdownChildren(child, color, parser, fontProvider, fontSizeProvider)
+                }
             }
 
             is StrongEmphasis -> {
-                pushStyle(SpanStyle(fontWeight = FontWeight.Bold))
-                appendMarkdownChildren(child, color, parser, fontProvider, fontSizeProvider)
-                pop()
+                withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                    appendMarkdownChildren(child, color, parser, fontProvider, fontSizeProvider)
+                }
             }
 
             is Code -> {
-                pushStyle(TextStyle(fontFamily = FontFamily.Monospace).toSpanStyle())
-                append(child.literal)
-                pop()
+                withStyle(SpanStyle(fontFamily = FontFamily.Monospace)) {
+                    append(child.literal)
+                }
             }
 
             is HardLineBreak -> {
@@ -202,12 +205,11 @@ internal fun AnnotatedString.Builder.appendMarkdownChildren(
             }
 
             is Link -> {
-                val underline = SpanStyle(color, textDecoration = TextDecoration.Underline)
-                pushStyle(underline)
-                pushStringAnnotation(TAG_URL, child.destination)
-                appendMarkdownChildren(child, color, parser, fontProvider, fontSizeProvider)
-                pop()
-                pop()
+               withStyle(SpanStyle(color, textDecoration = TextDecoration.Underline)) {
+                   withAnnotation(TAG_URL, child.destination) {
+                       appendMarkdownChildren(child, color, parser, fontProvider, fontSizeProvider)
+                   }
+               }
             }
         }
         child = child.next
