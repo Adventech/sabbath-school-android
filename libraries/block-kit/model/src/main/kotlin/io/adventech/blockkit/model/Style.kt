@@ -42,19 +42,6 @@ enum class TextStyleSize {
     @Json(name = "lg") LG,
     @Json(name = "xl") XL,
     UNKNOWN;
-
-    companion object {
-        fun fromString(value: String?): TextStyleSize {
-            return when (value) {
-                "xs" -> XS
-                "sm" -> SM
-                "base" -> BASE
-                "lg" -> LG
-                "xl" -> XL
-                else -> UNKNOWN
-            }
-        }
-    }
 }
 
 @JsonClass(generateAdapter = false)
