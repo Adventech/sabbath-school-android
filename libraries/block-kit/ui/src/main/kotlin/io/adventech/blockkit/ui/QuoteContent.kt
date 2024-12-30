@@ -52,6 +52,6 @@ internal fun QuoteContent(blockItem: BlockItem.Quote, modifier: Modifier = Modif
             .padding(start = 16.dp, top = 8.dp, bottom = 8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        blockItem.items.forEach { BlockContent(it) }
+        blockItem.items.forEach { BlockContent(blockItem = it, nested = true) }
     }
 }

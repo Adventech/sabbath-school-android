@@ -40,7 +40,9 @@ import coil.size.Scale
 import coil.size.Size
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.ui.style.LocalReaderStyle
+import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.primaryForeground
+import io.adventech.blockkit.ui.style.thenIf
 
 @Composable
 internal fun ImageContent(blockItem: BlockItem.Image, modifier: Modifier = Modifier) {
@@ -61,7 +63,9 @@ internal fun ImageContent(blockItem: BlockItem.Image, modifier: Modifier = Modif
             contentDescription = blockItem.caption,
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(MaterialTheme.shapes.small),
+                .thenIf(blockItem.style?.block?.rounded == true) {
+                    clip(Styler.roundedShape())
+                },
             contentScale = ContentScale.Crop,
         )
 

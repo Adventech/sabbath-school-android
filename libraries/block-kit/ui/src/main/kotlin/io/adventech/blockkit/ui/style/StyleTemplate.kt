@@ -42,9 +42,6 @@ interface StyleTemplate {
 
     val textTypefaceEnabled: Boolean
 
-    @Composable
-    fun textTypefaceDefault(): String
-
     val paddingSizePoints: (BlockStyleSpacing?) -> Int
 }
 
@@ -63,17 +60,6 @@ interface BlockStyleTemplate : StyleTemplate {
 
     override val textTypefaceEnabled: Boolean
         get() = true
-
-    @Composable
-    override fun textTypefaceDefault(): String {
-        val config = LocalReaderStyle.current
-        return when (config.typeface) {
-            ReaderStyle.Typeface.Andada -> "Andada-Regular"
-            ReaderStyle.Typeface.Lato -> "Lato-Regular"
-            ReaderStyle.Typeface.PtSerif -> "PTSerif-Regular"
-            ReaderStyle.Typeface.PtSans -> "PTSans-Regular"
-        }
-    }
 
     override val defaultTextSizePoints: (TextStyleSize?) -> Float get() = { textStyleSize ->
         textSizePoints(ReaderStyle.Size.Medium, textStyleSize ?: TextStyleSize.BASE)

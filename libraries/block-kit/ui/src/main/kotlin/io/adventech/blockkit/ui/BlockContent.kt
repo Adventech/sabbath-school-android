@@ -28,8 +28,8 @@ import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.ui.style.background
 
 @Composable
-fun BlockContent(blockItem: BlockItem, modifier: Modifier = Modifier) {
-    val blockModifier = modifier.background(blockItem)
+fun BlockContent(blockItem: BlockItem, modifier: Modifier = Modifier, nested: Boolean? = blockItem.nested) {
+    val blockModifier = modifier.background(blockItem, nested)
 
     when (blockItem) {
         is BlockItem.Appeal -> Unit

@@ -24,17 +24,34 @@ package io.adventech.blockkit.ui.style
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.RectangleShape
 import io.adventech.blockkit.model.BlockItem
 
 @Composable
-internal fun Modifier.background(blockItem: BlockItem): Modifier {
+internal fun Modifier.background(blockItem: BlockItem, nested: Boolean? = blockItem.nested): Modifier {
+    val blocksStyle = LocalBlocksStyle.current
+    val blockStyle = blockItem.style?.block
+    val blockPaddingStyle = blockStyle?.padding
+
+    val wrapperPadding = blocksStyle?.inline?.all?.wrapper?.padding?.takeUnless {
+        blockPaddingStyle != null || (blockItem.nested ?: nested) == true
+    }
+
     return this
-        .background(Styler.backgroundColor(blockItem.style?.block), defaultShape)
-        .padding(Styler.padding(blockItem.style?.block?.padding))
+        .padding(Styler.padding(wrapperPadding))
+        .background(
+            color = Styler.backgroundColor(blockStyle),
+            shape = if (blockStyle?.rounded == true) Styler.roundedShape() else RectangleShape,
+        )
+        .padding(Styler.padding(blockPaddingStyle))
 }
 
-private val defaultShape = RoundedCornerShape(8.dp)
+/**
+ * Conditionally applies the [builder] block if [condition].
+ */
+inline fun Modifier.thenIf(
+    condition: Boolean,
+    builder: Modifier.() -> Modifier
+) = if (condition) builder() else this
