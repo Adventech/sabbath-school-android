@@ -26,7 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.font.FontFamily
-import io.adventech.blockkit.ui.style.LatoFontFamily
+import io.adventech.blockkit.ui.style.Styler
 
 @Stable
 interface FontFamilyProvider {
@@ -38,7 +38,7 @@ internal data object DefaultFontFamilyProvider : FontFamilyProvider {
 
     @Composable
     override fun invoke(name: String): FontFamily {
-        return LatoFontFamily
+        return Styler.defaultFontFamily()
     }
 }
 

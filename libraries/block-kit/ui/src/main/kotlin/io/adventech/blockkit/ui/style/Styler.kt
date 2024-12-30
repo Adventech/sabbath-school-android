@@ -24,6 +24,7 @@ package io.adventech.blockkit.ui.style
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
@@ -92,7 +93,15 @@ object Styler {
     private fun fontFamily(blockStyle: BlockTextStyle?): FontFamily {
         val blocksStyle = LocalBlocksStyle.current
         val typeface = blockStyle?.typeface ?: blocksStyle?.nested?.all?.text?.typeface
-        return typeface?.let { LocalFontFamilyProvider.current.invoke(typeface) } ?: LatoFontFamily
+        return typeface?.let { LocalFontFamilyProvider.current.invoke(typeface) } ?: defaultFontFamily()
+    }
+
+    @Composable
+    fun defaultFontFamily(): FontFamily = when (LocalReaderStyle.current.typeface) {
+        ReaderStyle.Typeface.Andada -> FontProvider.googleFontFamily("Lora")
+        ReaderStyle.Typeface.Lato -> LatoFontFamily
+        ReaderStyle.Typeface.PtSerif -> FontProvider.googleFontFamily("PTSerif")
+        ReaderStyle.Typeface.PtSans -> FontProvider.googleFontFamily("PTSans")
     }
 
     fun padding(
@@ -149,6 +158,8 @@ object Styler {
             ReaderStyle.Theme.Sepia -> sepia
         }
     }
+
+    fun roundedShape() = RoundedCornerShape(8.dp)
 }
 
 

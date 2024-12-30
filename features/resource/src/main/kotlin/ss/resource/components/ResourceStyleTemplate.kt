@@ -38,9 +38,6 @@ class ResourceStyleTemplate : BlockStyleTemplate {
     @Composable
     override fun textColorDefault(): Color = Color.White
 
-    @Composable
-    override fun textTypefaceDefault(): String = "Lato-Medium"
-
     override val textSizePoints: (ReaderStyle.Size, TextStyleSize) -> Float
         get() = { _, size ->
             when (size) {

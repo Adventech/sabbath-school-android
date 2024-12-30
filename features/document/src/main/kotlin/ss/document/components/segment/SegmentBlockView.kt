@@ -49,7 +49,7 @@ fun SegmentBlockView(
         modifier = modifier
             .fillMaxSize()
             .background(readerStyle.theme.background())
-            .padding(horizontal = SsTheme.dimens.grid_4, vertical = SsTheme.dimens.grid_4),
+            .padding(vertical = SsTheme.dimens.grid_4),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         segment.blocks.orEmpty().forEach { block ->

@@ -61,8 +61,8 @@ import coil.request.ImageRequest
 import io.adventech.blockkit.model.TextStyleSize
 import io.adventech.blockkit.parser.AttributedTextParser
 import io.adventech.blockkit.ui.style.BlockStyleTemplate
-import io.adventech.blockkit.ui.style.LatoFontFamily
 import io.adventech.blockkit.ui.style.StyleTemplate
+import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
 import io.adventech.blockkit.ui.style.parse
 import org.commonmark.node.Code
@@ -95,8 +95,9 @@ fun MarkdownText(
     val attributedTextParser by remember { mutableStateOf(AttributedTextParser()) }
     val typefaces by remember(markdownText) { mutableStateOf(attributedTextParser.parseTypeface(markdownText)) }
     var fonts = typefaces.associate { name -> name to LocalFontFamilyProvider.current.invoke(name) }
+    val defaultFontFamily = Styler.defaultFontFamily()
     val fontProvider: (String?) -> FontFamily = {
-        it?.let { fonts[it] } ?: LatoFontFamily
+        it?.let { fonts[it] } ?: defaultFontFamily
     }
     val fontSizeProvider: (TextStyleSize?) -> TextUnit = {
         styleTemplate.defaultTextSizePoints(it).sp
