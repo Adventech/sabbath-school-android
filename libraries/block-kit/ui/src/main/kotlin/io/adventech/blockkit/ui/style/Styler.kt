@@ -97,11 +97,11 @@ object Styler {
     }
 
     @Composable
-    private fun defaultFontFamily(): FontFamily = when (LocalReaderStyle.current.typeface) {
-        ReaderStyle.Typeface.Andada -> TODO()
+    fun defaultFontFamily(): FontFamily = when (LocalReaderStyle.current.typeface) {
+        ReaderStyle.Typeface.Andada -> FontProvider.googleFontFamily("Lora")
         ReaderStyle.Typeface.Lato -> LatoFontFamily
-        ReaderStyle.Typeface.PtSerif -> TODO()
-        ReaderStyle.Typeface.PtSans -> TODO()
+        ReaderStyle.Typeface.PtSerif -> FontProvider.googleFontFamily("PTSerif")
+        ReaderStyle.Typeface.PtSans -> FontProvider.googleFontFamily("PTSans")
     }
 
     fun padding(
