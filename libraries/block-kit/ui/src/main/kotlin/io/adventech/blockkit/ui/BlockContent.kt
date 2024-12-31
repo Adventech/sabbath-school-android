@@ -42,7 +42,9 @@ fun BlockContent(blockItem: BlockItem, modifier: Modifier = Modifier, nested: Bo
         }
         is BlockItem.Checklist -> Unit
         is BlockItem.ChecklistItem -> Unit
-        is BlockItem.Collapse -> Unit
+        is BlockItem.Collapse -> {
+            CollapseContent(blockItem, blockModifier)
+        }
         is BlockItem.Excerpt -> Unit
         is BlockItem.ExcerptItem -> Unit
         is BlockItem.Heading -> {
