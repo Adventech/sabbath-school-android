@@ -25,6 +25,7 @@ package io.adventech.blockkit.ui
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -40,7 +41,6 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Scale
-import coil.size.Size
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.Styler
@@ -54,7 +54,6 @@ internal fun ImageContent(blockItem: BlockItem.Image, modifier: Modifier = Modif
             .data(blockItem.src)
             .crossfade(true)
             .scale(Scale.FILL)
-            .size(Size.ORIGINAL)
             .build()
     )
 
@@ -69,6 +68,7 @@ internal fun ImageContent(blockItem: BlockItem.Image, modifier: Modifier = Modif
             contentDescription = blockItem.caption,
             modifier = Modifier
                 .fillMaxWidth()
+                .aspectRatio(blockItem.style?.image?.aspectRatio ?: (16 / 9f))
                 .thenIf(blockItem.style?.block?.rounded == true) {
                     clip(Styler.roundedShape())
                 },
