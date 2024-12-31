@@ -157,7 +157,7 @@ sealed interface BlockItem {
         override val style: BlockStyle?,
         override val data: BlockData?,
         override val nested: Boolean?,
-        val items: List<BlockListItem>,
+        val items: List<BlockItem>,
         val depth: Int?,
         val ordered: Boolean?,
         val start: Int?,

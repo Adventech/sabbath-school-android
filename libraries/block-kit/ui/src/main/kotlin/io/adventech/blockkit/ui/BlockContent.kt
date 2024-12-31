@@ -28,7 +28,12 @@ import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.ui.style.background
 
 @Composable
-fun BlockContent(blockItem: BlockItem, modifier: Modifier = Modifier, nested: Boolean? = blockItem.nested) {
+fun BlockContent(
+    blockItem: BlockItem,
+    modifier: Modifier = Modifier,
+    nested: Boolean? = blockItem.nested,
+    parent: BlockItem? = null,
+) {
     val blockModifier = modifier.background(blockItem, nested)
 
     when (blockItem) {
@@ -38,7 +43,7 @@ fun BlockContent(blockItem: BlockItem, modifier: Modifier = Modifier, nested: Bo
             BlockListContent(blockItem, blockModifier)
         }
         is BlockItem.BlockListItem -> {
-            BlockListItemContent(blockItem, blockModifier)
+            BlockListItemContent(blockItem, blockModifier, (parent as? BlockItem.BlockList)?.bullet ?: "")
         }
         is BlockItem.Checklist -> Unit
         is BlockItem.ChecklistItem -> Unit

@@ -91,12 +91,6 @@ internal fun QuestionContent(blockItem: BlockItem.Question, modifier: Modifier =
                     textAlign = Styler.textAlign(textStyle),
                     onHandleUri = {}
                 )
-            } else {
-                Spacer(
-                    Modifier
-                        .fillMaxWidth()
-                        .height(12.dp)
-                )
             }
 
             InputBox(modifier = Modifier.fillMaxWidth()) { contentModifier ->

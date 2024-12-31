@@ -36,9 +36,10 @@ import io.adventech.blockkit.ui.style.Styler
 internal fun BlockListContent(blockItem: BlockItem.BlockList, modifier: Modifier = Modifier) {
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
         blockItem.items.forEach { item ->
-            BlockListItemContent(
+            BlockContent(
                 blockItem = item,
-                bullet = blockItem.bullet,
+                nested = true,
+                parent = blockItem,
             )
         }
     }
@@ -66,7 +67,7 @@ internal fun BlockListItemContent(
 
         MarkdownText(
             markdownText = blockItem.markdown,
-            modifier = modifier,
+            modifier = Modifier.weight(1f),
             color = color,
             style = style,
             textAlign = Styler.textAlign(blockStyle),
