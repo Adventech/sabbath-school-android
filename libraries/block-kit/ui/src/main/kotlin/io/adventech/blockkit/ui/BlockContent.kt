@@ -61,7 +61,9 @@ fun BlockContent(blockItem: BlockItem, modifier: Modifier = Modifier, nested: Bo
         }
         is BlockItem.Poll -> Unit
         is BlockItem.PollItem -> Unit
-        is BlockItem.Question -> Unit
+        is BlockItem.Question -> {
+            QuestionContent(blockItem, blockModifier)
+        }
         is BlockItem.Quote -> {
             QuoteContent(blockItem, blockModifier)
         }
