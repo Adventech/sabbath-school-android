@@ -147,7 +147,9 @@ object Styler {
     }
 
     @Composable
-    fun genericBackgroundColorForInteractiveBlock(theme: ReaderStyle.Theme): Color {
+    fun genericBackgroundColorForInteractiveBlock(
+        theme: ReaderStyle.Theme = LocalReaderStyle.current.theme,
+    ): Color {
         val light = Color.Gray100
         val sepia = Color.Sepia300
         val dark = Color.Primary950
