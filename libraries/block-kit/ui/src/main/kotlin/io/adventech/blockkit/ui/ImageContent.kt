@@ -24,11 +24,12 @@ package io.adventech.blockkit.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -38,33 +39,23 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Scale
 import io.adventech.blockkit.model.BlockItem
-import io.adventech.blockkit.ui.style.LocalReaderStyle
+import io.adventech.blockkit.ui.style.LatoFontFamily
 import io.adventech.blockkit.ui.style.Styler
-import io.adventech.blockkit.ui.style.primaryForeground
 import io.adventech.blockkit.ui.style.thenIf
 
 @Composable
 internal fun ImageContent(blockItem: BlockItem.Image, modifier: Modifier = Modifier) {
-    val painter = rememberAsyncImagePainter(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(blockItem.src)
-            .crossfade(true)
-            .scale(Scale.FILL)
-            .build()
-    )
-
-    val readerStyle = LocalReaderStyle.current
-
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        Image(
-            painter = painter,
+        AsyncImageBox(
+            data = blockItem.src,
             contentDescription = blockItem.caption,
             modifier = Modifier
                 .fillMaxWidth()
@@ -72,7 +63,7 @@ internal fun ImageContent(blockItem: BlockItem.Image, modifier: Modifier = Modif
                 .thenIf(blockItem.style?.block?.rounded == true) {
                     clip(Styler.roundedShape())
                 },
-            contentScale = ContentScale.Crop,
+            scale = Scale.FILL,
         )
 
         blockItem.caption?.takeUnless { it.isEmpty() }?.let {
@@ -81,9 +72,52 @@ internal fun ImageContent(blockItem: BlockItem.Image, modifier: Modifier = Modif
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                style = MaterialTheme.typography.bodySmall.copy(fontSize = 14.sp, fontStyle = FontStyle.Italic),
-                color = readerStyle.theme.primaryForeground().copy(alpha = 0.7f)
+                style = Styler.textStyle(null).copy(
+                    fontSize = 14.sp,
+                    fontStyle = FontStyle.Italic,
+                    fontFamily = LatoFontFamily,
+                ),
+                color = Styler.textColor(null).copy(alpha = 0.7f)
             )
         }
+    }
+}
+
+@Composable
+internal fun AsyncImageBox(
+    data: String?,
+    contentDescription: String?,
+    modifier: Modifier = Modifier,
+    contentScale: ContentScale = ContentScale.Crop,
+    scale: Scale = Scale.FIT,
+    loading: @Composable () -> Unit = {},
+    error: @Composable () -> Unit = {},
+) {
+    val painter = rememberAsyncImagePainter(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(data)
+            .crossfade(true)
+            .scale(scale = scale)
+            .build()
+    )
+
+    Box(modifier = modifier) {
+        when (painter.state) {
+            is AsyncImagePainter.State.Loading -> {
+                loading()
+            }
+            AsyncImagePainter.State.Empty,
+            is AsyncImagePainter.State.Error -> {
+                error()
+            }
+            is AsyncImagePainter.State.Success -> Unit
+        }
+
+        Image(
+            painter = painter,
+            contentDescription = contentDescription,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = contentScale,
+        )
     }
 }

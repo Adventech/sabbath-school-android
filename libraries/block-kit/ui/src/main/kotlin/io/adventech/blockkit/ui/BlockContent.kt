@@ -78,7 +78,9 @@ fun BlockContent(
         is BlockItem.Quote -> {
             QuoteContent(blockItem, blockModifier)
         }
-        is BlockItem.Reference -> Unit
+        is BlockItem.Reference -> {
+            ReferenceContent(blockItem, blockModifier)
+        }
         is BlockItem.Story -> Unit
         is BlockItem.StorySlide -> Unit
         is BlockItem.TableBlock -> Unit
