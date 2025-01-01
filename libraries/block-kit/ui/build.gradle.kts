@@ -36,6 +36,8 @@ dependencies {
     api(projects.libraries.blockKit.model)
     api(projects.libraries.blockKit.parser)
 
+    implementation(projects.libraries.ui.placeholder)
+
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.google.fonts)
     implementation(libs.atlassian.commonmark)
