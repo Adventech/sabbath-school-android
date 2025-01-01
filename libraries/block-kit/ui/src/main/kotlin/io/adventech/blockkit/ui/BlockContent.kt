@@ -50,8 +50,12 @@ fun BlockContent(
         is BlockItem.Collapse -> {
             CollapseContent(blockItem, blockModifier)
         }
-        is BlockItem.Excerpt -> Unit
-        is BlockItem.ExcerptItem -> Unit
+        is BlockItem.Excerpt -> {
+            ExcerptContent(blockItem, blockModifier)
+        }
+        is BlockItem.ExcerptItem -> {
+            ExcerptItemContent(blockItem, blockModifier)
+        }
         is BlockItem.Heading -> {
             HeadingContent(blockItem, blockModifier)
         }

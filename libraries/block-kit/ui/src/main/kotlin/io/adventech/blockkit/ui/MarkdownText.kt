@@ -49,6 +49,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
@@ -58,6 +59,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import io.adventech.blockkit.model.TextStyleOffset
 import io.adventech.blockkit.model.TextStyleSize
 import io.adventech.blockkit.parser.AttributedTextParser
 import io.adventech.blockkit.ui.style.BlockStyleTemplate
@@ -206,11 +208,11 @@ internal fun AnnotatedString.Builder.appendMarkdownChildren(
             }
 
             is Link -> {
-               withStyle(SpanStyle(color, textDecoration = TextDecoration.Underline)) {
-                   withAnnotation(TAG_URL, child.destination) {
-                       appendMarkdownChildren(child, color, parser, fontProvider, fontSizeProvider)
-                   }
-               }
+                withStyle(SpanStyle(color, textDecoration = TextDecoration.Underline)) {
+                    withAnnotation(TAG_URL, child.destination) {
+                        appendMarkdownChildren(child, color, parser, fontProvider, fontSizeProvider)
+                    }
+                }
             }
         }
         child = child.next
@@ -267,10 +269,19 @@ private fun io.adventech.blockkit.model.TextStyle.toSpanStyle(
     fontProvider: (String?) -> FontFamily,
     fontSizeProvider: (TextStyleSize?) -> TextUnit
 ): SpanStyle {
+    val fontSize = fontSizeProvider(size)
     return SpanStyle(
         color = color?.let { Color.parse(it) } ?: Color.Unspecified,
         fontFamily = fontProvider(typeface),
-        fontSize = fontSizeProvider(size),
-        // Apply BaselineShift from TextStyleOffset
+        fontSize = if (offset == null) fontSize else fontSize * 0.70f,
+        baselineShift = offset?.toBaselineShift()
     )
+}
+
+private fun TextStyleOffset.toBaselineShift(): BaselineShift? {
+    return when (this) {
+        TextStyleOffset.SUP -> BaselineShift(0.5f)
+        TextStyleOffset.SUB -> BaselineShift(-0.5f)
+        TextStyleOffset.UNKNOWN -> null
+    }
 }
