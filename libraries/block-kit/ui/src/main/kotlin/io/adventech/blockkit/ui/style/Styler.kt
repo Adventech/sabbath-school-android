@@ -161,7 +161,7 @@ object Styler {
         }
     }
 
-    fun roundedShape() = RoundedCornerShape(8.dp)
+    fun roundedShape() = RoundedCornerShape(6.dp)
 }
 
 
