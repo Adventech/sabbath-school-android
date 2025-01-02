@@ -37,7 +37,9 @@ fun BlockContent(
     val blockModifier = modifier.background(blockItem, nested)
 
     when (blockItem) {
-        is BlockItem.Appeal -> Unit
+        is BlockItem.Appeal -> {
+            AppealContent(blockItem, blockModifier)
+        }
         is BlockItem.Audio -> Unit
         is BlockItem.BlockList -> {
             BlockListContent(blockItem, blockModifier)

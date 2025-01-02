@@ -22,6 +22,7 @@
 
 package io.adventech.blockkit.ui.style
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -67,7 +68,17 @@ fun ReaderStyle.Theme.background() : Color {
         ReaderStyle.Theme.Light -> Color.White
         ReaderStyle.Theme.Sepia -> Color.Sepia100
         ReaderStyle.Theme.Dark -> Color.Black
-        ReaderStyle.Theme.Auto -> MaterialTheme.colorScheme.surface
+        ReaderStyle.Theme.Auto -> if (isSystemInDarkTheme()) Color.Black else Color.White
+    }
+}
+
+@Composable
+fun ReaderStyle.Theme.secondaryBackground() : Color {
+    return when (this) {
+        ReaderStyle.Theme.Light -> Color.Gray50
+        ReaderStyle.Theme.Sepia -> Color.Sepia200
+        ReaderStyle.Theme.Dark -> Color.Gray800
+        ReaderStyle.Theme.Auto -> if (isSystemInDarkTheme()) Color.Gray800 else Color.Gray50
     }
 }
 
@@ -77,6 +88,16 @@ fun ReaderStyle.Theme.primaryForeground() : Color {
         ReaderStyle.Theme.Light -> Color.Primary950
         ReaderStyle.Theme.Sepia -> Color.Sepia400
         ReaderStyle.Theme.Dark -> Color.Gray200
-        ReaderStyle.Theme.Auto -> MaterialTheme.colorScheme.onSurface
+        ReaderStyle.Theme.Auto -> if (isSystemInDarkTheme()) Color.Gray200 else Color.Primary950
+    }
+}
+
+@Composable
+fun ReaderStyle.Theme.secondaryForeground() : Color {
+    return when (this) {
+        ReaderStyle.Theme.Light -> Color.Gray700
+        ReaderStyle.Theme.Sepia -> Color.Sepia400
+        ReaderStyle.Theme.Dark -> Color.Primary400
+        ReaderStyle.Theme.Auto -> if (isSystemInDarkTheme()) Color.Primary400 else Color.Gray700
     }
 }
