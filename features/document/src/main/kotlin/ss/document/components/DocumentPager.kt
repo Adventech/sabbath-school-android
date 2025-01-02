@@ -41,6 +41,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.theme.SsTheme
+import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.SegmentStyle
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.SegmentType
@@ -62,6 +63,7 @@ fun DocumentPager(
     segmentStyle: SegmentStyle? = null,
     listState: LazyListState = rememberLazyListState(),
     onPageChange: (Int) -> Unit = {},
+    onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
 ) {
     val pagerState = rememberPagerState(
         initialPage = initialPage,
@@ -132,7 +134,7 @@ fun DocumentPager(
                 val segment = segments[page]
                 when (segment.type) {
                     SegmentType.UNKNOWN -> Unit
-                    SegmentType.BLOCK -> SegmentBlockView(segment)
+                    SegmentType.BLOCK -> SegmentBlockView(segment, onHandleUri = onHandleUri)
                     SegmentType.STORY -> Unit
                     SegmentType.PDF -> Unit
                     SegmentType.VIDEO -> Unit

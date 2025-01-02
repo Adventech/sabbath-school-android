@@ -28,6 +28,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import ss.document.producer.FontFamilyProviderImpl
+import ss.document.producer.OverlayStateProducer
+import ss.document.producer.OverlayStateProducerImpl
 import ss.document.producer.TopAppbarActionsProducer
 import ss.document.producer.TopAppbarActionsProducerImpl
 
@@ -39,4 +41,7 @@ internal abstract class BindingsModule {
 
     @Binds
     internal abstract fun bindFontFamilyProvider(impl: FontFamilyProviderImpl): FontFamilyProvider
+
+    @Binds
+    internal abstract fun bindOverlayStateProducer(impl: OverlayStateProducerImpl): OverlayStateProducer
 }

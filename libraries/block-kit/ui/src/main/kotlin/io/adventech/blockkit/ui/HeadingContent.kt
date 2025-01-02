@@ -30,7 +30,11 @@ import io.adventech.blockkit.ui.style.HeadingStyleTemplate
 import io.adventech.blockkit.ui.style.Styler
 
 @Composable
-internal fun HeadingContent(blockItem: BlockItem.Heading, modifier: Modifier = Modifier) {
+internal fun HeadingContent(
+    blockItem: BlockItem.Heading,
+    modifier: Modifier = Modifier,
+    onHandleUri: (String) -> Unit = {},
+) {
     val template = HeadingStyleTemplate(blockItem.depth)
     val blockStyle = blockItem.style?.text
 
@@ -38,6 +42,7 @@ internal fun HeadingContent(blockItem: BlockItem.Heading, modifier: Modifier = M
         markdownText = blockItem.markdown,
         modifier = modifier,
         style = Styler.textStyle(blockStyle, template).copy(fontWeight = FontWeight.Bold),
-        textAlign = Styler.textAlign(blockStyle)
+        textAlign = Styler.textAlign(blockStyle),
+        onHandleUri = onHandleUri
     )
 }

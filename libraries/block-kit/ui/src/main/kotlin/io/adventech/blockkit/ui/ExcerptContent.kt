@@ -69,36 +69,14 @@ internal fun ExcerptContent(blockItem: BlockItem.Excerpt, modifier: Modifier = M
         offset = DpOffset((-16).dp, 0.dp),
         shape = RoundedCornerShape(16.dp),
     ) {
-        blockItem.options.forEach { option ->
-            DropdownMenuItem(
-                onClick = {
-                    expanded = false
-                    selectedOption = option
-                },
-                modifier = Modifier,
-                text = {
-                    ListItem(
-                        headlineContent = {
-                            Text(
-                                text = option,
-                                style = MaterialTheme.typography.titleMedium,
-                            )
-                        },
-                        trailingContent = {
-                            if (selectedOption == option) {
-                                Icon(
-                                    imageVector = Icons.Rounded.Check,
-                                    contentDescription = null,
-                                )
-                            }
-                        },
-                        colors = ListItemDefaults.colors(
-                            containerColor = MenuDefaults.containerColor
-                        )
-                    )
-                }
-            )
-        }
+        ExcerptOptions(
+            options = blockItem.options,
+            selectedOption = selectedOption,
+            onOptionSelected = { option ->
+                expanded = false
+                selectedOption = option
+            }
+        )
     }
 
     Column(modifier = modifier.fillMaxWidth()) {
@@ -137,10 +115,51 @@ internal fun ExcerptContent(blockItem: BlockItem.Excerpt, modifier: Modifier = M
 }
 
 @Composable
-internal fun ExcerptItemContent(blockItem: BlockItem.ExcerptItem, modifier: Modifier = Modifier) {
-    Column(modifier = modifier.fillMaxWidth()) {
+fun ExcerptItemContent(blockItem: BlockItem.ExcerptItem, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+    ) {
         blockItem.items.forEach {
             BlockContent(it, nested = blockItem.nested, parent = blockItem)
         }
+    }
+}
+
+@Composable
+fun ExcerptOptions(
+    options: List<String>,
+    selectedOption: String?,
+    onOptionSelected: (String) -> Unit,
+) {
+    options.forEach { option ->
+        DropdownMenuItem(
+            onClick = { onOptionSelected(option) },
+            modifier = Modifier,
+            text = {
+                ListItem(
+                    headlineContent = {
+                        Text(
+                            text = option,
+                            style = MaterialTheme.typography.titleMedium.copy(
+                                fontFamily = Styler.defaultFontFamily(),
+                                fontWeight = FontWeight.Medium,
+                            ),
+                        )
+                    },
+                    trailingContent = {
+                        if (selectedOption == option) {
+                            Icon(
+                                imageVector = Icons.Rounded.Check,
+                                contentDescription = null,
+                            )
+                        }
+                    },
+                    colors = ListItemDefaults.colors(
+                        containerColor = MenuDefaults.containerColor
+                    )
+                )
+            }
+        )
     }
 }

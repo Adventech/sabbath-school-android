@@ -31,11 +31,16 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
+import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.ui.style.BlockStyleTemplate
 
 @Composable
-internal fun QuoteContent(blockItem: BlockItem.Quote, modifier: Modifier = Modifier) {
+internal fun QuoteContent(
+    blockItem: BlockItem.Quote,
+    modifier: Modifier = Modifier,
+    onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
+    ) {
     val style = BlockStyleTemplate.DEFAULT
     val color = style.textColorDefault()
     Column(
@@ -52,6 +57,8 @@ internal fun QuoteContent(blockItem: BlockItem.Quote, modifier: Modifier = Modif
             .padding(start = 16.dp, top = 8.dp, bottom = 8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        blockItem.items.forEach { BlockContent(blockItem = it, nested = true) }
+        blockItem.items.forEach {
+            BlockContent(blockItem = it, nested = true, onHandleUri = onHandleUri)
+        }
     }
 }

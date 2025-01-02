@@ -29,17 +29,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.ui.style.Styler
 
 @Composable
-internal fun BlockListContent(blockItem: BlockItem.BlockList, modifier: Modifier = Modifier) {
+internal fun BlockListContent(
+    blockItem: BlockItem.BlockList,
+    modifier: Modifier = Modifier,
+    onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
+    ) {
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
         blockItem.items.forEach { item ->
             BlockContent(
                 blockItem = item,
                 nested = true,
                 parent = blockItem,
+                onHandleUri = onHandleUri,
             )
         }
     }
@@ -50,6 +56,7 @@ internal fun BlockListItemContent(
     blockItem: BlockItem.BlockListItem,
     modifier: Modifier = Modifier,
     bullet: String = "",
+    onHandleUri: (String) -> Unit = {},
 ) {
     val blockStyle = blockItem.style?.text
     val color = Styler.textColor(blockStyle)
@@ -71,7 +78,7 @@ internal fun BlockListItemContent(
             color = color,
             style = style,
             textAlign = Styler.textAlign(blockStyle),
-            onHandleUri = {}
+            onHandleUri = onHandleUri
         )
     }
 }

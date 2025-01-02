@@ -39,6 +39,7 @@ import io.adventech.blockkit.model.resource.ResourceDocument
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import kotlinx.collections.immutable.toImmutableList
 import ss.document.components.segment.hasCover
+import ss.document.producer.OverlayStateProducer
 import ss.document.producer.TopAppbarActionsProducer
 import ss.libraries.circuit.navigation.DocumentScreen
 import ss.resources.api.ResourcesRepository
@@ -49,6 +50,7 @@ class DocumentPresenter @AssistedInject constructor(
     private val resourcesRepository: ResourcesRepository,
     private val actionsProducer: TopAppbarActionsProducer,
     private val fontFamilyProvider: FontFamilyProvider,
+    private val overlayStateProducer: OverlayStateProducer,
 ) : Presenter<State> {
 
     @Composable
@@ -60,6 +62,7 @@ class DocumentPresenter @AssistedInject constructor(
         val resourceDocument = response
 
         val actions = actionsProducer(screen.resourceIndex, screen.index, selectedPage)
+        val overlayState = overlayStateProducer()
 
         val eventSink: (Event) -> Unit = { event ->
             when (event) {
@@ -71,11 +74,15 @@ class DocumentPresenter @AssistedInject constructor(
                 is SuccessEvent.OnSegmentSelection -> {
                     selectedPage = event.segment
                 }
+
+                is Event.Blocks.OnHandleUri -> {
+                    (overlayState as? OverlayStateProducer.State.None)?.eventSink(OverlayStateProducer.Event.OnHandleUri(event.uri, event.data))
+                }
             }
         }
 
         return when {
-            resourceDocument == null -> State.Loading(screen.title, false, eventSink)
+            resourceDocument == null -> State.Loading(screen.title, false, overlayState, eventSink)
             else -> State.Success(
                 title = selectedPage?.title ?: resourceDocument.title,
                 hasCover = selectedPage?.hasCover() == true,
@@ -87,6 +94,7 @@ class DocumentPresenter @AssistedInject constructor(
                 style = resourceDocument.style,
                 fontFamilyProvider = fontFamilyProvider,
                 eventSink = eventSink,
+                overlayState = overlayState
             )
         }
     }

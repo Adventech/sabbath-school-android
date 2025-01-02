@@ -28,7 +28,11 @@ import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.ui.style.Styler
 
 @Composable
-internal fun ParagraphContent(blockItem: BlockItem.Paragraph, modifier: Modifier = Modifier) {
+internal fun ParagraphContent(
+    blockItem: BlockItem.Paragraph,
+    modifier: Modifier = Modifier,
+    onHandleUri: (String) -> Unit = {},
+) {
     val blockStyle = blockItem.style?.text
 
     MarkdownText(
@@ -37,6 +41,6 @@ internal fun ParagraphContent(blockItem: BlockItem.Paragraph, modifier: Modifier
         color = Styler.textColor(blockStyle),
         style = Styler.textStyle(blockStyle),
         textAlign = Styler.textAlign(blockStyle),
-        onHandleUri = {}
+        onHandleUri = onHandleUri,
     )
 }

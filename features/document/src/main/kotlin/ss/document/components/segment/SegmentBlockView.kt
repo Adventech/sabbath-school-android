@@ -34,6 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.theme.SsTheme
+import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.ui.BlockContent
 import io.adventech.blockkit.ui.style.LocalReaderStyle
@@ -43,6 +44,7 @@ import io.adventech.blockkit.ui.style.background
 fun SegmentBlockView(
     segment: Segment,
     modifier: Modifier = Modifier,
+    onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
 ) {
     val readerStyle = LocalReaderStyle.current
     Column(
@@ -53,7 +55,7 @@ fun SegmentBlockView(
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         segment.blocks.orEmpty().forEach { block ->
-            BlockContent(block, Modifier)
+            BlockContent(block, Modifier, onHandleUri = onHandleUri)
         }
 
         Spacer(Modifier.fillMaxWidth().height(SsTheme.dimens.grid_4))

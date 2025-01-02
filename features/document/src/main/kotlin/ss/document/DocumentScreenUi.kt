@@ -37,6 +37,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import app.ss.design.compose.widget.scaffold.SystemUiEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.overlay.OverlayEffect
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.ui.style.LocalBlocksStyle
 import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
@@ -45,6 +46,9 @@ import ss.document.components.DocumentLoadingView
 import ss.document.components.DocumentPager
 import ss.document.components.DocumentTitleBar
 import ss.document.components.DocumentTopAppBar
+import ss.document.components.segment.overlay.BlocksOverlay
+import ss.document.components.segment.overlay.ExcerptOverlay
+import ss.document.producer.OverlayStateProducer
 import ss.libraries.circuit.navigation.DocumentScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -111,14 +115,26 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                         titleBelowCover = state.titleBelowCover,
                         initialPage = state.initialPage,
                         segmentStyle = state.style?.segment,
-                        listState = listState
-                    ) {
-                        state.eventSink(SuccessEvent.OnPageChange(it))
-                    }
+                        listState = listState,
+                        onPageChange = { state.eventSink(SuccessEvent.OnPageChange(it)) },
+                        onHandleUri = { uri, data -> state.eventSink(Event.Blocks.OnHandleUri(uri, data)) }
+                    )
                 }
             }
         }
     }
 
     SystemUiEffect(lightStatusBar)
+
+    OverlayEffect(state.overlayState) {
+        when (val state = state.overlayState) {
+            is OverlayStateProducer.State.None -> Unit
+            is OverlayStateProducer.State.Excerpt -> state.onResult(
+                show(ExcerptOverlay(state.state))
+            )
+            is OverlayStateProducer.State.Blocks -> state.onResult(
+                show(BlocksOverlay(state.state))
+            )
+        }
+    }
 }
