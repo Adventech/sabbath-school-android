@@ -28,7 +28,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -37,7 +36,6 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -62,7 +60,11 @@ import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
 
 @Composable
-internal fun QuestionContent(blockItem: BlockItem.Question, modifier: Modifier = Modifier) {
+internal fun QuestionContent(
+    blockItem: BlockItem.Question,
+    modifier: Modifier = Modifier,
+    onHandleUri: (String) -> Unit = {}
+) {
     var textFieldValue by rememberSaveable(stateSaver = TextFieldValue.Saver) { mutableStateOf(TextFieldValue("")) }
     val textStyle = blockItem.style?.text
     val inputTextStyle = Styler.textStyle(blockStyle = inputBlockTextStyle)
@@ -89,7 +91,7 @@ internal fun QuestionContent(blockItem: BlockItem.Question, modifier: Modifier =
                     color = Styler.textColor(textStyle),
                     style = Styler.textStyle(textStyle),
                     textAlign = Styler.textAlign(textStyle),
-                    onHandleUri = {}
+                    onHandleUri = onHandleUri,
                 )
             }
 

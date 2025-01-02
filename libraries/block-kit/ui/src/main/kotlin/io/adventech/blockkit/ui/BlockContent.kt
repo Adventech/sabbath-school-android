@@ -24,6 +24,7 @@ package io.adventech.blockkit.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.ui.style.background
 
@@ -33,6 +34,7 @@ fun BlockContent(
     modifier: Modifier = Modifier,
     nested: Boolean? = blockItem.nested,
     parent: BlockItem? = null,
+    onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
 ) {
     val blockModifier = modifier.background(blockItem, nested)
 
@@ -59,7 +61,9 @@ fun BlockContent(
             ExcerptItemContent(blockItem, blockModifier)
         }
         is BlockItem.Heading -> {
-            HeadingContent(blockItem, blockModifier)
+            HeadingContent(blockItem, blockModifier) {
+                onHandleUri(it, blockItem.data)
+            }
         }
         is BlockItem.Hr -> {
             HrContent(blockItem, blockModifier)
@@ -70,12 +74,16 @@ fun BlockContent(
         is BlockItem.MultipleChoice -> Unit
         is BlockItem.MultipleChoiceItem -> Unit
         is BlockItem.Paragraph -> {
-            ParagraphContent(blockItem, blockModifier)
+            ParagraphContent(blockItem, blockModifier) {
+                onHandleUri(it, blockItem.data)
+            }
         }
         is BlockItem.Poll -> Unit
         is BlockItem.PollItem -> Unit
         is BlockItem.Question -> {
-            QuestionContent(blockItem, blockModifier)
+            QuestionContent(blockItem, blockModifier) {
+                onHandleUri(it, blockItem.data)
+            }
         }
         is BlockItem.Quote -> {
             QuoteContent(blockItem, blockModifier)
