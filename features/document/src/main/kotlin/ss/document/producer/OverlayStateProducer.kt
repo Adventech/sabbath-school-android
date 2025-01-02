@@ -25,13 +25,15 @@ package ss.document.producer
 import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import io.adventech.blockkit.model.BlockData
+import kotlinx.collections.immutable.toImmutableList
+import ss.document.components.segment.overlay.BlocksOverlay
 import ss.document.components.segment.overlay.ExcerptOverlay
 import ss.document.producer.OverlayStateProducer.State
 import timber.log.Timber
@@ -53,6 +55,11 @@ interface OverlayStateProducer {
             val state: ExcerptOverlay.State,
             val onResult: (ExcerptOverlay.Result) -> Unit
         ) : State
+
+        data class Blocks(
+            val state: BlocksOverlay.State,
+            val onResult: (BlocksOverlay.Result) -> Unit
+        ): State
     }
 
     sealed interface Event : CircuitUiEvent {
@@ -85,7 +92,10 @@ class OverlayStateProducerImpl @Inject constructor() : OverlayStateProducer {
                         }
 
                         SCHEME_EGW -> {
-                            Timber.d("Handling egw uri: ${uri.host}")
+                            val blocks = data?.egw?.get(uri.host) ?: return@None
+                            overlayState = State.Blocks(state = BlocksOverlay.State(blocks.toImmutableList())) {
+                                overlayState = null
+                            }
                         }
 
                         SCHEME_COMPLETION -> {

@@ -46,6 +46,7 @@ import ss.document.components.DocumentLoadingView
 import ss.document.components.DocumentPager
 import ss.document.components.DocumentTitleBar
 import ss.document.components.DocumentTopAppBar
+import ss.document.components.segment.overlay.BlocksOverlay
 import ss.document.components.segment.overlay.ExcerptOverlay
 import ss.document.producer.OverlayStateProducer
 import ss.libraries.circuit.navigation.DocumentScreen
@@ -127,10 +128,13 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
 
     OverlayEffect(state.overlayState) {
         when (val state = state.overlayState) {
+            is OverlayStateProducer.State.None -> Unit
             is OverlayStateProducer.State.Excerpt -> state.onResult(
                 show(ExcerptOverlay(state.state))
             )
-            is OverlayStateProducer.State.None -> Unit
+            is OverlayStateProducer.State.Blocks -> state.onResult(
+                show(BlocksOverlay(state.state))
+            )
         }
     }
 }
