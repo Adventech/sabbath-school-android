@@ -24,11 +24,14 @@ package io.adventech.blockkit.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowDropDown
@@ -55,6 +58,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.ui.style.Styler
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun ExcerptContent(blockItem: BlockItem.Excerpt, modifier: Modifier = Modifier) {
@@ -62,21 +66,27 @@ internal fun ExcerptContent(blockItem: BlockItem.Excerpt, modifier: Modifier = M
     val selectedItem = remember(selectedOption) { blockItem.items.firstOrNull { it.option == selectedOption } }
     var expanded by remember { mutableStateOf(false) }
 
-    DropdownMenu(
-        expanded = expanded,
-        onDismissRequest = { expanded = false },
-        modifier = Modifier,
-        offset = DpOffset((-16).dp, 0.dp),
-        shape = RoundedCornerShape(16.dp),
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .wrapContentSize(Alignment.TopEnd),
     ) {
-        ExcerptOptions(
-            options = blockItem.options,
-            selectedOption = selectedOption,
-            onOptionSelected = { option ->
-                expanded = false
-                selectedOption = option
-            }
-        )
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier,
+            offset = DpOffset(-(16).dp, 0.dp),
+            shape = RoundedCornerShape(16.dp),
+        ) {
+            ExcerptOptions(
+                options = blockItem.options,
+                selectedOption = selectedOption,
+                onOptionSelected = { option ->
+                    expanded = false
+                    selectedOption = option
+                }
+            )
+        }
     }
 
     Column(modifier = modifier.fillMaxWidth()) {
