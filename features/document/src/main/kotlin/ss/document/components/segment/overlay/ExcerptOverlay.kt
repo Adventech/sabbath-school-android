@@ -33,8 +33,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -90,8 +93,12 @@ class ExcerptOverlay(private val state: State) : Overlay<ExcerptOverlay.Result> 
             content = {
                 Surface(
                     modifier = Modifier
+                        .wrapContentWidth()
+                        .wrapContentHeight()
                         .clickable { navigator.finish(Result.Dismissed) }
-                        .padding(SsTheme.dimens.grid_4),
+                        .safeDrawingPadding()
+                        .padding(horizontal = SsTheme.dimens.grid_4, vertical = SsTheme.dimens.grid_8)
+                        .padding(bottom = SsTheme.dimens.grid_4),
                     shape = AlertDialogDefaults.shape,
                     color = AlertDialogDefaults.containerColor,
                     tonalElevation = AlertDialogDefaults.TonalElevation,
