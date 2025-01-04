@@ -72,6 +72,7 @@ internal class PdfReaderImpl @Inject constructor(
         val excludedAnnotationTypes = ArrayList(EnumSet.allOf(AnnotationType::class.java))
         allowedAnnotations.forEach { excludedAnnotationTypes.remove(it) }
 
+        @Suppress("DEPRECATION")
         val config = PdfActivityConfiguration.Builder(context)
             .hidePageLabels()
             .hideDocumentTitleOverlay()
