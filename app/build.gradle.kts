@@ -222,8 +222,8 @@ object BuildAndroidConfig {
     const val VERSION_PROPS_FILE = "../release/build_number.properties"
 
     object Version {
-        private const val MAJOR = 5
-        private const val MINOR = 0
+        private const val MAJOR = 4
+        private const val MINOR = 62
         private const val PATCH = 0
 
         const val name = "$MAJOR.$MINOR.$PATCH"
