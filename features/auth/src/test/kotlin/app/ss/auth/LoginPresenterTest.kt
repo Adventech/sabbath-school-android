@@ -42,8 +42,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import ss.foundation.coroutines.test.TestDispatcherProvider
 import ss.libraries.circuit.navigation.CustomTabsIntentScreen
-import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.libraries.circuit.navigation.LoginScreen
+import ss.libraries.circuit.navigation.QuarterliesScreen
 import app.ss.translations.R as L10nR
 
 private const val WEB_CLIENT_ID = "web_id"
@@ -110,7 +110,7 @@ class LoginPresenterTest {
 
             awaitItem() as State.Loading
 
-            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo HomeNavScreen
+            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo QuarterliesScreen()
 
             ensureAllEventsConsumed()
         }
@@ -187,7 +187,7 @@ class LoginPresenterTest {
 
             awaitItem() as State.Loading
 
-            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo HomeNavScreen
+            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo QuarterliesScreen()
 
             ensureAllEventsConsumed()
         }

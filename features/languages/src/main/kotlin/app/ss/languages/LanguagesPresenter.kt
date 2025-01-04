@@ -41,8 +41,8 @@ import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
-import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.libraries.circuit.navigation.LanguagesScreen
+import ss.libraries.circuit.navigation.QuarterliesScreen
 import ss.prefs.api.SSPrefs
 import ss.resources.api.ResourcesRepository
 import ss.resources.model.LanguageModel
@@ -86,7 +86,7 @@ constructor(
                     when (event) {
                         is LanguagesEvent.Select -> {
                             if (modelSelected(event.model)) {
-                                navigator.resetRoot(HomeNavScreen)
+                                navigator.resetRoot(QuarterliesScreen())
                             } else {
                                 navigator.pop()
                             }

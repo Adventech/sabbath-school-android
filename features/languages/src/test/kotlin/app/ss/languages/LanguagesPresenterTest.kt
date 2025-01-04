@@ -33,8 +33,8 @@ import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeInstanceOf
 import org.junit.Test
-import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.libraries.circuit.navigation.LanguagesScreen
+import ss.libraries.circuit.navigation.QuarterliesScreen
 import ss.prefs.api.test.FakeSSPrefs
 import ss.resources.api.test.FakeResourcesRepository
 import ss.resources.model.LanguageModel
@@ -160,7 +160,7 @@ class LanguagesPresenterTest {
             fakeSSPrefs.setLanguageCode shouldBeEqualTo "es"
             fakeSSPrefs.setLastQuarterlyIndex shouldBeEqualTo null
 
-            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo HomeNavScreen
+            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo QuarterliesScreen()
 
             ensureAllEventsConsumed()
         }
