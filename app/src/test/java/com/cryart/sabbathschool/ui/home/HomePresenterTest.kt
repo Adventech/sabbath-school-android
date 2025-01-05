@@ -9,9 +9,8 @@ import com.slack.circuit.test.test
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
-import ss.libraries.circuit.navigation.LessonsScreen
+import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.libraries.circuit.navigation.LoginScreen
-import ss.libraries.circuit.navigation.QuarterliesScreen
 import ss.prefs.api.test.FakeSSPrefs
 
 class HomePresenterTest {
@@ -41,7 +40,7 @@ class HomePresenterTest {
             awaitItem()
 
             fakeDailyReminderManager.reminderScheduled shouldBeEqualTo true
-            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo QuarterliesScreen()
+            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo HomeNavScreen
 
             ensureAllEventsConsumed()
         }
@@ -60,7 +59,7 @@ class HomePresenterTest {
             awaitItem()
 
             fakeDailyReminderManager.reminderScheduled shouldBeEqualTo false
-            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo QuarterliesScreen()
+            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo HomeNavScreen
 
             ensureAllEventsConsumed()
         }
@@ -80,28 +79,6 @@ class HomePresenterTest {
     }
 
     @Test
-    fun `present - user authed - last index available - go to Lessons`() = runTest {
-        val index = "index-1"
-        fakeAuthRepository.userDelegate = { Result.success(SSUser.fake()) }
-        with(fakePrefs) {
-            quarterlyIndexDelegate = { index }
-            reminderEnabledDelegate = { false }
-            isReadingLatestQuarterlyDelegate = { true }
-        }
-
-        underTest.test {
-            awaitItem()
-
-            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo QuarterliesScreen()
-
-            val screen = fakeNavigator.awaitNextScreen()
-            screen shouldBeEqualTo LessonsScreen(index)
-
-            ensureAllEventsConsumed()
-        }
-    }
-
-    @Test
     fun `present - user authed - last index available - not reading latest quarterly - go to Lessons`() = runTest {
         val index = "index-1"
         fakeAuthRepository.userDelegate = { Result.success(SSUser.fake()) }
@@ -114,7 +91,7 @@ class HomePresenterTest {
         underTest.test {
             awaitItem()
 
-            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo QuarterliesScreen()
+            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo HomeNavScreen
 
             ensureAllEventsConsumed()
         }

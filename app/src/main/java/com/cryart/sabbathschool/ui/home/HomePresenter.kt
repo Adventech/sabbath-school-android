@@ -33,9 +33,8 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
-import ss.libraries.circuit.navigation.LessonsScreen
+import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.libraries.circuit.navigation.LoginScreen
-import ss.libraries.circuit.navigation.QuarterliesScreen
 import ss.prefs.api.SSPrefs
 
 class HomePresenter @AssistedInject constructor(
@@ -60,15 +59,11 @@ class HomePresenter @AssistedInject constructor(
                 dailyReminderManager.scheduleReminder()
             }
 
-            when {
-                user == null -> navigator.resetRoot(LoginScreen)
-                ssPrefs.getLastQuarterlyIndex() != null && ssPrefs.isReadingLatestQuarterly() -> {
-                    navigator.resetRoot(QuarterliesScreen())
-                    navigator.goTo(LessonsScreen(ssPrefs.getLastQuarterlyIndex()))
-                }
-
-                else -> navigator.resetRoot(QuarterliesScreen())
+            val screen = when {
+                user == null -> LoginScreen
+                else -> HomeNavScreen
             }
+            navigator.resetRoot(screen)
         }
 
         return HomeScreen.State
