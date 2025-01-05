@@ -30,6 +30,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
+import app.ss.lessons.components.LessonItemSpec
 import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.models.OfflineState
 import app.ss.models.PublishingInfo
@@ -133,7 +134,7 @@ class LessonsPresenter @AssistedInject constructor(
         when (event) {
             is Event.OnLessonClick -> {
                 if (event.lesson.pdfOnly) {
-                    goToPdfScreen(event.lesson.index, coroutineScope)
+                    goToPdfScreen(event.lesson, coroutineScope)
                 } else {
                     navigator.goTo(
                         LegacyDestination(
@@ -168,13 +169,13 @@ class LessonsPresenter @AssistedInject constructor(
         ssPrefs.setReadingLatestQuarterly(quarterly.isLatest())
     }
 
-    private fun goToPdfScreen(lessonIndex: String, scope: CoroutineScope) {
+    private fun goToPdfScreen(lesson: LessonItemSpec, scope: CoroutineScope) {
         scope.launch {
-            val resource = lessonsRepository.getLessonInfo(lessonIndex)
+            val resource = lessonsRepository.getLessonInfo(lesson.index, lesson.path)
             if (resource.isSuccessFul) {
                 val data = resource.data
                 val pdfs = data?.pdfs ?: return@launch
-                navigator.goTo(IntentScreen(pdfReader.launchIntent(pdfs, lessonIndex)))
+                navigator.goTo(IntentScreen(pdfReader.launchIntent(pdfs, lesson.index)))
             }
         }
     }

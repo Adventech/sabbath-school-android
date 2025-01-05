@@ -47,7 +47,10 @@ internal class LessonInfoDataSource @Inject constructor(
     connectivityHelper = connectivityHelper
 ) {
 
-    data class Request(val lessonIndex: String)
+    data class Request(
+        val lessonIndex: String,
+        val path: String,
+    )
 
     override val cache: LocalDataSource<SSLessonInfo, Request> = object : LocalDataSource<SSLessonInfo, Request> {
 
@@ -76,14 +79,8 @@ internal class LessonInfoDataSource @Inject constructor(
     override val network: DataSource<SSLessonInfo, Request> = object : DataSource<SSLessonInfo, Request> {
         override suspend fun getItem(request: Request): Resource<SSLessonInfo> {
             val error = Resource.error<SSLessonInfo>(Throwable(""))
-            val index = request.lessonIndex
 
-            val language = index.substringBefore('-')
-            val lessonId = index.substringAfterLast('-')
-            val quarterlyId = index.substringAfter('-')
-                .substringBeforeLast('-')
-
-            val resource = lessonsApi.getLessonInfo(language, quarterlyId, lessonId)
+            val resource = lessonsApi.getLessonInfo(request.path)
 
             return resource.body()?.let { Resource.success(it) } ?: error
         }

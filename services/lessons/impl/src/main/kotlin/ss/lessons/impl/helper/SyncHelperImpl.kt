@@ -93,10 +93,18 @@ internal class SyncHelperImpl @Inject constructor(
     }
 
     private suspend fun saveQuarterlyInfo(info: SSQuarterlyInfo) {
+        val quarterIndex = info.quarterly.index
         info.lessons.forEachIndexed { index, lesson ->
             lessonsDao.get(lesson.index)?.let { entity ->
-                lessonsDao.update(lesson.toEntity(index, entity.days, entity.pdfs))
-            } ?: run { lessonsDao.insertItem(lesson.toEntity(order = index)) }
+                lessonsDao.update(
+                    lesson.toEntity(
+                        quarter = quarterIndex,
+                        order = index,
+                        days = entity.days,
+                        pdfs = entity.pdfs,
+                    )
+                )
+            } ?: run { lessonsDao.insertItem(lesson.toEntity(quarterIndex, order = index)) }
         }
         val state = quarterliesDao.getOfflineState(info.quarterly.index) ?: OfflineState.NONE
         quarterliesDao.update(info.quarterly.toEntity(state))

@@ -60,6 +60,10 @@ class FakeLessonsApi : SSLessonsApi {
         return lessonInfoMap[key]!!
     }
 
+    override suspend fun getLessonInfo(lessonPath: String): Response<SSLessonInfo> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getDayRead(fullPath: String): Response<SSRead> = dayReadMap[fullPath]!!
 
     override suspend fun getPdfAnnotations(lessonIndex: String, pdfId: String): Response<List<AnnotationsPdf>> {

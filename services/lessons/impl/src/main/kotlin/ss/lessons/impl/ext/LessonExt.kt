@@ -29,12 +29,13 @@ import app.ss.models.SSLessonInfo
 import ss.libraries.storage.api.entity.LessonEntity
 
 internal fun SSLesson.toEntity(
+    quarter: String,
     order: Int,
     days: List<SSDay> = emptyList(),
     pdfs: List<LessonPdf> = emptyList(),
 ): LessonEntity = LessonEntity(
     index = index,
-    quarter = index.substringBeforeLast('-'),
+    quarter = quarter,
     title = title,
     start_date = start_date,
     end_date = end_date,

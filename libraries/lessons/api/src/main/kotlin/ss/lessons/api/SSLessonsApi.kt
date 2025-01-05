@@ -47,6 +47,11 @@ interface SSLessonsApi {
         @Path("lessonId") lessonId: String
     ): Response<SSLessonInfo>
 
+    @GET("api/v2/{lesson}/index.json")
+    suspend fun getLessonInfo(
+        @Path("lesson") lessonPath: String,
+    ): Response<SSLessonInfo>
+
     @GET
     suspend fun getDayRead(@Url fullPath: String): Response<SSRead>
 

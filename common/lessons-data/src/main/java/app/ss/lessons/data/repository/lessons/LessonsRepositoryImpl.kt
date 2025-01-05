@@ -44,13 +44,13 @@ internal class LessonsRepositoryImpl @Inject constructor(
     private val readerArtifactHelper: ReaderArtifactHelper
 ) : LessonsRepository {
 
-    override suspend fun getLessonInfo(lessonIndex: String, cached: Boolean): Resource<SSLessonInfo> {
+    override suspend fun getLessonInfo(lessonIndex: String, path: String, cached: Boolean): Resource<SSLessonInfo> {
         return if (cached) {
             withContext(dispatcherProvider.io) {
-                lessonInfoDataSource.cache.getItem(LessonInfoDataSource.Request(lessonIndex))
+                lessonInfoDataSource.cache.getItem(LessonInfoDataSource.Request(lessonIndex, path))
             }
         } else {
-            lessonInfoDataSource.getItem(LessonInfoDataSource.Request(lessonIndex))
+            lessonInfoDataSource.getItem(LessonInfoDataSource.Request(lessonIndex, path))
         }
     }
 
