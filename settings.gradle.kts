@@ -85,6 +85,7 @@ include(
     ":libraries:media:test-fixtures",
     ":libraries:prefs:api",
     ":libraries:prefs:model",
+    ":features:segment",
     ":libraries:storage:api",
     ":libraries:storage:test",
     ":libraries:test_utils",
