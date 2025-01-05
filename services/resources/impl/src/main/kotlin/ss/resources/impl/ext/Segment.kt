@@ -43,3 +43,22 @@ internal fun Segment.toEntity(): SegmentEntity {
         background = this.background,
     )
 }
+
+internal fun SegmentEntity.toModel(): Segment {
+    return Segment(
+        id = this.id,
+        index = this.index,
+        name = this.name,
+        title = this.title,
+        type = this.type,
+        resourceId = this.resourceId,
+        markdownTitle = this.markdownTitle,
+        subtitle = this.subtitle,
+        markdownSubtitle = this.markdownSubtitle,
+        titleBelowCover = this.titleBelowCover,
+        cover = this.cover,
+        blocks = this.blocks,
+        date = this.date,
+        background = this.background,
+    )
+}

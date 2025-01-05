@@ -30,6 +30,7 @@ import io.adventech.blockkit.model.feed.FeedGroup
 import io.adventech.blockkit.model.feed.FeedType
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.model.resource.ResourceDocument
+import io.adventech.blockkit.model.resource.Segment
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import ss.resources.api.ResourcesRepository
@@ -61,6 +62,10 @@ class FakeResourcesRepository(
     }
 
     override suspend fun document(index: String): Result<ResourceDocument> {
+        TODO("Not yet implemented")
+    }
+
+    override fun segment(index: String): Flow<Segment> {
         TODO("Not yet implemented")
     }
 

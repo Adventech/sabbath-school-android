@@ -29,6 +29,7 @@ import io.adventech.blockkit.model.feed.FeedGroup
 import io.adventech.blockkit.model.feed.FeedType
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.model.resource.ResourceDocument
+import io.adventech.blockkit.model.resource.Segment
 import kotlinx.coroutines.flow.Flow
 import ss.resources.model.FeedModel
 import ss.resources.model.LanguageModel
@@ -46,6 +47,8 @@ interface ResourcesRepository {
     suspend fun resource(index: String): Result<Resource>
 
     suspend fun document(index: String): Result<ResourceDocument>
+
+    fun segment(index: String): Flow<Segment>
 
     suspend fun audio(resourceIndex: String, documentIndex: String): Result<List<AudioAux>>
 

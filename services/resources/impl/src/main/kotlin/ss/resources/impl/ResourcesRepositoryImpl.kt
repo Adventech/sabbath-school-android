@@ -40,6 +40,7 @@ import io.adventech.blockkit.model.feed.FeedGroup
 import io.adventech.blockkit.model.feed.FeedType
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.model.resource.ResourceDocument
+import io.adventech.blockkit.model.resource.Segment
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filter
@@ -58,6 +59,7 @@ import ss.libraries.storage.api.entity.LanguageEntity
 import ss.prefs.api.SSPrefs
 import ss.resources.api.ResourcesRepository
 import ss.resources.impl.ext.toEntity
+import ss.resources.impl.ext.toModel
 import ss.resources.impl.sync.SyncHelper
 import ss.resources.impl.work.DownloadResourceWork
 import ss.resources.model.FeedModel
@@ -211,6 +213,12 @@ internal class ResourcesRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override fun segment(index: String): Flow<Segment> = segmentsDao.get(index)
+        .filterNotNull()
+        .map { it.toModel() }
+        .flowOn(dispatcherProvider.io)
+        .catch { Timber.e(it) }
 
     override suspend fun audio(resourceIndex: String, documentIndex: String): Result<List<AudioAux>> {
         return withContext(dispatcherProvider.default) {
