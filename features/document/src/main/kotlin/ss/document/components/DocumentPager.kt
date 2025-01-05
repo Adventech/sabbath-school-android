@@ -22,48 +22,36 @@
 
 package ss.document.components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import app.ss.design.compose.extensions.modifier.thenIf
-import app.ss.design.compose.theme.SsTheme
-import io.adventech.blockkit.model.BlockData
-import io.adventech.blockkit.model.SegmentStyle
+import androidx.compose.ui.platform.LocalConfiguration
+import com.slack.circuit.foundation.CircuitContent
 import io.adventech.blockkit.model.resource.Segment
-import io.adventech.blockkit.model.resource.SegmentType
-import io.adventech.blockkit.ui.style.LocalReaderStyle
-import io.adventech.blockkit.ui.style.background
 import kotlinx.collections.immutable.ImmutableList
-import ss.document.components.segment.SegmentBlockView
-import ss.document.components.segment.SegmentCover
-import ss.document.components.segment.SegmentHeader
+import ss.libraries.circuit.navigation.SegmentScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DocumentPager(
     segments: ImmutableList<Segment>,
-    selectedSegment: Segment?,
     titleBelowCover: Boolean,
     modifier: Modifier = Modifier,
     initialPage: Int = 0,
-    segmentStyle: SegmentStyle? = null,
-    listState: LazyListState = rememberLazyListState(),
     onPageChange: (Int) -> Unit = {},
-    onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
+    onCollapseChange: (Boolean) -> Unit = {}
 ) {
     val pagerState = rememberPagerState(
         initialPage = initialPage,
@@ -72,80 +60,39 @@ fun DocumentPager(
 
     LaunchedEffect(initialPage) { pagerState.animateScrollToPage(initialPage) }
 
-    val readerStyle = LocalReaderStyle.current
+    val screenHeight = LocalConfiguration.current.screenHeightDp
+    var coverHeight by remember { mutableIntStateOf(0) }
+    val scrollState = rememberScrollState()
+    val pageCollapsed by remember { derivedStateOf { scrollState.value > coverHeight } }
 
-    LazyColumn(
-        modifier = modifier.fillMaxSize(),
-        state = listState,
-    ) {
-        item("cover") {
-            SegmentCover(
-                cover = selectedSegment?.cover,
-                headerContent = { dominantColor ->
-                    if (titleBelowCover == false && selectedSegment != null) {
-                        val gradient = remember(dominantColor) {
-                            Brush.verticalGradient(
-                                colors = listOf(
-                                    Color.Transparent,
-                                    Color.Black.copy(0.1f),
-                                    dominantColor,
-                                )
-                            )
-                        }
+    LaunchedEffect(pageCollapsed) {
+        onCollapseChange(pageCollapsed)
+    }
 
-                        SegmentHeader(
-                            title = selectedSegment.title,
-                            subtitle = selectedSegment.subtitle,
-                            date = selectedSegment.date,
-                            contentColor = if (selectedSegment.cover != null) Color.White else SsTheme.colors.primaryForeground,
-                            style = segmentStyle.takeIf { selectedSegment.cover == null },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .thenIf(selectedSegment.cover != null) {
-                                    background(gradient)
-                                }
-                        )
-                    }
-                }
-            )
+    HorizontalPager(
+        state = pagerState,
+        modifier = modifier,
+        verticalAlignment = Alignment.Top,
+        beyondViewportPageCount = 1,
+    ) { page ->
+        val segment = segments[page]
+
+        coverHeight = if (segment.cover == null) {
+            (screenHeight * 0.25).toInt()
+        } else {
+            (screenHeight * 0.85).toInt()
         }
 
-        if (titleBelowCover && selectedSegment != null) {
-            item("header") {
-                SegmentHeader(
-                    title = selectedSegment.title,
-                    subtitle = selectedSegment.subtitle,
-                    date = selectedSegment.date,
-                    contentColor = SsTheme.colors.primaryForeground,
-                    style = segmentStyle,
-                    modifier = Modifier.fillMaxWidth()
-                        .background(readerStyle.theme.background())
-                )
-            }
-        }
+        CircuitContent(
+            screen = SegmentScreen(segment.id, titleBelowCover, segment.cover),
+            modifier = Modifier.verticalScroll(scrollState),
+            onNavEvent = {}
+        )
+    }
 
-        item {
-            HorizontalPager(
-                state = pagerState,
-                modifier = Modifier,
-                verticalAlignment = Alignment.Top,
-                beyondViewportPageCount = 1,
-            ) { page ->
-                val segment = segments[page]
-                when (segment.type) {
-                    SegmentType.UNKNOWN -> Unit
-                    SegmentType.BLOCK -> SegmentBlockView(segment, onHandleUri = onHandleUri)
-                    SegmentType.STORY -> Unit
-                    SegmentType.PDF -> Unit
-                    SegmentType.VIDEO -> Unit
-                }
-            }
-
-            LaunchedEffect(pagerState) {
-                snapshotFlow { pagerState.currentPage }.collect { page ->
-                    onPageChange(page)
-                }
-            }
+    LaunchedEffect(pagerState) {
+        snapshotFlow { pagerState.currentPage }.collect { page ->
+            onPageChange(page)
         }
     }
 }

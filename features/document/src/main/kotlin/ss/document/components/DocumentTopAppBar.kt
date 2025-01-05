@@ -73,7 +73,7 @@ import app.ss.design.compose.widget.icon.Icons
 import io.adventech.blockkit.model.resource.Segment
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import ss.document.components.segment.dateDisplay
+import ss.misc.DateHelper
 import androidx.compose.material.icons.Icons as MaterialIcons
 import app.ss.translations.R as L10nR
 
@@ -342,4 +342,8 @@ private fun DocumentSegmentDropdown(
 
         IconBox(Icons.ArrowDropDown)
     }
+}
+
+internal fun String?.dateDisplay(): String? {
+    return this?.let { DateHelper.formatDate(it) }
 }

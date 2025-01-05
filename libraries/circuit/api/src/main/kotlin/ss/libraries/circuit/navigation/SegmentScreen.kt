@@ -26,4 +26,8 @@ import com.slack.circuit.runtime.screen.Screen
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class SegmentScreen(val id: String) : Screen
+data class SegmentScreen(
+    val id: String,
+    val titleBelowCover: Boolean,
+    val cover: String?
+) : Screen

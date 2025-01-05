@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025. Adventech <info@adventech.io>
+ * Copyright (c) 2024. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,27 +20,19 @@
  * THE SOFTWARE.
  */
 
-package ss.segment
+package ss.segment.di
 
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
-import io.adventech.blockkit.model.BlockData
-import io.adventech.blockkit.model.resource.Segment
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import ss.segment.producer.OverlayStateProducer
+import ss.segment.producer.OverlayStateProducerImpl
 
-sealed interface State : CircuitUiState {
-    data object Loading : State
+@Module
+@InstallIn(SingletonComponent::class)
+internal abstract class BindingsModule {
 
-    data class Content(
-        val segment: Segment,
-        val titleBelowCover: Boolean,
-        val overlayState: OverlayStateProducer.State,
-        val eventSink: (Event) -> Unit
-    ) : State
-}
-
-sealed interface Event : CircuitUiEvent {
-    sealed interface Blocks : Event {
-        data class OnHandleUri(val uri: String, val data: BlockData?) : Blocks
-    }
+    @Binds
+    internal abstract fun bindOverlayStateProducer(impl: OverlayStateProducerImpl): OverlayStateProducer
 }

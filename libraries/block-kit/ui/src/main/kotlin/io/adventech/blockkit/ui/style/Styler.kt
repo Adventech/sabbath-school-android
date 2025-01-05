@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.adventech.blockkit.model.BlockLevelStyle
 import io.adventech.blockkit.model.BlocksStyle
+import io.adventech.blockkit.model.SegmentStyle
 import io.adventech.blockkit.model.SpacingStyle
 import io.adventech.blockkit.model.TextStyleAlignment
 import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
@@ -166,3 +167,4 @@ object Styler {
 
 
 val LocalBlocksStyle = staticCompositionLocalOf<BlocksStyle?> { null }
+val LocalSegmentStyle = staticCompositionLocalOf<SegmentStyle?> { null }

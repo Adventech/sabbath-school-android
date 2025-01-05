@@ -23,7 +23,6 @@
 package ss.document
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -31,24 +30,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import app.ss.design.compose.widget.scaffold.SystemUiEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
-import com.slack.circuit.overlay.OverlayEffect
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.ui.style.LocalBlocksStyle
+import io.adventech.blockkit.ui.style.LocalSegmentStyle
 import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
 import kotlinx.collections.immutable.persistentListOf
 import ss.document.components.DocumentLoadingView
 import ss.document.components.DocumentPager
 import ss.document.components.DocumentTitleBar
 import ss.document.components.DocumentTopAppBar
-import ss.document.components.segment.overlay.BlocksOverlay
-import ss.document.components.segment.overlay.ExcerptOverlay
-import ss.document.producer.OverlayStateProducer
 import ss.libraries.circuit.navigation.DocumentScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,8 +55,7 @@ import ss.libraries.circuit.navigation.DocumentScreen
 fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
-    val listState = rememberLazyListState()
-    val collapsed by remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
+    var collapsed by remember { mutableStateOf(false) }
     val toolbarTitle by remember(state) { derivedStateOf { if (collapsed) state.title else "" } }
     val isSystemInDarkTheme = isSystemInDarkTheme()
     val lightStatusBar by remember(isSystemInDarkTheme, state.hasCover, collapsed) {
@@ -107,17 +104,16 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
             is State.Success -> {
                 CompositionLocalProvider(
                     LocalFontFamilyProvider provides state.fontFamilyProvider,
-                    LocalBlocksStyle provides state.style?.blocks
+                    LocalBlocksStyle provides state.style?.blocks,
+                    LocalSegmentStyle provides state.style?.segment,
                 ) {
                     DocumentPager(
                         segments = state.segments,
-                        selectedSegment = state.selectedSegment,
                         titleBelowCover = state.titleBelowCover,
+                        modifier = Modifier,
                         initialPage = state.initialPage,
-                        segmentStyle = state.style?.segment,
-                        listState = listState,
                         onPageChange = { state.eventSink(SuccessEvent.OnPageChange(it)) },
-                        onHandleUri = { uri, data -> state.eventSink(Event.Blocks.OnHandleUri(uri, data)) }
+                        onCollapseChange = { collapsed = it }
                     )
                 }
             }
@@ -125,16 +121,4 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
     }
 
     SystemUiEffect(lightStatusBar)
-
-    OverlayEffect(state.overlayState) {
-        when (val state = state.overlayState) {
-            is OverlayStateProducer.State.None -> Unit
-            is OverlayStateProducer.State.Excerpt -> state.onResult(
-                show(ExcerptOverlay(state.state))
-            )
-            is OverlayStateProducer.State.Blocks -> state.onResult(
-                show(BlocksOverlay(state.state))
-            )
-        }
-    }
 }

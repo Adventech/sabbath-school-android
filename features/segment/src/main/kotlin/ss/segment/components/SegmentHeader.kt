@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package ss.document.components.segment
+package ss.segment.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -39,7 +39,7 @@ import io.adventech.blockkit.ui.style.Styler
 import ss.misc.DateHelper
 
 @Composable
-fun SegmentHeader(
+internal fun SegmentHeader(
     title: String,
     subtitle: String?,
     date: String?,

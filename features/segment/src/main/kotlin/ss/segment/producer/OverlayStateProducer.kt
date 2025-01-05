@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package ss.document.producer
+package ss.segment.producer
 
 import android.net.Uri
 import androidx.compose.runtime.Composable
@@ -33,9 +33,9 @@ import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import io.adventech.blockkit.model.BlockData
 import kotlinx.collections.immutable.toImmutableList
-import ss.document.components.segment.overlay.BlocksOverlay
-import ss.document.components.segment.overlay.ExcerptOverlay
-import ss.document.producer.OverlayStateProducer.State
+import ss.segment.components.overlay.BlocksOverlay
+import ss.segment.components.overlay.ExcerptOverlay
+import ss.segment.producer.OverlayStateProducer.State
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -71,7 +71,7 @@ private const val SCHEME_BIBLE = "sspmBible"
 private const val SCHEME_EGW = "sspmEGW"
 private const val SCHEME_COMPLETION = "sspmCompletion"
 
-class OverlayStateProducerImpl @Inject constructor() : OverlayStateProducer {
+internal class OverlayStateProducerImpl @Inject constructor() : OverlayStateProducer {
 
     @Composable
     override fun invoke(): State {
@@ -86,7 +86,11 @@ class OverlayStateProducerImpl @Inject constructor() : OverlayStateProducer {
                         SCHEME_BIBLE -> {
                             val excerpt = data?.bible?.get(uri.host) ?: return@None
 
-                            overlayState = State.Excerpt(ExcerptOverlay.State(excerpt = excerpt)) {
+                            overlayState = State.Excerpt(
+                                ExcerptOverlay.State(
+                                    excerpt = excerpt
+                                )
+                            ) {
                                 overlayState = null
                             }
                         }

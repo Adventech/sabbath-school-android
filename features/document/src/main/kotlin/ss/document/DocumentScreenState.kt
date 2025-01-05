@@ -24,24 +24,20 @@ package ss.document
 
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
-import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.Style
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import kotlinx.collections.immutable.ImmutableList
 import ss.document.components.DocumentTopAppBarAction
-import ss.document.producer.OverlayStateProducer
 
 sealed interface State : CircuitUiState {
     val title: String
     val hasCover: Boolean
-    val overlayState: OverlayStateProducer.State
     val eventSink: (Event) -> Unit
 
     data class Loading(
         override val title: String,
         override val hasCover: Boolean,
-        override val overlayState: OverlayStateProducer.State,
         override val eventSink: (Event) -> Unit) : State
 
     data class Success(
@@ -55,7 +51,6 @@ sealed interface State : CircuitUiState {
         val titleBelowCover: Boolean,
         val style: Style?,
         val fontFamilyProvider: FontFamilyProvider,
-        override val overlayState: OverlayStateProducer.State,
     ) : State
 
 }
@@ -64,10 +59,6 @@ sealed interface Event : CircuitUiEvent {
 
     /** Navigation icon is clicked. */
     data object OnNavBack : Event
-
-    sealed interface Blocks : Event {
-        data class OnHandleUri(val uri: String, val data: BlockData?) : Blocks
-    }
 }
 
 sealed interface SuccessEvent : Event {

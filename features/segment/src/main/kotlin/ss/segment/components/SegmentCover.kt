@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package ss.document.components.segment
+package ss.segment.components
 
 import android.graphics.drawable.BitmapDrawable
 import androidx.compose.foundation.layout.Box
@@ -40,11 +40,9 @@ import androidx.palette.graphics.Palette
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
-import io.adventech.blockkit.model.resource.Segment
-import io.adventech.blockkit.model.resource.SegmentType
 
 @Composable
-fun SegmentCover(
+internal fun SegmentCover(
     cover: String?,
     modifier: Modifier = Modifier,
     headerContent: (@Composable (Color) -> Unit)? = null,
@@ -85,8 +83,4 @@ fun SegmentCover(
             headerContent?.invoke(contentColor.value)
         }
     }
-}
-
-internal fun Segment.hasCover(): Boolean {
-    return type == SegmentType.BLOCK && cover != null
 }

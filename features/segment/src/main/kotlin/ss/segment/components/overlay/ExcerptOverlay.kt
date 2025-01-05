@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package ss.document.components.segment.overlay
+package ss.segment.components.overlay
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -97,8 +97,7 @@ class ExcerptOverlay(private val state: State) : Overlay<ExcerptOverlay.Result> 
                         .wrapContentHeight()
                         .clickable { navigator.finish(Result.Dismissed) }
                         .safeDrawingPadding()
-                        .padding(horizontal = SsTheme.dimens.grid_4, vertical = SsTheme.dimens.grid_8)
-                        .padding(bottom = SsTheme.dimens.grid_4),
+                        .padding(horizontal = SsTheme.dimens.grid_4, vertical = SsTheme.dimens.grid_8),
                     shape = AlertDialogDefaults.shape,
                     color = AlertDialogDefaults.containerColor,
                     tonalElevation = AlertDialogDefaults.TonalElevation,

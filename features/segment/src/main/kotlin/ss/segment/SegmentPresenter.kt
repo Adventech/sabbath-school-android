@@ -26,7 +26,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
-import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -35,33 +34,49 @@ import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.model.resource.Segment
 import ss.libraries.circuit.navigation.SegmentScreen
 import ss.resources.api.ResourcesRepository
+import ss.segment.producer.OverlayStateProducer
+import ss.segment.producer.OverlayStateProducer.Event as OverlayEvent
+import ss.segment.producer.OverlayStateProducer.State as OverlayState
 
 class SegmentPresenter @AssistedInject constructor(
-    @Assisted private val navigator: Navigator,
     @Assisted private val screen: SegmentScreen,
     private val repository: ResourcesRepository,
+    private val overlayStateProducer: OverlayStateProducer,
 ) : Presenter<State> {
 
     @Composable
     override fun present(): State {
         val resource by rememberSegment()
 
+        val overlayState = overlayStateProducer()
+
+        val eventSink: (Event) -> Unit = { event ->
+            when (event) {
+                is Event.Blocks.OnHandleUri -> {
+                    (overlayState as? OverlayState.None)?.eventSink(OverlayEvent.OnHandleUri(event.uri, event.data))
+                }
+            }
+        }
+
         val segment = resource
 
         return when {
             segment == null -> State.Loading
-            else -> State.Content(segment)
+            else -> State.Content(segment, screen.titleBelowCover, overlayState, eventSink)
         }
     }
 
     @Composable
     private fun rememberSegment() = produceRetainedState<Segment?>(initialValue = null) {
-        repository.segment(screen.id).collect { value = it }
+        repository.segment(screen.id)
+            .collect {
+                value = it.copy(cover = it.cover ?: screen.cover)
+            }
     }
 
     @CircuitInject(SegmentScreen::class, SingletonComponent::class)
     @AssistedFactory
     interface Factory {
-        fun create(navigator: Navigator, screen: SegmentScreen): SegmentPresenter
+        fun create(screen: SegmentScreen): SegmentPresenter
     }
 }
