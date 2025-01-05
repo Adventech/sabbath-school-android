@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,31 +20,16 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.foundry.base)
-    alias(libs.plugins.hilt)
-}
+package ss.libraries.storage.api.dao
 
-android {
-    namespace = "ss.services.storage.impl"
-}
+import androidx.room.Dao
+import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
+import ss.libraries.storage.api.entity.SegmentEntity
 
-ksp { arg("room.schemaLocation", "$projectDir/schemas") }
+@Dao
+interface SegmentsDao: BaseDao<SegmentEntity> {
 
-dependencies {
-    api(projects.libraries.storage.api)
-
-    implementation(libs.androidx.room)
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.google.hilt.android)
-    implementation(libs.moshix.adapters)
-    implementation(libs.square.moshi.kotlin)
-    implementation(libs.timber)
-
-    ksp(libs.androidx.room.compiler)
-    ksp(libs.google.hilt.compiler)
-    ksp(libs.square.moshi.codegen)
+    @Query("SELECT * FROM segments WHERE id = :id")
+    fun get(id: String): Flow<SegmentEntity?>
 }

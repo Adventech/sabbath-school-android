@@ -40,6 +40,7 @@ import ss.libraries.storage.api.dao.QuarterliesDao
 import ss.libraries.storage.api.dao.ReadCommentsDao
 import ss.libraries.storage.api.dao.ReadHighlightsDao
 import ss.libraries.storage.api.dao.ReadsDao
+import ss.libraries.storage.api.dao.SegmentsDao
 import ss.libraries.storage.api.dao.UserDao
 import ss.libraries.storage.api.dao.VideoClipsDao
 import ss.libraries.storage.api.dao.VideoInfoDao
@@ -55,6 +56,7 @@ import ss.libraries.storage.api.entity.QuarterlyEntity
 import ss.libraries.storage.api.entity.ReadCommentsEntity
 import ss.libraries.storage.api.entity.ReadEntity
 import ss.libraries.storage.api.entity.ReadHighlightsEntity
+import ss.libraries.storage.api.entity.SegmentEntity
 import ss.libraries.storage.api.entity.UserEntity
 import ss.libraries.storage.api.entity.VideoClipEntity
 import ss.libraries.storage.api.entity.VideoInfoEntity
@@ -76,8 +78,9 @@ import ss.libraries.storage.api.entity.VideoInfoEntity
         BibleVersionEntity::class,
         AppWidgetEntity::class,
         FontFileEntity::class,
+        SegmentEntity::class,
     ],
-    version = 17,
+    version = 18,
     exportSchema = true,
     autoMigrations = [
         AutoMigration(from = 2, to = 3),
@@ -95,6 +98,7 @@ import ss.libraries.storage.api.entity.VideoInfoEntity
         AutoMigration(from = 14, to = 15),
         AutoMigration(from = 15, to = 16),
         AutoMigration(from = 16, to = 17),
+        AutoMigration(from = 17, to = 18),
     ]
 )
 @TypeConverters(Converters::class)
@@ -129,6 +133,8 @@ internal abstract class SabbathSchoolDatabase : RoomDatabase() {
     abstract fun appWidgetDao(): AppWidgetDao
 
     abstract fun fontFilesDao(): FontFilesDao
+
+    abstract fun segmentsDao(): SegmentsDao
 
     companion object {
         private const val DATABASE_NAME = "sabbath_school_db"

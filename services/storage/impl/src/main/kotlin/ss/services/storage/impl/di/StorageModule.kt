@@ -40,6 +40,7 @@ import ss.libraries.storage.api.dao.QuarterliesDao
 import ss.libraries.storage.api.dao.ReadCommentsDao
 import ss.libraries.storage.api.dao.ReadHighlightsDao
 import ss.libraries.storage.api.dao.ReadsDao
+import ss.libraries.storage.api.dao.SegmentsDao
 import ss.libraries.storage.api.dao.UserDao
 import ss.libraries.storage.api.dao.VideoClipsDao
 import ss.libraries.storage.api.dao.VideoInfoDao
@@ -140,6 +141,12 @@ object StorageModule {
     fun provideFontFilesDao(
         @ApplicationContext context: Context
     ): FontFilesDao = context.database().fontFilesDao()
+
+    @Provides
+    @Singleton
+    fun provideSegmentsDao(
+        @ApplicationContext context: Context
+    ): SegmentsDao = context.database().segmentsDao()
 }
 
 private fun Context.database(): SabbathSchoolDatabase = SabbathSchoolDatabase.getInstance(this)

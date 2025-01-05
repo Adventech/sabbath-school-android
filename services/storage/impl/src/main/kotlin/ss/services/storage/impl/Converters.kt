@@ -35,6 +35,8 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import dev.zacsweers.moshix.adapters.AdaptedBy
+import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.resource.Credit
 import io.adventech.blockkit.model.resource.Feature
 import timber.log.Timber
@@ -44,6 +46,7 @@ internal object Converters {
 
     private val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
+        .add(AdaptedBy.Factory())
         .build()
 
     private val quarterlyGroupAdapter: JsonAdapter<QuarterlyGroup> by lazy {
@@ -86,6 +89,10 @@ internal object Converters {
     }
     private val widgetDaysAdapter: JsonAdapter<List<AppWidgetDay>> by lazy {
         val listDataType: Type = Types.newParameterizedType(List::class.java, AppWidgetDay::class.java)
+        moshi.adapter(listDataType)
+    }
+    private val blockItemsAdapter: JsonAdapter<List<BlockItem>> by lazy {
+        val listDataType: Type = Types.newParameterizedType(List::class.java, BlockItem::class.java)
         moshi.adapter(listDataType)
     }
 
@@ -184,4 +191,12 @@ internal object Converters {
 
     @TypeConverter
     fun fromWidgetDays(videos: List<AppWidgetDay>?): String? = widgetDaysAdapter.toJson(videos)
+
+    @TypeConverter
+    fun toBlockItems(value: String?): List<BlockItem>? = value?.let { jsonString ->
+        blockItemsAdapter.fromJson(jsonString)
+    }
+
+    @TypeConverter
+    fun fromBlockItems(videos: List<BlockItem>?): String? = blockItemsAdapter.toJson(videos)
 }

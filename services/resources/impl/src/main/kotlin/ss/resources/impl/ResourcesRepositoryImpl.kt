@@ -53,9 +53,11 @@ import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.ResourcesApi
 import ss.libraries.storage.api.dao.FontFilesDao
 import ss.libraries.storage.api.dao.LanguagesDao
+import ss.libraries.storage.api.dao.SegmentsDao
 import ss.libraries.storage.api.entity.LanguageEntity
 import ss.prefs.api.SSPrefs
 import ss.resources.api.ResourcesRepository
+import ss.resources.impl.ext.toEntity
 import ss.resources.impl.sync.SyncHelper
 import ss.resources.impl.work.DownloadResourceWork
 import ss.resources.model.FeedModel
@@ -69,6 +71,7 @@ internal class ResourcesRepositoryImpl @Inject constructor(
     private val resourcesApi: ResourcesApi,
     private val fontFilesDao: FontFilesDao,
     private val languagesDao: LanguagesDao,
+    private val segmentsDao: SegmentsDao,
     private val syncHelper: SyncHelper,
     private val dispatcherProvider: DispatcherProvider,
     private val connectivityHelper: ConnectivityHelper,
@@ -177,7 +180,7 @@ internal class ResourcesRepositoryImpl @Inject constructor(
             .build()
         val request = OneTimeWorkRequestBuilder<DownloadResourceWork>()
             .setConstraints(constraints)
-            .setInputData(workDataOf(DownloadResourceWork.INDEX_KEY to index,))
+            .setInputData(workDataOf(DownloadResourceWork.INDEX_KEY to index))
             .build()
 
         val workManager = WorkManager.getInstance(appContext)
@@ -199,6 +202,9 @@ internal class ResourcesRepositoryImpl @Inject constructor(
 
                 is NetworkResource.Success -> {
                     resource.value.body()?.let {
+                        withContext(dispatcherProvider.io) {
+                            segmentsDao.insertAll(it.segments.orEmpty().map { it.toEntity() })
+                        }
                         Result.success(it)
                     } ?: Result.failure(Throwable("Failed to fetch Document, body is null"))
                 }
