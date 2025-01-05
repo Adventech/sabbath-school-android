@@ -9,7 +9,7 @@ import com.cryart.sabbathschool.test.di.mock.MockDataFactory
 import javax.inject.Inject
 
 class FakeLessonsRepository @Inject constructor() : LessonsRepository {
-    override suspend fun getLessonInfo(lessonIndex: String, cached: Boolean): Resource<SSLessonInfo> {
+    override suspend fun getLessonInfo(lessonIndex: String, path: String, cached: Boolean): Resource<SSLessonInfo> {
         return Resource.success(MockDataFactory.lessonInfo())
     }
 

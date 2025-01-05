@@ -52,7 +52,8 @@ data class LessonItemSpec(
     val displayIndex: String,
     val title: String,
     val date: String,
-    val pdfOnly: Boolean
+    val pdfOnly: Boolean,
+    val path: String,
 )
 
 @Immutable
@@ -69,7 +70,8 @@ internal fun SSLesson.toSpec(): LessonItemSpec = LessonItemSpec(
     },
     title = title,
     date = dateDisplay(),
-    pdfOnly = pdfOnly
+    pdfOnly = pdfOnly,
+    path = path,
 )
 
 private fun SSLesson.dateDisplay(): String {
@@ -164,7 +166,8 @@ private fun LessonItemPreview() {
                     displayIndex = "1",
                     title = "Lesson Title",
                     date = "June 25 - July 01",
-                    pdfOnly = false
+                    pdfOnly = false,
+                    path = "path"
                 )
             )
         }

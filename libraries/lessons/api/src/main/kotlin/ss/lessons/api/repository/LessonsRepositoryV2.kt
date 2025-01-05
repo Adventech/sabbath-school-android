@@ -32,7 +32,7 @@ interface LessonsRepositoryV2 {
 
     fun getLessonInfo(lessonIndex: String): Flow<Result<SSLessonInfo>>
 
-    suspend fun getLessonInfoResult(lessonIndex: String): Result<SSLessonInfo>
+    suspend fun getLessonInfoResult(lessonIndex: String, path: String): Result<SSLessonInfo>
 
     fun getDayRead(day: SSDay): Flow<Result<SSRead>>
 

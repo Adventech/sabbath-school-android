@@ -89,13 +89,13 @@ internal class LessonsRepositoryV2Impl @Inject constructor(
             emit(Result.failure(it))
         }
 
-    override suspend fun getLessonInfoResult(lessonIndex: String): Result<SSLessonInfo> {
+    override suspend fun getLessonInfoResult(lessonIndex: String, path: String): Result<SSLessonInfo> {
         val cached = withContext(dispatcherProvider.io) {
             lessonsDao.get(lessonIndex)?.takeUnless { it.days.isEmpty() }
         }
 
         return if (cached == null) {
-            fetchLessonInfo(lessonIndex)?.let {
+            fetchLessonInfo(path)?.let {
                 Result.success(it.toInfoModel())
             } ?: Result.failure(Throwable("Failed to fetch Lesson Info: $lessonIndex"))
         } else {
@@ -104,28 +104,30 @@ internal class LessonsRepositoryV2Impl @Inject constructor(
     }
 
     private fun syncLessonInfo(lessonIndex: String) = scope.launch(exceptionLogger) {
-        val entity = fetchLessonInfo(lessonIndex) ?: return@launch
-        lessonsDao.insertItem(entity)
+        val entity = lessonsDao.get(lessonIndex) ?: return@launch
+        val updated = fetchLessonInfo(entity.path) ?: return@launch
+        lessonsDao.insertItem(updated)
     }
 
-    private suspend fun fetchLessonInfo(lessonIndex: String): LessonEntity? {
-        val (language, lessonId, quarterlyId) = lessonIndex.run {
-            Triple(
-                substringBefore('-'),
-                substringAfterLast('-'),
-                substringAfter('-')
-                    .substringBeforeLast('-')
-            )
-        }
-        return when (val response = safeApiCall(connectivityHelper) { lessonsApi.getLessonInfo(language, quarterlyId, lessonId) }) {
+    private suspend fun fetchLessonInfo(path: String): LessonEntity? {
+        val parts = path.split("/")
+        require(parts.size >= 5) { "Invalid path format $path" }
+
+        val language = parts[0]
+        val quarterlyId = parts[2]
+
+        return when (val response = safeApiCall(connectivityHelper) { lessonsApi.getLessonInfo(path) }) {
             is NetworkResource.Failure -> {
                 Timber.e("Failed to fetch Lesson Info: isNetwork=${response.isNetworkError}, ${response.errorBody}")
                 null
             }
 
             is NetworkResource.Success -> response.value.body()?.let { info ->
-                val order = lessonsDao.get(info.lesson.index)?.order ?: 0
-                info.lesson.toEntity(order, info.days, info.pdfs)
+                val lesson = lessonsDao.get(info.lesson.index)
+                val quarterlyIndex = lesson?.quarter ?: "$language-$quarterlyId"
+                val order = lesson?.order ?: 0
+
+                info.lesson.toEntity(quarterlyIndex, order, info.days, info.pdfs)
             }
         }
     }

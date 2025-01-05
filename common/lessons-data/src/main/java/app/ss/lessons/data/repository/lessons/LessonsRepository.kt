@@ -29,7 +29,7 @@ import com.cryart.sabbathschool.core.response.Resource
 
 interface LessonsRepository {
 
-    suspend fun getLessonInfo(lessonIndex: String, cached: Boolean = false): Resource<SSLessonInfo>
+    suspend fun getLessonInfo(lessonIndex: String, path: String, cached: Boolean = false): Resource<SSLessonInfo>
 
     suspend fun getDayRead(dayIndex: String): Resource<SSRead>
 

@@ -120,8 +120,10 @@ class AppWidgetHelperImpl @Inject constructor(
             quarterliesRepository.getQuarterlyInfo(index).onSuccess { quarterlyInfo ->
                 // Only sync the latest quarterly
                 if (isNowInRange(quarterlyInfo.quarterly.start_date, quarterlyInfo.quarterly.end_date)) {
-                    val lessonIndex = quarterlyInfo.lessons.firstOrNull { it.isCurrent() }?.index ?: return@launch
-                    lessonsRepository.getLessonInfoResult(lessonIndex).onSuccess { info ->
+                    val lesson = quarterlyInfo.lessons.firstOrNull { it.isCurrent() } ?: return@launch
+                    val lessonIndex = lesson.index
+                    val lessonPath = lesson.path
+                    lessonsRepository.getLessonInfoResult(lessonIndex, lessonPath).onSuccess { info ->
                         val (lesson, days, _) = info
 
                         val entity = AppWidgetEntity(

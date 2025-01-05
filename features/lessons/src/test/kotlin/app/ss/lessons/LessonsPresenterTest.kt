@@ -109,6 +109,7 @@ class LessonsPresenterTest {
                         title = "Lesson title",
                         date = "2024-02-01",
                         pdfOnly = false,
+                        path = "path"
                     )
                 )
             )
@@ -163,6 +164,7 @@ class LessonsPresenterTest {
                         title = "Lesson title",
                         date = "2024-02-01",
                         pdfOnly = true,
+                        path = "path"
                     )
                 )
             )
@@ -299,7 +301,7 @@ private class FakeLessonsRepository : LessonsRepository {
         throw IllegalStateException("Unexpected call")
     }
 
-    override suspend fun getLessonInfo(lessonIndex: String, cached: Boolean): Resource<SSLessonInfo> {
+    override suspend fun getLessonInfo(lessonIndex: String, path: String, cached: Boolean): Resource<SSLessonInfo> {
         return getLessonInfoDelegate(lessonIndex)
     }
 
