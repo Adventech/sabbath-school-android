@@ -39,6 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import com.slack.circuit.foundation.CircuitContent
+import com.slack.circuit.foundation.NavEvent
 import io.adventech.blockkit.model.resource.Segment
 import kotlinx.collections.immutable.ImmutableList
 import ss.libraries.circuit.navigation.SegmentScreen
@@ -51,7 +52,8 @@ fun DocumentPager(
     modifier: Modifier = Modifier,
     initialPage: Int = 0,
     onPageChange: (Int) -> Unit = {},
-    onCollapseChange: (Boolean) -> Unit = {}
+    onCollapseChange: (Boolean) -> Unit = {},
+    onNavEvent: (NavEvent) -> Unit = {},
 ) {
     val pagerState = rememberPagerState(
         initialPage = initialPage,
@@ -86,7 +88,7 @@ fun DocumentPager(
         CircuitContent(
             screen = SegmentScreen(segment.id, titleBelowCover, segment.cover),
             modifier = Modifier.verticalScroll(scrollState),
-            onNavEvent = {}
+            onNavEvent = onNavEvent
         )
     }
 

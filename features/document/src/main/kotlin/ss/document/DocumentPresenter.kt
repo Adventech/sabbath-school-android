@@ -27,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.foundation.onNavEvent
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
@@ -71,6 +72,10 @@ class DocumentPresenter @AssistedInject constructor(
 
                 is SuccessEvent.OnSegmentSelection -> {
                     selectedPage = event.segment
+                }
+
+                is SuccessEvent.OnNavEvent -> {
+                    navigator.onNavEvent(event.event)
                 }
             }
         }

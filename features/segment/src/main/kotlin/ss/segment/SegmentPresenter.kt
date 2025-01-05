@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
+import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -39,6 +40,7 @@ import ss.segment.producer.OverlayStateProducer.Event as OverlayEvent
 import ss.segment.producer.OverlayStateProducer.State as OverlayState
 
 class SegmentPresenter @AssistedInject constructor(
+    @Assisted private val navigator: Navigator,
     @Assisted private val screen: SegmentScreen,
     private val repository: ResourcesRepository,
     private val overlayStateProducer: OverlayStateProducer,
@@ -48,7 +50,7 @@ class SegmentPresenter @AssistedInject constructor(
     override fun present(): State {
         val resource by rememberSegment()
 
-        val overlayState = overlayStateProducer()
+        val overlayState = overlayStateProducer(navigator)
 
         val eventSink: (Event) -> Unit = { event ->
             when (event) {
@@ -77,6 +79,6 @@ class SegmentPresenter @AssistedInject constructor(
     @CircuitInject(SegmentScreen::class, SingletonComponent::class)
     @AssistedFactory
     interface Factory {
-        fun create(screen: SegmentScreen): SegmentPresenter
+        fun create(navigator: Navigator, screen: SegmentScreen): SegmentPresenter
     }
 }

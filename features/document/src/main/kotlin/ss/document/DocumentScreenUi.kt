@@ -113,7 +113,8 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                         modifier = Modifier,
                         initialPage = state.initialPage,
                         onPageChange = { state.eventSink(SuccessEvent.OnPageChange(it)) },
-                        onCollapseChange = { collapsed = it }
+                        onCollapseChange = { collapsed = it },
+                        onNavEvent = { state.eventSink(SuccessEvent.OnNavEvent(it)) }
                     )
                 }
             }

@@ -22,6 +22,7 @@
 
 package ss.document
 
+import com.slack.circuit.foundation.NavEvent
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import io.adventech.blockkit.model.Style
@@ -64,4 +65,5 @@ sealed interface Event : CircuitUiEvent {
 sealed interface SuccessEvent : Event {
     data class OnPageChange(val page: Int) : SuccessEvent
     data class OnSegmentSelection(val segment: Segment) : SuccessEvent
+    data class OnNavEvent(val event: NavEvent) : SuccessEvent
 }

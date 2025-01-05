@@ -31,8 +31,10 @@ import androidx.compose.runtime.setValue
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
+import com.slack.circuit.runtime.Navigator
 import io.adventech.blockkit.model.BlockData
 import kotlinx.collections.immutable.toImmutableList
+import ss.libraries.circuit.navigation.CustomTabsIntentScreen
 import ss.segment.components.overlay.BlocksOverlay
 import ss.segment.components.overlay.ExcerptOverlay
 import ss.segment.producer.OverlayStateProducer.State
@@ -43,7 +45,7 @@ import javax.inject.Inject
 interface OverlayStateProducer {
 
     @Composable
-    operator fun invoke(): State
+    operator fun invoke(navigator: Navigator): State
 
     sealed interface State : CircuitUiState {
 
@@ -70,11 +72,12 @@ interface OverlayStateProducer {
 private const val SCHEME_BIBLE = "sspmBible"
 private const val SCHEME_EGW = "sspmEGW"
 private const val SCHEME_COMPLETION = "sspmCompletion"
+private val WEB_SCHEMES = setOf("http", "https", null)
 
 internal class OverlayStateProducerImpl @Inject constructor() : OverlayStateProducer {
 
     @Composable
-    override fun invoke(): State {
+    override fun invoke(navigator: Navigator): State {
         var overlayState by rememberRetained { mutableStateOf<State?>(null) }
         val defaultState = State.None{ event ->
             when (event) {
@@ -104,6 +107,9 @@ internal class OverlayStateProducerImpl @Inject constructor() : OverlayStateProd
 
                         SCHEME_COMPLETION -> {
                             Timber.d("Handling completion uri: ${uri.host}")
+                        }
+                        in WEB_SCHEMES -> {
+                            navigator.goTo(CustomTabsIntentScreen(event.uri))
                         }
                     }
                 }
