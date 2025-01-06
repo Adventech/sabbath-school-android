@@ -30,9 +30,12 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.automirrored.rounded.Article
 import androidx.compose.material.icons.rounded.Headphones
@@ -114,38 +117,46 @@ internal fun DocumentTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior? = null,
     actions: ImmutableList<DocumentTopAppBarAction> = persistentListOf(),
     onNavBack: () -> Unit = {},
+    onActionClick: (DocumentTopAppBarAction) -> Unit = {},
 ) {
     var expanded by remember { mutableStateOf(false) }
-    DropdownMenu(
-        expanded = expanded,
-        onDismissRequest = { expanded = false },
-        modifier = modifier,
-        offset = DpOffset((-16).dp, 0.dp),
-        shape = RoundedCornerShape(16.dp),
-        containerColor = SsTheme.colors.primaryBackground,
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .wrapContentSize(Alignment.TopEnd),
     ) {
-        actions.filter { it.primary == false }.forEach {
-            DropdownMenuItem(
-                text = {
-                    Text(
-                        text = stringResource(it.title),
-                        modifier = Modifier,
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                },
-                onClick = {
-                    expanded = false
-                },
-                modifier = Modifier,
-                leadingIcon = {
-                    Icon(
-                        imageVector = it.icon,
-                        contentDescription = stringResource(it.title),
-                        modifier = Modifier,
-                        tint = SsTheme.colors.primaryForeground
-                    )
-                }
-            )
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier,
+            offset = DpOffset((-16).dp, 0.dp),
+            shape = RoundedCornerShape(16.dp),
+            containerColor = SsTheme.colors.primaryBackground,
+        ) {
+            actions.filter { it.primary == false }.forEach {
+                DropdownMenuItem(
+                    text = {
+                        Text(
+                            text = stringResource(it.title),
+                            modifier = Modifier,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    },
+                    onClick = {
+                        expanded = false
+                        onActionClick(it)
+                    },
+                    modifier = Modifier,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = it.icon,
+                            contentDescription = stringResource(it.title),
+                            modifier = Modifier,
+                            tint = SsTheme.colors.primaryForeground
+                        )
+                    }
+                )
+            }
         }
     }
 
@@ -187,7 +198,7 @@ internal fun DocumentTopAppBar(
                         IconButtonSlot(
                             imageVector = it.icon,
                             contentDescription = stringResource(it.title),
-                            onClick = {},
+                            onClick = { onActionClick(it) },
                         )
                     )
                 }
