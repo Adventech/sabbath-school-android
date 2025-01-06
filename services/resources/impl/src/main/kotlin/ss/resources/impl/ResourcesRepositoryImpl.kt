@@ -55,7 +55,6 @@ import ss.lessons.api.ResourcesApi
 import ss.libraries.storage.api.dao.FontFilesDao
 import ss.libraries.storage.api.dao.LanguagesDao
 import ss.libraries.storage.api.dao.SegmentsDao
-import ss.libraries.storage.api.entity.LanguageEntity
 import ss.prefs.api.SSPrefs
 import ss.resources.api.ResourcesRepository
 import ss.resources.impl.ext.toEntity
@@ -100,16 +99,6 @@ internal class ResourcesRepositoryImpl @Inject constructor(
             .map { entity -> entity.toModel() }
             .flowOn(dispatcherProvider.io)
             .catch { Timber.e(it) }
-
-    private fun LanguageEntity.toModel() = LanguageModel(
-        code = code,
-        name = name,
-        nativeName = nativeName,
-        devo = devo,
-        pm = pm,
-        aij = aij,
-        ss = ss,
-    )
 
     override suspend fun feed(type: FeedType): Result<FeedModel> {
         return withContext(dispatcherProvider.default) {

@@ -26,7 +26,6 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.slack.circuit.runtime.screen.Screen
 import ss.libraries.circuit.navigation.FeedScreen
-import ss.libraries.circuit.navigation.SettingsScreen
 import app.ss.translations.R as L10nR
 
 enum class NavbarItem(@DrawableRes val iconRes: Int, @StringRes val title: Int) {
@@ -34,7 +33,7 @@ enum class NavbarItem(@DrawableRes val iconRes: Int, @StringRes val title: Int) 
     AliveInJesus(R.drawable.ss_ic_aij, L10nR.string.ss_alive_in_jesus),
     PersonalMinistries(R.drawable.ss_ic_pm, L10nR.string.ss_personal_ministries),
     Devotionals(R.drawable.ss_ic_devotion, L10nR.string.ss_devotionals),
-    Account(R.drawable.ss_ic_profile, L10nR.string.ss_account),
+    Explore(R.drawable.ss_ic_explore, L10nR.string.ss_explore),
 }
 
 fun NavbarItem.screen(): Screen = when (this) {
@@ -42,5 +41,5 @@ fun NavbarItem.screen(): Screen = when (this) {
     NavbarItem.AliveInJesus -> FeedScreen(FeedScreen.Type.ALIVE_IN_JESUS)
     NavbarItem.PersonalMinistries -> FeedScreen(FeedScreen.Type.PERSONAL_MINISTRIES)
     NavbarItem.Devotionals -> FeedScreen(FeedScreen.Type.DEVOTIONALS)
-    NavbarItem.Account -> SettingsScreen(false)
+    NavbarItem.Explore -> FeedScreen(FeedScreen.Type.EXPLORE)
 }

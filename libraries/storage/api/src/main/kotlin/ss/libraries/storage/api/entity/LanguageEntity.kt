@@ -41,4 +41,6 @@ data class LanguageEntity(
     val aij: Boolean = false,
     @ColumnInfo(defaultValue = "1")
     val ss: Boolean = true,
+    @ColumnInfo(defaultValue = "0")
+    val explore: Boolean = false,
 )

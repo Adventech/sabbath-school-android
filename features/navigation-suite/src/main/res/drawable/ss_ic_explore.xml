@@ -1,0 +1,64 @@
+<!--
+  ~ Copyright (c) 2025. Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="30dp"
+    android:height="30dp"
+    android:viewportWidth="30"
+    android:viewportHeight="30">
+    <group>
+        <clip-path android:pathData="M8.436,4L8.606,4.003C10.906,4.089 12.757,5.902 12.867,8.166L12.872,8.38L12.867,8.592C12.828,9.425 12.547,10.229 12.059,10.909L11.906,11.109L14,13.177L13.166,14L11.055,11.915C10.364,12.415 9.543,12.705 8.692,12.752L8.436,12.759L8.216,12.754C7.12,12.7 6.079,12.246 5.299,11.476C4.523,10.71 4.064,9.688 4.006,8.611L4,8.38L4.003,8.212C4.093,5.871 6.043,4 8.436,4ZM7.19,5.409C5.755,5.996 4.939,7.502 5.242,9.007C5.545,10.511 6.882,11.595 8.436,11.595C9.301,11.598 10.13,11.259 10.74,10.654C11.838,9.569 12.008,7.869 11.145,6.593C10.282,5.318 8.626,4.822 7.19,5.409Z" />
+        <path
+            android:fillColor="#000000"
+            android:fillType="evenOdd"
+            android:pathData="M3,3l12,0l0,12l-12,0z"
+            android:strokeWidth="1"
+            android:strokeColor="#00000000" />
+    </group>
+    <group>
+        <clip-path android:pathData="M24.672,4C25.359,4 25.925,4.523 25.993,5.193L26,5.329L26,12.671C26,13.359 25.477,13.925 24.807,13.993L24.672,14L17.329,14C16.641,14 16.075,13.477 16.007,12.807L16,12.671L16,5.329C16,4.641 16.523,4.075 17.193,4.007L17.329,4L24.672,4ZM24.672,5.329L17.329,5.329L17.329,12.671L24.672,12.671L24.672,5.329Z" />
+        <path
+            android:fillColor="#000000"
+            android:fillType="evenOdd"
+            android:pathData="M15,3l12,0l0,12l-12,0z"
+            android:strokeWidth="1"
+            android:strokeColor="#00000000" />
+    </group>
+    <group>
+        <clip-path android:pathData="M12.672,16C13.359,16 13.925,16.523 13.993,17.193L14,17.329L14,24.671C14,25.359 13.477,25.925 12.807,25.993L12.672,26L5.328,26C4.641,26 4.075,25.477 4.007,24.807L4,24.671L4,17.329C4,16.641 4.523,16.075 5.193,16.007L5.328,16L12.672,16ZM12.672,17.329L5.328,17.329L5.328,24.671L12.672,24.671L12.672,17.329Z" />
+        <path
+            android:fillColor="#000000"
+            android:fillType="evenOdd"
+            android:pathData="M3,15l12,0l0,12l-12,0z"
+            android:strokeWidth="1"
+            android:strokeColor="#00000000" />
+    </group>
+    <group>
+        <clip-path android:pathData="M24.672,16C25.359,16 25.925,16.523 25.993,17.193L26,17.329L26,24.671C26,25.359 25.477,25.925 24.807,25.993L24.672,26L17.329,26C16.641,26 16.075,25.477 16.007,24.807L16,24.671L16,17.329C16,16.641 16.523,16.075 17.193,16.007L17.329,16L24.672,16ZM24.672,17.329L17.329,17.329L17.329,24.671L24.672,24.671L24.672,17.329Z" />
+        <path
+            android:fillColor="#000000"
+            android:fillType="evenOdd"
+            android:pathData="M15,15l12,0l0,12l-12,0z"
+            android:strokeWidth="1"
+            android:strokeColor="#00000000" />
+    </group>
+</vector>

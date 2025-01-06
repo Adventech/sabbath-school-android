@@ -31,6 +31,7 @@ data class FeedScreen(val type: Type) : Screen {
         ALIVE_IN_JESUS,
         PERSONAL_MINISTRIES,
         DEVOTIONALS,
-        SABBATH_SCHOOL
+        SABBATH_SCHOOL,
+        EXPLORE,
     }
 }

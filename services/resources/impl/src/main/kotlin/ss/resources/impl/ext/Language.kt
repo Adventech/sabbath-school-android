@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,18 +20,18 @@
  * THE SOFTWARE.
  */
 
-package io.adventech.blockkit.model.feed
+package ss.resources.impl.ext
 
-import androidx.annotation.Keep
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import ss.libraries.storage.api.entity.LanguageEntity
+import ss.resources.model.LanguageModel
 
-@Keep
-@JsonClass(generateAdapter = false)
-enum class FeedScope {
-    UNKNOWN,
-    @Json(name = "resource") RESOURCE,
-    @Json(name = "document") DOCUMENT,
-    @Json(name = "author") AUTHOR,
-    @Json(name = "category") CATEGORY,
-}
+internal fun LanguageEntity.toModel() = LanguageModel(
+    code = code,
+    name = name,
+    nativeName = nativeName,
+    devo = devo,
+    pm = pm,
+    aij = aij,
+    ss = ss,
+    explore = explore
+)

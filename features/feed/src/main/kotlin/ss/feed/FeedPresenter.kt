@@ -190,6 +190,7 @@ class FeedPresenter @AssistedInject constructor(
         FeedScreen.Type.PERSONAL_MINISTRIES -> FeedType.PM
         FeedScreen.Type.DEVOTIONALS -> FeedType.DEVO
         FeedScreen.Type.SABBATH_SCHOOL -> FeedType.SS
+        FeedScreen.Type.EXPLORE -> FeedType.EXPLORE
     }
 
     private fun FeedGroup?.toSpec() = this?.resources?.map {

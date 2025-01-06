@@ -64,6 +64,7 @@ class SyncHelperImpl @Inject constructor(
                             pm = it.pm,
                             aij = it.aij,
                             ss = it.ss,
+                            explore = it.explore,
                         )
                     })
                 }

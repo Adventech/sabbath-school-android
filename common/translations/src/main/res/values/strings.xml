@@ -138,6 +138,7 @@
     <string name="ss_alive_in_jesus">Alive In Jesus</string>
     <string name="ss_personal_ministries">Personal Ministries</string>
     <string name="ss_devotionals">Devotionals</string>
+    <string name="ss_explore">Explore</string>
 
     <string name="ss_open_in_browser">Open in browser</string>
 </resources>

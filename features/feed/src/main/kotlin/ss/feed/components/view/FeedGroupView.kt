@@ -68,7 +68,7 @@ internal fun FeedGroupView(
         FeedGroupHeader(group.title, group.seeAll, Modifier, seeAllClick)
 
         SnappingLazyRow(modifier = Modifier.fillMaxWidth()) {
-            items(group.resources, key = { it.id }) { resource ->
+            items(group.resources.orEmpty(), key = { it.id }) { resource ->
                 FeedResourceView(resource.toSpec(group), Modifier.padding(8.dp)) {
                     itemClick(resource)
                 }

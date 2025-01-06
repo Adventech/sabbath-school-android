@@ -118,10 +118,12 @@ class HomeNavigationPresenter @AssistedInject constructor(
                     if (model.pm) {
                         add(NavbarItem.PersonalMinistries)
                     }
+                    if (model.explore) {
+                        add(NavbarItem.Explore)
+                    }
                     if (model.devo) {
                         add(NavbarItem.Devotionals)
                     }
-                    add(NavbarItem.Account)
                 }.toImmutableList()
             } else {
                 persistentListOf()
