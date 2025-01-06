@@ -38,6 +38,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import app.ss.design.compose.widget.scaffold.SystemUiEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.foundation.CircuitContent
 import com.slack.circuit.overlay.OverlayEffect
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.ui.style.LocalBlocksStyle
@@ -48,7 +49,7 @@ import ss.document.components.DocumentLoadingView
 import ss.document.components.DocumentPager
 import ss.document.components.DocumentTitleBar
 import ss.document.components.DocumentTopAppBar
-import ss.document.components.ReaderOptionsContent
+import ss.document.reader.ReaderOptionsScreen
 import ss.libraries.circuit.navigation.DocumentScreen
 import ss.libraries.circuit.overlay.BottomSheetOverlay
 
@@ -125,7 +126,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                 OverlayEffect(state.overlayState) {
                     when (val state = state.overlayState) {
                         is DocumentOverlayState.ReaderOptionsBottomSheet -> state.onResult(
-                            show(BottomSheetOverlay { ReaderOptionsContent() })
+                            show(BottomSheetOverlay { CircuitContent(ReaderOptionsScreen) })
                         )
 
                         null -> Unit
