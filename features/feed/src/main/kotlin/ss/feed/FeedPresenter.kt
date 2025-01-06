@@ -133,7 +133,7 @@ class FeedPresenter @AssistedInject constructor(
             Event.FilterLanguages -> navigator.goTo(LanguagesScreen)
             Event.ProfileClick -> {
                 userInfo?.let {
-                    overlayState.value = OverlayState.AccountInfo(it, false) { result ->
+                    overlayState.value = OverlayState.AccountInfo(it) { result ->
                         overlayState.value = null
                         handleOverlayResult(result, coroutineScope)
                     }
@@ -160,7 +160,7 @@ class FeedPresenter @AssistedInject constructor(
         when (result) {
             OverlayResult.Dismiss -> Unit
             OverlayResult.GoToAbout -> navigator.goTo(LegacyDestination(Destination.ABOUT))
-            OverlayResult.GoToSettings -> navigator.goTo(SettingsScreen(true))
+            OverlayResult.GoToSettings -> navigator.goTo(SettingsScreen)
             is OverlayResult.ShareApp -> {
                 with(result.context) {
                     val shareIntent = ShareCompat.IntentBuilder(this)

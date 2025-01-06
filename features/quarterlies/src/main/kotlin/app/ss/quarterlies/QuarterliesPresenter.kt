@@ -71,7 +71,6 @@ import ss.services.auth.overlay.AccountDialogOverlay.Result as OverlayResult
 
 class QuarterliesPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
-    @Assisted private val screen: QuarterliesScreen,
     private val repository: QuarterliesRepository,
     private val authRepository: AuthRepository,
     private val ssPrefs: SSPrefs,
@@ -82,7 +81,7 @@ class QuarterliesPresenter @AssistedInject constructor(
     @CircuitInject(QuarterliesScreen::class, SingletonComponent::class)
     @AssistedFactory
     interface Factory {
-        fun create(navigator: Navigator, screen: QuarterliesScreen): QuarterliesPresenter
+        fun create(navigator: Navigator): QuarterliesPresenter
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -128,7 +127,7 @@ class QuarterliesPresenter @AssistedInject constructor(
                     Event.FilterLanguages -> navigator.goTo(LanguagesScreen)
                     Event.ProfileClick -> {
                         userInfo?.let {
-                            overlayState = OverlayState.AccountInfo(it, !screen.hasNavigation) { result ->
+                            overlayState = OverlayState.AccountInfo(it) { result ->
                                 overlayState = null
                                 handleOverlayResult(result, coroutineScope)
                             }
@@ -145,7 +144,7 @@ class QuarterliesPresenter @AssistedInject constructor(
         when (result) {
             OverlayResult.Dismiss -> Unit
             OverlayResult.GoToAbout -> navigator.goTo(LegacyDestination(Destination.ABOUT))
-            OverlayResult.GoToSettings -> navigator.goTo(SettingsScreen(true))
+            OverlayResult.GoToSettings -> navigator.goTo(SettingsScreen)
             is OverlayResult.ShareApp -> {
                 with(result.context) {
                     val shareIntent = ShareCompat.IntentBuilder(this)

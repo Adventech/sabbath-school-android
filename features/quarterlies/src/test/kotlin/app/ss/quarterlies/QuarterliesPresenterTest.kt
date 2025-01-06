@@ -35,7 +35,7 @@ class QuarterliesPresenterTest {
 
     private val selectedLanguageFlow = MutableStateFlow("en")
 
-    private val screen = QuarterliesScreen()
+    private val screen = QuarterliesScreen
     private val fakeNavigator = FakeNavigator(screen)
     private val fakeRepository = FakeQuarterliesRepository()
     private val fakeAuthRepository = FakeAuthRepository()
@@ -46,7 +46,6 @@ class QuarterliesPresenterTest {
 
     private val underTest = QuarterliesPresenter(
         navigator = fakeNavigator,
-        screen = screen,
         repository = fakeRepository,
         authRepository = fakeAuthRepository,
         ssPrefs = fakePrefs,
@@ -239,7 +238,7 @@ class QuarterliesPresenterTest {
             state = awaitItem()
             state.overlayState shouldBeEqualTo null
 
-            fakeNavigator.awaitNextScreen() shouldBeEqualTo SettingsScreen(true)
+            fakeNavigator.awaitNextScreen() shouldBeEqualTo SettingsScreen
 
             ensureAllEventsConsumed()
         }

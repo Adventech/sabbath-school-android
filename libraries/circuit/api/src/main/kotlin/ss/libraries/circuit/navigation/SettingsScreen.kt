@@ -4,4 +4,4 @@ import com.slack.circuit.runtime.screen.Screen
 import kotlinx.parcelize.Parcelize
 
 /** A circuit [Screen] for opening the settings screen. */
-@Parcelize data class SettingsScreen(val showNavigation: Boolean) : Screen
+@Parcelize data object SettingsScreen : Screen

@@ -74,7 +74,7 @@ fun QuarterliesScreenUi(state: State, modifier: Modifier = Modifier) {
 private fun OverlayContent(state: OverlayState) {
     OverlayEffect(state) {
         when (state) {
-            is OverlayState.AccountInfo -> state.onResult(show(AccountDialogOverlay(state.userInfo, state.showSettings)))
+            is OverlayState.AccountInfo -> state.onResult(show(AccountDialogOverlay(state.userInfo)))
             is OverlayState.BrandingInfo -> {
                 show(AppBrandingOverlay())
                 state.onResult()

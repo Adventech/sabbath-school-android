@@ -57,7 +57,6 @@ sealed interface OverlayState {
     @Immutable
     data class AccountInfo(
         val userInfo: UserInfo,
-        val showSettings: Boolean,
         val onResult: (AccountDialogOverlay.Result) -> Unit
     ): OverlayState
 
