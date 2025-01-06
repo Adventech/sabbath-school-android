@@ -61,7 +61,7 @@ interface OverlayStateProducer {
         data class Blocks(
             val state: BlocksOverlay.State,
             val onResult: (BlocksOverlay.Result) -> Unit
-        ): State
+        ) : State
     }
 
     sealed interface Event : CircuitUiEvent {
@@ -79,7 +79,7 @@ internal class OverlayStateProducerImpl @Inject constructor() : OverlayStateProd
     @Composable
     override fun invoke(navigator: Navigator): State {
         var overlayState by rememberRetained { mutableStateOf<State?>(null) }
-        val defaultState = State.None{ event ->
+        val defaultState = State.None { event ->
             when (event) {
                 is OverlayStateProducer.Event.OnHandleUri -> {
                     val uri = Uri.parse(event.uri)
@@ -108,6 +108,7 @@ internal class OverlayStateProducerImpl @Inject constructor() : OverlayStateProd
                         SCHEME_COMPLETION -> {
                             Timber.d("Handling completion uri: ${uri.host}")
                         }
+
                         in WEB_SCHEMES -> {
                             navigator.goTo(CustomTabsIntentScreen(event.uri))
                         }
