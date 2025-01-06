@@ -38,6 +38,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import app.ss.design.compose.widget.scaffold.SystemUiEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.overlay.OverlayEffect
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.ui.style.LocalBlocksStyle
 import io.adventech.blockkit.ui.style.LocalSegmentStyle
@@ -47,7 +48,9 @@ import ss.document.components.DocumentLoadingView
 import ss.document.components.DocumentPager
 import ss.document.components.DocumentTitleBar
 import ss.document.components.DocumentTopAppBar
+import ss.document.components.ReaderOptionsContent
 import ss.libraries.circuit.navigation.DocumentScreen
+import ss.libraries.circuit.overlay.BottomSheetOverlay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @CircuitInject(DocumentScreen::class, SingletonComponent::class)
@@ -91,7 +94,8 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                 collapsible = state.hasCover,
                 collapsed = collapsed,
                 actions = (state as? State.Success)?.actions ?: persistentListOf(),
-                onNavBack = { state.eventSink(Event.OnNavBack) }
+                onNavBack = { state.eventSink(Event.OnNavBack) },
+                onActionClick = { state.eventSink(Event.OnActionClick(it)) }
             )
         },
         blurTopBar = !state.hasCover || collapsed,
@@ -116,6 +120,16 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                         onCollapseChange = { collapsed = it },
                         onNavEvent = { state.eventSink(SuccessEvent.OnNavEvent(it)) }
                     )
+                }
+
+                OverlayEffect(state.overlayState) {
+                    when (val state = state.overlayState) {
+                        is DocumentOverlayState.ReaderOptionsBottomSheet -> state.onResult(
+                            show(BottomSheetOverlay { ReaderOptionsContent() })
+                        )
+
+                        null -> Unit
+                    }
                 }
             }
         }

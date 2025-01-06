@@ -30,6 +30,7 @@ import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import kotlinx.collections.immutable.ImmutableList
 import ss.document.components.DocumentTopAppBarAction
+import ss.libraries.circuit.overlay.BottomSheetOverlay
 
 sealed interface State : CircuitUiState {
     val title: String
@@ -39,7 +40,8 @@ sealed interface State : CircuitUiState {
     data class Loading(
         override val title: String,
         override val hasCover: Boolean,
-        override val eventSink: (Event) -> Unit) : State
+        override val eventSink: (Event) -> Unit
+    ) : State
 
     data class Success(
         override val title: String,
@@ -52,6 +54,7 @@ sealed interface State : CircuitUiState {
         val titleBelowCover: Boolean,
         val style: Style?,
         val fontFamilyProvider: FontFamilyProvider,
+        val overlayState: DocumentOverlayState?
     ) : State
 
 }
@@ -60,10 +63,22 @@ sealed interface Event : CircuitUiEvent {
 
     /** Navigation icon is clicked. */
     data object OnNavBack : Event
+
+    /** AppBar action is clicked. */
+    data class OnActionClick(val action: DocumentTopAppBarAction) : Event
 }
 
 sealed interface SuccessEvent : Event {
     data class OnPageChange(val page: Int) : SuccessEvent
     data class OnSegmentSelection(val segment: Segment) : SuccessEvent
     data class OnNavEvent(val event: NavEvent) : SuccessEvent
+}
+
+
+sealed interface DocumentOverlayState : CircuitUiState {
+
+    /** Overlay for reader options. */
+    data class ReaderOptionsBottomSheet(
+        val onResult: (BottomSheetOverlay.Result) -> Unit
+    ) : DocumentOverlayState
 }

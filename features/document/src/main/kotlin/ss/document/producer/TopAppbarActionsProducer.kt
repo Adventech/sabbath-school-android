@@ -25,17 +25,33 @@ package ss.document.producer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
 import app.ss.models.AudioAux
 import app.ss.models.PDFAux
 import app.ss.models.VideoAux
 import com.slack.circuit.retained.produceRetainedState
+import com.slack.circuit.retained.rememberRetained
+import com.slack.circuit.runtime.CircuitUiState
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.SegmentType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import ss.document.DocumentOverlayState
 import ss.document.components.DocumentTopAppBarAction
 import ss.resources.api.ResourcesRepository
 import javax.inject.Inject
+
+data class TopAppbarActionsState(
+    val actions: ImmutableList<DocumentTopAppBarAction>,
+    val overlayState: DocumentOverlayState?,
+    val eventSink: (Event) -> Unit
+): CircuitUiState {
+
+    sealed interface Event {
+        data class OnActionClick(val action: DocumentTopAppBarAction): Event
+    }
+}
 
 @Stable
 interface TopAppbarActionsProducer {
@@ -45,7 +61,7 @@ interface TopAppbarActionsProducer {
         resourceIndex: String,
         documentIndex: String,
         segment: Segment?
-    ): ImmutableList<DocumentTopAppBarAction>
+    ): TopAppbarActionsState
 }
 
 internal class TopAppbarActionsProducerImpl @Inject constructor(
@@ -57,7 +73,9 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
         resourceIndex: String,
         documentIndex: String,
         segment: Segment?
-    ): ImmutableList<DocumentTopAppBarAction> {
+    ): TopAppbarActionsState {
+        var bottomSheetState by rememberRetained { mutableStateOf<DocumentOverlayState?>(null) }
+
         val audio by produceRetainedState<List<AudioAux>>(emptyList()) {
             value = repository.audio(resourceIndex, documentIndex).getOrNull().orEmpty()
         }
@@ -67,7 +85,7 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
         val pdfs by produceRetainedState<List<PDFAux>>(emptyList()) {
             value = repository.pdf(resourceIndex, documentIndex).getOrNull().orEmpty()
         }
-        return buildList {
+        val actions =  buildList {
             if (audio.isNotEmpty()) {
                 add(DocumentTopAppBarAction.Audio)
             }
@@ -81,5 +99,26 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
                 add(DocumentTopAppBarAction.DisplayOptions)
             }
         }.toImmutableList()
+
+        return TopAppbarActionsState(
+            actions = actions,
+            overlayState = bottomSheetState,
+            eventSink = { event ->
+                when (event) {
+                    is TopAppbarActionsState.Event.OnActionClick -> {
+                        when (event.action) {
+                            DocumentTopAppBarAction.Audio -> Unit
+                            DocumentTopAppBarAction.Video -> Unit
+                            DocumentTopAppBarAction.Pdf -> Unit
+                            DocumentTopAppBarAction.DisplayOptions -> {
+                                bottomSheetState = DocumentOverlayState.ReaderOptionsBottomSheet { result ->
+                                    bottomSheetState = null
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        )
     }
 }

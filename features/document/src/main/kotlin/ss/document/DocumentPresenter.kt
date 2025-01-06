@@ -44,6 +44,7 @@ import kotlinx.collections.immutable.toImmutableList
 import ss.document.producer.TopAppbarActionsProducer
 import ss.libraries.circuit.navigation.DocumentScreen
 import ss.resources.api.ResourcesRepository
+import ss.document.producer.TopAppbarActionsState.Event as TopAppbarEvent
 
 class DocumentPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
@@ -61,11 +62,17 @@ class DocumentPresenter @AssistedInject constructor(
 
         val resourceDocument = response
 
-        val actions = actionsProducer(screen.resourceIndex, screen.index, selectedPage)
+        val actionsState = actionsProducer(screen.resourceIndex, screen.index, selectedPage)
+
+        val overlayState = actionsState.overlayState // Assign other overlays
 
         val eventSink: (Event) -> Unit = { event ->
             when (event) {
                 Event.OnNavBack -> navigator.pop()
+                is Event.OnActionClick -> {
+                    actionsState.eventSink(TopAppbarEvent.OnActionClick(event.action))
+                }
+
                 is SuccessEvent.OnPageChange -> {
                     selectedPage = documentPages.getOrNull(event.page)
                 }
@@ -85,7 +92,7 @@ class DocumentPresenter @AssistedInject constructor(
             else -> State.Success(
                 title = selectedPage?.title ?: resourceDocument.title,
                 hasCover = selectedPage?.hasCover() == true,
-                actions = actions,
+                actions = actionsState.actions,
                 initialPage = documentPages.indexOf(selectedPage),
                 segments = documentPages,
                 selectedSegment = selectedPage,
@@ -93,6 +100,7 @@ class DocumentPresenter @AssistedInject constructor(
                 style = resourceDocument.style,
                 fontFamilyProvider = fontFamilyProvider,
                 eventSink = eventSink,
+                overlayState = overlayState
             )
         }
     }
