@@ -30,13 +30,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.TextFormat
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.Icon
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -52,6 +48,8 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.divider.Divider
+import app.ss.design.compose.widget.icon.IconBox
+import app.ss.design.compose.widget.icon.ResIcon
 import app.ss.design.compose.widget.material.LegacySlider
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
@@ -61,6 +59,7 @@ import io.adventech.blockkit.ui.style.Styler
 import ss.document.reader.ReaderOptionsScreen.Event
 import ss.document.reader.ReaderOptionsScreen.State
 import app.ss.translations.R as L10nR
+import ss.document.R as DocumentR
 
 @CircuitInject(ReaderOptionsScreen::class, SingletonComponent::class)
 @Composable
@@ -98,25 +97,22 @@ private fun ReaderOptionsTheme(
         style = SsTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
     )
 
-    LazyRow(
+    SingleChoiceSegmentedButtonRow(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
+            .padding(horizontal = 16.dp)
     ) {
-        items(ReaderStyle.Theme.entries) { item ->
-            FilterChip(
+        ReaderStyle.Theme.entries.forEachIndexed { index, item ->
+            SegmentedButton(
                 selected = theme == item,
                 onClick = { onSelected(item) },
-                label = {
-                    Text(
-                        text = stringResource(item.label()),
-                        style = SsTheme.typography.titleMedium
-                    )
-                },
-                modifier = Modifier,
-                shape = RoundedCornerShape(16.dp)
-            )
+                shape = SegmentedButtonDefaults.itemShape(index = index, count = ReaderStyle.Typeface.entries.size)
+            ) {
+                Text(
+                    text = stringResource(item.label()),
+                    style = SsTheme.typography.titleMedium
+                )
+            }
         }
     }
 }
@@ -142,27 +138,24 @@ private fun ReaderOptionsTypeface(
         style = SsTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
     )
 
-    LazyRow(
+    SingleChoiceSegmentedButtonRow(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
+            .padding(horizontal = 16.dp)
     ) {
-        items(ReaderStyle.Typeface.entries) { item ->
-            FilterChip(
+        ReaderStyle.Typeface.entries.forEachIndexed { index, item ->
+            SegmentedButton(
                 selected = typeface == item,
                 onClick = { onSelected(item) },
-                label = {
-                    Text(
-                        text = stringResource(item.label()),
-                        style = SsTheme.typography.titleMedium.copy(
-                            fontFamily = Styler.fontFamily(item)
-                        )
+                shape = SegmentedButtonDefaults.itemShape(index = index, count = ReaderStyle.Typeface.entries.size)
+            ) {
+                Text(
+                    text = stringResource(item.label()),
+                    style = SsTheme.typography.titleMedium.copy(
+                        fontFamily = Styler.fontFamily(item)
                     )
-                },
-                modifier = Modifier,
-                shape = RoundedCornerShape(16.dp)
-            )
+                )
+            }
         }
     }
 }
@@ -198,11 +191,13 @@ private fun ReaderOptionsFontSize(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
 
-        Icon(
-            imageVector = Icons.Rounded.TextFormat,
-            contentDescription = null,
-            modifier = Modifier.size(16.dp),
-            tint = SsTheme.colors.primary
+        IconBox(
+            icon = ResIcon(
+                DocumentR.drawable.ic_match_case,
+                contentDescription = null
+            ),
+            modifier = Modifier.size(14.dp),
+            contentColor = SsTheme.colors.primary
         )
 
         LegacySlider(
@@ -216,11 +211,13 @@ private fun ReaderOptionsFontSize(
             valueRange = 0f..4f
         )
 
-        Icon(
-            imageVector = Icons.Rounded.TextFormat,
-            contentDescription = null,
+        IconBox(
+            icon = ResIcon(
+                DocumentR.drawable.ic_match_case,
+                contentDescription = null
+            ),
             modifier = Modifier.size(32.dp),
-            tint = SsTheme.colors.primary
+            contentColor = SsTheme.colors.primary
         )
     }
 }

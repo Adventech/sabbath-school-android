@@ -29,6 +29,10 @@ plugins {
     alias(libs.plugins.hilt)
 }
 
+android {
+    namespace = "ss.document"
+}
+
 foundry {
     features { compose() }
 }
