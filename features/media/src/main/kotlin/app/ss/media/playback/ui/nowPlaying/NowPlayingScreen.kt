@@ -175,8 +175,6 @@ internal fun NowPlayingScreen(
             .nestedScroll(connection = nestedScrollConnection),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        DragHandle()
-
         NowPlayingDetail(
             spec = spec,
             boxState = boxState,
