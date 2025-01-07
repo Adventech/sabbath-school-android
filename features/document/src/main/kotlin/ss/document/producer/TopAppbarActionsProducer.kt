@@ -25,8 +25,8 @@ package ss.document.producer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import app.ss.models.AudioAux
 import app.ss.models.PDFAux
 import app.ss.models.VideoAux
@@ -50,10 +50,10 @@ data class TopAppbarActionsState(
     val actions: ImmutableList<DocumentTopAppBarAction>,
     val overlayState: DocumentOverlayState?,
     val eventSink: (Event) -> Unit
-): CircuitUiState {
+) : CircuitUiState {
 
     sealed interface Event {
-        data class OnActionClick(val action: DocumentTopAppBarAction): Event
+        data class OnActionClick(val action: DocumentTopAppBarAction) : Event
     }
 }
 
@@ -91,7 +91,7 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
         val pdfs by produceRetainedState<List<PDFAux>>(emptyList()) {
             value = repository.pdf(resourceIndex, documentIndex).getOrNull().orEmpty()
         }
-        val actions =  buildList {
+        val actions = buildList {
             if (audio.isNotEmpty()) {
                 add(DocumentTopAppBarAction.Audio)
             }
@@ -114,18 +114,27 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
                     is TopAppbarActionsState.Event.OnActionClick -> {
                         when (event.action) {
                             DocumentTopAppBarAction.Audio -> {
-                                bottomSheetState = BottomSheet.Audio(AudioScreen(resourceId, documentIndex)) { result ->
+                                bottomSheetState = BottomSheet(
+                                    screen = AudioScreen(resourceId, documentIndex),
+                                    skipPartiallyExpanded = true,
+                                ) { result ->
                                     bottomSheetState = null
                                 }
                             }
                             DocumentTopAppBarAction.Video -> {
-                                bottomSheetState = BottomSheet.Videos(VideosScreen(resourceIndex, documentIndex)) { result ->
+                                bottomSheetState = BottomSheet(
+                                    screen = VideosScreen(resourceIndex, documentIndex),
+                                    skipPartiallyExpanded = true,
+                                ) { result ->
                                     bottomSheetState = null
                                 }
                             }
                             DocumentTopAppBarAction.Pdf -> Unit
                             DocumentTopAppBarAction.DisplayOptions -> {
-                                bottomSheetState = BottomSheet.ReaderOptions(ReaderOptionsScreen) { result ->
+                                bottomSheetState = BottomSheet(
+                                    screen = ReaderOptionsScreen,
+                                    skipPartiallyExpanded = false,
+                                ) { result ->
                                     bottomSheetState = null
                                 }
                             }
