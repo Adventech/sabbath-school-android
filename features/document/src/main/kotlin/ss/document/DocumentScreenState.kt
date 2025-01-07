@@ -82,23 +82,27 @@ sealed interface DocumentOverlayState : CircuitUiState {
 
     sealed interface BottomSheet : DocumentOverlayState {
         val screen: Screen
+        val skipPartiallyExpanded: Boolean
         val onResult: (BottomSheetOverlay.Result) -> Unit
 
         /** Overlay for reader options. */
         data class ReaderOptions(
             override val screen: Screen,
+            override val skipPartiallyExpanded: Boolean = false,
             override val onResult: (BottomSheetOverlay.Result) -> Unit
         ) : BottomSheet
 
         /** Overlay for audio screen. */
         data class Audio(
             override val screen: Screen,
+            override val skipPartiallyExpanded: Boolean = true,
             override val onResult: (BottomSheetOverlay.Result) -> Unit
         ) : BottomSheet
 
         /** Overlay for videos screen. */
         data class Videos(
             override val screen: Screen,
+            override val skipPartiallyExpanded: Boolean = true,
             override val onResult: (BottomSheetOverlay.Result) -> Unit
         ) : BottomSheet
     }

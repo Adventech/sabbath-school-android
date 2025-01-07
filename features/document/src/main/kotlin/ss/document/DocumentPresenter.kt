@@ -64,7 +64,7 @@ class DocumentPresenter @AssistedInject constructor(
 
         val resourceDocument = response
 
-        val actionsState = actionsProducer(screen.resourceIndex, screen.index, selectedPage)
+        val actionsState = actionsProducer(screen.resourceId, screen.resourceIndex, screen.index, selectedPage)
 
         val overlayState = actionsState.overlayState // Assign other overlays
 

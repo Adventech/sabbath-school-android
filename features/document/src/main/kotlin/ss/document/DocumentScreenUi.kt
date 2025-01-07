@@ -127,7 +127,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                 OverlayEffect(state.overlayState) {
                     when (val state = state.overlayState) {
                         is DocumentOverlayState.BottomSheet -> {
-                            state.onResult(show(BottomSheetOverlay { CircuitContent(state.screen) }))
+                            state.onResult(show(BottomSheetOverlay(state.skipPartiallyExpanded) { CircuitContent(state.screen) }))
                         }
 
                         null -> Unit

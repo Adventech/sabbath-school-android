@@ -31,4 +31,5 @@ data class DocumentScreen(
     val title: String,
     val cover: String?,
     val resourceIndex: String,
+    val resourceId: String,
 ): Screen

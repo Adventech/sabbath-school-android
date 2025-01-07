@@ -62,6 +62,7 @@ interface TopAppbarActionsProducer {
 
     @Composable
     operator fun invoke(
+        resourceId: String,
         resourceIndex: String,
         documentIndex: String,
         segment: Segment?
@@ -74,6 +75,7 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
 
     @Composable
     override fun invoke(
+        resourceId: String,
         resourceIndex: String,
         documentIndex: String,
         segment: Segment?
@@ -112,7 +114,7 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
                     is TopAppbarActionsState.Event.OnActionClick -> {
                         when (event.action) {
                             DocumentTopAppBarAction.Audio -> {
-                                bottomSheetState = BottomSheet.Audio(AudioScreen(resourceIndex, documentIndex)) { result ->
+                                bottomSheetState = BottomSheet.Audio(AudioScreen(resourceId, documentIndex)) { result ->
                                     bottomSheetState = null
                                 }
                             }

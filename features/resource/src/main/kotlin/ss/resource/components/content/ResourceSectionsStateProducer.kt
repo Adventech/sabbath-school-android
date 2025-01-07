@@ -73,6 +73,7 @@ internal class ResourceSectionsStateProducerImpl @Inject constructor() : Resourc
                         title = document.title,
                         cover = document.cover,
                         resourceIndex = resource.index,
+                        resourceId = resource.id
                     )
                 )
             }
