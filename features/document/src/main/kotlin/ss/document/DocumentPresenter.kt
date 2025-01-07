@@ -27,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.foundation.NavEvent
 import com.slack.circuit.foundation.onNavEvent
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
@@ -41,9 +42,11 @@ import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.SegmentType
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import kotlinx.collections.immutable.toImmutableList
+import ss.document.components.DocumentTopAppBarAction
 import ss.document.producer.ReaderStyleStateProducer
 import ss.document.producer.TopAppbarActionsProducer
 import ss.libraries.circuit.navigation.DocumentScreen
+import ss.libraries.circuit.navigation.ExpandedAudioPlayerScreen
 import ss.resources.api.ResourcesRepository
 import ss.document.producer.TopAppbarActionsState.Event as TopAppbarEvent
 
@@ -86,7 +89,16 @@ class DocumentPresenter @AssistedInject constructor(
                 }
 
                 is SuccessEvent.OnNavEvent -> {
-                    navigator.onNavEvent(event.event)
+                    when (val event = event.event) {
+                        is NavEvent.GoTo -> {
+                            if (event.screen is ExpandedAudioPlayerScreen) {
+                                actionsState.eventSink(TopAppbarEvent.OnActionClick(DocumentTopAppBarAction.Audio))
+                            } else {
+                                navigator.goTo(event.screen)
+                            }
+                        }
+                        else -> navigator.onNavEvent(event)
+                    }
                 }
             }
         }

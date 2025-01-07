@@ -92,8 +92,8 @@ private object PlaybackMiniControlsDefaults {
 
 @Composable
 fun PlaybackMiniControls(
-    modifier: Modifier = Modifier,
     playbackConnection: PlaybackConnection,
+    modifier: Modifier = Modifier,
     onExpand: () -> Unit
 ) {
     val playbackState by playbackConnection.playbackState.collectAsStateWithLifecycle()

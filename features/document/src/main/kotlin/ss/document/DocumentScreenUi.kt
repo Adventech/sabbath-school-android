@@ -51,6 +51,7 @@ import ss.document.components.DocumentPager
 import ss.document.components.DocumentTitleBar
 import ss.document.components.DocumentTopAppBar
 import ss.libraries.circuit.navigation.DocumentScreen
+import ss.libraries.circuit.navigation.MiniAudioPlayerScreen
 import ss.libraries.circuit.overlay.BottomSheetOverlay
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -100,7 +101,12 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
             )
         },
         bottomBar = {
-
+            CircuitContent(
+                screen = MiniAudioPlayerScreen,
+                onNavEvent = {
+                    state.eventSink(SuccessEvent.OnNavEvent(it))
+                }
+            )
         },
         blurTopBar = !state.hasCover || collapsed,
     ) {

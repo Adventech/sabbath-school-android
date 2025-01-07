@@ -20,13 +20,17 @@
  * THE SOFTWARE.
  */
 
-package ss.libraries.circuit.navigation
+package app.ss.media.playback.ui.nowPlaying.mini
 
-import com.slack.circuit.runtime.screen.Screen
-import kotlinx.parcelize.Parcelize
+import com.slack.circuit.runtime.CircuitUiEvent
+import com.slack.circuit.runtime.CircuitUiState
+import ss.services.media.ui.PlaybackConnection
 
-@Parcelize
-data class AudioScreen(
-    val resourceIndex: String,
-    val documentIndex: String,
-): Screen
+data class MiniPlayerState(
+    val playbackConnection: PlaybackConnection,
+    val eventSink: (MiniPlayerEvent) -> Unit,
+) : CircuitUiState
+
+sealed interface MiniPlayerEvent : CircuitUiEvent {
+    data object Expand : MiniPlayerEvent
+}
