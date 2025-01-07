@@ -55,15 +55,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.design.compose.theme.SsTheme
-import app.ss.design.compose.widget.DragHandle
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconSlot
-import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.ui.common.PlaybackSpeedLabel
 import app.ss.media.playback.ui.nowPlaying.components.BoxState
 import app.ss.media.playback.ui.nowPlaying.components.PlayBackControls
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgressDuration
-import app.ss.media.playback.ui.spec.PlaybackStateSpec
 import app.ss.models.media.AudioFile
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
@@ -71,6 +68,8 @@ import ss.libraries.circuit.navigation.AudioScreen
 import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.PlaybackQueue
 import ss.libraries.media.model.PlaybackSpeed
+import ss.services.media.ui.PlaybackConnection
+import ss.services.media.ui.spec.PlaybackStateSpec
 import app.ss.translations.R as L10nR
 import ss.libraries.media.resources.R as MediaR
 

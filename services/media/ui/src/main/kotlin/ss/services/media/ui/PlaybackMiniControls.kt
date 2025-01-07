@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback.ui
+package ss.services.media.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearEasing
@@ -43,18 +43,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSizeIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.LinearProgressIndicator
-import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.ProgressIndicatorDefaults
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.HourglassBottom
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -76,13 +72,12 @@ import app.ss.design.compose.theme.color.SsColors
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconSlot
 import app.ss.design.compose.widget.icon.Icons
-import app.ss.media.playback.PlaybackConnection
-import app.ss.media.playback.ui.common.Dismissible
-import app.ss.media.playback.ui.spec.NowPlayingSpec
-import app.ss.media.playback.ui.spec.PlaybackStateSpec
-import app.ss.media.playback.ui.spec.toSpec
 import ss.libraries.media.api.PLAYBACK_PROGRESS_INTERVAL
 import ss.libraries.media.model.extensions.NONE_PLAYING
+import ss.services.media.ui.common.Dismissible
+import ss.services.media.ui.spec.NowPlayingSpec
+import ss.services.media.ui.spec.PlaybackStateSpec
+import ss.services.media.ui.spec.toSpec
 import androidx.compose.material.icons.Icons as MaterialIcons
 import app.ss.translations.R.string as RString
 import ss.libraries.media.resources.R as MediaR
@@ -212,6 +207,12 @@ private fun PlaybackProgress(
         .height(2.dp)
         .fillMaxWidth()
 
+    val progress by animateFloatAsState(
+        progressState.progress,
+        tween(PLAYBACK_PROGRESS_INTERVAL.toInt(), easing = LinearEasing),
+        label = "progress"
+    )
+
     when {
         spec.isBuffering -> {
             LinearProgressIndicator(
@@ -222,13 +223,9 @@ private fun PlaybackProgress(
 
         else -> {
             LinearProgressIndicator(
-                progress = animateFloatAsState(
-                    progressState.progress,
-                    tween(PLAYBACK_PROGRESS_INTERVAL.toInt(), easing = LinearEasing),
-                    label = "progress"
-                ).value,
+                progress = { progress },
                 color = color,
-                backgroundColor = color.copy(ProgressIndicatorDefaults.IndicatorBackgroundOpacity),
+                trackColor = color.copy(alpha = 0.24f),
                 modifier = sizeModifier
             )
         }
@@ -284,15 +281,14 @@ private fun NowPlayingColumn(
 
         Spacer(modifier = Modifier.height(2.dp))
 
-        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-            Text(
-                spec.artist,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                style = SsTheme.typography.bodySmall,
-                color = SsTheme.colors.secondaryForeground
-            )
-        }
+        Text(
+            spec.artist,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            style = SsTheme.typography.bodySmall,
+            color = SsTheme.colors.secondaryForeground
+        )
+
         Spacer(modifier = Modifier.height(4.dp))
     }
 }

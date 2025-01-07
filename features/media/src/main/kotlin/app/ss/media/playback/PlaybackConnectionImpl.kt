@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,6 @@ package app.ss.media.playback
 
 import android.content.ComponentName
 import android.content.Context
-import androidx.compose.runtime.Stable
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.MediaMetadata
@@ -34,12 +33,10 @@ import androidx.media3.common.Player.STATE_BUFFERING
 import androidx.media3.session.MediaBrowser
 import androidx.media3.session.SessionToken
 import app.ss.media.playback.extensions.NONE_PLAYBACK_STATE
-import app.ss.media.playback.ui.spec.PlaybackStateSpec
 import app.ss.models.media.AudioFile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.guava.await
@@ -51,39 +48,16 @@ import ss.libraries.media.model.PlaybackQueue
 import ss.libraries.media.model.PlaybackSpeed
 import ss.libraries.media.model.extensions.NONE_PLAYING
 import ss.libraries.media.model.toMediaItem
+import ss.services.media.ui.PlaybackConnection
+import ss.services.media.ui.spec.PlaybackStateSpec
 import timber.log.Timber
 
 private const val LOG_TAG = "PlaybackConnection"
 
-@Stable
-interface PlaybackConnection {
-    val isConnected: StateFlow<Boolean>
-    val playbackState: StateFlow<PlaybackStateSpec>
-    val nowPlaying: StateFlow<MediaMetadata>
-
-    val playbackQueue: StateFlow<PlaybackQueue>
-
-    val playbackProgress: StateFlow<PlaybackProgressState>
-    val playbackSpeed: StateFlow<PlaybackSpeed>
-
-    fun playPause()
-    fun playAudio(audio: AudioFile)
-    fun playAudios(audios: List<AudioFile>, index: Int = 0)
-
-    fun toggleSpeed()
-    fun setQueue(audios: List<AudioFile>, index: Int = 0)
-    fun skipToItem(position: Int)
-    fun seekTo(progress: Long)
-    fun rewind()
-    fun fastForward()
-    fun stop()
-    fun releaseMini()
-}
-
 internal class PlaybackConnectionImpl(
     private val context: Context,
     private val serviceComponent: ComponentName,
-    coroutineScope: CoroutineScope = ProcessLifecycleOwner.get().lifecycleScope
+    coroutineScope: CoroutineScope = ProcessLifecycleOwner.Companion.get().lifecycleScope
 ) : PlaybackConnection, CoroutineScope by coroutineScope {
 
     override val isConnected = MutableStateFlow(false)

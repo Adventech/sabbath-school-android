@@ -23,15 +23,15 @@
 package app.ss.media.playback.ui.nowPlaying
 
 import androidx.media3.common.MediaMetadata
-import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.ui.nowPlaying.components.sampleAudio
-import app.ss.media.playback.ui.spec.PlaybackStateSpec
 import app.ss.models.media.AudioFile
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.PlaybackQueue
 import ss.libraries.media.model.PlaybackSpeed
+import ss.services.media.ui.PlaybackConnection
+import ss.services.media.ui.spec.PlaybackStateSpec
 
 internal object PreviewData {
 

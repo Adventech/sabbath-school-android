@@ -26,7 +26,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import app.ss.lessons.data.repository.media.MediaRepository
-import app.ss.media.playback.PlaybackConnection
 import app.ss.models.media.AudioFile
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
@@ -42,6 +41,7 @@ import ss.libraries.circuit.navigation.AudioScreen
 import ss.libraries.media.model.extensions.id
 import ss.libraries.media.model.extensions.targetIndex
 import ss.libraries.media.model.toAudio
+import ss.services.media.ui.PlaybackConnection
 
 class NowPlayingPresenter @AssistedInject constructor(
     @Assisted private val screen: AudioScreen,

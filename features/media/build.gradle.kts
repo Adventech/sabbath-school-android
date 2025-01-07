@@ -51,6 +51,7 @@ dependencies {
     implementation(projects.libraries.media.service)
     implementation(projects.libraries.storage.api)
     implementation(projects.libraries.circuit.api)
+    implementation(projects.services.media.ui)
     implementation(projects.services.resources.api)
 
     implementation(libs.androidx.activity)

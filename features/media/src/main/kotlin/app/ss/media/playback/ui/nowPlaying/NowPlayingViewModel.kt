@@ -26,7 +26,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.repository.media.MediaRepository
-import app.ss.media.playback.PlaybackConnection
 import app.ss.models.media.AudioFile
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
 import com.cryart.sabbathschool.core.extensions.intent.readIndex
@@ -39,6 +38,7 @@ import ss.foundation.coroutines.flow.stateIn
 import ss.libraries.media.model.extensions.id
 import ss.libraries.media.model.extensions.targetIndex
 import ss.libraries.media.model.toAudio
+import ss.services.media.ui.PlaybackConnection
 import javax.inject.Inject
 
 @HiltViewModel

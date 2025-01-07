@@ -62,10 +62,10 @@ import androidx.compose.ui.unit.sp
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.divider.Divider
-import app.ss.media.playback.ui.spec.NowPlayingSpec
-import app.ss.media.playback.ui.spec.PlaybackQueueSpec
-import app.ss.media.playback.ui.spec.toSpec
 import kotlinx.coroutines.launch
+import ss.services.media.ui.spec.NowPlayingSpec
+import ss.services.media.ui.spec.PlaybackQueueSpec
+import ss.services.media.ui.spec.toSpec
 import app.ss.translations.R as L10nR
 
 private const val SCROLL_TO_ITEM_KEY = "playbackQueue"

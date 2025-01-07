@@ -33,6 +33,7 @@ dependencies {
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.lessons.api)
     implementation(projects.libraries.prefs.api)
+    implementation(projects.services.media.ui)
 
     implementation(libs.google.material)
     implementation(libs.androidx.core)

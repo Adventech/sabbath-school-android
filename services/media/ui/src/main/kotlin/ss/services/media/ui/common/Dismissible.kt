@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,24 +20,28 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback.ui.spec
+package ss.services.media.ui.common
 
-import androidx.compose.runtime.Immutable
-import androidx.media3.common.MediaMetadata
-import app.ss.models.media.AudioFile
-import ss.libraries.media.model.toAudio
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
+import androidx.compose.material3.rememberSwipeToDismissBoxState
+import androidx.compose.runtime.Composable
 
-@Immutable
-data class NowPlayingSpec(
-    val id: String,
-    val title: String,
-    val artist: String
-)
-
-internal fun AudioFile.toSpec() = NowPlayingSpec(
-    id = id,
-    title = title,
-    artist = artist
-)
-
-internal fun MediaMetadata.toSpec() = toAudio().toSpec()
+@Composable
+fun Dismissible(
+    onDismiss: () -> Unit,
+    content: @Composable () -> Unit
+) {
+    val dismissState = rememberSwipeToDismissBoxState(
+        confirmValueChange = {
+            if (it != SwipeToDismissBoxValue.Settled) {
+                onDismiss.invoke()
+            }
+            true
+        }
+    )
+    SwipeToDismissBox(
+        state = dismissState,
+        backgroundContent = {},
+    ) { content()}
+}

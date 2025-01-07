@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,8 +20,38 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback.extensions
+package ss.services.media.ui
 
+import androidx.compose.runtime.Stable
+import androidx.media3.common.MediaMetadata
+import app.ss.models.media.AudioFile
+import kotlinx.coroutines.flow.StateFlow
+import ss.libraries.media.model.PlaybackProgressState
+import ss.libraries.media.model.PlaybackQueue
+import ss.libraries.media.model.PlaybackSpeed
 import ss.services.media.ui.spec.PlaybackStateSpec
 
-internal val NONE_PLAYBACK_STATE: PlaybackStateSpec = PlaybackStateSpec.NONE
+@Stable
+interface PlaybackConnection {
+    val isConnected: StateFlow<Boolean>
+    val playbackState: StateFlow<PlaybackStateSpec>
+    val nowPlaying: StateFlow<MediaMetadata>
+
+    val playbackQueue: StateFlow<PlaybackQueue>
+
+    val playbackProgress: StateFlow<PlaybackProgressState>
+    val playbackSpeed: StateFlow<PlaybackSpeed>
+
+    fun playPause()
+    fun playAudio(audio: AudioFile)
+    fun playAudios(audios: List<AudioFile>, index: Int = 0)
+
+    fun toggleSpeed()
+    fun setQueue(audios: List<AudioFile>, index: Int = 0)
+    fun skipToItem(position: Int)
+    fun seekTo(progress: Long)
+    fun rewind()
+    fun fastForward()
+    fun stop()
+    fun releaseMini()
+}

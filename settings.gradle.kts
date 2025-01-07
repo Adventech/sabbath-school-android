@@ -96,6 +96,7 @@ include(
     ":services:circuit:impl",
     ":services:lessons:impl",
     ":services:media:impl",
+    ":services:media:ui",
     ":services:prefs:impl",
     ":services:resources:api",
     ":services:resources:impl",

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,25 +20,24 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback.ui.spec
+package ss.services.media.ui.spec
 
 import androidx.compose.runtime.Immutable
+import androidx.media3.common.MediaMetadata
+import app.ss.models.media.AudioFile
+import ss.libraries.media.model.toAudio
 
 @Immutable
-data class PlaybackStateSpec(
-    val isPlaying: Boolean,
-    val isPlayEnabled: Boolean,
-    val isError: Boolean,
-    val isBuffering: Boolean,
-    val canShowMini: Boolean,
-) {
-    companion object {
-        val NONE = PlaybackStateSpec(
-            isPlaying = false,
-            isPlayEnabled = false,
-            isError = false,
-            isBuffering = false,
-            false
-        )
-    }
-}
+data class NowPlayingSpec(
+    val id: String,
+    val title: String,
+    val artist: String
+)
+
+fun AudioFile.toSpec() = NowPlayingSpec(
+    id = id,
+    title = title,
+    artist = artist
+)
+
+fun MediaMetadata.toSpec() = toAudio().toSpec()

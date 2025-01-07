@@ -56,10 +56,10 @@ import app.ss.media.playback.ui.nowPlaying.components.BoxState
 import app.ss.media.playback.ui.nowPlaying.components.CoverImage
 import app.ss.media.playback.ui.nowPlaying.components.NowPlayingColumn
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackQueueList
-import app.ss.media.playback.ui.spec.PlaybackQueueSpec
 import app.ss.media.playback.ui.spec.toImageSpec
-import app.ss.media.playback.ui.spec.toSpec
 import app.ss.models.media.AudioFile
+import ss.services.media.ui.spec.PlaybackQueueSpec
+import ss.services.media.ui.spec.toSpec
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalSharedTransitionApi::class)
 @Composable

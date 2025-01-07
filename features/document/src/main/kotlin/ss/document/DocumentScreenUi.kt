@@ -99,6 +99,9 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                 onActionClick = { state.eventSink(Event.OnActionClick(it)) }
             )
         },
+        bottomBar = {
+
+        },
         blurTopBar = !state.hasCover || collapsed,
     ) {
         when (state) {
