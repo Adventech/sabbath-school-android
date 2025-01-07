@@ -102,6 +102,7 @@ class DocumentPresenter @AssistedInject constructor(
                 selectedSegment = selectedPage,
                 titleBelowCover = resourceDocument.titleBelowCover == true,
                 style = resourceDocument.style,
+                readerStyle = readerStyle,
                 fontFamilyProvider = fontFamilyProvider,
                 eventSink = eventSink,
                 overlayState = overlayState

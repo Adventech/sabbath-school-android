@@ -42,6 +42,7 @@ import com.slack.circuit.foundation.CircuitContent
 import com.slack.circuit.overlay.OverlayEffect
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.ui.style.LocalBlocksStyle
+import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.LocalSegmentStyle
 import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
 import kotlinx.collections.immutable.persistentListOf
@@ -111,6 +112,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                     LocalFontFamilyProvider provides state.fontFamilyProvider,
                     LocalBlocksStyle provides state.style?.blocks,
                     LocalSegmentStyle provides state.style?.segment,
+                    LocalReaderStyle provides state.readerStyle,
                 ) {
                     DocumentPager(
                         segments = state.segments,
