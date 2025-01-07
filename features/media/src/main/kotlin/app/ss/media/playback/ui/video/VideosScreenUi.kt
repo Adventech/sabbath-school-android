@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,24 +22,19 @@
 
 package app.ss.media.playback.ui.video
 
-import app.ss.models.media.SSVideo
-import app.ss.models.media.SSVideosInfo
-import com.slack.circuit.runtime.CircuitUiState
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import com.slack.circuit.codegen.annotations.CircuitInject
+import dagger.hilt.components.SingletonComponent
+import ss.libraries.circuit.navigation.VideosScreen
 
-data class VideosScreenState(
-    val data: VideoListData = VideoListData.Empty
-): CircuitUiState
-
-sealed class VideoListData {
-    data class Horizontal(
-        val data: List<SSVideosInfo>,
-        val target: String?
-    ) : VideoListData()
-
-    data class Vertical(
-        val featured: SSVideo,
-        val clips: List<SSVideo>
-    ) : VideoListData()
-
-    data object Empty : VideoListData()
+@CircuitInject(VideosScreen::class, SingletonComponent::class)
+@Composable
+fun VideosScreenUi(state: VideosScreenState, modifier: Modifier = Modifier) {
+    VideoListScreen(
+        videoList = state.data,
+        modifier = modifier,
+        onVideoClick = {},
+        isAtTop = { },
+    )
 }
