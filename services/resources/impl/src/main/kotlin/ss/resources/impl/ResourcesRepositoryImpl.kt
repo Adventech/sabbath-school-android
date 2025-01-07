@@ -247,7 +247,13 @@ internal class ResourcesRepositoryImpl @Inject constructor(
 
                 is NetworkResource.Success -> {
                     resource.value.body()?.let {
-                        Result.success(it)
+                        val videos = it
+                        val entities = videos.mapIndexed { index, video -> video.toEntity("$resourceIndex-$index", documentIndex) }
+                        withContext(dispatcherProvider.io) {
+                            videoInfoDao.delete()
+                            videoInfoDao.insertAll(entities)
+                        }
+                        Result.success(videos)
                     } ?: Result.failure(Throwable("Failed to fetch Videos, body is null"))
                 }
             }

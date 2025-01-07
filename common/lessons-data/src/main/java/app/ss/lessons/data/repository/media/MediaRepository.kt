@@ -41,7 +41,6 @@ import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.defaultScopable
 import ss.lessons.api.SSMediaApi
-import ss.lessons.model.VideosInfoModel
 import ss.lessons.model.request.SSMediaRequest
 import ss.libraries.storage.api.dao.AudioDao
 import ss.libraries.storage.api.dao.VideoInfoDao
@@ -112,34 +111,8 @@ internal class MediaRepositoryImpl @Inject constructor(
     override fun getVideo(lessonIndex: String): Flow<List<SSVideosInfo>> = videoInfoDao
         .getAsFlow(lessonIndex)
         .map { entities -> entities.map { it.toModel() } }
-        .onStart { syncVideo(lessonIndex) }
         .flowOn(dispatcherProvider.io)
         .catch { Timber.e(it) }
-
-    private fun syncVideo(lessonIndex: String) = scope.launch(exceptionLogger) {
-        var apiLessonIndex = ""
-        val data = lessonIndex.toMediaRequest()?.let { ssMediaRequest ->
-            apiLessonIndex = "${ssMediaRequest.language}-${ssMediaRequest.quarterlyId}"
-            val resource = safeApiCall(connectivityHelper) {
-                mediaApi.getVideo(ssMediaRequest.language, ssMediaRequest.quarterlyId)
-            }
-            val videos = when (resource) {
-                is NetworkResource.Failure -> {
-                    Timber.e("Failed to fetch video for $lessonIndex")
-                    null
-                }
-                is NetworkResource.Success -> resource.value.body()
-            }
-            videos?.mapIndexed { index, model ->
-                model.toModel("$apiLessonIndex-$index", lessonIndex)
-            }
-        } ?: return@launch
-
-        withContext(dispatcherProvider.io) {
-            videoInfoDao.delete()
-            videoInfoDao.insertAll(data.map { it.toEntity() })
-        }
-    }
 }
 
 internal fun String.toMediaRequest(): SSMediaRequest? {
@@ -186,23 +159,6 @@ fun AudioFileEntity.toSSAudio(): SSAudio = SSAudio(
 )
 
 private fun VideoInfoEntity.toModel(): SSVideosInfo = SSVideosInfo(
-    id = id,
-    artist = artist,
-    clips = clips,
-    lessonIndex = lessonIndex
-)
-
-private fun VideosInfoModel.toModel(
-    id: String,
-    lessonIndex: String
-): SSVideosInfo = SSVideosInfo(
-    id = id,
-    artist = artist,
-    clips = clips,
-    lessonIndex = lessonIndex
-)
-
-private fun SSVideosInfo.toEntity(): VideoInfoEntity = VideoInfoEntity(
     id = id,
     artist = artist,
     clips = clips,

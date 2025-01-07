@@ -24,9 +24,12 @@ package ss.resources.impl.ext
 
 import android.net.Uri
 import app.ss.models.AudioAux
+import app.ss.models.VideoAux
+import app.ss.models.media.SSVideo
 import ss.libraries.storage.api.entity.AudioFileEntity
-import timber.log.Timber
+import ss.libraries.storage.api.entity.VideoInfoEntity
 import ss.misc.SSConstants.SS_IMAGES_BASE_URL
+import timber.log.Timber
 
 fun AudioAux.toEntity(): AudioFileEntity = AudioFileEntity(
     id = this.id,
@@ -39,6 +42,27 @@ fun AudioAux.toEntity(): AudioFileEntity = AudioFileEntity(
     targetIndex = this.targetIndex,
     duration = 0
 )
+
+internal fun VideoAux.toEntity(
+    id: String,
+    lessonIndex: String
+): VideoInfoEntity = VideoInfoEntity(
+    id = id,
+    lessonIndex = lessonIndex,
+    artist = artist,
+    clips = clips.mapIndexed { index, clip ->
+        SSVideo(
+            id = clip.id,
+            artist = clip.artist,
+            title = clip.title,
+            target = clip.target,
+            targetIndex = clip.targetIndex,
+            src = clip.src,
+            thumbnail = clip.thumbnail.takeIf { it.isFullUrl() } ?: "$SS_IMAGES_BASE_URL${clip.thumbnail}",
+        )
+    }
+)
+
 
 private fun String.isFullUrl(): Boolean {
     return try {
