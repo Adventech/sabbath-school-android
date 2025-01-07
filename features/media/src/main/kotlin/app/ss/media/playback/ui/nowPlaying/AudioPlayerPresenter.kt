@@ -43,14 +43,14 @@ import ss.libraries.media.model.extensions.targetIndex
 import ss.libraries.media.model.toAudio
 import ss.services.media.ui.PlaybackConnection
 
-class NowPlayingPresenter @AssistedInject constructor(
+class AudioPlayerPresenter @AssistedInject constructor(
     @Assisted private val screen: AudioPlayerScreen,
     private val repository: MediaRepository,
     private val playbackConnection: PlaybackConnection,
-) : Presenter<NowPlayingState> {
+) : Presenter<AudioPlayerState> {
 
     @Composable
-    override fun present(): NowPlayingState {
+    override fun present(): AudioPlayerState {
         val isConnected by rememberIsConnected()
         val nowPlayingAudio by rememberNowPlayingAudio()
         val screenSpec by rememberScreenSpec(nowPlayingAudio)
@@ -64,8 +64,8 @@ class NowPlayingPresenter @AssistedInject constructor(
         val spec = screenSpec
 
         return when {
-            spec == null -> NowPlayingState.Loading
-            else -> NowPlayingState.NowPlaying(spec)
+            spec == null -> AudioPlayerState.Loading
+            else -> AudioPlayerState.NowPlaying(spec)
         }
     }
 
@@ -141,6 +141,6 @@ class NowPlayingPresenter @AssistedInject constructor(
     @CircuitInject(AudioPlayerScreen::class, SingletonComponent::class)
     @AssistedFactory
     interface Factory {
-        fun create(screen: AudioPlayerScreen): NowPlayingPresenter
+        fun create(screen: AudioPlayerScreen): AudioPlayerPresenter
     }
 }

@@ -22,13 +22,31 @@
 
 package app.ss.media.playback.ui.nowPlaying
 
+import androidx.compose.runtime.Immutable
+import app.ss.models.media.AudioFile
 import com.slack.circuit.runtime.CircuitUiState
+import ss.libraries.media.model.PlaybackProgressState
+import ss.libraries.media.model.PlaybackQueue
+import ss.libraries.media.model.PlaybackSpeed
+import ss.services.media.ui.PlaybackConnection
+import ss.services.media.ui.spec.PlaybackStateSpec
 
-sealed interface NowPlayingState : CircuitUiState {
-    data object Loading : NowPlayingState
+sealed interface AudioPlayerState : CircuitUiState {
+    data object Loading : AudioPlayerState
 
     data class NowPlaying(
         val spec: NowPlayingScreenSpec
-    ) : NowPlayingState
+    ) : AudioPlayerState
 }
+
+@Immutable
+data class NowPlayingScreenSpec(
+    val nowPlayingAudio: AudioFile,
+    val playbackQueue: PlaybackQueue,
+    val playbackState: PlaybackStateSpec,
+    val playbackProgressState: PlaybackProgressState,
+    val playbackConnection: PlaybackConnection,
+    val playbackSpeed: PlaybackSpeed,
+    val isDraggable: (Boolean) -> Unit
+)
 

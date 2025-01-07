@@ -38,7 +38,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -61,40 +60,24 @@ import app.ss.media.playback.ui.common.PlaybackSpeedLabel
 import app.ss.media.playback.ui.nowPlaying.components.BoxState
 import app.ss.media.playback.ui.nowPlaying.components.PlayBackControls
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgressDuration
-import app.ss.models.media.AudioFile
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
 import ss.libraries.circuit.navigation.AudioPlayerScreen
-import ss.libraries.media.model.PlaybackProgressState
-import ss.libraries.media.model.PlaybackQueue
 import ss.libraries.media.model.PlaybackSpeed
-import ss.services.media.ui.PlaybackConnection
-import ss.services.media.ui.spec.PlaybackStateSpec
 import app.ss.translations.R as L10nR
 import ss.libraries.media.resources.R as MediaR
 
-@Immutable
-data class NowPlayingScreenSpec(
-    val nowPlayingAudio: AudioFile,
-    val playbackQueue: PlaybackQueue,
-    val playbackState: PlaybackStateSpec,
-    val playbackProgressState: PlaybackProgressState,
-    val playbackConnection: PlaybackConnection,
-    val playbackSpeed: PlaybackSpeed,
-    val isDraggable: (Boolean) -> Unit
-)
-
 @CircuitInject(AudioPlayerScreen::class, SingletonComponent::class)
 @Composable
-fun NowPlayingUi(state: NowPlayingState, modifier: Modifier = Modifier) {
+fun AudioPlayerScreenUi(state: AudioPlayerState, modifier: Modifier = Modifier) {
     when (state) {
-        is NowPlayingState.NowPlaying -> {
+        is AudioPlayerState.NowPlaying -> {
             NowPlayingScreen(
                 spec = state.spec,
                 modifier = modifier
             )
         }
-        NowPlayingState.Loading -> {
+        AudioPlayerState.Loading -> {
             // Loading state
         }
     }
