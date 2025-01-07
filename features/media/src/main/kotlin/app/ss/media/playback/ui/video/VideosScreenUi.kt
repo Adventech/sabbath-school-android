@@ -24,6 +24,7 @@ package app.ss.media.playback.ui.video
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
 import ss.libraries.circuit.navigation.VideosScreen
@@ -31,10 +32,10 @@ import ss.libraries.circuit.navigation.VideosScreen
 @CircuitInject(VideosScreen::class, SingletonComponent::class)
 @Composable
 fun VideosScreenUi(state: VideosScreenState, modifier: Modifier = Modifier) {
+    val context = LocalContext.current
     VideoListScreen(
         videoList = state.data,
         modifier = modifier,
-        onVideoClick = {},
-        isAtTop = { },
+        onVideoClick = { state.eventSink(VideosScreenEvent.OnVideoSelected(context, it)) },
     )
 }

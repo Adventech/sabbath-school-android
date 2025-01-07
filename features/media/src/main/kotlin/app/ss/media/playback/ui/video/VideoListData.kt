@@ -22,13 +22,19 @@
 
 package app.ss.media.playback.ui.video
 
+import android.content.Context
 import app.ss.models.media.SSVideo
 import app.ss.models.media.SSVideosInfo
 import com.slack.circuit.runtime.CircuitUiState
 
 data class VideosScreenState(
-    val data: VideoListData = VideoListData.Empty
+    val data: VideoListData = VideoListData.Empty,
+    val eventSink: (VideosScreenEvent) -> Unit = {}
 ): CircuitUiState
+
+sealed interface VideosScreenEvent {
+    data class OnVideoSelected(val context: Context, val video: SSVideo) : VideosScreenEvent
+}
 
 sealed class VideoListData {
     data class Horizontal(

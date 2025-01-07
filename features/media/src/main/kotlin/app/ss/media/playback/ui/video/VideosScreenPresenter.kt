@@ -26,10 +26,13 @@ import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import app.ss.lessons.data.repository.media.MediaRepository
+import app.ss.media.playback.ui.video.player.VideoPlayerActivity
 import app.ss.models.media.SSVideosInfo
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
+import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuitx.android.IntentScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -38,6 +41,7 @@ import kotlinx.coroutines.flow.map
 import ss.libraries.circuit.navigation.VideosScreen
 
 class VideosScreenPresenter @AssistedInject constructor(
+    @Assisted private val navigator: Navigator,
     @Assisted private val screen: VideosScreen,
     private val repository: MediaRepository,
 ) : Presenter<VideosScreenState> {
@@ -46,7 +50,20 @@ class VideosScreenPresenter @AssistedInject constructor(
     override fun present(): VideosScreenState {
         val videos by rememberVideos()
 
-        return VideosScreenState(data = videos)
+        return VideosScreenState(data = videos) { event ->
+            when (event) {
+                is VideosScreenEvent.OnVideoSelected -> {
+                    navigator.goTo(
+                        IntentScreen(
+                            VideoPlayerActivity.launchIntent(
+                                event.context,
+                                event.video,
+                            )
+                        )
+                    )
+                }
+            }
+        }
     }
 
     @Composable
@@ -76,6 +93,6 @@ class VideosScreenPresenter @AssistedInject constructor(
     @CircuitInject(VideosScreen::class, SingletonComponent::class)
     @AssistedFactory
     interface Factory {
-        fun create(screen: VideosScreen): VideosScreenPresenter
+        fun create(navigator: Navigator, screen: VideosScreen): VideosScreenPresenter
     }
 }
