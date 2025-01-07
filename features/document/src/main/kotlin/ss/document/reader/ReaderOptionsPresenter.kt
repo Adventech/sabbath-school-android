@@ -23,32 +23,30 @@
 package ss.document.reader
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import com.slack.circuit.codegen.annotations.CircuitInject
-import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
-import io.adventech.blockkit.ui.style.ReaderStyle
 import io.adventech.blockkit.ui.style.ReaderStyleConfig
-import kotlinx.coroutines.flow.flowOn
+import ss.document.producer.ReaderStyleStateProducer
 import ss.document.reader.ReaderOptionsScreen.Event
 import ss.document.reader.ReaderOptionsScreen.State
-import ss.foundation.coroutines.DispatcherProvider
 import ss.prefs.api.SSPrefs
 import ss.prefs.model.SSReadingDisplayOptions
 
 class ReaderOptionsPresenter @AssistedInject constructor(
     private val ssPrefs: SSPrefs,
-    private val dispatcherProvider: DispatcherProvider,
+    private val readerStyleStateProducer: ReaderStyleStateProducer,
 ) : Presenter<State> {
 
     @Composable
     override fun present(): State {
-        val displayOptions by rememberDisplayOptions()
+        val readerStyle = readerStyleStateProducer()
 
-        return State(displayOptions.toReaderStyle()) { event ->
+        return State(readerStyle) { event ->
+            val displayOptions = readerStyle.toDisplayOptions()
+
             when (event) {
                 is Event.OnThemeChanged -> {
                     ssPrefs.setDisplayOptions(displayOptions.copy(theme = event.theme.value))
@@ -65,23 +63,10 @@ class ReaderOptionsPresenter @AssistedInject constructor(
         }
     }
 
-    @Composable
-    private fun rememberDisplayOptions() = produceRetainedState(
-        SSReadingDisplayOptions(
-            theme = ReaderStyle.Theme.Auto.value,
-            font = ReaderStyle.Typeface.Lato.value,
-            size = ReaderStyle.Size.Medium.value
-        )
-    ) {
-        ssPrefs.displayOptionsFlow()
-            .flowOn(dispatcherProvider.io)
-            .collect { value = it }
-    }
-
-    private fun SSReadingDisplayOptions.toReaderStyle(): ReaderStyleConfig = ReaderStyleConfig(
-        theme = ReaderStyle.Theme.from(theme),
-        typeface = ReaderStyle.Typeface.from(font),
-        size = ReaderStyle.Size.from(size)
+    private fun ReaderStyleConfig.toDisplayOptions() = SSReadingDisplayOptions(
+        theme = theme.value,
+        font = typeface.value,
+        size = size.value
     )
 
     @CircuitInject(ReaderOptionsScreen::class, SingletonComponent::class)

@@ -41,6 +41,7 @@ import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.SegmentType
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import kotlinx.collections.immutable.toImmutableList
+import ss.document.producer.ReaderStyleStateProducer
 import ss.document.producer.TopAppbarActionsProducer
 import ss.libraries.circuit.navigation.DocumentScreen
 import ss.resources.api.ResourcesRepository
@@ -52,6 +53,7 @@ class DocumentPresenter @AssistedInject constructor(
     private val resourcesRepository: ResourcesRepository,
     private val actionsProducer: TopAppbarActionsProducer,
     private val fontFamilyProvider: FontFamilyProvider,
+    private val readerStyleStateProducer: ReaderStyleStateProducer,
 ) : Presenter<State> {
 
     @Composable
@@ -65,6 +67,8 @@ class DocumentPresenter @AssistedInject constructor(
         val actionsState = actionsProducer(screen.resourceIndex, screen.index, selectedPage)
 
         val overlayState = actionsState.overlayState // Assign other overlays
+
+        val readerStyle = readerStyleStateProducer()
 
         val eventSink: (Event) -> Unit = { event ->
             when (event) {
