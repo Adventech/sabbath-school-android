@@ -52,9 +52,11 @@ import kotlinx.coroutines.withContext
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.ResourcesApi
+import ss.libraries.storage.api.dao.AudioDao
 import ss.libraries.storage.api.dao.FontFilesDao
 import ss.libraries.storage.api.dao.LanguagesDao
 import ss.libraries.storage.api.dao.SegmentsDao
+import ss.libraries.storage.api.dao.VideoInfoDao
 import ss.prefs.api.SSPrefs
 import ss.resources.api.ResourcesRepository
 import ss.resources.impl.ext.toEntity
@@ -70,6 +72,8 @@ import javax.inject.Inject
 internal class ResourcesRepositoryImpl @Inject constructor(
     @ApplicationContext private val appContext: Context,
     private val resourcesApi: ResourcesApi,
+    private val audioDao: AudioDao,
+    private val videoInfoDao: VideoInfoDao,
     private val fontFilesDao: FontFilesDao,
     private val languagesDao: LanguagesDao,
     private val segmentsDao: SegmentsDao,
@@ -220,7 +224,12 @@ internal class ResourcesRepositoryImpl @Inject constructor(
 
                 is NetworkResource.Success -> {
                     resource.value.body()?.let {
-                        Result.success(it.filter { it.target.startsWith(documentIndex) })
+                        val audio = it.filter { it.target.startsWith(documentIndex) }
+                        withContext(dispatcherProvider.io) {
+                            audioDao.delete()
+                            audioDao.insertAll(audio.map { it.toEntity() })
+                        }
+                        Result.success(audio)
                     } ?: Result.failure(Throwable("Failed to fetch Audio, body is null"))
                 }
             }
