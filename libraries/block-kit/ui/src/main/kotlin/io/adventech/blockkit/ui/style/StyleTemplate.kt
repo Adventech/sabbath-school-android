@@ -162,12 +162,12 @@ internal data class HeadingStyleTemplate(private val depth: Int) : BlockStyleTem
                     6 to 17f
                 ),
                 ReaderStyle.Size.Huge to mapOf(
-                    1 to 34f,
-                    2 to 28f,
-                    3 to 24f,
-                    4 to 20f,
-                    5 to 17f,
-                    6 to 15f
+                    1 to 42f,
+                    2 to 38f,
+                    3 to 34f,
+                    4 to 30f,
+                    5 to 24f,
+                    6 to 20f
                 )
             )
 
