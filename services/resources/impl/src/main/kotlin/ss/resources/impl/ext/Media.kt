@@ -22,17 +22,30 @@
 
 package ss.resources.impl.ext
 
+import android.net.Uri
 import app.ss.models.AudioAux
 import ss.libraries.storage.api.entity.AudioFileEntity
+import timber.log.Timber
+import ss.misc.SSConstants.SS_IMAGES_BASE_URL
 
 fun AudioAux.toEntity(): AudioFileEntity = AudioFileEntity(
     id = this.id,
     title = this.title,
     artist = this.artist,
     src = this.src,
-    image = this.image,
+    image = this.image.takeIf { it.isFullUrl() } ?: "$SS_IMAGES_BASE_URL$image",
     imageRatio = this.imageRatio,
     target = this.target,
     targetIndex = this.targetIndex,
     duration = 0
 )
+
+private fun String.isFullUrl(): Boolean {
+    return try {
+        val uri = Uri.parse(this)
+        uri.scheme != null && uri.host != null
+    } catch (e: Exception) {
+        Timber.e(e)
+        false
+    }
+}

@@ -30,6 +30,8 @@ plugins {
 
 dependencies {
     api(projects.services.resources.api)
+
+    implementation(projects.common.misc)
     implementation(projects.common.network)
     implementation(projects.libraries.foundation.android)
     implementation(projects.libraries.lessons.api)
