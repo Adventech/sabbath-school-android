@@ -44,6 +44,7 @@ dependencies {
     implementation(projects.common.translations)
     implementation(projects.libraries.blockKit.ui)
     implementation(projects.libraries.circuit.api)
+    implementation(projects.libraries.prefs.api)
     implementation(projects.services.resources.api)
 
     implementation(libs.coil.compose)

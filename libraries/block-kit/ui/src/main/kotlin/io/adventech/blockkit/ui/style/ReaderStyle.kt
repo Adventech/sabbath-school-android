@@ -23,7 +23,6 @@
 package io.adventech.blockkit.ui.style
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
@@ -34,14 +33,22 @@ sealed class ReaderStyle {
         Light("light"),
         Sepia("sepia"),
         Dark("dark"),
-        Auto("auto")
+        Auto("auto");
+
+        companion object {
+            fun from(value: String): Theme = entries.associateBy(Theme::value)[value] ?: Auto
+        }
     }
 
     enum class Typeface(val value: String) {
         Andada("andada"),
         Lato("lato"),
         PtSerif("pt-serif"),
-        PtSans("pt-sans")
+        PtSans("pt-sans");
+
+        companion object {
+            fun from(value: String): Typeface = entries.associateBy(Typeface::value)[value] ?: Lato
+        }
     }
 
     enum class Size(val value: String) {
@@ -50,6 +57,10 @@ sealed class ReaderStyle {
         Medium("medium"),
         Large("large"),
         Huge("huge");
+
+        companion object {
+            fun from(value: String): Size = entries.associateBy(Size::value)[value] ?: Medium
+        }
     }
 }
 

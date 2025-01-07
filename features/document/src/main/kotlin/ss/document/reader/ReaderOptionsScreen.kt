@@ -25,14 +25,13 @@ package ss.document.reader
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
 import io.adventech.blockkit.ui.style.ReaderStyle
+import io.adventech.blockkit.ui.style.ReaderStyleConfig
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data object ReaderOptionsScreen: Screen {
     data class State(
-        val theme: ReaderStyle.Theme,
-        val typeface: ReaderStyle.Typeface,
-        val fontSize: ReaderStyle.Size,
+        val config: ReaderStyleConfig,
         val eventSink: (Event) -> Unit
     ): CircuitUiState
 

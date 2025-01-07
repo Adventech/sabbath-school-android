@@ -56,6 +56,8 @@ import app.ss.design.compose.widget.material.LegacySlider
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.ui.style.ReaderStyle
+import io.adventech.blockkit.ui.style.ReaderStyleConfig
+import io.adventech.blockkit.ui.style.Styler
 import ss.document.reader.ReaderOptionsScreen.Event
 import ss.document.reader.ReaderOptionsScreen.State
 import app.ss.translations.R as L10nR
@@ -64,15 +66,15 @@ import app.ss.translations.R as L10nR
 @Composable
 fun ReaderOptionsUi(state: State, modifier: Modifier = Modifier) {
     Column(modifier = modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-        ReaderOptionsTheme(state.theme) { state.eventSink(Event.OnThemeChanged(it)) }
+        ReaderOptionsTheme(state.config.theme) { state.eventSink(Event.OnThemeChanged(it)) }
 
         Divider(Modifier.padding(vertical = 12.dp))
 
-        ReaderOptionsTypeface(state.typeface) { state.eventSink(Event.OnTypefaceChanged(it)) }
+        ReaderOptionsTypeface(state.config.typeface) { state.eventSink(Event.OnTypefaceChanged(it)) }
 
         Divider(Modifier.padding(vertical = 12.dp))
 
-        ReaderOptionsFontSize(state.fontSize)
+        ReaderOptionsFontSize(state.config.size)
 
         Spacer(
             Modifier
@@ -151,7 +153,9 @@ private fun ReaderOptionsTypeface(
                 label = {
                     Text(
                         text = stringResource(item.label()),
-                        style = SsTheme.typography.titleMedium
+                        style = SsTheme.typography.titleMedium.copy(
+                            fontFamily = Styler.fontFamily(item)
+                        )
                     )
                 },
                 modifier = Modifier,
@@ -174,7 +178,7 @@ private fun ReaderOptionsFontSize(
     modifier: Modifier = Modifier,
     onSelected: (ReaderStyle.Size) -> Unit = {}
 ) {
-    var sliderPosition by remember(size) { mutableFloatStateOf(size.step()) }
+    var sliderPosition by remember { mutableFloatStateOf(size.step()) }
 
     Text(
         text = stringResource(L10nR.string.ss_settings_font_size),
@@ -243,11 +247,7 @@ private fun Preview() {
     SsTheme {
         Surface {
             ReaderOptionsUi(
-                state = State(
-                    theme = ReaderStyle.Theme.Auto,
-                    typeface = ReaderStyle.Typeface.Lato,
-                    fontSize = ReaderStyle.Size.Medium
-                ) {}
+                state = State(config = ReaderStyleConfig()) {}
             )
         }
     }
