@@ -74,7 +74,7 @@ data class ReaderStyleConfig(
 val LocalReaderStyle = staticCompositionLocalOf { ReaderStyleConfig() }
 
 @Composable
-fun ReaderStyle.Theme.background() : Color {
+fun ReaderStyle.Theme.background(): Color {
     return when (this) {
         ReaderStyle.Theme.Light -> Color.White
         ReaderStyle.Theme.Sepia -> Color.Sepia100
@@ -84,7 +84,7 @@ fun ReaderStyle.Theme.background() : Color {
 }
 
 @Composable
-fun ReaderStyle.Theme.secondaryBackground() : Color {
+fun ReaderStyle.Theme.secondaryBackground(): Color {
     return when (this) {
         ReaderStyle.Theme.Light -> Color.Gray50
         ReaderStyle.Theme.Sepia -> Color.Sepia200
@@ -94,7 +94,7 @@ fun ReaderStyle.Theme.secondaryBackground() : Color {
 }
 
 @Composable
-fun ReaderStyle.Theme.primaryForeground() : Color {
+fun ReaderStyle.Theme.primaryForeground(): Color {
     return when (this) {
         ReaderStyle.Theme.Light -> Color.Primary950
         ReaderStyle.Theme.Sepia -> Color.Sepia400
@@ -104,7 +104,7 @@ fun ReaderStyle.Theme.primaryForeground() : Color {
 }
 
 @Composable
-fun ReaderStyle.Theme.secondaryForeground() : Color {
+fun ReaderStyle.Theme.secondaryForeground(): Color {
     return when (this) {
         ReaderStyle.Theme.Light -> Color.Gray700
         ReaderStyle.Theme.Sepia -> Color.Sepia400
