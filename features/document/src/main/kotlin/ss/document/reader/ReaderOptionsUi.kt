@@ -74,7 +74,7 @@ fun ReaderOptionsUi(state: State, modifier: Modifier = Modifier) {
 
         Divider(Modifier.padding(vertical = 12.dp))
 
-        ReaderOptionsFontSize(state.config.size)
+        ReaderOptionsFontSize(state.config.size) { state.eventSink(Event.OnFontSizeChanged(it)) }
 
         Spacer(
             Modifier
@@ -108,10 +108,12 @@ private fun ReaderOptionsTheme(
             FilterChip(
                 selected = theme == item,
                 onClick = { onSelected(item) },
-                label = { Text(
-                    text = stringResource(item.label()),
-                    style = SsTheme.typography.titleMedium
-                ) },
+                label = {
+                    Text(
+                        text = stringResource(item.label()),
+                        style = SsTheme.typography.titleMedium
+                    )
+                },
                 modifier = Modifier,
                 shape = RoundedCornerShape(16.dp)
             )
@@ -178,7 +180,7 @@ private fun ReaderOptionsFontSize(
     modifier: Modifier = Modifier,
     onSelected: (ReaderStyle.Size) -> Unit = {}
 ) {
-    var sliderPosition by remember { mutableFloatStateOf(size.step()) }
+    var sliderPosition by remember(size) { mutableFloatStateOf(size.step()) }
 
     Text(
         text = stringResource(L10nR.string.ss_settings_font_size),
@@ -207,12 +209,11 @@ private fun ReaderOptionsFontSize(
             value = sliderPosition,
             onValueChange = {
                 sliderPosition = it
-                onSelected(it.toSize())
+                it.toSize()?.let { onSelected(it) }
             },
-            modifier = Modifier
-                .weight(1f),
-            steps = 4,
-            valueRange = 0f..5f
+            modifier = Modifier.weight(1f),
+            steps = 3,
+            valueRange = 0f..4f
         )
 
         Icon(
@@ -238,7 +239,7 @@ private fun Float.toSize() = when (this) {
     2f -> ReaderStyle.Size.Medium
     3f -> ReaderStyle.Size.Large
     4f -> ReaderStyle.Size.Huge
-    else -> ReaderStyle.Size.Medium
+    else -> null
 }
 
 @PreviewLightDark
