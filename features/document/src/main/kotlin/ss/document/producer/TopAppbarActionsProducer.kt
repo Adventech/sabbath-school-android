@@ -38,7 +38,11 @@ import io.adventech.blockkit.model.resource.SegmentType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import ss.document.DocumentOverlayState
+import ss.document.DocumentOverlayState.BottomSheet
 import ss.document.components.DocumentTopAppBarAction
+import ss.document.reader.ReaderOptionsScreen
+import ss.libraries.circuit.navigation.AudioScreen
+import ss.libraries.circuit.navigation.VideosScreen
 import ss.resources.api.ResourcesRepository
 import javax.inject.Inject
 
@@ -107,11 +111,19 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
                 when (event) {
                     is TopAppbarActionsState.Event.OnActionClick -> {
                         when (event.action) {
-                            DocumentTopAppBarAction.Audio -> Unit
-                            DocumentTopAppBarAction.Video -> Unit
+                            DocumentTopAppBarAction.Audio -> {
+                                bottomSheetState = BottomSheet.Audio(AudioScreen(resourceIndex, documentIndex)) { result ->
+                                    bottomSheetState = null
+                                }
+                            }
+                            DocumentTopAppBarAction.Video -> {
+                                bottomSheetState = BottomSheet.Videos(VideosScreen(resourceIndex, documentIndex)) { result ->
+                                    bottomSheetState = null
+                                }
+                            }
                             DocumentTopAppBarAction.Pdf -> Unit
                             DocumentTopAppBarAction.DisplayOptions -> {
-                                bottomSheetState = DocumentOverlayState.ReaderOptionsBottomSheet { result ->
+                                bottomSheetState = BottomSheet.ReaderOptions(ReaderOptionsScreen) { result ->
                                     bottomSheetState = null
                                 }
                             }

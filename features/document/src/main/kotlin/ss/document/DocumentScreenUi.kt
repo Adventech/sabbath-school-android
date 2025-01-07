@@ -50,7 +50,6 @@ import ss.document.components.DocumentLoadingView
 import ss.document.components.DocumentPager
 import ss.document.components.DocumentTitleBar
 import ss.document.components.DocumentTopAppBar
-import ss.document.reader.ReaderOptionsScreen
 import ss.libraries.circuit.navigation.DocumentScreen
 import ss.libraries.circuit.overlay.BottomSheetOverlay
 
@@ -127,9 +126,9 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
 
                 OverlayEffect(state.overlayState) {
                     when (val state = state.overlayState) {
-                        is DocumentOverlayState.ReaderOptionsBottomSheet -> state.onResult(
-                            show(BottomSheetOverlay { CircuitContent(ReaderOptionsScreen) })
-                        )
+                        is DocumentOverlayState.BottomSheet -> {
+                            state.onResult(show(BottomSheetOverlay { CircuitContent(state.screen) }))
+                        }
 
                         null -> Unit
                     }

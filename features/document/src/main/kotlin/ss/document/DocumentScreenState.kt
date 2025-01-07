@@ -25,6 +25,7 @@ package ss.document
 import com.slack.circuit.foundation.NavEvent
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
+import com.slack.circuit.runtime.screen.Screen
 import io.adventech.blockkit.model.Style
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.ui.style.ReaderStyleConfig
@@ -79,8 +80,27 @@ sealed interface SuccessEvent : Event {
 
 sealed interface DocumentOverlayState : CircuitUiState {
 
-    /** Overlay for reader options. */
-    data class ReaderOptionsBottomSheet(
+    sealed interface BottomSheet : DocumentOverlayState {
+        val screen: Screen
         val onResult: (BottomSheetOverlay.Result) -> Unit
-    ) : DocumentOverlayState
+
+        /** Overlay for reader options. */
+        data class ReaderOptions(
+            override val screen: Screen,
+            override val onResult: (BottomSheetOverlay.Result) -> Unit
+        ) : BottomSheet
+
+        /** Overlay for audio screen. */
+        data class Audio(
+            override val screen: Screen,
+            override val onResult: (BottomSheetOverlay.Result) -> Unit
+        ) : BottomSheet
+
+        /** Overlay for videos screen. */
+        data class Videos(
+            override val screen: Screen,
+            override val onResult: (BottomSheetOverlay.Result) -> Unit
+        ) : BottomSheet
+    }
+
 }
