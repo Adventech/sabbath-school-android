@@ -37,14 +37,14 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import ss.libraries.circuit.navigation.AudioScreen
+import ss.libraries.circuit.navigation.AudioPlayerScreen
 import ss.libraries.media.model.extensions.id
 import ss.libraries.media.model.extensions.targetIndex
 import ss.libraries.media.model.toAudio
 import ss.services.media.ui.PlaybackConnection
 
 class NowPlayingPresenter @AssistedInject constructor(
-    @Assisted private val screen: AudioScreen,
+    @Assisted private val screen: AudioPlayerScreen,
     private val repository: MediaRepository,
     private val playbackConnection: PlaybackConnection,
 ) : Presenter<NowPlayingState> {
@@ -138,9 +138,9 @@ class NowPlayingPresenter @AssistedInject constructor(
         }
     }
 
-    @CircuitInject(AudioScreen::class, SingletonComponent::class)
+    @CircuitInject(AudioPlayerScreen::class, SingletonComponent::class)
     @AssistedFactory
     interface Factory {
-        fun create(screen: AudioScreen): NowPlayingPresenter
+        fun create(screen: AudioPlayerScreen): NowPlayingPresenter
     }
 }

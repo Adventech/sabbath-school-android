@@ -39,7 +39,12 @@ internal object PreviewData {
         return NowPlayingScreenSpec(
             nowPlayingAudio = sampleAudio,
             playbackQueue = PlaybackQueue(
-                audiosList = (1 until 10).map { sampleAudio.copy(id = "$it", title = "${sampleAudio.title} $it") } ,
+                audiosList = (1 until 10).map {
+                    sampleAudio.copy(
+                        id = "$it",
+                        title = "${sampleAudio.title} $it"
+                    )
+                },
                 title = "Playback Queue"),
             playbackState = PlaybackStateSpec.NONE,
             playbackProgressState = PlaybackProgressState(),
@@ -56,6 +61,7 @@ internal object PreviewData {
                     get() = MutableStateFlow(PlaybackProgressState())
                 override val playbackSpeed: StateFlow<PlaybackSpeed>
                     get() = MutableStateFlow(PlaybackSpeed.NORMAL)
+
                 override fun playPause() = Unit
                 override fun playAudio(audio: AudioFile) = Unit
                 override fun playAudios(audios: List<AudioFile>, index: Int) = Unit

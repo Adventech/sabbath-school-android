@@ -41,7 +41,7 @@ import ss.document.DocumentOverlayState
 import ss.document.DocumentOverlayState.BottomSheet
 import ss.document.components.DocumentTopAppBarAction
 import ss.document.reader.ReaderOptionsScreen
-import ss.libraries.circuit.navigation.AudioScreen
+import ss.libraries.circuit.navigation.AudioPlayerScreen
 import ss.libraries.circuit.navigation.VideosScreen
 import ss.resources.api.ResourcesRepository
 import javax.inject.Inject
@@ -115,7 +115,7 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
                         when (event.action) {
                             DocumentTopAppBarAction.Audio -> {
                                 bottomSheetState = BottomSheet(
-                                    screen = AudioScreen(resourceId, documentIndex),
+                                    screen = AudioPlayerScreen(resourceId, documentIndex),
                                     skipPartiallyExpanded = true,
                                 ) { result ->
                                     bottomSheetState = null

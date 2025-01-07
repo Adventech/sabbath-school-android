@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -64,7 +64,7 @@ import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgressDuration
 import app.ss.models.media.AudioFile
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
-import ss.libraries.circuit.navigation.AudioScreen
+import ss.libraries.circuit.navigation.AudioPlayerScreen
 import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.PlaybackQueue
 import ss.libraries.media.model.PlaybackSpeed
@@ -84,7 +84,7 @@ data class NowPlayingScreenSpec(
     val isDraggable: (Boolean) -> Unit
 )
 
-@CircuitInject(AudioScreen::class, SingletonComponent::class)
+@CircuitInject(AudioPlayerScreen::class, SingletonComponent::class)
 @Composable
 fun NowPlayingUi(state: NowPlayingState, modifier: Modifier = Modifier) {
     when (state) {

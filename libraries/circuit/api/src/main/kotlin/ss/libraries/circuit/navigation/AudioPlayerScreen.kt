@@ -26,7 +26,7 @@ import com.slack.circuit.runtime.screen.Screen
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class AudioScreen(
+data class AudioPlayerScreen(
     val resourceIndex: String,
     val documentIndex: String,
 ): Screen
