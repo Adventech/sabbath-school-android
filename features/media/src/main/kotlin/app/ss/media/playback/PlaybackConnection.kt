@@ -24,6 +24,7 @@ package app.ss.media.playback
 
 import android.content.ComponentName
 import android.content.Context
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.MediaMetadata
@@ -54,6 +55,7 @@ import timber.log.Timber
 
 private const val LOG_TAG = "PlaybackConnection"
 
+@Stable
 interface PlaybackConnection {
     val isConnected: StateFlow<Boolean>
     val playbackState: StateFlow<PlaybackStateSpec>

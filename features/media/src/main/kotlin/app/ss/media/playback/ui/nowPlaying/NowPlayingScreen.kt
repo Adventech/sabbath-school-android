@@ -65,6 +65,9 @@ import app.ss.media.playback.ui.nowPlaying.components.PlayBackControls
 import app.ss.media.playback.ui.nowPlaying.components.PlaybackProgressDuration
 import app.ss.media.playback.ui.spec.PlaybackStateSpec
 import app.ss.models.media.AudioFile
+import com.slack.circuit.codegen.annotations.CircuitInject
+import dagger.hilt.components.SingletonComponent
+import ss.libraries.circuit.navigation.AudioScreen
 import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.PlaybackQueue
 import ss.libraries.media.model.PlaybackSpeed
@@ -72,7 +75,7 @@ import app.ss.translations.R as L10nR
 import ss.libraries.media.resources.R as MediaR
 
 @Immutable
-internal data class NowPlayingScreenSpec(
+data class NowPlayingScreenSpec(
     val nowPlayingAudio: AudioFile,
     val playbackQueue: PlaybackQueue,
     val playbackState: PlaybackStateSpec,
@@ -81,6 +84,22 @@ internal data class NowPlayingScreenSpec(
     val playbackSpeed: PlaybackSpeed,
     val isDraggable: (Boolean) -> Unit
 )
+
+@CircuitInject(AudioScreen::class, SingletonComponent::class)
+@Composable
+fun NowPlayingUi(state: NowPlayingState, modifier: Modifier = Modifier) {
+    when (state) {
+        is NowPlayingState.NowPlaying -> {
+            NowPlayingScreen(
+                spec = state.spec,
+                modifier = modifier
+            )
+        }
+        NowPlayingState.Loading -> {
+            // Loading state
+        }
+    }
+}
 
 @Composable
 internal fun NowPlayingScreen(
@@ -121,6 +140,7 @@ internal fun NowPlayingScreen(
 internal fun NowPlayingScreen(
     spec: NowPlayingScreenSpec,
     listState: LazyListState = rememberLazyListState(),
+    modifier: Modifier = Modifier,
 ) {
     val (_, _, playbackState, playbackProgressState, playbackConnection, playbackSpeed, isDraggable) = spec
 
@@ -149,7 +169,7 @@ internal fun NowPlayingScreen(
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(vertical = 16.dp)
             .nestedScroll(connection = nestedScrollConnection),
