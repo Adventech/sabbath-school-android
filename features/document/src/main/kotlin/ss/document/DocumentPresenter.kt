@@ -41,12 +41,15 @@ import io.adventech.blockkit.model.resource.ResourceDocument
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.SegmentType
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import org.joda.time.DateTime
 import ss.document.components.DocumentTopAppBarAction
 import ss.document.producer.ReaderStyleStateProducer
 import ss.document.producer.TopAppbarActionsProducer
 import ss.libraries.circuit.navigation.DocumentScreen
 import ss.libraries.circuit.navigation.ExpandedAudioPlayerScreen
+import ss.misc.DateHelper
 import ss.resources.api.ResourcesRepository
 import ss.document.producer.TopAppbarActionsState.Event as TopAppbarEvent
 
@@ -59,11 +62,13 @@ class DocumentPresenter @AssistedInject constructor(
     private val readerStyleStateProducer: ReaderStyleStateProducer,
 ) : Presenter<State> {
 
+    private val today get() = DateTime.now().withTimeAtStartOfDay()
+
     @Composable
     override fun present(): State {
         val response by rememberDocument()
         val documentPages by rememberDocumentSegments(response)
-        var selectedPage by rememberRetained(documentPages) { mutableStateOf(documentPages.firstOrNull()) }
+        var selectedPage by rememberRetained(documentPages) { mutableStateOf(documentPages.defaultPage()) }
 
         val resourceDocument = response
 
@@ -139,6 +144,16 @@ class DocumentPresenter @AssistedInject constructor(
             (document?.segments?.map { it.copy(cover = it.cover ?: screen.cover) } ?: emptyList())
                 .toImmutableList()
         )
+    }
+
+    private fun ImmutableList<Segment>.defaultPage(): Segment? {
+        forEachIndexed { index, segment ->
+            val date = segment.date?.let { DateHelper.parseDate(it) }
+            if (date?.isEqual(today) == true && index < 6) {
+                return segment
+            }
+        }
+        return firstOrNull()
     }
 
     @CircuitInject(DocumentScreen::class, SingletonComponent::class)
