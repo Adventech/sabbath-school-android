@@ -65,10 +65,21 @@ class ResourcePresenter @AssistedInject constructor(
         val sections = resource?.let { resourceSectionStateProducer(navigator, it) }?.specs ?: persistentListOf()
         val ctaScreen = resourceCtaScreenProducer(resource)
 
+        var overlayState by rememberRetained { mutableStateOf<ResourceOverlayState?>(null) }
+
         val eventSink: (Event) -> Unit = { event ->
             when (event) {
                 Event.OnNavBack -> navigator.pop()
-                Event.OnCtaClick -> { ctaScreen?.let { navigator.goTo(it) } }
+                Event.OnCtaClick -> {
+                    ctaScreen?.let { navigator.goTo(it) }
+                }
+                Event.OnReadMoreClick -> {
+                    resource?.introduction?.let {
+                        overlayState = ResourceOverlayState.IntroductionBottomSheet(it) { result ->
+                            overlayState = null
+                        }
+                    }
+                }
             }
         }
 
@@ -80,7 +91,8 @@ class ResourcePresenter @AssistedInject constructor(
                 credits = credits,
                 features = features,
                 fontFamilyProvider = fontFamilyProvider,
-                eventSink = eventSink
+                overlayState = overlayState,
+                eventSink = eventSink,
             )
 
             else -> State.Loading(

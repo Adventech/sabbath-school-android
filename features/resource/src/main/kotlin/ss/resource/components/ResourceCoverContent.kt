@@ -54,6 +54,7 @@ import app.ss.design.compose.widget.text.ReadMoreText
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.ui.MarkdownText
 import io.adventech.blockkit.ui.style.Styler
+import io.adventech.blockkit.ui.style.thenIf
 import kotlinx.collections.immutable.toImmutableList
 import app.ss.translations.R as L10n
 
@@ -61,7 +62,8 @@ import app.ss.translations.R as L10n
 internal fun ColumnScope.CoverContent(
     resource: Resource,
     type: CoverContentType,
-    ctaOnClick: () -> Unit
+    ctaOnClick: () -> Unit,
+    readMoreClick: () -> Unit
 ) {
     val textAlign: TextAlign
     val alignment: Alignment.Horizontal
@@ -113,7 +115,9 @@ internal fun ColumnScope.CoverContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = SsTheme.dimens.grid_4, vertical = 8.dp)
-                        .clickable { }
+                        .thenIf(resource.introduction.isNullOrEmpty() == false) {
+                            clickable { readMoreClick() }
+                        }
                 )
             }
 

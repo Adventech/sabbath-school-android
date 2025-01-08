@@ -38,6 +38,7 @@ ksp {
 }
 
 dependencies {
+    implementation(projects.common.design)
     implementation(projects.common.designCompose)
     implementation(projects.common.misc)
     implementation(projects.common.translations)
@@ -48,6 +49,8 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.google.hilt.android)
     implementation(libs.joda.android)
+    implementation(libs.markwon.core)
+
     ksp(libs.google.hilt.compiler)
     ksp(libs.circuit.codegen)
 

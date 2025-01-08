@@ -27,6 +27,7 @@ import com.slack.circuit.runtime.CircuitUiState
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import kotlinx.collections.immutable.ImmutableList
+import ss.libraries.circuit.overlay.BottomSheetOverlay
 import ss.resource.components.content.ResourceSectionSpec
 import ss.resource.components.spec.CreditSpec
 import ss.resource.components.spec.FeatureSpec
@@ -48,6 +49,7 @@ sealed interface State: CircuitUiState {
         val credits: ImmutableList<CreditSpec>,
         val features: ImmutableList<FeatureSpec>,
         val fontFamilyProvider: FontFamilyProvider,
+        val overlayState: ResourceOverlayState?,
         override val eventSink: (Event) -> Unit
     ): State
 
@@ -59,4 +61,15 @@ sealed interface Event : CircuitUiEvent {
 
     /** CTA button is clicked. */
     data object OnCtaClick : Event
+
+    /** Read more button is clicked. */
+    data object OnReadMoreClick : Event
+}
+
+sealed interface ResourceOverlayState : CircuitUiState {
+
+    data class IntroductionBottomSheet(
+        val markdown: String,
+        val onResult: (BottomSheetOverlay.Result) -> Unit
+    ): ResourceOverlayState
 }
