@@ -28,10 +28,15 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ss.resource.components.content.ResourceSectionsStateProducer
 import ss.resource.components.content.ResourceSectionsStateProducerImpl
+import ss.resource.producer.ResourceCtaScreenProducer
+import ss.resource.producer.ResourceCtaScreenProducerImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
 internal abstract class BindingsModule {
     @Binds
     internal abstract fun bindResourceSectionsStateProducer(impl: ResourceSectionsStateProducerImpl): ResourceSectionsStateProducer
+
+    @Binds
+    internal abstract fun bindResourceCtaScreenProducer(impl: ResourceCtaScreenProducerImpl): ResourceCtaScreenProducer
 }
