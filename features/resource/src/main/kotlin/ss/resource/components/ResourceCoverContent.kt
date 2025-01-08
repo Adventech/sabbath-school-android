@@ -60,7 +60,8 @@ import app.ss.translations.R as L10n
 @Composable
 internal fun ColumnScope.CoverContent(
     resource: Resource,
-    type: CoverContentType
+    type: CoverContentType,
+    ctaOnClick: () -> Unit
 ) {
     val textAlign: TextAlign
     val alignment: Alignment.Horizontal
@@ -125,6 +126,7 @@ internal fun ColumnScope.CoverContent(
     val readButton: @Composable () -> Unit = {
         if (resource.cta?.hidden != true) {
             CtaButton(
+                onClick = ctaOnClick,
                 color = Color.parse(resource.primaryColorDark),
                 text = resource.cta?.text,
                 alignment = alignment,
@@ -215,6 +217,7 @@ internal fun ColumnScope.CoverContent(
 
 @Composable
 private fun ColumnScope.CtaButton(
+    onClick: () -> Unit,
     color: Color,
     text: String?,
     alignment: Alignment.Horizontal
@@ -230,7 +233,7 @@ private fun ColumnScope.CtaButton(
         verticalAlignment = Alignment.CenterVertically
     ) {
         ElevatedButton(
-            onClick = {},
+            onClick = onClick,
             modifier = Modifier,
             shape = readButtonShape,
             colors = buttonColors,

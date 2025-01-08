@@ -74,7 +74,7 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
             )
         },
         blurTopBar = collapsed,
-    ) {
+    ) { contentPadding ->
         val color by animateColorAsState(
             targetValue = if (state is State.Success) {
                 footerBackgroundColor()
@@ -97,13 +97,14 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
                     LazyColumn(
                         modifier = Modifier.background(color),
                         state = listState,
+                        contentPadding = contentPadding,
                     ) {
                         item("cover") {
                             ResourceCover(
                                 resource = resource,
                                 modifier = Modifier,
                                 scrollOffset = { listState.firstVisibleItemScrollOffset.toFloat() },
-                                content = { CoverContent(resource, it) }
+                                content = { CoverContent(resource, it) { state.eventSink(Event.OnCtaClick) } }
                             )
                         }
 

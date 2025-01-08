@@ -56,4 +56,7 @@ sealed interface State: CircuitUiState {
 sealed interface Event : CircuitUiEvent {
     /** Navigation icon is clicked. */
     data object OnNavBack : Event
+
+    /** CTA button is clicked. */
+    data object OnCtaClick : Event
 }
