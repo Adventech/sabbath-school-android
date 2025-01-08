@@ -65,6 +65,7 @@ interface TopAppbarActionsProducer {
         resourceId: String,
         resourceIndex: String,
         documentIndex: String,
+        documentId: String?,
         segment: Segment?
     ): TopAppbarActionsState
 }
@@ -78,6 +79,7 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
         resourceId: String,
         resourceIndex: String,
         documentIndex: String,
+        documentId: String?,
         segment: Segment?
     ): TopAppbarActionsState {
         var bottomSheetState by rememberRetained { mutableStateOf<DocumentOverlayState?>(null) }
@@ -123,7 +125,7 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
                             }
                             DocumentTopAppBarAction.Video -> {
                                 bottomSheetState = BottomSheet(
-                                    screen = VideosScreen(resourceIndex, documentIndex),
+                                    screen = VideosScreen(documentIndex, documentId),
                                     skipPartiallyExpanded = true,
                                 ) { result ->
                                     bottomSheetState = null

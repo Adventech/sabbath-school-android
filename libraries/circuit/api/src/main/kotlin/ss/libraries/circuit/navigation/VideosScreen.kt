@@ -27,6 +27,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class VideosScreen(
-    val resourceIndex: String,
     val documentIndex: String,
+    val documentId: String?,
 ): Screen

@@ -22,6 +22,7 @@
 
 package app.ss.media.playback.ui.video
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -35,7 +36,7 @@ fun VideosScreenUi(state: VideosScreenState, modifier: Modifier = Modifier) {
     val context = LocalContext.current
     VideoListScreen(
         videoList = state.data,
-        modifier = modifier,
+        modifier = modifier.fillMaxSize(),
         onVideoClick = { state.eventSink(VideosScreenEvent.OnVideoSelected(context, it)) },
     )
 }

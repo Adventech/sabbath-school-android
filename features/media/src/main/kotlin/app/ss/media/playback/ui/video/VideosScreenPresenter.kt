@@ -22,7 +22,6 @@
 
 package app.ss.media.playback.ui.video
 
-import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import app.ss.lessons.data.repository.media.MediaRepository
@@ -69,26 +68,24 @@ class VideosScreenPresenter @AssistedInject constructor(
     @Composable
     private fun rememberVideos() = produceRetainedState<VideoListData>(VideoListData.Empty) {
         repository.getVideo(screen.documentIndex)
-            .map { it.toData(screen.documentIndex) }
+            .map { it.toData(screen.documentId) }
             .collect { value = it }
     }
 
-    @VisibleForTesting
-    internal fun List<SSVideosInfo>.toData(
-        lessonIndex: String?
-    ): VideoListData = if (size == 1 && first().clips.isNotEmpty()) {
-        val allVideos = first().clips
-        val featuredVideo = allVideos.firstOrNull { it.targetIndex == lessonIndex } ?: allVideos.first()
-        VideoListData.Vertical(
-            featured = featuredVideo,
-            clips = allVideos.subtract(setOf(featuredVideo)).toList(),
-        )
-    } else {
-        VideoListData.Horizontal(
-            data = this,
-            target = lessonIndex,
-        )
-    }
+    private fun List<SSVideosInfo>.toData(documentId: String?): VideoListData =
+        if (size == 1 && first().clips.isNotEmpty()) {
+            val allVideos = first().clips
+            val featuredVideo = allVideos.firstOrNull { it.targetIndex == documentId } ?: allVideos.first()
+            VideoListData.Vertical(
+                featured = featuredVideo,
+                clips = allVideos.subtract(setOf(featuredVideo)).toList(),
+            )
+        } else {
+            VideoListData.Horizontal(
+                data = this,
+                target = documentId,
+            )
+        }
 
     @CircuitInject(VideosScreen::class, SingletonComponent::class)
     @AssistedFactory
