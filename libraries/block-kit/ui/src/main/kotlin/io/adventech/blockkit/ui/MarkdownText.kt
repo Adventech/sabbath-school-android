@@ -71,6 +71,7 @@ import org.commonmark.node.Code
 import org.commonmark.node.Document
 import org.commonmark.node.Emphasis
 import org.commonmark.node.HardLineBreak
+import org.commonmark.node.Heading
 import org.commonmark.node.Image
 import org.commonmark.node.Link
 import org.commonmark.node.Node
@@ -105,12 +106,11 @@ fun MarkdownText(
         styleTemplate.defaultTextSizePoints(it).sp
     }
 
+    val parsedNode = remember(markdownText) {
+        val parser = Parser.builder().build()
+        parser.parse(markdownText) as Document
+    }
     val styledText = buildAnnotatedString {
-        val parsedNode = remember(markdownText) {
-            val parser = Parser.builder().build()
-            val root = parser.parse(markdownText) as Document
-            root.firstChild
-        }
         withStyle(style.toSpanStyle()) {
             appendMarkdownChildren(parsedNode, color, attributedTextParser, fontProvider, fontSizeProvider)
         }
@@ -214,8 +214,27 @@ internal fun AnnotatedString.Builder.appendMarkdownChildren(
                     }
                 }
             }
+
+            is Heading -> {
+                val fontSize = fontSizeProvider(textStyleFromLevel(child.level))
+                withStyle(SpanStyle(fontWeight = FontWeight.Bold, fontSize = fontSize, )) {
+                    appendMarkdownChildren(child, color, parser, fontProvider, fontSizeProvider)
+                }
+                appendLine()
+            }
         }
         child = child.next
+    }
+}
+
+private fun textStyleFromLevel(level: Int): TextStyleSize {
+    return when (level) {
+        1 -> TextStyleSize.XL
+        2 -> TextStyleSize.LG
+        3 -> TextStyleSize.BASE
+        4 -> TextStyleSize.SM
+        5 -> TextStyleSize.XS
+        else -> TextStyleSize.BASE
     }
 }
 
