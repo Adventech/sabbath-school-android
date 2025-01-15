@@ -36,8 +36,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.HazeStyle
-import dev.chrisbanes.haze.haze
-import dev.chrisbanes.haze.hazeChild
+import dev.chrisbanes.haze.hazeEffect
+import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.materials.HazeMaterials
 
@@ -65,7 +65,7 @@ fun HazeScaffold(
             if (blurTopBar) {
                 Box(
                     modifier = Modifier
-                        .hazeChild(state = hazeState, style = hazeStyle),
+                        .hazeEffect(state = hazeState, style = hazeStyle),
                 ) {
                     topBar()
                 }
@@ -77,7 +77,7 @@ fun HazeScaffold(
             if (blurBottomBar) {
                 Box(
                     modifier = Modifier
-                        .hazeChild(state = hazeState, style = hazeStyle),
+                        .hazeEffect(state = hazeState, style = hazeStyle),
                 ) {
                     bottomBar()
                 }
@@ -92,7 +92,7 @@ fun HazeScaffold(
         contentColor = contentColor,
         contentWindowInsets = contentWindowInsets,
     ) { contentPadding ->
-        Box(Modifier.haze(state = hazeState)) {
+        Box(Modifier.hazeSource(state = hazeState)) {
             content(contentPadding)
         }
     }
