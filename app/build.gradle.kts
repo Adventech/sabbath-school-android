@@ -32,6 +32,7 @@ plugins {
     alias(libs.plugins.foundry.base)
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.embrace)
 }
 
 val useReleaseKeystore = file(BuildAndroidConfig.KEYSTORE_PROPS_FILE).exists()
@@ -54,7 +55,7 @@ android {
         applicationId = BuildAndroidConfig.APP_ID
 
         versionCode = appVersionCode
-        versionName = "${BuildAndroidConfig.Version.name} ($appVersionCode)"
+        versionName = BuildAndroidConfig.Version.name
 
         testInstrumentationRunner = "com.cryart.sabbathschool.SSAppTestRunner"
 
@@ -186,6 +187,8 @@ dependencies {
 
     implementation(libs.joda.android)
 
+    implementation(libs.embrace.android.sdk)
+
     testImplementation(libs.bundles.testing.common)
     testImplementation(projects.libraries.foundation.coroutines.test)
     testImplementation(projects.libraries.testUtils)
@@ -224,8 +227,8 @@ object BuildAndroidConfig {
     const val VERSION_PROPS_FILE = "../release/build_number.properties"
 
     object Version {
-        private const val MAJOR = 4
-        private const val MINOR = 62
+        private const val MAJOR = 5
+        private const val MINOR = 0
         private const val PATCH = 0
 
         const val name = "$MAJOR.$MINOR.$PATCH"

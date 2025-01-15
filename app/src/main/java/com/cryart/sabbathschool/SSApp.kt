@@ -23,12 +23,11 @@
 package com.cryart.sabbathschool
 
 import android.app.Application
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
+import app.ss.models.config.AppConfig
 import dagger.hilt.android.HiltAndroidApp
-import ss.prefs.api.SSPrefs
-import ss.workers.api.WorkScheduler
+import io.embrace.android.embracesdk.Embrace
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -38,10 +37,7 @@ class SSApp : Application(), Configuration.Provider {
     lateinit var workerFactory: HiltWorkerFactory
 
     @Inject
-    lateinit var workScheduler: WorkScheduler
-
-    @Inject
-    lateinit var ssPrefs: SSPrefs
+    lateinit var appConfig: AppConfig
 
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()
@@ -50,10 +46,8 @@ class SSApp : Application(), Configuration.Provider {
 
     override fun onCreate() {
         super.onCreate()
-
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-
-        workScheduler.preFetchImages(ssPrefs.getLanguageCode())
-        workScheduler.syncQuarterlies()
+        if (!appConfig.isDebug) {
+            Embrace.getInstance().start(this)
+        }
     }
 }

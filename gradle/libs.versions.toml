@@ -31,6 +31,7 @@ cash-app-turbine = "1.2.0"
 circuit = "0.25.0"
 coil = "2.7.0"
 desugar_jdk_libs_minimal = "2.1.4"
+embrace = "6.14.0"
 foundry = "0.23.7"
 google-hilt = "2.55"
 google-id = "1.1.1"
@@ -142,6 +143,7 @@ circuitx-gesture-navigation = { module = "com.slack.circuit:circuitx-gesture-nav
 circuitx-overlays = { module = "com.slack.circuit:circuitx-overlays", version.ref = "circuit" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil-core = { module = "io.coil-kt:coil", version.ref = "coil" }
+embrace-android-sdk = { group = "io.embrace", name = "embrace-android-sdk", version.ref = "embrace" }
 google-coreLibraryDesugaring = { module = "com.android.tools:desugar_jdk_libs_minimal", version.ref = "desugar_jdk_libs_minimal" }
 google-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "google-hilt" }
 google-hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "google-hilt" }
@@ -252,6 +254,7 @@ testing-common = [
 [plugins]
 android-application = { id = "com.android.application", version.ref = "gradle-android" }
 android-library = { id = "com.android.library", version.ref = "gradle-android" }
+embrace = { id = "io.embrace.swazzler", version.ref = "embrace" }
 foundry-base = { id = "com.slack.foundry.base", version.ref = "foundry" }
 foundry-root = { id = "com.slack.foundry.root", version.ref = "foundry" }
 gradle-cache-fix = { id = "org.gradle.android.cache-fix", version.ref = "gradle-cache-fix" }
