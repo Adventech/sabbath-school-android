@@ -32,7 +32,7 @@ jobs:
 
       - name: Add Embrace config
         env:
-          FIREBASE_CONFIG: ${{ secrets.EMBRACE_CONFIG }}
+          EMBRACE_CONFIG: ${{ secrets.EMBRACE_CONFIG }}
         run: |
           echo $EMBRACE_CONFIG > app/src/main/embrace-config.json
 
