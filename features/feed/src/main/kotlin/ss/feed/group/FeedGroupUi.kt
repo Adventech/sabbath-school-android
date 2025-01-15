@@ -57,7 +57,7 @@ fun FeedGroupUi(state: State, modifier: Modifier = Modifier) {
         topBar = {
             SsTopAppBar(
                 spec = TopAppBarSpec(TopAppBarType.Large),
-                modifier = modifier,
+                modifier = Modifier,
                 title = { Text(text = state.title) },
                 navigationIcon = {
                     IconButton(onClick = { state.eventSink(Event.OnNavBack) }) {

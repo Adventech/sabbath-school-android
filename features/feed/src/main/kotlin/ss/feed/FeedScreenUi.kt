@@ -23,6 +23,7 @@
 package ss.feed
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBarDefaults
@@ -30,6 +31,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.zIndex
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.appbar.FeedTopAppBar
 import app.ss.design.compose.widget.scaffold.HazeScaffold
@@ -46,6 +48,7 @@ import ss.services.auth.overlay.AccountDialogOverlay
 @Composable
 fun FeedScreenUi(state: State, modifier: Modifier = Modifier) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val listState = rememberLazyListState()
 
     HazeScaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -71,7 +74,8 @@ fun FeedScreenUi(state: State, modifier: Modifier = Modifier) {
             is State.Group -> {
                 FeedLazyColum(
                     groups = state.groups,
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier,
+                    state = listState,
                     contentPadding = contentPadding,
                     seeAllClick = { state.eventSink(SuccessEvent.OnSeeAllClick(it)) },
                     itemClick = { state.eventSink(SuccessEvent.OnItemClick(it.index)) }
@@ -81,7 +85,8 @@ fun FeedScreenUi(state: State, modifier: Modifier = Modifier) {
             is State.List -> {
                 FeedLazyColum(
                     resources = state.resources,
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier,
+                    state = listState,
                     contentPadding = contentPadding,
                     itemClick = { state.eventSink(SuccessEvent.OnItemClick(it)) }
                 )

@@ -29,13 +29,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.rounded.Translate
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.modifier.asPlaceholder
@@ -44,8 +44,8 @@ import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButtonSlot
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.image.RemoteImage
-import app.ss.translations.R.string as L10nR
 import androidx.compose.material.icons.Icons as MaterialIcons
+import app.ss.translations.R.string as L10nR
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,17 +57,8 @@ fun FeedTopAppBar(
     onNavigationClick: () -> Unit = {},
     onFilterLanguagesClick: () -> Unit = {},
 ) {
-    SsTopAppBar(
-        spec = TopAppBarSpec(
-            topAppBarType = TopAppBarType.Large,
-            actions = listOf(
-                IconButtonSlot(
-                    imageVector = MaterialIcons.Rounded.Translate,
-                    contentDescription = stringResource(id = L10nR.ss_quarterlies_filter_languages),
-                    onClick = onFilterLanguagesClick
-                )
-            )
-        ),
+    LargeTopAppBar(
+        title = { Text(text = title) },
         modifier = modifier,
         navigationIcon = {
             AvatarNavigationIcon(
@@ -75,14 +66,17 @@ fun FeedTopAppBar(
                 onClick = onNavigationClick
             )
         },
-        title = {
-            Text(text = title)
+        actions = {
+            IconBox(
+                icon = IconButtonSlot(
+                    imageVector = MaterialIcons.Rounded.Translate,
+                    contentDescription = stringResource(id = L10nR.ss_quarterlies_filter_languages),
+                    onClick = onFilterLanguagesClick
+                )
+            )
         },
         scrollBehavior = scrollBehavior,
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.Transparent,
-            scrolledContainerColor = Color.Transparent,
-        )
+        colors = TopAppBarDefaults.topAppBarColors()
     )
 }
 
