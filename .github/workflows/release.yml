@@ -40,7 +40,7 @@ jobs:
         run: echo "BUILD_NUMBER=${{github.run_number}}" > release/build_number.properties
 
       - name: Build Release
-        run: ./gradlew app:bundleRelease app-tv:bundleRelease --stacktrace
+        run: ./gradlew app:bundleRelease --stacktrace
 
       - name: Publish to Internal track
         uses: r0adkll/upload-google-play@v1.1.3
