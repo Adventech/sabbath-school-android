@@ -83,7 +83,9 @@ class DocumentPresenter @AssistedInject constructor(
             segment = selectedPage,
         )
 
-        val overlayState = actionsState.overlayState ?: segmentOverlayStateProducer(navigator)
+        val actionsOverlayState = actionsState.overlayState
+        val segmentOverlayState = segmentOverlayStateProducer(navigator)
+        val overlayState = rememberRetained(actionsOverlayState, segmentOverlayState) { actionsOverlayState ?: segmentOverlayState }
 
         val readerStyle = readerStyleStateProducer()
 
