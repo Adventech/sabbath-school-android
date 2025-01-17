@@ -33,12 +33,13 @@ import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.Navigator
 import io.adventech.blockkit.model.BlockData
 import kotlinx.collections.immutable.toImmutableList
-import ss.document.DocumentOverlayState.Segment as SegmentOverlayState
+import ss.document.producer.ReaderStyleStateProducer
 import ss.document.segment.components.overlay.BlocksOverlay
 import ss.document.segment.components.overlay.ExcerptOverlay
 import ss.libraries.circuit.navigation.CustomTabsIntentScreen
 import timber.log.Timber
 import javax.inject.Inject
+import ss.document.DocumentOverlayState.Segment as SegmentOverlayState
 
 @Stable
 interface SegmentOverlayStateProducer {
@@ -56,11 +57,15 @@ private const val SCHEME_EGW = "sspmEGW"
 private const val SCHEME_COMPLETION = "sspmCompletion"
 private val WEB_SCHEMES = setOf("http", "https", null)
 
-internal class OverlayStateProducerImpl @Inject constructor() : SegmentOverlayStateProducer {
+internal class OverlayStateProducerImpl @Inject constructor(
+    private val readerStyleStateProducer: ReaderStyleStateProducer,
+) : SegmentOverlayStateProducer {
 
     @Composable
     override fun invoke(navigator: Navigator): SegmentOverlayState {
         var overlayState by rememberRetained { mutableStateOf<SegmentOverlayState?>(null) }
+        val readerStyle = readerStyleStateProducer()
+
         val defaultState = SegmentOverlayState.None { event ->
             when (event) {
                 is SegmentOverlayStateProducer.Event.OnHandleUri -> {
@@ -73,7 +78,8 @@ internal class OverlayStateProducerImpl @Inject constructor() : SegmentOverlaySt
 
                             overlayState = SegmentOverlayState.Excerpt(
                                 ExcerptOverlay.State(
-                                    excerpt = excerpt
+                                    excerpt = excerpt,
+                                    style = readerStyle,
                                 )
                             ) {
                                 overlayState = null
@@ -82,7 +88,7 @@ internal class OverlayStateProducerImpl @Inject constructor() : SegmentOverlaySt
 
                         SCHEME_EGW -> {
                             val blocks = data?.egw?.get(uri.host) ?: return@None
-                            overlayState = SegmentOverlayState.Blocks(state = BlocksOverlay.State(blocks.toImmutableList())) {
+                            overlayState = SegmentOverlayState.Blocks(state = BlocksOverlay.State(blocks.toImmutableList(), readerStyle)) {
                                 overlayState = null
                             }
                         }

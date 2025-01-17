@@ -26,24 +26,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.AlertDialogDefaults
-import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -51,9 +41,8 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
-import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
 import com.slack.circuit.overlay.Overlay
@@ -61,7 +50,9 @@ import com.slack.circuit.overlay.OverlayNavigator
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.ui.BlockContent
 import io.adventech.blockkit.ui.style.LocalReaderStyle
+import io.adventech.blockkit.ui.style.ReaderStyleConfig
 import io.adventech.blockkit.ui.style.background
+import io.adventech.blockkit.ui.style.primaryForeground
 import kotlinx.collections.immutable.ImmutableList
 
 class BlocksOverlay(private val state: State) : Overlay<BlocksOverlay.Result> {
@@ -69,37 +60,22 @@ class BlocksOverlay(private val state: State) : Overlay<BlocksOverlay.Result> {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content(navigator: OverlayNavigator<Result>) {
-        BasicAlertDialog(
-            onDismissRequest = {
-                navigator.finish(Result.Dismissed)
-            },
-            content = {
-                Surface(
-                    modifier = Modifier
-                        .wrapContentWidth()
-                        .wrapContentHeight()
-                        .clickable { navigator.finish(Result.Dismissed) }
-                        .safeDrawingPadding()
-                        .padding(horizontal = SsTheme.dimens.grid_4, vertical = SsTheme.dimens.grid_8),
-                    shape = MaterialTheme.shapes.large,
-                    color = AlertDialogDefaults.containerColor,
-                    tonalElevation = AlertDialogDefaults.TonalElevation,
-                ) {
-                    DialogContent(
-                        state = state,
-                        onDismiss = { navigator.finish(Result.Dismissed) },
-                    )
-                }
-            },
-            properties = DialogProperties(
-                usePlatformDefaultWidth = false
+        BlocksDialogSurface (
+            readerStyle = state.style,
+            modifier = Modifier,
+            onDismiss = { navigator.finish(Result.Dismissed) }
+        ) {
+            DialogContent(
+                state = state,
+                onDismiss = { navigator.finish(Result.Dismissed) },
             )
-        )
+        }
     }
 
     @Immutable
     data class State(
-        val blocks: ImmutableList<BlockItem>
+        val blocks: ImmutableList<BlockItem>,
+        val style: ReaderStyleConfig,
     )
 
     @Stable
@@ -117,6 +93,8 @@ private fun DialogContent(
 ) {
     val readerStyle = LocalReaderStyle.current
     val backgroundColor = readerStyle.theme.background()
+    val contentColor = readerStyle.theme.primaryForeground()
+    val layoutDirection = LocalLayoutDirection.current
 
     Scaffold(
         modifier = modifier.clickable(
@@ -128,7 +106,7 @@ private fun DialogContent(
                 title = {},
                 navigationIcon = {
                     IconButton(onClick = onDismiss) {
-                        IconBox(Icons.Close)
+                        IconBox(Icons.Close, contentColor = contentColor)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -136,15 +114,16 @@ private fun DialogContent(
                 )
             )
         },
-        containerColor = backgroundColor
-    ) { paddingValues ->
+        containerColor = backgroundColor,
+        contentColor = contentColor,
+    ) { contentPadding ->
         LazyColumn(
-            modifier = Modifier
-                .consumeWindowInsets(paddingValues)
-                .fillMaxSize()
-                .padding(paddingValues),
+            modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(
-                horizontal = SsTheme.dimens.grid_4
+                start = contentPadding.calculateStartPadding(layoutDirection) + 16.dp,
+                top = contentPadding.calculateTopPadding() + 16.dp,
+                end = contentPadding.calculateEndPadding(layoutDirection) + 16.dp,
+                bottom = contentPadding.calculateBottomPadding() + 16.dp
             ),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
@@ -155,14 +134,6 @@ private fun DialogContent(
                     onHandleUri = { uri, data ->
                         // Shouldn't expect overlay over an overlay
                     }
-                )
-            }
-
-            item {
-                Spacer(
-                    Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
                 )
             }
         }

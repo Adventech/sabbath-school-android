@@ -33,22 +33,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialogDefaults
-import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -67,7 +61,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
@@ -77,8 +70,10 @@ import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.ui.ExcerptItemContent
 import io.adventech.blockkit.ui.ExcerptOptions
 import io.adventech.blockkit.ui.style.LocalReaderStyle
+import io.adventech.blockkit.ui.style.ReaderStyleConfig
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.background
+import io.adventech.blockkit.ui.style.primaryForeground
 import kotlinx.coroutines.launch
 
 class ExcerptOverlay(private val state: State) : Overlay<ExcerptOverlay.Result> {
@@ -86,38 +81,22 @@ class ExcerptOverlay(private val state: State) : Overlay<ExcerptOverlay.Result> 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content(navigator: OverlayNavigator<Result>) {
-        BasicAlertDialog(
-            onDismissRequest = {
-                navigator.finish(Result.Dismissed)
-            },
-            content = {
-                Surface(
-                    modifier = Modifier
-                        .wrapContentWidth()
-                        .wrapContentHeight()
-                        .clickable { navigator.finish(Result.Dismissed) }
-                        .safeDrawingPadding()
-                        .padding(horizontal = SsTheme.dimens.grid_4, vertical = SsTheme.dimens.grid_8),
-                    shape = AlertDialogDefaults.shape,
-                    color = AlertDialogDefaults.containerColor,
-                    tonalElevation = AlertDialogDefaults.TonalElevation,
-                ) {
-                    DialogContent(
-                        state = state,
-                        onDismiss = { navigator.finish(Result.Dismissed) },
-                    )
-                }
-            },
-
-            properties = DialogProperties(
-                usePlatformDefaultWidth = false
+        BlocksDialogSurface(
+            readerStyle = state.style,
+            modifier = Modifier,
+            onDismiss = { navigator.finish(Result.Dismissed) }
+        ) {
+            DialogContent(
+                state = state,
+                onDismiss = { navigator.finish(Result.Dismissed) },
             )
-        )
+        }
     }
 
     @Immutable
     data class State(
-        val excerpt: BlockItem.Excerpt
+        val excerpt: BlockItem.Excerpt,
+        val style: ReaderStyleConfig,
     )
 
     @Stable
@@ -135,6 +114,7 @@ private fun DialogContent(
 ) {
     val readerStyle = LocalReaderStyle.current
     val backgroundColor = readerStyle.theme.background()
+    val contentColor = readerStyle.theme.primaryForeground()
     val blockItem = state.excerpt
 
     var selectedOption by remember { mutableStateOf(blockItem.options.firstOrNull()) }
@@ -178,7 +158,7 @@ private fun DialogContent(
                 title = {},
                 navigationIcon = {
                     IconButton(onClick = onDismiss) {
-                        IconBox(Icons.Close)
+                        IconBox(Icons.Close, contentColor = contentColor)
                     }
                 },
                 actions = {
@@ -201,9 +181,10 @@ private fun DialogContent(
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = Styler.defaultFontFamily()
                             ),
+                            color = contentColor
                         )
 
-                        IconBox(icon = Icons.ArrowDropDown)
+                        IconBox(icon = Icons.ArrowDropDown, contentColor = contentColor)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -211,7 +192,8 @@ private fun DialogContent(
                 )
             )
         },
-        containerColor = backgroundColor
+        containerColor = backgroundColor,
+        contentColor = contentColor,
     ) { paddingValues ->
         Column(
             modifier = Modifier
