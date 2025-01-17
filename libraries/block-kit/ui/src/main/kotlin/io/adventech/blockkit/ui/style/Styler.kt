@@ -101,10 +101,10 @@ object Styler {
     fun defaultFontFamily(): FontFamily = fontFamily(LocalReaderStyle.current.typeface)
 
     fun fontFamily(typeface: ReaderStyle.Typeface): FontFamily = when (typeface) {
-        ReaderStyle.Typeface.Andada -> FontProvider.googleFontFamily("Lora")
+        ReaderStyle.Typeface.Andada -> LoraFontFamily
         ReaderStyle.Typeface.Lato -> LatoFontFamily
-        ReaderStyle.Typeface.PtSerif -> FontProvider.googleFontFamily("PTSerif")
-        ReaderStyle.Typeface.PtSans -> FontProvider.googleFontFamily("PTSans")
+        ReaderStyle.Typeface.PtSerif -> PTSerifFontFamily
+        ReaderStyle.Typeface.PtSans -> PTSansFontFamily
     }
 
     fun padding(

@@ -39,7 +39,6 @@ dependencies {
     implementation(projects.libraries.ui.placeholder)
 
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.google.fonts)
     implementation(libs.atlassian.commonmark)
     implementation(libs.bundles.compose)
     implementation(libs.bundles.compose.tooling)
