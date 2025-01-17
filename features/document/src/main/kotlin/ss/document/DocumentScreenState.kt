@@ -26,6 +26,7 @@ import com.slack.circuit.foundation.NavEvent
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
+import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.Style
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.ui.style.ReaderStyleConfig
@@ -75,6 +76,7 @@ sealed interface SuccessEvent : Event {
     data class OnPageChange(val page: Int) : SuccessEvent
     data class OnSegmentSelection(val segment: Segment) : SuccessEvent
     data class OnNavEvent(val event: NavEvent) : SuccessEvent
+    data class OnHandleUri(val uri: String, val data: BlockData?) : SuccessEvent
 }
 
 

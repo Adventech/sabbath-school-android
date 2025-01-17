@@ -25,48 +25,51 @@ package ss.segment
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.slack.circuit.codegen.annotations.CircuitInject
-import com.slack.circuit.overlay.OverlayEffect
 import dagger.hilt.components.SingletonComponent
+import io.adventech.blockkit.model.BlockData
+import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.SegmentType
 import ss.libraries.circuit.navigation.SegmentScreen
 import ss.segment.components.blocks.SegmentBlocksContent
-import ss.segment.components.overlay.BlocksOverlay
-import ss.segment.components.overlay.ExcerptOverlay
-import ss.segment.producer.OverlayStateProducer
 
 @CircuitInject(SegmentScreen::class, SingletonComponent::class)
 @Composable
 fun SegmentUi(state: State, modifier: Modifier = Modifier) {
     when (state) {
         is State.Content -> {
-            SegmentTypeContent(state, modifier)
+
         }
         State.Loading -> Unit
     }
 }
 
 @Composable
-private fun SegmentTypeContent(state: State.Content, modifier: Modifier = Modifier) {
-    val segment = state.segment
+fun SegmentTypeContent(
+    segment: Segment,
+    titleBelowCover: Boolean,
+    modifier: Modifier = Modifier,
+    onCollapseChange: (Boolean) -> Unit = {},
+    onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
+) {
     when (segment.type) {
         SegmentType.UNKNOWN -> Unit
         SegmentType.BLOCK -> {
-            SegmentBlocksContent(state, modifier)
+            SegmentBlocksContent(segment, titleBelowCover, modifier, onCollapseChange, onHandleUri)
         }
         SegmentType.STORY -> Unit
         SegmentType.PDF -> Unit
         SegmentType.VIDEO -> Unit
     }
 
-    OverlayEffect(state.overlayState) {
-        when (val state = state.overlayState) {
-            is OverlayStateProducer.State.None -> Unit
-            is OverlayStateProducer.State.Excerpt -> state.onResult(
-                show(ExcerptOverlay(state.state))
-            )
-            is OverlayStateProducer.State.Blocks -> state.onResult(
-                show(BlocksOverlay(state.state))
-            )
-        }
-    }
+//    OverlayEffect(state.overlayState) {
+//        when (val state = state.overlayState) {
+//            is OverlayStateProducer.State.None -> Unit
+//            is OverlayStateProducer.State.Excerpt -> state.onResult(
+//                show(ExcerptOverlay(state.state))
+//            )
+//            is OverlayStateProducer.State.Blocks -> state.onResult(
+//                show(BlocksOverlay(state.state))
+//            )
+//        }
+//    }
 }

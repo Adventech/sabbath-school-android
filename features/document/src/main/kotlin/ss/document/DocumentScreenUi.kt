@@ -23,6 +23,7 @@
 package ss.document
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -109,7 +110,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
             )
         },
         blurTopBar = !state.hasCover || collapsed,
-    ) {
+    ) { contentPadding ->
         when (state) {
             is State.Loading -> {
                 DocumentLoadingView()
@@ -125,11 +126,11 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                     DocumentPager(
                         segments = state.segments,
                         titleBelowCover = state.titleBelowCover,
-                        modifier = Modifier,
+                        modifier = Modifier.fillMaxSize(),
                         initialPage = state.initialPage,
                         onPageChange = { state.eventSink(SuccessEvent.OnPageChange(it)) },
                         onCollapseChange = { collapsed = it },
-                        onNavEvent = { state.eventSink(SuccessEvent.OnNavEvent(it)) }
+                        onHandleUri = { uri, blocks -> state.eventSink(SuccessEvent.OnHandleUri(uri, blocks)) }
                     )
                 }
 

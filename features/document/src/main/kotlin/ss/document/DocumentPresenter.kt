@@ -111,6 +111,10 @@ class DocumentPresenter @AssistedInject constructor(
                         else -> navigator.onNavEvent(event)
                     }
                 }
+
+                is SuccessEvent.OnHandleUri -> {
+
+                }
             }
         }
 

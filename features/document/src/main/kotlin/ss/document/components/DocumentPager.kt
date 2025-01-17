@@ -24,25 +24,16 @@ package ss.document.components
 
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
-import com.slack.circuit.foundation.CircuitContent
-import com.slack.circuit.foundation.NavEvent
+import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.resource.Segment
 import kotlinx.collections.immutable.ImmutableList
-import ss.libraries.circuit.navigation.SegmentScreen
+import ss.segment.SegmentTypeContent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,7 +44,7 @@ fun DocumentPager(
     initialPage: Int = 0,
     onPageChange: (Int) -> Unit = {},
     onCollapseChange: (Boolean) -> Unit = {},
-    onNavEvent: (NavEvent) -> Unit = {},
+    onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
 ) {
     val pagerState = rememberPagerState(
         initialPage = initialPage,
@@ -61,15 +52,6 @@ fun DocumentPager(
     )
 
     LaunchedEffect(initialPage) { pagerState.animateScrollToPage(initialPage) }
-
-    val screenHeight = LocalConfiguration.current.screenHeightDp
-    var coverHeight by remember { mutableIntStateOf(0) }
-    val scrollState = rememberScrollState()
-    val pageCollapsed by remember { derivedStateOf { scrollState.value > coverHeight } }
-
-    LaunchedEffect(pageCollapsed) {
-        onCollapseChange(pageCollapsed)
-    }
 
     HorizontalPager(
         state = pagerState,
@@ -79,16 +61,12 @@ fun DocumentPager(
     ) { page ->
         val segment = segments[page]
 
-        coverHeight = if (segment.cover == null) {
-            (screenHeight * 0.25).toInt()
-        } else {
-            (screenHeight * 0.85).toInt()
-        }
-
-        CircuitContent(
-            screen = SegmentScreen(segment.id, titleBelowCover, segment.cover),
-            modifier = Modifier.verticalScroll(scrollState),
-            onNavEvent = onNavEvent
+        SegmentTypeContent(
+            segment = segment,
+            titleBelowCover = titleBelowCover,
+            modifier = Modifier,
+            onCollapseChange = onCollapseChange,
+            onHandleUri = onHandleUri
         )
     }
 
