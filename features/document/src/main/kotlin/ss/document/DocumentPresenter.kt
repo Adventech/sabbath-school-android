@@ -47,10 +47,12 @@ import org.joda.time.DateTime
 import ss.document.components.DocumentTopAppBarAction
 import ss.document.producer.ReaderStyleStateProducer
 import ss.document.producer.TopAppbarActionsProducer
+import ss.document.segment.producer.SegmentOverlayStateProducer
 import ss.libraries.circuit.navigation.DocumentScreen
 import ss.libraries.circuit.navigation.ExpandedAudioPlayerScreen
 import ss.misc.DateHelper
 import ss.resources.api.ResourcesRepository
+import ss.document.DocumentOverlayState.Segment as SegmentOverlayState
 import ss.document.producer.TopAppbarActionsState.Event as TopAppbarEvent
 
 class DocumentPresenter @AssistedInject constructor(
@@ -60,6 +62,7 @@ class DocumentPresenter @AssistedInject constructor(
     private val actionsProducer: TopAppbarActionsProducer,
     private val fontFamilyProvider: FontFamilyProvider,
     private val readerStyleStateProducer: ReaderStyleStateProducer,
+    private val segmentOverlayStateProducer: SegmentOverlayStateProducer,
 ) : Presenter<State> {
 
     private val today get() = DateTime.now().withTimeAtStartOfDay()
@@ -80,7 +83,7 @@ class DocumentPresenter @AssistedInject constructor(
             segment = selectedPage,
         )
 
-        val overlayState = actionsState.overlayState // Assign other overlays
+        val overlayState = actionsState.overlayState ?: segmentOverlayStateProducer(navigator)
 
         val readerStyle = readerStyleStateProducer()
 
@@ -113,7 +116,9 @@ class DocumentPresenter @AssistedInject constructor(
                 }
 
                 is SuccessEvent.OnHandleUri -> {
-
+                    (overlayState as? SegmentOverlayState.None)?.eventSink(
+                        SegmentOverlayStateProducer.Event.OnHandleUri(event.uri, event.data)
+                    )
                 }
             }
         }

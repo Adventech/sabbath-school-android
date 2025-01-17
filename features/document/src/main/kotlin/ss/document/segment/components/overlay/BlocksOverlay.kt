@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package ss.segment.components.overlay
+package ss.document.segment.components.overlay
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource

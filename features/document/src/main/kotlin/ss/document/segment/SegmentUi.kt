@@ -20,27 +20,30 @@
  * THE SOFTWARE.
  */
 
-package ss.segment
+package ss.document.segment
 
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.resource.Segment
-import ss.segment.producer.OverlayStateProducer
+import io.adventech.blockkit.model.resource.SegmentType
+import ss.document.segment.components.blocks.SegmentBlocksContent
 
-sealed interface State : CircuitUiState {
-    data object Loading : State
-
-    data class Content(
-        val segment: Segment,
-        val titleBelowCover: Boolean,
-        val overlayState: OverlayStateProducer.State,
-        val eventSink: (Event) -> Unit
-    ) : State
-}
-
-sealed interface Event : CircuitUiEvent {
-    sealed interface Blocks : Event {
-        data class OnHandleUri(val uri: String, val data: BlockData?) : Blocks
+@Composable
+fun SegmentUi(
+    segment: Segment,
+    titleBelowCover: Boolean,
+    modifier: Modifier = Modifier,
+    onCollapseChange: (Boolean) -> Unit = {},
+    onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
+) {
+    when (segment.type) {
+        SegmentType.UNKNOWN -> Unit
+        SegmentType.BLOCK -> {
+            SegmentBlocksContent(segment, titleBelowCover, modifier, onCollapseChange, onHandleUri)
+        }
+        SegmentType.STORY -> Unit
+        SegmentType.PDF -> Unit
+        SegmentType.VIDEO -> Unit
     }
 }

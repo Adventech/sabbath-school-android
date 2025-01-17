@@ -49,9 +49,9 @@ dependencies {
     implementation(projects.libraries.blockKit.ui)
     implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.prefs.api)
-    implementation(projects.features.segment)
     implementation(projects.services.resources.api)
 
+    implementation(libs.androidx.palette)
     implementation(libs.coil.compose)
     implementation(libs.google.hilt.android)
     implementation(libs.joda.android)

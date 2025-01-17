@@ -51,6 +51,8 @@ import ss.document.components.DocumentLoadingView
 import ss.document.components.DocumentPager
 import ss.document.components.DocumentTitleBar
 import ss.document.components.DocumentTopAppBar
+import ss.document.segment.components.overlay.BlocksOverlay
+import ss.document.segment.components.overlay.ExcerptOverlay
 import ss.libraries.circuit.navigation.DocumentScreen
 import ss.libraries.circuit.navigation.MiniAudioPlayerScreen
 import ss.libraries.circuit.overlay.BottomSheetOverlay
@@ -145,6 +147,13 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                             }))
                         }
 
+                        is DocumentOverlayState.Segment.Blocks -> overlayState.onResult(
+                            show(BlocksOverlay(overlayState.state))
+                        )
+                        is DocumentOverlayState.Segment.Excerpt -> overlayState.onResult(
+                            show(ExcerptOverlay(overlayState.state))
+                        )
+                        is DocumentOverlayState.Segment.None -> Unit
                         null -> Unit
                     }
                 }

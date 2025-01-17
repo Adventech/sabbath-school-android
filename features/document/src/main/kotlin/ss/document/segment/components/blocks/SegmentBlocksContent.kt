@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package ss.segment.components.blocks
+package ss.document.segment.components.blocks
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -49,8 +49,8 @@ import io.adventech.blockkit.ui.BlockContent
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.LocalSegmentStyle
 import io.adventech.blockkit.ui.style.background
-import ss.segment.components.SegmentCover
-import ss.segment.components.SegmentHeader
+import ss.document.segment.components.SegmentCover
+import ss.document.segment.components.SegmentHeader
 import kotlin.collections.orEmpty
 
 @Composable

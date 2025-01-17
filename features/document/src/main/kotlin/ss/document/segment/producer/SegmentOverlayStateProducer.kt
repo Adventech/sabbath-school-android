@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package ss.segment.producer
+package ss.document.segment.producer
 
 import android.net.Uri
 import androidx.compose.runtime.Composable
@@ -30,39 +30,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.Navigator
 import io.adventech.blockkit.model.BlockData
 import kotlinx.collections.immutable.toImmutableList
+import ss.document.DocumentOverlayState.Segment as SegmentOverlayState
+import ss.document.segment.components.overlay.BlocksOverlay
+import ss.document.segment.components.overlay.ExcerptOverlay
 import ss.libraries.circuit.navigation.CustomTabsIntentScreen
-import ss.segment.components.overlay.BlocksOverlay
-import ss.segment.components.overlay.ExcerptOverlay
-import ss.segment.producer.OverlayStateProducer.State
 import timber.log.Timber
 import javax.inject.Inject
 
 @Stable
-interface OverlayStateProducer {
+interface SegmentOverlayStateProducer {
 
     @Composable
-    operator fun invoke(navigator: Navigator): State
-
-    sealed interface State : CircuitUiState {
-
-        data class None(
-            val eventSink: (Event) -> Unit
-        ) : State
-
-        data class Excerpt(
-            val state: ExcerptOverlay.State,
-            val onResult: (ExcerptOverlay.Result) -> Unit
-        ) : State
-
-        data class Blocks(
-            val state: BlocksOverlay.State,
-            val onResult: (BlocksOverlay.Result) -> Unit
-        ) : State
-    }
+    operator fun invoke(navigator: Navigator): SegmentOverlayState
 
     sealed interface Event : CircuitUiEvent {
         data class OnHandleUri(val uri: String, val data: BlockData?) : Event
@@ -74,14 +56,14 @@ private const val SCHEME_EGW = "sspmEGW"
 private const val SCHEME_COMPLETION = "sspmCompletion"
 private val WEB_SCHEMES = setOf("http", "https", null)
 
-internal class OverlayStateProducerImpl @Inject constructor() : OverlayStateProducer {
+internal class OverlayStateProducerImpl @Inject constructor() : SegmentOverlayStateProducer {
 
     @Composable
-    override fun invoke(navigator: Navigator): State {
-        var overlayState by rememberRetained { mutableStateOf<State?>(null) }
-        val defaultState = State.None { event ->
+    override fun invoke(navigator: Navigator): SegmentOverlayState {
+        var overlayState by rememberRetained { mutableStateOf<SegmentOverlayState?>(null) }
+        val defaultState = SegmentOverlayState.None { event ->
             when (event) {
-                is OverlayStateProducer.Event.OnHandleUri -> {
+                is SegmentOverlayStateProducer.Event.OnHandleUri -> {
                     val uri = Uri.parse(event.uri)
                     val data = event.data
 
@@ -89,7 +71,7 @@ internal class OverlayStateProducerImpl @Inject constructor() : OverlayStateProd
                         SCHEME_BIBLE -> {
                             val excerpt = data?.bible?.get(uri.host) ?: return@None
 
-                            overlayState = State.Excerpt(
+                            overlayState = SegmentOverlayState.Excerpt(
                                 ExcerptOverlay.State(
                                     excerpt = excerpt
                                 )
@@ -100,7 +82,7 @@ internal class OverlayStateProducerImpl @Inject constructor() : OverlayStateProd
 
                         SCHEME_EGW -> {
                             val blocks = data?.egw?.get(uri.host) ?: return@None
-                            overlayState = State.Blocks(state = BlocksOverlay.State(blocks.toImmutableList())) {
+                            overlayState = SegmentOverlayState.Blocks(state = BlocksOverlay.State(blocks.toImmutableList())) {
                                 overlayState = null
                             }
                         }

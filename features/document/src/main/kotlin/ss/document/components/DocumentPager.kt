@@ -33,7 +33,7 @@ import androidx.compose.ui.Modifier
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.resource.Segment
 import kotlinx.collections.immutable.ImmutableList
-import ss.segment.SegmentTypeContent
+import ss.document.segment.SegmentUi
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -61,7 +61,7 @@ fun DocumentPager(
     ) { page ->
         val segment = segments[page]
 
-        SegmentTypeContent(
+        SegmentUi(
             segment = segment,
             titleBelowCover = titleBelowCover,
             modifier = Modifier,

@@ -33,6 +33,9 @@ import io.adventech.blockkit.ui.style.ReaderStyleConfig
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import kotlinx.collections.immutable.ImmutableList
 import ss.document.components.DocumentTopAppBarAction
+import ss.document.segment.components.overlay.BlocksOverlay
+import ss.document.segment.components.overlay.ExcerptOverlay
+import ss.document.segment.producer.SegmentOverlayStateProducer
 import ss.libraries.circuit.overlay.BottomSheetOverlay
 
 sealed interface State : CircuitUiState {
@@ -88,5 +91,22 @@ sealed interface DocumentOverlayState : CircuitUiState {
         val skipPartiallyExpanded: Boolean,
         val onResult: (BottomSheetOverlay.Result) -> Unit,
     ) : DocumentOverlayState
+
+    sealed interface Segment : DocumentOverlayState {
+
+        data class None(
+            val eventSink: (SegmentOverlayStateProducer.Event) -> Unit
+        ) : Segment
+
+        data class Excerpt(
+            val state: ExcerptOverlay.State,
+            val onResult: (ExcerptOverlay.Result) -> Unit
+        ) : Segment
+
+        data class Blocks(
+            val state: BlocksOverlay.State,
+            val onResult: (BlocksOverlay.Result) -> Unit
+        ) : Segment
+    }
 
 }

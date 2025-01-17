@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package ss.segment.components
+package ss.document.segment.components
 
 import android.graphics.drawable.BitmapDrawable
 import androidx.compose.foundation.layout.Box
