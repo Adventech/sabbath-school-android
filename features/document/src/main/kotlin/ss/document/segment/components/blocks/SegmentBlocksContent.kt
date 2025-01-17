@@ -42,13 +42,13 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.modifier.thenIf
-import app.ss.design.compose.theme.SsTheme
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.ui.BlockContent
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.LocalSegmentStyle
 import io.adventech.blockkit.ui.style.background
+import io.adventech.blockkit.ui.style.primaryForeground
 import ss.document.segment.components.SegmentCover
 import ss.document.segment.components.SegmentHeader
 import kotlin.collections.orEmpty
@@ -69,6 +69,7 @@ internal fun SegmentBlocksContent(
     }
 
     val readerStyle = LocalReaderStyle.current
+    val contentColor = readerStyle.theme.primaryForeground()
 
     LazyColumn(
         modifier = modifier
@@ -96,7 +97,7 @@ internal fun SegmentBlocksContent(
                             title = segment.title,
                             subtitle = segment.subtitle,
                             date = segment.date,
-                            contentColor = if (segment.cover != null) Color.White else SsTheme.colors.primaryForeground,
+                            contentColor = if (segment.cover != null) Color.White else contentColor,
                             style = LocalSegmentStyle.current.takeIf { segment.cover == null },
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -115,18 +116,15 @@ internal fun SegmentBlocksContent(
                     title = segment.title,
                     subtitle = segment.subtitle,
                     date = segment.date,
-                    contentColor = SsTheme.colors.primaryForeground,
+                    contentColor = contentColor,
                     style = LocalSegmentStyle.current,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(readerStyle.theme.background())
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
         }
 
         items(segment.blocks.orEmpty()) { block ->
             BlockContent(block, Modifier, onHandleUri = onHandleUri)
-
         }
 
         item {
