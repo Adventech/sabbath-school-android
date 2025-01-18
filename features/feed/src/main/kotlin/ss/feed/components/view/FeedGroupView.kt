@@ -70,7 +70,7 @@ internal fun FeedGroupView(
 
         SnappingLazyRow(modifier = Modifier.fillMaxWidth()) {
             items(group.resources.orEmpty(), key = { it.id }) { resource ->
-                FeedResourceView(resource.toSpec(group), Modifier.padding(8.dp)) {
+                FeedResourceView(resource.toSpec(group), Modifier.padding(horizontal = Dimens.grid_4)) {
                     itemClick(resource)
                 }
             }
