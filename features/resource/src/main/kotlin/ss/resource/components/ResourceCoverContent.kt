@@ -120,6 +120,7 @@ internal fun ColumnScope.CoverContent(
                             clickable { readMoreClick() }
                         },
                     readMoreColor = Color.parse(resource.primaryColorDark),
+                    readMoreFontSize = 13.sp,
                     readMoreFontStyle = FontStyle.Italic,
                 )
             }
