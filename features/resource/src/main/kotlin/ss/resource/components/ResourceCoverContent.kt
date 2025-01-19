@@ -40,6 +40,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -117,7 +118,9 @@ internal fun ColumnScope.CoverContent(
                         .padding(horizontal = SsTheme.dimens.grid_4, vertical = 8.dp)
                         .thenIf(resource.introduction.isNullOrEmpty() == false) {
                             clickable { readMoreClick() }
-                        }
+                        },
+                    readMoreColor = Color.parse(resource.primaryColorDark),
+                    readMoreFontStyle = FontStyle.Italic,
                 )
             }
 
