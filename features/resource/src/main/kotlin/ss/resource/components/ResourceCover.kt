@@ -48,12 +48,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.BlurredEdgeTreatment
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
@@ -99,9 +99,9 @@ fun ResourceCover(
         when (coverContentType) {
             CoverContentType.PRIMARY -> {
                 ContentPrimary(
-                    primaryColor = Color.parse(resource.primaryColor),
-                    primaryDarkColor = Color.parse(resource.primaryColorDark),
-                    modifier = Modifier.align(Alignment.BottomCenter)
+                    splashImage = resource.covers.splash,
+                    color = resource.primaryColor,
+                    modifier = Modifier.align(Alignment.BottomCenter),
                 ) {
                     content(coverContentType)
                 }
@@ -124,13 +124,6 @@ private fun CoverBox(
     scrollOffset: () -> Float = { 0f },
     content: @Composable BoxScope.() -> Unit
 ) {
-    val placeholder: @Composable () -> Unit = {
-        Spacer(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.parse(color))
-        )
-    }
     Box(
         modifier = modifier
             .background(Color.parse(color))
@@ -138,14 +131,9 @@ private fun CoverBox(
                 Modifier.height(defaultHeight())
             }
     ) {
-        ContentBox(
-            content = RemoteImage(
-                data = splashImage,
-                contentDescription = null,
-                scale = Scale.FILL,
-                loading = placeholder,
-                error = placeholder
-            ),
+        CoverImageBox(
+            cover = splashImage,
+            color = color,
             modifier = Modifier
                 .graphicsLayer {
                     translationY = scrollOffset() * 0.5f
@@ -158,34 +146,54 @@ private fun CoverBox(
 
 @Composable
 private fun ContentPrimary(
-    primaryColor: Color,
-    primaryDarkColor: Color,
+    splashImage: String?,
+    color: String,
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    val gradient = remember(primaryColor.toArgb()) {
-        Brush.verticalGradient(
-            colors = listOf(
-                Color.Transparent,
-                Color.Black.copy(0.1f),
-                primaryColor,
-                primaryDarkColor
-            )
+    Box(modifier = modifier) {
+        CoverImageBox(
+            cover = splashImage,
+            color = color,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(defaultHeight() * 0.5f)
+                .align(Alignment.BottomCenter)
+                .blur(
+                    radius = 24.dp,
+                    edgeTreatment = BlurredEdgeTreatment.Unbounded,
+                )
+        )
+
+        Column(
+            modifier = Modifier,
+            content = content,
         )
     }
+}
 
-    Column(
+@Composable
+private fun CoverImageBox(
+    cover: String?,
+    color: String,
+    modifier: Modifier = Modifier,
+) {
+    val placeholder: @Composable () -> Unit = {
+        Spacer(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.parse(color))
+        )
+    }
+    ContentBox(
+        content = RemoteImage(
+            data = cover,
+            contentDescription = null,
+            scale = Scale.FILL,
+            loading = placeholder,
+            error = placeholder,
+        ),
         modifier = modifier
-            .background(gradient)
-            .padding(
-                top = with(LocalDensity.current) {
-                    WindowInsets.safeDrawing
-                        .only(WindowInsetsSides.Top)
-                        .getTop(this)
-                        .toDp()
-                }
-            ),
-        content = content,
     )
 }
 
