@@ -90,7 +90,7 @@ data class DocumentResourceSection(
                     maxLines = 1,
                 )
 
-                Spacer(Modifier.size(20.dp))
+                Spacer(Modifier.size(16.dp))
             }
 
             Column(
