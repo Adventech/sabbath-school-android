@@ -32,6 +32,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -83,11 +84,13 @@ data class DocumentResourceSection(
             document.sequence.takeIf { displaySequence }?.let {
                 Text(
                     text = it,
-                    modifier = Modifier.padding(end = 12.dp),
+                    modifier = Modifier,
                     style = SsTheme.typography.titleSmall.copy(fontSize = 22.sp),
-                    color = SsTheme.colors.primaryForeground,
+                    color = SsTheme.colors.primaryForeground.copy(alpha = 0.3f),
                     maxLines = 1,
                 )
+
+                Spacer(Modifier.size(20.dp))
             }
 
             Column(
