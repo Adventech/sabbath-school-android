@@ -51,7 +51,6 @@ dependencies {
     implementation(projects.libraries.prefs.api)
     implementation(projects.services.resources.api)
 
-    implementation(libs.androidx.palette)
     implementation(libs.coil.compose)
     implementation(libs.google.hilt.android)
     implementation(libs.joda.android)

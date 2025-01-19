@@ -38,10 +38,8 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import app.ss.design.compose.extensions.modifier.thenIf
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.ui.BlockContent
@@ -81,29 +79,15 @@ internal fun SegmentBlocksContent(
         item {
             SegmentCover(
                 cover = segment.cover,
-                headerContent = { dominantColor ->
+                headerContent = {
                     if (titleBelowCover == false) {
-                        val gradient = remember(dominantColor) {
-                            Brush.verticalGradient(
-                                colors = listOf(
-                                    Color.Transparent,
-                                    Color.Black.copy(0.1f),
-                                    dominantColor,
-                                )
-                            )
-                        }
-
                         SegmentHeader(
                             title = segment.title,
                             subtitle = segment.subtitle,
                             date = segment.date,
                             contentColor = if (segment.cover != null) Color.White else contentColor,
                             style = LocalSegmentStyle.current.takeIf { segment.cover == null },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .thenIf(segment.cover != null) {
-                                    background(gradient)
-                                }
+                            modifier = Modifier.fillMaxWidth()
                         )
                     }
                 }
