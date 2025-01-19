@@ -32,6 +32,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -157,10 +158,10 @@ private fun ContentPrimary(
             color = color,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(defaultHeight() * 0.5f)
+                .fillMaxHeight(0.4f)
                 .align(Alignment.BottomCenter)
                 .blur(
-                    radius = 24.dp,
+                    radius = 40.dp,
                     edgeTreatment = BlurredEdgeTreatment.Unbounded,
                 )
         )
