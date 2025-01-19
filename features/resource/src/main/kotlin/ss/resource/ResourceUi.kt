@@ -44,10 +44,12 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.extensions.color.toAndroidColor
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.HazeScaffold
@@ -85,6 +87,7 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
                 isShowingNavigationBar = collapsed,
                 title = state.title,
                 modifier = Modifier,
+                iconTint = (state as? State.Success)?.resource?.primaryColorDark?.let { Color.parse(it) },
                 scrollBehavior = scrollBehavior,
                 onNavBack = { state.eventSink(Event.OnNavBack) }
             )
