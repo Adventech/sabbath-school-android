@@ -23,11 +23,14 @@
 package ss.document.segment
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import com.slack.circuit.foundation.CircuitContent
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.SegmentType
 import ss.document.segment.components.blocks.SegmentBlocksContent
+import ss.libraries.circuit.navigation.PdfScreen
 
 @Composable
 fun SegmentUi(
@@ -42,8 +45,25 @@ fun SegmentUi(
         SegmentType.BLOCK -> {
             SegmentBlocksContent(segment, titleBelowCover, modifier, onCollapseChange, onHandleUri)
         }
+
         SegmentType.STORY -> Unit
-        SegmentType.PDF -> Unit
+        SegmentType.PDF -> {
+            val pdfs = remember(segment) {
+                segment.pdf.orEmpty().map {
+                    PdfScreen.Pdf(
+                        id = it.id,
+                        url = it.src,
+                        title = it.title
+                    )
+                }
+            }
+
+            CircuitContent(
+                screen = PdfScreen(pdfs),
+                modifier = modifier,
+            )
+        }
+
         SegmentType.VIDEO -> Unit
     }
 }

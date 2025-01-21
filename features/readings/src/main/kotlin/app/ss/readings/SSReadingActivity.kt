@@ -59,7 +59,6 @@ import com.cryart.sabbathschool.core.extensions.view.fadeTo
 import com.cryart.sabbathschool.core.extensions.view.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import ss.foundation.coroutines.flow.collectIn
-import ss.lessons.api.PdfReader
 import ss.misc.DateHelper
 import ss.misc.SSConstants
 import ss.prefs.api.SSPrefs
@@ -75,9 +74,6 @@ class SSReadingActivity : AppCompatActivity() {
 
     @Inject
     lateinit var ssPrefs: SSPrefs
-
-    @Inject
-    lateinit var pdfReader: PdfReader
 
     @Inject
     lateinit var viewModelFactory: ReadingViewModelFactory
@@ -222,7 +218,7 @@ class SSReadingActivity : AppCompatActivity() {
             R.id.ss_reading_menu_pdf -> {
                 val (index, pdfs) = viewModel.lessonPdfsFlow.value
                 if (pdfs.isNotEmpty()) {
-                    startActivity(pdfReader.launchIntent(pdfs, index))
+
                 }
                 true
             }

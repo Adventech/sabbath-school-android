@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,21 +20,20 @@
  * THE SOFTWARE.
  */
 
-package ss.lessons.api
+package ss.libraries.circuit.navigation
 
-import android.content.Intent
-import app.ss.models.LessonPdf
-import ss.lessons.model.LocalFile
+import android.os.Parcelable
+import com.slack.circuit.runtime.screen.Screen
+import kotlinx.parcelize.Parcelize
 
-/** API for handling pdf lessons. */
-interface PdfReader {
-
-    /** Launch an intent to read these [pdfs]. */
-    fun launchIntent(pdfs: List<LessonPdf>, lessonIndex: String): Intent
-
-    /** Download these [pdfs] to device storage. */
-    suspend fun downloadFiles(pdfs: List<LessonPdf>): Result<List<LocalFile>>
-
-    /** Returns true if this [pdf] file is downloaded. */
-    fun isDownloaded(pdf: LessonPdf): Boolean
+@Parcelize
+data class PdfScreen(
+    val pdfs: List<Pdf>,
+): Screen {
+    @Parcelize
+    data class Pdf(
+        val id: String,
+        val url: String,
+        val title: String,
+    ) : Parcelable
 }

@@ -29,7 +29,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
 import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.ContentSyncProvider
-import ss.lessons.api.PdfReader
 import ss.lessons.api.SSLessonsApi
 import ss.lessons.api.helper.SyncHelper
 import ss.lessons.impl.ext.toEntity
@@ -48,7 +47,6 @@ internal class ContentSyncProviderImpl @Inject constructor(
     private val quarterliesDao: QuarterliesDao,
     private val readsDao: ReadsDao,
     private val lessonsDao: LessonsDao,
-    private val pdfReader: PdfReader,
     private val lessonsApi: SSLessonsApi,
     private val syncHelper: SyncHelper,
     private val workScheduler: WorkScheduler,
@@ -81,7 +79,7 @@ internal class ContentSyncProviderImpl @Inject constructor(
     }
 
     private suspend fun LessonEntity.hasReads(): Boolean = days.isNotEmpty() && days.all { readsDao.get(it.index) != null }
-    private fun LessonEntity.hasPdfFiles(): Boolean = pdfs.isNotEmpty() && pdfs.all { pdfReader.isDownloaded(it) }
+    private fun LessonEntity.hasPdfFiles(): Boolean = pdfs.isNotEmpty() && pdfs.all { false }
 
     override suspend fun syncQuarterly(index: String): Result<Unit> {
         val initialState = quarterliesDao.getOfflineState(index) ?: OfflineState.NONE
@@ -135,7 +133,7 @@ internal class ContentSyncProviderImpl @Inject constructor(
         )
 
         if (lesson.pdfOnly) {
-            pdfReader.downloadFiles(this.pdfs)
+
         } else {
             for (day in days) {
                 val response = lessonsApi.getDayRead("${day.full_read_path}/index.json")

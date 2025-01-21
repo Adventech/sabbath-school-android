@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,10 +20,17 @@
  * THE SOFTWARE.
  */
 
-package ss.lessons.model
+package app.ss.pdf
 
-import android.net.Uri
-import androidx.annotation.Keep
+import app.ss.pdf.model.PdfDocumentSpec
+import com.slack.circuit.runtime.CircuitUiState
 
-@Keep
-data class LocalFile(val title: String, val uri: Uri)
+sealed interface ReadPdfState : CircuitUiState {
+
+    data object Loading : ReadPdfState
+
+    data class Success(
+        val documentSpec: PdfDocumentSpec,
+    ) : ReadPdfState
+}
+

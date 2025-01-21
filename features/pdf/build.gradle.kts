@@ -50,13 +50,23 @@ android {
     }
 }
 
+foundry {
+    features { compose() }
+}
+
+ksp {
+    arg("circuit.codegen.mode", "hilt")
+}
+
 dependencies {
     implementation(projects.common.core)
     implementation(projects.common.design)
+    implementation(projects.common.designCompose)
     implementation(projects.common.lessonsData)
     implementation(projects.common.misc)
     implementation(projects.common.translations)
     implementation(projects.features.media)
+    implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.lessons.api)
     implementation(projects.libraries.media.resources)
@@ -70,6 +80,7 @@ dependencies {
 
     implementation(libs.google.hilt.android)
     ksp(libs.google.hilt.compiler)
+    ksp(libs.circuit.codegen)
 
     implementation(libs.timber)
 

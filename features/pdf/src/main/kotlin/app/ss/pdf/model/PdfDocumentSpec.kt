@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,33 +20,13 @@
  * THE SOFTWARE.
  */
 
-package ss.lessons.test
+package app.ss.pdf.model
 
-import android.content.Intent
-import android.net.Uri
-import androidx.annotation.VisibleForTesting
-import app.ss.models.LessonPdf
-import ss.lessons.api.PdfReader
-import ss.lessons.model.LocalFile
+import androidx.compose.runtime.Immutable
+import com.pspdfkit.configuration.activity.PdfActivityConfiguration
 
-/** Fake implementation of [PdfReader] for use in tests. */
-@VisibleForTesting
-class FakePdfReader : PdfReader {
-
-    private val localFiles: MutableSet<LocalFile> = mutableSetOf()
-
-    var launchIntentDelegate: (List<LessonPdf>, String) -> Intent = { _, _ -> Intent() }
-
-    override fun launchIntent(pdfs: List<LessonPdf>, lessonIndex: String): Intent = launchIntentDelegate(pdfs, lessonIndex)
-
-    override suspend fun downloadFiles(pdfs: List<LessonPdf>): Result<List<LocalFile>> {
-        val files = pdfs.map { LocalFile(it.title, Uri.parse(it.src)) }
-        localFiles.addAll(files)
-
-        return Result.success(files)
-    }
-
-    override fun isDownloaded(pdf: LessonPdf): Boolean {
-        return localFiles.find { it.uri == Uri.parse(pdf.src) } != null
-    }
-}
+@Immutable
+data class PdfDocumentSpec(
+    val pdfActivityConfiguration: PdfActivityConfiguration,
+    val file: LocalFile,
+)

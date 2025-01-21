@@ -43,7 +43,6 @@ dependencies {
     implementation(projects.common.designCompose)
     implementation(projects.common.translations)
     implementation(projects.common.lessonsData)
-    implementation(projects.features.pdf)
     implementation(projects.libraries.appWidget.api)
     implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.foundation.android)
@@ -64,7 +63,6 @@ dependencies {
     implementation(libs.joda.android)
     implementation(libs.timber)
     implementation(libs.coil.core)
-    implementation(libs.tapTarget)
     implementation(libs.android.rate)
     implementation(libs.markwon.core)
 

@@ -22,6 +22,7 @@
 
 package app.ss.pdf.di
 
+import app.ss.pdf.PdfReader
 import app.ss.pdf.PdfReaderImpl
 import app.ss.pdf.PdfReaderPrefs
 import app.ss.pdf.PdfReaderPrefsImpl
@@ -29,7 +30,6 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ss.lessons.api.PdfReader
 
 @Module
 @InstallIn(SingletonComponent::class)

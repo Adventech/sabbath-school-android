@@ -23,9 +23,9 @@
 package com.cryart.sabbathschool.ui.home
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.remember
@@ -45,7 +45,7 @@ import ss.services.circuit.impl.navigator.AndroidSupportingNavigator
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeActivity : ComponentActivity() {
+class HomeActivity : AppCompatActivity() {
 
     @Inject
     lateinit var circuit: Circuit

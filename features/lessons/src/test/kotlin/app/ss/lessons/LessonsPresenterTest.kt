@@ -1,23 +1,15 @@
 package app.ss.lessons
 
-import android.content.Intent
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.ss.lessons.components.LessonItemSpec
-import app.ss.lessons.data.repository.lessons.LessonsRepository
-import app.ss.models.LessonPdf
 import app.ss.models.OfflineState
 import app.ss.models.PublishingInfo
-import app.ss.models.SSDay
 import app.ss.models.SSLesson
-import app.ss.models.SSLessonInfo
 import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo
-import app.ss.models.SSRead
 import com.cryart.sabbathschool.core.navigation.Destination
-import com.cryart.sabbathschool.core.response.Resource
 import com.slack.circuit.test.FakeNavigator
 import com.slack.circuit.test.test
-import com.slack.circuitx.android.IntentScreen
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flowOf
@@ -25,7 +17,6 @@ import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
 import org.junit.runner.RunWith
-import ss.lessons.test.FakePdfReader
 import ss.lessons.test.FakeQuarterliesRepository
 import ss.libraries.appwidget.test.FakeAppWidgetHelper
 import ss.libraries.circuit.navigation.CustomTabsIntentScreen
@@ -41,21 +32,17 @@ class LessonsPresenterTest {
     private val screen = LessonsScreen("en-2024-02")
     private val fakeNavigator = FakeNavigator(screen)
     private val fakeRepository = FakeQuarterliesRepository()
-    private val fakeLessonsRepository = FakeLessonsRepository()
     private val fakePrefs = FakeSSPrefs()
     private val fakeAppWidgetHelper = FakeAppWidgetHelper()
     private val fakeWorkScheduler = FakeWorkScheduler()
-    private val fakePdfReader = FakePdfReader()
 
     private val underTest = LessonsPresenter(
         navigator = fakeNavigator,
         screen = screen,
         repository = fakeRepository,
-        lessonsRepository = fakeLessonsRepository,
         ssPrefs = fakePrefs,
         appWidgetHelper = fakeAppWidgetHelper,
         workScheduler = fakeWorkScheduler,
-        pdfReader = fakePdfReader,
     )
 
     @Test
@@ -118,59 +105,6 @@ class LessonsPresenterTest {
                 destination shouldBeEqualTo Destination.READ
                 extras?.getString(SSConstants.SS_LESSON_INDEX_EXTRA) shouldBeEqualTo "lesson-index"
             }
-
-            ensureAllEventsConsumed()
-        }
-    }
-
-    @Test
-    fun `present - event - OnLessonClick - pdf lesson`() = runTest {
-        val lesson = SSLesson(title = "Lesson title", index = "lesson-index")
-        val quarterly = SSQuarterlyInfo(
-            quarterly = SSQuarterly(id = "id"),
-            lessons = listOf(lesson)
-        )
-        val fakeIntent = Intent()
-        val lessonInfo = SSLessonInfo(
-            lesson = lesson,
-            days = emptyList(),
-            pdfs = listOf(LessonPdf("pdf-id"))
-        )
-        fakeRepository.quarterlyInfoMap[screen.quarterlyIndex!!] = Result.success(quarterly)
-        fakePdfReader.launchIntentDelegate = { pdfs, index ->
-            if (index == lesson.index && pdfs == lessonInfo.pdfs) {
-                fakeIntent
-            } else {
-                throw IllegalArgumentException("Invalid index")
-            }
-        }
-        fakeLessonsRepository.getLessonInfoDelegate = { index ->
-            if (index == lesson.index) {
-                Resource.success(lessonInfo)
-            } else {
-                throw IllegalArgumentException("Invalid index")
-            }
-        }
-
-        underTest.test {
-            awaitItem() shouldBeEqualTo State.Loading
-
-            val state = awaitItem() as State.Success
-            state.eventSink(
-                Event.OnLessonClick(
-                    LessonItemSpec(
-                        index = lesson.index,
-                        displayIndex = "1",
-                        title = "Lesson title",
-                        date = "2024-02-01",
-                        pdfOnly = true,
-                        path = "path"
-                    )
-                )
-            )
-
-            val screen = fakeNavigator.awaitNextScreen() as IntentScreen
-            screen.intent shouldBeEqualTo fakeIntent
 
             ensureAllEventsConsumed()
         }
@@ -293,36 +227,4 @@ class LessonsPresenterTest {
             ensureAllEventsConsumed()
         }
     }
-}
-
-private class FakeLessonsRepository : LessonsRepository {
-
-    var getLessonInfoDelegate: suspend (String) -> Resource<SSLessonInfo> = { _ ->
-        throw IllegalStateException("Unexpected call")
-    }
-
-    override suspend fun getLessonInfo(lessonIndex: String, path: String, cached: Boolean): Resource<SSLessonInfo> {
-        return getLessonInfoDelegate(lessonIndex)
-    }
-
-    override suspend fun getDayRead(dayIndex: String): Resource<SSRead> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getDayRead(day: SSDay): Resource<SSRead> {
-        TODO("Not yet implemented")
-    }
-
-    override fun checkReaderArtifact() {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getPreferredBibleVersion(): String? {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun savePreferredBibleVersion(version: String) {
-        TODO("Not yet implemented")
-    }
-
 }

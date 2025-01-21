@@ -91,6 +91,7 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
             value = repository.video(resourceIndex, documentIndex).getOrNull().orEmpty()
         }
         val pdfs by produceRetainedState<List<PDFAux>>(emptyList()) {
+            if (segment?.type == SegmentType.PDF) return@produceRetainedState
             value = repository.pdf(resourceIndex, documentIndex).getOrNull().orEmpty()
         }
         val actions = buildList {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,34 +22,18 @@
 
 package io.adventech.blockkit.model.resource
 
+import android.os.Parcelable
 import androidx.annotation.Keep
-import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import io.adventech.blockkit.model.BlockItem
+import kotlinx.parcelize.Parcelize
 
 @Keep
 @JsonClass(generateAdapter = true)
-data class Segment(
+@Parcelize
+data class PdfAux(
     val id: String,
-    val index: String,
-    val name: String,
-    val title: String = "",
-    val type: SegmentType = SegmentType.UNKNOWN,
-    val resourceId: String = "",
-    val markdownTitle: String? = null,
-    val subtitle: String? = null,
-    val markdownSubtitle: String? = null,
-    val titleBelowCover: Boolean? = null,
-    val cover: String? = null,
-    val blocks: List<BlockItem>? = null,
-    val date: String? = null,
-    val background: String? = null,
-    val pdf: List<PdfAux>? = null,
-)
-
-@JsonClass(generateAdapter = false)
-enum class SegmentChipsStyle {
-    UNKNOWN,
-    @Json(name = "menu") MENU,
-    @Json(name = "carousel") CAROUSEL,
-}
+    val src: String,
+    val title: String,
+    val target: String?,
+    val targetIndex: String?
+) : Parcelable

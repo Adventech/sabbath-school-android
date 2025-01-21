@@ -30,6 +30,8 @@ import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.models.LessonPdf
 import app.ss.models.PdfAnnotations
 import app.ss.models.media.MediaAvailability
+import app.ss.pdf.PdfReader
+import app.ss.pdf.model.LocalFile
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
 import com.pspdfkit.annotations.Annotation
 import com.pspdfkit.document.PdfDocument
@@ -43,8 +45,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ss.lessons.api.PdfReader
-import ss.lessons.model.LocalFile
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -102,9 +102,9 @@ class ReadPdfViewModel @Inject constructor(
     }
 
     private fun downloadFiles() = viewModelScope.launch {
-        val result = pdfReader.downloadFiles(savedStateHandle.pdfs)
-        val files = result.getOrDefault(emptyList())
-        _pdfFiles.update { files }
+//        val result = pdfReader.downloadFiles(savedStateHandle.pdfs)
+//        val files = result.getOrDefault(emptyList())
+//        _pdfFiles.update { files }
     }
 
     fun saveAnnotations(document: PdfDocument, docIndex: Int) {

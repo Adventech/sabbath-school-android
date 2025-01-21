@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,36 +20,26 @@
  * THE SOFTWARE.
  */
 
-package io.adventech.blockkit.model.resource
+package app.ss.pdf.ui
 
-import androidx.annotation.Keep
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
-import io.adventech.blockkit.model.BlockItem
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import app.ss.pdf.model.PdfDocumentSpec
+import com.pspdfkit.jetpack.compose.interactors.rememberDocumentState
+import com.pspdfkit.jetpack.compose.utilities.ExperimentalPSPDFKitApi
+import com.pspdfkit.jetpack.compose.views.DocumentView
 
-@Keep
-@JsonClass(generateAdapter = true)
-data class Segment(
-    val id: String,
-    val index: String,
-    val name: String,
-    val title: String = "",
-    val type: SegmentType = SegmentType.UNKNOWN,
-    val resourceId: String = "",
-    val markdownTitle: String? = null,
-    val subtitle: String? = null,
-    val markdownSubtitle: String? = null,
-    val titleBelowCover: Boolean? = null,
-    val cover: String? = null,
-    val blocks: List<BlockItem>? = null,
-    val date: String? = null,
-    val background: String? = null,
-    val pdf: List<PdfAux>? = null,
-)
+@OptIn(ExperimentalPSPDFKitApi::class)
+@Composable
+fun PdfDocumentView(
+    spec: PdfDocumentSpec,
+    modifier: Modifier = Modifier
+) {
+    val documentState = rememberDocumentState(spec.file.uri, spec.pdfActivityConfiguration)
 
-@JsonClass(generateAdapter = false)
-enum class SegmentChipsStyle {
-    UNKNOWN,
-    @Json(name = "menu") MENU,
-    @Json(name = "carousel") CAROUSEL,
+    DocumentView(
+        documentState = documentState,
+        modifier = modifier,
+    )
+
 }

@@ -27,7 +27,6 @@ dependencies {
     implementation(projects.common.lessonsData)
     implementation(projects.features.bible)
     implementation(projects.features.media)
-    implementation(projects.features.pdf)
     implementation(projects.features.reader)
     implementation(projects.libraries.foundation.android)
     implementation(projects.libraries.foundation.coroutines)

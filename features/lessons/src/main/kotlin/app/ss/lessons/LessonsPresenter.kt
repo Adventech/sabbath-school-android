@@ -26,12 +26,9 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
-import app.ss.lessons.components.LessonItemSpec
-import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.models.OfflineState
 import app.ss.models.PublishingInfo
 import app.ss.models.SSQuarterly
@@ -43,19 +40,15 @@ import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
-import com.slack.circuitx.android.IntentScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import org.joda.time.Interval
-import ss.lessons.api.PdfReader
 import ss.lessons.api.repository.QuarterliesRepository
 import ss.libraries.appwidget.api.AppWidgetHelper
 import ss.libraries.circuit.navigation.CustomTabsIntentScreen
@@ -72,11 +65,9 @@ class LessonsPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     @Assisted private val screen: LessonsScreen,
     private val repository: QuarterliesRepository,
-    private val lessonsRepository: LessonsRepository,
     private val ssPrefs: SSPrefs,
     private val appWidgetHelper: AppWidgetHelper,
     private val workScheduler: WorkScheduler,
-    private val pdfReader: PdfReader,
 ) : Presenter<State> {
 
     @CircuitInject(LessonsScreen::class, SingletonComponent::class)
@@ -90,7 +81,6 @@ class LessonsPresenter @AssistedInject constructor(
 
     @Composable
     override fun present(): State {
-        val coroutineScope = rememberCoroutineScope()
         val quarterlyInfo by produceRetainedState<SSQuarterlyInfo?>(
             initialValue = null
         ) {
@@ -117,7 +107,7 @@ class LessonsPresenter @AssistedInject constructor(
         return when (val info = quarterlyInfo) {
             null -> State.Loading
             else -> State.Success(info, publishingInfo, overlayState) { event ->
-                handleEvent(event, coroutineScope, info, publishingInfo) {
+                handleEvent(event, info, publishingInfo) {
                     overlayState = it
                 }
             }
@@ -126,7 +116,6 @@ class LessonsPresenter @AssistedInject constructor(
 
     private fun handleEvent(
         event: Event,
-        coroutineScope: CoroutineScope,
         info: SSQuarterlyInfo?,
         publishingInfo: PublishingInfo?,
         overlayStateUpdate: (ReadMoreOverlayState?) -> Unit
@@ -134,7 +123,7 @@ class LessonsPresenter @AssistedInject constructor(
         when (event) {
             is Event.OnLessonClick -> {
                 if (event.lesson.pdfOnly) {
-                    goToPdfScreen(event.lesson, coroutineScope)
+
                 } else {
                     navigator.goTo(
                         LegacyDestination(
@@ -167,17 +156,6 @@ class LessonsPresenter @AssistedInject constructor(
             primaryDark = quarterly.color_primary_dark
         )
         ssPrefs.setReadingLatestQuarterly(quarterly.isLatest())
-    }
-
-    private fun goToPdfScreen(lesson: LessonItemSpec, scope: CoroutineScope) {
-        scope.launch {
-            val resource = lessonsRepository.getLessonInfo(lesson.index, lesson.path)
-            if (resource.isSuccessFul) {
-                val data = resource.data
-                val pdfs = data?.pdfs ?: return@launch
-                navigator.goTo(IntentScreen(pdfReader.launchIntent(pdfs, lesson.index)))
-            }
-        }
     }
 
     private fun handleOfflineStateClick(info: SSQuarterlyInfo) {
