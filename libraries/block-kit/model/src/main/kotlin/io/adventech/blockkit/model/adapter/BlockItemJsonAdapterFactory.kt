@@ -62,7 +62,9 @@ class BlockItemJsonAdapterFactory : JsonAdapter.Factory {
             .withSubtype(BlockItem.TableBlock::class.java, "table")
             .withSubtype(BlockItem.Question::class.java, "question")
             .withSubtype(BlockItem.Video::class.java, "video")
-            .withDefaultValue(BlockItem.Unknown)
+            .withSubtype(BlockItem.Carousel::class.java, "carousel")
+            .withSubtype(BlockItem.Unknown::class.java, "unknown")
+            .withDefaultValue(BlockItem.Unknown())
             .create(type, annotations, moshi)
     }
 
