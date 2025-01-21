@@ -43,6 +43,7 @@ ksp {
 }
 
 dependencies {
+    implementation(projects.features.pdf)
     implementation(projects.common.designCompose)
     implementation(projects.common.misc)
     implementation(projects.common.translations)
