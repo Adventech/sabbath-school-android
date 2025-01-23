@@ -42,6 +42,7 @@ import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.CircuitContent
 import com.slack.circuit.overlay.OverlayEffect
 import dagger.hilt.components.SingletonComponent
+import io.adventech.blockkit.model.resource.SegmentType
 import io.adventech.blockkit.ui.style.LocalBlocksStyle
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.LocalSegmentStyle
@@ -64,7 +65,6 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     var collapsed by remember { mutableStateOf(false) }
-    val toolbarTitle by remember(state) { derivedStateOf { if (collapsed) state.title else "" } }
     val isSystemInDarkTheme = isSystemInDarkTheme()
     val lightStatusBar by remember(isSystemInDarkTheme, state.hasCover, collapsed) {
         derivedStateOf {
@@ -79,29 +79,42 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
     HazeScaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            DocumentTopAppBar(
-                title = {
-                    when (state) {
-                        is State.Success -> {
-                            DocumentTitleBar(
-                                segments = state.segments,
-                                selectedSegment = state.selectedSegment,
-                                onSelection = { state.eventSink(SuccessEvent.OnSegmentSelection(it)) }
-                            )
-                        }
+            val showTopBar = when (state) {
+                is State.Loading -> true
+                is State.Success -> when (state.selectedSegment?.type) {
+                    SegmentType.STORY -> false
+                    SegmentType.PDF -> false
+                    SegmentType.UNKNOWN,
+                    SegmentType.BLOCK,
+                    SegmentType.VIDEO,
+                    null -> true
+                }
+            }
+            if (showTopBar) {
+                DocumentTopAppBar(
+                    title = {
+                        when (state) {
+                            is State.Success -> {
+                                DocumentTitleBar(
+                                    segments = state.segments,
+                                    selectedSegment = state.selectedSegment,
+                                    onSelection = { state.eventSink(SuccessEvent.OnSegmentSelection(it)) }
+                                )
+                            }
 
-                        is State.Loading -> {
-                            Text(toolbarTitle)
+                            is State.Loading -> {
+                                Text(state.title)
+                            }
                         }
-                    }
-                },
-                scrollBehavior = scrollBehavior,
-                collapsible = state.hasCover,
-                collapsed = collapsed,
-                actions = (state as? State.Success)?.actions ?: persistentListOf(),
-                onNavBack = { state.eventSink(Event.OnNavBack) },
-                onActionClick = { state.eventSink(Event.OnActionClick(it)) }
-            )
+                    },
+                    scrollBehavior = scrollBehavior,
+                    collapsible = state.hasCover,
+                    collapsed = collapsed,
+                    actions = (state as? State.Success)?.actions ?: persistentListOf(),
+                    onNavBack = { state.eventSink(Event.OnNavBack) },
+                    onActionClick = { state.eventSink(Event.OnActionClick(it)) }
+                )
+            }
         },
         bottomBar = {
             CircuitContent(
@@ -150,9 +163,11 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                         is DocumentOverlayState.Segment.Blocks -> overlayState.onResult(
                             show(BlocksOverlay(overlayState.state))
                         )
+
                         is DocumentOverlayState.Segment.Excerpt -> overlayState.onResult(
                             show(ExcerptOverlay(overlayState.state))
                         )
+
                         is DocumentOverlayState.Segment.None -> Unit
                         null -> Unit
                     }
