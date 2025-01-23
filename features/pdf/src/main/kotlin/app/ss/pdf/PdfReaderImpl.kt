@@ -50,7 +50,7 @@ import kotlin.coroutines.suspendCoroutine
 /** API for handling pdf lessons. */
 interface PdfReader {
 
-    fun configuration(): PdfActivityConfiguration
+    fun configuration(title: String): PdfActivityConfiguration
 
     /** Download these [pdfs] to device storage. */
     suspend fun downloadFiles(pdfs: List<PdfAux>): Result<List<LocalFile>>
@@ -75,7 +75,7 @@ internal class PdfReaderImpl @Inject constructor(
         AnnotationType.FREETEXT
     )
 
-    override fun configuration(): PdfActivityConfiguration {
+    override fun configuration(title: String): PdfActivityConfiguration {
         val excludedAnnotationTypes = ArrayList(EnumSet.allOf(AnnotationType::class.java))
         allowedAnnotations.forEach { excludedAnnotationTypes.remove(it) }
 
@@ -86,11 +86,12 @@ internal class PdfReaderImpl @Inject constructor(
             .setEnabledShareFeatures(EnumSet.noneOf(ShareFeatures::class.java))
             .setThumbnailBarMode(ThumbnailBarMode.THUMBNAIL_BAR_MODE_NONE)
             .setSettingsMenuItems(EnumSet.allOf(SettingsMenuItemType::class.java))
-            .setTabBarHidingMode(TabBarHidingMode.AUTOMATIC)
+            .setTabBarHidingMode(TabBarHidingMode.HIDE)
             .scrollMode(readerPrefs.scrollMode())
             .scrollDirection(readerPrefs.scrollDirection())
             .layoutMode(readerPrefs.pageLayoutMode())
             .themeMode(readerPrefs.themeMode())
+            .title(title)
             .build()
     }
 

@@ -24,8 +24,8 @@ package app.ss.pdf
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
-import androidx.compose.runtime.remember
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
@@ -35,6 +35,7 @@ import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.model.resource.PdfAux
 import app.ss.pdf.model.LocalFile
 import app.ss.pdf.model.PdfDocumentSpec
+import com.slack.circuit.retained.rememberRetained
 import ss.libraries.circuit.navigation.PdfScreen
 
 class ReadPdfPresenter @AssistedInject constructor(
@@ -44,18 +45,21 @@ class ReadPdfPresenter @AssistedInject constructor(
 
     @Composable
     override fun present(): ReadPdfState {
-        val configuration = remember { pdfReader.configuration() }
-
         val result by rememberFile()
         val files = result
+
+        val filesConfiguration by rememberRetained (files) {
+            mutableStateOf(files.orEmpty().associate { it to pdfReader.configuration(it.title) })
+        }
 
         return when {
             files.isNullOrEmpty() -> ReadPdfState.Loading
             else -> {
                 val file = files.first()
+                val pdfActivityConfiguration = filesConfiguration[file] ?: pdfReader.configuration(file.title)
                 ReadPdfState.Success(
                     documentSpec = PdfDocumentSpec(
-                        pdfActivityConfiguration = configuration,
+                        pdfActivityConfiguration = pdfActivityConfiguration,
                         file = file,
                     )
                 )
