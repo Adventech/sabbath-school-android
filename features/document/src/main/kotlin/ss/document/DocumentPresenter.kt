@@ -23,9 +23,12 @@
 package ss.document
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.Snapshot
+import app.ss.models.PDFAux
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.NavEvent
 import com.slack.circuit.foundation.onNavEvent
@@ -33,6 +36,7 @@ import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuitx.android.IntentScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -50,6 +54,8 @@ import ss.document.producer.TopAppbarActionsProducer
 import ss.document.segment.producer.SegmentOverlayStateProducer
 import ss.libraries.circuit.navigation.DocumentScreen
 import ss.libraries.circuit.navigation.ExpandedAudioPlayerScreen
+import ss.libraries.circuit.navigation.PdfScreen
+import ss.libraries.pdf.api.PdfReader
 import ss.misc.DateHelper
 import ss.resources.api.ResourcesRepository
 import ss.document.DocumentOverlayState.Segment as SegmentOverlayState
@@ -63,6 +69,7 @@ class DocumentPresenter @AssistedInject constructor(
     private val fontFamilyProvider: FontFamilyProvider,
     private val readerStyleStateProducer: ReaderStyleStateProducer,
     private val segmentOverlayStateProducer: SegmentOverlayStateProducer,
+    private val pdfReader: PdfReader,
 ) : Presenter<State> {
 
     private val today get() = DateTime.now().withTimeAtStartOfDay()
@@ -74,6 +81,8 @@ class DocumentPresenter @AssistedInject constructor(
         var selectedPage by rememberRetained(documentPages) { mutableStateOf(documentPages.defaultPage()) }
 
         val resourceDocument = response
+
+        LaunchedEffect(resourceDocument) { checkPdfOnlySegment(resourceDocument) }
 
         val actionsState = actionsProducer(
             resourceId = screen.resourceId,
@@ -165,6 +174,31 @@ class DocumentPresenter @AssistedInject constructor(
             }
         }
         return firstOrNull()
+    }
+
+    private fun checkPdfOnlySegment(resourceDocument: ResourceDocument?) {
+        val segments = resourceDocument?.segments ?: return
+        val blocks = segments.flatMap { it.blocks.orEmpty() }
+        val pdfs = segments.flatMap { it.pdf.orEmpty() }
+
+        if (blocks.isEmpty() && pdfs.isNotEmpty()) {
+            val pdfs = segments.flatMap { it.pdf.orEmpty() }
+            val screen = PdfScreen(
+                pdfs.map {
+                    PDFAux(
+                        id = it.id,
+                        src = it.src,
+                        title = it.title,
+                        target = it.target,
+                        targetIndex = it.targetIndex,
+                    )
+                }
+            )
+            Snapshot.withMutableSnapshot {
+                navigator.pop()
+                navigator.goTo(IntentScreen(pdfReader.launchIntent(screen)))
+            }
+        }
     }
 
     @CircuitInject(DocumentScreen::class, SingletonComponent::class)

@@ -83,7 +83,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                 is State.Loading -> true
                 is State.Success -> when (state.selectedSegment?.type) {
                     SegmentType.STORY -> false
-                    SegmentType.PDF -> false
+                    SegmentType.PDF,
                     SegmentType.UNKNOWN,
                     SegmentType.BLOCK,
                     SegmentType.VIDEO,
