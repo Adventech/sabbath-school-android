@@ -30,6 +30,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.slack.circuit.foundation.NavEvent
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.resource.Segment
 import kotlinx.collections.immutable.ImmutableList
@@ -45,6 +46,7 @@ fun DocumentPager(
     onPageChange: (Int) -> Unit = {},
     onCollapseChange: (Boolean) -> Unit = {},
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
+    onNavEvent: (NavEvent) -> Unit = {},
 ) {
     val pagerState = rememberPagerState(
         initialPage = initialPage,
@@ -66,7 +68,8 @@ fun DocumentPager(
             titleBelowCover = titleBelowCover,
             modifier = Modifier,
             onCollapseChange = onCollapseChange,
-            onHandleUri = onHandleUri
+            onHandleUri = onHandleUri,
+            onNavEvent = onNavEvent,
         )
     }
 

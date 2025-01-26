@@ -27,7 +27,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.lessons.data.repository.user.UserDataRepository
-import app.ss.models.LessonPdf
 import app.ss.models.PdfAnnotations
 import app.ss.models.media.MediaAvailability
 import app.ss.pdf.PdfReader
@@ -45,6 +44,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import ss.libraries.circuit.navigation.PdfScreen
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -59,8 +59,8 @@ class ReadPdfViewModel @Inject constructor(
     private val _pdfFiles = MutableStateFlow<List<LocalFile>>(emptyList())
     val pdfsFilesFlow: StateFlow<List<LocalFile>> = _pdfFiles.asStateFlow()
 
-    private val SavedStateHandle.pdfs: List<LessonPdf>
-        get() = get<ArrayList<LessonPdf>>(ARG_PDF_FILES) ?: emptyList()
+    private val SavedStateHandle.screen: PdfScreen?
+        get() = get<PdfScreen>(ARG_PDF_SCREEN)
 
     val lessonIndex: String? get() = savedStateHandle.lessonIndex
 
@@ -74,23 +74,24 @@ class ReadPdfViewModel @Inject constructor(
     val mediaAvailabilityFlow = mediaAvailability.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            val lessonIndex = lessonIndex ?: return@launch
-            checkMediaAvailability(lessonIndex)
-            savedStateHandle.pdfs.forEachIndexed { index, pdf ->
-                userDataRepository.getAnnotations(lessonIndex, pdf.id).collect { result ->
-                    val syncAnnotations = result.getOrNull() ?: return@collect
-                    _annotationsMap[index] = syncAnnotations
-                    _annotationsUpdate.emit(index)
-                }
-            }
-        }
+//        viewModelScope.launch {
+//            val lessonIndex = lessonIndex ?: return@launch
+//            checkMediaAvailability(lessonIndex)
+//            savedStateHandle.pdfs.forEachIndexed { index, pdf ->
+//                userDataRepository.getAnnotations(lessonIndex, pdf.id).collect { result ->
+//                    val syncAnnotations = result.getOrNull() ?: return@collect
+//                    _annotationsMap[index] = syncAnnotations
+//                    _annotationsUpdate.emit(index)
+//                }
+//            }
+//        }
 
         downloadFiles()
     }
 
     private fun checkMediaAvailability(lessonIndex: String) {
         viewModelScope.launch {
+            // Read media availability from Resource repository
             combine(mediaRepository.getAudio(lessonIndex), mediaRepository.getVideo(lessonIndex)) { audio, video ->
                 audio.isNotEmpty() to video.isNotEmpty()
             }
@@ -102,14 +103,16 @@ class ReadPdfViewModel @Inject constructor(
     }
 
     private fun downloadFiles() = viewModelScope.launch {
-//        val result = pdfReader.downloadFiles(savedStateHandle.pdfs)
-//        val files = result.getOrDefault(emptyList())
-//        _pdfFiles.update { files }
+        val pdfs = savedStateHandle.screen?.pdfs ?: return@launch
+        val result = pdfReader.downloadFiles(pdfs)
+        val files = result.getOrDefault(emptyList())
+        _pdfFiles.update { files }
     }
 
     fun saveAnnotations(document: PdfDocument, docIndex: Int) {
+        val pdfs = savedStateHandle.screen?.pdfs ?: return
         val lessonIndex = lessonIndex ?: return
-        val pdfId = savedStateHandle.pdfs.getOrNull(docIndex)?.id ?: return
+        val pdfId = pdfs.getOrNull(docIndex)?.id ?: return
 
         val syncAnnotations = document.annotations().toSync()
 

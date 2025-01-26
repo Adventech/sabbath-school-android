@@ -22,15 +22,13 @@
 
 package app.ss.pdf
 
-import app.ss.pdf.model.PdfDocumentSpec
 import com.slack.circuit.runtime.CircuitUiState
 
-sealed interface ReadPdfState : CircuitUiState {
+data class ReadPdfState(
+    val eventSink: (ReadPdfEvent) -> Unit,
+) : CircuitUiState
 
-    data object Loading : ReadPdfState
-
-    data class Success(
-        val documentSpec: PdfDocumentSpec,
-    ) : ReadPdfState
+sealed interface ReadPdfEvent {
+    data object OpenPdf : ReadPdfEvent
 }
 

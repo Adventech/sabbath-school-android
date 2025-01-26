@@ -23,17 +23,12 @@
 package app.ss.pdf
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContent
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import app.ss.pdf.ui.PdfDocumentView
-import com.pspdfkit.jetpack.compose.views.DocumentView
+import app.ss.design.compose.widget.button.ButtonSpec
+import app.ss.design.compose.widget.button.SsButton
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
 import ss.libraries.circuit.navigation.PdfScreen
@@ -41,21 +36,12 @@ import ss.libraries.circuit.navigation.PdfScreen
 @CircuitInject(PdfScreen::class, SingletonComponent::class)
 @Composable
 fun ReadPdfUi(state: ReadPdfState, modifier: Modifier = Modifier) {
-    Scaffold(
-        contentWindowInsets = WindowInsets.safeContent,
-    ) { contentPadding ->
-        when (state) {
-            is ReadPdfState.Loading -> {
-                Box(modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator()
-                }
-            }
-            is ReadPdfState.Success -> {
-                PdfDocumentView(
-                    spec = state.documentSpec,
-                    modifier = modifier.padding(top = contentPadding.calculateTopPadding()),
-                )
-            }
-        }
+    Box(modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        SsButton(
+            spec = ButtonSpec(
+                text = "Open PDF",
+                onClick = { state.eventSink(ReadPdfEvent.OpenPdf) }
+            )
+        )
     }
 }

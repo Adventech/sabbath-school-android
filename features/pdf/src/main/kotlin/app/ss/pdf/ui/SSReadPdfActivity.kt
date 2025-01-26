@@ -181,4 +181,4 @@ class SSReadPdfActivity : PdfActivity() {
     }
 }
 
-internal const val ARG_PDF_FILES = "ss_arg_pdf_files"
+internal const val ARG_PDF_SCREEN = "as_arg_pdf_screen"

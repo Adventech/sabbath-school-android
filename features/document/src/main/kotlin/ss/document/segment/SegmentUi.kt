@@ -25,7 +25,9 @@ package ss.document.segment
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import app.ss.models.PDFAux
 import com.slack.circuit.foundation.CircuitContent
+import com.slack.circuit.foundation.NavEvent
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.SegmentType
@@ -39,6 +41,7 @@ fun SegmentUi(
     modifier: Modifier = Modifier,
     onCollapseChange: (Boolean) -> Unit = {},
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
+    onNavEvent: (NavEvent) -> Unit = {},
 ) {
     when (segment.type) {
         SegmentType.UNKNOWN -> Unit
@@ -50,10 +53,12 @@ fun SegmentUi(
         SegmentType.PDF -> {
             val pdfs = remember(segment) {
                 segment.pdf.orEmpty().map {
-                    PdfScreen.Pdf(
+                    PDFAux(
                         id = it.id,
-                        url = it.src,
-                        title = it.title
+                        src = it.src,
+                        title = it.title,
+                        target = it.target,
+                        targetIndex = it.targetIndex,
                     )
                 }
             }
@@ -61,6 +66,7 @@ fun SegmentUi(
             CircuitContent(
                 screen = PdfScreen(pdfs),
                 modifier = modifier,
+                onNavEvent = onNavEvent,
             )
         }
 

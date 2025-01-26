@@ -22,9 +22,12 @@
 
 package app.ss.models
 
+import android.os.Parcelable
 import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Keep
 @JsonClass(generateAdapter = true)
 data class PDFAux(
@@ -33,4 +36,4 @@ data class PDFAux(
     val title: String,
     val target: String?,
     val targetIndex: String?
-)
+): Parcelable

@@ -22,18 +22,11 @@
 
 package ss.libraries.circuit.navigation
 
-import android.os.Parcelable
+import app.ss.models.PDFAux
 import com.slack.circuit.runtime.screen.Screen
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class PdfScreen(
-    val pdfs: List<Pdf>,
-): Screen {
-    @Parcelize
-    data class Pdf(
-        val id: String,
-        val url: String,
-        val title: String,
-    ) : Parcelable
-}
+    val pdfs: List<PDFAux>,
+): Screen

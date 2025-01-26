@@ -23,8 +23,10 @@
 package app.ss.pdf
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import app.ss.models.LessonPdf
+import app.ss.models.PDFAux
 import com.pspdfkit.annotations.AnnotationType
 import com.pspdfkit.configuration.activity.PdfActivityConfiguration
 import com.pspdfkit.configuration.activity.TabBarHidingMode
@@ -35,10 +37,13 @@ import com.pspdfkit.configuration.sharing.ShareFeatures
 import com.pspdfkit.document.download.DownloadJob
 import com.pspdfkit.document.download.DownloadRequest
 import dagger.hilt.android.qualifiers.ApplicationContext
-import io.adventech.blockkit.model.resource.PdfAux
 import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
 import app.ss.pdf.model.LocalFile
+import app.ss.pdf.ui.ARG_PDF_SCREEN
+import app.ss.pdf.ui.SSReadPdfActivity
+import com.pspdfkit.ui.PdfActivityIntentBuilder
+import ss.libraries.circuit.navigation.PdfScreen
 import timber.log.Timber
 import java.io.File
 import java.util.EnumSet
@@ -50,10 +55,11 @@ import kotlin.coroutines.suspendCoroutine
 /** API for handling pdf lessons. */
 interface PdfReader {
 
-    fun configuration(title: String): PdfActivityConfiguration
+    /** Returns an intent to read the PDF [screen]. */
+    fun launchIntent(screen: PdfScreen): Intent
 
     /** Download these [pdfs] to device storage. */
-    suspend fun downloadFiles(pdfs: List<PdfAux>): Result<List<LocalFile>>
+    suspend fun downloadFiles(pdfs: List<PDFAux>): Result<List<LocalFile>>
 
     /** Returns true if this [pdf] file is downloaded. */
     fun isDownloaded(pdf: LessonPdf): Boolean
@@ -75,11 +81,20 @@ internal class PdfReaderImpl @Inject constructor(
         AnnotationType.FREETEXT
     )
 
-    override fun configuration(title: String): PdfActivityConfiguration {
+    override fun launchIntent(screen: PdfScreen): Intent {
         val excludedAnnotationTypes = ArrayList(EnumSet.allOf(AnnotationType::class.java))
         allowedAnnotations.forEach { excludedAnnotationTypes.remove(it) }
 
-        return PdfActivityConfiguration.Builder(context)
+        @Suppress("DEPRECATION")
+        val config = PdfActivityConfiguration.Builder(context)
+            .hidePageLabels()
+            .hideDocumentTitleOverlay()
+            .disableDocumentInfoView()
+            .hidePageNumberOverlay()
+            .hideThumbnailGrid()
+            .disableSearch()
+            .disablePrinting()
+            .disableOutline()
             .fitMode(PageFitMode.FIT_TO_WIDTH)
             .animateScrollOnEdgeTaps(true)
             .excludedAnnotationTypes(excludedAnnotationTypes)
@@ -91,11 +106,16 @@ internal class PdfReaderImpl @Inject constructor(
             .scrollDirection(readerPrefs.scrollDirection())
             .layoutMode(readerPrefs.pageLayoutMode())
             .themeMode(readerPrefs.themeMode())
-            .title(title)
             .build()
+
+        return PdfActivityIntentBuilder.emptyActivity(context)
+            .configuration(config)
+            .activityClass(SSReadPdfActivity::class.java)
+            .build()
+            .apply { putExtra(ARG_PDF_SCREEN, screen) }
     }
 
-    override suspend fun downloadFiles(pdfs: List<PdfAux>): Result<List<LocalFile>> {
+    override suspend fun downloadFiles(pdfs: List<PDFAux>): Result<List<LocalFile>> {
         return try {
             val files = pdfs.mapNotNull {
                 withContext(dispatcherProvider.io) { downloadFile(context, it) }
@@ -113,7 +133,7 @@ internal class PdfReaderImpl @Inject constructor(
 
     private suspend fun downloadFile(
         context: Context,
-        pdf: PdfAux
+        pdf: PDFAux
     ): LocalFile? = suspendCoroutine { continuation ->
         val outputFile = File(context.getDir(FILE_DIRECTORY, Context.MODE_PRIVATE), "${pdf.id}.pdf")
         if (outputFile.exists()) {
