@@ -85,6 +85,7 @@ class DocumentPresenter @AssistedInject constructor(
         LaunchedEffect(resourceDocument) { checkPdfOnlySegment(resourceDocument) }
 
         val actionsState = actionsProducer(
+            navigator = navigator,
             resourceId = screen.resourceId,
             resourceIndex = screen.resourceIndex,
             documentIndex = screen.index,

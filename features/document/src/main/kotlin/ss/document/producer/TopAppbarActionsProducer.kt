@@ -33,6 +33,8 @@ import app.ss.models.VideoAux
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.CircuitUiState
+import com.slack.circuit.runtime.Navigator
+import com.slack.circuitx.android.IntentScreen
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.SegmentType
 import kotlinx.collections.immutable.ImmutableList
@@ -42,7 +44,9 @@ import ss.document.DocumentOverlayState.BottomSheet
 import ss.document.components.DocumentTopAppBarAction
 import ss.document.reader.ReaderOptionsScreen
 import ss.libraries.circuit.navigation.AudioPlayerScreen
+import ss.libraries.circuit.navigation.PdfScreen
 import ss.libraries.circuit.navigation.VideosScreen
+import ss.libraries.pdf.api.PdfReader
 import ss.resources.api.ResourcesRepository
 import javax.inject.Inject
 
@@ -62,6 +66,7 @@ interface TopAppbarActionsProducer {
 
     @Composable
     operator fun invoke(
+        navigator: Navigator,
         resourceId: String,
         resourceIndex: String,
         documentIndex: String,
@@ -72,10 +77,12 @@ interface TopAppbarActionsProducer {
 
 internal class TopAppbarActionsProducerImpl @Inject constructor(
     private val repository: ResourcesRepository,
+    private val pdfReader: PdfReader,
 ) : TopAppbarActionsProducer {
 
     @Composable
     override fun invoke(
+        navigator: Navigator,
         resourceId: String,
         resourceIndex: String,
         documentIndex: String,
@@ -132,7 +139,20 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
                                     bottomSheetState = null
                                 }
                             }
-                            DocumentTopAppBarAction.Pdf -> Unit
+                            DocumentTopAppBarAction.Pdf -> {
+                                val screen = PdfScreen(
+                                    pdfs.map {
+                                        PDFAux(
+                                            id = it.id,
+                                            src = it.src,
+                                            title = it.title,
+                                            target = it.target,
+                                            targetIndex = it.targetIndex,
+                                        )
+                                    }
+                                )
+                                navigator.goTo(IntentScreen(pdfReader.launchIntent(screen)))
+                            }
                             DocumentTopAppBarAction.DisplayOptions -> {
                                 bottomSheetState = BottomSheet(
                                     screen = ReaderOptionsScreen,
