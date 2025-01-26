@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.Navigator
+import com.slack.circuitx.android.IntentScreen
 import io.adventech.blockkit.model.feed.FeedResourceKind
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.model.resource.ResourceDocument
@@ -42,6 +43,7 @@ import org.joda.time.DateTime
 import org.joda.time.Interval
 import ss.libraries.circuit.navigation.CustomTabsIntentScreen
 import ss.libraries.circuit.navigation.DocumentScreen
+import ss.libraries.pdf.api.PdfReader
 import ss.misc.DateHelper
 import javax.inject.Inject
 import kotlin.collections.lastIndex
@@ -58,7 +60,9 @@ interface ResourceSectionsStateProducer {
     operator fun invoke(navigator: Navigator, resource: Resource): ResourceSectionsState
 }
 
-internal class ResourceSectionsStateProducerImpl @Inject constructor() : ResourceSectionsStateProducer {
+internal class ResourceSectionsStateProducerImpl @Inject constructor(
+    private val pdfReader: PdfReader
+) : ResourceSectionsStateProducer {
 
     @Composable
     override fun invoke(navigator: Navigator, resource: Resource): ResourceSectionsState {
@@ -67,15 +71,18 @@ internal class ResourceSectionsStateProducerImpl @Inject constructor() : Resourc
                 !document.externalURL.isNullOrEmpty() -> document.externalURL?.let {
                     navigator.goTo(CustomTabsIntentScreen(it))
                 }
-                else -> navigator.goTo(
-                    DocumentScreen(
+                else -> {
+                    val screen = document.pdfScreen()?.let {
+                        IntentScreen(pdfReader.launchIntent(it))
+                    } ?: DocumentScreen(
                         index = document.index,
                         title = document.title,
                         cover = document.cover,
                         resourceIndex = resource.index,
                         resourceId = resource.id
                     )
-                )
+                    navigator.goTo(screen)
+                }
             }
         }
 

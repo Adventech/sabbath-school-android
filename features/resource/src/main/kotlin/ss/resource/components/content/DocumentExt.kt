@@ -20,14 +20,35 @@
  * THE SOFTWARE.
  */
 
-package app.ss.pdf.model
+package ss.resource.components.content
 
-import androidx.compose.runtime.Immutable
-import com.pspdfkit.configuration.activity.PdfActivityConfiguration
-import ss.libraries.pdf.api.LocalFile
+import app.ss.models.PDFAux
+import io.adventech.blockkit.model.resource.ResourceDocument
+import ss.libraries.circuit.navigation.PdfScreen
+import kotlin.collections.flatMap
+import kotlin.collections.orEmpty
 
-@Immutable
-data class PdfDocumentSpec(
-    val pdfActivityConfiguration: PdfActivityConfiguration,
-    val file: LocalFile,
-)
+/** Returns a [PdfScreen] if the [ResourceDocument] contains only PDFs. */
+internal fun ResourceDocument.pdfScreen(): PdfScreen? {
+    val segments = segments.orEmpty()
+
+    val blocks = segments.flatMap { it.blocks.orEmpty() }
+    val pdfs = segments.flatMap { it.pdf.orEmpty() }
+
+    if (blocks.isEmpty() && pdfs.isNotEmpty()) {
+        val pdfs = segments.flatMap { it.pdf.orEmpty() }
+        return PdfScreen(
+            pdfs.map {
+                PDFAux(
+                    id = it.id,
+                    src = it.src,
+                    title = it.title,
+                    target = it.target,
+                    targetIndex = it.targetIndex,
+                )
+            }
+        )
+    }
+
+    return null
+}

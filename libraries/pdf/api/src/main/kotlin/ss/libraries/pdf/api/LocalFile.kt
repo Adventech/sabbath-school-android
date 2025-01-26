@@ -20,10 +20,8 @@
  * THE SOFTWARE.
  */
 
-package app.ss.pdf.model
+package ss.libraries.pdf.api
 
 import android.net.Uri
-import androidx.compose.runtime.Immutable
 
-@Immutable
 data class LocalFile(val title: String, val uri: Uri)

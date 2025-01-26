@@ -39,11 +39,12 @@ import com.pspdfkit.document.download.DownloadRequest
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
-import app.ss.pdf.model.LocalFile
 import app.ss.pdf.ui.ARG_PDF_SCREEN
 import app.ss.pdf.ui.SSReadPdfActivity
 import com.pspdfkit.ui.PdfActivityIntentBuilder
 import ss.libraries.circuit.navigation.PdfScreen
+import ss.libraries.pdf.api.LocalFile
+import ss.libraries.pdf.api.PdfReader
 import timber.log.Timber
 import java.io.File
 import java.util.EnumSet
@@ -51,19 +52,6 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
-
-/** API for handling pdf lessons. */
-interface PdfReader {
-
-    /** Returns an intent to read the PDF [screen]. */
-    fun launchIntent(screen: PdfScreen): Intent
-
-    /** Download these [pdfs] to device storage. */
-    suspend fun downloadFiles(pdfs: List<PDFAux>): Result<List<LocalFile>>
-
-    /** Returns true if this [pdf] file is downloaded. */
-    fun isDownloaded(pdf: LessonPdf): Boolean
-}
 
 @Singleton
 internal class PdfReaderImpl @Inject constructor(
@@ -115,7 +103,7 @@ internal class PdfReaderImpl @Inject constructor(
             .apply { putExtra(ARG_PDF_SCREEN, screen) }
     }
 
-    override suspend fun downloadFiles(pdfs: List<PDFAux>): Result<List<LocalFile>> {
+    override suspend fun downloadFiles(pdfs: List<PDFAux>): Result<List<ss.libraries.pdf.api.LocalFile>> {
         return try {
             val files = pdfs.mapNotNull {
                 withContext(dispatcherProvider.io) { downloadFile(context, it) }

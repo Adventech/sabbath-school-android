@@ -29,8 +29,6 @@ import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.models.PdfAnnotations
 import app.ss.models.media.MediaAvailability
-import app.ss.pdf.PdfReader
-import app.ss.pdf.model.LocalFile
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
 import com.pspdfkit.annotations.Annotation
 import com.pspdfkit.document.PdfDocument
@@ -45,6 +43,8 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ss.libraries.circuit.navigation.PdfScreen
+import ss.libraries.pdf.api.LocalFile
+import ss.libraries.pdf.api.PdfReader
 import timber.log.Timber
 import javax.inject.Inject
 

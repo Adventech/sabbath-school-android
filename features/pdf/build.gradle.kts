@@ -70,6 +70,7 @@ dependencies {
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.lessons.api)
     implementation(projects.libraries.media.resources)
+    implementation(projects.libraries.pdf.api)
 
     implementation(libs.androidx.activity)
     implementation(libs.androidx.appcompat)

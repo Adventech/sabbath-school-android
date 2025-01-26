@@ -32,6 +32,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
 import ss.libraries.circuit.navigation.PdfScreen
+import ss.libraries.pdf.api.PdfReader
 
 class ReadPdfPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,

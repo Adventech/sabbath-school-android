@@ -83,6 +83,7 @@ include(
     ":libraries:media:resources",
     ":libraries:media:service",
     ":libraries:media:test-fixtures",
+    ":libraries:pdf:api",
     ":libraries:prefs:api",
     ":libraries:prefs:model",
     ":libraries:storage:api",
