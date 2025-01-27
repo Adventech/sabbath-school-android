@@ -312,7 +312,7 @@ private fun PlaybackReplay(
 }
 
 @Composable
-private fun PlaybackPlayPause(
+fun PlaybackPlayPause(
     spec: PlaybackStateSpec,
     contentColor: Color,
     onPlayPause: () -> Unit
