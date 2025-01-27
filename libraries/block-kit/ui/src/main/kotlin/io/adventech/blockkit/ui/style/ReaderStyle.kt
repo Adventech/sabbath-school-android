@@ -98,8 +98,8 @@ fun ReaderStyle.Theme.primaryForeground(): Color {
     return when (this) {
         ReaderStyle.Theme.Light -> Color.Primary950
         ReaderStyle.Theme.Sepia -> Color.Sepia400
-        ReaderStyle.Theme.Dark -> Color.Gray200
-        ReaderStyle.Theme.Auto -> if (isSystemInDarkTheme()) Color.Gray200 else Color.Primary950
+        ReaderStyle.Theme.Dark -> Color.White
+        ReaderStyle.Theme.Auto -> if (isSystemInDarkTheme()) Color.White else Color.Primary950
     }
 }
 
