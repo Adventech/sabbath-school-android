@@ -107,6 +107,7 @@ private fun PlayerContent(
             Text(
                 currentDuration,
                 style = Styler.textStyle(null).copy(
+                    fontFamily = Styler.defaultFontFamily(),
                     fontSize = 14.sp
                 ),
                 color = textColor
