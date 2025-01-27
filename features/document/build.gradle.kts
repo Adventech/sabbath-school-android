@@ -50,6 +50,7 @@ dependencies {
     implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.pdf.api)
     implementation(projects.libraries.prefs.api)
+    implementation(projects.services.media.ui)
     implementation(projects.services.resources.api)
 
     implementation(libs.coil.compose)

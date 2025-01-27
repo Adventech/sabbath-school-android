@@ -82,11 +82,11 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
             val showTopBar = when (state) {
                 is State.Loading -> true
                 is State.Success -> when (state.selectedSegment?.type) {
-                    SegmentType.STORY -> false
+                    SegmentType.STORY,
+                    SegmentType.VIDEO -> false
                     SegmentType.PDF,
                     SegmentType.UNKNOWN,
                     SegmentType.BLOCK,
-                    SegmentType.VIDEO,
                     null -> true
                 }
             }

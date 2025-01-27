@@ -32,6 +32,7 @@ import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.SegmentType
 import ss.document.segment.components.blocks.SegmentBlocksContent
+import ss.document.segment.components.video.VideoSegmentScreen
 import ss.libraries.circuit.navigation.PdfScreen
 
 @Composable
@@ -70,6 +71,14 @@ fun SegmentUi(
             )
         }
 
-        SegmentType.VIDEO -> Unit
+        SegmentType.VIDEO -> {
+            segment.video?.let {
+                CircuitContent(
+                    screen = VideoSegmentScreen(segment.id),
+                    modifier = modifier,
+                    onNavEvent = onNavEvent,
+                )
+            }
+        }
     }
 }

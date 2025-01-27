@@ -98,7 +98,9 @@ fun BlockContent(
         is BlockItem.Story -> Unit
         is BlockItem.StorySlide -> Unit
         is BlockItem.TableBlock -> Unit
-        is BlockItem.Video -> Unit
+        is BlockItem.Video -> {
+            VideoContent(blockItem, blockModifier)
+        }
         is BlockItem.Carousel -> Unit
         is BlockItem.Unknown -> Unit
     }
