@@ -43,5 +43,5 @@ fun Dismissible(
     SwipeToDismissBox(
         state = dismissState,
         backgroundContent = {},
-    ) { content()}
+    ) { content() }
 }
