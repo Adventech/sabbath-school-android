@@ -207,7 +207,7 @@ internal class ResourcesRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun segment(index: String): Flow<Segment> = segmentsDao.get(index)
+    override fun segment(id: String): Flow<Segment> = segmentsDao.get(id)
         .filterNotNull()
         .map { it.toModel() }
         .flowOn(dispatcherProvider.io)

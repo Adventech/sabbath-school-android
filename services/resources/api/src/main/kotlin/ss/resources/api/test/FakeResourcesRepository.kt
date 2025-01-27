@@ -65,7 +65,7 @@ class FakeResourcesRepository(
         TODO("Not yet implemented")
     }
 
-    override fun segment(index: String): Flow<Segment> {
+    override fun segment(id: String): Flow<Segment> {
         TODO("Not yet implemented")
     }
 

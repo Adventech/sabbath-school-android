@@ -48,7 +48,7 @@ interface ResourcesRepository {
 
     suspend fun document(index: String): Result<ResourceDocument>
 
-    fun segment(index: String): Flow<Segment>
+    fun segment(id: String): Flow<Segment>
 
     suspend fun audio(resourceIndex: String, documentIndex: String): Result<List<AudioAux>>
 
