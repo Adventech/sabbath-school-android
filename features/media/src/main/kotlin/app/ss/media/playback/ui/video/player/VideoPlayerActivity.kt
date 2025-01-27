@@ -64,7 +64,6 @@ private const val BACKWARD = "action_backward"
 private const val FORWARD = "action_forward"
 private const val PLAY_PAUSE = "action_play_or_pause"
 
-@androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 @AndroidEntryPoint
 class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
 
