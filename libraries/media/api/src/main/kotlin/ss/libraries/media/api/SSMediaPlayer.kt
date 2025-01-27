@@ -32,17 +32,11 @@ import ss.libraries.media.model.PlaybackState
 import ss.libraries.media.model.SSMediaItem
 
 @Stable
-interface SSMediaPlayer {
-    val isConnected: StateFlow<Boolean>
-    val playbackState: StateFlow<PlaybackState>
+interface SSMediaPlayer : SimpleMediaPlayer{
     val nowPlaying: StateFlow<NowPlaying>
-    val playbackProgress: StateFlow<PlaybackProgressState>
     val playbackSpeed: StateFlow<PlaybackSpeed>
-    fun connect(service: Class<*>)
-    fun playItem(mediaItem: SSMediaItem)
     fun playItem(mediaItem: SSMediaItem, playerView: PlayerView)
     fun playItems(mediaItems: List<SSMediaItem>, index: Int = 0)
-    fun playPause()
     fun seekTo(position: Long)
     fun skipToItem(position: Int)
     fun fastForward()
@@ -50,5 +44,15 @@ interface SSMediaPlayer {
     fun toggleSpeed()
     fun onPause()
     fun onResume()
+}
+
+@Stable
+interface SimpleMediaPlayer {
+    val isConnected: StateFlow<Boolean>
+    val playbackState: StateFlow<PlaybackState>
+    val playbackProgress: StateFlow<PlaybackProgressState>
+    fun connect(service: Class<*>)
+    fun playItem(mediaItem: SSMediaItem)
+    fun playPause()
     fun release()
 }
