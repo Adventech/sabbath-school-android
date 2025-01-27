@@ -52,14 +52,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.ReferenceScope
-import io.adventech.blockkit.ui.style.LatoFontFamily
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
 import ss.ui.placeholder.asPlaceholder
 
 @Composable
 internal fun ReferenceContent(blockItem: BlockItem.Reference, modifier: Modifier = Modifier) {
-    val textColor = Styler.textColor(null)
+    val contentColor = Styler.genericForegroundColorForInteractiveBlock()
 
     ElevatedCard(
         modifier = modifier
@@ -67,7 +66,8 @@ internal fun ReferenceContent(blockItem: BlockItem.Reference, modifier: Modifier
             .clickable {},
         shape = Styler.roundedShape(),
         colors = CardDefaults.elevatedCardColors(
-            containerColor = Styler.genericBackgroundColorForInteractiveBlock()
+            containerColor = Styler.genericBackgroundColorForInteractiveBlock(),
+            contentColor = contentColor,
         )
     ) {
         Row(
@@ -107,8 +107,8 @@ internal fun ReferenceContent(blockItem: BlockItem.Reference, modifier: Modifier
                 Text(
                     text = blockItem.title,
                     style = TextStyle(
-                        fontFamily = LatoFontFamily,
-                        color = textColor,
+                        fontFamily = Styler.defaultFontFamily(),
+                        color = contentColor,
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp
                     ),
@@ -120,8 +120,8 @@ internal fun ReferenceContent(blockItem: BlockItem.Reference, modifier: Modifier
                     Text(
                         text = it,
                         style = TextStyle(
-                            fontFamily = LatoFontFamily,
-                            color = textColor.copy(alpha = 0.7f),
+                            fontFamily = Styler.defaultFontFamily(),
+                            color = contentColor.copy(alpha = 0.7f),
                             fontWeight = FontWeight.Medium,
                             fontSize = 14.sp
                         ),
@@ -134,7 +134,7 @@ internal fun ReferenceContent(blockItem: BlockItem.Reference, modifier: Modifier
             Icon(
                 imageVector = Icons.Rounded.ChevronRight,
                 contentDescription = null,
-                tint = textColor
+                tint = contentColor,
             )
         }
     }

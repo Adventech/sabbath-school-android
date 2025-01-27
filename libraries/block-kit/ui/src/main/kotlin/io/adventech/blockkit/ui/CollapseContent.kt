@@ -101,6 +101,7 @@ internal fun CollapseContent(
                         .weight(1f)
                         .padding(vertical = 4.dp),
                     style = captionTextStyle,
+                    color = Styler.genericForegroundColorForInteractiveBlock(),
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )

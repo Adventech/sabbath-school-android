@@ -68,6 +68,7 @@ internal fun QuestionContent(
     var textFieldValue by rememberSaveable(stateSaver = TextFieldValue.Saver) { mutableStateOf(TextFieldValue("")) }
     val textStyle = blockItem.style?.text
     val inputTextStyle = Styler.textStyle(blockStyle = inputBlockTextStyle)
+    val contentColor = Styler.genericForegroundColorForInteractiveBlock()
 
     ElevatedCard(
         modifier = modifier.fillMaxWidth(),
@@ -88,8 +89,8 @@ internal fun QuestionContent(
                     modifier = Modifier
                         .background(Styler.genericBackgroundColorForInteractiveBlock())
                         .padding(horizontal = 16.dp, vertical = 12.dp),
-                    color = Styler.textColor(textStyle),
-                    style = Styler.textStyle(textStyle),
+                    color = contentColor,
+                    style = Styler.textStyle(textStyle).copy(color = contentColor),
                     textAlign = Styler.textAlign(textStyle),
                     onHandleUri = onHandleUri,
                 )
