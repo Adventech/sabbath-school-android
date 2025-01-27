@@ -41,6 +41,8 @@ internal fun Segment.toEntity(): SegmentEntity {
         blocks = this.blocks,
         date = this.date,
         background = this.background,
+        pdf = this.pdf,
+        video = this.video,
     )
 }
 
@@ -60,5 +62,7 @@ internal fun SegmentEntity.toModel(): Segment {
         blocks = this.blocks,
         date = this.date,
         background = this.background,
+        pdf = this.pdf,
+        video = this.video,
     )
 }

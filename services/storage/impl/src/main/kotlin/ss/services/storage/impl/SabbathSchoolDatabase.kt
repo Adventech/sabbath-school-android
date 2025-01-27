@@ -28,6 +28,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import ss.libraries.storage.api.dao.AppWidgetDao
 import ss.libraries.storage.api.dao.AudioDao
 import ss.libraries.storage.api.dao.BibleVersionDao
@@ -80,7 +82,7 @@ import ss.libraries.storage.api.entity.VideoInfoEntity
         FontFileEntity::class,
         SegmentEntity::class,
     ],
-    version = 19,
+    version = 20,
     exportSchema = true,
     autoMigrations = [
         AutoMigration(from = 2, to = 3),
@@ -150,7 +152,15 @@ internal abstract class SabbathSchoolDatabase : RoomDatabase() {
 
         private fun buildDatabase(context: Context): SabbathSchoolDatabase =
             Room.databaseBuilder(context, SabbathSchoolDatabase::class.java, DATABASE_NAME)
+                .addMigrations(MIGRATION_19_20)
                 .fallbackToDestructiveMigration()
                 .build()
+
+        val MIGRATION_19_20 = object : Migration(19, 20) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                // Drop the existing table
+                database.execSQL("DROP TABLE IF EXISTS `segments`")
+            }
+        }
     }
 }

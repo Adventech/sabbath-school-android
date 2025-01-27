@@ -39,6 +39,8 @@ import dev.zacsweers.moshix.adapters.AdaptedBy
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.resource.Credit
 import io.adventech.blockkit.model.resource.Feature
+import io.adventech.blockkit.model.resource.PdfAux
+import io.adventech.blockkit.model.resource.VideoClipSegment
 import timber.log.Timber
 import java.lang.reflect.Type
 
@@ -93,6 +95,14 @@ internal object Converters {
     }
     private val blockItemsAdapter: JsonAdapter<List<BlockItem>> by lazy {
         val listDataType: Type = Types.newParameterizedType(List::class.java, BlockItem::class.java)
+        moshi.adapter(listDataType)
+    }
+    private val pdfAuxAdapter: JsonAdapter<List<PdfAux>> by lazy {
+        val listDataType: Type = Types.newParameterizedType(List::class.java, PdfAux::class.java)
+        moshi.adapter(listDataType)
+    }
+    private val videoClipSegmentAdapter: JsonAdapter<List<VideoClipSegment>> by lazy {
+        val listDataType: Type = Types.newParameterizedType(List::class.java, VideoClipSegment::class.java)
         moshi.adapter(listDataType)
     }
 
@@ -199,4 +209,20 @@ internal object Converters {
 
     @TypeConverter
     fun fromBlockItems(videos: List<BlockItem>?): String? = blockItemsAdapter.toJson(videos)
+
+    @TypeConverter
+    fun toPdfAux(value: String?): List<PdfAux>? = value?.let { jsonString ->
+        pdfAuxAdapter.fromJson(jsonString)
+    }
+
+    @TypeConverter
+    fun fromPdfAux(pdf: List<PdfAux>?): String? = pdfAuxAdapter.toJson(pdf)
+
+    @TypeConverter
+    fun toVideoClipSegment(value: String?): List<VideoClipSegment>? = value?.let { jsonString ->
+        videoClipSegmentAdapter.fromJson(jsonString)
+    }
+
+    @TypeConverter
+    fun fromVideoClipSegment(video: List<VideoClipSegment>?): String? = videoClipSegmentAdapter.toJson(video)
 }
