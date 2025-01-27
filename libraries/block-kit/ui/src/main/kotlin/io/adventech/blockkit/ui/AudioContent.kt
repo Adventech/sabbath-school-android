@@ -33,27 +33,17 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.Snapshot
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.media3.common.MediaItem
-import androidx.media3.common.Player
-import androidx.media3.exoplayer.ExoPlayer
 import io.adventech.blockkit.model.BlockItem
+import io.adventech.blockkit.ui.media.MediaPlayer
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
-import kotlinx.coroutines.delay
-import ss.libraries.media.api.PLAYBACK_PROGRESS_INTERVAL
 import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.extensions.millisToDuration
 import ss.services.media.ui.PlaybackPlayPause
@@ -62,82 +52,17 @@ import ss.services.media.ui.spec.PlaybackStateSpec
 
 @Composable
 fun AudioContent(blockItem: BlockItem.Audio, modifier: Modifier = Modifier) {
-    val context = LocalContext.current
-
-    var playbackState by remember(blockItem) {
-        mutableStateOf(
-            PlaybackStateSpec.NONE.copy(
-                isPlayEnabled = true,
-                canShowMini = false,
-            )
-        )
-    }
-    var progressState by remember(blockItem) {
-        mutableStateOf(PlaybackProgressState())
-    }
-
-    val exoPlayer = remember(context, blockItem) {
-        ExoPlayer.Builder(context)
-            .build().apply {
-                addListener(object : Player.Listener {
-                    override fun onPlaybackStateChanged(state: Int) {
-                        super.onPlaybackStateChanged(state)
-                        playbackState = playbackState.copy(
-                            isBuffering = state == Player.STATE_BUFFERING,
-                        )
-
-                        if (state == Player.STATE_READY) {
-                            progressState = progressState.copy(
-                                total = this@apply.duration
-                            )
-                        }
-                    }
-
-                    override fun onIsPlayingChanged(isPlaying: Boolean) {
-                        super.onIsPlayingChanged(isPlaying)
-                        playbackState = playbackState.copy(
-                            isPlaying = isPlaying,
-                        )
-                    }
-                })
-            }
-    }
-
-    DisposableEffect(blockItem) {
-        exoPlayer.setMediaItem(MediaItem.fromUri(blockItem.src))
-        exoPlayer.prepare()
-
-        onDispose { exoPlayer.release() }
-    }
-
-    PlayerContent(
-        playbackState = playbackState,
-        progressState = progressState,
+    MediaPlayer(
+        source = blockItem.src,
         modifier = modifier,
-        onPlayPause = {
-            if (exoPlayer.isPlaying) {
-                exoPlayer.pause()
-            } else {
-                exoPlayer.play()
-            }
-        },
-        onSeekTo = {
-            Snapshot.withMutableSnapshot {
-                progressState = progressState.copy(
-                    position = it,
-                )
-                exoPlayer.seekTo(it)
-            }
-        }
-    )
-
-    LaunchedEffect(playbackState.isPlaying) {
-        while (playbackState.isPlaying) {
-            delay(PLAYBACK_PROGRESS_INTERVAL)
-            progressState = progressState.copy(
-                position = exoPlayer.currentPosition,
-            )
-        }
+    ) { playbackState, progressState, onPlayPause, onSeekTo ->
+        PlayerContent(
+            playbackState = playbackState,
+            progressState = progressState,
+            modifier = Modifier,
+            onPlayPause = onPlayPause,
+            onSeekTo = onSeekTo
+        )
     }
 }
 
