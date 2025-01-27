@@ -60,7 +60,7 @@ class BlocksOverlay(private val state: State) : Overlay<BlocksOverlay.Result> {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content(navigator: OverlayNavigator<Result>) {
-        BlocksDialogSurface (
+        BlocksDialogSurface(
             readerStyle = state.style,
             modifier = Modifier,
             onDismiss = { navigator.finish(Result.Dismissed) }
