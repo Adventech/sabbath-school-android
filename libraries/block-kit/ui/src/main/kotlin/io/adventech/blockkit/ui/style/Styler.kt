@@ -164,6 +164,22 @@ object Styler {
         }
     }
 
+    @Composable
+    fun genericForegroundColorForInteractiveBlock(
+        theme: ReaderStyle.Theme = LocalReaderStyle.current.theme,
+    ): Color {
+        val light = Color.Black
+        val sepia = Color(0xFF5b4636)
+        val dark = Color.White
+
+        return when (theme) {
+            ReaderStyle.Theme.Light -> light
+            ReaderStyle.Theme.Dark -> dark
+            ReaderStyle.Theme.Auto -> if (isSystemInDarkTheme()) dark else light
+            ReaderStyle.Theme.Sepia -> sepia
+        }
+    }
+
     fun roundedShape() = RoundedCornerShape(6.dp)
 }
 
