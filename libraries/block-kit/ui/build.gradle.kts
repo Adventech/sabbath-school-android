@@ -36,7 +36,9 @@ dependencies {
     api(projects.libraries.blockKit.model)
     api(projects.libraries.blockKit.parser)
 
+    implementation(projects.libraries.media.api)
     implementation(projects.libraries.ui.placeholder)
+    implementation(projects.services.media.ui)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.atlassian.commonmark)

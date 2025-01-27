@@ -42,7 +42,9 @@ fun BlockContent(
         is BlockItem.Appeal -> {
             AppealContent(blockItem, blockModifier)
         }
-        is BlockItem.Audio -> Unit
+        is BlockItem.Audio -> {
+            AudioContent(blockItem, blockModifier)
+        }
         is BlockItem.BlockList -> {
             BlockListContent(blockItem, blockModifier, onHandleUri)
         }
