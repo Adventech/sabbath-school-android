@@ -20,31 +20,19 @@
  * THE SOFTWARE.
  */
 
-package ss.document.segment.components.video
+package app.ss.media.di
 
-import android.content.Context
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
-import com.slack.circuit.runtime.screen.Screen
-import io.adventech.blockkit.model.BlockItem
-import io.adventech.blockkit.model.resource.VideoClipSegment
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.parcelize.Parcelize
+import app.ss.media.playback.MediaNavigationImpl
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import ss.libraries.media.api.MediaNavigation
 
-@Parcelize
-data class VideoSegmentScreen(
-    val id: String,
-): Screen {
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class BindingsModule {
 
-    data class State(
-        val title: String,
-        val videos: ImmutableList<VideoClipSegment>,
-        val blocks: List<BlockItem>,
-        val eventSink: (Event) -> Unit,
-    ) : CircuitUiState
-
-    sealed interface Event : CircuitUiEvent {
-        data object OnNavBack : Event
-        data class PlayVideo(val context: Context, val video: VideoClipSegment) : Event
-    }
+    @Binds
+    internal abstract fun bindMediaNavigation(iml: MediaNavigationImpl): MediaNavigation
 }

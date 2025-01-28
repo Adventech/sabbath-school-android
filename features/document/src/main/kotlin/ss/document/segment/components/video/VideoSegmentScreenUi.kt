@@ -22,20 +22,16 @@
 
 package ss.document.segment.components.video
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -44,6 +40,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -69,6 +66,7 @@ fun VideoSegmentScreenUi(state: State, modifier: Modifier = Modifier) {
     val readerStyle = LocalReaderStyle.current
     val containerColor = readerStyle.theme.background()
     val contentColor = readerStyle.theme.primaryForeground()
+    val context = LocalContext.current
 
     HazeScaffold(
         modifier = modifier,
@@ -99,16 +97,14 @@ fun VideoSegmentScreenUi(state: State, modifier: Modifier = Modifier) {
             contentPadding = contentPadding,
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
-            item {
-                Box(
+            items(state.videos) { video ->
+                VideoSegmentUi(
+                    thumbnail = video.thumbnail,
+                    title = video.title,
                     modifier = Modifier
-                        .fillMaxWidth()
                         .padding(horizontal = Dimens.grid_4)
-                        .aspectRatio(16f / 9f)
-                        .background(Color.Black, RoundedCornerShape(12.dp)),
-                ) {
-                    // Render video segment screen
-                }
+                        .clickable { state.eventSink(Event.PlayVideo(context, video)) },
+                )
             }
 
             item {
@@ -134,6 +130,5 @@ fun VideoSegmentScreenUi(state: State, modifier: Modifier = Modifier) {
             }
         }
     }
-
 
 }

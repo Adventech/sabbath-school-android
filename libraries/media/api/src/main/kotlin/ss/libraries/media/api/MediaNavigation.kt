@@ -20,31 +20,12 @@
  * THE SOFTWARE.
  */
 
-package ss.document.segment.components.video
+package ss.libraries.media.api
 
 import android.content.Context
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
-import com.slack.circuit.runtime.screen.Screen
-import io.adventech.blockkit.model.BlockItem
-import io.adventech.blockkit.model.resource.VideoClipSegment
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.parcelize.Parcelize
+import android.content.Intent
+import app.ss.models.media.SSVideo
 
-@Parcelize
-data class VideoSegmentScreen(
-    val id: String,
-): Screen {
-
-    data class State(
-        val title: String,
-        val videos: ImmutableList<VideoClipSegment>,
-        val blocks: List<BlockItem>,
-        val eventSink: (Event) -> Unit,
-    ) : CircuitUiState
-
-    sealed interface Event : CircuitUiEvent {
-        data object OnNavBack : Event
-        data class PlayVideo(val context: Context, val video: VideoClipSegment) : Event
-    }
+interface MediaNavigation {
+    fun videoPlayer(context: Context, video: SSVideo): Intent
 }
