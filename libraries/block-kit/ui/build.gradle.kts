@@ -45,4 +45,6 @@ dependencies {
     implementation(libs.bundles.compose)
     implementation(libs.bundles.compose.tooling)
     implementation(libs.coil.compose)
+    implementation(libs.haze)
+    implementation(libs.haze.materials)
 }

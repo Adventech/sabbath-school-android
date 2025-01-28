@@ -89,7 +89,7 @@ fun AudioContent(blockItem: BlockItem.Audio, modifier: Modifier = Modifier) {
     MediaPlayer(
         source = blockItem.src,
         modifier = modifier,
-    ) { playbackState, progressState, onPlayPause, onSeekTo ->
+    ) { _, playbackState, progressState, onPlayPause, onSeekTo ->
         PlayerContent(
             playbackState = playbackState,
             progressState = progressState,

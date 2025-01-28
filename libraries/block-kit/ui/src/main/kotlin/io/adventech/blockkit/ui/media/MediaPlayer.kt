@@ -45,7 +45,7 @@ import ss.services.media.ui.spec.PlaybackStateSpec
 fun MediaPlayer(
     source: String,
     modifier: Modifier = Modifier,
-    content: @Composable ColumnScope.(PlaybackStateSpec, PlaybackProgressState, () -> Unit, (Long) -> Unit) -> Unit,
+    content: @Composable ColumnScope.(ExoPlayer, PlaybackStateSpec, PlaybackProgressState, () -> Unit, (Long) -> Unit) -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -106,6 +106,7 @@ fun MediaPlayer(
 
     Column(modifier = modifier) {
         content(
+            exoPlayer,
             playbackState,
             progressState,
             {
