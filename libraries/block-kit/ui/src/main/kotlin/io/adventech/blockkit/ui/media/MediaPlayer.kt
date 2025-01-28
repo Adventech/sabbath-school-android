@@ -113,6 +113,9 @@ fun MediaPlayer(
                 if (exoPlayer.isPlaying) {
                     exoPlayer.pause()
                 } else {
+                    if (exoPlayer.currentPosition == exoPlayer.duration) {
+                        exoPlayer.seekTo(0)
+                    }
                     exoPlayer.play()
                 }
             },
