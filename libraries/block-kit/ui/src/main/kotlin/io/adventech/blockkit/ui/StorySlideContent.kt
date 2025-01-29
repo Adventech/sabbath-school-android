@@ -37,6 +37,9 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -50,6 +53,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
@@ -59,12 +63,14 @@ import io.adventech.blockkit.model.ImageStyleTextAlignment
 import io.adventech.blockkit.ui.style.StoryStyleTemplate
 import io.adventech.blockkit.ui.style.Styler
 
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun StorySlideContent(
     blockItem: BlockItem.StorySlide,
     modifier: Modifier = Modifier,
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp
+    val screenHeight = LocalConfiguration.current.screenHeightDp
     val textStyle = Styler.textStyle(
         blockStyle = blockItem.style?.text,
         template = StoryStyleTemplate
@@ -77,7 +83,11 @@ fun StorySlideContent(
     )
 
     // Calculate the width of the image scroll
-    val imageWidth = calculateImageWidth(screenWidth, pages.size)
+    val imageWidth = calculateImageWidth(
+        screenWidth,
+        pages.size,
+        WindowSizeClass.calculateFromSize(DpSize(screenWidth.dp, screenHeight.dp)).widthSizeClass,
+    )
 
     val imageScrollState = rememberScrollState()
 
@@ -181,6 +191,12 @@ private fun splitTextIntoPages(
     return pages
 }
 
-private fun calculateImageWidth(screenWidth: Int, pageCount: Int): Int {
-    return screenWidth * pageCount.coerceIn(1, 3)
+private fun calculateImageWidth(screenWidth: Int, pageCount: Int, widthSizeClass: WindowWidthSizeClass): Int {
+    val maxValue = when (widthSizeClass) {
+        WindowWidthSizeClass.Compact -> 3
+        WindowWidthSizeClass.Medium -> 5
+        WindowWidthSizeClass.Expanded -> 7
+        else -> 3
+    }
+    return screenWidth * pageCount.coerceIn(1, maxValue)
 }
