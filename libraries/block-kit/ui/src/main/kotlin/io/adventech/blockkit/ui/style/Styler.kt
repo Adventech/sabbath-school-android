@@ -49,12 +49,15 @@ object Styler {
         blockStyle: BlockTextStyle?,
         template: StyleTemplate = BlockStyleTemplate.DEFAULT,
     ): Color {
-        val readerStyle = LocalReaderStyle.current
         val blockStyleColor = blockStyle?.color?.let { Color.parse(it) }
-        val color = when (readerStyle.theme) {
-            ReaderStyle.Theme.Light -> blockStyleColor
-            ReaderStyle.Theme.Auto -> blockStyleColor?.takeUnless { isSystemInDarkTheme() }
-            else -> null
+        val color = if (template.themeColorOverride) {
+            when (LocalReaderStyle.current.theme) {
+                ReaderStyle.Theme.Light -> blockStyleColor
+                ReaderStyle.Theme.Auto -> blockStyleColor?.takeUnless { isSystemInDarkTheme() }
+                else -> null
+            }
+        } else {
+            blockStyleColor
         }
         return color ?: template.textColorDefault()
     }
@@ -86,15 +89,15 @@ object Styler {
         return TextStyle(
             color = textColor(blockStyle, template),
             fontSize = textSize(blockStyle, template),
-            fontFamily = fontFamily(blockStyle),
+            fontFamily = fontFamily(blockStyle, template),
         )
     }
 
     @Composable
-    private fun fontFamily(blockStyle: BlockTextStyle?): FontFamily {
+    private fun fontFamily(blockStyle: BlockTextStyle?, template: StyleTemplate = BlockStyleTemplate.DEFAULT): FontFamily {
         val blocksStyle = LocalBlocksStyle.current
         val typeface = blockStyle?.typeface ?: blocksStyle?.nested?.all?.text?.typeface
-        return typeface?.let { LocalFontFamilyProvider.current.invoke(typeface) } ?: defaultFontFamily()
+        return typeface?.let { LocalFontFamilyProvider.current.invoke(typeface) } ?: template.fontFamilyDefault()
     }
 
     @Composable
