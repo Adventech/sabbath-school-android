@@ -27,6 +27,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import io.adventech.blockkit.ui.color.Gray50
+import io.adventech.blockkit.ui.color.Gray700
+import io.adventech.blockkit.ui.color.Gray800
+import io.adventech.blockkit.ui.color.Primary400
+import io.adventech.blockkit.ui.color.Primary950
+import io.adventech.blockkit.ui.color.Sepia100
+import io.adventech.blockkit.ui.color.Sepia200
+import io.adventech.blockkit.ui.color.Sepia400
 
 sealed class ReaderStyle {
     enum class Theme(val value: String) {
