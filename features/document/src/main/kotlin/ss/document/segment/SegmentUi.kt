@@ -32,6 +32,7 @@ import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.SegmentType
 import ss.document.segment.components.blocks.SegmentBlocksContent
+import ss.document.segment.components.story.StorySegmentScreen
 import ss.document.segment.components.video.VideoSegmentScreen
 import ss.libraries.circuit.navigation.PdfScreen
 
@@ -50,7 +51,13 @@ fun SegmentUi(
             SegmentBlocksContent(segment, titleBelowCover, modifier, onCollapseChange, onHandleUri)
         }
 
-        SegmentType.STORY -> Unit
+        SegmentType.STORY -> {
+            CircuitContent(
+                screen = StorySegmentScreen(segment.id),
+                modifier = modifier,
+                onNavEvent = onNavEvent,
+            )
+        }
         SegmentType.PDF -> {
             val pdfs = remember(segment) {
                 segment.pdf.orEmpty().map {
