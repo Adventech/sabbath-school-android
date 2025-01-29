@@ -22,30 +22,66 @@
 
 package ss.document.segment.components.story
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContent
-import androidx.compose.material3.Scaffold
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.slack.circuit.codegen.annotations.CircuitInject
-import dagger.hilt.components.SingletonComponent
+import androidx.compose.ui.graphics.Color
+import app.ss.design.compose.widget.icon.IconBox
+import app.ss.design.compose.widget.icon.Icons
+import io.adventech.blockkit.model.BlockData
+import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.ui.BlockContent
-import ss.document.segment.components.story.StorySegmentScreen.State
 
-@CircuitInject(StorySegmentScreen::class, SingletonComponent::class)
 @Composable
-fun StorySegmentUi(state: State, modifier: Modifier = Modifier) {
-    Scaffold(
-        modifier = modifier,
-        contentWindowInsets = WindowInsets.safeContent
-    ) { contentPadding ->
-        when (state) {
-            is State.Loading -> Box(Modifier.padding(contentPadding))
-            is State.Content -> {
-                BlockContent(state.story, Modifier.fillMaxSize(), onHandleUri = { _, _ -> })
+fun StorySegmentUi(
+    story: BlockItem.Story,
+    modifier: Modifier = Modifier,
+    onNavBack: () -> Unit = {},
+    onCollapseChange: (Boolean) -> Unit = {},
+    onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Box(modifier = modifier.fillMaxSize()) {
+        BlockContent(
+            blockItem = story,
+            modifier = Modifier
+                .fillMaxSize()
+                .clickable {
+                    expanded = !expanded
+                    onCollapseChange(expanded)
+                },
+            onHandleUri = onHandleUri,
+        )
+
+        if (!expanded) {
+            Box(
+                modifier = Modifier.windowInsetsPadding(WindowInsets.displayCutout),
+                contentAlignment = Alignment.TopStart,
+            ) {
+                IconButton(
+                    onClick = onNavBack,
+                    colors = IconButtonDefaults.iconButtonColors(
+                        containerColor = Color.Transparent,
+                    )
+                ) {
+                    IconBox(
+                        icon = Icons.ArrowBack,
+                        contentColor = Color.White
+                    )
+                }
             }
         }
     }

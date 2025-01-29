@@ -29,10 +29,11 @@ import app.ss.models.PDFAux
 import com.slack.circuit.foundation.CircuitContent
 import com.slack.circuit.foundation.NavEvent
 import io.adventech.blockkit.model.BlockData
+import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.SegmentType
 import ss.document.segment.components.blocks.SegmentBlocksContent
-import ss.document.segment.components.story.StorySegmentScreen
+import ss.document.segment.components.story.StorySegmentUi
 import ss.document.segment.components.video.VideoSegmentScreen
 import ss.libraries.circuit.navigation.PdfScreen
 
@@ -41,6 +42,7 @@ fun SegmentUi(
     segment: Segment,
     titleBelowCover: Boolean,
     modifier: Modifier = Modifier,
+    onNavBack: () -> Unit = {},
     onCollapseChange: (Boolean) -> Unit = {},
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
     onNavEvent: (NavEvent) -> Unit = {},
@@ -52,11 +54,15 @@ fun SegmentUi(
         }
 
         SegmentType.STORY -> {
-            CircuitContent(
-                screen = StorySegmentScreen(segment.id),
-                modifier = modifier,
-                onNavEvent = onNavEvent,
-            )
+            (segment.blocks?.firstOrNull() as? BlockItem.Story)?.let {
+                StorySegmentUi(
+                    story = it,
+                    modifier = modifier,
+                    onNavBack = onNavBack,
+                    onCollapseChange = onCollapseChange,
+                    onHandleUri = onHandleUri,
+                )
+            }
         }
         SegmentType.PDF -> {
             val pdfs = remember(segment) {

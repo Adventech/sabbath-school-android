@@ -22,8 +22,16 @@
 
 package ss.document
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.safeContent
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -34,8 +42,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.dp
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import app.ss.design.compose.widget.scaffold.SystemUiEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -64,6 +75,8 @@ import ss.libraries.circuit.overlay.BottomSheetOverlay
 fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
+    val density = LocalDensity.current
+    val topPadding = WindowInsets.safeContent.asPaddingValues().calculateTopPadding()
     var collapsed by remember { mutableStateOf(false) }
     val isSystemInDarkTheme = isSystemInDarkTheme()
     val lightStatusBar by remember(isSystemInDarkTheme, state.hasCover, collapsed) {
@@ -82,15 +95,26 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
             val showTopBar = when (state) {
                 is State.Loading -> true
                 is State.Success -> when (state.selectedSegment?.type) {
-                    SegmentType.STORY,
                     SegmentType.VIDEO -> false
+                    SegmentType.STORY -> collapsed
                     SegmentType.PDF,
                     SegmentType.UNKNOWN,
                     SegmentType.BLOCK,
+
                     null -> true
                 }
             }
-            if (showTopBar) {
+            AnimatedVisibility(
+                visible = showTopBar,
+                enter = slideInVertically {
+                    with(density) { -(topPadding + 40.dp).roundToPx() }
+                } + expandVertically(
+                    expandFrom = Alignment.Top
+                ) + fadeIn(
+                    initialAlpha = 0.3f
+                ),
+                exit = fadeOut()
+            ) {
                 DocumentTopAppBar(
                     title = {
                         when (state) {
@@ -144,6 +168,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                         modifier = Modifier.fillMaxSize(),
                         initialPage = state.initialPage,
                         onPageChange = { state.eventSink(SuccessEvent.OnPageChange(it)) },
+                        onNavBack = { state.eventSink(Event.OnNavBack) },
                         onCollapseChange = { collapsed = it },
                         onHandleUri = { uri, blocks -> state.eventSink(SuccessEvent.OnHandleUri(uri, blocks)) },
                         onNavEvent = { state.eventSink(SuccessEvent.OnNavEvent(it)) },

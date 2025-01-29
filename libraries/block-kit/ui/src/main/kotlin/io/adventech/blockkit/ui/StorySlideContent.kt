@@ -33,6 +33,7 @@ import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
@@ -127,7 +128,8 @@ fun StorySlideContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(color = blockItem.style?.block?.backgroundColor?.let { Color.parse(it) } ?: Color.Transparent)
-                        .windowInsetsPadding(WindowInsets.safeContent),
+                        .windowInsetsPadding(WindowInsets.safeContent)
+                        .padding(top = 16.dp),
                     style = textStyle,
                     textAlign = Styler.textAlign(blockItem.style?.text),
                     minLines = DEFAULT_MAX_LINES,
