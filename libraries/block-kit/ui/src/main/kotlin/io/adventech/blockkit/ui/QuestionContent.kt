@@ -53,9 +53,9 @@ import androidx.compose.ui.zIndex
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.TextStyle
 import io.adventech.blockkit.model.TextStyleSize
+import io.adventech.blockkit.ui.color.Sepia100
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.ReaderStyle
-import io.adventech.blockkit.ui.style.Sepia100
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
 

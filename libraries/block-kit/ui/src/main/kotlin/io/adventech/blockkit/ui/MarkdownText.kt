@@ -62,11 +62,11 @@ import coil.request.ImageRequest
 import io.adventech.blockkit.model.TextStyleOffset
 import io.adventech.blockkit.model.TextStyleSize
 import io.adventech.blockkit.parser.AttributedTextParser
+import io.adventech.blockkit.ui.color.parse
 import io.adventech.blockkit.ui.style.BlockStyleTemplate
 import io.adventech.blockkit.ui.style.StyleTemplate
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
-import io.adventech.blockkit.ui.style.parse
 import org.commonmark.node.Code
 import org.commonmark.node.Document
 import org.commonmark.node.Emphasis

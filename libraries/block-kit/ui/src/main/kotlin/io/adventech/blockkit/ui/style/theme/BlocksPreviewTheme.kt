@@ -32,9 +32,9 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import io.adventech.blockkit.ui.style.Gray300
-import io.adventech.blockkit.ui.style.Primary
-import io.adventech.blockkit.ui.style.Primary100
+import io.adventech.blockkit.ui.color.Gray300
+import io.adventech.blockkit.ui.color.Primary
+import io.adventech.blockkit.ui.color.Primary100
 
 @Composable
 internal fun BlocksPreviewTheme(

@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package io.adventech.blockkit.ui.style
+package io.adventech.blockkit.ui.color
 
 import androidx.compose.ui.graphics.Color
 

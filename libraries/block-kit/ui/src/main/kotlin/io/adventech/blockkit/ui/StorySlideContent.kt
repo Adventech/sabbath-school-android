@@ -60,9 +60,9 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.ImageStyleTextAlignment
+import io.adventech.blockkit.ui.color.parse
 import io.adventech.blockkit.ui.style.StoryStyleTemplate
 import io.adventech.blockkit.ui.style.Styler
-import io.adventech.blockkit.ui.style.parse
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
