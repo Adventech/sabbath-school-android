@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.ui.style.background
+import io.adventech.blockkit.ui.style.thenIf
 
 @Composable
 fun BlockContent(
@@ -36,7 +37,10 @@ fun BlockContent(
     parent: BlockItem? = null,
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
 ) {
-    val blockModifier = modifier.background(blockItem, nested)
+    val blockModifier = modifier
+        .thenIf(blockItem !is BlockItem.Story) {
+            background(blockItem, nested)
+        }
 
     when (blockItem) {
         is BlockItem.Appeal -> {
@@ -95,8 +99,12 @@ fun BlockContent(
         is BlockItem.Reference -> {
             ReferenceContent(blockItem, blockModifier)
         }
-        is BlockItem.Story -> Unit
-        is BlockItem.StorySlide -> Unit
+        is BlockItem.Story -> {
+            StoryContent(blockItem, blockModifier)
+        }
+        is BlockItem.StorySlide -> {
+            StorySlideContent(blockItem, blockModifier)
+        }
         is BlockItem.TableBlock -> Unit
         is BlockItem.Video -> {
             VideoContent(blockItem, blockModifier)
