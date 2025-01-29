@@ -26,7 +26,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import coil.imageLoader
+import coil.request.ImageRequest
+import coil.size.Size
 import io.adventech.blockkit.model.BlockItem
 
 @Composable
@@ -44,6 +49,18 @@ fun StoryContent(
         modifier = modifier.fillMaxSize(),
     ) { page ->
         val slide = blockItem.items[page]
+
+        val context = LocalContext.current
+        LaunchedEffect(slide.image) {
+            val request = ImageRequest.Builder(context)
+                .data(slide.image)
+                .size(Size.ORIGINAL)
+                .memoryCacheKey(slide.image)
+                .diskCacheKey(slide.image)
+                .build()
+            context.imageLoader.enqueue(request)
+        }
+
         StorySlideContent(slide, Modifier.fillMaxSize())
     }
 }

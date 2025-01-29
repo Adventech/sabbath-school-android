@@ -22,20 +22,28 @@
 
 package io.adventech.blockkit.ui
 
-import androidx.compose.foundation.gestures.snapping.SnapPosition
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.safeContent
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
@@ -43,37 +51,68 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import coil.size.Size
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.ImageStyleTextAlignment
 import io.adventech.blockkit.ui.style.StoryStyleTemplate
 import io.adventech.blockkit.ui.style.Styler
 
 @Composable
-fun StorySlideContent(blockItem: BlockItem.StorySlide, modifier: Modifier = Modifier) {
+fun StorySlideContent(
+    blockItem: BlockItem.StorySlide,
+    modifier: Modifier = Modifier,
+) {
+    val screenWidth = LocalConfiguration.current.screenWidthDp
+    val textStyle = Styler.textStyle(
+        blockStyle = blockItem.style?.text,
+        template = StoryStyleTemplate
+    )
+    val pages = splitTextIntoPages(blockItem.markdown, screenWidth.dp, textStyle)
+
+    val pagerState = rememberPagerState(
+        initialPage = 0,
+        pageCount = { pages.size },
+    )
+
+    // Calculate the width of the image scroll
+    val imageWidth = calculateImageWidth(screenWidth, pages.size)
+
+    val imageScrollState = rememberScrollState()
+
+    LaunchedEffect(pagerState.currentPage, pagerState.currentPageOffsetFraction) {
+        // Sync the image scroll with the pager
+        val targetScroll = (pagerState.currentPage + pagerState.currentPageOffsetFraction) * screenWidth
+        imageScrollState.scrollTo(targetScroll.toInt())
+    }
+
     Box(modifier = modifier.fillMaxSize()) {
-        AsyncImageBox(
-            data = blockItem.image,
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
+        val painter = rememberAsyncImagePainter(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(blockItem.image)
+                .size(Size.ORIGINAL)
+                .build()
         )
 
-        val textStyle = Styler.textStyle(
-            blockStyle = blockItem.style?.text,
-            template = StoryStyleTemplate
-        )
-
-        val pages = splitTextIntoPages(blockItem.markdown, LocalConfiguration.current.screenWidthDp.dp, textStyle)
-
-        val pagerState = rememberPagerState(
-            initialPage = 0,
-            pageCount = { pages.size },
-        )
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .horizontalScroll(imageScrollState)
+        ) {
+            Image(
+                painter = painter,
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .width(imageWidth.dp),
+                contentScale = ContentScale.Crop,
+            )
+        }
 
         HorizontalPager(
             state = pagerState,
             modifier = Modifier,
-            verticalAlignment = Alignment.CenterVertically,
-            snapPosition = SnapPosition.Center,
         ) { page ->
             Box(
                 modifier = Modifier
@@ -140,4 +179,8 @@ private fun splitTextIntoPages(
     }
 
     return pages
+}
+
+private fun calculateImageWidth(screenWidth: Int, pageCount: Int): Int {
+    return screenWidth * pageCount.coerceIn(1, 3)
 }
