@@ -109,4 +109,40 @@ val Color.Companion.Sepia400: Color
     get() = Color(0xFF3E3634)
 
 fun Color.Companion.parse(colorString: String): Color =
-    Color(color = android.graphics.Color.parseColor(colorString))
+    parseHexColor(colorString)
+
+/** Parse a hex color in the formatt RRGGBBAA or AARRGGBB. */
+private fun parseHexColor(hex: String): Color {
+    val hexWithoutHash = hex.removePrefix("#")
+
+    return when (hexWithoutHash.length) {
+        6 -> { // Standard RGB format (#RRGGBB)
+            val red = hexWithoutHash.substring(0, 2).toInt(16) / 255f
+            val green = hexWithoutHash.substring(2, 4).toInt(16) / 255f
+            val blue = hexWithoutHash.substring(4, 6).toInt(16) / 255f
+            Color(red, green, blue, 1f) // Full opacity
+        }
+        8 -> { // Could be RRGGBBAA or AARRGGBB
+            val alphaLast = hexWithoutHash.substring(6, 8).toInt(16) // Last two characters
+            val alphaFirst = hexWithoutHash.substring(0, 2).toInt(16) // First two characters
+
+            // Check if last two look like an alpha
+            return if (alphaLast in 0..255 && alphaFirst !in 0..50) {
+                // Assume RRGGBBAA
+                val red = hexWithoutHash.substring(0, 2).toInt(16) / 255f
+                val green = hexWithoutHash.substring(2, 4).toInt(16) / 255f
+                val blue = hexWithoutHash.substring(4, 6).toInt(16) / 255f
+                val alpha = alphaLast / 255f
+                Color(red, green, blue, alpha)
+            } else {
+                // Assume AARRGGBB
+                val alpha = alphaFirst / 255f
+                val red = hexWithoutHash.substring(2, 4).toInt(16) / 255f
+                val green = hexWithoutHash.substring(4, 6).toInt(16) / 255f
+                val blue = hexWithoutHash.substring(6, 8).toInt(16) / 255f
+                Color(red, green, blue, alpha)
+            }
+        }
+        else -> throw IllegalArgumentException("Invalid hex color format: $hex")
+    }
+}

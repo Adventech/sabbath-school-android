@@ -22,6 +22,7 @@
 
 package io.adventech.blockkit.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -46,6 +47,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -60,6 +62,7 @@ import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.ImageStyleTextAlignment
 import io.adventech.blockkit.ui.style.StoryStyleTemplate
 import io.adventech.blockkit.ui.style.Styler
+import io.adventech.blockkit.ui.style.parse
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
@@ -116,16 +119,18 @@ fun StorySlideContent(
             modifier = Modifier,
         ) { page ->
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .windowInsetsPadding(WindowInsets.safeContent),
+                modifier = Modifier.fillMaxSize(),
                 contentAlignment = blockItem.alignment.toAlignment(),
             ) {
                 Text(
                     text = pages[page],
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = blockItem.style?.block?.backgroundColor?.let { Color.parse(it) } ?: Color.Transparent)
+                        .windowInsetsPadding(WindowInsets.safeContent),
                     style = textStyle,
                     textAlign = Styler.textAlign(blockItem.style?.text),
+                    minLines = DEFAULT_MAX_LINES,
                 )
             }
         }
@@ -143,7 +148,7 @@ private fun splitTextIntoPages(
     text: String,
     screenWidthDp: Dp,
     textStyle: TextStyle,
-    maxLines: Int = 3
+    maxLines: Int = DEFAULT_MAX_LINES,
 ): List<AnnotatedString> {
     val layoutDirection = LocalLayoutDirection.current
     val insetPaddings = WindowInsets.safeContent.asPaddingValues()
@@ -154,7 +159,7 @@ private fun splitTextIntoPages(
     val maxWidthInPx = with(LocalDensity.current) { (screenWidthDp - (startPadding + endPadding)).toPx() }
     val pages = mutableListOf<AnnotatedString>()
 
-    val styledText = rememberMarkdownText(text, textStyle)
+    val styledText = rememberMarkdownText(text, textStyle, StoryStyleTemplate, textStyle.color)
 
     val layoutResult = textMeasurer.measure(
         text = styledText,
@@ -197,3 +202,5 @@ private fun calculateImageWidth(screenWidth: Int, pageCount: Int, windowWidthSiz
     }
     return screenWidth * pageCount.coerceIn(1, maxValue)
 }
+
+private const val DEFAULT_MAX_LINES = 3
