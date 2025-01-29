@@ -95,26 +95,7 @@ fun MarkdownText(
     overflow: TextOverflow = TextOverflow.Clip,
     onHandleUri: (String) -> Unit = {},
 ) {
-    val attributedTextParser by remember { mutableStateOf(AttributedTextParser()) }
-    val typefaces by remember(markdownText) { mutableStateOf(attributedTextParser.parseTypeface(markdownText)) }
-    var fonts = typefaces.associate { name -> name to LocalFontFamilyProvider.current.invoke(name) }
-    val defaultFontFamily = Styler.defaultFontFamily()
-    val fontProvider: (String?) -> FontFamily = {
-        it?.let { fonts[it] } ?: defaultFontFamily
-    }
-    val fontSizeProvider: (TextStyleSize?) -> TextUnit = {
-        styleTemplate.defaultTextSizePoints(it).sp
-    }
-
-    val parsedNode = remember(markdownText) {
-        val parser = Parser.builder().build()
-        parser.parse(markdownText) as Document
-    }
-    val styledText = buildAnnotatedString {
-        withStyle(style.toSpanStyle()) {
-            appendMarkdownChildren(parsedNode, color, attributedTextParser, fontProvider, fontSizeProvider)
-        }
-    }
+    val styledText = rememberMarkdownText(markdownText, style, styleTemplate, color)
 
     val layoutResult = remember { mutableStateOf<TextLayoutResult?>(null) }
 
@@ -163,6 +144,35 @@ fun MarkdownText(
         ),
         onTextLayout = { layoutResult.value = it },
     )
+}
+
+@Composable
+internal fun rememberMarkdownText(
+    markdownText: String,
+    style: TextStyle = MaterialTheme.typography.bodyLarge,
+    styleTemplate: StyleTemplate = BlockStyleTemplate.DEFAULT,
+    color: Color = MaterialTheme.colorScheme.onSurface,
+): AnnotatedString {
+    val attributedTextParser by remember { mutableStateOf(AttributedTextParser()) }
+    val typefaces by remember(markdownText) { mutableStateOf(attributedTextParser.parseTypeface(markdownText)) }
+    var fonts = typefaces.associate { name -> name to LocalFontFamilyProvider.current.invoke(name) }
+    val defaultFontFamily = Styler.defaultFontFamily()
+    val fontProvider: (String?) -> FontFamily = {
+        it?.let { fonts[it] } ?: defaultFontFamily
+    }
+    val fontSizeProvider: (TextStyleSize?) -> TextUnit = {
+        styleTemplate.defaultTextSizePoints(it).sp
+    }
+
+    val parsedNode = remember(markdownText) {
+        val parser = Parser.builder().build()
+        parser.parse(markdownText) as Document
+    }
+    return buildAnnotatedString {
+        withStyle(style.toSpanStyle()) {
+            appendMarkdownChildren(parsedNode, color, attributedTextParser, fontProvider, fontSizeProvider)
+        }
+    }
 }
 
 @OptIn(ExperimentalTextApi::class)
@@ -217,7 +227,7 @@ internal fun AnnotatedString.Builder.appendMarkdownChildren(
 
             is Heading -> {
                 val fontSize = fontSizeProvider(textStyleFromLevel(child.level))
-                withStyle(SpanStyle(fontWeight = FontWeight.Bold, fontSize = fontSize, )) {
+                withStyle(SpanStyle(fontWeight = FontWeight.Bold, fontSize = fontSize)) {
                     appendMarkdownChildren(child, color, parser, fontProvider, fontSizeProvider)
                 }
                 appendLine()
