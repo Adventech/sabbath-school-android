@@ -22,11 +22,13 @@
 
 package io.adventech.blockkit.ui
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -44,10 +46,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.rememberTextMeasurer
@@ -55,9 +56,6 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
-import coil.size.Size
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.ImageStyleTextAlignment
 import io.adventech.blockkit.ui.style.StoryStyleTemplate
@@ -69,8 +67,9 @@ fun StorySlideContent(
     blockItem: BlockItem.StorySlide,
     modifier: Modifier = Modifier,
 ) {
-    val screenWidth = LocalConfiguration.current.screenWidthDp
-    val screenHeight = LocalConfiguration.current.screenHeightDp
+    val (screenWidth, screenHeight) = LocalConfiguration.current.run {
+        screenWidthDp to screenHeightDp
+    }
     val textStyle = Styler.textStyle(
         blockStyle = blockItem.style?.text,
         template = StoryStyleTemplate
@@ -98,25 +97,17 @@ fun StorySlideContent(
     }
 
     Box(modifier = modifier.fillMaxSize()) {
-        val painter = rememberAsyncImagePainter(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(blockItem.image)
-                .size(Size.ORIGINAL)
-                .build()
-        )
-
         Row(
             modifier = Modifier
                 .fillMaxSize()
                 .horizontalScroll(imageScrollState)
         ) {
-            Image(
-                painter = painter,
+            AsyncImageBox(
+                data = blockItem.image,
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxHeight()
                     .width(imageWidth.dp),
-                contentScale = ContentScale.Crop,
             )
         }
 
@@ -154,8 +145,13 @@ private fun splitTextIntoPages(
     textStyle: TextStyle,
     maxLines: Int = 3
 ): List<AnnotatedString> {
+    val layoutDirection = LocalLayoutDirection.current
+    val insetPaddings = WindowInsets.safeContent.asPaddingValues()
+    val startPadding = insetPaddings.calculateStartPadding(layoutDirection)
+    val endPadding = insetPaddings.calculateEndPadding(layoutDirection)
+
     val textMeasurer = rememberTextMeasurer()
-    val screenWidthPx = with(LocalDensity.current) { screenWidthDp.toPx() }
+    val maxWidthInPx = with(LocalDensity.current) { (screenWidthDp - (startPadding + endPadding)).toPx() }
     val pages = mutableListOf<AnnotatedString>()
 
     val styledText = rememberMarkdownText(text, textStyle)
@@ -163,7 +159,8 @@ private fun splitTextIntoPages(
     val layoutResult = textMeasurer.measure(
         text = styledText,
         style = textStyle,
-        constraints = Constraints(maxWidth = screenWidthPx.toInt()), // Remove horizontal paddings
+        constraints = Constraints(maxWidth = maxWidthInPx.toInt()),
+        layoutDirection = layoutDirection,
     )
 
     val lineCount = layoutResult.lineCount
@@ -191,8 +188,8 @@ private fun splitTextIntoPages(
     return pages
 }
 
-private fun calculateImageWidth(screenWidth: Int, pageCount: Int, widthSizeClass: WindowWidthSizeClass): Int {
-    val maxValue = when (widthSizeClass) {
+private fun calculateImageWidth(screenWidth: Int, pageCount: Int, windowWidthSizeClass: WindowWidthSizeClass): Int {
+    val maxValue = when (windowWidthSizeClass) {
         WindowWidthSizeClass.Compact -> 3
         WindowWidthSizeClass.Medium -> 5
         WindowWidthSizeClass.Expanded -> 7
