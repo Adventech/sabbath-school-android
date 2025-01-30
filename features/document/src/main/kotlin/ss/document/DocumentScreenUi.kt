@@ -141,12 +141,15 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
             }
         },
         bottomBar = {
-            CircuitContent(
-                screen = MiniAudioPlayerScreen,
-                onNavEvent = {
-                    state.eventSink(SuccessEvent.OnNavEvent(it))
-                }
-            )
+            val hidePlayer = (state as? State.Success)?.selectedSegment?.type == SegmentType.STORY && !collapsed
+            if (!hidePlayer) {
+                CircuitContent(
+                    screen = MiniAudioPlayerScreen,
+                    onNavEvent = {
+                        state.eventSink(SuccessEvent.OnNavEvent(it))
+                    }
+                )
+            }
         },
         blurTopBar = !state.hasCover || collapsed,
     ) { contentPadding ->
