@@ -54,15 +54,17 @@ fun StorySegmentUi(
 ) {
     var expanded by remember { mutableStateOf(false) }
 
-    Box(modifier = modifier.fillMaxSize()) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .clickable {
+                expanded = !expanded
+                onCollapseChange(expanded)
+            },
+    ) {
         BlockContent(
             blockItem = story,
-            modifier = Modifier
-                .fillMaxSize()
-                .clickable {
-                    expanded = !expanded
-                    onCollapseChange(expanded)
-                },
+            modifier = Modifier.fillMaxSize(),
             onHandleUri = onHandleUri,
         )
 
