@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,33 +20,29 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    alias(libs.plugins.foundry.base)
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-}
+package io.adventech.blockkit.ui.color
 
-android { namespace = "io.adventech.blockkit.ui" }
+import androidx.compose.ui.graphics.Color
+import org.amshove.kluent.shouldBeEqualTo
+import org.junit.Test
 
-foundry {
-    features { compose() }
-}
+class ColorExtTest {
 
-dependencies {
-    api(projects.libraries.blockKit.model)
-    api(projects.libraries.blockKit.parser)
+    @Test
+    fun `parse hex color - RRGGBBAA format`() {
+        val color = Color.parse("#181818ad")
 
-    implementation(projects.libraries.media.api)
-    implementation(projects.libraries.ui.placeholder)
-    implementation(projects.services.media.ui)
+        val alpha = "ad".toInt(16) / 255f
 
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.atlassian.commonmark)
-    implementation(libs.bundles.compose)
-    implementation(libs.bundles.compose.tooling)
-    implementation(libs.coil.compose)
-    implementation(libs.haze)
-    implementation(libs.haze.materials)
+        color shouldBeEqualTo Color(0xAD181818)
+        color.alpha shouldBeEqualTo alpha
+    }
 
-    testImplementation(libs.bundles.testing.common)
+    @Test
+    fun `parse hex color - RRGGBB format`() {
+        val color = Color.parse("#181818")
+
+        color shouldBeEqualTo Color(0xFF181818)
+        color.alpha shouldBeEqualTo 1f
+    }
 }
