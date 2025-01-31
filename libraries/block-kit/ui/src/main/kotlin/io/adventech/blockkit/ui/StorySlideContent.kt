@@ -25,6 +25,7 @@ package io.adventech.blockkit.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
@@ -129,7 +130,7 @@ fun StorySlideContent(
                         .fillMaxWidth()
                         .background(color = blockItem.style?.block?.backgroundColor?.let { Color.parse(it) } ?: Color.Transparent)
                         .windowInsetsPadding(WindowInsets.safeContent)
-                        .padding(top = 16.dp),
+                        .padding(blockItem.alignment.toPadding()),
                     style = textStyle,
                     textAlign = Styler.textAlign(blockItem.style?.text),
                     minLines = DEFAULT_MAX_LINES,
@@ -143,6 +144,12 @@ private fun ImageStyleTextAlignment.toAlignment(): Alignment = when (this) {
     ImageStyleTextAlignment.TOP -> Alignment.TopStart
     ImageStyleTextAlignment.BOTTOM -> Alignment.BottomStart
     ImageStyleTextAlignment.UNKNOWN -> Alignment.Center
+}
+
+private fun ImageStyleTextAlignment.toPadding(): PaddingValues = when (this) {
+    ImageStyleTextAlignment.TOP -> PaddingValues(top = 24.dp)
+    ImageStyleTextAlignment.BOTTOM -> PaddingValues(bottom = 16.dp)
+    ImageStyleTextAlignment.UNKNOWN -> PaddingValues(0.dp)
 }
 
 @Composable
