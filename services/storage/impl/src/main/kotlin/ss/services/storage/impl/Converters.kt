@@ -37,6 +37,7 @@ import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dev.zacsweers.moshix.adapters.AdaptedBy
 import io.adventech.blockkit.model.BlockItem
+import io.adventech.blockkit.model.input.UserInput
 import io.adventech.blockkit.model.resource.Credit
 import io.adventech.blockkit.model.resource.Feature
 import io.adventech.blockkit.model.resource.PdfAux
@@ -104,6 +105,9 @@ internal object Converters {
     private val videoClipSegmentAdapter: JsonAdapter<List<VideoClipSegment>> by lazy {
         val listDataType: Type = Types.newParameterizedType(List::class.java, VideoClipSegment::class.java)
         moshi.adapter(listDataType)
+    }
+    private val userInputAdapter: JsonAdapter<UserInput> by lazy {
+        moshi.adapter(UserInput::class.java)
     }
 
     @TypeConverter
@@ -225,4 +229,12 @@ internal object Converters {
 
     @TypeConverter
     fun fromVideoClipSegment(video: List<VideoClipSegment>?): String? = videoClipSegmentAdapter.toJson(video)
+
+    @TypeConverter
+    fun toUserInput(value: String?): UserInput? = value?.let { jsonString ->
+        userInputAdapter.fromJson(jsonString)
+    }
+
+    @TypeConverter
+    fun fromUserInput(input: UserInput?): String? = userInputAdapter.toJson(input)
 }

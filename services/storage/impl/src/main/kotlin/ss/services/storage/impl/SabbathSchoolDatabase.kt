@@ -28,8 +28,6 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
 import ss.libraries.storage.api.dao.AppWidgetDao
 import ss.libraries.storage.api.dao.AudioDao
 import ss.libraries.storage.api.dao.BibleVersionDao
@@ -44,11 +42,13 @@ import ss.libraries.storage.api.dao.ReadHighlightsDao
 import ss.libraries.storage.api.dao.ReadsDao
 import ss.libraries.storage.api.dao.SegmentsDao
 import ss.libraries.storage.api.dao.UserDao
+import ss.libraries.storage.api.dao.UserInputDao
 import ss.libraries.storage.api.dao.VideoClipsDao
 import ss.libraries.storage.api.dao.VideoInfoDao
 import ss.libraries.storage.api.entity.AppWidgetEntity
 import ss.libraries.storage.api.entity.AudioFileEntity
 import ss.libraries.storage.api.entity.BibleVersionEntity
+import ss.libraries.storage.api.entity.UserInputEntity
 import ss.libraries.storage.api.entity.FontFileEntity
 import ss.libraries.storage.api.entity.LanguageEntity
 import ss.libraries.storage.api.entity.LessonEntity
@@ -81,8 +81,9 @@ import ss.libraries.storage.api.entity.VideoInfoEntity
         AppWidgetEntity::class,
         FontFileEntity::class,
         SegmentEntity::class,
+        UserInputEntity::class,
     ],
-    version = 20,
+    version = 21,
     exportSchema = true,
     autoMigrations = [
         AutoMigration(from = 2, to = 3),
@@ -102,6 +103,8 @@ import ss.libraries.storage.api.entity.VideoInfoEntity
         AutoMigration(from = 16, to = 17),
         AutoMigration(from = 17, to = 18),
         AutoMigration(from = 18, to = 19),
+        AutoMigration(from = 19, to = 20),
+        AutoMigration(from = 20, to = 21),
     ]
 )
 @TypeConverters(Converters::class)
@@ -139,6 +142,8 @@ internal abstract class SabbathSchoolDatabase : RoomDatabase() {
 
     abstract fun segmentsDao(): SegmentsDao
 
+    abstract fun userInputDao(): UserInputDao
+
     companion object {
         private const val DATABASE_NAME = "sabbath_school_db"
 
@@ -152,15 +157,7 @@ internal abstract class SabbathSchoolDatabase : RoomDatabase() {
 
         private fun buildDatabase(context: Context): SabbathSchoolDatabase =
             Room.databaseBuilder(context, SabbathSchoolDatabase::class.java, DATABASE_NAME)
-                .addMigrations(MIGRATION_19_20)
                 .fallbackToDestructiveMigration()
                 .build()
-
-        val MIGRATION_19_20 = object : Migration(19, 20) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                // Drop the existing table
-                database.execSQL("DROP TABLE IF EXISTS `segments`")
-            }
-        }
     }
 }

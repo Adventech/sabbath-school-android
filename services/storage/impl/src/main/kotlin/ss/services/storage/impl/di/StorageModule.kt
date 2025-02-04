@@ -42,6 +42,7 @@ import ss.libraries.storage.api.dao.ReadHighlightsDao
 import ss.libraries.storage.api.dao.ReadsDao
 import ss.libraries.storage.api.dao.SegmentsDao
 import ss.libraries.storage.api.dao.UserDao
+import ss.libraries.storage.api.dao.UserInputDao
 import ss.libraries.storage.api.dao.VideoClipsDao
 import ss.libraries.storage.api.dao.VideoInfoDao
 import ss.services.storage.impl.SabbathSchoolDatabase
@@ -147,6 +148,12 @@ object StorageModule {
     fun provideSegmentsDao(
         @ApplicationContext context: Context
     ): SegmentsDao = context.database().segmentsDao()
+
+    @Provides
+    @Singleton
+    fun provideUserInputDao(
+        @ApplicationContext context: Context
+    ): UserInputDao = context.database().userInputDao()
 }
 
 private fun Context.database(): SabbathSchoolDatabase = SabbathSchoolDatabase.getInstance(this)
