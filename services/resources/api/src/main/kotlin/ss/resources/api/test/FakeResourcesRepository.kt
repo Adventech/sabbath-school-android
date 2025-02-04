@@ -28,6 +28,8 @@ import app.ss.models.PDFAux
 import app.ss.models.VideoAux
 import io.adventech.blockkit.model.feed.FeedGroup
 import io.adventech.blockkit.model.feed.FeedType
+import io.adventech.blockkit.model.input.UserInput
+import io.adventech.blockkit.model.input.UserInputRequest
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.model.resource.ResourceDocument
 import io.adventech.blockkit.model.resource.Segment
@@ -62,6 +64,14 @@ class FakeResourcesRepository(
     }
 
     override suspend fun document(index: String): Result<ResourceDocument> {
+        TODO("Not yet implemented")
+    }
+
+    override fun documentInput(documentId: String): Flow<List<UserInput>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun saveDocumentInput(documentId: String, input: UserInputRequest) {
         TODO("Not yet implemented")
     }
 
