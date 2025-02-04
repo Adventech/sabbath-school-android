@@ -57,7 +57,7 @@
   *;
 }
 
--keep @androidx.annotation.Keep class * {*;}
+-keep @androidx.annotation.Keep class * { *; }
 
 # Keep generic signature of Call, Response (R8 full mode strips signatures from non-kept items).
 -keep,allowobfuscation,allowshrinking interface retrofit2.Call
@@ -82,4 +82,4 @@
 }
 
 # Keep all model block-kit API models
--keep class io.adventech.blockkit.model.* { *; }
+-keep class io.adventech.blockkit.model.** { *; }
