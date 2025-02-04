@@ -52,8 +52,6 @@ import ss.services.media.ui.PlaybackConnection
 import ss.services.media.ui.spec.PlaybackStateSpec
 import timber.log.Timber
 
-private const val LOG_TAG = "PlaybackConnection"
-
 internal class PlaybackConnectionImpl(
     private val context: Context,
     private val serviceComponent: ComponentName,
@@ -241,13 +239,11 @@ internal class PlaybackConnectionImpl(
     private inner class PlayerListener : Player.Listener {
         override fun onMediaMetadataChanged(mediaMetadata: MediaMetadata) {
             super.onMediaMetadataChanged(mediaMetadata)
-            Timber.tag(LOG_TAG).i("onMediaMetadataChanged: $mediaMetadata")
             nowPlaying.update { mediaMetadata }
         }
 
         override fun onIsPlayingChanged(isPlaying: Boolean) {
             super.onIsPlayingChanged(isPlaying)
-            Timber.i("onIsPlayingChanged: $isPlaying")
             playbackState.update {
                 it.copy(
                     isPlaying = isPlaying,
@@ -259,7 +255,6 @@ internal class PlaybackConnectionImpl(
 
         override fun onPlaybackStateChanged(playbackState: Int) {
             super.onPlaybackStateChanged(playbackState)
-            Timber.i("onPlaybackStateChanged: $playbackState")
             this@PlaybackConnectionImpl.playbackState.update {
                 it.copy(isBuffering = playbackState == STATE_BUFFERING)
             }
