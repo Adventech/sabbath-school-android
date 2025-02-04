@@ -36,6 +36,8 @@ dependencies {
     api(projects.libraries.blockKit.model)
     api(projects.libraries.blockKit.parser)
 
+    implementation(projects.common.translations)
+    implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.media.api)
     implementation(projects.libraries.ui.placeholder)
     implementation(projects.services.media.ui)

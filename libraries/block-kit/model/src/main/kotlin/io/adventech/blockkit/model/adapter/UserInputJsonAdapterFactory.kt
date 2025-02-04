@@ -27,6 +27,8 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
 import io.adventech.blockkit.model.input.UserInput
+import io.adventech.blockkit.model.input.UserInputRequest
+import io.adventech.blockkit.model.input.UserInputType
 import java.lang.reflect.Type
 
 @Keep
@@ -37,16 +39,38 @@ class UserInputJsonAdapterFactory : JsonAdapter.Factory {
         moshi: Moshi
     ): JsonAdapter<*>? {
         return PolymorphicJsonAdapterFactory.of(UserInput::class.java, "inputType")
-            .withSubtype(UserInput.Appeal::class.java, "appeal")
-            .withSubtype(UserInput.Checklist::class.java, "checklist")
-            .withSubtype(UserInput.Comment::class.java, "comment")
-            .withSubtype(UserInput.Completion::class.java, "completion")
-            .withSubtype(UserInput.Highlights::class.java, "highlights")
-            .withSubtype(UserInput.MultipleChoice::class.java, "multiple-choice")
-            .withSubtype(UserInput.Poll::class.java, "poll")
-            .withSubtype(UserInput.Question::class.java, "question")
-            .withSubtype(UserInput.Annotation::class.java, "annotation")
+            .withSubtype(UserInput.Appeal::class.java, UserInputType.APPEAL)
+            .withSubtype(UserInput.Checklist::class.java, UserInputType.CHECKLIST)
+            .withSubtype(UserInput.Comment::class.java, UserInputType.COMMENT)
+            .withSubtype(UserInput.Completion::class.java, UserInputType.COMPLETION)
+            .withSubtype(UserInput.Highlights::class.java, UserInputType.HIGHLIGHTS)
+            .withSubtype(UserInput.MultipleChoice::class.java, UserInputType.MULTIPLE_CHOICE)
+            .withSubtype(UserInput.Poll::class.java, UserInputType.POLL)
+            .withSubtype(UserInput.Question::class.java, UserInputType.QUESTION)
+            .withSubtype(UserInput.Annotation::class.java, UserInputType.ANNOTATION)
             .withDefaultValue(UserInput.Unknown)
+            .create(type, annotations, moshi)
+    }
+}
+
+@Keep
+class UserInputRequestJsonAdapterFactory : JsonAdapter.Factory {
+    override fun create(
+        type: Type,
+        annotations: Set<Annotation?>,
+        moshi: Moshi
+    ): JsonAdapter<*>? {
+        return PolymorphicJsonAdapterFactory.of(UserInputRequest::class.java, "inputType")
+            .withSubtype(UserInputRequest.Appeal::class.java, UserInputType.APPEAL)
+            .withSubtype(UserInputRequest.Checklist::class.java, UserInputType.CHECKLIST)
+            .withSubtype(UserInputRequest.Comment::class.java, UserInputType.COMMENT)
+            .withSubtype(UserInputRequest.Completion::class.java, UserInputType.COMPLETION)
+            .withSubtype(UserInputRequest.Highlights::class.java, UserInputType.HIGHLIGHTS)
+            .withSubtype(UserInputRequest.MultipleChoice::class.java, UserInputType.MULTIPLE_CHOICE)
+            .withSubtype(UserInputRequest.Poll::class.java, UserInputType.POLL)
+            .withSubtype(UserInputRequest.Question::class.java, UserInputType.QUESTION)
+            .withSubtype(UserInputRequest.Annotation::class.java, UserInputType.ANNOTATION)
+            .withDefaultValue(UserInputRequest.Unknown)
             .create(type, annotations, moshi)
     }
 }

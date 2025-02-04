@@ -38,6 +38,8 @@ import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.adventech.blockkit.model.feed.FeedGroup
 import io.adventech.blockkit.model.feed.FeedType
+import io.adventech.blockkit.model.input.UserInput
+import io.adventech.blockkit.model.input.UserInputRequest
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.model.resource.ResourceDocument
 import io.adventech.blockkit.model.resource.Segment
@@ -56,6 +58,7 @@ import ss.libraries.storage.api.dao.AudioDao
 import ss.libraries.storage.api.dao.FontFilesDao
 import ss.libraries.storage.api.dao.LanguagesDao
 import ss.libraries.storage.api.dao.SegmentsDao
+import ss.libraries.storage.api.dao.UserInputDao
 import ss.libraries.storage.api.dao.VideoInfoDao
 import ss.prefs.api.SSPrefs
 import ss.resources.api.ResourcesRepository
@@ -77,6 +80,7 @@ internal class ResourcesRepositoryImpl @Inject constructor(
     private val fontFilesDao: FontFilesDao,
     private val languagesDao: LanguagesDao,
     private val segmentsDao: SegmentsDao,
+    private val userInputDao: UserInputDao,
     private val syncHelper: SyncHelper,
     private val dispatcherProvider: DispatcherProvider,
     private val connectivityHelper: ConnectivityHelper,
@@ -206,6 +210,19 @@ internal class ResourcesRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override fun documentInput(documentId: String): Flow<List<UserInput>> {
+        return userInputDao.getDocumentInput(documentId)
+            .map { entities -> entities.map { it.input } }
+            .onStart { syncHelper.syncUserInput(documentId) }
+            .flowOn(dispatcherProvider.io)
+            .catch {
+                Timber.e(it)
+                emit(emptyList())
+            }
+    }
+
+    override fun saveDocumentInput(documentId: String, input: UserInputRequest) = syncHelper.saveUserInput(documentId, input)
 
     override fun segment(id: String): Flow<Segment> = segmentsDao.get(id)
         .filterNotNull()
