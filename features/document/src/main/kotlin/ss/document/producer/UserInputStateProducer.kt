@@ -45,11 +45,13 @@ interface UserInputStateProducer {
     operator fun invoke(documentId: String?): UserInputState
 }
 
+private const val DEBOUNCE_TIME = 2000L
+
 internal class UserInputStateProducerImpl @Inject constructor(
     private val resourcesRepository: ResourcesRepository,
 ) : UserInputStateProducer {
 
-    private val _userInputRequest = MutableStateFlow<UserInputRequest?>(null)
+    private val userInputRequest = MutableStateFlow<UserInputRequest?>(null)
 
     @OptIn(FlowPreview::class)
     @Composable
@@ -59,8 +61,8 @@ internal class UserInputStateProducerImpl @Inject constructor(
         }
 
         val updatedUserInput by produceRetainedState<UserInputRequest?>(null) {
-            _userInputRequest
-                .debounce(2000)
+            userInputRequest
+                .debounce(DEBOUNCE_TIME)
                 .distinctUntilChanged()
                 .collect { value = it }
         }
@@ -79,7 +81,7 @@ internal class UserInputStateProducerImpl @Inject constructor(
                 when (event) {
                     is UserInputState.Event.InputChanged -> {
                         val input = event.input
-                        _userInput.value = input
+                        userInputRequest.value = input
                     }
                 }
             }
