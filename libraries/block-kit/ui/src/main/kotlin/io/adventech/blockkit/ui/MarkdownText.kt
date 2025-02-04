@@ -309,8 +309,8 @@ private fun io.adventech.blockkit.model.TextStyle.toSpanStyle(
 
 private fun TextStyleOffset.toBaselineShift(): BaselineShift? {
     return when (this) {
-        TextStyleOffset.SUP -> BaselineShift(0.5f)
-        TextStyleOffset.SUB -> BaselineShift(-0.5f)
+        TextStyleOffset.SUP -> BaselineShift(0.3f)
+        TextStyleOffset.SUB -> BaselineShift(-0.3f)
         TextStyleOffset.UNKNOWN -> null
     }
 }
