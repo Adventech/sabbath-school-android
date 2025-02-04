@@ -141,4 +141,7 @@
     <string name="ss_explore">Explore</string>
 
     <string name="ss_open_in_browser">Open in browser</string>
+
+    <string name="ss_action_comment">Comment</string>
+    <string name="ss_action_highlight">Highlight</string>
 </resources>
