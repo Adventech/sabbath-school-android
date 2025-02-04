@@ -28,10 +28,14 @@ import app.ss.models.VideoAux
 import app.ss.models.resource.FeedResponse
 import app.ss.models.resource.LanguageResponse
 import io.adventech.blockkit.model.feed.FeedGroup
+import io.adventech.blockkit.model.input.UserInput
+import io.adventech.blockkit.model.input.UserInputRequest
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.model.resource.ResourceDocument
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface ResourcesApi {
@@ -54,6 +58,17 @@ interface ResourcesApi {
 
     @GET("api/v3/{index}/index.json")
     suspend fun document(@Path("index") index: String): Response<ResourceDocument>
+
+    @GET("api/v3/resources/user/input/document/{documentId}")
+    suspend fun userInput(@Path("documentId") documentId: String): Response<List<UserInput>>
+
+    @POST("api/v3/resources/user/input/{inputType}/{documentId}/{blockId}")
+    suspend fun saveUserInput(
+        @Path("inputType") inputType: String,
+        @Path("documentId") documentId: String,
+        @Path("blockId") blockId: String,
+        @Body userInput: UserInputRequest
+    )
 
     @GET("api/v3/{index}/audio.json")
     suspend fun audio(@Path("index") index: String): Response<List<AudioAux>>
