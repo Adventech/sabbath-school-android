@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.ui.BlockContent
+import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.LocalSegmentStyle
 import io.adventech.blockkit.ui.style.background
@@ -56,6 +57,7 @@ internal fun SegmentBlocksContent(
     segment: Segment,
     titleBelowCover: Boolean,
     modifier: Modifier = Modifier,
+    userInputState: UserInputState,
     onCollapseChange: (Boolean) -> Unit = {},
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
 ) {
@@ -108,7 +110,12 @@ internal fun SegmentBlocksContent(
         }
 
         items(segment.blocks.orEmpty()) { block ->
-            BlockContent(block, Modifier, onHandleUri = onHandleUri)
+            BlockContent(
+                blockItem = block,
+                modifier = Modifier,
+                userInputState = userInputState,
+                onHandleUri = onHandleUri,
+            )
         }
 
         item {

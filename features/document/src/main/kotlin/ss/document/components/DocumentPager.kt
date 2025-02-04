@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import com.slack.circuit.foundation.NavEvent
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.resource.Segment
+import io.adventech.blockkit.ui.input.UserInputState
 import kotlinx.collections.immutable.ImmutableList
 import ss.document.segment.SegmentUi
 
@@ -41,6 +42,7 @@ import ss.document.segment.SegmentUi
 fun DocumentPager(
     segments: ImmutableList<Segment>,
     titleBelowCover: Boolean,
+    userInputState: UserInputState,
     modifier: Modifier = Modifier,
     initialPage: Int = 0,
     onPageChange: (Int) -> Unit = {},
@@ -67,6 +69,7 @@ fun DocumentPager(
         SegmentUi(
             segment = segment,
             titleBelowCover = titleBelowCover,
+            userInputState = userInputState,
             modifier = Modifier,
             onNavBack = onNavBack,
             onCollapseChange = onCollapseChange,

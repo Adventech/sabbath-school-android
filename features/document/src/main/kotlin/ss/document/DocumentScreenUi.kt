@@ -168,6 +168,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                     DocumentPager(
                         segments = state.segments,
                         titleBelowCover = state.titleBelowCover,
+                        userInputState = state.userInputState,
                         modifier = Modifier.fillMaxSize(),
                         initialPage = state.initialPage,
                         onPageChange = { state.eventSink(SuccessEvent.OnPageChange(it)) },

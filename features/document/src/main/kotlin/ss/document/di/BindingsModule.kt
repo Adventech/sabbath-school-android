@@ -32,6 +32,8 @@ import ss.document.producer.ReaderStyleStateProducer
 import ss.document.producer.ReaderStyleStateProducerImpl
 import ss.document.producer.TopAppbarActionsProducer
 import ss.document.producer.TopAppbarActionsProducerImpl
+import ss.document.producer.UserInputStateProducer
+import ss.document.producer.UserInputStateProducerImpl
 import ss.document.segment.producer.OverlayStateProducerImpl
 import ss.document.segment.producer.SegmentOverlayStateProducer
 
@@ -49,4 +51,7 @@ internal abstract class BindingsModule {
 
     @Binds
     internal abstract fun bindSegmentOverlayStateProducer(impl: OverlayStateProducerImpl): SegmentOverlayStateProducer
+
+    @Binds
+    internal abstract fun bindUserInputStateProducer(impl: UserInputStateProducerImpl): UserInputStateProducer
 }

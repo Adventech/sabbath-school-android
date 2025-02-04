@@ -29,6 +29,7 @@ import com.slack.circuit.runtime.screen.Screen
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.Style
 import io.adventech.blockkit.model.resource.Segment
+import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.style.ReaderStyleConfig
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import kotlinx.collections.immutable.ImmutableList
@@ -61,7 +62,8 @@ sealed interface State : CircuitUiState {
         val style: Style?,
         val readerStyle: ReaderStyleConfig,
         val fontFamilyProvider: FontFamilyProvider,
-        val overlayState: DocumentOverlayState?
+        val overlayState: DocumentOverlayState?,
+        val userInputState: UserInputState,
     ) : State
 
 }

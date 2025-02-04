@@ -32,6 +32,7 @@ import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.SegmentType
+import io.adventech.blockkit.ui.input.UserInputState
 import ss.document.segment.components.blocks.SegmentBlocksContent
 import ss.document.segment.components.story.StorySegmentUi
 import ss.document.segment.components.video.VideoSegmentScreen
@@ -41,6 +42,7 @@ import ss.libraries.circuit.navigation.PdfScreen
 fun SegmentUi(
     segment: Segment,
     titleBelowCover: Boolean,
+    userInputState: UserInputState,
     modifier: Modifier = Modifier,
     onNavBack: () -> Unit = {},
     onCollapseChange: (Boolean) -> Unit = {},
@@ -50,7 +52,7 @@ fun SegmentUi(
     when (segment.type) {
         SegmentType.UNKNOWN -> Unit
         SegmentType.BLOCK -> {
-            SegmentBlocksContent(segment, titleBelowCover, modifier, onCollapseChange, onHandleUri)
+            SegmentBlocksContent(segment, titleBelowCover, modifier, userInputState, onCollapseChange, onHandleUri)
         }
 
         SegmentType.STORY -> {

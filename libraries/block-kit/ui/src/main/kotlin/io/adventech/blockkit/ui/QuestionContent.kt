@@ -46,6 +46,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
@@ -53,7 +54,10 @@ import androidx.compose.ui.zIndex
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.TextStyle
 import io.adventech.blockkit.model.TextStyleSize
+import io.adventech.blockkit.model.input.UserInput
+import io.adventech.blockkit.model.input.UserInputRequest
 import io.adventech.blockkit.ui.color.Sepia100
+import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.ReaderStyle
 import io.adventech.blockkit.ui.style.Styler
@@ -63,9 +67,17 @@ import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
 internal fun QuestionContent(
     blockItem: BlockItem.Question,
     modifier: Modifier = Modifier,
+    inputState: UserInputState? = null,
     onHandleUri: (String) -> Unit = {}
 ) {
-    var textFieldValue by rememberSaveable(stateSaver = TextFieldValue.Saver) { mutableStateOf(TextFieldValue("")) }
+    val input = inputState?.input?.firstOrNull {
+        it.blockId == blockItem.id && it is UserInput.Question
+    } as? UserInput.Question
+
+    var textFieldValue by rememberSaveable(input, stateSaver = TextFieldValue.Saver) {
+        val content = input?.answer ?: ""
+        mutableStateOf(TextFieldValue(text = content, selection = TextRange(content.length)))
+    }
     val textStyle = blockItem.style?.text
     val inputTextStyle = Styler.textStyle(blockStyle = inputBlockTextStyle)
     val contentColor = Styler.genericForegroundColorForInteractiveBlock()
@@ -99,7 +111,14 @@ internal fun QuestionContent(
             InputBox(modifier = Modifier.fillMaxWidth()) { contentModifier ->
                 BasicTextField(
                     value = textFieldValue,
-                    onValueChange = { textFieldValue = it },
+                    onValueChange = {
+                        textFieldValue = it
+                        val answer = UserInputRequest.Question(
+                            blockId = blockItem.id,
+                            answer = it.text.trim(),
+                        )
+                        inputState?.eventSink?.invoke(UserInputState.Event.InputChanged(answer))
+                    },
                     modifier = contentModifier
                         .padding(vertical = 8.dp)
                         .padding(start = 46.dp, end = 8.dp),

@@ -20,19 +20,24 @@
  * THE SOFTWARE.
  */
 
-package ss.libraries.storage.api.dao
+package io.adventech.blockkit.ui.input
 
-import androidx.room.Dao
-import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
-import ss.libraries.storage.api.entity.UserInputEntity
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
+import com.slack.circuit.runtime.CircuitUiEvent
+import com.slack.circuit.runtime.CircuitUiState
+import io.adventech.blockkit.model.input.UserInput
+import io.adventech.blockkit.model.input.UserInputRequest
+import kotlinx.collections.immutable.ImmutableList
 
-@Dao
-interface UserInputDao : BaseDao<UserInputEntity> {
+@Stable
+data class UserInputState(
+    val input: ImmutableList<UserInput>,
+    val eventSink: (Event) -> Unit,
+) : CircuitUiState {
 
-    @Query("SELECT * FROM user_input WHERE documentId = :documentId")
-    fun getDocumentInput(documentId: String): Flow<List<UserInputEntity>>
-
-    @Query("SELECT id FROM user_input WHERE localId = :localId")
-    fun getId(localId: String): String?
+    @Immutable
+    sealed interface Event : CircuitUiEvent {
+        data class InputChanged(val input: UserInputRequest) : Event
+    }
 }

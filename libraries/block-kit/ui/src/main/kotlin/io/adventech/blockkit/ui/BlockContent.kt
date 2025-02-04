@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.BlockItem
+import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.style.background
 import io.adventech.blockkit.ui.style.thenIf
 
@@ -35,6 +36,7 @@ fun BlockContent(
     modifier: Modifier = Modifier,
     nested: Boolean? = blockItem.nested,
     parent: BlockItem? = null,
+    userInputState: UserInputState? = null,
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
 ) {
     val blockModifier = modifier
@@ -89,7 +91,7 @@ fun BlockContent(
         is BlockItem.Poll -> Unit
         is BlockItem.PollItem -> Unit
         is BlockItem.Question -> {
-            QuestionContent(blockItem, blockModifier) {
+            QuestionContent(blockItem, blockModifier, userInputState) {
                 onHandleUri(it, blockItem.data)
             }
         }

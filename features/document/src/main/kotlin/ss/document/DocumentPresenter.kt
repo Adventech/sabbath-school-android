@@ -51,6 +51,7 @@ import org.joda.time.DateTime
 import ss.document.components.DocumentTopAppBarAction
 import ss.document.producer.ReaderStyleStateProducer
 import ss.document.producer.TopAppbarActionsProducer
+import ss.document.producer.UserInputStateProducer
 import ss.document.segment.producer.SegmentOverlayStateProducer
 import ss.libraries.circuit.navigation.DocumentScreen
 import ss.libraries.circuit.navigation.ExpandedAudioPlayerScreen
@@ -69,6 +70,7 @@ class DocumentPresenter @AssistedInject constructor(
     private val fontFamilyProvider: FontFamilyProvider,
     private val readerStyleStateProducer: ReaderStyleStateProducer,
     private val segmentOverlayStateProducer: SegmentOverlayStateProducer,
+    private val userInputStateProducer: UserInputStateProducer,
     private val pdfReader: PdfReader,
 ) : Presenter<State> {
 
@@ -96,6 +98,7 @@ class DocumentPresenter @AssistedInject constructor(
         val actionsOverlayState = actionsState.overlayState
         val segmentOverlayState = segmentOverlayStateProducer(navigator)
         val overlayState = rememberRetained(actionsOverlayState, segmentOverlayState) { actionsOverlayState ?: segmentOverlayState }
+        val userInputState = userInputStateProducer(documentId = resourceDocument?.id)
 
         val readerStyle = readerStyleStateProducer()
 
@@ -149,7 +152,8 @@ class DocumentPresenter @AssistedInject constructor(
                 readerStyle = readerStyle,
                 fontFamilyProvider = fontFamilyProvider,
                 eventSink = eventSink,
-                overlayState = overlayState
+                overlayState = overlayState,
+                userInputState = userInputState,
             )
         }
     }
