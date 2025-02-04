@@ -36,6 +36,7 @@ import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.model.resource.Segment
 import kotlinx.collections.immutable.toImmutableList
+import ss.document.producer.UserInputStateProducer
 import ss.document.segment.components.video.VideoSegmentScreen.Event
 import ss.document.segment.components.video.VideoSegmentScreen.State
 import ss.libraries.media.api.MediaNavigation
@@ -46,16 +47,20 @@ class VideoSegmentPresenter @AssistedInject constructor(
     @Assisted private val screen: VideoSegmentScreen,
     private val resourcesRepository: ResourcesRepository,
     private val mediaNavigation: MediaNavigation,
+    private val userInputStateProducer: UserInputStateProducer,
 ) : Presenter<State> {
 
     @Composable
     override fun present(): State {
         val segment by rememberSegment()
 
+        val userInputState = userInputStateProducer(screen.documentId)
+
         return State(
             title = segment?.title.orEmpty(),
             blocks = segment?.blocks.orEmpty(),
             videos = segment?.video.orEmpty().toImmutableList(),
+            userInputState = userInputState,
         ) { event ->
             when (event) {
                 is Event.OnNavBack -> navigator.pop()

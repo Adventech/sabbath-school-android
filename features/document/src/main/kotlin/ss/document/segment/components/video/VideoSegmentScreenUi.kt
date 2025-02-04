@@ -122,7 +122,12 @@ fun VideoSegmentScreenUi(state: State, modifier: Modifier = Modifier) {
             }
 
             items(state.blocks) { block ->
-                BlockContent(block, Modifier, onHandleUri = { _, _ -> })
+                BlockContent(
+                    blockItem = block,
+                    modifier = Modifier,
+                    userInputState = state.userInputState,
+                    onHandleUri = { _, _ -> },
+                )
             }
 
             item {

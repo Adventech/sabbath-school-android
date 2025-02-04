@@ -28,18 +28,21 @@ import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.resource.VideoClipSegment
+import io.adventech.blockkit.ui.input.UserInputState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class VideoSegmentScreen(
     val id: String,
+    val documentId: String,
 ): Screen {
 
     data class State(
         val title: String,
         val videos: ImmutableList<VideoClipSegment>,
         val blocks: List<BlockItem>,
+        val userInputState: UserInputState,
         val eventSink: (Event) -> Unit,
     ) : CircuitUiState
 

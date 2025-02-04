@@ -41,6 +41,7 @@ import ss.libraries.circuit.navigation.PdfScreen
 @Composable
 fun SegmentUi(
     segment: Segment,
+    documentId: String,
     titleBelowCover: Boolean,
     userInputState: UserInputState,
     modifier: Modifier = Modifier,
@@ -89,7 +90,7 @@ fun SegmentUi(
         SegmentType.VIDEO -> {
             segment.video?.let {
                 CircuitContent(
-                    screen = VideoSegmentScreen(segment.id),
+                    screen = VideoSegmentScreen(segment.id, documentId),
                     modifier = modifier,
                     onNavEvent = onNavEvent,
                 )

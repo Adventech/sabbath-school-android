@@ -151,6 +151,7 @@ class DocumentPresenter @AssistedInject constructor(
                 style = resourceDocument.style,
                 readerStyle = readerStyle,
                 fontFamilyProvider = fontFamilyProvider,
+                documentId = resourceDocument.id,
                 eventSink = eventSink,
                 overlayState = overlayState,
                 userInputState = userInputState,

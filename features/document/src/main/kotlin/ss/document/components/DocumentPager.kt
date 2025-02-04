@@ -42,6 +42,7 @@ import ss.document.segment.SegmentUi
 fun DocumentPager(
     segments: ImmutableList<Segment>,
     titleBelowCover: Boolean,
+    documentId: String,
     userInputState: UserInputState,
     modifier: Modifier = Modifier,
     initialPage: Int = 0,
@@ -68,6 +69,7 @@ fun DocumentPager(
 
         SegmentUi(
             segment = segment,
+            documentId = documentId,
             titleBelowCover = titleBelowCover,
             userInputState = userInputState,
             modifier = Modifier,
