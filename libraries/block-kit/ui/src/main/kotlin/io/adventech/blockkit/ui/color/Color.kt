@@ -126,9 +126,9 @@ private fun hexToLong(hex: String): Long {
  * Converts a [HighlightColor] to a [Color].
  */
 fun HighlightColor.toColor(): Color = when (this) {
-    HighlightColor.BLUE -> Color(0xFF4A90E2)
-    HighlightColor.YELLOW -> Color(0xFFF8E71C)
-    HighlightColor.ORANGE -> Color(0xFFF5A623)
-    HighlightColor.GREEN -> Color(0xFF7ED321)
+    HighlightColor.BLUE -> Color(0xFF3ACEFF)
+    HighlightColor.YELLOW -> Color(0xFFDBC94C)
+    HighlightColor.ORANGE -> Color(0xFFF59569)
+    HighlightColor.GREEN -> Color(0xFF53E23F)
     HighlightColor.UNKNOWN -> Color.Transparent
 }
