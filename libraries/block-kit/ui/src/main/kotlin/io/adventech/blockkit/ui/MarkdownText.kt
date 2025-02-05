@@ -61,12 +61,16 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import io.adventech.blockkit.model.TextStyleOffset
 import io.adventech.blockkit.model.TextStyleSize
+import io.adventech.blockkit.model.input.Highlight
 import io.adventech.blockkit.parser.AttributedTextParser
 import io.adventech.blockkit.ui.color.parse
+import io.adventech.blockkit.ui.color.toColor
 import io.adventech.blockkit.ui.style.BlockStyleTemplate
 import io.adventech.blockkit.ui.style.StyleTemplate
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import org.commonmark.node.Code
 import org.commonmark.node.Document
 import org.commonmark.node.Emphasis
@@ -93,9 +97,10 @@ fun MarkdownText(
     styleTemplate: StyleTemplate = BlockStyleTemplate.DEFAULT,
     maxLines: Int = Integer.MAX_VALUE,
     overflow: TextOverflow = TextOverflow.Clip,
+    highlights: ImmutableList<Highlight> = persistentListOf(),
     onHandleUri: (String) -> Unit = {},
 ) {
-    val styledText = rememberMarkdownText(markdownText, style, styleTemplate, color)
+    val styledText = rememberMarkdownText(markdownText, style, styleTemplate, color, highlights)
 
     val layoutResult = remember { mutableStateOf<TextLayoutResult?>(null) }
 
@@ -152,6 +157,7 @@ internal fun rememberMarkdownText(
     style: TextStyle = MaterialTheme.typography.bodyLarge,
     styleTemplate: StyleTemplate = BlockStyleTemplate.DEFAULT,
     color: Color = MaterialTheme.colorScheme.onSurface,
+    highlights: ImmutableList<Highlight> = persistentListOf(),
 ): AnnotatedString {
     val attributedTextParser by remember { mutableStateOf(AttributedTextParser()) }
     val typefaces by remember(markdownText) { mutableStateOf(attributedTextParser.parseTypeface(markdownText)) }
@@ -171,6 +177,15 @@ internal fun rememberMarkdownText(
     return buildAnnotatedString {
         withStyle(style.toSpanStyle()) {
             appendMarkdownChildren(parsedNode, color, attributedTextParser, fontProvider, fontSizeProvider)
+        }
+
+        // Apply highlights to the result text
+        highlights.forEach { highlight ->
+            addStyle(
+                style = SpanStyle(background = highlight.color.toColor()),
+                start = highlight.startIndex,
+                end = highlight.endIndex
+            )
         }
     }
 }

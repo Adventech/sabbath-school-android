@@ -23,6 +23,7 @@
 package io.adventech.blockkit.ui.color
 
 import androidx.compose.ui.graphics.Color
+import io.adventech.blockkit.model.input.HighlightColor
 
 val Color.Companion.Primary: Color
     get() = Color(0xFF005EC7)
@@ -118,4 +119,16 @@ private fun hexToLong(hex: String): Long {
     val rgb = hex.substring(1, 7)
 
     return "$a$rgb".toLong(16)
+}
+
+
+/**
+ * Converts a [HighlightColor] to a [Color].
+ */
+fun HighlightColor.toColor(): Color = when (this) {
+    HighlightColor.BLUE -> Color(0xFF4A90E2)
+    HighlightColor.YELLOW -> Color(0xFFF8E71C)
+    HighlightColor.ORANGE -> Color(0xFFF5A623)
+    HighlightColor.GREEN -> Color(0xFF7ED321)
+    HighlightColor.UNKNOWN -> Color.Transparent
 }

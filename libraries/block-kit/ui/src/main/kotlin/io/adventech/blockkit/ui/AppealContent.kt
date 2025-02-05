@@ -40,16 +40,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import io.adventech.blockkit.model.BlockItem
+import io.adventech.blockkit.ui.input.UserInputState
+import io.adventech.blockkit.ui.input.rememberContentHighlights
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.secondaryBackground
 import io.adventech.blockkit.ui.style.secondaryForeground
 
 @Composable
-internal fun AppealContent(blockItem: BlockItem.Appeal, modifier: Modifier = Modifier) {
+internal fun AppealContent(
+    blockItem: BlockItem.Appeal,
+    modifier: Modifier = Modifier,
+    userInputState: UserInputState? = null,
+    onHandleUri: (String) -> Unit = {},
+) {
     var isChecked by remember { mutableStateOf(false) }
     val theme = LocalReaderStyle.current.theme
     val textColor = theme.secondaryForeground()
+    val highlights = rememberContentHighlights(blockItem.id, userInputState)
 
     ElevatedCard(
         modifier = modifier.fillMaxWidth(),
@@ -69,7 +77,9 @@ internal fun AppealContent(blockItem: BlockItem.Appeal, modifier: Modifier = Mod
                 markdownText = blockItem.markdown,
                 modifier = Modifier.fillMaxWidth(),
                 color = textColor,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                highlights = highlights,
+                onHandleUri = onHandleUri,
             )
 
             Checkbox(

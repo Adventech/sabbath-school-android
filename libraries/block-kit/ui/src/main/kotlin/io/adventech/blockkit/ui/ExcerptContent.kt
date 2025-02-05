@@ -57,11 +57,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import io.adventech.blockkit.model.BlockItem
+import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.style.Styler
-import kotlinx.coroutines.launch
 
 @Composable
-internal fun ExcerptContent(blockItem: BlockItem.Excerpt, modifier: Modifier = Modifier) {
+internal fun ExcerptContent(
+    blockItem: BlockItem.Excerpt,
+    modifier: Modifier = Modifier,
+    userInputState: UserInputState? = null,
+) {
     var selectedOption by remember { mutableStateOf(blockItem.options.firstOrNull()) }
     val selectedItem = remember(selectedOption) { blockItem.items.firstOrNull { it.option == selectedOption } }
     var expanded by remember { mutableStateOf(false) }
@@ -119,19 +123,23 @@ internal fun ExcerptContent(blockItem: BlockItem.Excerpt, modifier: Modifier = M
         }
 
         selectedItem?.let {
-            ExcerptItemContent(it, Modifier.fillMaxWidth())
+            ExcerptItemContent(it, Modifier.fillMaxWidth(), userInputState)
         }
     }
 }
 
 @Composable
-fun ExcerptItemContent(blockItem: BlockItem.ExcerptItem, modifier: Modifier = Modifier) {
+fun ExcerptItemContent(
+    blockItem: BlockItem.ExcerptItem,
+    modifier: Modifier = Modifier,
+    userInputState: UserInputState? = null,
+) {
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         blockItem.items.forEach {
-            BlockContent(it, nested = blockItem.nested, parent = blockItem)
+            BlockContent(it, nested = blockItem.nested, parent = blockItem, userInputState = userInputState)
         }
     }
 }

@@ -25,15 +25,20 @@ package io.adventech.blockkit.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import io.adventech.blockkit.model.BlockItem
+import io.adventech.blockkit.ui.input.UserInputState
+import io.adventech.blockkit.ui.input.rememberContentHighlights
 import io.adventech.blockkit.ui.style.Styler
 
 @Composable
 internal fun ParagraphContent(
     blockItem: BlockItem.Paragraph,
     modifier: Modifier = Modifier,
+    inputState: UserInputState? = null,
     onHandleUri: (String) -> Unit = {},
 ) {
     val blockStyle = blockItem.style?.text
+
+    val highlights = rememberContentHighlights(blockItem.id, inputState)
 
     MarkdownText(
         markdownText = blockItem.markdown,
@@ -42,5 +47,6 @@ internal fun ParagraphContent(
         style = Styler.textStyle(blockStyle),
         textAlign = Styler.textAlign(blockStyle),
         onHandleUri = onHandleUri,
+        highlights = highlights,
     )
 }

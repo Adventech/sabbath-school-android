@@ -31,20 +31,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.BlockItem
+import io.adventech.blockkit.ui.input.UserInputState
+import io.adventech.blockkit.ui.input.rememberContentHighlights
 import io.adventech.blockkit.ui.style.Styler
 
 @Composable
 internal fun BlockListContent(
     blockItem: BlockItem.BlockList,
     modifier: Modifier = Modifier,
+    userInputState: UserInputState? = null,
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
-    ) {
+) {
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
         blockItem.items.forEach { item ->
             BlockContent(
                 blockItem = item,
                 nested = true,
                 parent = blockItem,
+                userInputState = userInputState,
                 onHandleUri = onHandleUri,
             )
         }
@@ -56,11 +60,13 @@ internal fun BlockListItemContent(
     blockItem: BlockItem.BlockListItem,
     modifier: Modifier = Modifier,
     bullet: String = "",
+    userInputState: UserInputState? = null,
     onHandleUri: (String) -> Unit = {},
 ) {
     val blockStyle = blockItem.style?.text
     val color = Styler.textColor(blockStyle)
     val style = Styler.textStyle(blockStyle)
+    val highlights = rememberContentHighlights(blockItem.id, userInputState)
 
     Row(
         modifier = modifier,
@@ -78,7 +84,8 @@ internal fun BlockListItemContent(
             color = color,
             style = style,
             textAlign = Styler.textAlign(blockStyle),
-            onHandleUri = onHandleUri
+            highlights = highlights,
+            onHandleUri = onHandleUri,
         )
     }
 }

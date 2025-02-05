@@ -46,32 +46,32 @@ fun BlockContent(
 
     when (blockItem) {
         is BlockItem.Appeal -> {
-            AppealContent(blockItem, blockModifier)
+            AppealContent(blockItem, blockModifier, userInputState)
         }
         is BlockItem.Audio -> {
             AudioContent(blockItem, blockModifier)
         }
         is BlockItem.BlockList -> {
-            BlockListContent(blockItem, blockModifier, onHandleUri)
+            BlockListContent(blockItem, blockModifier, userInputState, onHandleUri)
         }
         is BlockItem.BlockListItem -> {
-            BlockListItemContent(blockItem, blockModifier, (parent as? BlockItem.BlockList)?.bullet ?: "") {
+            BlockListItemContent(blockItem, blockModifier, (parent as? BlockItem.BlockList)?.bullet ?: "", userInputState) {
                 onHandleUri(it, blockItem.data)
             }
         }
         is BlockItem.Checklist -> Unit
         is BlockItem.ChecklistItem -> Unit
         is BlockItem.Collapse -> {
-            CollapseContent(blockItem, blockModifier, onHandleUri)
+            CollapseContent(blockItem, blockModifier, userInputState, onHandleUri)
         }
         is BlockItem.Excerpt -> {
-            ExcerptContent(blockItem, blockModifier)
+            ExcerptContent(blockItem, blockModifier, userInputState)
         }
         is BlockItem.ExcerptItem -> {
-            ExcerptItemContent(blockItem, blockModifier)
+            ExcerptItemContent(blockItem, blockModifier, userInputState)
         }
         is BlockItem.Heading -> {
-            HeadingContent(blockItem, blockModifier) {
+            HeadingContent(blockItem, blockModifier, userInputState) {
                 onHandleUri(it, blockItem.data)
             }
         }
@@ -84,7 +84,11 @@ fun BlockContent(
         is BlockItem.MultipleChoice -> Unit
         is BlockItem.MultipleChoiceItem -> Unit
         is BlockItem.Paragraph -> {
-            ParagraphContent(blockItem, blockModifier) {
+            ParagraphContent(
+                blockItem = blockItem,
+                modifier = blockModifier,
+                inputState = userInputState,
+            ) {
                 onHandleUri(it, blockItem.data)
             }
         }
@@ -96,7 +100,7 @@ fun BlockContent(
             }
         }
         is BlockItem.Quote -> {
-            QuoteContent(blockItem, blockModifier, onHandleUri = onHandleUri)
+            QuoteContent(blockItem, blockModifier, userInputState, onHandleUri)
         }
         is BlockItem.Reference -> {
             ReferenceContent(blockItem, blockModifier)

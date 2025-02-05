@@ -56,6 +56,7 @@ import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.TextStyle
 import io.adventech.blockkit.model.TextStyleSize
+import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
 
@@ -63,8 +64,9 @@ import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
 internal fun CollapseContent(
     blockItem: BlockItem.Collapse,
     modifier: Modifier = Modifier,
+    userInputState: UserInputState? = null,
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
-    ) {
+) {
     var expanded by remember { mutableStateOf(false) }
     val iconRotation by animateFloatAsState(
         targetValue = if (expanded) 180f else 0f,
@@ -125,7 +127,12 @@ internal fun CollapseContent(
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     blockItem.items.forEach { item ->
-                        BlockContent(blockItem = item, nested = true, onHandleUri = onHandleUri)
+                        BlockContent(
+                            blockItem = item,
+                            nested = true,
+                            userInputState = userInputState,
+                            onHandleUri = onHandleUri,
+                        )
                     }
                 }
             }
