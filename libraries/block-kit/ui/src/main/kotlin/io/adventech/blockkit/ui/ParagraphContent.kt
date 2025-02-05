@@ -22,12 +22,22 @@
 
 package io.adventech.blockkit.ui
 
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.unit.dp
 import io.adventech.blockkit.model.BlockItem
+import io.adventech.blockkit.model.input.Highlight
+import io.adventech.blockkit.model.input.HighlightColor
+import io.adventech.blockkit.model.input.UserInput
 import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.input.rememberContentHighlights
 import io.adventech.blockkit.ui.style.Styler
+import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 internal fun ParagraphContent(
@@ -50,3 +60,46 @@ internal fun ParagraphContent(
         highlights = highlights,
     )
 }
+
+@Composable
+@PreviewLightDark
+private fun Preview() {
+    val blockId = "blockId"
+    val inputState = remember {
+        UserInputState(
+            input = highlights.map {
+                UserInput.Highlights(
+                    blockId = blockId,
+                    id = "",
+                    timestamp = 0L,
+                    highlights = highlights
+                )
+            }.toImmutableList(),
+            eventSink = {}
+        )
+    }
+    BlocksPreviewTheme {
+        Surface {
+            ParagraphContent(
+                blockItem = BlockItem.Paragraph(
+                    id = blockId,
+                    style = null,
+                    data = null,
+                    nested = null,
+                    markdown = MARKDOWN
+                ),
+                modifier = Modifier.padding(16.dp),
+                inputState = inputState,
+            )
+        }
+    }
+}
+
+private const val MARKDOWN =
+    "Kotlin's **sealed interfaces** provide a structured way to represent restricted hierarchies. For example, if you're designing a UI state system, you might have states like `Loading`, `Fallback`, and `Navigation`. Unlike `sealed class`, a **sealed interface** allows multiple inheritance, making it more flexible. If you prefer an explicit approach, using `None` instead of nullable types can improve clarity. 🚀"
+private val highlights = listOf(
+    Highlight(startIndex = 9, endIndex = 26, length = 17, color = HighlightColor.BLUE),
+    Highlight(startIndex = 89, endIndex = 111, length = 22, color = HighlightColor.YELLOW),
+    Highlight(startIndex = 112, endIndex = 126, length = 14, color = HighlightColor.ORANGE),
+    Highlight(startIndex = 163, endIndex = 296, length = 22, color = HighlightColor.GREEN)
+)

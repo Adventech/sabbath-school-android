@@ -71,6 +71,10 @@ import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import me.saket.extendedspans.ExtendedSpans
+import me.saket.extendedspans.RoundedCornerSpanPainter
+import me.saket.extendedspans.RoundedCornerSpanPainter.TextPaddingValues
+import me.saket.extendedspans.drawBehind
 import org.commonmark.node.Code
 import org.commonmark.node.Document
 import org.commonmark.node.Emphasis
@@ -104,8 +108,24 @@ fun MarkdownText(
 
     val layoutResult = remember { mutableStateOf<TextLayoutResult?>(null) }
 
+    val extendedSpans = remember {
+        ExtendedSpans(
+            RoundedCornerSpanPainter(
+                cornerRadius = 6.sp,
+                padding = TextPaddingValues(horizontal = 4.sp),
+                topMargin = 2.sp,
+                bottomMargin = 2.sp,
+                stroke = RoundedCornerSpanPainter.Stroke(
+                    color = Color.Transparent,
+                ),
+            )
+        )
+    }
+
     Text(
-        text = styledText,
+        text = remember(styledText) {
+            extendedSpans.extend(styledText)
+        },
         modifier = modifier
             .fillMaxWidth()
             .pointerInput(Unit) {
@@ -122,7 +142,8 @@ fun MarkdownText(
                             }
                     }
                 }
-            },
+            }
+            .drawBehind(extendedSpans),
         color = color,
         style = style,
         textAlign = textAlign,
@@ -147,7 +168,10 @@ fun MarkdownText(
                 )
             }
         ),
-        onTextLayout = { layoutResult.value = it },
+        onTextLayout = {
+            layoutResult.value = it
+            extendedSpans.onTextLayout(it)
+        },
     )
 }
 

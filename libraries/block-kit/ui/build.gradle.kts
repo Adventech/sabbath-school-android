@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.haze)
     implementation(libs.haze.materials)
+    implementation(libs.saket.extendedspans)
 
     testImplementation(libs.bundles.testing.common)
 }
