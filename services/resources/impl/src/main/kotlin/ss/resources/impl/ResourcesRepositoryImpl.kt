@@ -227,6 +227,7 @@ internal class ResourcesRepositoryImpl @Inject constructor(
     override fun segment(id: String, index: String): Flow<Segment> = segmentsDao.get(id)
         .filterNotNull()
         .map { it.toModel() }
+        .onStart { syncHelper.syncSegment(index) }
         .flowOn(dispatcherProvider.io)
         .catch { Timber.e(it) }
 

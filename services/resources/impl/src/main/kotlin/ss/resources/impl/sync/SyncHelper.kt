@@ -34,10 +34,12 @@ import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.ioScopable
 import ss.lessons.api.ResourcesApi
 import ss.libraries.storage.api.dao.LanguagesDao
+import ss.libraries.storage.api.dao.SegmentsDao
 import ss.libraries.storage.api.dao.UserInputDao
 import ss.libraries.storage.api.entity.LanguageEntity
 import ss.libraries.storage.api.entity.UserInputEntity
 import ss.resources.impl.ext.localId
+import ss.resources.impl.ext.toEntity
 import ss.resources.impl.ext.toInput
 import ss.resources.impl.ext.type
 import timber.log.Timber
@@ -49,12 +51,14 @@ interface SyncHelper {
 
     fun syncUserInput(documentId: String)
     fun saveUserInput(documentId: String, userInput: UserInputRequest)
+    fun syncSegment(index: String)
 }
 
 internal class SyncHelperImpl @Inject constructor(
     private val resourcesApi: ResourcesApi,
     private val languagesDao: LanguagesDao,
     private val userInputDao: UserInputDao,
+    private val segmentsDao: SegmentsDao,
     private val connectivityHelper: ConnectivityHelper,
     private val dispatcherProvider: DispatcherProvider
 ) : SyncHelper, Scopable by ioScopable(dispatcherProvider) {
@@ -128,6 +132,19 @@ internal class SyncHelperImpl @Inject constructor(
                     blockId = userInput.blockId,
                     userInput = userInput,
                 )
+            }
+        }
+    }
+
+    override fun syncSegment(index: String) {
+        scope.launch(exceptionLogger) {
+            when (val response = safeApiCall(connectivityHelper) { resourcesApi.segment(index) }) {
+                is NetworkResource.Failure -> {
+                    Timber.e("Failed to fetch segment for index: $index => ${response.errorBody?.string()}")
+                }
+                is NetworkResource.Success -> response.value.body()?.let { data ->
+                    segmentsDao.insertItem(data.toEntity())
+                }
             }
         }
     }

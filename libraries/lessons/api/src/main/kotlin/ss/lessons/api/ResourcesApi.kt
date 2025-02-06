@@ -32,6 +32,7 @@ import io.adventech.blockkit.model.input.UserInput
 import io.adventech.blockkit.model.input.UserInputRequest
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.model.resource.ResourceDocument
+import io.adventech.blockkit.model.resource.Segment
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -58,6 +59,9 @@ interface ResourcesApi {
 
     @GET("api/v3/{index}/index.json")
     suspend fun document(@Path("index") index: String): Response<ResourceDocument>
+
+    @GET("api/v3/{index}/index.json")
+    suspend fun segment(@Path("index") index: String): Response<Segment>
 
     @GET("api/v3/resources/user/input/document/{documentId}")
     suspend fun userInput(@Path("documentId") documentId: String): Response<List<UserInput>>
