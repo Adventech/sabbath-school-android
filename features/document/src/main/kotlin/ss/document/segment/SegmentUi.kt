@@ -30,6 +30,7 @@ import com.slack.circuit.foundation.CircuitContent
 import com.slack.circuit.foundation.NavEvent
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.BlockItem
+import io.adventech.blockkit.model.resource.ReferenceModel
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.SegmentType
 import io.adventech.blockkit.ui.input.UserInputState
@@ -48,12 +49,21 @@ fun SegmentUi(
     onNavBack: () -> Unit = {},
     onCollapseChange: (Boolean) -> Unit = {},
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
+    onHandleReference: (ReferenceModel) -> Unit = { _ -> },
     onNavEvent: (NavEvent) -> Unit = {},
 ) {
     when (segment.type) {
         SegmentType.UNKNOWN -> Unit
         SegmentType.BLOCK -> {
-            SegmentBlocksContent(segment, titleBelowCover, modifier, userInputState, onCollapseChange, onHandleUri)
+            SegmentBlocksContent(
+                segment,
+                titleBelowCover,
+                modifier,
+                userInputState,
+                onCollapseChange,
+                onHandleUri,
+                onHandleReference,
+            )
         }
 
         SegmentType.STORY -> {
@@ -67,6 +77,7 @@ fun SegmentUi(
                 )
             }
         }
+
         SegmentType.PDF -> {
             val pdfs = remember(segment) {
                 segment.pdf.orEmpty().map {

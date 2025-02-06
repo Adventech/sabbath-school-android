@@ -41,6 +41,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
+import io.adventech.blockkit.model.ReferenceScope
 import io.adventech.blockkit.model.resource.ResourceDocument
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.SegmentType
@@ -53,6 +54,7 @@ import ss.document.producer.ReaderStyleStateProducer
 import ss.document.producer.TopAppbarActionsProducer
 import ss.document.producer.UserInputStateProducer
 import ss.document.segment.producer.SegmentOverlayStateProducer
+import ss.document.segment.producer.SegmentOverlayStateProducer.Event as SegmentOverlayEvent
 import ss.libraries.circuit.navigation.DocumentScreen
 import ss.libraries.circuit.navigation.ExpandedAudioPlayerScreen
 import ss.libraries.circuit.navigation.PdfScreen
@@ -131,9 +133,17 @@ class DocumentPresenter @AssistedInject constructor(
                 }
 
                 is SuccessEvent.OnHandleUri -> {
-                    (overlayState as? SegmentOverlayState.None)?.eventSink(
-                        SegmentOverlayStateProducer.Event.OnHandleUri(event.uri, event.data)
-                    )
+                    val event = SegmentOverlayEvent.OnHandleUri(event.uri, event.data)
+                    sendSegmentOverlayEvent(segmentOverlayState, event)
+                }
+
+                is SuccessEvent.OnHandleReference -> {
+                    val model = event.model
+
+                    if (model.segment != null && model.scope == ReferenceScope.SEGMENT) {
+                        val event = SegmentOverlayEvent.OnHiddenSegment(model.segment!!)
+                        sendSegmentOverlayEvent(segmentOverlayState, event)
+                    }
                 }
             }
         }
@@ -204,6 +214,15 @@ class DocumentPresenter @AssistedInject constructor(
                 navigator.pop()
                 navigator.goTo(IntentScreen(pdfReader.launchIntent(screen)))
             }
+        }
+    }
+
+    private fun sendSegmentOverlayEvent(overlayState: DocumentOverlayState, event: SegmentOverlayEvent) {
+        when (val state = overlayState) {
+            is SegmentOverlayState.Blocks -> Unit
+            is SegmentOverlayState.Excerpt -> Unit
+            is SegmentOverlayState.None -> state.eventSink(event)
+            is DocumentOverlayState.BottomSheet -> Unit
         }
     }
 

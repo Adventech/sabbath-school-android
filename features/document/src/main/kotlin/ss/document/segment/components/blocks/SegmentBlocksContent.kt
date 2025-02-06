@@ -41,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import io.adventech.blockkit.model.BlockData
+import io.adventech.blockkit.model.resource.ReferenceModel
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.ui.BlockContent
 import io.adventech.blockkit.ui.input.UserInputState
@@ -60,6 +61,7 @@ internal fun SegmentBlocksContent(
     userInputState: UserInputState,
     onCollapseChange: (Boolean) -> Unit = {},
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
+    onHandleReference: (ReferenceModel) -> Unit = { _ -> }
 ) {
     val listState = rememberLazyListState()
     val pageCollapsed by remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
@@ -115,6 +117,7 @@ internal fun SegmentBlocksContent(
                 modifier = Modifier,
                 userInputState = userInputState,
                 onHandleUri = onHandleUri,
+                onHandleReference = onHandleReference,
             )
         }
 

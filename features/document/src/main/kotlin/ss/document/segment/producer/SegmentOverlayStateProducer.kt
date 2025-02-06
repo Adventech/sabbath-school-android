@@ -32,10 +32,13 @@ import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.Navigator
 import io.adventech.blockkit.model.BlockData
+import io.adventech.blockkit.model.resource.Segment
 import kotlinx.collections.immutable.toImmutableList
+import ss.document.DocumentOverlayState
 import ss.document.producer.ReaderStyleStateProducer
 import ss.document.segment.components.overlay.BlocksOverlay
 import ss.document.segment.components.overlay.ExcerptOverlay
+import ss.document.segment.hidden.HiddenSegmentScreen
 import ss.libraries.circuit.navigation.CustomTabsIntentScreen
 import timber.log.Timber
 import javax.inject.Inject
@@ -45,10 +48,12 @@ import ss.document.DocumentOverlayState.Segment as SegmentOverlayState
 interface SegmentOverlayStateProducer {
 
     @Composable
-    operator fun invoke(navigator: Navigator): SegmentOverlayState
+    operator fun invoke(navigator: Navigator): DocumentOverlayState
 
     sealed interface Event : CircuitUiEvent {
         data class OnHandleUri(val uri: String, val data: BlockData?) : Event
+
+        data class OnHiddenSegment(val segment: Segment) : Event
     }
 }
 
@@ -62,8 +67,8 @@ internal class OverlayStateProducerImpl @Inject constructor(
 ) : SegmentOverlayStateProducer {
 
     @Composable
-    override fun invoke(navigator: Navigator): SegmentOverlayState {
-        var overlayState by rememberRetained { mutableStateOf<SegmentOverlayState?>(null) }
+    override fun invoke(navigator: Navigator): DocumentOverlayState {
+        var overlayState by rememberRetained { mutableStateOf<DocumentOverlayState?>(null) }
         val readerStyle = readerStyleStateProducer()
 
         val defaultState = SegmentOverlayState.None { event ->
@@ -101,6 +106,19 @@ internal class OverlayStateProducerImpl @Inject constructor(
                             navigator.goTo(CustomTabsIntentScreen(event.uri))
                         }
                     }
+                }
+
+                is SegmentOverlayStateProducer.Event.OnHiddenSegment -> {
+                    overlayState = DocumentOverlayState.BottomSheet(
+                        screen = HiddenSegmentScreen(
+                            id = event.segment.id,
+                            index = event.segment.index,
+                        ),
+                        skipPartiallyExpanded = true,
+                        onResult = { result ->
+                            overlayState = null
+                        }
+                    )
                 }
             }
         }

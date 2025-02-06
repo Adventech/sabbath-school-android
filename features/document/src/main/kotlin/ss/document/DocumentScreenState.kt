@@ -28,6 +28,7 @@ import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.Style
+import io.adventech.blockkit.model.resource.ReferenceModel
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.style.ReaderStyleConfig
@@ -83,6 +84,7 @@ sealed interface SuccessEvent : Event {
     data class OnSegmentSelection(val segment: Segment) : SuccessEvent
     data class OnNavEvent(val event: NavEvent) : SuccessEvent
     data class OnHandleUri(val uri: String, val data: BlockData?) : SuccessEvent
+    data class OnHandleReference(val model: ReferenceModel): SuccessEvent
 }
 
 

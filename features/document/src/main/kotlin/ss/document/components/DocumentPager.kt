@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.slack.circuit.foundation.NavEvent
 import io.adventech.blockkit.model.BlockData
+import io.adventech.blockkit.model.resource.ReferenceModel
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.ui.input.UserInputState
 import kotlinx.collections.immutable.ImmutableList
@@ -50,6 +51,7 @@ fun DocumentPager(
     onNavBack: () -> Unit = {},
     onCollapseChange: (Boolean) -> Unit = {},
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
+    onHandleReference: (ReferenceModel) -> Unit = { _ -> },
     onNavEvent: (NavEvent) -> Unit = {},
 ) {
     val pagerState = rememberPagerState(
@@ -76,6 +78,7 @@ fun DocumentPager(
             onNavBack = onNavBack,
             onCollapseChange = onCollapseChange,
             onHandleUri = onHandleUri,
+            onHandleReference = onHandleReference,
             onNavEvent = onNavEvent,
         )
     }

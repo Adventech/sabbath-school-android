@@ -176,6 +176,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                         onNavBack = { state.eventSink(Event.OnNavBack) },
                         onCollapseChange = { collapsed = it },
                         onHandleUri = { uri, blocks -> state.eventSink(SuccessEvent.OnHandleUri(uri, blocks)) },
+                        onHandleReference = { state.eventSink(SuccessEvent.OnHandleReference(it)) },
                         onNavEvent = { state.eventSink(SuccessEvent.OnNavEvent(it)) },
                     )
                 }
