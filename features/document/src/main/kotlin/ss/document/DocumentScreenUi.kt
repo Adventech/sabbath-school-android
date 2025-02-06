@@ -51,13 +51,18 @@ import app.ss.design.compose.widget.scaffold.HazeScaffold
 import app.ss.design.compose.widget.scaffold.SystemUiEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.CircuitContent
+import com.slack.circuit.foundation.NavEvent
+import com.slack.circuit.overlay.ContentWithOverlays
 import com.slack.circuit.overlay.OverlayEffect
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.model.resource.SegmentType
 import io.adventech.blockkit.ui.style.LocalBlocksStyle
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.LocalSegmentStyle
+import io.adventech.blockkit.ui.style.ReaderStyleConfig
+import io.adventech.blockkit.ui.style.background
 import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
+import io.adventech.blockkit.ui.style.primaryForeground
 import kotlinx.collections.immutable.persistentListOf
 import ss.document.components.DocumentLoadingView
 import ss.document.components.DocumentPager
@@ -181,32 +186,56 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                     )
                 }
 
-                OverlayEffect(state.overlayState) {
-                    when (val overlayState = state.overlayState) {
-                        is DocumentOverlayState.BottomSheet -> {
-                            overlayState.onResult(show(BottomSheetOverlay(overlayState.skipPartiallyExpanded) {
-                                CircuitContent(
-                                    screen = overlayState.screen,
-                                    onNavEvent = { state.eventSink(SuccessEvent.OnNavEvent(it)) },
-                                )
-                            }))
-                        }
-
-                        is DocumentOverlayState.Segment.Blocks -> overlayState.onResult(
-                            show(BlocksOverlay(overlayState.state))
-                        )
-
-                        is DocumentOverlayState.Segment.Excerpt -> overlayState.onResult(
-                            show(ExcerptOverlay(overlayState.state))
-                        )
-
-                        is DocumentOverlayState.Segment.None -> Unit
-                        null -> Unit
-                    }
+                DocumentOverlay(state.overlayState, state.readerStyle) {
+                    state.eventSink(SuccessEvent.OnNavEvent(it))
                 }
             }
         }
     }
 
     SystemUiEffect(lightStatusBar)
+}
+
+
+@Composable
+internal fun DocumentOverlay(
+    documentOverlayState: DocumentOverlayState?,
+    readerStyle: ReaderStyleConfig,
+    onNavEvent: (event: NavEvent) -> Unit,
+) {
+    val containerColor = readerStyle.theme.background()
+    val contentColor = readerStyle.theme.primaryForeground()
+
+    OverlayEffect(documentOverlayState) {
+        when (val overlayState = documentOverlayState) {
+            is DocumentOverlayState.BottomSheet -> {
+
+                overlayState.onResult(
+                    show(BottomSheetOverlay(
+                        skipPartiallyExpanded = overlayState.skipPartiallyExpanded,
+                        containerColor = containerColor,
+                        contentColor = contentColor,
+                    ) {
+                        ContentWithOverlays {
+                            CircuitContent(
+                                screen = overlayState.screen,
+                                onNavEvent = onNavEvent,
+                            )
+                        }
+                    })
+                )
+            }
+
+            is DocumentOverlayState.Segment.Blocks -> overlayState.onResult(
+                show(BlocksOverlay(overlayState.state))
+            )
+
+            is DocumentOverlayState.Segment.Excerpt -> overlayState.onResult(
+                show(ExcerptOverlay(overlayState.state))
+            )
+
+            is DocumentOverlayState.Segment.None -> Unit
+            null -> Unit
+        }
+    }
 }

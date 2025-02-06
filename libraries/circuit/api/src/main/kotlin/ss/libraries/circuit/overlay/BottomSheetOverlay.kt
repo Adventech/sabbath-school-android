@@ -34,12 +34,14 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -60,6 +62,8 @@ private const val CORNER_RADIUS = 16
 /** A circuit [Overlay] that shows a [ModalBottomSheet]. */
 class BottomSheetOverlay(
     private val skipPartiallyExpanded: Boolean = false,
+    private val containerColor: Color? = null,
+    private val contentColor: Color? = null,
     private val content: @Composable (ColumnScope) -> Unit,
 ) : Overlay<BottomSheetOverlay.Result> {
 
@@ -75,6 +79,8 @@ class BottomSheetOverlay(
             sheetState = rememberModalBottomSheetState(
                 skipPartiallyExpanded = skipPartiallyExpanded
             ),
+            containerColor = containerColor ?: BottomSheetDefaults.ContainerColor,
+            contentColor = contentColor ?: contentColorFor(containerColor ?: BottomSheetDefaults.ContainerColor),
             modifier = Modifier,
             content = content,
         )
@@ -86,6 +92,8 @@ class BottomSheetOverlay(
 private fun OverlayModalBottomSheet(
     onDismissRequest: () -> Unit,
     sheetState: SheetState,
+    containerColor: Color,
+    contentColor: Color,
     modifier: Modifier = Modifier,
     content: @Composable (ColumnScope) -> Unit = {},
 ) {
@@ -94,6 +102,8 @@ private fun OverlayModalBottomSheet(
         modifier = modifier.windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Top)),
         sheetState = sheetState,
         shape = RoundedCornerShape(topStart = CORNER_RADIUS.dp, topEnd = CORNER_RADIUS.dp),
+        containerColor = containerColor,
+        contentColor = contentColor,
         scrimColor = Color.Transparent,
         content = content,
     )
@@ -123,6 +133,8 @@ private fun BottomSheetOverlayPreview() {
                         sheetState = rememberModalBottomSheetState(
                             skipPartiallyExpanded = true
                         ),
+                        containerColor = BottomSheetDefaults.ContainerColor,
+                        contentColor = contentColorFor(BottomSheetDefaults.ContainerColor)
                     ) {
                         Column(
                             modifier = Modifier

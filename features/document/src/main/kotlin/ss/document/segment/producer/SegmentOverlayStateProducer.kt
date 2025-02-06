@@ -53,7 +53,7 @@ interface SegmentOverlayStateProducer {
     sealed interface Event : CircuitUiEvent {
         data class OnHandleUri(val uri: String, val data: BlockData?) : Event
 
-        data class OnHiddenSegment(val segment: Segment) : Event
+        data class OnHiddenSegment(val segment: Segment, val documentIndex: String) : Event
     }
 }
 
@@ -113,6 +113,7 @@ internal class OverlayStateProducerImpl @Inject constructor(
                         screen = HiddenSegmentScreen(
                             id = event.segment.id,
                             index = event.segment.index,
+                            documentIndex = event.documentIndex,
                         ),
                         skipPartiallyExpanded = true,
                         onResult = { result ->

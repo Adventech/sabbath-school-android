@@ -31,58 +31,85 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.ui.BlockContent
+import io.adventech.blockkit.ui.style.LocalBlocksStyle
+import io.adventech.blockkit.ui.style.LocalReaderStyle
+import io.adventech.blockkit.ui.style.LocalSegmentStyle
 import io.adventech.blockkit.ui.style.background
+import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
 import io.adventech.blockkit.ui.style.primaryForeground
+import ss.document.DocumentOverlay
+import ss.document.segment.hidden.HiddenSegmentScreen.Event
 import ss.document.segment.hidden.HiddenSegmentScreen.State
 
 @CircuitInject(HiddenSegmentScreen::class, SingletonComponent::class)
 @Composable
 fun HiddenSegmentUi(state: State, modifier: Modifier = Modifier) {
+    when (state) {
+        is State.Loading -> {
+            // Loading
+        }
+        is State.Success -> HiddenSegmentContent(state, modifier)
+    }
+}
+
+@Composable
+private fun HiddenSegmentContent(state: State.Success, modifier: Modifier = Modifier) {
     val readerStyle = state.readerStyle
     val backgroundColor = readerStyle.theme.background()
     val contentColor = readerStyle.theme.primaryForeground()
     val layoutDirection = LocalLayoutDirection.current
-    val screenWidth = LocalConfiguration.current.screenWidthDp.toFloat()
 
-    Scaffold(
-        modifier = modifier,
-        containerColor = backgroundColor,
-        contentColor = contentColor,
-    ) { contentPadding ->
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(
-                start = contentPadding.calculateStartPadding(layoutDirection) + 16.dp,
-                top = contentPadding.calculateTopPadding() + 16.dp,
-                end = contentPadding.calculateEndPadding(layoutDirection) + 16.dp,
-                bottom = contentPadding.calculateBottomPadding() + 16.dp
-            ),
-            verticalArrangement = Arrangement.spacedBy(20.dp)
-        ) {
+    CompositionLocalProvider(
+        LocalFontFamilyProvider provides state.fontFamilyProvider,
+        LocalBlocksStyle provides state.style?.blocks,
+        LocalSegmentStyle provides state.style?.segment,
+        LocalReaderStyle provides state.readerStyle,
+    ) {
+        Scaffold(
+            modifier = modifier,
+            containerColor = backgroundColor,
+            contentColor = contentColor,
+        ) { contentPadding ->
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(
+                    start = contentPadding.calculateStartPadding(layoutDirection) + 16.dp,
+                    top = contentPadding.calculateTopPadding() + 16.dp,
+                    end = contentPadding.calculateEndPadding(layoutDirection) + 16.dp,
+                    bottom = contentPadding.calculateBottomPadding() + 16.dp
+                ),
+                verticalArrangement = Arrangement.spacedBy(20.dp)
+            ) {
 
-            when (state) {
-                is State.Loading -> {
-
-                }
-
-                is State.Success -> {
-                    items(state.blocks, key = { it.id }) { blockItem ->
-                        BlockContent(
-                            blockItem = blockItem,
-                            onHandleUri = { uri, data ->
-
-                            }
-                        )
-                    }
+                items(state.blocks, key = { it.id }) { blockItem ->
+                    BlockContent(
+                        blockItem = blockItem,
+                        onHandleUri = { uri, data ->
+                            state.eventSink(Event.OnHandleUri(uri, data))
+                        }
+                    )
                 }
             }
         }
+
+        DocumentOverlay(state.overlayState, readerStyle) {
+             state.eventSink(Event.OnNavEvent(it))
+        }
     }
+}
+
+@Composable
+private fun HiddenSegmentContent(state: State.Loading, modifier: Modifier = Modifier) {
+    val readerStyle = state.readerStyle
+    val backgroundColor = readerStyle.theme.background()
+    val contentColor = readerStyle.theme.primaryForeground()
+
+
 }

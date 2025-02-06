@@ -25,28 +25,41 @@ package ss.document.segment.hidden
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.foundation.onNavEvent
 import com.slack.circuit.retained.produceRetainedState
+import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
+import io.adventech.blockkit.model.resource.ResourceDocument
 import io.adventech.blockkit.model.resource.Segment
+import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import kotlinx.collections.immutable.toImmutableList
 import ss.document.producer.ReaderStyleStateProducer
 import ss.document.segment.hidden.HiddenSegmentScreen.State
+import ss.document.segment.hidden.HiddenSegmentScreen.Event
+import ss.document.segment.producer.SegmentOverlayStateProducer
+import ss.document.segment.producer.SegmentOverlayStateProducer.Event as SegmentOverlayEvent
+import ss.document.sendSegmentOverlayEvent
 import ss.resources.api.ResourcesRepository
 
 class HiddenSegmentPresenter @AssistedInject constructor(
     @Assisted private val screen: HiddenSegmentScreen,
+    @Assisted private val navigator: Navigator,
+    private val fontFamilyProvider: FontFamilyProvider,
     private val resourcesRepository: ResourcesRepository,
     private val readerStyleStateProducer: ReaderStyleStateProducer,
+    private val segmentOverlayStateProducer: SegmentOverlayStateProducer,
 ) : Presenter<State> {
 
     @Composable
     override fun present(): State {
         val readerStyle = readerStyleStateProducer()
+        val document by rememberDocument()
         val result by rememberSegment()
+        val segmentOverlayState = segmentOverlayStateProducer(navigator)
 
         val segment = result
 
@@ -54,6 +67,17 @@ class HiddenSegmentPresenter @AssistedInject constructor(
             State.Success(
                 readerStyle = readerStyle,
                 blocks = segment.blocks.orEmpty().toImmutableList(),
+                style = document?.style,
+                fontFamilyProvider = fontFamilyProvider,
+                overlayState = segmentOverlayState,
+                eventSink = { event ->
+                    when (event) {
+                        is Event.OnHandleUri -> {
+                            sendSegmentOverlayEvent(segmentOverlayState, SegmentOverlayEvent.OnHandleUri(event.uri, event.data))
+                        }
+                        is Event.OnNavEvent -> navigator.onNavEvent(event.navEvent)
+                    }
+                }
             )
         } else {
             State.Loading(readerStyle)
@@ -65,9 +89,14 @@ class HiddenSegmentPresenter @AssistedInject constructor(
         resourcesRepository.segment(screen.id, screen.index).collect { value = it }
     }
 
+    @Composable
+    private fun rememberDocument() = produceRetainedState<ResourceDocument?>(null) {
+        value = resourcesRepository.document(screen.documentIndex).getOrNull()
+    }
+
     @CircuitInject(HiddenSegmentScreen::class, SingletonComponent::class)
     @AssistedFactory
     interface Factory {
-        fun create(screen: HiddenSegmentScreen): HiddenSegmentPresenter
+        fun create(screen: HiddenSegmentScreen, navigator: Navigator): HiddenSegmentPresenter
     }
 }

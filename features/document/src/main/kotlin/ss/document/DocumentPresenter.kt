@@ -139,9 +139,10 @@ class DocumentPresenter @AssistedInject constructor(
 
                 is SuccessEvent.OnHandleReference -> {
                     val model = event.model
+                    val segment = model.segment
 
-                    if (model.segment != null && model.scope == ReferenceScope.SEGMENT) {
-                        val event = SegmentOverlayEvent.OnHiddenSegment(model.segment!!)
+                    if (segment != null && resourceDocument != null && model.scope == ReferenceScope.SEGMENT) {
+                        val event = SegmentOverlayEvent.OnHiddenSegment(segment, resourceDocument.index)
                         sendSegmentOverlayEvent(segmentOverlayState, event)
                     }
                 }
@@ -217,15 +218,6 @@ class DocumentPresenter @AssistedInject constructor(
         }
     }
 
-    private fun sendSegmentOverlayEvent(overlayState: DocumentOverlayState, event: SegmentOverlayEvent) {
-        when (val state = overlayState) {
-            is SegmentOverlayState.Blocks -> Unit
-            is SegmentOverlayState.Excerpt -> Unit
-            is SegmentOverlayState.None -> state.eventSink(event)
-            is DocumentOverlayState.BottomSheet -> Unit
-        }
-    }
-
     @CircuitInject(DocumentScreen::class, SingletonComponent::class)
     @AssistedFactory
     interface Factory {
@@ -235,4 +227,11 @@ class DocumentPresenter @AssistedInject constructor(
 
 internal fun Segment.hasCover(): Boolean {
     return type == SegmentType.BLOCK && cover != null
+}
+
+internal fun sendSegmentOverlayEvent(overlayState: DocumentOverlayState, event: SegmentOverlayEvent) {
+    when (val state = overlayState) {
+        is SegmentOverlayState.None -> state.eventSink(event)
+        else -> Unit
+    }
 }

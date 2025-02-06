@@ -22,17 +22,24 @@
 
 package ss.document.segment.hidden
 
+import com.slack.circuit.foundation.NavEvent
+import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
+import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.BlockItem
+import io.adventech.blockkit.model.Style
 import io.adventech.blockkit.ui.style.ReaderStyleConfig
+import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.parcelize.Parcelize
+import ss.document.DocumentOverlayState
 
 @Parcelize
 data class HiddenSegmentScreen(
     val id: String,
     val index: String,
+    val documentIndex: String,
 ): Screen {
 
     sealed interface State : CircuitUiState {
@@ -44,7 +51,18 @@ data class HiddenSegmentScreen(
 
         data class Success(
             override val readerStyle: ReaderStyleConfig,
-            val blocks: ImmutableList<BlockItem>
+            val blocks: ImmutableList<BlockItem>,
+            val style: Style?,
+            val fontFamilyProvider: FontFamilyProvider,
+            val overlayState: DocumentOverlayState?,
+            val eventSink: (Event) -> Unit,
         ) : State
+    }
+
+    sealed interface Event : CircuitUiEvent {
+
+        data class OnHandleUri(val uri: String, val data: BlockData?): Event
+
+        data class OnNavEvent(val navEvent: NavEvent): Event
     }
 }
