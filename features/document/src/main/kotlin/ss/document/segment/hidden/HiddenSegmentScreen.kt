@@ -22,11 +22,29 @@
 
 package ss.document.segment.hidden
 
+import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
+import io.adventech.blockkit.model.BlockItem
+import io.adventech.blockkit.ui.style.ReaderStyleConfig
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class HiddenSegmentScreen(
     val id: String,
     val index: String,
-): Screen
+): Screen {
+
+    sealed interface State : CircuitUiState {
+        val readerStyle: ReaderStyleConfig
+
+        data class Loading(
+            override val readerStyle: ReaderStyleConfig
+        ) : State
+
+        data class Success(
+            override val readerStyle: ReaderStyleConfig,
+            val blocks: ImmutableList<BlockItem>
+        ) : State
+    }
+}

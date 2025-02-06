@@ -101,7 +101,7 @@ fun SegmentUi(
         SegmentType.VIDEO -> {
             segment.video?.let {
                 CircuitContent(
-                    screen = VideoSegmentScreen(segment.id, documentId),
+                    screen = VideoSegmentScreen(segment.id, segment.index, documentId),
                     modifier = modifier,
                     onNavEvent = onNavEvent,
                 )

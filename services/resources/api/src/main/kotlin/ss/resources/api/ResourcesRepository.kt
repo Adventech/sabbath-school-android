@@ -54,7 +54,7 @@ interface ResourcesRepository {
 
     fun saveDocumentInput(documentId: String, input: UserInputRequest)
 
-    fun segment(id: String): Flow<Segment>
+    fun segment(id: String, index: String): Flow<Segment>
 
     suspend fun audio(resourceIndex: String, documentIndex: String): Result<List<AudioAux>>
 

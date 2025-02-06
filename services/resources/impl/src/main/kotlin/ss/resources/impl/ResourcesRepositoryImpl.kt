@@ -224,7 +224,7 @@ internal class ResourcesRepositoryImpl @Inject constructor(
 
     override fun saveDocumentInput(documentId: String, input: UserInputRequest) = syncHelper.saveUserInput(documentId, input)
 
-    override fun segment(id: String): Flow<Segment> = segmentsDao.get(id)
+    override fun segment(id: String, index: String): Flow<Segment> = segmentsDao.get(id)
         .filterNotNull()
         .map { it.toModel() }
         .flowOn(dispatcherProvider.io)

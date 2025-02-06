@@ -20,66 +20,43 @@
  * THE SOFTWARE.
  */
 
-package ss.document.segment.components.video
+package ss.document.segment.hidden
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import app.ss.models.media.SSVideo
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
-import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
-import com.slack.circuitx.android.IntentScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.model.resource.Segment
 import kotlinx.collections.immutable.toImmutableList
-import ss.document.producer.UserInputStateProducer
-import ss.document.segment.components.video.VideoSegmentScreen.Event
-import ss.document.segment.components.video.VideoSegmentScreen.State
-import ss.libraries.media.api.MediaNavigation
+import ss.document.producer.ReaderStyleStateProducer
+import ss.document.segment.hidden.HiddenSegmentScreen.State
 import ss.resources.api.ResourcesRepository
 
-class VideoSegmentPresenter @AssistedInject constructor(
-    @Assisted private val navigator: Navigator,
-    @Assisted private val screen: VideoSegmentScreen,
+class HiddenSegmentPresenter @AssistedInject constructor(
+    @Assisted private val screen: HiddenSegmentScreen,
     private val resourcesRepository: ResourcesRepository,
-    private val mediaNavigation: MediaNavigation,
-    private val userInputStateProducer: UserInputStateProducer,
+    private val readerStyleStateProducer: ReaderStyleStateProducer,
 ) : Presenter<State> {
 
     @Composable
     override fun present(): State {
-        val segment by rememberSegment()
+        val readerStyle = readerStyleStateProducer()
+        val result by rememberSegment()
 
-        val userInputState = userInputStateProducer(screen.documentId)
+        val segment = result
 
-        return State(
-            title = segment?.title.orEmpty(),
-            blocks = segment?.blocks.orEmpty(),
-            videos = segment?.video.orEmpty().toImmutableList(),
-            userInputState = userInputState,
-        ) { event ->
-            when (event) {
-                is Event.OnNavBack -> navigator.pop()
-                is Event.PlayVideo -> {
-                    val video = event.video.run {
-                        SSVideo(
-                            artist = artist.orEmpty(),
-                            id = "",
-                            src = src,
-                            target = "",
-                            targetIndex = "",
-                            thumbnail = thumbnail.orEmpty(),
-                            title = title.orEmpty(),
-                        )
-                    }
-
-                    navigator.goTo(IntentScreen(mediaNavigation.videoPlayer(event.context, video)))
-                }
-            }
+        return if (segment != null) {
+            State.Success(
+                readerStyle = readerStyle,
+                blocks = segment.blocks.orEmpty().toImmutableList(),
+            )
+        } else {
+            State.Loading(readerStyle)
         }
     }
 
@@ -88,9 +65,9 @@ class VideoSegmentPresenter @AssistedInject constructor(
         resourcesRepository.segment(screen.id, screen.index).collect { value = it }
     }
 
-    @CircuitInject(VideoSegmentScreen::class, SingletonComponent::class)
+    @CircuitInject(HiddenSegmentScreen::class, SingletonComponent::class)
     @AssistedFactory
     interface Factory {
-        fun create(navigator: Navigator, screen: VideoSegmentScreen): VideoSegmentPresenter
+        fun create(screen: HiddenSegmentScreen): HiddenSegmentPresenter
     }
 }
