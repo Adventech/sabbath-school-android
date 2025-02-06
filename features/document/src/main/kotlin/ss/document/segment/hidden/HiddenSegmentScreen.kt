@@ -50,11 +50,14 @@ data class HiddenSegmentScreen(
         ) : State
 
         data class Success(
-            override val readerStyle: ReaderStyleConfig,
+            val title: String,
+            val subtitle: String?,
+            val date: String?,
             val blocks: ImmutableList<BlockItem>,
             val style: Style?,
             val fontFamilyProvider: FontFamilyProvider,
             val overlayState: DocumentOverlayState?,
+            override val readerStyle: ReaderStyleConfig,
             val eventSink: (Event) -> Unit,
         ) : State
     }

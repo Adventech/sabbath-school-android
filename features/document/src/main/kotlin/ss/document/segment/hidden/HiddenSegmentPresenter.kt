@@ -65,11 +65,14 @@ class HiddenSegmentPresenter @AssistedInject constructor(
 
         return if (segment != null) {
             State.Success(
-                readerStyle = readerStyle,
+                title = segment.title,
+                subtitle = segment.subtitle,
+                date = segment.date,
                 blocks = segment.blocks.orEmpty().toImmutableList(),
                 style = document?.style,
                 fontFamilyProvider = fontFamilyProvider,
                 overlayState = segmentOverlayState,
+                readerStyle = readerStyle,
                 eventSink = { event ->
                     when (event) {
                         is Event.OnHandleUri -> {

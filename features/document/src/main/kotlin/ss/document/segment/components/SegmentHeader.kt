@@ -24,6 +24,7 @@ package ss.document.segment.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -46,10 +47,10 @@ internal fun SegmentHeader(
     contentColor: Color,
     style: SegmentStyle?,
     modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 24.dp)
 ) {
     Column(
-        modifier = modifier
-            .padding(horizontal = 16.dp, vertical = 24.dp),
+        modifier = modifier.padding(contentPadding),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         subtitle?.let {
