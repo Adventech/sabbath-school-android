@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.BlockItem
+import io.adventech.blockkit.model.resource.ReferenceModel
 import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.style.background
 import io.adventech.blockkit.ui.style.thenIf
@@ -38,6 +39,7 @@ fun BlockContent(
     parent: BlockItem? = null,
     userInputState: UserInputState? = null,
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
+    onHandleReference: (ReferenceModel) -> Unit = { _ -> }
 ) {
     val blockModifier = modifier
         .thenIf(blockItem !is BlockItem.Story) {
@@ -103,7 +105,7 @@ fun BlockContent(
             QuoteContent(blockItem, blockModifier, userInputState, onHandleUri)
         }
         is BlockItem.Reference -> {
-            ReferenceContent(blockItem, blockModifier)
+            ReferenceContent(blockItem, blockModifier, onHandleReference)
         }
         is BlockItem.Story -> {
             StoryContent(blockItem, blockModifier)

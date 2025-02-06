@@ -52,18 +52,32 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.ReferenceScope
+import io.adventech.blockkit.model.resource.ReferenceModel
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
 import ss.ui.placeholder.asPlaceholder
 
 @Composable
-internal fun ReferenceContent(blockItem: BlockItem.Reference, modifier: Modifier = Modifier) {
+internal fun ReferenceContent(
+    blockItem: BlockItem.Reference,
+    modifier: Modifier = Modifier,
+    onHandleReference: (ReferenceModel) -> Unit = { _ -> }
+) {
     val contentColor = Styler.genericForegroundColorForInteractiveBlock()
 
     ElevatedCard(
         modifier = modifier
             .fillMaxWidth()
-            .clickable {},
+            .clickable {
+                onHandleReference(
+                    ReferenceModel(
+                        scope = blockItem.scope,
+                        segment = blockItem.segment,
+                        resource = blockItem.resource,
+                        document = blockItem.document
+                    )
+                )
+            },
         shape = Styler.roundedShape(),
         colors = CardDefaults.elevatedCardColors(
             containerColor = Styler.genericBackgroundColorForInteractiveBlock(),
