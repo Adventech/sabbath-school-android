@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -41,6 +42,7 @@ import io.adventech.blockkit.ui.BlockContent
 import io.adventech.blockkit.ui.style.LocalBlocksStyle
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.LocalSegmentStyle
+import io.adventech.blockkit.ui.style.ReaderStyleConfig
 import io.adventech.blockkit.ui.style.background
 import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
 import io.adventech.blockkit.ui.style.primaryForeground
@@ -52,9 +54,7 @@ import ss.document.segment.hidden.HiddenSegmentScreen.State
 @Composable
 fun HiddenSegmentUi(state: State, modifier: Modifier = Modifier) {
     when (state) {
-        is State.Loading -> {
-            // Loading
-        }
+        is State.Loading -> HiddenSegmentContent(state, modifier)
         is State.Success -> HiddenSegmentContent(state, modifier)
     }
 }
@@ -62,9 +62,6 @@ fun HiddenSegmentUi(state: State, modifier: Modifier = Modifier) {
 @Composable
 private fun HiddenSegmentContent(state: State.Success, modifier: Modifier = Modifier) {
     val readerStyle = state.readerStyle
-    val backgroundColor = readerStyle.theme.background()
-    val contentColor = readerStyle.theme.primaryForeground()
-    val layoutDirection = LocalLayoutDirection.current
 
     CompositionLocalProvider(
         LocalFontFamilyProvider provides state.fontFamilyProvider,
@@ -72,30 +69,14 @@ private fun HiddenSegmentContent(state: State.Success, modifier: Modifier = Modi
         LocalSegmentStyle provides state.style?.segment,
         LocalReaderStyle provides state.readerStyle,
     ) {
-        Scaffold(
-            modifier = modifier,
-            containerColor = backgroundColor,
-            contentColor = contentColor,
-        ) { contentPadding ->
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(
-                    start = contentPadding.calculateStartPadding(layoutDirection) + 16.dp,
-                    top = contentPadding.calculateTopPadding() + 16.dp,
-                    end = contentPadding.calculateEndPadding(layoutDirection) + 16.dp,
-                    bottom = contentPadding.calculateBottomPadding() + 16.dp
-                ),
-                verticalArrangement = Arrangement.spacedBy(20.dp)
-            ) {
-
-                items(state.blocks, key = { it.id }) { blockItem ->
-                    BlockContent(
-                        blockItem = blockItem,
-                        onHandleUri = { uri, data ->
-                            state.eventSink(Event.OnHandleUri(uri, data))
-                        }
-                    )
-                }
+        HiddenSegmentScaffold(readerStyle, modifier) {
+            items(state.blocks, key = { it.id }) { blockItem ->
+                BlockContent(
+                    blockItem = blockItem,
+                    onHandleUri = { uri, data ->
+                        state.eventSink(Event.OnHandleUri(uri, data))
+                    }
+                )
             }
         }
 
@@ -107,9 +88,36 @@ private fun HiddenSegmentContent(state: State.Success, modifier: Modifier = Modi
 
 @Composable
 private fun HiddenSegmentContent(state: State.Loading, modifier: Modifier = Modifier) {
-    val readerStyle = state.readerStyle
+    HiddenSegmentScaffold(state.readerStyle, modifier) {
+
+    }
+}
+
+@Composable
+private fun HiddenSegmentScaffold(
+    readerStyle: ReaderStyleConfig,
+    modifier: Modifier = Modifier,
+    content: LazyListScope.() -> Unit
+) {
     val backgroundColor = readerStyle.theme.background()
     val contentColor = readerStyle.theme.primaryForeground()
+    val layoutDirection = LocalLayoutDirection.current
 
-
+    Scaffold(
+        modifier = modifier,
+        containerColor = backgroundColor,
+        contentColor = contentColor,
+    ) { contentPadding ->
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(
+                start = contentPadding.calculateStartPadding(layoutDirection) + 16.dp,
+                top = contentPadding.calculateTopPadding() + 16.dp,
+                end = contentPadding.calculateEndPadding(layoutDirection) + 16.dp,
+                bottom = contentPadding.calculateBottomPadding() + 16.dp
+            ),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
+            content = content,
+        )
+    }
 }
