@@ -48,6 +48,7 @@ ksp {
 dependencies {
     implementation(projects.common.designCompose)
     implementation(projects.common.translations)
+    implementation(projects.libraries.appWidget.api)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.prefs.api)
