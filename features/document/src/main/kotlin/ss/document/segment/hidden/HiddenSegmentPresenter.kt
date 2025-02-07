@@ -38,6 +38,7 @@ import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import kotlinx.collections.immutable.toImmutableList
 import ss.document.producer.ReaderStyleStateProducer
+import ss.document.producer.UserInputStateProducer
 import ss.document.segment.hidden.HiddenSegmentScreen.State
 import ss.document.segment.hidden.HiddenSegmentScreen.Event
 import ss.document.segment.producer.SegmentOverlayStateProducer
@@ -52,6 +53,7 @@ class HiddenSegmentPresenter @AssistedInject constructor(
     private val resourcesRepository: ResourcesRepository,
     private val readerStyleStateProducer: ReaderStyleStateProducer,
     private val segmentOverlayStateProducer: SegmentOverlayStateProducer,
+    private val userInputStateProducer: UserInputStateProducer,
 ) : Presenter<State> {
 
     @Composable
@@ -60,6 +62,7 @@ class HiddenSegmentPresenter @AssistedInject constructor(
         val document by rememberDocument()
         val result by rememberSegment()
         val segmentOverlayState = segmentOverlayStateProducer(navigator)
+        val userInputState = userInputStateProducer(documentId = document?.id)
 
         val segment = result
 
@@ -72,6 +75,7 @@ class HiddenSegmentPresenter @AssistedInject constructor(
                 style = document?.style,
                 fontFamilyProvider = fontFamilyProvider,
                 overlayState = segmentOverlayState,
+                userInputState = userInputState,
                 readerStyle = readerStyle,
                 eventSink = { event ->
                     when (event) {

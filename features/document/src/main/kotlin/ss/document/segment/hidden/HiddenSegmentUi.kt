@@ -100,6 +100,7 @@ private fun HiddenSegmentContent(state: State.Success, modifier: Modifier = Modi
             items(state.blocks, key = { it.id }) { blockItem ->
                 BlockContent(
                     blockItem = blockItem,
+                    userInputState = state.userInputState,
                     onHandleUri = { uri, data ->
                         state.eventSink(Event.OnHandleUri(uri, data))
                     }

@@ -29,6 +29,7 @@ import com.slack.circuit.runtime.screen.Screen
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.Style
+import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.style.ReaderStyleConfig
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import kotlinx.collections.immutable.ImmutableList
@@ -57,6 +58,7 @@ data class HiddenSegmentScreen(
             val style: Style?,
             val fontFamilyProvider: FontFamilyProvider,
             val overlayState: DocumentOverlayState?,
+            val userInputState: UserInputState,
             override val readerStyle: ReaderStyleConfig,
             val eventSink: (Event) -> Unit,
         ) : State

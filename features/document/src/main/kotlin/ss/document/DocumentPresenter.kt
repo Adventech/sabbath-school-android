@@ -138,10 +138,9 @@ class DocumentPresenter @AssistedInject constructor(
                 }
 
                 is SuccessEvent.OnHandleReference -> {
-                    val model = event.model
-                    val segment = model.segment
+                    val (scope, segment, resource, document) = event.model
 
-                    if (segment != null && resourceDocument != null && model.scope == ReferenceScope.SEGMENT) {
+                    if (segment != null && resourceDocument != null && scope == ReferenceScope.SEGMENT) {
                         val event = SegmentOverlayEvent.OnHiddenSegment(segment, resourceDocument.index)
                         sendSegmentOverlayEvent(segmentOverlayState, event)
                     }
