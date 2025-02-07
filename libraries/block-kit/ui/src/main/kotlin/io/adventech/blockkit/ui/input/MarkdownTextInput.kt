@@ -22,7 +22,9 @@
 
 package io.adventech.blockkit.ui.input
 
-import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.MaterialTheme
@@ -33,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextRange
@@ -105,10 +108,14 @@ internal fun MarkdownTextInput(
         modifier = modifier
             .fillMaxWidth()
             .pointerInput(Unit) {
-                detectTapGestures { offset ->
-                    layoutResult.value?.let { layoutResult ->
-                        val position = layoutResult.getOffsetForPosition(offset)
-                        styledText
+                awaitEachGesture {
+                    awaitFirstDown(pass = PointerEventPass.Initial)
+                    val upEvent = waitForUpOrCancellation(pass = PointerEventPass.Initial)
+                    val offset = upEvent?.position ?: return@awaitEachGesture
+
+                    val layoutResult = layoutResult.value ?: return@awaitEachGesture
+                    val position = layoutResult.getOffsetForPosition(offset)
+                        text
                             .getStringAnnotations(position, position)
                             .firstOrNull()
                             ?.let { annotation ->
@@ -116,7 +123,6 @@ internal fun MarkdownTextInput(
                                     onHandleUri(annotation.item)
                                 }
                             }
-                    }
                 }
             }
             .drawBehind(extendedSpans),
