@@ -91,7 +91,7 @@ internal class SyncHelperImpl @Inject constructor(
         scope.launch(exceptionLogger) {
             when (val response = safeApiCall(connectivityHelper) { resourcesApi.userInput(documentId) }) {
                 is NetworkResource.Failure -> {
-                    Timber.e("Failed to fetch user input for documentId: $documentId => ${response.errorBody?.string()}")
+                    Timber.e("Failed to fetch user input for documentId: $documentId: Code => ${response.errorCode}, Network => ${response.isNetworkError}")
                 }
                 is NetworkResource.Success -> response.value.body()?.let { data ->
                     userInputDao.insertAll(data.map { input ->
