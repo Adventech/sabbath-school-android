@@ -23,6 +23,7 @@
 package io.adventech.blockkit.ui
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -51,6 +52,51 @@ import kotlinx.collections.immutable.toImmutableList
 internal fun ParagraphContent(
     blockItem: BlockItem.Paragraph,
     modifier: Modifier = Modifier,
+    parent: BlockItem? = null,
+    inputState: UserInputState? = null,
+    onHandleUri: (String) -> Unit = {},
+) {
+    val isSelectable = remember(parent) { parent.isChildSelectable() }
+    if (isSelectable) {
+        SelectableParagraph(
+            blockItem = blockItem,
+            modifier = modifier,
+            inputState = inputState,
+            onHandleUri = onHandleUri,
+        )
+    } else {
+        ReadOnlyParagraph(
+            blockItem = blockItem,
+            modifier = modifier,
+            onHandleUri = onHandleUri,
+        )
+    }
+}
+
+@Composable
+private fun ReadOnlyParagraph(
+    blockItem: BlockItem.Paragraph,
+    modifier: Modifier = Modifier,
+    onHandleUri: (String) -> Unit = {},
+) {
+    val blockStyle = blockItem.style?.text
+
+    SelectionContainer {
+        MarkdownText(
+            markdownText = blockItem.markdown,
+            modifier = modifier,
+            color = Styler.textColor(blockStyle),
+            style = Styler.textStyle(blockStyle),
+            textAlign = Styler.textAlign(blockStyle),
+            onHandleUri = onHandleUri,
+        )
+    }
+}
+
+@Composable
+private fun SelectableParagraph(
+    blockItem: BlockItem.Paragraph,
+    modifier: Modifier = Modifier,
     inputState: UserInputState? = null,
     onHandleUri: (String) -> Unit = {},
 ) {
@@ -60,9 +106,10 @@ internal fun ParagraphContent(
     var localHighlights by remember(highlights) { mutableStateOf(highlights) }
 
     var textFieldValue by remember { mutableStateOf<TextFieldValue?>(null) }
+    val currentSelection = textFieldValue?.selection
 
     SelectionBlockContainer(
-        textFieldValue = textFieldValue,
+        selection = currentSelection,
         onHighlight = { highlight ->
             textFieldValue = textFieldValue?.copy(
                 selection = TextRange.Zero,
@@ -76,18 +123,52 @@ internal fun ParagraphContent(
             localHighlights = highlights.toImmutableList()
             inputState?.eventSink?.invoke(UserInputState.Event.InputChanged(request))
         },
+        onRemoveHighlight = {
+            // Remove any highlight who's startIndex and endIndex are in the range of the current selection
+            val selection = currentSelection ?: return@SelectionBlockContainer
+            val input = inputState?.input?.firstOrNull { it.blockId == blockItem.id && it is UserInput.Highlights } as? UserInput.Highlights
+            val highlights = removeHighlightsInRange(input?.highlights.orEmpty(), selection)
+            val request = UserInputRequest.Highlights(
+                blockId = blockItem.id,
+                highlights = highlights
+            )
+            localHighlights = highlights.toImmutableList()
+            inputState?.eventSink?.invoke(UserInputState.Event.InputChanged(request))
+            textFieldValue = textFieldValue?.copy(
+                selection = TextRange.Zero,
+            )
+        }
     ) {
         MarkdownTextInput(
             markdownText = blockItem.markdown,
             onValueChange = { textFieldValue = it },
             modifier = modifier,
-            selection = textFieldValue?.selection ?: TextRange.Zero,
+            selection = currentSelection ?: TextRange.Zero,
             color = Styler.textColor(blockStyle),
             style = Styler.textStyle(blockStyle),
             textAlign = Styler.textAlign(blockStyle),
             onHandleUri = onHandleUri,
             highlights = localHighlights,
         )
+    }
+}
+
+private fun removeHighlightsInRange(highlights: List<Highlight>, range: TextRange): List<Highlight> {
+    return highlights.filterNot { highlight ->
+        highlight.startIndex in range.min..range.max && highlight.endIndex in range.min..range.max ||
+            highlight.startIndex <= range.max && highlight.endIndex >= range.min
+    }
+}
+
+private fun BlockItem?.isChildSelectable(): Boolean {
+    return when (this) {
+        null -> true
+        is BlockItem.Collapse -> true
+        is BlockItem.Quote -> true
+        is BlockItem.BlockListItem -> true
+        is BlockItem.ExcerptItem -> true
+        is BlockItem.TableBlock -> true
+        else -> false
     }
 }
 

@@ -89,6 +89,7 @@ fun BlockContent(
             ParagraphContent(
                 blockItem = blockItem,
                 modifier = blockModifier,
+                parent = parent,
                 inputState = userInputState,
             ) {
                 onHandleUri(it, blockItem.data)

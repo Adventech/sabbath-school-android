@@ -34,6 +34,7 @@ class BlocksTextToolbar(
     private val view: View,
     private val destroy: Boolean = false,
     private val onHighlight: (HighlightColor) -> Unit = {},
+    private val onRemoveHighlight: () -> Unit = {},
 ) : TextToolbar {
 
     private var actionMode: ActionMode? = null
@@ -69,6 +70,11 @@ class BlocksTextToolbar(
             textActionModeCallback.viewMode = BlocksTextActionModeCallback.Mode.NONE
             hide()
             onHighlight(color)
+        }
+        textActionModeCallback.onRemoveHighlightRequested = {
+            textActionModeCallback.viewMode = BlocksTextActionModeCallback.Mode.NONE
+            hide()
+            onRemoveHighlight()
         }
 
         if (actionMode == null && !destroy) {

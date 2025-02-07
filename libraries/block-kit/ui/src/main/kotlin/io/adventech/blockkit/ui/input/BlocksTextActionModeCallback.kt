@@ -39,6 +39,7 @@ internal class BlocksTextActionModeCallback(
     var onSelectAllRequested: (() -> Unit)? = null,
     var onHighlightRequested: (() -> Unit)? = null,
     var onHighlightColorRequested: ((HighlightColor) -> Unit)? = null,
+    var onRemoveHighlightRequested: (() -> Unit)? = null,
 ) {
 
     var viewMode: Mode = Mode.NONE
@@ -110,7 +111,9 @@ internal class BlocksTextActionModeCallback(
             BlockKitR.id.highlight_yellow -> {
                 onHighlightColorRequested?.invoke(HighlightColor.YELLOW)
             }
-
+            BlockKitR.id.highlight_remove -> {
+                onRemoveHighlightRequested?.invoke()
+            }
             else -> return false
         }
         mode?.finish()

@@ -46,4 +46,10 @@
         android:showAsAction="always"
         android:title="🟡"
         tools:ignore="HardcodedText" />
+
+    <item
+        android:id="@+id/highlight_remove"
+        android:showAsAction="always"
+        android:title="❌"
+        tools:ignore="HardcodedText" />
 </menu>

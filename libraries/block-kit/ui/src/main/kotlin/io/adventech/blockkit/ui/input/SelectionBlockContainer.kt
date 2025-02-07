@@ -26,33 +26,35 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalTextToolbar
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.TextRange
-import androidx.compose.ui.text.input.TextFieldValue
 import io.adventech.blockkit.model.input.Highlight
 import kotlinx.coroutines.delay
 
 @Composable
 internal fun SelectionBlockContainer(
-    textFieldValue: TextFieldValue?,
+    selection: TextRange?,
     modifier: Modifier = Modifier,
     onHighlight: (Highlight) -> Unit = {},
+    onRemoveHighlight: () -> Unit = {},
     content: @Composable () -> Unit,
 ) {
-    var isDestroy = remember { mutableStateOf(false) }
+    var isDestroy by remember { mutableStateOf(false) }
 
     CompositionLocalProvider(
         LocalTextToolbar provides BlocksTextToolbar(
             view = LocalView.current,
-            destroy = isDestroy.value,
+            destroy = isDestroy,
             onHighlight = { color ->
-                isDestroy.value = true
+                isDestroy = true
 
-                textFieldValue?.selection?.let { selection ->
+                selection?.let { selection ->
                     onHighlight(
                         Highlight(
                             startIndex = selection.start,
@@ -63,6 +65,15 @@ internal fun SelectionBlockContainer(
                     )
                 }
             },
+            onRemoveHighlight = {
+                isDestroy = true
+
+                selection?.let { selection ->
+                    if (selection.length > 0) {
+                        onRemoveHighlight()
+                    }
+                }
+            }
         )
     ) {
         SelectionContainer(
@@ -71,10 +82,10 @@ internal fun SelectionBlockContainer(
         )
     }
 
-    LaunchedEffect(textFieldValue?.selection) {
-        if (textFieldValue?.selection != TextRange.Zero) {
+    LaunchedEffect(selection) {
+        if (selection != TextRange.Zero) {
             delay(350)
-            isDestroy.value = false
+            isDestroy = false
         }
     }
 }
