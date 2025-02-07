@@ -25,9 +25,10 @@ package io.adventech.blockkit.ui.input
 import android.view.ActionMode
 import android.view.Menu
 import android.view.MenuItem
-import androidx.annotation.VisibleForTesting
 import androidx.compose.ui.geometry.Rect
+import io.adventech.blockkit.model.input.HighlightColor
 import app.ss.translations.R as L10nR
+import io.adventech.blockkit.ui.R as BlockKitR
 
 internal class BlocksTextActionModeCallback(
     val onActionModeDestroy: (() -> Unit)? = null,
@@ -36,39 +37,53 @@ internal class BlocksTextActionModeCallback(
     var onPasteRequested: (() -> Unit)? = null,
     var onCutRequested: (() -> Unit)? = null,
     var onSelectAllRequested: (() -> Unit)? = null,
-    var onCommentRequested: (() -> Unit)? = null,
     var onHighlightRequested: (() -> Unit)? = null,
+    var onHighlightColorRequested: ((HighlightColor) -> Unit)? = null,
 ) {
+
+    var viewMode: Mode = Mode.NONE
 
     fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
         requireNotNull(menu) { "onCreateActionMode requires a non-null menu" }
         requireNotNull(mode) { "onCreateActionMode requires a non-null mode" }
 
-        onCommentRequested?.let {
-            addMenuItem(menu, MenuItemOption.Comment)
+        return when (viewMode) {
+            Mode.HIGHLIGHTS -> {
+                showHighlights(mode, menu)
+                true
+            }
+
+            Mode.TEXT -> {
+                onHighlightRequested?.let {
+                    addMenuItem(menu, MenuItemOption.Highlight)
+                }
+                onCopyRequested?.let {
+                    addMenuItem(menu, MenuItemOption.Copy)
+                }
+                onPasteRequested?.let {
+                    addMenuItem(menu, MenuItemOption.Paste)
+                }
+                onCutRequested?.let {
+                    addMenuItem(menu, MenuItemOption.Cut)
+                }
+                onSelectAllRequested?.let {
+                    addMenuItem(menu, MenuItemOption.SelectAll)
+                }
+                true
+            }
+
+            Mode.NONE -> {
+                menu.clear()
+                mode.hide(100L)
+                false
+            }
         }
-        onHighlightRequested?.let {
-            addMenuItem(menu, MenuItemOption.Highlight)
-        }
-        onCopyRequested?.let {
-            addMenuItem(menu, MenuItemOption.Copy)
-        }
-        onPasteRequested?.let {
-            addMenuItem(menu, MenuItemOption.Paste)
-        }
-        onCutRequested?.let {
-            addMenuItem(menu, MenuItemOption.Cut)
-        }
-        onSelectAllRequested?.let {
-            addMenuItem(menu, MenuItemOption.SelectAll)
-        }
-        return true
     }
 
     // this method is called to populate new menu items when the actionMode was invalidated
     fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-        if (mode == null || menu == null) return false
-        updateMenuItems(menu)
+        if (mode == null || menu == null || viewMode == Mode.NONE) return false
+        updateMenuItems(mode, menu)
         // should return true so that new menu items are populated
         return true
     }
@@ -79,8 +94,23 @@ internal class BlocksTextActionModeCallback(
             MenuItemOption.Paste.id -> onPasteRequested?.invoke()
             MenuItemOption.Cut.id -> onCutRequested?.invoke()
             MenuItemOption.SelectAll.id -> onSelectAllRequested?.invoke()
-            MenuItemOption.Comment.id -> onCommentRequested?.invoke()
             MenuItemOption.Highlight.id -> onHighlightRequested?.invoke()
+            BlockKitR.id.highlight_blue -> {
+                onHighlightColorRequested?.invoke(HighlightColor.BLUE)
+            }
+
+            BlockKitR.id.highlight_green -> {
+                onHighlightColorRequested?.invoke(HighlightColor.GREEN)
+            }
+
+            BlockKitR.id.highlight_orange -> {
+                onHighlightColorRequested?.invoke(HighlightColor.ORANGE)
+            }
+
+            BlockKitR.id.highlight_yellow -> {
+                onHighlightColorRequested?.invoke(HighlightColor.YELLOW)
+            }
+
             else -> return false
         }
         mode?.finish()
@@ -91,14 +121,19 @@ internal class BlocksTextActionModeCallback(
         onActionModeDestroy?.invoke()
     }
 
-    @VisibleForTesting
-    internal fun updateMenuItems(menu: Menu) {
-        addOrRemoveMenuItem(menu, MenuItemOption.Comment, onCommentRequested)
-        addOrRemoveMenuItem(menu, MenuItemOption.Highlight, onHighlightRequested)
-        addOrRemoveMenuItem(menu, MenuItemOption.Copy, onCopyRequested)
-        addOrRemoveMenuItem(menu, MenuItemOption.Paste, onPasteRequested)
-        addOrRemoveMenuItem(menu, MenuItemOption.Cut, onCutRequested)
-        addOrRemoveMenuItem(menu, MenuItemOption.SelectAll, onSelectAllRequested)
+    private fun updateMenuItems(mode: ActionMode, menu: Menu) {
+        when (viewMode) {
+            Mode.HIGHLIGHTS -> showHighlights(mode, menu)
+            Mode.TEXT -> {
+                addOrRemoveMenuItem(menu, MenuItemOption.Highlight, onHighlightRequested)
+                addOrRemoveMenuItem(menu, MenuItemOption.Copy, onCopyRequested)
+                addOrRemoveMenuItem(menu, MenuItemOption.Paste, onPasteRequested)
+                addOrRemoveMenuItem(menu, MenuItemOption.Cut, onCutRequested)
+                addOrRemoveMenuItem(menu, MenuItemOption.SelectAll, onSelectAllRequested)
+            }
+
+            Mode.NONE -> menu.clear()
+        }
     }
 
     internal fun addMenuItem(menu: Menu, item: MenuItemOption) {
@@ -116,6 +151,19 @@ internal class BlocksTextActionModeCallback(
             callback == null && menu.findItem(item.id) != null -> menu.removeItem(item.id)
         }
     }
+
+    private fun showHighlights(mode: ActionMode, menu: Menu?) {
+        requireNotNull(menu) { "showHighlights requires a non-null menu" }
+        menu.clear()
+        val inflater = mode.menuInflater
+        inflater.inflate(BlockKitR.menu.selection_highlights, menu)
+    }
+
+    enum class Mode {
+        HIGHLIGHTS,
+        TEXT,
+        NONE
+    }
 }
 
 internal enum class MenuItemOption(val id: Int) {
@@ -124,7 +172,6 @@ internal enum class MenuItemOption(val id: Int) {
     Cut(2),
     SelectAll(3),
     Highlight(4),
-    Comment(5),
     ;
 
     val titleResource: Int
@@ -134,7 +181,6 @@ internal enum class MenuItemOption(val id: Int) {
             Cut -> android.R.string.cut
             SelectAll -> android.R.string.selectAll
             Highlight -> L10nR.string.ss_action_highlight
-            Comment -> L10nR.string.ss_action_comment
         }
 
     /**

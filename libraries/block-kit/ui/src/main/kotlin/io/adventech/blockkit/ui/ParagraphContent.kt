@@ -25,14 +25,22 @@ package io.adventech.blockkit.ui
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.input.Highlight
 import io.adventech.blockkit.model.input.HighlightColor
 import io.adventech.blockkit.model.input.UserInput
+import io.adventech.blockkit.model.input.UserInputRequest
+import io.adventech.blockkit.ui.input.MarkdownTextInput
+import io.adventech.blockkit.ui.input.SelectionBlockContainer
 import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.input.rememberContentHighlights
 import io.adventech.blockkit.ui.style.Styler
@@ -49,16 +57,38 @@ internal fun ParagraphContent(
     val blockStyle = blockItem.style?.text
 
     val highlights = rememberContentHighlights(blockItem.id, inputState)
+    var localHighlights by remember(highlights) { mutableStateOf(highlights) }
 
-    MarkdownText(
-        markdownText = blockItem.markdown,
-        modifier = modifier,
-        color = Styler.textColor(blockStyle),
-        style = Styler.textStyle(blockStyle),
-        textAlign = Styler.textAlign(blockStyle),
-        onHandleUri = onHandleUri,
-        highlights = highlights,
-    )
+    var textFieldValue by remember { mutableStateOf<TextFieldValue?>(null) }
+
+    SelectionBlockContainer(
+        textFieldValue = textFieldValue,
+        onHighlight = { highlight ->
+            textFieldValue = textFieldValue?.copy(
+                selection = TextRange.Zero,
+            )
+            val input = inputState?.input?.firstOrNull { it.blockId == blockItem.id && it is UserInput.Highlights } as? UserInput.Highlights
+            val highlights = input?.highlights.orEmpty() + highlight
+            val request = UserInputRequest.Highlights(
+                blockId = blockItem.id,
+                highlights = highlights
+            )
+            localHighlights = highlights.toImmutableList()
+            inputState?.eventSink?.invoke(UserInputState.Event.InputChanged(request))
+        },
+    ) {
+        MarkdownTextInput(
+            markdownText = blockItem.markdown,
+            onValueChange = { textFieldValue = it },
+            modifier = modifier,
+            selection = textFieldValue?.selection ?: TextRange.Zero,
+            color = Styler.textColor(blockStyle),
+            style = Styler.textStyle(blockStyle),
+            textAlign = Styler.textAlign(blockStyle),
+            onHandleUri = onHandleUri,
+            highlights = localHighlights,
+        )
+    }
 }
 
 @Composable

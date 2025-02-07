@@ -28,10 +28,12 @@ import androidx.annotation.DoNotInline
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.platform.TextToolbar
 import androidx.compose.ui.platform.TextToolbarStatus
+import io.adventech.blockkit.model.input.HighlightColor
 
 class BlocksTextToolbar(
     private val view: View,
-    private val onHighlight: () -> Unit = {},
+    private val destroy: Boolean = false,
+    private val onHighlight: (HighlightColor) -> Unit = {},
 ) : TextToolbar {
 
     private var actionMode: ActionMode? = null
@@ -54,16 +56,24 @@ class BlocksTextToolbar(
         textActionModeCallback.onCutRequested = onCutRequested
         textActionModeCallback.onPasteRequested = onPasteRequested
         textActionModeCallback.onSelectAllRequested = onSelectAllRequested
-        textActionModeCallback.onCommentRequested = {
-            // Dismiss the action mode here and remove text selection
-            // Not implemented yet
-        }
         textActionModeCallback.onHighlightRequested = {
-            // Dismiss the action mode here and remove text selection
-            onHighlight()
+            hide()
+            textActionModeCallback.viewMode = BlocksTextActionModeCallback.Mode.HIGHLIGHTS
+            actionMode = BlocksTextToolbarHelperMethods.startActionMode(
+                view,
+                BlocksFloatingTextActionModeCallback(textActionModeCallback),
+                ActionMode.TYPE_FLOATING
+            )
         }
-        if (actionMode == null) {
+        textActionModeCallback.onHighlightColorRequested = { color ->
+            textActionModeCallback.viewMode = BlocksTextActionModeCallback.Mode.NONE
+            hide()
+            onHighlight(color)
+        }
+
+        if (actionMode == null && !destroy) {
             status = TextToolbarStatus.Shown
+            textActionModeCallback.viewMode = BlocksTextActionModeCallback.Mode.TEXT
             actionMode = BlocksTextToolbarHelperMethods.startActionMode(
                 view,
                 BlocksFloatingTextActionModeCallback(textActionModeCallback),

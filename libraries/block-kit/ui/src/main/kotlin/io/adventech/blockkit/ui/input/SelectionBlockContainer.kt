@@ -25,25 +25,56 @@ package io.adventech.blockkit.ui.input
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalTextToolbar
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
+import io.adventech.blockkit.model.input.Highlight
+import kotlinx.coroutines.delay
 
 @Composable
 internal fun SelectionBlockContainer(
+    textFieldValue: TextFieldValue?,
     modifier: Modifier = Modifier,
-    onHighlight: () -> Unit = {},
+    onHighlight: (Highlight) -> Unit = {},
     content: @Composable () -> Unit,
 ) {
+    var isDestroy = remember { mutableStateOf(false) }
+
     CompositionLocalProvider(
         LocalTextToolbar provides BlocksTextToolbar(
             view = LocalView.current,
-            onHighlight = onHighlight,
+            destroy = isDestroy.value,
+            onHighlight = { color ->
+                isDestroy.value = true
+
+                textFieldValue?.selection?.let { selection ->
+                    onHighlight(
+                        Highlight(
+                            startIndex = selection.start,
+                            endIndex = selection.end,
+                            length = selection.length,
+                            color = color,
+                        )
+                    )
+                }
+            },
         )
     ) {
         SelectionContainer(
             modifier = modifier,
             content = content,
         )
+    }
+
+    LaunchedEffect(textFieldValue?.selection) {
+        if (textFieldValue?.selection != TextRange.Zero) {
+            delay(350)
+            isDestroy.value = false
+        }
     }
 }

@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -63,6 +64,7 @@ internal fun MarkdownTextInput(
     markdownText: String,
     onValueChange: (TextFieldValue) -> Unit,
     modifier: Modifier = Modifier,
+    selection: TextRange = TextRange.Zero,
     color: Color = MaterialTheme.colorScheme.onSurface,
     style: TextStyle = MaterialTheme.typography.bodyLarge,
     textAlign: TextAlign? = null,
@@ -92,7 +94,7 @@ internal fun MarkdownTextInput(
     val text = remember(styledText) {
         extendedSpans.extend(styledText)
     }
-    var textFieldValue by remember { mutableStateOf(TextFieldValue(text)) }
+    var textFieldValue by remember(text, selection) { mutableStateOf(TextFieldValue(text, selection)) }
 
     BasicTextField(
         value = textFieldValue,
