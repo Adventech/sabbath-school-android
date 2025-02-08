@@ -31,7 +31,7 @@ import kotlinx.coroutines.withContext
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
-import ss.foundation.coroutines.ioScopable
+import ss.foundation.coroutines.defaultScopable
 import ss.lessons.api.ResourcesApi
 import ss.libraries.storage.api.dao.LanguagesDao
 import ss.libraries.storage.api.dao.SegmentsDao
@@ -48,7 +48,7 @@ import javax.inject.Inject
 
 interface SyncHelper {
     fun syncLanguages()
-
+    fun syncDocument(documentId: String)
     fun syncUserInput(documentId: String)
     fun saveUserInput(documentId: String, userInput: UserInputRequest)
     fun syncSegment(index: String)
@@ -61,7 +61,7 @@ internal class SyncHelperImpl @Inject constructor(
     private val segmentsDao: SegmentsDao,
     private val connectivityHelper: ConnectivityHelper,
     private val dispatcherProvider: DispatcherProvider
-) : SyncHelper, Scopable by ioScopable(dispatcherProvider) {
+) : SyncHelper, Scopable by defaultScopable(dispatcherProvider) {
 
     private val exceptionLogger = CoroutineExceptionHandler { _, exception -> Timber.e(exception) }
 
@@ -70,20 +70,28 @@ internal class SyncHelperImpl @Inject constructor(
             when (val response = safeApiCall(connectivityHelper) { resourcesApi.languages() }) {
                 is NetworkResource.Failure -> Unit
                 is NetworkResource.Success -> response.value.body()?.let { data ->
-                    languagesDao.insertAll(data.map {
-                        LanguageEntity(
-                            code = it.code,
-                            name = it.name,
-                            nativeName = getNativeLanguageName(it.code, it.name),
-                            devo = it.devo,
-                            pm = it.pm,
-                            aij = it.aij,
-                            ss = it.ss,
-                            explore = it.explore,
-                        )
-                    })
+                    withContext(dispatcherProvider.io) {
+                        languagesDao.insertAll(data.map {
+                            LanguageEntity(
+                                code = it.code,
+                                name = it.name,
+                                nativeName = getNativeLanguageName(it.code, it.name),
+                                devo = it.devo,
+                                pm = it.pm,
+                                aij = it.aij,
+                                ss = it.ss,
+                                explore = it.explore,
+                            )
+                        })
+                    }
                 }
             }
+        }
+    }
+
+    override fun syncDocument(documentId: String) {
+        scope.launch(exceptionLogger) {
+
         }
     }
 
@@ -94,16 +102,18 @@ internal class SyncHelperImpl @Inject constructor(
                     Timber.e("Failed to fetch user input for documentId: $documentId: Code => ${response.errorCode}, Network => ${response.isNetworkError}")
                 }
                 is NetworkResource.Success -> response.value.body()?.let { data ->
-                    userInputDao.insertAll(data.map { input ->
-                        // Compare timestamp with local timestamp here
-                        UserInputEntity(
-                            localId = input.localId(documentId),
-                            id = input.id,
-                            documentId = documentId,
-                            input = input,
-                            timestamp = input.timestamp,
-                        )
-                    })
+                    withContext(dispatcherProvider.io) {
+                        userInputDao.insertAll(data.map { input ->
+                            // Compare timestamp with local timestamp here
+                            UserInputEntity(
+                                localId = input.localId(documentId),
+                                id = input.id,
+                                documentId = documentId,
+                                input = input,
+                                timestamp = input.timestamp,
+                            )
+                        })
+                    }
                 }
             }
         }
@@ -111,28 +121,28 @@ internal class SyncHelperImpl @Inject constructor(
 
     override fun saveUserInput(documentId: String, userInput: UserInputRequest) {
         scope.launch(exceptionLogger) {
-            val localId = userInput.localId(documentId)
-            val id = userInputDao.getId(localId)
-            val timestamp = System.currentTimeMillis()
+            withContext(dispatcherProvider.io) {
+                val localId = userInput.localId(documentId)
+                val id = userInputDao.getId(localId)
+                val timestamp = System.currentTimeMillis()
 
-            userInputDao.insertItem(
-                UserInputEntity(
-                    localId = localId,
-                    id = id,
-                    documentId = documentId,
-                    input = userInput.toInput(id ?: localId, timestamp),
-                    timestamp = timestamp,
-                )
-            )
-
-            withContext(dispatcherProvider.default) {
-                resourcesApi.saveUserInput(
-                    inputType = userInput.type(),
-                    documentId = documentId,
-                    blockId = userInput.blockId,
-                    userInput = userInput,
+                userInputDao.insertItem(
+                    UserInputEntity(
+                        localId = localId,
+                        id = id,
+                        documentId = documentId,
+                        input = userInput.toInput(id ?: localId, timestamp),
+                        timestamp = timestamp,
+                    )
                 )
             }
+
+            resourcesApi.saveUserInput(
+                inputType = userInput.type(),
+                documentId = documentId,
+                blockId = userInput.blockId,
+                userInput = userInput,
+            )
         }
     }
 
@@ -143,7 +153,9 @@ internal class SyncHelperImpl @Inject constructor(
                     Timber.e("Failed to fetch segment for index: $index => ${response.errorBody?.string()}")
                 }
                 is NetworkResource.Success -> response.value.body()?.let { data ->
-                    segmentsDao.insertItem(data.toEntity())
+                    withContext(dispatcherProvider.io) {
+                        segmentsDao.insertItem(data.toEntity())
+                    }
                 }
             }
         }
