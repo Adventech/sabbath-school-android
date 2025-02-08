@@ -80,11 +80,20 @@ internal class UserInputStateProducerImpl @Inject constructor(
             eventSink = { event ->
                 when (event) {
                     is UserInputState.Event.InputChanged -> {
-                        val input = event.input
-                        userInputRequest.value = input
+                        saveUserInput(documentId, event.input)
                     }
                 }
             }
         )
+    }
+
+    private fun saveUserInput(documentId: String?, userInput: UserInputRequest) {
+        if (userInput is UserInputRequest.Question) {
+            userInputRequest.tryEmit(userInput)
+        } else {
+            documentId?.let { id ->
+                resourcesRepository.saveDocumentInput(id, userInput)
+            }
+        }
     }
 }
