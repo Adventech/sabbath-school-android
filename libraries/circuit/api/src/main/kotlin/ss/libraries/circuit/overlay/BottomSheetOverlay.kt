@@ -104,7 +104,6 @@ private fun OverlayModalBottomSheet(
         shape = RoundedCornerShape(topStart = CORNER_RADIUS.dp, topEnd = CORNER_RADIUS.dp),
         containerColor = containerColor,
         contentColor = contentColor,
-        scrimColor = Color.Transparent,
         content = content,
     )
 }
