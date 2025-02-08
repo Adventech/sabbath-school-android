@@ -80,8 +80,8 @@ internal class ResourceCtaScreenProducerImpl @Inject constructor(
                     }
 
                     return DocumentScreen(
+                        id = document.id,
                         index = document.index,
-                        title = document.title,
                         cover = document.cover,
                         resourceIndex = resource.index,
                         resourceId = resource.id
@@ -96,8 +96,8 @@ internal class ResourceCtaScreenProducerImpl @Inject constructor(
         return sections.firstOrNull()?.let { section ->
             section.documents.firstOrNull()?.let { document ->
                 DocumentScreen(
+                    id = document.id,
                     index = document.index,
-                    title = document.title,
                     cover = document.cover,
                     resourceIndex = resource.index,
                     resourceId = resource.id

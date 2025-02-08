@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeContent
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -132,7 +131,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                             }
 
                             is State.Loading -> {
-                                Text(state.title)
+
                             }
                         }
                     },

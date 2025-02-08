@@ -34,6 +34,7 @@ import io.adventech.blockkit.model.resource.ResourceDocument
 import io.adventech.blockkit.model.resource.Segment
 import kotlinx.coroutines.flow.Flow
 import ss.resources.model.FeedModel
+import ss.resources.model.FontModel
 import ss.resources.model.LanguageModel
 import java.io.File
 
@@ -48,7 +49,7 @@ interface ResourcesRepository {
 
     suspend fun resource(index: String): Result<Resource>
 
-    suspend fun document(index: String): Result<ResourceDocument>
+    fun document(id: String, index: String): Flow<ResourceDocument>
 
     fun documentInput(documentId: String): Flow<List<UserInput>>
 
@@ -62,5 +63,5 @@ interface ResourcesRepository {
 
     suspend fun pdf(resourceIndex: String, documentIndex: String): Result<List<PDFAux>>
 
-    suspend fun fontFile(name: String): Flow<File?>
+    suspend fun fontFile(name: String): Flow<FontModel?>
 }

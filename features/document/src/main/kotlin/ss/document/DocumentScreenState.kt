@@ -41,18 +41,16 @@ import ss.document.segment.producer.SegmentOverlayStateProducer
 import ss.libraries.circuit.overlay.BottomSheetOverlay
 
 sealed interface State : CircuitUiState {
-    val title: String
     val hasCover: Boolean
     val eventSink: (Event) -> Unit
 
     data class Loading(
-        override val title: String,
         override val hasCover: Boolean,
         override val eventSink: (Event) -> Unit
     ) : State
 
     data class Success(
-        override val title: String,
+        val title: String,
         override val hasCover: Boolean,
         override val eventSink: (Event) -> Unit,
         val documentId: String,

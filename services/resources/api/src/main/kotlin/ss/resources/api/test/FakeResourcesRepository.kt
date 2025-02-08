@@ -37,6 +37,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import ss.resources.api.ResourcesRepository
 import ss.resources.model.FeedModel
+import ss.resources.model.FontModel
 import ss.resources.model.LanguageModel
 import java.io.File
 
@@ -63,7 +64,7 @@ class FakeResourcesRepository(
         TODO("Not yet implemented")
     }
 
-    override suspend fun document(index: String): Result<ResourceDocument> {
+    override fun document(id: String, index: String): Flow<ResourceDocument> {
         TODO("Not yet implemented")
     }
 
@@ -100,7 +101,7 @@ class FakeResourcesRepository(
         TODO("Not yet implemented")
     }
 
-    override suspend fun fontFile(name: String): Flow<File?> {
+    override suspend fun fontFile(name: String): Flow<FontModel?> {
         TODO("Not yet implemented")
     }
 }

@@ -98,7 +98,8 @@ class HiddenSegmentPresenter @AssistedInject constructor(
 
     @Composable
     private fun rememberDocument() = produceRetainedState<ResourceDocument?>(null) {
-        value = resourcesRepository.document(screen.documentIndex).getOrNull()
+        resourcesRepository.document(screen.documentId, screen.documentIndex)
+            .collect { value = it }
     }
 
     @CircuitInject(HiddenSegmentScreen::class, SingletonComponent::class)

@@ -54,7 +54,6 @@ import ss.document.producer.ReaderStyleStateProducer
 import ss.document.producer.TopAppbarActionsProducer
 import ss.document.producer.UserInputStateProducer
 import ss.document.segment.producer.SegmentOverlayStateProducer
-import ss.document.segment.producer.SegmentOverlayStateProducer.Event as SegmentOverlayEvent
 import ss.libraries.circuit.navigation.DocumentScreen
 import ss.libraries.circuit.navigation.ExpandedAudioPlayerScreen
 import ss.libraries.circuit.navigation.PdfScreen
@@ -63,6 +62,7 @@ import ss.misc.DateHelper
 import ss.resources.api.ResourcesRepository
 import ss.document.DocumentOverlayState.Segment as SegmentOverlayState
 import ss.document.producer.TopAppbarActionsState.Event as TopAppbarEvent
+import ss.document.segment.producer.SegmentOverlayStateProducer.Event as SegmentOverlayEvent
 
 class DocumentPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
@@ -141,7 +141,11 @@ class DocumentPresenter @AssistedInject constructor(
                     val (scope, segment, resource, document) = event.model
 
                     if (segment != null && resourceDocument != null && scope == ReferenceScope.SEGMENT) {
-                        val event = SegmentOverlayEvent.OnHiddenSegment(segment, resourceDocument.index)
+                        val event = SegmentOverlayEvent.OnHiddenSegment(
+                            segment = segment,
+                            documentId = resourceDocument.id,
+                            documentIndex = resourceDocument.index,
+                        )
                         sendSegmentOverlayEvent(segmentOverlayState, event)
                     }
                 }
@@ -149,7 +153,7 @@ class DocumentPresenter @AssistedInject constructor(
         }
 
         return when {
-            resourceDocument == null -> State.Loading(screen.title, false, eventSink)
+            resourceDocument == null -> State.Loading(false, eventSink)
             else -> State.Success(
                 title = selectedPage?.title ?: resourceDocument.title,
                 hasCover = selectedPage?.hasCover() == true,
@@ -171,7 +175,10 @@ class DocumentPresenter @AssistedInject constructor(
 
     @Composable
     private fun rememberDocument() = produceRetainedState<ResourceDocument?>(null) {
-        value = resourcesRepository.document(screen.index).getOrNull()
+        resourcesRepository.document(
+            id = screen.id,
+            index = screen.index,
+        ).collect { value = it }
     }
 
     @Composable

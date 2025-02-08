@@ -40,6 +40,7 @@ import ss.document.DocumentOverlayState
 data class HiddenSegmentScreen(
     val id: String,
     val index: String,
+    val documentId: String,
     val documentIndex: String,
 ): Screen {
 

@@ -49,12 +49,14 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.withContext
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.ResourcesApi
 import ss.libraries.storage.api.dao.AudioDao
+import ss.libraries.storage.api.dao.DocumentsDao
 import ss.libraries.storage.api.dao.FontFilesDao
 import ss.libraries.storage.api.dao.LanguagesDao
 import ss.libraries.storage.api.dao.SegmentsDao
@@ -67,6 +69,7 @@ import ss.resources.impl.ext.toModel
 import ss.resources.impl.sync.SyncHelper
 import ss.resources.impl.work.DownloadResourceWork
 import ss.resources.model.FeedModel
+import ss.resources.model.FontModel
 import ss.resources.model.LanguageModel
 import timber.log.Timber
 import java.io.File
@@ -76,6 +79,7 @@ internal class ResourcesRepositoryImpl @Inject constructor(
     @ApplicationContext private val appContext: Context,
     private val resourcesApi: ResourcesApi,
     private val audioDao: AudioDao,
+    private val documentsDao: DocumentsDao,
     private val videoInfoDao: VideoInfoDao,
     private val fontFilesDao: FontFilesDao,
     private val languagesDao: LanguagesDao,
@@ -190,26 +194,13 @@ internal class ResourcesRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun document(index: String): Result<ResourceDocument> {
-        return withContext(dispatcherProvider.default) {
-            when (val resource = safeApiCall(connectivityHelper) {
-                resourcesApi.document(index)
-            }) {
-                is NetworkResource.Failure -> {
-                    Result.failure(Throwable("Failed to fetch Document, ${resource.errorBody}"))
-                }
-
-                is NetworkResource.Success -> {
-                    resource.value.body()?.let {
-                        withContext(dispatcherProvider.io) {
-                            segmentsDao.insertAll(it.segments.orEmpty().map { it.toEntity() })
-                        }
-                        Result.success(it)
-                    } ?: Result.failure(Throwable("Failed to fetch Document, body is null"))
-                }
-            }
-        }
-    }
+    override fun document(id: String, index: String): Flow<ResourceDocument> = documentsDao
+        .get(id)
+        .filterNotNull()
+        .map { it.toModel() }
+        .onStart { syncHelper.syncDocument(index) }
+        .flowOn(dispatcherProvider.io)
+        .catch { Timber.e(it) }
 
     override fun documentInput(documentId: String): Flow<List<UserInput>> {
         return userInputDao.getDocumentInput(documentId)
@@ -296,11 +287,16 @@ internal class ResourcesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun fontFile(name: String): Flow<File?> {
+    override suspend fun fontFile(name: String): Flow<FontModel?> {
         return fontFilesDao.get(name)
             .filterNotNull()
-            .map { File(appContext.filesDir, "fonts/${it.fileName}") }
-            .filter { it.exists() }
+            .map { entity ->
+                FontModel(
+                    file = File(appContext.filesDir, "fonts/${entity.fileName}"),
+                    attributes = entity.attributes
+                )
+            }
+            .filter { it.file.exists() }
             .flowOn(dispatcherProvider.io)
     }
 }

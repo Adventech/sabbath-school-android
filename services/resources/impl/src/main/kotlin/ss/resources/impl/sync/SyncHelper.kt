@@ -33,6 +33,7 @@ import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.defaultScopable
 import ss.lessons.api.ResourcesApi
+import ss.libraries.storage.api.dao.DocumentsDao
 import ss.libraries.storage.api.dao.LanguagesDao
 import ss.libraries.storage.api.dao.SegmentsDao
 import ss.libraries.storage.api.dao.UserInputDao
@@ -45,10 +46,12 @@ import ss.resources.impl.ext.type
 import timber.log.Timber
 import java.util.Locale
 import javax.inject.Inject
+import kotlin.collections.map
+import kotlin.collections.orEmpty
 
 interface SyncHelper {
     fun syncLanguages()
-    fun syncDocument(documentId: String)
+    fun syncDocument(index: String)
     fun syncUserInput(documentId: String)
     fun saveUserInput(documentId: String, userInput: UserInputRequest)
     fun syncSegment(index: String)
@@ -57,6 +60,7 @@ interface SyncHelper {
 internal class SyncHelperImpl @Inject constructor(
     private val resourcesApi: ResourcesApi,
     private val languagesDao: LanguagesDao,
+    private val documentsDao: DocumentsDao,
     private val userInputDao: UserInputDao,
     private val segmentsDao: SegmentsDao,
     private val connectivityHelper: ConnectivityHelper,
@@ -89,9 +93,19 @@ internal class SyncHelperImpl @Inject constructor(
         }
     }
 
-    override fun syncDocument(documentId: String) {
+    override fun syncDocument(index: String) {
         scope.launch(exceptionLogger) {
-
+            when (val response = safeApiCall(connectivityHelper) { resourcesApi.document(index) }) {
+                is NetworkResource.Failure -> {
+                    Timber.e("Failed to fetch document for index: $index => ${response.throwable?.message}")
+                }
+                is NetworkResource.Success -> response.value.body()?.let { data ->
+                    withContext(dispatcherProvider.io) {
+                        documentsDao.insertItem(data.toEntity())
+                        segmentsDao.insertAll(data.segments.orEmpty().map { it.toEntity() })
+                    }
+                }
+            }
         }
     }
 
@@ -99,7 +113,7 @@ internal class SyncHelperImpl @Inject constructor(
         scope.launch(exceptionLogger) {
             when (val response = safeApiCall(connectivityHelper) { resourcesApi.userInput(documentId) }) {
                 is NetworkResource.Failure -> {
-                    Timber.e("Failed to fetch user input for documentId: $documentId: Code => ${response.errorCode}, Network => ${response.isNetworkError}")
+                    Timber.e("Failed to fetch user input for documentId: $documentId => ${response.throwable?.message}")
                 }
                 is NetworkResource.Success -> response.value.body()?.let { data ->
                     withContext(dispatcherProvider.io) {
@@ -150,7 +164,7 @@ internal class SyncHelperImpl @Inject constructor(
         scope.launch(exceptionLogger) {
             when (val response = safeApiCall(connectivityHelper) { resourcesApi.segment(index) }) {
                 is NetworkResource.Failure -> {
-                    Timber.e("Failed to fetch segment for index: $index => ${response.errorBody?.string()}")
+                    Timber.e("Failed to fetch segment for index: $index => ${response.throwable?.message}")
                 }
                 is NetworkResource.Success -> response.value.body()?.let { data ->
                     withContext(dispatcherProvider.io) {
