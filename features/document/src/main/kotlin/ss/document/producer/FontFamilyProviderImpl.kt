@@ -30,6 +30,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import app.ss.design.compose.theme.LatoFontFamily
 import com.slack.circuit.retained.produceRetainedState
+import io.adventech.blockkit.model.resource.ResourceFontAttributes
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import jakarta.inject.Inject
 import ss.resources.api.ResourcesRepository
@@ -46,16 +47,50 @@ internal class FontFamilyProviderImpl @Inject constructor(
                 .collect { model ->
                     value = model?.let {
                         val (file, attributes) = model
-                        FontFamily(
-                            Font(file, FontWeight.Normal),
-                            Font(file, FontWeight.Bold),
-                            Font(BlockkitR.font.lato_italic, FontWeight.Normal, FontStyle.Italic),
-                        )
+                        val (weight, style) = attributes.style()
+
+                        val fonts = buildList {
+                            add(Font(file, weight, style))
+                            if (attributes != ResourceFontAttributes.UNKNOWN) {
+                                if (style != FontStyle.Italic) {
+                                    add(Font(file, weight, FontStyle.Italic))
+                                }
+                                if (weight != FontWeight.Bold) {
+                                    Font(BlockkitR.font.lato_bold, FontWeight.Bold)
+                                }
+                            }
+                        }
+
+                        FontFamily(fonts)
                     }
                 }
         }
 
         return customFontFamily ?: LatoFontFamily
+    }
+
+    private fun ResourceFontAttributes.style(): Pair<FontWeight, FontStyle> {
+        return when (this) {
+            ResourceFontAttributes.UNKNOWN -> FontWeight.Normal to FontStyle.Normal
+            ResourceFontAttributes.THIN -> FontWeight.Thin to FontStyle.Normal
+            ResourceFontAttributes.LIGHT -> FontWeight.Light to FontStyle.Normal
+            ResourceFontAttributes.EXTRA_LIGHT -> FontWeight.ExtraLight to FontStyle.Normal
+            ResourceFontAttributes.REGULAR -> FontWeight.Normal to FontStyle.Normal
+            ResourceFontAttributes.MEDIUM -> FontWeight.Medium to FontStyle.Normal
+            ResourceFontAttributes.SEMI_BOLD -> FontWeight.SemiBold to FontStyle.Normal
+            ResourceFontAttributes.BOLD -> FontWeight.Bold to FontStyle.Normal
+            ResourceFontAttributes.EXTRA_BOLD -> FontWeight.ExtraBold to FontStyle.Normal
+            ResourceFontAttributes.BLACK -> FontWeight.Black to FontStyle.Normal
+            ResourceFontAttributes.THIN_ITALIC -> FontWeight.Thin to FontStyle.Italic
+            ResourceFontAttributes.LIGHT_ITALIC -> FontWeight.Light to FontStyle.Italic
+            ResourceFontAttributes.EXTRA_LIGHT_ITALIC -> FontWeight.ExtraLight to FontStyle.Italic
+            ResourceFontAttributes.REGULAR_ITALIC -> FontWeight.Normal to FontStyle.Italic
+            ResourceFontAttributes.MEDIUM_ITALIC -> FontWeight.Medium to FontStyle.Italic
+            ResourceFontAttributes.SEMI_BOLD_ITALIC -> FontWeight.SemiBold to FontStyle.Italic
+            ResourceFontAttributes.BOLD_ITALIC -> FontWeight.Bold to FontStyle.Italic
+            ResourceFontAttributes.EXTRA_BOLD_ITALIC -> FontWeight.ExtraBold to FontStyle.Italic
+            ResourceFontAttributes.BLACK_ITALIC -> FontWeight.Black to FontStyle.Italic
+        }
     }
 
 }
