@@ -31,6 +31,7 @@ import dagger.hilt.components.SingletonComponent
 import ss.libraries.storage.api.dao.AppWidgetDao
 import ss.libraries.storage.api.dao.AudioDao
 import ss.libraries.storage.api.dao.BibleVersionDao
+import ss.libraries.storage.api.dao.DocumentsDao
 import ss.libraries.storage.api.dao.FontFilesDao
 import ss.libraries.storage.api.dao.LanguagesDao
 import ss.libraries.storage.api.dao.LessonsDao
@@ -154,6 +155,12 @@ object StorageModule {
     fun provideUserInputDao(
         @ApplicationContext context: Context
     ): UserInputDao = context.database().userInputDao()
+
+    @Provides
+    @Singleton
+    fun provideDocumentsDao(
+        @ApplicationContext context: Context
+    ): DocumentsDao = context.database().documentsDao()
 }
 
 private fun Context.database(): SabbathSchoolDatabase = SabbathSchoolDatabase.getInstance(this)

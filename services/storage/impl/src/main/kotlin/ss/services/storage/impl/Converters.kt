@@ -37,10 +37,12 @@ import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dev.zacsweers.moshix.adapters.AdaptedBy
 import io.adventech.blockkit.model.BlockItem
+import io.adventech.blockkit.model.Style
 import io.adventech.blockkit.model.input.UserInput
 import io.adventech.blockkit.model.resource.Credit
 import io.adventech.blockkit.model.resource.Feature
 import io.adventech.blockkit.model.resource.PdfAux
+import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.VideoClipSegment
 import timber.log.Timber
 import java.lang.reflect.Type
@@ -108,6 +110,13 @@ internal object Converters {
     }
     private val userInputAdapter: JsonAdapter<UserInput> by lazy {
         moshi.adapter(UserInput::class.java)
+    }
+    private val segmentsAdapter: JsonAdapter<List<Segment>> by lazy {
+        val listDataType: Type = Types.newParameterizedType(List::class.java, Segment::class.java)
+        moshi.adapter(listDataType)
+    }
+    private val stylesAdapter: JsonAdapter<Style> by lazy {
+        moshi.adapter(Style::class.java)
     }
 
     @TypeConverter
@@ -237,4 +246,20 @@ internal object Converters {
 
     @TypeConverter
     fun fromUserInput(input: UserInput?): String? = userInputAdapter.toJson(input)
+
+    @TypeConverter
+    fun toSegments(value: String?): List<Segment>? = value?.let { jsonString ->
+        segmentsAdapter.fromJson(jsonString)
+    }
+
+    @TypeConverter
+    fun fromSegments(segments: List<Segment>?): String? = segmentsAdapter.toJson(segments)
+
+    @TypeConverter
+    fun toStyles(value: String?): Style? = value?.let { jsonString ->
+        stylesAdapter.fromJson(jsonString)
+    }
+
+    @TypeConverter
+    fun fromStyles(input: Style?): String? = stylesAdapter.toJson(input)
 }

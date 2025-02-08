@@ -31,6 +31,7 @@ import androidx.room.TypeConverters
 import ss.libraries.storage.api.dao.AppWidgetDao
 import ss.libraries.storage.api.dao.AudioDao
 import ss.libraries.storage.api.dao.BibleVersionDao
+import ss.libraries.storage.api.dao.DocumentsDao
 import ss.libraries.storage.api.dao.FontFilesDao
 import ss.libraries.storage.api.dao.LanguagesDao
 import ss.libraries.storage.api.dao.LessonsDao
@@ -48,6 +49,7 @@ import ss.libraries.storage.api.dao.VideoInfoDao
 import ss.libraries.storage.api.entity.AppWidgetEntity
 import ss.libraries.storage.api.entity.AudioFileEntity
 import ss.libraries.storage.api.entity.BibleVersionEntity
+import ss.libraries.storage.api.entity.DocumentEntity
 import ss.libraries.storage.api.entity.UserInputEntity
 import ss.libraries.storage.api.entity.FontFileEntity
 import ss.libraries.storage.api.entity.LanguageEntity
@@ -82,8 +84,9 @@ import ss.libraries.storage.api.entity.VideoInfoEntity
         FontFileEntity::class,
         SegmentEntity::class,
         UserInputEntity::class,
+        DocumentEntity::class,
     ],
-    version = 21,
+    version = 22,
     exportSchema = true,
     autoMigrations = [
         AutoMigration(from = 2, to = 3),
@@ -105,6 +108,7 @@ import ss.libraries.storage.api.entity.VideoInfoEntity
         AutoMigration(from = 18, to = 19),
         AutoMigration(from = 19, to = 20),
         AutoMigration(from = 20, to = 21),
+        AutoMigration(from = 21, to = 22),
     ]
 )
 @TypeConverters(Converters::class)
@@ -143,6 +147,8 @@ internal abstract class SabbathSchoolDatabase : RoomDatabase() {
     abstract fun segmentsDao(): SegmentsDao
 
     abstract fun userInputDao(): UserInputDao
+
+    abstract fun documentsDao(): DocumentsDao
 
     companion object {
         private const val DATABASE_NAME = "sabbath_school_db"
