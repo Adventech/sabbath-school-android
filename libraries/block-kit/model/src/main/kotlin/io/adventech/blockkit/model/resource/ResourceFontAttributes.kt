@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,13 +23,31 @@
 package io.adventech.blockkit.model.resource
 
 import androidx.annotation.Keep
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @Keep
-@JsonClass(generateAdapter = true)
-data class ResourceFont(
-    val name: String,
-    val weight: Int,
-    val src: String,
-    val attributes: ResourceFontAttributes,
-)
+@JsonClass(generateAdapter = false)
+enum class ResourceFontAttributes {
+    UNKNOWN,
+
+    @Json(name = "thin") THIN,
+    @Json(name = "light") LIGHT,
+    @Json(name = "extraLight") EXTRA_LIGHT,
+    @Json(name = "regular") REGULAR,
+    @Json(name = "medium") MEDIUM,
+    @Json(name = "semiBold") SEMI_BOLD,
+    @Json(name = "bold") BOLD,
+    @Json(name = "extraBold") EXTRA_BOLD,
+    @Json(name = "black") BLACK,
+
+    @Json(name = "thin-italic") THIN_ITALIC,
+    @Json(name = "light-italic") LIGHT_ITALIC,
+    @Json(name = "extraLight-italic") EXTRA_LIGHT_ITALIC,
+    @Json(name = "regular-italic") REGULAR_ITALIC,
+    @Json(name = "medium-italic") MEDIUM_ITALIC,
+    @Json(name = "semiBold-italic") SEMI_BOLD_ITALIC,
+    @Json(name = "bold-italic") BOLD_ITALIC,
+    @Json(name = "extraBold-italic") EXTRA_BOLD_ITALIC,
+    @Json(name = "black-italic") BLACK_ITALIC
+}
