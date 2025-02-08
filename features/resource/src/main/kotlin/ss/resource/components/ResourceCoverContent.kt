@@ -46,6 +46,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.theme.SsTheme
@@ -84,8 +85,9 @@ internal fun ColumnScope.CoverContent(
         }
     }
 
+    val styleTemplate = ResourceStyleTemplate
     val descriptionStyle = resource.style?.resource?.description?.text
-    val descriptionColor = descriptionStyle?.color?.let { Color.parse(it) } ?: Color.White
+    val descriptionColor = Styler.textColor(descriptionStyle, styleTemplate)
 
     val description: @Composable () -> Unit = {
         resource.description?.let {
@@ -157,14 +159,18 @@ internal fun ColumnScope.CoverContent(
         }
     }
 
-    val styleTemplate = ResourceStyleTemplate()
     val style = resource.style?.resource?.title?.text
+    val titleColor = Styler.textColor(style, styleTemplate)
+    val titleStyle = style?.let { Styler.textStyle(style, styleTemplate).copy(
+        lineHeight = 1.8.em,
+    ) } ?: SsTheme.typography.titleLarge
     MarkdownText(
         markdownText = resource.markdownTitle ?: resource.title,
-        style = SsTheme.typography.titleLarge.copy(
+        style = titleStyle.copy(
             fontSize = 30.sp,
+            color = titleColor
         ),
-        color = Styler.textColor(style, styleTemplate),
+        color = titleColor,
         textAlign = Styler.textAlign(style) ?: textAlign,
         styleTemplate = styleTemplate,
         maxLines = 3,
@@ -175,10 +181,9 @@ internal fun ColumnScope.CoverContent(
             .padding(top = paddingTop, bottom = 8.dp)
     )
 
-    resource.markdownSubtitle?.let {
-        val subtitleStyle = resource.style?.resource?.subtitle?.text
-        val subtitleColor = subtitleStyle?.color?.let { Color.parse(it) } ?: SsColors.White70
-
+    val subtitleStyle = resource.style?.resource?.subtitle?.text
+    val subtitleColor = subtitleStyle?.color?.let { Color.parse(it) } ?: SsColors.White70
+    resource.markdownSubtitle ?: resource.subtitle?.let {
         MarkdownText(
             markdownText = it,
             style = Styler.textStyle(subtitleStyle, styleTemplate).copy(
@@ -191,25 +196,8 @@ internal fun ColumnScope.CoverContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = SsTheme.dimens.grid_4)
-                .padding(top = 4.dp, bottom = 16.dp)
+                .padding(top = 4.dp, bottom = 8.dp)
         )
-    }
-
-    if (resource.markdownSubtitle == null) {
-        resource.subtitle?.let {
-            Text(
-                text = it,
-                style = SsTheme.typography.titleSmall.copy(
-                    fontSize = 16.sp
-                ),
-                color = SsColors.White70,
-                textAlign = textAlign,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = SsTheme.dimens.grid_4)
-                    .padding(top = 8.dp, bottom = 16.dp)
-            )
-        }
     }
 
     if (type == CoverContentType.SECONDARY_LARGE) {
