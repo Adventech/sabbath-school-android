@@ -32,11 +32,9 @@ import androidx.media3.session.SessionCommand
 import androidx.media3.session.SessionResult
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
-import timber.log.Timber
 import app.ss.translations.R as L10nR
 import ss.libraries.media.resources.R as MediaR
 
-private const val LOG_TAG = "CustomMediaLibrarySessionCallback"
 private const val CUSTOM_COMMAND_REWIND = "REWIND"
 private const val CUSTOM_COMMAND_FORWARD = "FORWARD"
 
@@ -54,7 +52,6 @@ internal class CustomMediaSessionCallback(
 
     @OptIn(UnstableApi::class)
     override fun onConnect(session: MediaSession, controller: MediaSession.ControllerInfo): MediaSession.ConnectionResult {
-        Timber.tag(LOG_TAG).i("onConnect: $session, $controller")
         val availableSessionCommands =
             MediaSession.ConnectionResult.DEFAULT_SESSION_AND_LIBRARY_COMMANDS.buildUpon()
         for (commandButton in customCommands) {
@@ -72,8 +69,6 @@ internal class CustomMediaSessionCallback(
         customCommand: SessionCommand,
         args: Bundle
     ): ListenableFuture<SessionResult> {
-        Timber.tag(LOG_TAG).i("onCustomCommand: $session, $args")
-
         when (customCommand.customAction) {
             "$id-$CUSTOM_COMMAND_REWIND" -> session.player.seekBack()
             "$id-$CUSTOM_COMMAND_FORWARD" -> session.player.seekForward()
