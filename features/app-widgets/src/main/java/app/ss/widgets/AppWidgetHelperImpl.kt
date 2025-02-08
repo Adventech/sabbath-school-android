@@ -118,32 +118,29 @@ class AppWidgetHelperImpl @Inject constructor(
             updateWidgets()
 
             quarterliesRepository.getQuarterlyInfo(index).onSuccess { quarterlyInfo ->
-                // Only sync the latest quarterly
-                if (isNowInRange(quarterlyInfo.quarterly.start_date, quarterlyInfo.quarterly.end_date)) {
-                    val lesson = quarterlyInfo.lessons.firstOrNull { it.isCurrent() } ?: return@launch
-                    val lessonIndex = lesson.index
-                    val lessonPath = lesson.path
-                    lessonsRepository.getLessonInfoResult(lessonIndex, lessonPath).onSuccess { info ->
-                        val (lesson, days, _) = info
+                val lesson = quarterlyInfo.lessons.firstOrNull { it.isCurrent() } ?: return@launch
+                val lessonIndex = lesson.index
+                val lessonPath = lesson.path
+                lessonsRepository.getLessonInfoResult(lessonIndex, lessonPath).onSuccess { info ->
+                    val (lesson, days, _) = info
 
-                        val entity = AppWidgetEntity(
-                            quarterlyIndex = index,
-                            cover = quarterlyInfo.quarterly.cover,
-                            title = quarterlyInfo.quarterly.title,
-                            description = lesson.title,
-                            days = days.mapIndexed { index, day ->
-                                AppWidgetDay(
-                                    lessonIndex = lesson.index,
-                                    dayIndex = index,
-                                    title = day.title,
-                                    date = day.date,
-                                    image = lesson.cover,
-                                )
-                            }
-                        )
+                    val entity = AppWidgetEntity(
+                        quarterlyIndex = index,
+                        cover = quarterlyInfo.quarterly.cover,
+                        title = quarterlyInfo.quarterly.title,
+                        description = lesson.title,
+                        days = days.mapIndexed { index, day ->
+                            AppWidgetDay(
+                                lessonIndex = lesson.index,
+                                dayIndex = index,
+                                title = day.title,
+                                date = day.date,
+                                image = lesson.cover,
+                            )
+                        }
+                    )
 
-                        appWidgetDao.insertItem(entity)
-                    }
+                    appWidgetDao.insertItem(entity)
                 }
             }
         }

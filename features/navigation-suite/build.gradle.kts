@@ -54,6 +54,7 @@ dependencies {
     implementation(projects.libraries.prefs.api)
     implementation(projects.services.resources.api)
 
+    implementation(libs.joda.android)
     implementation(libs.google.hilt.android)
     implementation(libs.material3.adaptive.navigation.suite)
     implementation(libs.timber)
