@@ -77,6 +77,7 @@ class DownloadResourceWork @AssistedInject constructor(
                             FontFileEntity(
                                 fileName = fileName,
                                 name = font.name,
+                                attributes = font.attributes,
                             )
                         )
                     }

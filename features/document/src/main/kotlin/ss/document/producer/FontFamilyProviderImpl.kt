@@ -43,11 +43,12 @@ internal class FontFamilyProviderImpl @Inject constructor(
     override fun invoke(name: String): FontFamily {
         val customFontFamily by produceRetainedState<FontFamily?>(null) {
             repository.fontFile(name)
-                .collect { file ->
-                    value = file?.let {
+                .collect { model ->
+                    value = model?.let {
+                        val (file, attributes) = model
                         FontFamily(
-                            Font(it, FontWeight.Normal),
-                            Font(it, FontWeight.Bold),
+                            Font(file, FontWeight.Normal),
+                            Font(file, FontWeight.Bold),
                             Font(BlockkitR.font.lato_italic, FontWeight.Normal, FontStyle.Italic),
                         )
                     }
