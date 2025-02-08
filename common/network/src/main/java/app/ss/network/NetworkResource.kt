@@ -29,6 +29,7 @@ sealed class NetworkResource<out T> {
     data class Failure(
         val isNetworkError: Boolean,
         val errorCode: Int? = null,
-        val errorBody: ResponseBody? = null
+        val errorBody: ResponseBody? = null,
+        val throwable: Throwable? = null
     ) : NetworkResource<Nothing>()
 }
