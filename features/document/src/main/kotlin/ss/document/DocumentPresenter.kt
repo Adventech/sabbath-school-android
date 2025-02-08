@@ -185,7 +185,8 @@ class DocumentPresenter @AssistedInject constructor(
     private fun ImmutableList<Segment>.defaultPage(): Segment? {
         forEachIndexed { index, segment ->
             val date = segment.date?.let { DateHelper.parseDate(it) }
-            if (date?.isEqual(today) == true && index < 6) {
+
+            if (date?.isEqual(today) == true) {
                 return segment
             }
         }
