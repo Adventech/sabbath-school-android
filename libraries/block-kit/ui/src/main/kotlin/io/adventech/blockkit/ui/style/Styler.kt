@@ -40,8 +40,11 @@ import io.adventech.blockkit.model.SegmentStyle
 import io.adventech.blockkit.model.SpacingStyle
 import io.adventech.blockkit.model.TextStyleAlignment
 import io.adventech.blockkit.ui.color.Gray100
+import io.adventech.blockkit.ui.color.Gray300
+import io.adventech.blockkit.ui.color.Primary800
 import io.adventech.blockkit.ui.color.Primary950
 import io.adventech.blockkit.ui.color.Sepia300
+import io.adventech.blockkit.ui.color.Sepia400
 import io.adventech.blockkit.ui.color.parse
 import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
 import io.adventech.blockkit.model.TextStyle as BlockTextStyle
@@ -163,12 +166,7 @@ object Styler {
         val light = Color.Gray100
         val sepia = Color.Sepia300
         val dark = Color.Primary950
-        return when (theme) {
-            ReaderStyle.Theme.Light -> light
-            ReaderStyle.Theme.Dark -> dark
-            ReaderStyle.Theme.Auto -> if (isSystemInDarkTheme()) dark else light
-            ReaderStyle.Theme.Sepia -> sepia
-        }
+        return themedColor(light, sepia, dark, theme)
     }
 
     @Composable
@@ -179,6 +177,27 @@ object Styler {
         val sepia = Color(0xFF5b4636)
         val dark = Color.White
 
+        return themedColor(light, sepia, dark, theme)
+    }
+
+    fun roundedShape() = RoundedCornerShape(6.dp)
+
+    @Composable
+    fun borderColor(): Color {
+        val light = Color.Gray300
+        val sepia = Color.Sepia400
+        val dark = Color.Primary800
+
+        return themedColor(light, sepia, dark)
+    }
+
+    @Composable
+    fun themedColor(
+        light: Color,
+        sepia: Color,
+        dark: Color,
+        theme: ReaderStyle.Theme = LocalReaderStyle.current.theme,
+    ): Color {
         return when (theme) {
             ReaderStyle.Theme.Light -> light
             ReaderStyle.Theme.Dark -> dark
@@ -186,8 +205,6 @@ object Styler {
             ReaderStyle.Theme.Sepia -> sepia
         }
     }
-
-    fun roundedShape() = RoundedCornerShape(6.dp)
 }
 
 
