@@ -62,7 +62,6 @@ dependencies {
     implementation(projects.common.core)
     implementation(projects.common.design)
     implementation(projects.common.designCompose)
-    implementation(projects.common.lessonsData)
     implementation(projects.common.misc)
     implementation(projects.common.translations)
     implementation(projects.features.media)

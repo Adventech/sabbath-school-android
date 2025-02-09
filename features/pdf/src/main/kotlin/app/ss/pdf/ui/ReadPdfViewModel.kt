@@ -25,7 +25,6 @@ package app.ss.pdf.ui
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.models.media.MediaAvailability
 import com.pspdfkit.annotations.Annotation
 import com.pspdfkit.document.PdfDocument
@@ -37,7 +36,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
@@ -55,7 +53,6 @@ import javax.inject.Inject
 @HiltViewModel
 class ReadPdfViewModel @Inject constructor(
     private val pdfReader: PdfReader,
-    private val mediaRepository: MediaRepository,
     private val resourcesRepository: ResourcesRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -90,20 +87,18 @@ class ReadPdfViewModel @Inject constructor(
             .stateIn(viewModelScope, emptyMap<Int, List<PDFAuxAnnotations>>())
 
     init {
-        //            checkMediaAvailability(lessonIndex)
+        checkMediaAvailability()
         downloadFiles()
     }
 
-    private fun checkMediaAvailability(lessonIndex: String) {
+    private fun checkMediaAvailability() {
+        val screen = savedStateHandle.screen ?: return
+        val (_, resourceIndex, documentIndex, _) = screen
         viewModelScope.launch {
-            // Read media availability from Resource repository
-            combine(mediaRepository.getAudio(lessonIndex), mediaRepository.getVideo(lessonIndex)) { audio, video ->
-                audio.isNotEmpty() to video.isNotEmpty()
-            }
-                .catch { Timber.e(it) }
-                .collect { (audioAvailable, videoAvailable) ->
-                    mediaAvailability.update { MediaAvailability(audioAvailable, videoAvailable) }
-                }
+            val audioAvailable = resourcesRepository.audio(resourceIndex, documentIndex).getOrNull().orEmpty().isNotEmpty()
+            val videoAvailable = resourcesRepository.video(resourceIndex, documentIndex).getOrNull().orEmpty().isNotEmpty()
+
+            mediaAvailability.update { MediaAvailability(audioAvailable, videoAvailable) }
         }
     }
 
