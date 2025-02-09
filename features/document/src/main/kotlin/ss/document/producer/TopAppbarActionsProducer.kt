@@ -150,7 +150,8 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
                             }
                             DocumentTopAppBarAction.Pdf -> {
                                 val screen = PdfScreen(
-                                    pdfs.map {
+                                    documentId = documentId,
+                                    pdfs = pdfs.map {
                                         PDFAux(
                                             id = it.id,
                                             src = it.src,
@@ -158,7 +159,7 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
                                             target = it.target,
                                             targetIndex = it.targetIndex,
                                         )
-                                    }
+                                    },
                                 )
                                 navigator.goTo(IntentScreen(pdfReader.launchIntent(screen)))
                             }

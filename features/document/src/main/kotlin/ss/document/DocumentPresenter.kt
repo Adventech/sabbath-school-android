@@ -209,14 +209,16 @@ class DocumentPresenter @AssistedInject constructor(
     }
 
     private fun checkPdfOnlySegment(resourceDocument: ResourceDocument?) {
-        val segments = resourceDocument?.segments ?: return
+        val document = resourceDocument ?: return
+        val segments = document.segments ?: return
         val blocks = segments.flatMap { it.blocks.orEmpty() }
         val pdfs = segments.flatMap { it.pdf.orEmpty() }
 
         if (blocks.isEmpty() && pdfs.isNotEmpty()) {
             val pdfs = segments.flatMap { it.pdf.orEmpty() }
             val screen = PdfScreen(
-                pdfs.map {
+                documentId = document.id,
+                pdfs = pdfs.map {
                     PDFAux(
                         id = it.id,
                         src = it.src,
@@ -224,7 +226,7 @@ class DocumentPresenter @AssistedInject constructor(
                         target = it.target,
                         targetIndex = it.targetIndex,
                     )
-                }
+                },
             )
             Snapshot.withMutableSnapshot {
                 navigator.pop()

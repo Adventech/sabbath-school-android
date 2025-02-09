@@ -28,5 +28,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class PdfScreen(
+    val documentId: String,
     val pdfs: List<PDFAux>,
 ): Screen
