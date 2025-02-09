@@ -30,15 +30,19 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import io.adventech.blockkit.ui.color.Gray300
 import io.adventech.blockkit.ui.color.Primary
 import io.adventech.blockkit.ui.color.Primary100
+import io.adventech.blockkit.ui.style.LocalReaderStyle
+import io.adventech.blockkit.ui.style.ReaderStyleConfig
 
 @Composable
 internal fun BlocksPreviewTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    theme: ReaderStyleConfig = ReaderStyleConfig(),
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -51,10 +55,12 @@ internal fun BlocksPreviewTheme(
         else -> LightColorScheme
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        content = content,
-    )
+    CompositionLocalProvider(LocalReaderStyle provides theme) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            content = content,
+        )
+    }
 }
 
 private val DarkColorScheme = darkColorScheme(

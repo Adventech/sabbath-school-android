@@ -61,8 +61,16 @@ fun BlockContent(
                 onHandleUri(it, blockItem.data)
             }
         }
-        is BlockItem.Checklist -> Unit
-        is BlockItem.ChecklistItem -> Unit
+        is BlockItem.Checklist -> {
+            ChecklistContent(blockItem, blockModifier, userInputState) {
+                onHandleUri(it, blockItem.data)
+            }
+        }
+        is BlockItem.ChecklistItem -> {
+            ChecklistItemContent(blockItem, blockModifier) {
+                onHandleUri(it, blockItem.data)
+            }
+        }
         is BlockItem.Collapse -> {
             CollapseContent(blockItem, blockModifier, userInputState, onHandleUri)
         }
