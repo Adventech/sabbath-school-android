@@ -40,6 +40,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -58,6 +59,7 @@ import io.adventech.blockkit.model.input.UserInput
 import io.adventech.blockkit.model.input.UserInputRequest
 import io.adventech.blockkit.ui.color.Sepia100
 import io.adventech.blockkit.ui.input.UserInputState
+import io.adventech.blockkit.ui.input.find
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.ReaderStyle
 import io.adventech.blockkit.ui.style.Styler
@@ -70,9 +72,9 @@ internal fun QuestionContent(
     inputState: UserInputState? = null,
     onHandleUri: (String) -> Unit = {}
 ) {
-    val input = inputState?.input?.firstOrNull {
-        it.blockId == blockItem.id && it is UserInput.Question
-    } as? UserInput.Question
+    val input by remember(inputState) {
+        mutableStateOf<UserInput.Question?>(inputState?.find(blockItem.id))
+    }
 
     var textFieldValue by rememberSaveable(input, stateSaver = TextFieldValue.Saver) {
         val content = input?.answer ?: ""

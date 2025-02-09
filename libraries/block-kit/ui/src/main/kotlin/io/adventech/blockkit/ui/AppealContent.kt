@@ -45,6 +45,7 @@ import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.input.UserInput
 import io.adventech.blockkit.model.input.UserInputRequest
 import io.adventech.blockkit.ui.input.UserInputState
+import io.adventech.blockkit.ui.input.find
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.background
@@ -62,8 +63,10 @@ internal fun AppealContent(
     val theme = LocalReaderStyle.current.theme
     val containerColor = theme.secondaryBackground()
     val textColor = theme.secondaryForeground()
-    val userInput = rememberUserInput(blockItem.id, userInputState)
-    var isChecked by remember(userInput) { mutableStateOf(userInput.appeal) }
+    val userInput by remember(userInputState) {
+        mutableStateOf<UserInput.Appeal?>(userInputState?.find(blockItem.id))
+    }
+    var isChecked by remember(userInput) { mutableStateOf(userInput?.appeal == true) }
 
     ElevatedCard(
         modifier = modifier.fillMaxWidth(),
@@ -110,21 +113,6 @@ internal fun AppealContent(
         }
     }
 
-}
-
-@Composable
-private fun rememberUserInput(
-    blockId: String,
-    userInputState: UserInputState?,
-) = remember(blockId, userInputState) {
-    userInputState?.input?.firstOrNull {
-        it.blockId == blockId && it is UserInput.Appeal
-    } as? UserInput.Appeal ?: UserInput.Appeal(
-        blockId = blockId,
-        id = "",
-        timestamp = 0,
-        appeal = false,
-    )
 }
 
 @PreviewLightDark

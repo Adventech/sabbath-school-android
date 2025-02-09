@@ -23,7 +23,6 @@
 package io.adventech.blockkit.ui.input
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import io.adventech.blockkit.model.input.UserInput
 import kotlinx.collections.immutable.persistentListOf
@@ -44,13 +43,7 @@ internal fun rememberContentHighlights(
     blockId: String,
     userInputState: UserInputState?,
 ) = remember(blockId, userInputState) {
-    derivedStateOf {
-        userInputState?.input
-            ?.asSequence()
-            ?.filterIsInstance<UserInput.Highlights>()
-            ?.filter { it.blockId == blockId }
-            ?.flatMap { it.highlights }
-            ?.toImmutableList()
-            ?: persistentListOf()
-    }.value
+    userInputState?.find<UserInput.Highlights>(blockId)
+        ?.highlights
+        ?.toImmutableList() ?: persistentListOf()
 }

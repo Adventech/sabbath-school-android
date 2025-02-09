@@ -43,6 +43,7 @@ import io.adventech.blockkit.model.input.UserInputRequest
 import io.adventech.blockkit.ui.input.MarkdownTextInput
 import io.adventech.blockkit.ui.input.SelectionBlockContainer
 import io.adventech.blockkit.ui.input.UserInputState
+import io.adventech.blockkit.ui.input.find
 import io.adventech.blockkit.ui.input.rememberContentHighlights
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
@@ -114,7 +115,7 @@ private fun SelectableParagraph(
             textFieldValue = textFieldValue?.copy(
                 selection = TextRange.Zero,
             )
-            val input = inputState?.input?.firstOrNull { it.blockId == blockItem.id && it is UserInput.Highlights } as? UserInput.Highlights
+            val input: UserInput.Highlights? = inputState?.find(blockItem.id)
             val highlights = input?.highlights.orEmpty() + highlight
             val request = UserInputRequest.Highlights(
                 blockId = blockItem.id,
@@ -126,7 +127,7 @@ private fun SelectableParagraph(
         onRemoveHighlight = {
             // Remove any highlight who's startIndex and endIndex are in the range of the current selection
             val selection = currentSelection ?: return@SelectionBlockContainer
-            val input = inputState?.input?.firstOrNull { it.blockId == blockItem.id && it is UserInput.Highlights } as? UserInput.Highlights
+            val input: UserInput.Highlights? = inputState?.find(blockItem.id)
             val highlights = removeHighlightsInRange(input?.highlights.orEmpty(), selection)
             val request = UserInputRequest.Highlights(
                 blockId = blockItem.id,
