@@ -25,6 +25,7 @@ package io.adventech.blockkit.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -44,13 +45,28 @@ internal fun BlockListContent(
 ) {
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
         blockItem.items.forEach { item ->
-            BlockContent(
-                blockItem = item,
-                nested = true,
-                parent = blockItem,
-                userInputState = userInputState,
-                onHandleUri = onHandleUri,
-            )
+            when (item) {
+                is BlockItem.BlockListItem -> {
+                    BlockListItemContent(
+                        blockItem = item,
+                        modifier = Modifier,
+                        bullet = blockItem.bullet,
+                        ordered = blockItem.ordered,
+                        start = blockItem.start,
+                        userInputState = userInputState,
+                        onHandleUri = onHandleUri,
+                    )
+                }
+                is BlockItem.BlockList -> {
+                    BlockListContent(
+                        blockItem = item,
+                        modifier = modifier,
+                        userInputState = userInputState,
+                        onHandleUri = onHandleUri,
+                    )
+                }
+                else -> Unit
+            }
         }
     }
 }
@@ -60,8 +76,10 @@ internal fun BlockListItemContent(
     blockItem: BlockItem.BlockListItem,
     modifier: Modifier = Modifier,
     bullet: String = "",
+    ordered: Boolean? = null,
+    start: Int? = null,
     userInputState: UserInputState? = null,
-    onHandleUri: (String) -> Unit = {},
+    onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
 ) {
     val blockStyle = blockItem.style?.text
     val color = Styler.textColor(blockStyle)
@@ -82,17 +100,32 @@ internal fun BlockListItemContent(
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Text(
-            text = bullet,
+            text = listItemBullet(ordered, start, blockItem.index, bullet),
             color = color,
             style = style,
         )
+
+        Spacer(Modifier)
 
         ParagraphContent(
             blockItem = paragraphBlock,
             modifier = Modifier.weight(1f),
             parent = blockItem,
             inputState = userInputState,
-            onHandleUri = onHandleUri,
+            onHandleUri = {
+                onHandleUri(it, blockItem.data)
+            },
         )
     }
+}
+
+private fun listItemBullet(
+    ordered: Boolean?,
+    start: Int?,
+    index: Int?,
+    bullet: String
+): String = when {
+    ordered == true && start != null && index != null -> "${start + index}."
+    ordered == false -> bullet
+    else -> bullet
 }

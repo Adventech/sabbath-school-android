@@ -57,9 +57,7 @@ fun BlockContent(
             BlockListContent(blockItem, blockModifier, userInputState, onHandleUri)
         }
         is BlockItem.BlockListItem -> {
-            BlockListItemContent(blockItem, blockModifier, (parent as? BlockItem.BlockList)?.bullet ?: "", userInputState) {
-                onHandleUri(it, blockItem.data)
-            }
+            BlockListItemContent(blockItem, blockModifier, onHandleUri = onHandleUri)
         }
         is BlockItem.Checklist -> {
             ChecklistContent(blockItem, blockModifier, userInputState) {
