@@ -138,8 +138,7 @@ fun ChecklistItemContent(
         Box(
             modifier = Modifier
                 .fillMaxHeight()
-                .background(checkmarkBackgroundColor())
-                .padding(8.dp),
+                .background(checkmarkBackgroundColor()),
             contentAlignment = Alignment.Center,
         ) {
             RadioButton(
@@ -149,7 +148,8 @@ fun ChecklistItemContent(
                     onCheckedChange(blockItem.index, isChecked)
                 },
                 colors = RadioButtonDefaults.colors(
-                    selectedColor = checkMarkColor()
+                    selectedColor = checkMarkColor(),
+                    unselectedColor = Styler.borderColor(),
                 )
             )
         }
@@ -165,7 +165,7 @@ fun ChecklistItemContent(
             markdownText = blockItem.markdown,
             modifier = Modifier
                 .weight(1f)
-                .padding(8.dp),
+                .padding(horizontal = 12.dp, vertical = 6.dp),
             style = style,
             onHandleUri = onHandleUri,
         )
