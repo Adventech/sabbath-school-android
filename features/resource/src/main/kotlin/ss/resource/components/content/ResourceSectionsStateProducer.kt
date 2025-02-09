@@ -78,8 +78,6 @@ internal class ResourceSectionsStateProducerImpl @Inject constructor(
                         id = document.id,
                         index = document.index,
                         cover = document.cover,
-                        resourceIndex = resource.index,
-                        resourceId = resource.id
                     )
                     navigator.goTo(screen)
                 }

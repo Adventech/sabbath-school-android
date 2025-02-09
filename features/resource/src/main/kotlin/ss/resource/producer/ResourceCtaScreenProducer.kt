@@ -83,8 +83,6 @@ internal class ResourceCtaScreenProducerImpl @Inject constructor(
                         id = document.id,
                         index = document.index,
                         cover = document.cover,
-                        resourceIndex = resource.index,
-                        resourceId = resource.id
                     )
                 }
             }
@@ -99,8 +97,6 @@ internal class ResourceCtaScreenProducerImpl @Inject constructor(
                     id = document.id,
                     index = document.index,
                     cover = document.cover,
-                    resourceIndex = resource.index,
-                    resourceId = resource.id
                 )
             }
         }

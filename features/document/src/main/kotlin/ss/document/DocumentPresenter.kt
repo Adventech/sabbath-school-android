@@ -52,11 +52,13 @@ import org.joda.time.DateTime
 import ss.document.components.DocumentTopAppBarAction
 import ss.document.producer.ReaderStyleStateProducer
 import ss.document.producer.TopAppbarActionsProducer
+import ss.document.producer.TopAppbarActionsState
 import ss.document.producer.UserInputStateProducer
 import ss.document.segment.producer.SegmentOverlayStateProducer
 import ss.libraries.circuit.navigation.DocumentScreen
 import ss.libraries.circuit.navigation.ExpandedAudioPlayerScreen
 import ss.libraries.circuit.navigation.PdfScreen
+import ss.libraries.circuit.navigation.ResourceScreen
 import ss.libraries.pdf.api.PdfReader
 import ss.misc.DateHelper
 import ss.resources.api.ResourcesRepository
@@ -88,14 +90,16 @@ class DocumentPresenter @AssistedInject constructor(
 
         LaunchedEffect(resourceDocument) { checkPdfOnlySegment(resourceDocument) }
 
-        val actionsState = actionsProducer(
-            navigator = navigator,
-            resourceId = screen.resourceId,
-            resourceIndex = screen.resourceIndex,
-            documentIndex = screen.index,
-            documentId = resourceDocument?.id,
-            segment = selectedPage,
-        )
+        val actionsState = resourceDocument?.let {
+            actionsProducer(
+                navigator = navigator,
+                resourceId = it.resourceId,
+                resourceIndex = it.resourceIndex,
+                documentIndex = screen.index,
+                documentId = resourceDocument.id,
+                segment = selectedPage,
+            )
+        } ?: TopAppbarActionsState.Empty
 
         val actionsOverlayState = actionsState.overlayState
         val segmentOverlayState = segmentOverlayStateProducer(navigator)
@@ -147,6 +151,10 @@ class DocumentPresenter @AssistedInject constructor(
                             documentIndex = resourceDocument.index,
                         )
                         sendSegmentOverlayEvent(segmentOverlayState, event)
+                    } else if (document != null && scope == ReferenceScope.DOCUMENT) {
+                        navigator.goTo(DocumentScreen(document.id, document.index, document.cover))
+                    } else if (resource != null && scope == ReferenceScope.RESOURCE) {
+                        navigator.goTo(ResourceScreen(resource.index))
                     }
                 }
             }

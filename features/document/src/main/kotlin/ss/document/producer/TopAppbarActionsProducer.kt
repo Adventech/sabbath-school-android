@@ -38,6 +38,7 @@ import com.slack.circuitx.android.IntentScreen
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.SegmentType
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import ss.document.DocumentOverlayState
 import ss.document.DocumentOverlayState.BottomSheet
@@ -59,6 +60,14 @@ data class TopAppbarActionsState(
     sealed interface Event {
         data class OnActionClick(val action: DocumentTopAppBarAction) : Event
     }
+
+    companion object {
+        val Empty = TopAppbarActionsState(
+            actions = persistentListOf(),
+            overlayState = null,
+            eventSink = {}
+        )
+    }
 }
 
 @Stable
@@ -70,7 +79,7 @@ interface TopAppbarActionsProducer {
         resourceId: String,
         resourceIndex: String,
         documentIndex: String,
-        documentId: String?,
+        documentId: String,
         segment: Segment?
     ): TopAppbarActionsState
 }
@@ -86,7 +95,7 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
         resourceId: String,
         resourceIndex: String,
         documentIndex: String,
-        documentId: String?,
+        documentId: String,
         segment: Segment?
     ): TopAppbarActionsState {
         var bottomSheetState by rememberRetained { mutableStateOf<DocumentOverlayState?>(null) }
