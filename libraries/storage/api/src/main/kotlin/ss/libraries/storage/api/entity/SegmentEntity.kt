@@ -25,6 +25,7 @@ package ss.libraries.storage.api.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import io.adventech.blockkit.model.BlockItem
+import io.adventech.blockkit.model.Style
 import io.adventech.blockkit.model.resource.PdfAux
 import io.adventech.blockkit.model.resource.SegmentType
 import io.adventech.blockkit.model.resource.VideoClipSegment
@@ -47,4 +48,5 @@ data class SegmentEntity(
     val background: String?,
     val pdf: List<PdfAux>?,
     val video: List<VideoClipSegment>?,
+    val style: Style?,
 )

@@ -72,7 +72,7 @@ class HiddenSegmentPresenter @AssistedInject constructor(
                 subtitle = segment.subtitle,
                 date = segment.date,
                 blocks = segment.blocks.orEmpty().toImmutableList(),
-                style = document?.style,
+                style = segment.style,
                 fontFamilyProvider = fontFamilyProvider,
                 overlayState = segmentOverlayState,
                 userInputState = userInputState,

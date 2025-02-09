@@ -47,7 +47,6 @@ import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.ui.BlockContent
 import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.style.LocalReaderStyle
-import io.adventech.blockkit.ui.style.LocalSegmentStyle
 import io.adventech.blockkit.ui.style.background
 import io.adventech.blockkit.ui.style.primaryForeground
 import ss.document.segment.components.SegmentCover
@@ -85,29 +84,29 @@ internal fun SegmentBlocksContent(
             SegmentCover(
                 cover = segment.cover,
                 headerContent = {
-                    if (titleBelowCover == false) {
+                    if ((segment.titleBelowCover ?: titleBelowCover) == false) {
                         SegmentHeader(
-                            title = segment.title,
+                            title = segment.markdownTitle ?: segment.title,
                             subtitle = segment.subtitle,
                             date = segment.date,
                             contentColor = if (segment.cover != null) Color.White else contentColor,
-                            style = LocalSegmentStyle.current.takeIf { segment.cover == null },
-                            modifier = Modifier.fillMaxWidth()
+                            style = segment.style?.segment.takeIf { segment.cover == null },
+                            modifier = Modifier.fillMaxWidth(),
                         )
                     }
                 }
             )
         }
 
-        if (titleBelowCover) {
+        if ((segment.titleBelowCover ?: titleBelowCover)) {
             item {
                 SegmentHeader(
-                    title = segment.title,
+                    title = segment.markdownTitle ?: segment.title,
                     subtitle = segment.subtitle,
                     date = segment.date,
                     contentColor = contentColor,
-                    style = LocalSegmentStyle.current,
-                    modifier = Modifier.fillMaxWidth()
+                    style = segment.style?.segment,
+                    modifier = Modifier.fillMaxWidth(),
                 )
             }
         }

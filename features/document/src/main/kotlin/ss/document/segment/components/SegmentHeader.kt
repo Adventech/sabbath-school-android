@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.design.compose.theme.SsTheme
 import io.adventech.blockkit.model.SegmentStyle
+import io.adventech.blockkit.ui.MarkdownText
 import io.adventech.blockkit.ui.style.Styler
 import ss.misc.DateHelper
 
@@ -83,13 +84,15 @@ internal fun SegmentHeader(
             )
         }
 
-        Text(
-            text = title,
+        MarkdownText(
+            markdownText = title,
             modifier = Modifier.fillMaxWidth(),
             style = (style?.title?.text?.let {
-                Styler.textStyle(it)
+                Styler.textStyle(it).copy(
+                    fontSize = 30.sp
+                )
             } ?: SsTheme.typography.titleLarge).copy(
-                fontSize = 26.sp
+                fontSize = 30.sp
             ),
             color = style?.title?.text?.color?.let { Styler.textColor(style.title?.text) } ?: contentColor,
             maxLines = 3,
