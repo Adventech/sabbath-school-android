@@ -89,7 +89,7 @@ internal class PdfReaderImpl @Inject constructor(
             .setEnabledShareFeatures(EnumSet.noneOf(ShareFeatures::class.java))
             .setThumbnailBarMode(ThumbnailBarMode.THUMBNAIL_BAR_MODE_NONE)
             .setSettingsMenuItems(EnumSet.allOf(SettingsMenuItemType::class.java))
-            .setTabBarHidingMode(TabBarHidingMode.HIDE)
+            .setTabBarHidingMode(TabBarHidingMode.AUTOMATIC)
             .scrollMode(readerPrefs.scrollMode())
             .scrollDirection(readerPrefs.scrollDirection())
             .layoutMode(readerPrefs.pageLayoutMode())
