@@ -54,7 +54,7 @@ fun BlockContent(
             AudioContent(blockItem, blockModifier)
         }
         is BlockItem.BlockList -> {
-            BlockListContent(blockItem, blockModifier, userInputState, onHandleUri)
+            BlockListContent(blockItem, blockModifier, userInputState, onHandleUri, onHandleReference)
         }
         is BlockItem.BlockListItem -> {
             BlockListItemContent(blockItem, blockModifier, onHandleUri = onHandleUri)

@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -33,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.BlockItem
+import io.adventech.blockkit.model.resource.ReferenceModel
 import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.style.Styler
 
@@ -42,6 +44,7 @@ internal fun BlockListContent(
     modifier: Modifier = Modifier,
     userInputState: UserInputState? = null,
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
+    onHandleReference: (ReferenceModel) -> Unit = { _ -> }
 ) {
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
         blockItem.items.forEach { item ->
@@ -57,15 +60,16 @@ internal fun BlockListContent(
                         onHandleUri = onHandleUri,
                     )
                 }
-                is BlockItem.BlockList -> {
-                    BlockListContent(
+                else -> {
+                    BlockContent(
                         blockItem = item,
-                        modifier = modifier,
+                        modifier = Modifier.padding(start = 16.dp),
+                        parent = blockItem,
                         userInputState = userInputState,
                         onHandleUri = onHandleUri,
+                        onHandleReference = onHandleReference,
                     )
                 }
-                else -> Unit
             }
         }
     }
