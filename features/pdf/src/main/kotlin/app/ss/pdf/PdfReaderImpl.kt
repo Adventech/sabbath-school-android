@@ -103,7 +103,7 @@ internal class PdfReaderImpl @Inject constructor(
             .apply { putExtra(ARG_PDF_SCREEN, screen) }
     }
 
-    override suspend fun downloadFiles(pdfs: List<PDFAux>): Result<List<ss.libraries.pdf.api.LocalFile>> {
+    override suspend fun downloadFiles(pdfs: List<PDFAux>): Result<List<LocalFile>> {
         return try {
             val files = pdfs.mapNotNull {
                 withContext(dispatcherProvider.io) { downloadFile(context, it) }

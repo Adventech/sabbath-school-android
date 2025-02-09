@@ -26,33 +26,37 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ss.lessons.data.repository.media.MediaRepository
-import app.ss.lessons.data.repository.user.UserDataRepository
-import app.ss.models.PdfAnnotations
 import app.ss.models.media.MediaAvailability
-import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
 import com.pspdfkit.annotations.Annotation
 import com.pspdfkit.document.PdfDocument
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
+import io.adventech.blockkit.model.input.PDFAuxAnnotations
+import io.adventech.blockkit.model.input.UserInput
+import io.adventech.blockkit.model.input.UserInputRequest
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import ss.foundation.coroutines.flow.stateIn
 import ss.libraries.circuit.navigation.PdfScreen
 import ss.libraries.pdf.api.LocalFile
 import ss.libraries.pdf.api.PdfReader
+import ss.resources.api.ResourcesRepository
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class ReadPdfViewModel @Inject constructor(
     private val pdfReader: PdfReader,
-    private val userDataRepository: UserDataRepository,
     private val mediaRepository: MediaRepository,
+    private val resourcesRepository: ResourcesRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -62,30 +66,31 @@ class ReadPdfViewModel @Inject constructor(
     private val SavedStateHandle.screen: PdfScreen?
         get() = get<PdfScreen>(ARG_PDF_SCREEN)
 
-    val lessonIndex: String? get() = savedStateHandle.lessonIndex
-
-    private val _annotationsUpdate = MutableSharedFlow<Int>()
-    val annotationsUpdateFlow: SharedFlow<Int> = _annotationsUpdate
-
-    private val _annotationsMap: MutableMap<Int, List<PdfAnnotations>> = mutableMapOf()
-    val annotationsMap: Map<Int, List<PdfAnnotations>> = _annotationsMap
+    val documentId: String? get() = savedStateHandle.screen?.documentId
 
     private val mediaAvailability = MutableStateFlow(MediaAvailability())
     val mediaAvailabilityFlow = mediaAvailability.asStateFlow()
 
-    init {
-//        viewModelScope.launch {
-//            val lessonIndex = lessonIndex ?: return@launch
-//            checkMediaAvailability(lessonIndex)
-//            savedStateHandle.pdfs.forEachIndexed { index, pdf ->
-//                userDataRepository.getAnnotations(lessonIndex, pdf.id).collect { result ->
-//                    val syncAnnotations = result.getOrNull() ?: return@collect
-//                    _annotationsMap[index] = syncAnnotations
-//                    _annotationsUpdate.emit(index)
-//                }
-//            }
-//        }
+    val annotationsStateFlow: StateFlow<Map<Int, List<PDFAuxAnnotations>>> =
+        flowOf(documentId)
+            .filterNotNull()
+            .flatMapLatest(resourcesRepository::documentInput)
+            .map {
+                it.asSequence()
+                    .mapNotNull { it as? UserInput.Annotation }
+                    .toList()
+            }
+            .map { input ->
+                val pdfs = savedStateHandle.screen?.pdfs.orEmpty()
+                pdfs.mapIndexed { index, pdf ->
+                    index to input.filter { it.pdfId == pdf.id }.flatMap { it.data }
+                }.toMap()
+            }
+            .catch { Timber.e(it) }
+            .stateIn(viewModelScope, emptyMap<Int, List<PDFAuxAnnotations>>())
 
+    init {
+        //            checkMediaAvailability(lessonIndex)
         downloadFiles()
     }
 
@@ -111,20 +116,26 @@ class ReadPdfViewModel @Inject constructor(
 
     fun saveAnnotations(document: PdfDocument, docIndex: Int) {
         val pdfs = savedStateHandle.screen?.pdfs ?: return
-        val lessonIndex = lessonIndex ?: return
+        val documentId = savedStateHandle.screen?.documentId ?: return
         val pdfId = pdfs.getOrNull(docIndex)?.id ?: return
 
         val syncAnnotations = document.annotations().toSync()
 
-        userDataRepository.saveAnnotations(lessonIndex, pdfId, syncAnnotations)
+        val userInput = UserInputRequest.Annotation(
+            blockId = pdfId,
+            pdfId = pdfId,
+            data = syncAnnotations
+        )
+
+       resourcesRepository.saveDocumentInput(documentId, userInput)
     }
 
-    private fun List<Annotation>.toSync(): List<PdfAnnotations> {
+    private fun List<Annotation>.toSync(): List<PDFAuxAnnotations> {
         val groupedAnnotations = groupBy { it.pageIndex }
         return groupedAnnotations.keys.mapNotNull { pageIndex ->
             val list = groupedAnnotations[pageIndex] ?: return@mapNotNull null
             val annotations = list.map { it.toInstantJson() }.filter(::invalidInstantJson)
-            PdfAnnotations(pageIndex, annotations)
+            PDFAuxAnnotations(pageIndex, annotations)
         }
     }
 

@@ -66,11 +66,13 @@ dependencies {
     implementation(projects.common.misc)
     implementation(projects.common.translations)
     implementation(projects.features.media)
+    implementation(projects.libraries.blockKit.ui)
     implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.lessons.api)
     implementation(projects.libraries.media.resources)
     implementation(projects.libraries.pdf.api)
+    implementation(projects.services.resources.api)
 
     implementation(libs.androidx.activity)
     implementation(libs.androidx.appcompat)
