@@ -65,10 +65,12 @@ internal fun List<SSVideosInfo>.toData(
     VideoListData.Vertical(
         featured = featuredVideo,
         clips = allVideos.subtract(setOf(featuredVideo)).toList(),
+        showDragHandle = true,
     )
 } else {
     VideoListData.Horizontal(
         data = this,
-        target = lessonIndex
+        target = lessonIndex,
+        showDragHandle = true,
     )
 }

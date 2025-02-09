@@ -24,12 +24,14 @@ package app.ss.media.playback.ui.video
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -66,6 +68,7 @@ import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.color.SsColors
+import app.ss.design.compose.widget.DragHandle
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.design.compose.widget.list.SnappingLazyRow
@@ -108,6 +111,18 @@ internal fun VideoListScreen(
         ),
         state = listState
     ) {
+
+        if (videoList.showDragHandle) {
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.TopCenter
+                ) {
+                    DragHandle()
+                }
+            }
+        }
 
         item {
             Spacer(modifier = Modifier.height(24.dp))

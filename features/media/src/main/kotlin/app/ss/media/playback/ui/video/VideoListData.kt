@@ -36,16 +36,22 @@ sealed interface VideosScreenEvent {
     data class OnVideoSelected(val context: Context, val video: SSVideo) : VideosScreenEvent
 }
 
-sealed class VideoListData {
+sealed interface VideoListData : CircuitUiState {
+    val showDragHandle: Boolean
+
     data class Horizontal(
         val data: List<SSVideosInfo>,
-        val target: String?
-    ) : VideoListData()
+        val target: String?,
+        override val showDragHandle: Boolean = false,
+    ) : VideoListData
 
     data class Vertical(
         val featured: SSVideo,
-        val clips: List<SSVideo>
-    ) : VideoListData()
+        val clips: List<SSVideo>,
+        override val showDragHandle: Boolean = false,
+    ) : VideoListData
 
-    data object Empty : VideoListData()
+    data object Empty : VideoListData {
+        override val showDragHandle: Boolean = false
+    }
 }
