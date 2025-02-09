@@ -30,6 +30,7 @@ import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import io.adventech.blockkit.model.resource.ResourceFont
+import io.adventech.blockkit.model.resource.ResourceFontAttributes
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -77,7 +78,7 @@ class DownloadResourceWork @AssistedInject constructor(
                             FontFileEntity(
                                 fileName = fileName,
                                 name = font.name,
-                                attributes = font.attributes,
+                                attributes = font.attributes ?: ResourceFontAttributes.UNKNOWN,
                             )
                         )
                     }
