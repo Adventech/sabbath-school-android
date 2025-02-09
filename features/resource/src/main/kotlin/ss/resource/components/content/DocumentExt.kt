@@ -39,6 +39,8 @@ internal fun ResourceDocument.pdfScreen(): PdfScreen? {
         val pdfs = segments.flatMap { it.pdf.orEmpty() }
         return PdfScreen(
             documentId = id,
+            documentIndex = index,
+            resourceIndex = resourceIndex,
             pdfs = pdfs.map {
                 PDFAux(
                     id = it.id,

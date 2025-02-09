@@ -174,6 +174,8 @@ class DocumentPresenter @AssistedInject constructor(
                 readerStyle = readerStyle,
                 fontFamilyProvider = fontFamilyProvider,
                 documentId = resourceDocument.id,
+                documentIndex = resourceDocument.index,
+                resourceIndex = resourceDocument.resourceIndex,
                 eventSink = eventSink,
                 overlayState = overlayState,
                 userInputState = userInputState,
@@ -218,6 +220,8 @@ class DocumentPresenter @AssistedInject constructor(
             val pdfs = segments.flatMap { it.pdf.orEmpty() }
             val screen = PdfScreen(
                 documentId = document.id,
+                resourceIndex = document.resourceIndex,
+                documentIndex = document.index,
                 pdfs = pdfs.map {
                     PDFAux(
                         id = it.id,

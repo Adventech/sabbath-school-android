@@ -43,6 +43,8 @@ import ss.libraries.circuit.navigation.PdfScreen
 fun SegmentUi(
     segment: Segment,
     documentId: String,
+    documentIndex: String,
+    resourceIndex: String,
     titleBelowCover: Boolean,
     userInputState: UserInputState,
     modifier: Modifier = Modifier,
@@ -92,7 +94,7 @@ fun SegmentUi(
             }
 
             CircuitContent(
-                screen = PdfScreen(documentId, pdfs),
+                screen = PdfScreen(documentId, resourceIndex, documentIndex, pdfs),
                 modifier = modifier,
                 onNavEvent = onNavEvent,
             )

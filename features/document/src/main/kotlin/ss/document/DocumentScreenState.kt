@@ -54,6 +54,8 @@ sealed interface State : CircuitUiState {
         override val hasCover: Boolean,
         override val eventSink: (Event) -> Unit,
         val documentId: String,
+        val documentIndex: String,
+        val resourceIndex: String,
         val actions: ImmutableList<DocumentTopAppBarAction>,
         val initialPage: Int,
         val segments: ImmutableList<Segment>,
