@@ -31,5 +31,5 @@ data class ResourceFont(
     val name: String,
     val weight: Int,
     val src: String,
-    val attributes: ResourceFontAttributes,
+    val attributes: ResourceFontAttributes?,
 )
