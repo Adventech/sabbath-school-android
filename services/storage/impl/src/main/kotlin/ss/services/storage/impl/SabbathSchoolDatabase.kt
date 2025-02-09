@@ -86,7 +86,7 @@ import ss.libraries.storage.api.entity.VideoInfoEntity
         UserInputEntity::class,
         DocumentEntity::class,
     ],
-    version = 22,
+    version = 23,
     exportSchema = true,
     autoMigrations = [
         AutoMigration(from = 2, to = 3),
@@ -109,6 +109,7 @@ import ss.libraries.storage.api.entity.VideoInfoEntity
         AutoMigration(from = 19, to = 20),
         AutoMigration(from = 20, to = 21),
         AutoMigration(from = 21, to = 22),
+        AutoMigration(from = 22, to = 23),
     ]
 )
 @TypeConverters(Converters::class)

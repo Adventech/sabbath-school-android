@@ -43,6 +43,7 @@ internal fun Segment.toEntity(): SegmentEntity {
         background = this.background,
         pdf = this.pdf,
         video = this.video,
+        style = this.style,
     )
 }
 
@@ -64,5 +65,6 @@ internal fun SegmentEntity.toModel(): Segment {
         background = this.background,
         pdf = this.pdf,
         video = this.video,
+        style = style,
     )
 }
