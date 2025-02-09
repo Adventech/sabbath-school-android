@@ -27,12 +27,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.ui.input.UserInputState
-import io.adventech.blockkit.ui.input.rememberContentHighlights
 import io.adventech.blockkit.ui.style.Styler
 
 @Composable
@@ -66,7 +66,16 @@ internal fun BlockListItemContent(
     val blockStyle = blockItem.style?.text
     val color = Styler.textColor(blockStyle)
     val style = Styler.textStyle(blockStyle)
-    val highlights = rememberContentHighlights(blockItem.id, userInputState)
+
+    val paragraphBlock = remember(blockItem) {
+        BlockItem.Paragraph(
+            id = blockItem.id,
+            style = blockItem.style,
+            data = blockItem.data,
+            nested = blockItem.nested,
+            markdown = blockItem.markdown,
+        )
+    }
 
     Row(
         modifier = modifier,
@@ -78,13 +87,11 @@ internal fun BlockListItemContent(
             style = style,
         )
 
-        MarkdownText(
-            markdownText = blockItem.markdown,
+        ParagraphContent(
+            blockItem = paragraphBlock,
             modifier = Modifier.weight(1f),
-            color = color,
-            style = style,
-            textAlign = Styler.textAlign(blockStyle),
-            highlights = highlights,
+            parent = blockItem,
+            inputState = userInputState,
             onHandleUri = onHandleUri,
         )
     }
