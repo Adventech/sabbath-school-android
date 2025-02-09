@@ -41,3 +41,7 @@ data class UserInputState(
         data class InputChanged(val input: UserInputRequest) : Event
     }
 }
+
+inline fun <reified T : UserInput> UserInputState.find(blockId: String): T? {
+    return input.firstOrNull { it.blockId == blockId } as? T
+}
