@@ -35,6 +35,7 @@ import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.style.BlockStyleTemplate
+import io.adventech.blockkit.ui.style.thenIf
 
 @Composable
 internal fun QuoteContent(
@@ -47,16 +48,17 @@ internal fun QuoteContent(
     val color = style.textColorDefault()
     Column(
         modifier = modifier
-            .drawBehind {
-                drawLine(
-                    color = color,
-                    strokeWidth = 10f,
-                    start = Offset(12.dp.value, 0f),
-                    end = Offset(12.dp.value, size.height),
-                    cap = StrokeCap.Round
-                )
-            }
-            .padding(start = 16.dp, top = 8.dp, bottom = 8.dp),
+            .thenIf(blockItem.callout != true) {
+                drawBehind {
+                    drawLine(
+                        color = color,
+                        strokeWidth = 10f,
+                        start = Offset(12.dp.value, 0f),
+                        end = Offset(12.dp.value, size.height),
+                        cap = StrokeCap.Round
+                    )
+                }.padding(start = 16.dp, top = 8.dp, bottom = 8.dp)
+            },
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         blockItem.items.forEach {
