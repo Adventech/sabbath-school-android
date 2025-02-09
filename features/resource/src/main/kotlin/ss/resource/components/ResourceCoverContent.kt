@@ -46,7 +46,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.theme.SsTheme
@@ -161,14 +160,13 @@ internal fun ColumnScope.CoverContent(
 
     val style = resource.style?.resource?.title?.text
     val titleColor = Styler.textColor(style, styleTemplate)
-    val titleStyle = style?.let { Styler.textStyle(style, styleTemplate).copy(
-        lineHeight = 1.8.em,
-    ) } ?: SsTheme.typography.titleLarge
+    val titleStyle = style?.let { Styler.textStyle(style, styleTemplate) } ?: SsTheme.typography.titleLarge
     MarkdownText(
         markdownText = resource.markdownTitle ?: resource.title,
         style = titleStyle.copy(
             fontSize = 30.sp,
-            color = titleColor
+            color = titleColor,
+            lineHeight = 40.sp,
         ),
         color = titleColor,
         textAlign = Styler.textAlign(style) ?: textAlign,
