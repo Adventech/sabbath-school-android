@@ -109,7 +109,7 @@ class AudioPlayerPresenter @AssistedInject constructor(
 
     private suspend fun generateQueue() {
         val nowPlaying = playbackConnection.nowPlaying.first()
-        val lessonIndex = screen.resourceIndex
+        val lessonIndex = screen.resourceId
         // Correct queue or playlist already set
         if (nowPlaying.targetIndex?.contains(lessonIndex) == true) return
 

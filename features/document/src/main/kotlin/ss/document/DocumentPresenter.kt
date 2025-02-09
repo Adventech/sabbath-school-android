@@ -220,6 +220,7 @@ class DocumentPresenter @AssistedInject constructor(
             val pdfs = segments.flatMap { it.pdf.orEmpty() }
             val screen = PdfScreen(
                 documentId = document.id,
+                resourceId = document.resourceId,
                 resourceIndex = document.resourceIndex,
                 documentIndex = document.index,
                 pdfs = pdfs.map {

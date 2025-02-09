@@ -63,13 +63,14 @@ class ReadPdfViewModel @Inject constructor(
     private val SavedStateHandle.screen: PdfScreen?
         get() = get<PdfScreen>(ARG_PDF_SCREEN)
 
-    val documentId: String? get() = savedStateHandle.screen?.documentId
+    val resourceId: String? get() = savedStateHandle.screen?.resourceId
+    val documentIndex: String? get() = savedStateHandle.screen?.documentIndex
 
     private val mediaAvailability = MutableStateFlow(MediaAvailability())
     val mediaAvailabilityFlow = mediaAvailability.asStateFlow()
 
     val annotationsStateFlow: StateFlow<Map<Int, List<PDFAuxAnnotations>>> =
-        flowOf(documentId)
+        flowOf(savedStateHandle.screen?.documentId)
             .filterNotNull()
             .flatMapLatest(resourcesRepository::documentInput)
             .map {
@@ -93,7 +94,7 @@ class ReadPdfViewModel @Inject constructor(
 
     private fun checkMediaAvailability() {
         val screen = savedStateHandle.screen ?: return
-        val (_, resourceIndex, documentIndex, _) = screen
+        val (_, _, documentIndex, resourceIndex, _) = screen
         viewModelScope.launch {
             val audioAvailable = resourcesRepository.audio(resourceIndex, documentIndex).getOrNull().orEmpty().isNotEmpty()
             val videoAvailable = resourcesRepository.video(resourceIndex, documentIndex).getOrNull().orEmpty().isNotEmpty()

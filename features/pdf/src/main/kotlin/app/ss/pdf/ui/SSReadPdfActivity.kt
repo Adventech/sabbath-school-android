@@ -31,6 +31,8 @@ import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import app.ss.media.playback.ui.nowPlaying.showNowPlaying
+import app.ss.media.playback.ui.video.showVideoList
 import app.ss.pdf.PdfReaderPrefs
 import app.ss.pdf.R
 import com.cryart.sabbathschool.core.extensions.view.tint
@@ -99,12 +101,12 @@ class SSReadPdfActivity : PdfActivity() {
         return when (item.itemId) {
             android.R.id.home -> true.also { finish() }
             ID_AUDIO -> true.also {
-              //  supportFragmentManager.showNowPlaying(viewModel.lessonIndex)
+                supportFragmentManager.showNowPlaying(viewModel.resourceId)
             }
             ID_VIDEO -> true.also {
-//                viewModel.lessonIndex?.let {
-//                    supportFragmentManager.showVideoList(it)
-//                }
+                viewModel.documentIndex?.let {
+                    supportFragmentManager.showVideoList(it)
+                }
             }
             else -> super.onOptionsItemSelected(item)
         }

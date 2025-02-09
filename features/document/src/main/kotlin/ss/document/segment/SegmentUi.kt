@@ -94,7 +94,7 @@ fun SegmentUi(
             }
 
             CircuitContent(
-                screen = PdfScreen(documentId, resourceIndex, documentIndex, pdfs),
+                screen = PdfScreen(documentId, segment.resourceId, documentIndex, resourceIndex, pdfs),
                 modifier = modifier,
                 onNavEvent = onNavEvent,
             )

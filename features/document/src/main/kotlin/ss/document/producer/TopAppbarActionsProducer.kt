@@ -151,8 +151,9 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
                             DocumentTopAppBarAction.Pdf -> {
                                 val screen = PdfScreen(
                                     documentId = documentId,
-                                    resourceIndex = resourceIndex,
+                                    resourceId = resourceId,
                                     documentIndex = documentIndex,
+                                    resourceIndex = resourceIndex,
                                     pdfs = pdfs.map {
                                         PDFAux(
                                             id = it.id,

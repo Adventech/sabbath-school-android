@@ -41,6 +41,7 @@ internal fun ResourceDocument.pdfScreen(): PdfScreen? {
             documentId = id,
             documentIndex = index,
             resourceIndex = resourceIndex,
+            resourceId = resourceId,
             pdfs = pdfs.map {
                 PDFAux(
                     id = it.id,
