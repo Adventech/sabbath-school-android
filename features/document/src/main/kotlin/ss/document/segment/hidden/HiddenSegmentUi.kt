@@ -53,6 +53,7 @@ import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.ui.BlockContent
 import io.adventech.blockkit.ui.style.LocalBlocksStyle
 import io.adventech.blockkit.ui.style.LocalReaderStyle
+import io.adventech.blockkit.ui.style.LocalSegmentStyle
 import io.adventech.blockkit.ui.style.ReaderStyleConfig
 import io.adventech.blockkit.ui.style.background
 import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
@@ -79,6 +80,7 @@ private fun HiddenSegmentContent(state: State.Success, modifier: Modifier = Modi
     CompositionLocalProvider(
         LocalFontFamilyProvider provides state.fontFamilyProvider,
         LocalBlocksStyle provides state.style?.blocks,
+        LocalSegmentStyle provides state.style?.segment,
         LocalReaderStyle provides state.readerStyle,
     ) {
         HiddenSegmentScaffold(readerStyle, modifier) {
@@ -88,7 +90,7 @@ private fun HiddenSegmentContent(state: State.Success, modifier: Modifier = Modi
                     subtitle = state.subtitle,
                     date = state.date,
                     contentColor = contentColor,
-                    style = state.style?.segment,
+                    style = state.style?.segment ?: state.style?.segment,
                     modifier = Modifier.fillMaxWidth(),
                     contentPadding = PaddingValues(
                         horizontal = 16.dp, vertical = 8.dp

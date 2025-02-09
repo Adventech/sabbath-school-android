@@ -57,6 +57,7 @@ import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.model.resource.SegmentType
 import io.adventech.blockkit.ui.style.LocalBlocksStyle
 import io.adventech.blockkit.ui.style.LocalReaderStyle
+import io.adventech.blockkit.ui.style.LocalSegmentStyle
 import io.adventech.blockkit.ui.style.ReaderStyleConfig
 import io.adventech.blockkit.ui.style.background
 import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
@@ -165,6 +166,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                 CompositionLocalProvider(
                     LocalFontFamilyProvider provides state.fontFamilyProvider,
                     LocalBlocksStyle provides state.style?.blocks,
+                    LocalSegmentStyle provides state.style?.segment,
                     LocalReaderStyle provides state.readerStyle,
                 ) {
                     DocumentPager(

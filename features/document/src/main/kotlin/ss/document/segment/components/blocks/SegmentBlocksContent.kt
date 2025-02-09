@@ -47,6 +47,7 @@ import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.ui.BlockContent
 import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.style.LocalReaderStyle
+import io.adventech.blockkit.ui.style.LocalSegmentStyle
 import io.adventech.blockkit.ui.style.background
 import io.adventech.blockkit.ui.style.primaryForeground
 import ss.document.segment.components.SegmentCover
@@ -72,6 +73,7 @@ internal fun SegmentBlocksContent(
 
     val readerStyle = LocalReaderStyle.current
     val contentColor = readerStyle.theme.primaryForeground()
+    val segmentStyle = segment.style?.segment ?: LocalSegmentStyle.current
 
     LazyColumn(
         modifier = modifier
@@ -90,7 +92,7 @@ internal fun SegmentBlocksContent(
                             subtitle = segment.subtitle,
                             date = segment.date,
                             contentColor = if (segment.cover != null) Color.White else contentColor,
-                            style = segment.style?.segment.takeIf { segment.cover == null },
+                            style = segmentStyle.takeIf { segment.cover == null },
                             modifier = Modifier.fillMaxWidth(),
                         )
                     }
@@ -105,7 +107,7 @@ internal fun SegmentBlocksContent(
                     subtitle = segment.subtitle,
                     date = segment.date,
                     contentColor = contentColor,
-                    style = segment.style?.segment,
+                    style = segmentStyle,
                     modifier = Modifier.fillMaxWidth(),
                 )
             }
