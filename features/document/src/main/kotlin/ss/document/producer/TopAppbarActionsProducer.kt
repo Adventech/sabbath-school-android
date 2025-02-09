@@ -136,6 +136,7 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
                                 bottomSheetState = BottomSheet(
                                     screen = AudioPlayerScreen(resourceId, documentIndex),
                                     skipPartiallyExpanded = true,
+                                    themed = false,
                                 ) { result ->
                                     bottomSheetState = null
                                 }
@@ -144,6 +145,7 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
                                 bottomSheetState = BottomSheet(
                                     screen = VideosScreen(documentIndex, documentId),
                                     skipPartiallyExpanded = true,
+                                    themed = false,
                                 ) { result ->
                                     bottomSheetState = null
                                 }
@@ -170,6 +172,7 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
                                 bottomSheetState = BottomSheet(
                                     screen = ReaderOptionsScreen,
                                     skipPartiallyExpanded = false,
+                                    themed = false,
                                 ) { result ->
                                     bottomSheetState = null
                                 }

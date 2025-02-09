@@ -94,6 +94,7 @@ sealed interface DocumentOverlayState : CircuitUiState {
     data class BottomSheet(
         val screen: Screen,
         val skipPartiallyExpanded: Boolean,
+        val themed: Boolean,
         val onResult: (BottomSheetOverlay.Result) -> Unit,
     ) : DocumentOverlayState
 

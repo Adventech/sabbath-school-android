@@ -214,8 +214,8 @@ internal fun DocumentOverlay(
                 overlayState.onResult(
                     show(BottomSheetOverlay(
                         skipPartiallyExpanded = overlayState.skipPartiallyExpanded,
-                        containerColor = containerColor,
-                        contentColor = contentColor,
+                        containerColor = containerColor.takeIf { overlayState.themed },
+                        contentColor = contentColor.takeIf { overlayState.themed },
                     ) {
                         ContentWithOverlays {
                             CircuitContent(

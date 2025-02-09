@@ -121,6 +121,7 @@ internal class OverlayStateProducerImpl @Inject constructor(
                             documentIndex = event.documentIndex,
                         ),
                         skipPartiallyExpanded = true,
+                        themed = true,
                         onResult = { result ->
                             overlayState = null
                         }
