@@ -28,13 +28,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.adventech.blockkit.model.BlockItem
+import io.adventech.blockkit.ui.style.BlockStyleTemplate
+import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.Styler
 
 @Composable
 internal fun HrContent(blockItem: BlockItem.Hr, modifier: Modifier = Modifier) {
-    val color = Styler.textColor(blockItem.style?.text).copy(alpha = 0.7f)
+    val color = Styler.textColor(blockItem.style?.text).copy(alpha = 0.3f)
     HorizontalDivider(
         modifier = modifier.padding(vertical = 4.dp),
+        thickness = 0.4.dp,
         color = color,
     )
 }

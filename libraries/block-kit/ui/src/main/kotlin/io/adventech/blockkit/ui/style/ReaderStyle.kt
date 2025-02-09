@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import io.adventech.blockkit.ui.color.Gray20
 import io.adventech.blockkit.ui.color.Gray50
 import io.adventech.blockkit.ui.color.Gray700
 import io.adventech.blockkit.ui.color.Gray800
@@ -106,8 +107,8 @@ fun ReaderStyle.Theme.primaryForeground(): Color {
     return when (this) {
         ReaderStyle.Theme.Light -> Color.Primary950
         ReaderStyle.Theme.Sepia -> Color.Sepia400
-        ReaderStyle.Theme.Dark -> Color.White
-        ReaderStyle.Theme.Auto -> if (isSystemInDarkTheme()) Color.White else Color.Primary950
+        ReaderStyle.Theme.Dark -> Color.Gray20
+        ReaderStyle.Theme.Auto -> if (isSystemInDarkTheme()) Color.Gray20 else Color.Primary950
     }
 }
 
