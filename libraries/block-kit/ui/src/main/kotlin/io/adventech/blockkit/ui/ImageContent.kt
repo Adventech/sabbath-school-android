@@ -29,14 +29,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImagePainter
@@ -60,24 +64,27 @@ internal fun ImageContent(blockItem: BlockItem.Image, modifier: Modifier = Modif
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(blockItem.style?.image?.aspectRatio ?: (16 / 9f))
-                .thenIf(blockItem.style?.block?.rounded == true) {
+                .thenIf(blockItem.style?.block?.rounded != false) {
                     clip(Styler.roundedShape())
                 },
             scale = Scale.FILL,
         )
 
-        blockItem.caption?.takeUnless { it.isEmpty() }?.let {
+        blockItem.caption?.takeUnless { it.isEmpty() }?.let { text ->
+            var textAlign by remember(text) { mutableStateOf(TextAlign.Start) }
             Text(
-                text = it,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
+                text = text,
+                modifier = Modifier.fillMaxWidth(),
                 style = Styler.textStyle(null).copy(
                     fontSize = 14.sp,
                     fontStyle = FontStyle.Italic,
                     fontFamily = LatoFontFamily,
                 ),
-                color = Styler.textColor(null).copy(alpha = 0.7f)
+                color = Styler.textColor(null).copy(alpha = 0.7f),
+                textAlign = textAlign,
+                onTextLayout = { textLayoutResult ->
+                    textAlign = if (textLayoutResult.lineCount > 1) TextAlign.Start else TextAlign.Center
+                }
             )
         }
     }
