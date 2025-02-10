@@ -28,11 +28,13 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import io.adventech.blockkit.model.feed.FeedGroup
 import ss.libraries.storage.api.dao.AppWidgetDao
 import ss.libraries.storage.api.dao.AudioDao
 import ss.libraries.storage.api.dao.BibleVersionDao
 import ss.libraries.storage.api.dao.DocumentsDao
 import ss.libraries.storage.api.dao.FeedDao
+import ss.libraries.storage.api.dao.FeedGroupDao
 import ss.libraries.storage.api.dao.FontFilesDao
 import ss.libraries.storage.api.dao.LanguagesDao
 import ss.libraries.storage.api.dao.LessonsDao
@@ -175,6 +177,12 @@ object StorageModule {
     fun provideFeedDao(
         @ApplicationContext context: Context
     ): FeedDao = context.database().feedDao()
+
+    @Provides
+    @Singleton
+    fun provideFeedGroupDao(
+        @ApplicationContext context: Context
+    ): FeedGroupDao = context.database().feedGroupDao()
 }
 
 private fun Context.database(): SabbathSchoolDatabase = SabbathSchoolDatabase.getInstance(this)
