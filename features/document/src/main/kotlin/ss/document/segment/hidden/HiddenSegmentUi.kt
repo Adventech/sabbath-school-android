@@ -93,7 +93,7 @@ private fun HiddenSegmentContent(state: State.Success, modifier: Modifier = Modi
                     style = state.style?.segment ?: state.style?.segment,
                     modifier = Modifier.fillMaxWidth(),
                     contentPadding = PaddingValues(
-                        horizontal = 16.dp, vertical = 8.dp
+                        horizontal = 0.dp, vertical = 8.dp
                     )
                 )
             }
