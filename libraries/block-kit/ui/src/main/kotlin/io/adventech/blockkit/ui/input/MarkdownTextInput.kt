@@ -22,21 +22,19 @@
 
 package io.adventech.blockkit.ui.input
 
-import androidx.compose.foundation.gestures.awaitEachGesture
-import androidx.compose.foundation.gestures.awaitFirstDown
-import androidx.compose.foundation.gestures.waitForUpOrCancellation
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.PointerEventPass
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
@@ -107,24 +105,6 @@ internal fun MarkdownTextInput(
         },
         modifier = modifier
             .fillMaxWidth()
-            .pointerInput(Unit) {
-                awaitEachGesture {
-                    awaitFirstDown(pass = PointerEventPass.Initial)
-                    val upEvent = waitForUpOrCancellation(pass = PointerEventPass.Initial)
-                    val offset = upEvent?.position ?: return@awaitEachGesture
-
-                    val layoutResult = layoutResult.value ?: return@awaitEachGesture
-                    val position = layoutResult.getOffsetForPosition(offset)
-                        text
-                            .getStringAnnotations(position, position)
-                            .firstOrNull()
-                            ?.let { annotation ->
-                                if (annotation.tag == TAG_URL) {
-                                    onHandleUri(annotation.item)
-                                }
-                            }
-                }
-            }
             .drawBehind(extendedSpans),
         readOnly = true,
         textStyle = style.copy(
@@ -135,5 +115,27 @@ internal fun MarkdownTextInput(
             layoutResult.value = it
             extendedSpans.onTextLayout(it)
         },
+        interactionSource = remember { MutableInteractionSource() }
+            .also { interactionSource ->
+                LaunchedEffect(interactionSource) {
+                    interactionSource.interactions.collect { interaction ->
+
+                        if (interaction is PressInteraction.Release) {
+                            val layoutResult = layoutResult.value ?: return@collect
+                            val offset = interaction.press.pressPosition
+                            val position = layoutResult.getOffsetForPosition(offset)
+
+                            styledText
+                                .getStringAnnotations(position, position)
+                                .firstOrNull()
+                                ?.let { annotation ->
+                                    if (annotation.tag == TAG_URL) {
+                                        onHandleUri(annotation.item)
+                                    }
+                                }
+                        }
+                    }
+                }
+            }
     )
 }
