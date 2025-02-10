@@ -150,7 +150,6 @@ dependencies {
     implementation(projects.features.media)
     implementation(projects.features.navigationSuite)
     implementation(projects.features.pdf)
-    implementation(projects.features.quarterlies)
     implementation(projects.features.readings)
     implementation(projects.features.resource)
     implementation(projects.features.settings)
