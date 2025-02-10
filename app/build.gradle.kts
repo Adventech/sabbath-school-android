@@ -147,7 +147,6 @@ dependencies {
     implementation(projects.features.document)
     implementation(projects.features.feed)
     implementation(projects.features.languages)
-    implementation(projects.features.lessons)
     implementation(projects.features.media)
     implementation(projects.features.navigationSuite)
     implementation(projects.features.pdf)

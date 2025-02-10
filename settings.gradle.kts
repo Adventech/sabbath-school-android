@@ -57,7 +57,6 @@ include(
     ":features:bible",
     ":features:document",
     ":features:feed",
-    ":features:lessons",
     ":features:media",
     ":features:navigation-suite",
     ":features:pdf",
