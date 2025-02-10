@@ -69,6 +69,7 @@ internal fun ExcerptContent(
     var selectedOption by remember { mutableStateOf(blockItem.options.firstOrNull()) }
     val selectedItem = remember(selectedOption) { blockItem.items.firstOrNull { it.option == selectedOption } }
     var expanded by remember { mutableStateOf(false) }
+    val contentColor = Styler.textColor(null)
 
     Box(
         modifier = Modifier
@@ -112,13 +113,15 @@ internal fun ExcerptContent(
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.Bold,
-                    fontFamily = Styler.defaultFontFamily()
+                    fontFamily = Styler.defaultFontFamily(),
+                    color = contentColor,
                 ),
             )
 
             Icon(
                 imageVector = Icons.Rounded.ArrowDropDown,
-                contentDescription = null
+                contentDescription = null,
+                tint = contentColor,
             )
         }
 
