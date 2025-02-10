@@ -55,8 +55,8 @@ internal fun SegmentHeader(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         subtitle?.let {
-            Text(
-                text = it.uppercase(),
+            MarkdownText(
+                markdownText = it.uppercase(),
                 modifier = Modifier.fillMaxWidth(),
                 style = (style?.subtitle?.text?.let {
                     Styler.textStyle(it)
@@ -66,6 +66,7 @@ internal fun SegmentHeader(
                 color = contentColor.copy(alpha = 0.6f),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
+                textAlign = style?.let { Styler.textAlign(it.subtitle?.text) }
             )
         }
 
@@ -89,10 +90,12 @@ internal fun SegmentHeader(
             modifier = Modifier.fillMaxWidth(),
             style = (style?.title?.text?.let {
                 Styler.textStyle(it).copy(
-                    fontSize = 30.sp
+                    fontSize = 30.sp,
+                    lineHeight = 30.sp
                 )
             } ?: SsTheme.typography.titleLarge).copy(
-                fontSize = 30.sp
+                fontSize = 30.sp,
+                lineHeight = 30.sp
             ),
             color = style?.title?.text?.color?.let { Styler.textColor(style.title?.text) } ?: contentColor,
             maxLines = 3,
