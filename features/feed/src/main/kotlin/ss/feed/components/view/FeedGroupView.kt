@@ -102,7 +102,7 @@ private fun FeedGroupHeader(
                 fontSize = 13.sp,
             ),
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            maxLines = 1,
+            maxLines = 2,
             overflow = TextOverflow.Ellipsis,
         )
 
