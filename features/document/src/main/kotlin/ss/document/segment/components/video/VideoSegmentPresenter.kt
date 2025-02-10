@@ -74,6 +74,7 @@ class VideoSegmentPresenter @AssistedInject constructor(
                             targetIndex = "",
                             thumbnail = thumbnail.orEmpty(),
                             title = title.orEmpty(),
+                            hls = hls,
                         )
                     }
 

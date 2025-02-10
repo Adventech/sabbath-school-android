@@ -37,5 +37,6 @@ data class SSVideo(
     val target: String,
     val targetIndex: String,
     val thumbnail: String,
-    val title: String
+    val title: String,
+    val hls: String? = null,
 ) : Parcelable
