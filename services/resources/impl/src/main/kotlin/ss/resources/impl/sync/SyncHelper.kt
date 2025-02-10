@@ -44,6 +44,7 @@ import ss.foundation.coroutines.defaultScopable
 import ss.lessons.api.ResourcesApi
 import ss.libraries.storage.api.dao.DocumentsDao
 import ss.libraries.storage.api.dao.FeedDao
+import ss.libraries.storage.api.dao.FeedGroupDao
 import ss.libraries.storage.api.dao.LanguagesDao
 import ss.libraries.storage.api.dao.ResourcesDao
 import ss.libraries.storage.api.dao.SegmentsDao
@@ -64,6 +65,7 @@ import kotlin.collections.orEmpty
 interface SyncHelper {
     fun syncLanguages()
     fun syncFeed(language: String, type: FeedType)
+    fun syncFeedGroup(id: String, language: String, type: FeedType)
     fun syncDocument(index: String)
     fun syncUserInput(documentId: String)
     fun saveUserInput(documentId: String, userInput: UserInputRequest)
@@ -75,6 +77,7 @@ internal class SyncHelperImpl @Inject constructor(
     @ApplicationContext private val appContext: Context,
     private val resourcesApi: ResourcesApi,
     private val feedDao: FeedDao,
+    private val feedGroupDao: FeedGroupDao,
     private val languagesDao: LanguagesDao,
     private val documentsDao: DocumentsDao,
     private val userInputDao: UserInputDao,
@@ -118,9 +121,22 @@ internal class SyncHelperImpl @Inject constructor(
                 }
                 is NetworkResource.Success -> response.value.body()?.let { data ->
                     withContext(dispatcherProvider.io) {
-                        val resources = data.groups.flatMap { it.resources.orEmpty() }
-                        resourcesDao.insertAll(resources.map { it.toEntity() })
                         feedDao.insertItem(data.toEntity(language, type))
+                    }
+                }
+            }
+        }
+    }
+
+    override fun syncFeedGroup(id: String, language: String, type: FeedType) {
+        scope.launch(exceptionLogger) {
+            when (val response = safeApiCall(connectivityHelper) { resourcesApi.feedGroup(language, type.name.lowercase(), id) }) {
+                is NetworkResource.Failure -> {
+                    Timber.e("Failed to fetch feed group: $language-$type, $id => ${response.throwable?.message}")
+                }
+                is NetworkResource.Success -> response.value.body()?.let { data ->
+                    withContext(dispatcherProvider.io) {
+                        feedGroupDao.insertItem(data.toEntity())
                     }
                 }
             }

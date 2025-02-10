@@ -121,26 +121,15 @@ internal class ResourcesRepositoryImpl @Inject constructor(
             .catch { Timber.e(it) }
     }
 
-    override suspend fun feedGroup(id: String, type: FeedType): Result<FeedGroup> {
-        return withContext(dispatcherProvider.default) {
-            when (val resource = safeApiCall(connectivityHelper) {
-                resourcesApi.feedGroup(
-                    language = ssPrefs.get().getLanguageCode(),
-                    type = type.name.lowercase(),
-                    groupId = id
-                )
-            }) {
-                is NetworkResource.Failure -> {
-                    Result.failure(Throwable("Failed to fetch feed group, ${resource.errorBody}"))
-                }
-
-                is NetworkResource.Success -> {
-                    resource.value.body()?.let {
-                        Result.success(it)
-                    } ?: Result.failure(Throwable("Failed to fetch feed group, body is null"))
-                }
-            }
-        }
+    override fun feedGroup(id: String, type: FeedType): Flow<FeedGroup> {
+        val language = ssPrefs.get().getLanguageCode()
+        return feedGroupDao
+            .get(id)
+            .filterNotNull()
+            .map { it.toModel() }
+            .onStart { syncHelper.syncFeedGroup(id, language, type) }
+            .flowOn(dispatcherProvider.io)
+            .catch { Timber.e(it) }
     }
 
     override fun resource(index: String): Flow<Resource> = resourcesDao

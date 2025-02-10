@@ -39,7 +39,6 @@ import ss.resources.api.ResourcesRepository
 import ss.resources.model.FeedModel
 import ss.resources.model.FontModel
 import ss.resources.model.LanguageModel
-import java.io.File
 
 @VisibleForTesting(otherwise = VisibleForTesting.NONE)
 class FakeResourcesRepository(
@@ -56,7 +55,7 @@ class FakeResourcesRepository(
         TODO("Not yet implemented")
     }
 
-    override suspend fun feedGroup(id: String, type: FeedType): Result<FeedGroup> {
+    override fun feedGroup(id: String, type: FeedType): Flow<FeedGroup> {
         TODO("Not yet implemented")
     }
 

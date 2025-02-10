@@ -23,8 +23,10 @@
 package ss.resources.impl.ext
 
 import app.ss.models.resource.FeedResponse
+import io.adventech.blockkit.model.feed.FeedGroup
 import io.adventech.blockkit.model.feed.FeedType
 import ss.libraries.storage.api.entity.FeedEntity
+import ss.libraries.storage.api.entity.FeedGroupEntity
 import ss.resources.model.FeedModel
 
 fun FeedResponse.toEntity(language: String, type: FeedType) = FeedEntity(
@@ -36,3 +38,25 @@ fun FeedResponse.toEntity(language: String, type: FeedType) = FeedEntity(
 )
 
 fun FeedEntity.toModel() = FeedModel(title = title, groups)
+
+fun FeedGroup.toEntity() = FeedGroupEntity(
+    id = id,
+    type = type,
+    scope = scope,
+    direction = direction,
+    title = title,
+    view = view,
+    resources = resources,
+    seeAll = seeAll,
+)
+
+fun FeedGroupEntity.toModel() = FeedGroup(
+    id = id,
+    type = type,
+    scope = scope,
+    direction = direction,
+    title = title,
+    view = view,
+    resources = resources,
+    seeAll = seeAll,
+)

@@ -55,9 +55,11 @@ class FeedGroupPresenter @AssistedInject constructor(
     override fun present(): State {
         var title by rememberRetained { mutableStateOf(screen.title ?: "") }
         val feedGroup by produceRetainedState<FeedGroup?>(null) {
-            value = resourcesRepository.feedGroup(screen.id, screen.feedType).getOrNull()?.also {
-                title = it.title ?: ""
-            }
+            resourcesRepository.feedGroup(screen.id, screen.feedType)
+                .collect {
+                    value = it
+                    title = it.title ?: ""
+                }
         }
 
         val feedResources by rememberResources(feedGroup)

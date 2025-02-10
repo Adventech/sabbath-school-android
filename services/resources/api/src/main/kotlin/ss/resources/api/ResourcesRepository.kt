@@ -45,7 +45,7 @@ interface ResourcesRepository {
 
     fun feed(type: FeedType): Flow<FeedModel>
 
-    suspend fun feedGroup(id: String, type: FeedType): Result<FeedGroup>
+    fun feedGroup(id: String, type: FeedType): Flow<FeedGroup>
 
     fun resource(index: String): Flow<Resource>
 
@@ -63,5 +63,5 @@ interface ResourcesRepository {
 
     suspend fun pdf(resourceIndex: String, documentIndex: String): Result<List<PDFAux>>
 
-   fun fontFile(name: String): Flow<FontModel?>
+    fun fontFile(name: String): Flow<FontModel?>
 }
