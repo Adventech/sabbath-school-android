@@ -104,8 +104,7 @@ class ResourcePresenter @AssistedInject constructor(
 
     @Composable
     private fun rememberResource() = produceRetainedState<Resource?>(null) {
-        val resource = resourcesRepository.resource(screen.index)
-        value = resource.getOrNull()
+        resourcesRepository.resource(screen.index).collect { value = it }
     }
 
     @CircuitInject(ResourceScreen::class, SingletonComponent::class)

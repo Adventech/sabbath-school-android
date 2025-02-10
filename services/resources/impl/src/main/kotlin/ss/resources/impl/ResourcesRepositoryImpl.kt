@@ -159,42 +159,13 @@ internal class ResourcesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun resource(index: String): Result<Resource> {
-        return withContext(dispatcherProvider.default) {
-            when (val resource = safeApiCall(connectivityHelper) {
-                resourcesApi.resource(index)
-            }) {
-                is NetworkResource.Failure -> {
-                    Result.failure(Throwable("Failed to fetch Resource, ${resource.errorBody}"))
-                }
-
-                is NetworkResource.Success -> {
-                    downloadResource(index)
-
-                    resource.value.body()?.let {
-                        Result.success(it)
-                    } ?: Result.failure(Throwable("Failed to fetch Resource, body is null"))
-                }
-            }
-        }
-    }
-
-    private fun downloadResource(index: String) {
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
-        val request = OneTimeWorkRequestBuilder<DownloadResourceWork>()
-            .setConstraints(constraints)
-            .setInputData(workDataOf(DownloadResourceWork.INDEX_KEY to index))
-            .build()
-
-        val workManager = WorkManager.getInstance(appContext)
-        workManager.enqueueUniqueWork(
-            DownloadResourceWork::class.java.simpleName,
-            ExistingWorkPolicy.REPLACE,
-            request
-        )
-    }
+    override fun resource(index: String): Flow<Resource> = resourcesDao
+        .get(index)
+        .filterNotNull()
+        .map { it.toModel() }
+        .onStart { syncHelper.syncResource(index) }
+        .flowOn(dispatcherProvider.io)
+        .catch { Timber.e(it) }
 
     override fun document(index: String): Flow<ResourceDocument> = documentsDao
         .get(index)

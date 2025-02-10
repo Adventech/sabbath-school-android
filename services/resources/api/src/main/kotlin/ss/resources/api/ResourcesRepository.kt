@@ -47,7 +47,7 @@ interface ResourcesRepository {
 
     suspend fun feedGroup(id: String, type: FeedType): Result<FeedGroup>
 
-    suspend fun resource(index: String): Result<Resource>
+    fun resource(index: String): Flow<Resource>
 
     fun document(index: String): Flow<ResourceDocument>
 

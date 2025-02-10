@@ -22,8 +22,16 @@
 
 package ss.resources.impl.sync
 
+import android.content.Context
+import androidx.work.Constraints
+import androidx.work.ExistingWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
+import dagger.hilt.android.qualifiers.ApplicationContext
 import io.adventech.blockkit.model.input.UserInputRequest
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
@@ -35,6 +43,7 @@ import ss.foundation.coroutines.defaultScopable
 import ss.lessons.api.ResourcesApi
 import ss.libraries.storage.api.dao.DocumentsDao
 import ss.libraries.storage.api.dao.LanguagesDao
+import ss.libraries.storage.api.dao.ResourcesDao
 import ss.libraries.storage.api.dao.SegmentsDao
 import ss.libraries.storage.api.dao.UserInputDao
 import ss.libraries.storage.api.entity.LanguageEntity
@@ -43,6 +52,7 @@ import ss.resources.impl.ext.localId
 import ss.resources.impl.ext.toEntity
 import ss.resources.impl.ext.toInput
 import ss.resources.impl.ext.type
+import ss.resources.impl.work.DownloadResourceWork
 import timber.log.Timber
 import java.util.Locale
 import javax.inject.Inject
@@ -55,13 +65,16 @@ interface SyncHelper {
     fun syncUserInput(documentId: String)
     fun saveUserInput(documentId: String, userInput: UserInputRequest)
     fun syncSegment(index: String)
+    fun syncResource(index: String)
 }
 
 internal class SyncHelperImpl @Inject constructor(
+    @ApplicationContext private val appContext: Context,
     private val resourcesApi: ResourcesApi,
     private val languagesDao: LanguagesDao,
     private val documentsDao: DocumentsDao,
     private val userInputDao: UserInputDao,
+    private val resourcesDao: ResourcesDao,
     private val segmentsDao: SegmentsDao,
     private val connectivityHelper: ConnectivityHelper,
     private val dispatcherProvider: DispatcherProvider
@@ -175,9 +188,46 @@ internal class SyncHelperImpl @Inject constructor(
         }
     }
 
+    override fun syncResource(index: String) {
+        scope.launch(exceptionLogger) {
+            when (val response = safeApiCall(connectivityHelper) {
+                resourcesApi.resource(index)
+            }) {
+                is NetworkResource.Failure -> {
+                    Timber.e("Failed to fetch Resource for index: $index => ${response.throwable?.message}")
+                }
+                is NetworkResource.Success -> {
+                    response.value.body()?.let {
+                        withContext(dispatcherProvider.io) {
+                            resourcesDao.insertItem(it.toEntity())
+                        }
+                    }
+                    downloadResource(index)
+                }
+            }
+        }
+    }
+
     private fun getNativeLanguageName(languageCode: String, languageName: String): String {
         val loc = Locale(languageCode)
         val name = loc.getDisplayLanguage(loc).takeUnless { it == languageCode } ?: languageName
         return name.replaceFirstChar { it.uppercase() }
+    }
+
+    private fun downloadResource(index: String) {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+        val request = OneTimeWorkRequestBuilder<DownloadResourceWork>()
+            .setConstraints(constraints)
+            .setInputData(workDataOf(DownloadResourceWork.INDEX_KEY to index))
+            .build()
+
+        val workManager = WorkManager.getInstance(appContext)
+        workManager.enqueueUniqueWork(
+            DownloadResourceWork::class.java.simpleName,
+            ExistingWorkPolicy.REPLACE,
+            request
+        )
     }
 }
