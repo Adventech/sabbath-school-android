@@ -36,12 +36,6 @@ interface SSMediaApi {
         @Path("quarterly_id") quarterlyId: String
     ): Response<List<SSAudio>>
 
-    @GET("api/v1/{lang}/quarterlies/{quarterly_id}/video.json")
-    suspend fun getVideo(
-        @Path("lang") language: String,
-        @Path("quarterly_id") quarterlyId: String
-    ): Response<List<VideosInfoModel>>
-
     @GET("api/v2/video/languages.json")
     suspend fun getVideoLanguages(): Response<List<String>>
 

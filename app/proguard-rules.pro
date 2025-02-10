@@ -52,16 +52,18 @@
 
 -keep class net.danlew.android.joda.R$raw { *; }
 
-# Keep custom WebView @JavascriptInterface
--keepclassmembers class app.ss.readings.SSReadingView$SSReadViewBridge {
-  *;
-}
-
 -keep @androidx.annotation.Keep class * { *; }
 
 # Keep generic signature of Call, Response (R8 full mode strips signatures from non-kept items).
 -keep,allowobfuscation,allowshrinking interface retrofit2.Call
 -keep,allowobfuscation,allowshrinking class retrofit2.Response
+
+# Keep all Retrofit interfaces that are used to create service instances.
+# https://github.com/square/retrofit/issues/4134
+-if interface *
+-keepclasseswithmembers,allowobfuscation interface <1> {
+  @retrofit2.http.* <methods>;
+}
 
 # With R8 full mode generic signatures are stripped for classes that are not
 # kept. Suspend functions are wrapped in continuations where the type argument
