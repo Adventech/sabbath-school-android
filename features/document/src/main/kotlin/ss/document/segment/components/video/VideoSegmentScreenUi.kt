@@ -33,31 +33,32 @@ import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.design.compose.theme.Dimens
-import app.ss.design.compose.widget.icon.IconBox
-import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.foundation.CircuitContent
+import com.slack.circuit.overlay.ContentWithOverlays
+import com.slack.circuit.overlay.OverlayEffect
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.ui.BlockContent
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.background
 import io.adventech.blockkit.ui.style.primaryForeground
+import kotlinx.collections.immutable.persistentListOf
+import ss.document.components.DocumentTopAppBar
+import ss.document.components.DocumentTopAppBarAction
 import ss.document.segment.components.video.VideoSegmentScreen.Event
 import ss.document.segment.components.video.VideoSegmentScreen.State
+import ss.libraries.circuit.overlay.BottomSheetOverlay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @CircuitInject(VideoSegmentScreen::class, SingletonComponent::class)
@@ -71,21 +72,22 @@ fun VideoSegmentScreenUi(state: State, modifier: Modifier = Modifier) {
     HazeScaffold(
         modifier = modifier,
         topBar = {
-            TopAppBar(
-                title = { Text(state.title, maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                navigationIcon = {
-                    IconButton(
-                        onClick = { state.eventSink(Event.OnNavBack) },
-                    ) {
-                        IconBox(
-                            icon = Icons.ArrowBack,
-                        )
-                    }
+            DocumentTopAppBar(
+                title = {
+                    Text(
+                        text = state.title,
+                        color = contentColor,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent,
-                    scrolledContainerColor = Color.Transparent,
-                )
+                collapsed = true,
+                contentColor = contentColor,
+                actions = persistentListOf(
+                    DocumentTopAppBarAction.DisplayOptions,
+                ),
+                onNavBack = { state.eventSink(Event.OnNavBack) },
+                onActionClick = { state.eventSink(Event.OnTopAppBarAction(it)) }
             )
         },
         blurTopBar = true,
@@ -136,4 +138,17 @@ fun VideoSegmentScreenUi(state: State, modifier: Modifier = Modifier) {
         }
     }
 
+
+    val overlayState = state.overlayState
+    OverlayEffect(overlayState) {
+        overlayState?.onResult(
+            show(BottomSheetOverlay(
+                skipPartiallyExpanded = overlayState.skipPartiallyExpanded,
+            ) {
+                ContentWithOverlays {
+                    CircuitContent(screen = overlayState.screen)
+                }
+            })
+        )
+    }
 }

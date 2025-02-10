@@ -114,6 +114,7 @@ internal fun DocumentTopAppBar(
     modifier: Modifier = Modifier,
     collapsible: Boolean = false,
     collapsed: Boolean = false,
+    contentColor: Color = SsTheme.colors.primaryForeground,
     scrollBehavior: TopAppBarScrollBehavior? = null,
     actions: ImmutableList<DocumentTopAppBarAction> = persistentListOf(),
     onNavBack: () -> Unit = {},
@@ -180,7 +181,7 @@ internal fun DocumentTopAppBar(
         modifier = modifier,
         navigationIcon = {
             val containerColor by topAppBarContainerColor(collapsible, collapsed)
-            val iconColor by topAppBarContentColor(collapsible, collapsed)
+            val iconColor by topAppBarContentColor(collapsible, collapsed, contentColor)
             IconButton(
                 onClick = onNavBack,
                 colors = IconButtonDefaults.iconButtonColors(containerColor = containerColor),
@@ -213,7 +214,7 @@ internal fun DocumentTopAppBar(
                 }
             }.forEach { icon ->
                 val containerColor by topAppBarContainerColor(collapsible, collapsed)
-                val iconColor by topAppBarContentColor(collapsible, collapsed)
+                val iconColor by topAppBarContentColor(collapsible, collapsed, contentColor)
                 IconButton(
                     onClick = icon.onClick,
                     colors = IconButtonDefaults.iconButtonColors(containerColor = containerColor),
@@ -250,11 +251,12 @@ private fun topAppBarContainerColor(
 private fun topAppBarContentColor(
     collapsible: Boolean,
     collapsed: Boolean,
+    contentColor: Color,
 ) = animateColorAsState(
     targetValue = when {
-        !collapsible -> SsTheme.colors.primaryForeground
+        !collapsible -> contentColor
         collapsible && !collapsed -> Color.White
-        else -> SsTheme.colors.primaryForeground
+        else -> contentColor
     },
     label = "icon-color"
 )

@@ -24,9 +24,12 @@ package ss.document.segment.components.video
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
 import app.ss.models.media.SSVideo
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
+import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.android.IntentScreen
@@ -36,7 +39,10 @@ import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.model.resource.Segment
 import kotlinx.collections.immutable.toImmutableList
+import ss.document.DocumentOverlayState.BottomSheet
+import ss.document.components.DocumentTopAppBarAction
 import ss.document.producer.UserInputStateProducer
+import ss.document.reader.ReaderOptionsScreen
 import ss.document.segment.components.video.VideoSegmentScreen.Event
 import ss.document.segment.components.video.VideoSegmentScreen.State
 import ss.libraries.media.api.MediaNavigation
@@ -55,12 +61,14 @@ class VideoSegmentPresenter @AssistedInject constructor(
         val segment by rememberSegment()
 
         val userInputState = userInputStateProducer(screen.documentId)
+        var bottomSheetState by rememberRetained { mutableStateOf<BottomSheet?>(null) }
 
         return State(
             title = segment?.title.orEmpty(),
             blocks = segment?.blocks.orEmpty(),
             videos = segment?.video.orEmpty().toImmutableList(),
             userInputState = userInputState,
+            overlayState = bottomSheetState,
         ) { event ->
             when (event) {
                 is Event.OnNavBack -> navigator.pop()
@@ -79,6 +87,21 @@ class VideoSegmentPresenter @AssistedInject constructor(
                     }
 
                     navigator.goTo(IntentScreen(mediaNavigation.videoPlayer(event.context, video)))
+                }
+
+                is Event.OnTopAppBarAction -> {
+                    when (event.action) {
+                        DocumentTopAppBarAction.DisplayOptions -> {
+                            bottomSheetState = BottomSheet(
+                                screen = ReaderOptionsScreen,
+                                skipPartiallyExpanded = false,
+                                themed = false,
+                            ) { result ->
+                                bottomSheetState = null
+                            }
+                        }
+                        else -> Unit
+                    }
                 }
             }
         }

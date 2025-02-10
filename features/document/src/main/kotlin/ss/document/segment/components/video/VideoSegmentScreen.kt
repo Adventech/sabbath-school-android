@@ -31,6 +31,8 @@ import io.adventech.blockkit.model.resource.VideoClipSegment
 import io.adventech.blockkit.ui.input.UserInputState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.parcelize.Parcelize
+import ss.document.DocumentOverlayState
+import ss.document.components.DocumentTopAppBarAction
 
 @Parcelize
 data class VideoSegmentScreen(
@@ -44,11 +46,13 @@ data class VideoSegmentScreen(
         val videos: ImmutableList<VideoClipSegment>,
         val blocks: List<BlockItem>,
         val userInputState: UserInputState,
+        val overlayState: DocumentOverlayState.BottomSheet?,
         val eventSink: (Event) -> Unit,
     ) : CircuitUiState
 
     sealed interface Event : CircuitUiEvent {
         data object OnNavBack : Event
         data class PlayVideo(val context: Context, val video: VideoClipSegment) : Event
+        data class OnTopAppBarAction(val action: DocumentTopAppBarAction) : Event
     }
 }
