@@ -32,6 +32,7 @@ import ss.libraries.storage.api.dao.AppWidgetDao
 import ss.libraries.storage.api.dao.AudioDao
 import ss.libraries.storage.api.dao.BibleVersionDao
 import ss.libraries.storage.api.dao.DocumentsDao
+import ss.libraries.storage.api.dao.FeedDao
 import ss.libraries.storage.api.dao.FontFilesDao
 import ss.libraries.storage.api.dao.LanguagesDao
 import ss.libraries.storage.api.dao.LessonsDao
@@ -168,6 +169,12 @@ object StorageModule {
     fun provideResourcesDao(
         @ApplicationContext context: Context
     ): ResourcesDao = context.database().resourcesDao()
+
+    @Provides
+    @Singleton
+    fun provideFeedDao(
+        @ApplicationContext context: Context
+    ): FeedDao = context.database().feedDao()
 }
 
 private fun Context.database(): SabbathSchoolDatabase = SabbathSchoolDatabase.getInstance(this)

@@ -25,6 +25,7 @@ package ss.services.storage.impl
 import androidx.room.TypeConverter
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Types
+import io.adventech.blockkit.model.feed.FeedGroup
 import io.adventech.blockkit.model.resource.ResourceCTA
 import io.adventech.blockkit.model.resource.ResourceCovers
 import io.adventech.blockkit.model.resource.ResourceFont
@@ -39,6 +40,10 @@ object ResourcesConverters {
     }
     private val ctaAdapter: JsonAdapter<ResourceCTA> by lazy {
         moshi.adapter(ResourceCTA::class.java)
+    }
+    private val feedGroupsAdapter: JsonAdapter<List<FeedGroup>> by lazy {
+        val listDataType: Type = Types.newParameterizedType(List::class.java, FeedGroup::class.java)
+        moshi.adapter(listDataType)
     }
     private val sectionsAdapter: JsonAdapter<List<ResourceSection>> by lazy {
         val listDataType: Type = Types.newParameterizedType(List::class.java, ResourceSection::class.java)
@@ -80,5 +85,13 @@ object ResourcesConverters {
 
     @TypeConverter
     fun fromFonts(fonts: List<ResourceFont>?): String? = fontsAdapter.toJson(fonts)
+
+    @TypeConverter
+    fun toFeedGroups(value: String?): List<FeedGroup>? = value?.let { jsonString ->
+        feedGroupsAdapter.fromJson(jsonString)
+    }
+
+    @TypeConverter
+    fun fromFeedGroups(groups: List<FeedGroup>?): String? = feedGroupsAdapter.toJson(groups)
 
 }

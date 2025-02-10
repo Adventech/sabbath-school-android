@@ -57,6 +57,7 @@ import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.ResourcesApi
 import ss.libraries.storage.api.dao.AudioDao
 import ss.libraries.storage.api.dao.DocumentsDao
+import ss.libraries.storage.api.dao.FeedDao
 import ss.libraries.storage.api.dao.FontFilesDao
 import ss.libraries.storage.api.dao.LanguagesDao
 import ss.libraries.storage.api.dao.ResourcesDao
@@ -81,6 +82,7 @@ internal class ResourcesRepositoryImpl @Inject constructor(
     private val resourcesApi: ResourcesApi,
     private val audioDao: AudioDao,
     private val documentsDao: DocumentsDao,
+    private val feedDao: FeedDao,
     private val videoInfoDao: VideoInfoDao,
     private val fontFilesDao: FontFilesDao,
     private val languagesDao: LanguagesDao,
