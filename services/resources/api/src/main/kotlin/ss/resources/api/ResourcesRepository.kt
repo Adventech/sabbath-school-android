@@ -49,7 +49,7 @@ interface ResourcesRepository {
 
     suspend fun resource(index: String): Result<Resource>
 
-    fun document(id: String, index: String): Flow<ResourceDocument>
+    fun document(index: String): Flow<ResourceDocument>
 
     fun documentInput(documentId: String): Flow<List<UserInput>>
 

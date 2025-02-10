@@ -75,7 +75,6 @@ internal class ResourceSectionsStateProducerImpl @Inject constructor(
                     val screen = document.pdfScreen()?.let {
                         IntentScreen(pdfReader.launchIntent(it))
                     } ?: DocumentScreen(
-                        id = document.id,
                         index = document.index,
                         cover = document.cover,
                     )

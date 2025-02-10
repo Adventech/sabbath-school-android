@@ -194,8 +194,8 @@ internal class ResourcesRepositoryImpl @Inject constructor(
         )
     }
 
-    override fun document(id: String, index: String): Flow<ResourceDocument> = documentsDao
-        .get(id)
+    override fun document(index: String): Flow<ResourceDocument> = documentsDao
+        .get(index)
         .filterNotNull()
         .map { it.toModel() }
         .onStart { syncHelper.syncDocument(index) }

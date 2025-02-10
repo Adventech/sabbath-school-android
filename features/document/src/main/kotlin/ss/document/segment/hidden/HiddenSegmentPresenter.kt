@@ -98,7 +98,7 @@ class HiddenSegmentPresenter @AssistedInject constructor(
 
     @Composable
     private fun rememberDocument() = produceRetainedState<ResourceDocument?>(null) {
-        resourcesRepository.document(screen.documentId, screen.documentIndex)
+        resourcesRepository.document(screen.documentIndex)
             .collect { value = it }
     }
 

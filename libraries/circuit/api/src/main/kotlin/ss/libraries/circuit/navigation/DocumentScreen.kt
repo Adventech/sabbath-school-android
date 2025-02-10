@@ -27,7 +27,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class DocumentScreen(
-    val id: String,
     val index: String,
     val cover: String?,
 ): Screen

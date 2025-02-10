@@ -152,7 +152,7 @@ class DocumentPresenter @AssistedInject constructor(
                         )
                         sendSegmentOverlayEvent(segmentOverlayState, event)
                     } else if (document != null && scope == ReferenceScope.DOCUMENT) {
-                        navigator.goTo(DocumentScreen(document.id, document.index, document.cover))
+                        navigator.goTo(DocumentScreen(document.index, document.cover))
                     } else if (resource != null && scope == ReferenceScope.RESOURCE) {
                         navigator.goTo(ResourceScreen(resource.index))
                     }
@@ -185,10 +185,7 @@ class DocumentPresenter @AssistedInject constructor(
 
     @Composable
     private fun rememberDocument() = produceRetainedState<ResourceDocument?>(null) {
-        resourcesRepository.document(
-            id = screen.id,
-            index = screen.index,
-        ).collect { value = it }
+        resourcesRepository.document(screen.index).collect { value = it }
     }
 
     @Composable

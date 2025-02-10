@@ -20,16 +20,8 @@
  * THE SOFTWARE.
  */
 
-package ss.libraries.storage.api.dao
+package com.cryart.sabbathschool.navigation
 
-import androidx.room.Dao
-import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
-import ss.libraries.storage.api.entity.DocumentEntity
-
-@Dao
-interface DocumentsDao : BaseDao<DocumentEntity> {
-
-    @Query("SELECT * FROM documents WHERE `index` = :index")
-    fun get(index: String): Flow<DocumentEntity?>
+fun String.toResourceIndex(language: String): String {
+    return replace("${language}-", "$language/ss/")
 }

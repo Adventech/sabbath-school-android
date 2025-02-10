@@ -117,7 +117,6 @@ internal class OverlayStateProducerImpl @Inject constructor(
                         screen = HiddenSegmentScreen(
                             id = event.segment.id,
                             index = event.segment.index,
-                            documentId = event.documentId,
                             documentIndex = event.documentIndex,
                         ),
                         skipPartiallyExpanded = true,
