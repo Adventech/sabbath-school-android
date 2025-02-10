@@ -139,7 +139,7 @@ constructor(
 
         if (model.documentIndex != null) {
             taskBuilder.addNextIntent(screenIntent(activity, ResourceScreen(model.resourceIndex)))
-            endIntent = screenIntent(activity, DocumentScreen(model.documentIndex, null))
+            endIntent = screenIntent(activity, DocumentScreen(model.documentIndex))
         } else {
             endIntent = screenIntent(
                 activity, ResourceScreen(model.resourceIndex)

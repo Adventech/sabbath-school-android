@@ -25,7 +25,7 @@ class AppWidgetActionImpl @Inject constructor(
     override fun launchRead(lessonIndex: String, dayIndex: String?): Intent =
         appNavigator.screenIntent(
             appContext,
-            DocumentScreen(index = lessonIndex.toDocumentIndex(), null, segmentIndex = dayIndex)
+            DocumentScreen(index = lessonIndex.toDocumentIndex(), dayIndex)
         ).apply {
             // See [Intent.filterEquals].
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {

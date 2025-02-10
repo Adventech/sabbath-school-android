@@ -79,10 +79,7 @@ internal class ResourceCtaScreenProducerImpl @Inject constructor(
                         return IntentScreen(pdfReader.launchIntent(it))
                     }
 
-                    return DocumentScreen(
-                        index = document.index,
-                        cover = document.cover,
-                    )
+                    return DocumentScreen(document.index)
                 }
             }
         }
@@ -92,10 +89,7 @@ internal class ResourceCtaScreenProducerImpl @Inject constructor(
         // Default to the first document and section
         return sections.firstOrNull()?.let { section ->
             section.documents.firstOrNull()?.let { document ->
-                DocumentScreen(
-                    index = document.index,
-                    cover = document.cover,
-                )
+                DocumentScreen(document.index)
             }
         }
     }

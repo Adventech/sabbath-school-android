@@ -74,10 +74,7 @@ internal class ResourceSectionsStateProducerImpl @Inject constructor(
                 else -> {
                     val screen = document.pdfScreen()?.let {
                         IntentScreen(pdfReader.launchIntent(it))
-                    } ?: DocumentScreen(
-                        index = document.index,
-                        cover = document.cover,
-                    )
+                    } ?: DocumentScreen(document.index)
                     navigator.goTo(screen)
                 }
             }
