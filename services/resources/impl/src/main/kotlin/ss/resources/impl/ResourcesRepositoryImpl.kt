@@ -23,12 +23,6 @@
 package ss.resources.impl
 
 import android.content.Context
-import androidx.work.Constraints
-import androidx.work.ExistingWorkPolicy
-import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.workDataOf
 import app.ss.models.AudioAux
 import app.ss.models.PDFAux
 import app.ss.models.VideoAux
@@ -49,7 +43,6 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.withContext
 import ss.foundation.android.connectivity.ConnectivityHelper
@@ -69,7 +62,6 @@ import ss.resources.api.ResourcesRepository
 import ss.resources.impl.ext.toEntity
 import ss.resources.impl.ext.toModel
 import ss.resources.impl.sync.SyncHelper
-import ss.resources.impl.work.DownloadResourceWork
 import ss.resources.model.FeedModel
 import ss.resources.model.FontModel
 import ss.resources.model.LanguageModel
@@ -116,27 +108,15 @@ internal class ResourcesRepositoryImpl @Inject constructor(
             .flowOn(dispatcherProvider.io)
             .catch { Timber.e(it) }
 
-    override suspend fun feed(type: FeedType): Result<FeedModel> {
-        return withContext(dispatcherProvider.default) {
-            when (val resource = safeApiCall(connectivityHelper) {
-                resourcesApi.feed(
-                    language = ssPrefs.get().getLanguageCode(),
-                    type = type.name.lowercase()
-                )
-            }) {
-                is NetworkResource.Failure -> {
-                    Result.failure(Throwable("Failed to fetch feed, ${resource.errorBody}"))
-                }
+    override fun feed(type: FeedType): Flow<FeedModel> {
+        val language = ssPrefs.get().getLanguageCode()
 
-                is NetworkResource.Success -> {
-                    resource.value.body()?.let {
-                        Result.success(
-                            FeedModel(title = it.title, it.groups)
-                        )
-                    } ?: Result.failure(Throwable("Failed to fetch feed, body is null"))
-                }
-            }
-        }
+        return feedDao.get(language, type)
+            .filterNotNull()
+            .map { entity -> entity.toModel() }
+            .onStart { syncHelper.syncFeed(language, type) }
+            .flowOn(dispatcherProvider.io)
+            .catch { Timber.e(it) }
     }
 
     override suspend fun feedGroup(id: String, type: FeedType): Result<FeedGroup> {

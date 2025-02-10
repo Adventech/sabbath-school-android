@@ -52,7 +52,7 @@ class FakeResourcesRepository(
         TODO("Not yet implemented")
     }
 
-    override suspend fun feed(type: FeedType): Result<FeedModel> {
+    override fun feed(type: FeedType): Flow<FeedModel> {
         TODO("Not yet implemented")
     }
 

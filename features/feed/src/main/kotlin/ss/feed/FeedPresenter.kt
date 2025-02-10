@@ -86,7 +86,7 @@ class FeedPresenter @AssistedInject constructor(
             }
         }
         val model by produceRetainedState<FeedModel?>(initialValue = null) {
-            value = resourcesRepository.feed(screen.type.toFeedType()).getOrNull()
+            resourcesRepository.feed(screen.type.toFeedType()).collect { value = it }
         }
 
         var overlayState = rememberRetained { mutableStateOf<OverlayState?>(null) }

@@ -43,7 +43,7 @@ interface ResourcesRepository {
 
     fun language(code: String): Flow<LanguageModel>
 
-    suspend fun feed(type: FeedType): Result<FeedModel>
+    fun feed(type: FeedType): Flow<FeedModel>
 
     suspend fun feedGroup(id: String, type: FeedType): Result<FeedGroup>
 
