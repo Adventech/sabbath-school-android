@@ -34,6 +34,7 @@ import androidx.compose.ui.layout.ContentScale
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.ReaderStyle
+import io.adventech.blockkit.ui.style.thenIf
 
 @Composable
 internal fun BlockContentWrapper(
@@ -49,7 +50,9 @@ internal fun BlockContentWrapper(
 
     Box(
         modifier = modifier
-            .height(IntrinsicSize.Min)
+            .thenIf(blockItem !is BlockItem.Story) {
+                height(IntrinsicSize.Min)
+            },
     ) {
         backgroundImage?.let {
             AsyncImageBox(
