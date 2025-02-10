@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,14 +20,20 @@
  * THE SOFTWARE.
  */
 
-package ss.libraries.circuit.navigation
+package com.cryart.sabbathschool.navigation
 
-import com.slack.circuit.runtime.screen.Screen
-import kotlinx.parcelize.Parcelize
+import org.amshove.kluent.shouldBeEqualTo
+import org.junit.Test
 
-@Parcelize
-data class DocumentScreen(
-    val index: String,
-    val cover: String?,
-    val segmentIndex: String? = null,
-): Screen
+class NavigationExtTest {
+
+    @Test
+    fun `quarterlyIndex to resourceIndex`() {
+        "es-2025-01".toResourceIndex() shouldBeEqualTo "es/ss/2025-01"
+    }
+
+    @Test
+    fun `lessonIndex to documentIndex`() {
+        "es-2025-01-07".toDocumentIndex() shouldBeEqualTo "es/ss/2025-01/07"
+    }
+}

@@ -22,6 +22,23 @@
 
 package com.cryart.sabbathschool.navigation
 
-fun String.toResourceIndex(language: String): String {
-    return replace("${language}-", "$language/ss/")
+fun String.toResourceIndex(): String {
+    val parts = split("-")
+
+    val lang = parts[0]
+    val year = parts[1]
+    val quarter = parts[2]
+
+    return "$lang/ss/$year-$quarter"
+}
+
+fun String.toDocumentIndex(): String {
+    val parts = split("-")
+
+    val lang = parts[0]
+    val year = parts[1]
+    val quarter = parts[2]
+    val week = parts[3]
+
+    return "$lang/ss/$year-$quarter/$week"
 }
