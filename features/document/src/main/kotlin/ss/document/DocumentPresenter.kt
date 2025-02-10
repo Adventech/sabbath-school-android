@@ -197,6 +197,9 @@ class DocumentPresenter @AssistedInject constructor(
     }
 
     private fun ImmutableList<Segment>.defaultPage(): Segment? {
+        screen.segmentIndex?.toIntOrNull()?.let { index ->
+            getOrNull(index)?.let { return it }
+        }
         forEachIndexed { index, segment ->
             val date = segment.date?.let { DateHelper.parseDate(it) }
 
