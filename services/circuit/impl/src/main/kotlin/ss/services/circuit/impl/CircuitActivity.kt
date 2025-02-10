@@ -36,6 +36,7 @@ import androidx.core.os.BundleCompat
 import app.ss.design.compose.theme.SsTheme
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.Circuit
+import com.slack.circuit.foundation.CircuitCompositionLocals
 import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.foundation.rememberCircuitNavigator
 import com.slack.circuit.overlay.ContentWithOverlays
@@ -69,24 +70,26 @@ class CircuitActivity : ComponentActivity() {
 
         setContent {
             val windowSizeClass = calculateWindowSizeClass(activity = this)
+            CircuitCompositionLocals(circuit = circuit) {
+                SsTheme(windowSizeClass = windowSizeClass) {
+                    val backstack = rememberSaveableBackStack(screen)
+                    val circuitNavigator = rememberCircuitNavigator(backstack)
+                    val supportingNavigator = remember(circuitNavigator) {
+                        supportingNavigatorFactory.create(circuitNavigator, this)
+                    }
+                    val navigator = rememberAndroidScreenAwareNavigator(supportingNavigator, this)
+                    ContentWithOverlays {
+                        NavigableCircuitContent(
+                            navigator,
+                            backstack,
+                            Modifier,
+                            circuit,
+                            decoration = GestureNavigationDecoration {
+                                navigator.pop()
+                            }
+                        )
+                    }
 
-            SsTheme(windowSizeClass = windowSizeClass) {
-                val backstack = rememberSaveableBackStack(screen)
-                val circuitNavigator = rememberCircuitNavigator(backstack)
-                val supportingNavigator = remember(circuitNavigator) {
-                    supportingNavigatorFactory.create(circuitNavigator, this)
-                }
-                val navigator = rememberAndroidScreenAwareNavigator(supportingNavigator, this)
-                ContentWithOverlays {
-                    NavigableCircuitContent(
-                        navigator,
-                        backstack,
-                        Modifier,
-                        circuit,
-                        decoration = GestureNavigationDecoration {
-                            navigator.pop()
-                        }
-                    )
                 }
             }
         }
