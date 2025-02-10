@@ -57,11 +57,6 @@ class FakeMediaApi : SSMediaApi {
         quarterlyId: String
     ): Response<List<SSAudio>> = audioMap[language]!!
 
-    override suspend fun getVideo(
-        language: String,
-        quarterlyId: String
-    ): Response<List<VideosInfoModel>> = videoMap[language]!!
-
     override suspend fun getVideoLanguages(): Response<List<String>> = Response.success(languages.toList())
 
     override suspend fun getLatestVideo(
