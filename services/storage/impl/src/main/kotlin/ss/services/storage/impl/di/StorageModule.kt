@@ -41,6 +41,7 @@ import ss.libraries.storage.api.dao.QuarterliesDao
 import ss.libraries.storage.api.dao.ReadCommentsDao
 import ss.libraries.storage.api.dao.ReadHighlightsDao
 import ss.libraries.storage.api.dao.ReadsDao
+import ss.libraries.storage.api.dao.ResourcesDao
 import ss.libraries.storage.api.dao.SegmentsDao
 import ss.libraries.storage.api.dao.UserDao
 import ss.libraries.storage.api.dao.UserInputDao
@@ -161,6 +162,12 @@ object StorageModule {
     fun provideDocumentsDao(
         @ApplicationContext context: Context
     ): DocumentsDao = context.database().documentsDao()
+
+    @Provides
+    @Singleton
+    fun provideResourcesDao(
+        @ApplicationContext context: Context
+    ): ResourcesDao = context.database().resourcesDao()
 }
 
 private fun Context.database(): SabbathSchoolDatabase = SabbathSchoolDatabase.getInstance(this)

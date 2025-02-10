@@ -49,7 +49,7 @@ import java.lang.reflect.Type
 
 internal object Converters {
 
-    private val moshi = Moshi.Builder()
+    internal val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
         .add(AdaptedBy.Factory())
         .build()

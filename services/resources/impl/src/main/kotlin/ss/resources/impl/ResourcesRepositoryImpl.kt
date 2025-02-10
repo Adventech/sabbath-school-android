@@ -59,6 +59,7 @@ import ss.libraries.storage.api.dao.AudioDao
 import ss.libraries.storage.api.dao.DocumentsDao
 import ss.libraries.storage.api.dao.FontFilesDao
 import ss.libraries.storage.api.dao.LanguagesDao
+import ss.libraries.storage.api.dao.ResourcesDao
 import ss.libraries.storage.api.dao.SegmentsDao
 import ss.libraries.storage.api.dao.UserInputDao
 import ss.libraries.storage.api.dao.VideoInfoDao
@@ -85,6 +86,7 @@ internal class ResourcesRepositoryImpl @Inject constructor(
     private val languagesDao: LanguagesDao,
     private val segmentsDao: SegmentsDao,
     private val userInputDao: UserInputDao,
+    private val resourcesDao: ResourcesDao,
     private val syncHelper: SyncHelper,
     private val dispatcherProvider: DispatcherProvider,
     private val connectivityHelper: ConnectivityHelper,
