@@ -29,4 +29,5 @@ import kotlinx.parcelize.Parcelize
 data class DocumentScreen(
     val index: String,
     val cover: String?,
+    val segmentPosition: Int? = null,
 ): Screen

@@ -29,10 +29,8 @@ import androidx.core.os.BundleCompat
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.ss.auth.test.FakeAuthRepository
 import app.ss.models.auth.SSUser
-import app.ss.readings.SSReadingActivity
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
-import com.cryart.sabbathschool.core.navigation.toUri
 import com.slack.circuit.runtime.screen.Screen
 import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeNull
@@ -44,18 +42,16 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows
 import org.robolectric.android.controller.ActivityController
 import ss.foundation.coroutines.test.TestDispatcherProvider
-import ss.libraries.circuit.navigation.LessonsScreen
+import ss.libraries.circuit.navigation.DocumentScreen
+import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.libraries.circuit.navigation.LoginScreen
-import ss.libraries.circuit.navigation.QuarterliesScreen
-import ss.misc.SSConstants
-import ss.prefs.api.test.FakeSSPrefs
+import ss.libraries.circuit.navigation.ResourceScreen
 
 private const val ARG_EXTRA_SCREEN = "extra_screen"
 
 @RunWith(AndroidJUnit4::class)
 class AppNavigatorImplTest {
 
-    private val fakeSSPrefs = FakeSSPrefs()
     private val fakeAuthRepository = FakeAuthRepository()
 
     private lateinit var controller: ActivityController<AppCompatActivity>
@@ -68,11 +64,9 @@ class AppNavigatorImplTest {
         controller = Robolectric.buildActivity(AppCompatActivity::class.java)
         activity = controller.create().start().resume().get()
 
-        fakeSSPrefs.quarterlyIndexDelegate = { "index" }
         fakeAuthRepository.userDelegate = { Result.success(SSUser.fake()) }
 
         navigator = AppNavigatorImpl(
-            ssPrefs = fakeSSPrefs,
             authRepository = fakeAuthRepository,
             dispatcherProvider = TestDispatcherProvider()
         )
@@ -95,17 +89,6 @@ class AppNavigatorImplTest {
 
         val screen = BundleCompat.getParcelable(intent.extras!!, ARG_EXTRA_SCREEN, Screen::class.java)
         screen shouldBeEqualTo LoginScreen
-    }
-
-    @Test
-    fun `should add extras from deep-link into intent extras`() {
-        val uri = Destination.READ.toUri("key" to "value")
-        navigator.navigate(activity, uri)
-
-        val shadow = Shadows.shadowOf(activity)
-        val intent = shadow.nextStartedActivity
-
-        intent.getStringExtra("key") shouldBeEqualTo "value"
     }
 
     @Test
@@ -135,7 +118,7 @@ class AppNavigatorImplTest {
     }
 
     @Test
-    fun `should navigate to lessons screen - web-link`() {
+    fun `should navigate to resource screen - web-link`() {
         val uri = Uri.parse("https://sabbath-school.adventech.io/en/2021-03")
         navigator.navigate(activity, uri)
 
@@ -143,22 +126,31 @@ class AppNavigatorImplTest {
         val intent = shadow.nextStartedActivity
 
         val screen = BundleCompat.getParcelable(intent.extras!!, ARG_EXTRA_SCREEN, Screen::class.java)
-        screen shouldBeEqualTo LessonsScreen("en-2021-03")
+        screen shouldBeEqualTo ResourceScreen("en/ss/2021-03")
     }
 
     @Test
-    fun `should navigate to read screen - web-link`() {
+    fun `should navigate to resource screen - aij - web-link`() {
+        val uri = Uri.parse("https://sabbath-school.adventech.io/resources/en/aij/2025-00-bb-pb")
+        navigator.navigate(activity, uri)
+
+        val shadow = Shadows.shadowOf(activity)
+        val intent = shadow.nextStartedActivity
+
+        val screen = BundleCompat.getParcelable(intent.extras!!, ARG_EXTRA_SCREEN, Screen::class.java)
+        screen shouldBeEqualTo ResourceScreen("en/aij/2025-00-bb-pb")
+    }
+
+    @Test
+    fun `should navigate to document screen - web-link`() {
         val uri = Uri.parse("https://sabbath-school.adventech.io/en/2021-03/03/07-friday-further-thought/")
         navigator.navigate(activity, uri)
 
         val shadow = Shadows.shadowOf(activity)
         val intent = shadow.nextStartedActivity
 
-        val clazz = intent.component?.className
-        clazz shouldBeEqualTo SSReadingActivity::class.qualifiedName
-
-        intent.getStringExtra(SSConstants.SS_LESSON_INDEX_EXTRA) shouldBeEqualTo "en-2021-03-03"
-        intent.getStringExtra(SSConstants.SS_READ_POSITION_EXTRA) shouldBeEqualTo "6"
+        val screen = BundleCompat.getParcelable(intent.extras!!, ARG_EXTRA_SCREEN, Screen::class.java)
+        screen shouldBeEqualTo DocumentScreen("en/ss/2021-03/03", null, null)
     }
 
     @Test
@@ -170,6 +162,6 @@ class AppNavigatorImplTest {
         val intent = shadow.nextStartedActivity
 
         val screen = BundleCompat.getParcelable(intent.extras!!, ARG_EXTRA_SCREEN, Screen::class.java)
-        screen shouldBeEqualTo QuarterliesScreen
+        screen shouldBeEqualTo HomeNavScreen
     }
 }

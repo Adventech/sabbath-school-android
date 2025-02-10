@@ -60,7 +60,6 @@ include(
     ":features:media",
     ":features:navigation-suite",
     ":features:pdf",
-    ":features:quarterlies",
     ":features:reader",
     ":features:readings",
     ":features:resource",
