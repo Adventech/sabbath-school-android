@@ -101,7 +101,7 @@ class FakeResourcesRepository(
         TODO("Not yet implemented")
     }
 
-    override suspend fun fontFile(name: String): Flow<FontModel?> {
+    override fun fontFile(name: String): Flow<FontModel?> {
         TODO("Not yet implemented")
     }
 }

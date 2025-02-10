@@ -242,7 +242,7 @@ internal class ResourcesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun fontFile(name: String): Flow<FontModel?> {
+    override fun fontFile(name: String): Flow<FontModel?> {
         return fontFilesDao.get(name)
             .filterNotNull()
             .map { entity ->
