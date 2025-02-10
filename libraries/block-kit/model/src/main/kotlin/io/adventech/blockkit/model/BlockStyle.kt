@@ -75,7 +75,7 @@ enum class BlockStyleSpacing {
 @JsonClass(generateAdapter = true)
 data class BackgroundPositionStyle(
     val x: BlockStylePositionX,
-    val y: BlockStylePositionY
+    val y: BlockStylePositionY,
 )
 
 @Keep

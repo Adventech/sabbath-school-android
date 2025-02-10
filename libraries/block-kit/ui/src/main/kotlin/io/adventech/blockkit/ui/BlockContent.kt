@@ -41,90 +41,93 @@ fun BlockContent(
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
     onHandleReference: (ReferenceModel) -> Unit = { _ -> }
 ) {
-    val blockModifier = modifier
-        .thenIf(blockItem !is BlockItem.Story) {
-            background(blockItem, nested)
-        }
-
-    when (blockItem) {
-        is BlockItem.Appeal -> {
-            AppealContent(blockItem, blockModifier, userInputState)
-        }
-        is BlockItem.Audio -> {
-            AudioContent(blockItem, blockModifier)
-        }
-        is BlockItem.BlockList -> {
-            BlockListContent(blockItem, blockModifier, userInputState, onHandleUri, onHandleReference)
-        }
-        is BlockItem.BlockListItem -> {
-            BlockListItemContent(blockItem, blockModifier, onHandleUri = onHandleUri)
-        }
-        is BlockItem.Checklist -> {
-            ChecklistContent(blockItem, blockModifier, userInputState) {
-                onHandleUri(it, blockItem.data)
+    BlockContentWrapper(
+        blockItem = blockItem,
+        modifier = modifier
+            .thenIf(blockItem !is BlockItem.Story) {
+                background(blockItem, nested)
+            },
+    ) { blockModifier ->
+        when (blockItem) {
+            is BlockItem.Appeal -> {
+                AppealContent(blockItem, blockModifier, userInputState)
             }
-        }
-        is BlockItem.ChecklistItem -> {
-            ChecklistItemContent(blockItem, blockModifier) {
-                onHandleUri(it, blockItem.data)
+            is BlockItem.Audio -> {
+                AudioContent(blockItem, blockModifier)
             }
-        }
-        is BlockItem.Collapse -> {
-            CollapseContent(blockItem, blockModifier, userInputState, onHandleUri)
-        }
-        is BlockItem.Excerpt -> {
-            ExcerptContent(blockItem, blockModifier, userInputState)
-        }
-        is BlockItem.ExcerptItem -> {
-            ExcerptItemContent(blockItem, blockModifier, userInputState)
-        }
-        is BlockItem.Heading -> {
-            HeadingContent(blockItem, blockModifier, userInputState) {
-                onHandleUri(it, blockItem.data)
+            is BlockItem.BlockList -> {
+                BlockListContent(blockItem, blockModifier, userInputState, onHandleUri, onHandleReference)
             }
-        }
-        is BlockItem.Hr -> {
-            HrContent(blockItem, blockModifier)
-        }
-        is BlockItem.Image -> {
-            ImageContent(blockItem, blockModifier)
-        }
-        is BlockItem.MultipleChoice -> Unit
-        is BlockItem.MultipleChoiceItem -> Unit
-        is BlockItem.Paragraph -> {
-            ParagraphContent(
-                blockItem = blockItem,
-                modifier = blockModifier,
-                parent = parent,
-                inputState = userInputState,
-            ) {
-                onHandleUri(it, blockItem.data)
+            is BlockItem.BlockListItem -> {
+                BlockListItemContent(blockItem, blockModifier, onHandleUri = onHandleUri)
             }
-        }
-        is BlockItem.Poll -> Unit
-        is BlockItem.PollItem -> Unit
-        is BlockItem.Question -> {
-            QuestionContent(blockItem, blockModifier, userInputState) {
-                onHandleUri(it, blockItem.data)
+            is BlockItem.Checklist -> {
+                ChecklistContent(blockItem, blockModifier, userInputState) {
+                    onHandleUri(it, blockItem.data)
+                }
             }
+            is BlockItem.ChecklistItem -> {
+                ChecklistItemContent(blockItem, blockModifier) {
+                    onHandleUri(it, blockItem.data)
+                }
+            }
+            is BlockItem.Collapse -> {
+                CollapseContent(blockItem, blockModifier, userInputState, onHandleUri)
+            }
+            is BlockItem.Excerpt -> {
+                ExcerptContent(blockItem, blockModifier, userInputState)
+            }
+            is BlockItem.ExcerptItem -> {
+                ExcerptItemContent(blockItem, blockModifier, userInputState)
+            }
+            is BlockItem.Heading -> {
+                HeadingContent(blockItem, blockModifier, userInputState) {
+                    onHandleUri(it, blockItem.data)
+                }
+            }
+            is BlockItem.Hr -> {
+                HrContent(blockItem, blockModifier)
+            }
+            is BlockItem.Image -> {
+                ImageContent(blockItem, blockModifier)
+            }
+            is BlockItem.MultipleChoice -> Unit
+            is BlockItem.MultipleChoiceItem -> Unit
+            is BlockItem.Paragraph -> {
+                ParagraphContent(
+                    blockItem = blockItem,
+                    modifier = blockModifier,
+                    parent = parent,
+                    inputState = userInputState,
+                ) {
+                    onHandleUri(it, blockItem.data)
+                }
+            }
+            is BlockItem.Poll -> Unit
+            is BlockItem.PollItem -> Unit
+            is BlockItem.Question -> {
+                QuestionContent(blockItem, blockModifier, userInputState) {
+                    onHandleUri(it, blockItem.data)
+                }
+            }
+            is BlockItem.Quote -> {
+                QuoteContent(blockItem, blockModifier, userInputState, onHandleUri)
+            }
+            is BlockItem.Reference -> {
+                ReferenceContent(blockItem, blockModifier, onHandleReference)
+            }
+            is BlockItem.Story -> {
+                StoryContent(blockItem, blockModifier)
+            }
+            is BlockItem.StorySlide -> {
+                StorySlideContent(blockItem, blockModifier)
+            }
+            is BlockItem.TableBlock -> Unit
+            is BlockItem.Video -> {
+                VideoContent(blockItem, blockModifier)
+            }
+            is BlockItem.Carousel -> Unit
+            is BlockItem.Unknown -> Unit
         }
-        is BlockItem.Quote -> {
-            QuoteContent(blockItem, blockModifier, userInputState, onHandleUri)
-        }
-        is BlockItem.Reference -> {
-            ReferenceContent(blockItem, blockModifier, onHandleReference)
-        }
-        is BlockItem.Story -> {
-            StoryContent(blockItem, blockModifier)
-        }
-        is BlockItem.StorySlide -> {
-            StorySlideContent(blockItem, blockModifier)
-        }
-        is BlockItem.TableBlock -> Unit
-        is BlockItem.Video -> {
-            VideoContent(blockItem, blockModifier)
-        }
-        is BlockItem.Carousel -> Unit
-        is BlockItem.Unknown -> Unit
     }
 }
