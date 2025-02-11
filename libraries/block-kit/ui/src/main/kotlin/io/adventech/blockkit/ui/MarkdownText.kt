@@ -337,12 +337,14 @@ private fun io.adventech.blockkit.model.TextStyle.toSpanStyle(
     fontProvider: (String?) -> FontFamily,
     fontSizeProvider: (TextStyleSize?) -> TextUnit
 ): SpanStyle {
-    val fontSize = fontSizeProvider(size)
+    val fontSize = size?.let {
+        fontSizeProvider(it) * if (offset == null) 1.0f else 0.70f
+    }
     return SpanStyle(
         color = color?.let { Color.parse(it) } ?: Color.Unspecified,
-        fontFamily = fontProvider(typeface),
-        fontSize = if (offset == null) fontSize else fontSize * 0.70f,
-        baselineShift = offset?.toBaselineShift()
+        fontFamily = typeface?.let { fontProvider(typeface) },
+        fontSize = fontSize ?: TextUnit.Unspecified,
+        baselineShift = offset?.toBaselineShift(),
     )
 }
 
