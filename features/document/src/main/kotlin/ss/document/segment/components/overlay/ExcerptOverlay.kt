@@ -48,7 +48,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -86,11 +85,11 @@ class ExcerptOverlay(private val state: State) : Overlay<ExcerptOverlay.Result> 
         BlocksDialogSurface(
             readerStyle = state.style,
             modifier = Modifier,
-            onDismiss = { navigator.finish(Result.Dismissed) }
+            onDismiss = { navigator.finish(Result.Dismissed(null)) }
         ) {
             DialogContent(
                 state = state,
-                onDismiss = { navigator.finish(Result.Dismissed) },
+                onDismiss = { navigator.finish(Result.Dismissed(it)) },
             )
         }
     }
@@ -104,7 +103,7 @@ class ExcerptOverlay(private val state: State) : Overlay<ExcerptOverlay.Result> 
 
     @Stable
     sealed interface Result {
-        data object Dismissed : Result
+        data class Dismissed(val bibleVersion: String?) : Result
     }
 }
 
@@ -112,15 +111,16 @@ class ExcerptOverlay(private val state: State) : Overlay<ExcerptOverlay.Result> 
 @Composable
 private fun DialogContent(
     state: ExcerptOverlay.State,
-    onDismiss: () -> Unit,
+    onDismiss: (String?) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val readerStyle = LocalReaderStyle.current
     val backgroundColor = readerStyle.theme.background()
     val contentColor = readerStyle.theme.primaryForeground()
     val blockItem = state.excerpt
+    val userInputState = state.userInputState
 
-    var selectedOption by remember { mutableStateOf(blockItem.options.firstOrNull()) }
+    var selectedOption by remember { mutableStateOf(userInputState.bibleVersion ?: blockItem.options.firstOrNull()) }
     val selectedItem = remember(selectedOption) { blockItem.items.firstOrNull { it.option == selectedOption } }
     var expanded by remember { mutableStateOf(false) }
     val scrollState = rememberScrollState()
@@ -145,6 +145,8 @@ private fun DialogContent(
                     expanded = false
                     selectedOption = option
                     coroutineScope.launch { scrollState.animateScrollTo(0) }
+
+                    // Intentionally do not send an event to update the bible version here because that will trigger the dialog to close and re-open.
                 }
             )
         }
@@ -160,7 +162,7 @@ private fun DialogContent(
             TopAppBar(
                 title = {},
                 navigationIcon = {
-                    IconButton(onClick = onDismiss) {
+                    IconButton(onClick = { onDismiss(selectedOption) }) {
                         IconBox(Icons.Close, contentColor = contentColor)
                     }
                 },

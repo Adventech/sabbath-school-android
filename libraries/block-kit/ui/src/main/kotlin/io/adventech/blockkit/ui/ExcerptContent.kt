@@ -66,7 +66,7 @@ internal fun ExcerptContent(
     modifier: Modifier = Modifier,
     userInputState: UserInputState? = null,
 ) {
-    var selectedOption by remember { mutableStateOf(blockItem.options.firstOrNull()) }
+    var selectedOption by remember { mutableStateOf(userInputState?.bibleVersion ?: blockItem.options.firstOrNull()) }
     val selectedItem = remember(selectedOption) { blockItem.items.firstOrNull { it.option == selectedOption } }
     var expanded by remember { mutableStateOf(false) }
     val contentColor = Styler.textColor(null)
@@ -89,6 +89,7 @@ internal fun ExcerptContent(
                 onOptionSelected = { option ->
                     expanded = false
                     selectedOption = option
+                    userInputState?.eventSink?.invoke(UserInputState.Event.BibleVersionChanged(option))
                 }
             )
         }

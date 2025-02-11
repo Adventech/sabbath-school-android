@@ -59,6 +59,9 @@ internal class UserInputStateProducerImpl @Inject constructor(
         val input by produceRetainedState(emptyList<UserInput>(), documentId) {
             documentId?.let { resourcesRepository.documentInput(it).collect { value = it } }
         }
+        val bibleVersion by produceRetainedState<String?>(null) {
+            resourcesRepository.bibleVersion().collect { value = it }
+        }
 
         val updatedUserInput by produceRetainedState<UserInputRequest?>(null) {
             userInputRequest
@@ -77,10 +80,15 @@ internal class UserInputStateProducerImpl @Inject constructor(
 
         return UserInputState(
             input = input.toImmutableList(),
+            bibleVersion = bibleVersion,
             eventSink = { event ->
                 when (event) {
                     is UserInputState.Event.InputChanged -> {
                         saveUserInput(documentId, event.input)
+                    }
+
+                    is UserInputState.Event.BibleVersionChanged -> {
+                        resourcesRepository.saveBibleVersion(event.version)
                     }
                 }
             }

@@ -33,12 +33,14 @@ import kotlinx.collections.immutable.ImmutableList
 @Stable
 data class UserInputState(
     val input: ImmutableList<UserInput>,
+    val bibleVersion: String?,
     val eventSink: (Event) -> Unit,
 ) : CircuitUiState {
 
     @Immutable
     sealed interface Event : CircuitUiEvent {
         data class InputChanged(val input: UserInputRequest) : Event
+        data class BibleVersionChanged(val version: String) : Event
     }
 }
 

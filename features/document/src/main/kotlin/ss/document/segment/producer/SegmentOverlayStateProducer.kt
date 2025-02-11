@@ -93,7 +93,14 @@ internal class OverlayStateProducerImpl @Inject constructor(
                                     style = readerStyle,
                                     userInputState = userInputState,
                                 )
-                            ) {
+                            ) { result ->
+                                when (result) {
+                                    is ExcerptOverlay.Result.Dismissed -> {
+                                        result.bibleVersion?.let {
+                                            userInputState.eventSink(UserInputState.Event.BibleVersionChanged(it))
+                                        }
+                                    }
+                                }
                                 overlayState = null
                             }
                         }

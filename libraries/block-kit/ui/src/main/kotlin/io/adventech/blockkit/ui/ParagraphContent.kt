@@ -187,6 +187,7 @@ private fun Preview() {
                     highlights = highlights
                 )
             }.toImmutableList(),
+            bibleVersion = null,
             eventSink = {}
         )
     }
