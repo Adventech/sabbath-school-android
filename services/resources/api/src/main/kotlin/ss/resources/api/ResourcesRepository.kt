@@ -64,4 +64,8 @@ interface ResourcesRepository {
     suspend fun pdf(resourceIndex: String, documentIndex: String): Result<List<PDFAux>>
 
     fun fontFile(name: String): Flow<FontModel?>
+
+    fun bibleVersion(): Flow<String?>
+
+    fun saveBibleVersion(version: String)
 }

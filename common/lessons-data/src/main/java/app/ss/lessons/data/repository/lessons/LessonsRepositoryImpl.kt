@@ -72,10 +72,6 @@ internal class LessonsRepositoryImpl @Inject constructor(
         readerArtifactHelper.sync()
     }
 
-    override suspend fun getPreferredBibleVersion(): String? = withContext(dispatcherProvider.io) {
-        bibleVersionDao.get(ssPrefs.getLanguageCode())?.version
-    }
-
     override suspend fun savePreferredBibleVersion(version: String) = withContext(dispatcherProvider.io) {
         bibleVersionDao.insertItem(BibleVersionEntity(ssPrefs.getLanguageCode(), version))
     }

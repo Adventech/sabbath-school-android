@@ -103,4 +103,12 @@ class FakeResourcesRepository(
     override fun fontFile(name: String): Flow<FontModel?> {
         TODO("Not yet implemented")
     }
+
+    override fun bibleVersion(): Flow<String?> {
+        TODO("Not yet implemented")
+    }
+
+    override fun saveBibleVersion(version: String) {
+        TODO("Not yet implemented")
+    }
 }

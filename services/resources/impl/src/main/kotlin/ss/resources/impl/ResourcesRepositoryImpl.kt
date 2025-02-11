@@ -49,6 +49,7 @@ import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.ResourcesApi
 import ss.libraries.storage.api.dao.AudioDao
+import ss.libraries.storage.api.dao.BibleVersionDao
 import ss.libraries.storage.api.dao.DocumentsDao
 import ss.libraries.storage.api.dao.FeedDao
 import ss.libraries.storage.api.dao.FeedGroupDao
@@ -83,6 +84,7 @@ internal class ResourcesRepositoryImpl @Inject constructor(
     private val segmentsDao: SegmentsDao,
     private val userInputDao: UserInputDao,
     private val resourcesDao: ResourcesDao,
+    private val bibleVersionDao: BibleVersionDao,
     private val syncHelper: SyncHelper,
     private val dispatcherProvider: DispatcherProvider,
     private val connectivityHelper: ConnectivityHelper,
@@ -245,4 +247,12 @@ internal class ResourcesRepositoryImpl @Inject constructor(
             .filter { it.file.exists() }
             .flowOn(dispatcherProvider.io)
     }
+
+    override fun bibleVersion(): Flow<String?> =
+        bibleVersionDao.get(ssPrefs.get().getLanguageCode())
+            .map { it?.version }
+            .flowOn(dispatcherProvider.io)
+
+    override fun saveBibleVersion(version: String) =
+        syncHelper.saveBibleVersion(ssPrefs.get().getLanguageCode(), version)
 }

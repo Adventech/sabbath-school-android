@@ -42,6 +42,7 @@ import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.defaultScopable
 import ss.lessons.api.ResourcesApi
+import ss.libraries.storage.api.dao.BibleVersionDao
 import ss.libraries.storage.api.dao.DocumentsDao
 import ss.libraries.storage.api.dao.FeedDao
 import ss.libraries.storage.api.dao.FeedGroupDao
@@ -49,6 +50,7 @@ import ss.libraries.storage.api.dao.LanguagesDao
 import ss.libraries.storage.api.dao.ResourcesDao
 import ss.libraries.storage.api.dao.SegmentsDao
 import ss.libraries.storage.api.dao.UserInputDao
+import ss.libraries.storage.api.entity.BibleVersionEntity
 import ss.libraries.storage.api.entity.LanguageEntity
 import ss.libraries.storage.api.entity.UserInputEntity
 import ss.resources.impl.ext.localId
@@ -71,6 +73,7 @@ interface SyncHelper {
     fun saveUserInput(documentId: String, userInput: UserInputRequest)
     fun syncSegment(index: String)
     fun syncResource(index: String)
+    fun saveBibleVersion(language: String, version: String)
 }
 
 internal class SyncHelperImpl @Inject constructor(
@@ -83,6 +86,7 @@ internal class SyncHelperImpl @Inject constructor(
     private val userInputDao: UserInputDao,
     private val resourcesDao: ResourcesDao,
     private val segmentsDao: SegmentsDao,
+    private val bibleVersionDao: BibleVersionDao,
     private val connectivityHelper: ConnectivityHelper,
     private val dispatcherProvider: DispatcherProvider
 ) : SyncHelper, Scopable by defaultScopable(dispatcherProvider) {
@@ -241,6 +245,14 @@ internal class SyncHelperImpl @Inject constructor(
                     }
                     downloadResource(index)
                 }
+            }
+        }
+    }
+
+    override fun saveBibleVersion(language: String, version: String) {
+        scope.launch(exceptionLogger) {
+            withContext(dispatcherProvider.io) {
+                bibleVersionDao.insertItem(BibleVersionEntity(language, version))
             }
         }
     }

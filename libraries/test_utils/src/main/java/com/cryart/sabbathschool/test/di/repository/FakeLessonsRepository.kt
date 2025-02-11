@@ -23,7 +23,5 @@ class FakeLessonsRepository @Inject constructor() : LessonsRepository {
 
     override fun checkReaderArtifact() {}
 
-    override suspend fun getPreferredBibleVersion(): String = MockDataFactory.versions.first()
-
     override suspend fun savePreferredBibleVersion(version: String) {}
 }
