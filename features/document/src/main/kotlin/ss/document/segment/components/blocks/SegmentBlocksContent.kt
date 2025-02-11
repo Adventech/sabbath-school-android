@@ -89,7 +89,7 @@ internal fun SegmentBlocksContent(
                     if ((segment.titleBelowCover ?: titleBelowCover) == false) {
                         SegmentHeader(
                             title = segment.markdownTitle ?: segment.title,
-                            subtitle = segment.subtitle,
+                            subtitle = segment.markdownSubtitle ?: segment.subtitle,
                             date = segment.date,
                             contentColor = if (segment.cover != null) Color.White else contentColor,
                             style = segmentStyle.takeIf { segment.cover == null },
@@ -104,7 +104,7 @@ internal fun SegmentBlocksContent(
             item {
                 SegmentHeader(
                     title = segment.markdownTitle ?: segment.title,
-                    subtitle = segment.subtitle,
+                    subtitle = segment.markdownSubtitle ?: segment.subtitle,
                     date = segment.date,
                     contentColor = contentColor,
                     style = segmentStyle,
