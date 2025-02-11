@@ -123,7 +123,7 @@ fun ChecklistItemContent(
         modifier = modifier
             .height(IntrinsicSize.Min)
             .border(
-                width = 2.dp,
+                width = 1.dp,
                 color = Styler.borderColor(),
                 shape = Styler.roundedShape()
             )
