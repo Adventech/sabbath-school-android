@@ -22,6 +22,7 @@
 
 package ss.document
 
+import androidx.compose.runtime.Immutable
 import com.slack.circuit.foundation.NavEvent
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
@@ -91,6 +92,7 @@ sealed interface SuccessEvent : Event {
 sealed interface DocumentOverlayState : CircuitUiState {
 
     /** Overlay state for a bottom sheet. */
+    @Immutable
     data class BottomSheet(
         val screen: Screen,
         val skipPartiallyExpanded: Boolean,
@@ -100,15 +102,18 @@ sealed interface DocumentOverlayState : CircuitUiState {
 
     sealed interface Segment : DocumentOverlayState {
 
+        @Immutable
         data class None(
             val eventSink: (SegmentOverlayStateProducer.Event) -> Unit
         ) : Segment
 
+        @Immutable
         data class Excerpt(
             val state: ExcerptOverlay.State,
             val onResult: (ExcerptOverlay.Result) -> Unit
         ) : Segment
 
+        @Immutable
         data class Blocks(
             val state: BlocksOverlay.State,
             val onResult: (BlocksOverlay.Result) -> Unit

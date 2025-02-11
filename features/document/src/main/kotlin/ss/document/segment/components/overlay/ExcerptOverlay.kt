@@ -48,6 +48,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -69,6 +70,7 @@ import com.slack.circuit.overlay.OverlayNavigator
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.ui.ExcerptItemContent
 import io.adventech.blockkit.ui.ExcerptOptions
+import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.ReaderStyleConfig
 import io.adventech.blockkit.ui.style.Styler
@@ -97,6 +99,7 @@ class ExcerptOverlay(private val state: State) : Overlay<ExcerptOverlay.Result> 
     data class State(
         val excerpt: BlockItem.Excerpt,
         val style: ReaderStyleConfig,
+        val userInputState: UserInputState,
     )
 
     @Stable
@@ -205,7 +208,8 @@ private fun DialogContent(
             selectedItem?.let {
                 ExcerptItemContent(
                     blockItem = it,
-                    modifier = Modifier
+                    modifier = Modifier,
+                    userInputState = state.userInputState,
                 )
             }
 

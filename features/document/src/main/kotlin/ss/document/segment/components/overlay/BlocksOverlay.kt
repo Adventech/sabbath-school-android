@@ -49,6 +49,7 @@ import com.slack.circuit.overlay.Overlay
 import com.slack.circuit.overlay.OverlayNavigator
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.ui.BlockContent
+import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.ReaderStyleConfig
 import io.adventech.blockkit.ui.style.background
@@ -76,6 +77,7 @@ class BlocksOverlay(private val state: State) : Overlay<BlocksOverlay.Result> {
     data class State(
         val blocks: ImmutableList<BlockItem>,
         val style: ReaderStyleConfig,
+        val userInputState: UserInputState,
     )
 
     @Stable
@@ -133,7 +135,8 @@ private fun DialogContent(
                     blockItem = blockItem,
                     onHandleUri = { uri, data ->
                         // Shouldn't expect overlay over an overlay
-                    }
+                    },
+                    userInputState = state.userInputState,
                 )
             }
         }

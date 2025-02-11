@@ -101,10 +101,10 @@ class DocumentPresenter @AssistedInject constructor(
             )
         } ?: TopAppbarActionsState.Empty
 
-        val actionsOverlayState = actionsState.overlayState
-        val segmentOverlayState = segmentOverlayStateProducer(navigator)
-        val overlayState = rememberRetained(actionsOverlayState, segmentOverlayState) { actionsOverlayState ?: segmentOverlayState }
         val userInputState = userInputStateProducer(documentId = resourceDocument?.id)
+        val actionsOverlayState = actionsState.overlayState
+        val segmentOverlayState = segmentOverlayStateProducer(navigator, userInputState)
+        val overlayState = rememberRetained(actionsOverlayState, segmentOverlayState) { actionsOverlayState ?: segmentOverlayState }
 
         val readerStyle = readerStyleStateProducer()
 

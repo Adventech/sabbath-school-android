@@ -61,8 +61,8 @@ class HiddenSegmentPresenter @AssistedInject constructor(
         val readerStyle = readerStyleStateProducer()
         val document by rememberDocument()
         val result by rememberSegment()
-        val segmentOverlayState = segmentOverlayStateProducer(navigator)
         val userInputState = userInputStateProducer(documentId = document?.id)
+        val segmentOverlayState = segmentOverlayStateProducer(navigator, userInputState)
 
         val segment = result
 
