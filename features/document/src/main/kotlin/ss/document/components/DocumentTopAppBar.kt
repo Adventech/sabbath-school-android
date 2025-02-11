@@ -313,15 +313,15 @@ private fun DocumentSegmentDropdown(
                             Text(
                                 text = segment.title,
                                 style = MaterialTheme.typography.titleMedium,
-                                color = SsTheme.colors.primaryForeground
+                                color = SsTheme.colors.primaryForeground,
                             )
                         },
                         supportingContent = {
-                            segment.date?.dateDisplay()?.let {
+                            (segment.date?.dateDisplay() ?: segment.subtitle)?.let {
                                 Text(
                                     text = it,
                                     style = MaterialTheme.typography.bodyMedium,
-                                    color = SsTheme.colors.secondaryForeground
+                                    color = SsTheme.colors.secondaryForeground,
                                 )
                             }
                         }
