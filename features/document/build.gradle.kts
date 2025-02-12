@@ -49,6 +49,7 @@ dependencies {
     implementation(projects.libraries.blockKit.ui)
     implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.media.api)
+    implementation(projects.libraries.media.resources)
     implementation(projects.libraries.pdf.api)
     implementation(projects.libraries.prefs.api)
     implementation(projects.services.media.ui)

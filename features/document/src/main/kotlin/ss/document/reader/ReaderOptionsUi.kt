@@ -193,7 +193,7 @@ private fun ReaderOptionsFontSize(
 
         IconBox(
             icon = ResIcon(
-                DocumentR.drawable.ic_match_case,
+                DocumentR.drawable.ic_text_format,
                 contentDescription = null
             ),
             modifier = Modifier.size(14.dp),
@@ -213,7 +213,7 @@ private fun ReaderOptionsFontSize(
 
         IconBox(
             icon = ResIcon(
-                DocumentR.drawable.ic_match_case,
+                DocumentR.drawable.ic_text_format,
                 contentDescription = null
             ),
             modifier = Modifier.size(32.dp),
