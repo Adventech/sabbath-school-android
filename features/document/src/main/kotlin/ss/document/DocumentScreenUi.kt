@@ -96,20 +96,8 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
     HazeScaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            val showTopBar = when (state) {
-                is State.Loading -> true
-                is State.Success -> when (state.selectedSegment?.type) {
-                    SegmentType.VIDEO -> false
-                    SegmentType.STORY -> collapsed
-                    SegmentType.PDF,
-                    SegmentType.UNKNOWN,
-                    SegmentType.BLOCK,
-
-                    null -> true
-                }
-            }
             AnimatedVisibility(
-                visible = showTopBar,
+                visible = state.showTopBar(collapsed),
                 enter = slideInVertically {
                     with(density) { -(topPadding + 40.dp).roundToPx() }
                 } + expandVertically(
@@ -121,18 +109,12 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
             ) {
                 DocumentTopAppBar(
                     title = {
-                        when (state) {
-                            is State.Success -> {
-                                DocumentTitleBar(
-                                    segments = state.segments,
-                                    selectedSegment = state.selectedSegment,
-                                    onSelection = { state.eventSink(SuccessEvent.OnSegmentSelection(it)) }
-                                )
-                            }
-
-                            is State.Loading -> {
-
-                            }
+                        (state as? State.Success)?.let {
+                            DocumentTitleBar(
+                                segments = state.segments,
+                                selectedSegment = state.selectedSegment,
+                                onSelection = { state.eventSink(SuccessEvent.OnSegmentSelection(it)) }
+                            )
                         }
                     },
                     scrollBehavior = scrollBehavior,
@@ -238,5 +220,18 @@ internal fun DocumentOverlay(
             is DocumentOverlayState.Segment.None -> Unit
             null -> Unit
         }
+    }
+}
+
+private fun State.showTopBar(collapsed: Boolean): Boolean = when (this) {
+    is State.Loading -> true
+    is State.Success -> when (selectedSegment?.type) {
+        SegmentType.VIDEO -> false
+        SegmentType.STORY -> collapsed
+        SegmentType.PDF,
+        SegmentType.UNKNOWN,
+        SegmentType.BLOCK,
+
+        null -> true
     }
 }
