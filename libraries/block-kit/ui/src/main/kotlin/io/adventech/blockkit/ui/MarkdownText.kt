@@ -200,7 +200,7 @@ internal fun rememberMarkdownText(
     }
     return buildAnnotatedString {
         withStyle(style.toSpanStyle()) {
-            appendMarkdownChildren(parsedNode, color, attributedTextParser, fontProvider, fontSizeProvider)
+            appendMarkdownChildren(parsedNode, color, style.fontSize, attributedTextParser, fontProvider, fontSizeProvider)
         }
 
         // Apply highlights to the result text
@@ -218,6 +218,7 @@ internal fun rememberMarkdownText(
 internal fun AnnotatedString.Builder.appendMarkdownChildren(
     parent: Node,
     color: Color,
+    fontSize: TextUnit,
     parser: AttributedTextParser,
     fontProvider: (String?) -> FontFamily,
     fontSizeProvider: (TextStyleSize?) -> TextUnit,
@@ -226,23 +227,23 @@ internal fun AnnotatedString.Builder.appendMarkdownChildren(
     while (child != null) {
         when (child) {
             is Paragraph -> {
-                appendMarkdownChildren(child, color, parser, fontProvider, fontSizeProvider)
+                appendMarkdownChildren(child, color, fontSize, parser, fontProvider, fontSizeProvider)
             }
 
             is Text -> {
-                appendText(child, parser, fontProvider, fontSizeProvider)
+                appendText(child, fontSize, parser, fontProvider, fontSizeProvider)
             }
 
             is Image -> appendInlineContent(TAG_IMAGE_URL, child.destination)
             is Emphasis -> {
                 withStyle(SpanStyle(fontStyle = FontStyle.Italic)) {
-                    appendMarkdownChildren(child, color, parser, fontProvider, fontSizeProvider)
+                    appendMarkdownChildren(child, color, fontSize, parser, fontProvider, fontSizeProvider)
                 }
             }
 
             is StrongEmphasis -> {
                 withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
-                    appendMarkdownChildren(child, color, parser, fontProvider, fontSizeProvider)
+                    appendMarkdownChildren(child, color, fontSize, parser, fontProvider, fontSizeProvider)
                 }
             }
 
@@ -259,7 +260,7 @@ internal fun AnnotatedString.Builder.appendMarkdownChildren(
             is Link -> {
                 withStyle(SpanStyle(color, textDecoration = TextDecoration.Underline)) {
                     withAnnotation(TAG_URL, child.destination) {
-                        appendMarkdownChildren(child, color, parser, fontProvider, fontSizeProvider)
+                        appendMarkdownChildren(child, color, fontSize, parser, fontProvider, fontSizeProvider)
                     }
                 }
             }
@@ -267,7 +268,7 @@ internal fun AnnotatedString.Builder.appendMarkdownChildren(
             is Heading -> {
                 val fontSize = fontSizeProvider(textStyleFromLevel(child.level))
                 withStyle(SpanStyle(fontWeight = FontWeight.Bold, fontSize = fontSize)) {
-                    appendMarkdownChildren(child, color, parser, fontProvider, fontSizeProvider)
+                    appendMarkdownChildren(child, color, fontSize, parser, fontProvider, fontSizeProvider)
                 }
                 appendLine()
             }
@@ -297,6 +298,7 @@ private fun textStyleFromLevel(level: Int): TextStyleSize {
  */
 private fun AnnotatedString.Builder.appendText(
     text: Text,
+    fontSize: TextUnit,
     parser: AttributedTextParser,
     fontProvider: (String?) -> FontFamily,
     fontSizeProvider: (TextStyleSize?) -> TextUnit,
@@ -317,7 +319,7 @@ private fun AnnotatedString.Builder.appendText(
         // Extract inline text style from JSON
         val inlineTextStyle = parser.parseJsonStyle(styleJson)
         if (inlineTextStyle != null) {
-            withStyle(inlineTextStyle.toSpanStyle(fontProvider, fontSizeProvider)) {
+            withStyle(inlineTextStyle.toSpanStyle(fontSize, fontProvider, fontSizeProvider)) {
                 append(text)
             }
         } else {
@@ -334,12 +336,14 @@ private fun AnnotatedString.Builder.appendText(
 }
 
 private fun io.adventech.blockkit.model.TextStyle.toSpanStyle(
+    defaultFontSize: TextUnit,
     fontProvider: (String?) -> FontFamily,
     fontSizeProvider: (TextStyleSize?) -> TextUnit
 ): SpanStyle {
     val fontSize = size?.let {
-        fontSizeProvider(it) * if (offset == null) 1.0f else 0.70f
-    }
+        fontSizeProvider(it) * if (offset == null) 1.0f else OFFSET_MULTIPLIER
+    } ?: defaultFontSize.takeUnless { offset == null }?.let { it * OFFSET_MULTIPLIER }
+
     return SpanStyle(
         color = color?.let { Color.parse(it) } ?: Color.Unspecified,
         fontFamily = typeface?.let { fontProvider(typeface) },
@@ -347,6 +351,8 @@ private fun io.adventech.blockkit.model.TextStyle.toSpanStyle(
         baselineShift = offset?.toBaselineShift(),
     )
 }
+
+private const val OFFSET_MULTIPLIER = 0.50f
 
 private fun TextStyleOffset.toBaselineShift(): BaselineShift? {
     return when (this) {
