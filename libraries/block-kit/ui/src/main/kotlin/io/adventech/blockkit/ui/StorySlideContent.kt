@@ -43,8 +43,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -58,7 +56,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.ImageStyleTextAlignment
@@ -86,12 +83,15 @@ fun StorySlideContent(
         pageCount = { pages.size },
     )
 
-    // Calculate the width of the image scroll
-    val imageWidth = calculateImageWidth(
-        screenWidth,
-        pages.size,
-        WindowSizeClass.calculateFromSize(DpSize(screenWidth.dp, screenHeight.dp)).widthSizeClass,
-    )
+    val aspectRatio = if (pages.size > 1) {
+        // For multiple pages calculate the aspect ratio based on the number of pages
+        16f / (20f + pages.size)
+    } else {
+        // For a single page, use a standard portrait aspect ratio (16:9)
+        16f / 9f
+    }
+
+    val imageWidth = (screenHeight / aspectRatio).toInt()
 
     val imageScrollState = rememberScrollState()
 
@@ -200,16 +200,6 @@ private fun splitTextIntoPages(
     }
 
     return pages
-}
-
-private fun calculateImageWidth(screenWidth: Int, pageCount: Int, windowWidthSizeClass: WindowWidthSizeClass): Int {
-    val maxValue = when (windowWidthSizeClass) {
-        WindowWidthSizeClass.Compact -> 3
-        WindowWidthSizeClass.Medium -> 5
-        WindowWidthSizeClass.Expanded -> 7
-        else -> 3
-    }
-    return screenWidth * pageCount.coerceIn(1, maxValue)
 }
 
 private const val DEFAULT_MAX_LINES = 3
