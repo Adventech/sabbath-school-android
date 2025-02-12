@@ -44,7 +44,7 @@ fun BlockContent(
     BlockContentWrapper(
         blockItem = blockItem,
         modifier = modifier
-            .thenIf(blockItem !is BlockItem.Story) {
+            .thenIf(blockItem !is BlockItem.Story && blockItem !is BlockItem.TableBlock) {
                 background(blockItem, nested)
             },
     ) { blockModifier ->
@@ -122,7 +122,9 @@ fun BlockContent(
             is BlockItem.StorySlide -> {
                 StorySlideContent(blockItem, blockModifier)
             }
-            is BlockItem.TableBlock -> Unit
+            is BlockItem.TableBlock -> {
+                TableContent(blockItem, blockModifier, userInputState, onHandleUri)
+            }
             is BlockItem.Video -> {
                 VideoContent(blockItem, blockModifier)
             }
