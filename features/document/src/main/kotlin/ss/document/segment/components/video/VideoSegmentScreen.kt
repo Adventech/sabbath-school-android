@@ -43,7 +43,7 @@ data class VideoSegmentScreen(
 
     data class State(
         val title: String,
-        val videos: ImmutableList<VideoClipSegment>,
+        val videos: ImmutableList<BlockItem.Video>,
         val blocks: List<BlockItem>,
         val userInputState: UserInputState,
         val overlayState: DocumentOverlayState.BottomSheet?,

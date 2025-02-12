@@ -22,7 +22,6 @@
 
 package ss.document.segment.components.video
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -36,7 +35,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -49,6 +47,7 @@ import com.slack.circuit.overlay.ContentWithOverlays
 import com.slack.circuit.overlay.OverlayEffect
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.ui.BlockContent
+import io.adventech.blockkit.ui.VideoContent
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.background
@@ -67,7 +66,6 @@ fun VideoSegmentScreenUi(state: State, modifier: Modifier = Modifier) {
     val readerStyle = LocalReaderStyle.current
     val containerColor = readerStyle.theme.background()
     val contentColor = readerStyle.theme.primaryForeground()
-    val context = LocalContext.current
 
     HazeScaffold(
         modifier = modifier,
@@ -100,12 +98,10 @@ fun VideoSegmentScreenUi(state: State, modifier: Modifier = Modifier) {
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
             items(state.videos) { video ->
-                VideoSegmentUi(
-                    thumbnail = video.thumbnail,
-                    title = video.title,
+                VideoContent(
+                    blockItem = video,
                     modifier = Modifier
-                        .padding(horizontal = Dimens.grid_4)
-                        .clickable { state.eventSink(Event.PlayVideo(context, video)) },
+                        .padding(horizontal = Dimens.grid_4),
                 )
             }
 

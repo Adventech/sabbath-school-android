@@ -37,7 +37,9 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
+import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.resource.Segment
+import io.adventech.blockkit.model.resource.VideoClipSegment
 import kotlinx.collections.immutable.toImmutableList
 import ss.document.DocumentOverlayState.BottomSheet
 import ss.document.components.DocumentTopAppBarAction
@@ -63,10 +65,14 @@ class VideoSegmentPresenter @AssistedInject constructor(
         val userInputState = userInputStateProducer(screen.documentId)
         var bottomSheetState by rememberRetained { mutableStateOf<BottomSheet?>(null) }
 
+        val videos = rememberRetained(segment) {
+            segment?.video.orEmpty().map { it.asBlock() }.toImmutableList()
+        }
+
         return State(
             title = segment?.title.orEmpty(),
+            videos = videos,
             blocks = segment?.blocks.orEmpty(),
-            videos = segment?.video.orEmpty().toImmutableList(),
             userInputState = userInputState,
             overlayState = bottomSheetState,
         ) { event ->
@@ -106,6 +112,15 @@ class VideoSegmentPresenter @AssistedInject constructor(
             }
         }
     }
+
+    private fun VideoClipSegment.asBlock() = BlockItem.Video(
+        id = src,
+        style = null,
+        data = null,
+        nested = null,
+        src = hls ?: src,
+        caption = null,
+    )
 
     @Composable
     private fun rememberSegment() = produceRetainedState<Segment?>(null) {
