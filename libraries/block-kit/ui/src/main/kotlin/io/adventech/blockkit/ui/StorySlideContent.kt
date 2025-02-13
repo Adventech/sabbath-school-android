@@ -22,6 +22,7 @@
 
 package io.adventech.blockkit.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
@@ -36,7 +37,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContent
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -45,10 +45,16 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.AnnotatedString
@@ -57,6 +63,11 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import coil.size.Scale
+import coil.size.Size
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.ImageStyleTextAlignment
 import io.adventech.blockkit.ui.color.parse
@@ -83,21 +94,12 @@ fun StorySlideContent(
         pageCount = { pages.size },
     )
 
-    val aspectRatio = if (pages.size > 1) {
-        // For multiple pages calculate the aspect ratio based on the number of pages
-        16f / (20f + pages.size)
-    } else {
-        // For a single page, use a standard portrait aspect ratio (16:9)
-        16f / 9f
-    }
-
-    val imageWidth = (screenHeight / aspectRatio).toInt()
-
     val imageScrollState = rememberScrollState()
+    var totalScrollableWidth by remember(pages) { mutableFloatStateOf((screenWidth * pages.size).toFloat()) }
 
     LaunchedEffect(pagerState.currentPage, pagerState.currentPageOffsetFraction) {
-        // Sync the image scroll with the pager
-        val targetScroll = (pagerState.currentPage + pagerState.currentPageOffsetFraction) * screenWidth
+        // Calculate the target scroll position
+        val targetScroll = ((pagerState.currentPage + pagerState.currentPageOffsetFraction) / pages.size) * totalScrollableWidth
         imageScrollState.scrollTo(targetScroll.toInt())
     }
 
@@ -107,12 +109,10 @@ fun StorySlideContent(
                 .fillMaxSize()
                 .horizontalScroll(imageScrollState)
         ) {
-            AsyncImageBox(
+            StoryImage(
                 data = blockItem.image,
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .width(imageWidth.dp),
+                screenHeight = screenHeight,
+                onAvailableWidth = { totalScrollableWidth = it },
             )
         }
 
@@ -200,6 +200,42 @@ private fun splitTextIntoPages(
     }
 
     return pages
+}
+
+@Composable
+internal fun StoryImage(
+    data: String,
+    screenHeight: Int,
+    onAvailableWidth: (Float) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val painter = rememberAsyncImagePainter(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(data)
+            .size(Size.ORIGINAL)
+            .scale(scale = Scale.FILL)
+            .build()
+    )
+
+    when (val state = painter.state) {
+        is AsyncImagePainter.State.Loading -> Unit
+        AsyncImagePainter.State.Empty,
+        is AsyncImagePainter.State.Error -> Unit
+        is AsyncImagePainter.State.Success -> {
+            val (realWidth, realHeight) = state.painter.intrinsicSize.run {
+                width to height
+            }
+            val availableWidth = (realWidth / realHeight) * screenHeight
+            onAvailableWidth(availableWidth)
+        }
+    }
+
+    Image(
+        painter = painter,
+        contentDescription = null,
+        modifier = modifier.fillMaxHeight(),
+        contentScale = ContentScale.FillHeight,
+    )
 }
 
 private const val DEFAULT_MAX_LINES = 3
