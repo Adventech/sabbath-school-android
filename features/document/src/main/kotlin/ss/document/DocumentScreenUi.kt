@@ -32,10 +32,13 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeContent
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -189,7 +192,7 @@ internal fun DocumentOverlay(
     val containerColor = readerStyle.theme.background()
     val contentColor = readerStyle.theme.primaryForeground()
 
-    OverlayEffect(documentOverlayState) {
+    OverlayEffect(documentOverlayState?.let { it::class.simpleName } ?: Unit) {
         when (val overlayState = documentOverlayState) {
             is DocumentOverlayState.BottomSheet -> {
 
