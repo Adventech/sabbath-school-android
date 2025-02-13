@@ -36,7 +36,6 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.TextRange
 import io.adventech.blockkit.model.input.Highlight
 import kotlinx.coroutines.delay
-import timber.log.Timber
 
 @Composable
 internal fun SelectionBlockContainer(
@@ -55,16 +54,17 @@ internal fun SelectionBlockContainer(
             onHighlight = { color ->
                 isDestroy = true
 
-                selection?.let { selection ->
-                    if (selection.end <= selection.start) {
-                        Timber.e("Invalid selection range: Start: ${selection.start}, End: ${selection.end}")
-                        return@let
+                selection?.takeIf { it.length > 0 }?.let { selection ->
+                    val (startIndex, endIndex) = if (selection.end < selection.start) {
+                        selection.end to selection.start
+                    } else {
+                        selection.start to selection.end
                     }
 
                     onHighlight(
                         Highlight(
-                            startIndex = selection.start,
-                            endIndex = selection.end,
+                            startIndex = startIndex,
+                            endIndex = endIndex,
                             length = selection.length,
                             color = color,
                         )
