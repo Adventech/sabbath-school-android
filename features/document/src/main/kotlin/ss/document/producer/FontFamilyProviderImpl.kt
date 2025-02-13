@@ -53,10 +53,10 @@ internal class FontFamilyProviderImpl @Inject constructor(
                             add(Font(file, weight, style))
                             if (attributes != ResourceFontAttributes.UNKNOWN) {
                                 if (style != FontStyle.Italic) {
-                                    add(Font(file, weight, FontStyle.Italic))
+                                    add(Font(BlockkitR.font.lato_italic, weight, FontStyle.Italic))
                                 }
                                 if (weight != FontWeight.Bold) {
-                                    Font(BlockkitR.font.lato_bold, FontWeight.Bold)
+                                    add(Font(BlockkitR.font.lato_bold, FontWeight.Bold, style))
                                 }
                             }
                         }
