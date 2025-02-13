@@ -34,7 +34,6 @@ import io.adventech.blockkit.model.resource.ResourceFontAttributes
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import jakarta.inject.Inject
 import ss.resources.api.ResourcesRepository
-import io.adventech.blockkit.ui.R as BlockkitR
 
 internal class FontFamilyProviderImpl @Inject constructor(
     private val repository: ResourcesRepository,
@@ -49,19 +48,7 @@ internal class FontFamilyProviderImpl @Inject constructor(
                         val (file, attributes) = model
                         val (weight, style) = attributes.style()
 
-                        val fonts = buildList {
-                            add(Font(file, weight, style))
-                            if (attributes != ResourceFontAttributes.UNKNOWN) {
-                                if (style != FontStyle.Italic) {
-                                    add(Font(BlockkitR.font.lato_italic, weight, FontStyle.Italic))
-                                }
-                                if (weight != FontWeight.Bold) {
-                                    add(Font(BlockkitR.font.lato_bold, FontWeight.Bold, style))
-                                }
-                            }
-                        }
-
-                        FontFamily(fonts)
+                        FontFamily(Font(file, weight, style))
                     }
                 }
         }
