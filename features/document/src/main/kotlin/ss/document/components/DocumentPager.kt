@@ -22,11 +22,16 @@
 
 package ss.document.components
 
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -63,13 +68,24 @@ fun DocumentPager(
 
     LaunchedEffect(initialPage) { pagerState.animateScrollToPage(initialPage) }
 
+    var pageListStateMap = remember { mutableMapOf<Int, LazyListState>() }
+
     HorizontalPager(
         state = pagerState,
         modifier = modifier,
         verticalAlignment = Alignment.Top,
-        beyondViewportPageCount = 1,
+        beyondViewportPageCount = 2,
     ) { page ->
         val segment = segments[page]
+
+        val listState = rememberLazyListState()
+
+        LaunchedEffect(listState) {
+            snapshotFlow { listState.firstVisibleItemIndex }.collect { index ->
+                onCollapseChange(index > 0)
+                pageListStateMap[page] = listState
+            }
+        }
 
         SegmentUi(
             segment = segment,
@@ -79,6 +95,7 @@ fun DocumentPager(
             titleBelowCover = titleBelowCover,
             userInputState = userInputState,
             modifier = Modifier,
+            listState = listState,
             onNavBack = onNavBack,
             onCollapseChange = onCollapseChange,
             onHandleUri = onHandleUri,
@@ -90,6 +107,10 @@ fun DocumentPager(
     LaunchedEffect(pagerState) {
         snapshotFlow { pagerState.currentPage }.collect { page ->
             onPageChange(page)
+
+            pageListStateMap[page]?.let { listState ->
+                onCollapseChange(listState.firstVisibleItemIndex > 0)
+            }
         }
     }
 }

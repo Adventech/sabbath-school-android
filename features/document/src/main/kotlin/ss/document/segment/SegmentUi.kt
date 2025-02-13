@@ -22,6 +22,8 @@
 
 package ss.document.segment
 
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -48,6 +50,7 @@ fun SegmentUi(
     titleBelowCover: Boolean,
     userInputState: UserInputState,
     modifier: Modifier = Modifier,
+    listState : LazyListState = rememberLazyListState(),
     onNavBack: () -> Unit = {},
     onCollapseChange: (Boolean) -> Unit = {},
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
@@ -62,7 +65,7 @@ fun SegmentUi(
                 titleBelowCover,
                 modifier,
                 userInputState,
-                onCollapseChange,
+                listState,
                 onHandleUri,
                 onHandleReference,
             )

@@ -31,6 +31,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
@@ -60,17 +61,10 @@ internal fun SegmentBlocksContent(
     titleBelowCover: Boolean,
     modifier: Modifier = Modifier,
     userInputState: UserInputState,
-    onCollapseChange: (Boolean) -> Unit = {},
+    listState : LazyListState = rememberLazyListState(),
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
     onHandleReference: (ReferenceModel) -> Unit = { _ -> }
 ) {
-    val listState = rememberLazyListState()
-    val pageCollapsed by remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
-
-    LaunchedEffect(pageCollapsed) {
-        onCollapseChange(pageCollapsed)
-    }
-
     val readerStyle = LocalReaderStyle.current
     val contentColor = readerStyle.theme.primaryForeground()
     val segmentStyle = segment.style?.segment ?: LocalSegmentStyle.current
