@@ -23,6 +23,7 @@
 package ss.document.segment.components
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -46,13 +47,15 @@ internal fun SegmentCover(
 
     Box(modifier.fillMaxWidth(), contentAlignment = Alignment.BottomCenter) {
         if (cover == null) {
-            Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height((height * 0.25).dp),
-            )
+            Column(modifier = Modifier.fillMaxWidth()) {
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height((height * 0.25).dp),
+                )
 
-            headerContent()
+                headerContent()
+            }
         } else {
             ContentBox(
                 content = RemoteImage(
