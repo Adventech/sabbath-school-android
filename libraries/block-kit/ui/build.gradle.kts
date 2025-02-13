@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.haze)
     implementation(libs.haze.materials)
     implementation(libs.saket.extendedspans)
+    implementation(libs.timber)
 
     testImplementation(libs.bundles.testing.common)
 }

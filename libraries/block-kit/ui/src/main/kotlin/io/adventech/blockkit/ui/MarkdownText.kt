@@ -205,11 +205,13 @@ internal fun rememberMarkdownText(
 
         // Apply highlights to the result text
         highlights.forEach { highlight ->
-            addStyle(
-                style = SpanStyle(background = highlight.color.toColor()),
-                start = highlight.startIndex,
-                end = highlight.endIndex
-            )
+            if (highlight.endIndex > highlight.startIndex) {
+                addStyle(
+                    style = SpanStyle(background = highlight.color.toColor()),
+                    start = highlight.startIndex,
+                    end = highlight.endIndex
+                )
+            }
         }
     }
 }
