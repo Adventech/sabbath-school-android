@@ -16,18 +16,9 @@ translations:
 account:
   - changed-files:
       - any-glob-to-any-file: features/account/*
-bible:
-  - changed-files:
-      - any-glob-to-any-file: features/bible/*
-lessons:
-  - changed-files:
-      - any-glob-to-any-file: features/lessons/*
 lessons-data:
   - changed-files:
       - any-glob-to-any-file: common/lessons-data/*
-reader:
-  - changed-files:
-      - any-glob-to-any-file: features/reader/*
 settings:
   - changed-files:
       - any-glob-to-any-file: features/settings/*
@@ -46,3 +37,6 @@ dependencies:
 tv-app:
   - changed-files:
       - any-glob-to-any-file: app-tv/*
+block-kit:
+  - changed-files:
+      - any-glob-to-any-file: libraries/block-kit/*
