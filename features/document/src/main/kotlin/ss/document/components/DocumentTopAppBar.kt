@@ -30,14 +30,18 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material3.DropdownMenu
@@ -114,7 +118,6 @@ internal fun DocumentTopAppBar(
     modifier: Modifier = Modifier,
     collapsible: Boolean = false,
     collapsed: Boolean = false,
-    contentColor: Color = SsTheme.colors.primaryForeground,
     scrollBehavior: TopAppBarScrollBehavior? = null,
     actions: ImmutableList<DocumentTopAppBarAction> = persistentListOf(),
     onNavBack: () -> Unit = {},
@@ -180,18 +183,31 @@ internal fun DocumentTopAppBar(
         },
         modifier = modifier,
         navigationIcon = {
-            val contentColor by topAppBarContainerColor(collapsible, collapsed, contentColor)
+            val contentColor by topAppBarContentColor(collapsible, collapsed)
 
             IconButton(onClick = onNavBack) {
-                AnimatedContent(
-                    targetState = if (collapsed) {
-                        Icons.ArrowBack
+                AnimatedContent(collapsed) { isCollapsed ->
+                    if (isCollapsed) {
+                        Icon(
+                            painter = painterResource(DocumentR.drawable.ic_arrow_backward),
+                            contentDescription = stringResource(L10nR.string.ss_action_arrow_back),
+                            tint = contentColor,
+                        )
                     } else {
-                        Icons.ArrowBackFilled
+                        Box(
+                            modifier = Modifier
+                                .size(26.dp)
+                                .background(Color.Black.copy(0.6f), CircleShape),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            IconBox(
+                                icon = Icons.ArrowBack,
+                                contentColor = Color.White,
+                            )
+                        }
                     }
-                ) { icon ->
-                    IconBox(icon = icon, contentColor = contentColor)
                 }
+
             }
         },
         actions = {
@@ -215,7 +231,7 @@ internal fun DocumentTopAppBar(
                     )
                 }
             }.forEach { icon ->
-                val iconColor by topAppBarContentColor(collapsible, collapsed, contentColor)
+                val iconColor by topAppBarContentColor(collapsible, collapsed)
                 val onClick = (icon as? IconButtonSlot)?.onClick ?: (icon as? IconButtonResSlot)?.onClick
                 IconButton(
                     onClick = {
@@ -238,29 +254,15 @@ internal fun DocumentTopAppBar(
 }
 
 @Composable
-private fun topAppBarContainerColor(
-    collapsible: Boolean,
-    collapsed: Boolean,
-    contentColor: Color,
-) = animateColorAsState(
-    targetValue = when {
-        !collapsible -> contentColor
-        collapsible && !collapsed -> Color.Black.copy(alpha = 0.5f)
-        else -> contentColor
-    },
-    label = "container color"
-)
-
-@Composable
 private fun topAppBarContentColor(
     collapsible: Boolean,
     collapsed: Boolean,
-    contentColor: Color,
+    isDarkMode: Boolean = isSystemInDarkTheme(),
 ) = animateColorAsState(
     targetValue = when {
-        !collapsible -> contentColor
+        !collapsible -> if (isDarkMode) Color.White else Color.Black
         collapsible && !collapsed -> Color.White
-        else -> contentColor
+        else -> if (isDarkMode) Color.White else Color.Black
     },
     label = "icon-color"
 )

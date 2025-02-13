@@ -1,0 +1,37 @@
+<!--
+  ~ Copyright (c) 2025. Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="18.496dp"
+    android:height="14.814dp"
+    android:viewportWidth="18.496"
+    android:viewportHeight="14.814">
+    <path
+        android:fillAlpha="0"
+        android:fillColor="#FF000000"
+        android:pathData="M0,0h18.496v14.814h-18.496z"
+        android:strokeAlpha="0" />
+    <path
+        android:fillAlpha="0.85"
+        android:fillColor="#ffffff"
+        android:pathData="M0,7.402C0,7.646 0.107,7.871 0.303,8.057L6.787,14.531C6.982,14.717 7.188,14.805 7.422,14.805C7.9,14.805 8.281,14.453 8.281,13.965C8.281,13.731 8.193,13.496 8.037,13.35L5.85,11.123L1.982,7.598L1.777,8.076L4.922,8.271L17.275,8.271C17.783,8.271 18.135,7.91 18.135,7.402C18.135,6.895 17.783,6.533 17.275,6.533L4.922,6.533L1.777,6.729L1.982,7.217L5.85,3.682L8.037,1.455C8.193,1.299 8.281,1.074 8.281,0.84C8.281,0.352 7.9,0 7.422,0C7.188,0 6.982,0.078 6.768,0.293L0.303,6.748C0.107,6.934 0,7.158 0,7.402Z" />
+</vector>

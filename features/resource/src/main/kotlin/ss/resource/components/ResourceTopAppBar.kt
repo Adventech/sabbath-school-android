@@ -29,8 +29,13 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -43,6 +48,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
@@ -52,6 +59,8 @@ import app.ss.design.compose.widget.appbar.TopAppBarSpec
 import app.ss.design.compose.widget.appbar.TopAppBarType
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
+import app.ss.translations.R as L10nR
+import ss.resource.R as ResourceR
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -88,17 +97,29 @@ internal fun ResourceTopAppBar(
             }
         },
         navigationIcon = {
-            val contentColor by topAppBarContentColor(isShowingNavigationBar, iconTint)
+            val contentColor by topAppBarContentColor()
 
             IconButton(onClick = onNavBack) {
-                AnimatedContent(
-                    targetState = if (isShowingNavigationBar) {
-                        Icons.ArrowBack
+                AnimatedContent(isShowingNavigationBar) { isCollapsed ->
+                    if (isCollapsed) {
+                        Icon(
+                            painter = painterResource(ResourceR.drawable.ic_arrow_backward),
+                            contentDescription = stringResource(L10nR.string.ss_action_arrow_back),
+                            tint = contentColor,
+                        )
                     } else {
-                        Icons.ArrowBackFilled
+                        Box(
+                            modifier = Modifier
+                                .size(26.dp)
+                                .background(iconTint ?: Color.Black.copy(0.6f), CircleShape),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            IconBox(
+                                icon = Icons.ArrowBack,
+                                contentColor = Color.White,
+                            )
+                        }
                     }
-                ) { icon ->
-                    IconBox(icon = icon, contentColor = contentColor)
                 }
             }
         },
@@ -113,15 +134,9 @@ internal fun ResourceTopAppBar(
 @Stable
 @Composable
 private fun topAppBarContentColor(
-    isShowingNavigationBar: Boolean,
-    iconTint: Color?,
     isNightMode: Boolean = isSystemInDarkTheme(),
 ) = animateColorAsState(
-    if (isShowingNavigationBar) {
-        if (isNightMode) Color.White else Color.Black
-    } else {
-        iconTint ?: SsTheme.colors.primaryForeground
-    },
+    if (isNightMode) Color.White else Color.Black,
     label = "content color"
 )
 

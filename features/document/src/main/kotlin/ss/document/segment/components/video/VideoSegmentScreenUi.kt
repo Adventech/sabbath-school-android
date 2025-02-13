@@ -80,7 +80,6 @@ fun VideoSegmentScreenUi(state: State, modifier: Modifier = Modifier) {
                     )
                 },
                 collapsed = true,
-                contentColor = contentColor,
                 actions = persistentListOf(
                     DocumentTopAppBarAction.DisplayOptions,
                 ),

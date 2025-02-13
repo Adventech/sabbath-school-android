@@ -29,6 +29,10 @@ plugins {
     alias(libs.plugins.hilt)
 }
 
+android {
+    namespace = "ss.resource"
+}
+
 foundry {
     features { compose() }
 }
