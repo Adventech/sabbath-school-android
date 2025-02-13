@@ -34,4 +34,5 @@ enum class FeedType {
     @Json(name = "aij") AIJ,
     @Json(name = "devo") DEVO,
     @Json(name = "pm") PM,
+    @Json(name = "explore") EXPLORE,
 }

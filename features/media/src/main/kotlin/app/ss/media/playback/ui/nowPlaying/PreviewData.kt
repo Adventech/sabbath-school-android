@@ -23,15 +23,15 @@
 package app.ss.media.playback.ui.nowPlaying
 
 import androidx.media3.common.MediaMetadata
-import app.ss.media.playback.PlaybackConnection
 import app.ss.media.playback.ui.nowPlaying.components.sampleAudio
-import app.ss.media.playback.ui.spec.PlaybackStateSpec
 import app.ss.models.media.AudioFile
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.PlaybackQueue
 import ss.libraries.media.model.PlaybackSpeed
+import ss.services.media.ui.PlaybackConnection
+import ss.services.media.ui.spec.PlaybackStateSpec
 
 internal object PreviewData {
 
@@ -39,7 +39,12 @@ internal object PreviewData {
         return NowPlayingScreenSpec(
             nowPlayingAudio = sampleAudio,
             playbackQueue = PlaybackQueue(
-                audiosList = (1 until 10).map { sampleAudio.copy(id = "$it", title = "${sampleAudio.title} $it") } ,
+                audiosList = (1 until 10).map {
+                    sampleAudio.copy(
+                        id = "$it",
+                        title = "${sampleAudio.title} $it"
+                    )
+                },
                 title = "Playback Queue"),
             playbackState = PlaybackStateSpec.NONE,
             playbackProgressState = PlaybackProgressState(),
@@ -56,6 +61,7 @@ internal object PreviewData {
                     get() = MutableStateFlow(PlaybackProgressState())
                 override val playbackSpeed: StateFlow<PlaybackSpeed>
                     get() = MutableStateFlow(PlaybackSpeed.NORMAL)
+
                 override fun playPause() = Unit
                 override fun playAudio(audio: AudioFile) = Unit
                 override fun playAudios(audios: List<AudioFile>, index: Int) = Unit

@@ -24,7 +24,6 @@ package ss.feed.components
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -36,7 +35,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalInspectionMode
@@ -46,7 +44,6 @@ import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.asPlaceholder
-import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
@@ -123,9 +120,7 @@ private fun CoverBox(
     content: @Composable () -> Unit
 ) {
     ElevatedCard(
-        modifier = modifier
-            .padding(Dimens.grid_1)
-            .clip(RoundedCornerShape(CoverCornerRadius)),
+        modifier = modifier,
         shape = RoundedCornerShape(CoverCornerRadius),
         colors = CardDefaults.cardColors(
             containerColor = color
@@ -136,7 +131,7 @@ private fun CoverBox(
     ) { content() }
 }
 
-private val CoverDefaultElevation = 8.dp
+private val CoverDefaultElevation = 12.dp
 private val CoverCornerRadius = 6.dp
 
 private val coverSpec = FeedResourceCoverSpec(

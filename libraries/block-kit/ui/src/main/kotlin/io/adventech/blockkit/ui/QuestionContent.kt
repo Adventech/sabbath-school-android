@@ -40,12 +40,14 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
@@ -53,9 +55,13 @@ import androidx.compose.ui.zIndex
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.TextStyle
 import io.adventech.blockkit.model.TextStyleSize
+import io.adventech.blockkit.model.input.UserInput
+import io.adventech.blockkit.model.input.UserInputRequest
+import io.adventech.blockkit.ui.color.Sepia100
+import io.adventech.blockkit.ui.input.UserInputState
+import io.adventech.blockkit.ui.input.find
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.ReaderStyle
-import io.adventech.blockkit.ui.style.Sepia100
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
 
@@ -63,11 +69,20 @@ import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
 internal fun QuestionContent(
     blockItem: BlockItem.Question,
     modifier: Modifier = Modifier,
+    inputState: UserInputState? = null,
     onHandleUri: (String) -> Unit = {}
 ) {
-    var textFieldValue by rememberSaveable(stateSaver = TextFieldValue.Saver) { mutableStateOf(TextFieldValue("")) }
+    val input by remember(inputState) {
+        mutableStateOf<UserInput.Question?>(inputState?.find(blockItem.id))
+    }
+
+    var textFieldValue by rememberSaveable(input, stateSaver = TextFieldValue.Saver) {
+        val content = input?.answer ?: ""
+        mutableStateOf(TextFieldValue(text = content, selection = TextRange(content.length)))
+    }
     val textStyle = blockItem.style?.text
     val inputTextStyle = Styler.textStyle(blockStyle = inputBlockTextStyle)
+    val contentColor = Styler.genericForegroundColorForInteractiveBlock()
 
     ElevatedCard(
         modifier = modifier.fillMaxWidth(),
@@ -88,8 +103,8 @@ internal fun QuestionContent(
                     modifier = Modifier
                         .background(Styler.genericBackgroundColorForInteractiveBlock())
                         .padding(horizontal = 16.dp, vertical = 12.dp),
-                    color = Styler.textColor(textStyle),
-                    style = Styler.textStyle(textStyle),
+                    color = contentColor,
+                    style = Styler.textStyle(textStyle).copy(color = contentColor),
                     textAlign = Styler.textAlign(textStyle),
                     onHandleUri = onHandleUri,
                 )
@@ -98,7 +113,14 @@ internal fun QuestionContent(
             InputBox(modifier = Modifier.fillMaxWidth()) { contentModifier ->
                 BasicTextField(
                     value = textFieldValue,
-                    onValueChange = { textFieldValue = it },
+                    onValueChange = {
+                        textFieldValue = it
+                        val answer = UserInputRequest.Question(
+                            blockId = blockItem.id,
+                            answer = it.text.trim(),
+                        )
+                        inputState?.eventSink?.invoke(UserInputState.Event.InputChanged(answer))
+                    },
                     modifier = contentModifier
                         .padding(vertical = 8.dp)
                         .padding(start = 46.dp, end = 8.dp),

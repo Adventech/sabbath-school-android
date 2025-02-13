@@ -50,8 +50,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
 import ss.libraries.circuit.navigation.CustomTabsIntentScreen
+import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.libraries.circuit.navigation.LoginScreen
-import ss.libraries.circuit.navigation.QuarterliesScreen
 import timber.log.Timber
 import app.ss.translations.R as L10nR
 
@@ -97,7 +97,7 @@ class LoginPresenter @AssistedInject constructor(
                     scope.launch {
                         val isAuthenticated = authWithGoogle(event.context).getOrElse { false }
                         if (isAuthenticated) {
-                            navigator.resetRoot(QuarterliesScreen())
+                            navigator.resetRoot(HomeNavScreen)
                         } else {
                             onAuthError()
                         }
@@ -117,7 +117,7 @@ class LoginPresenter @AssistedInject constructor(
                         scope.launch {
                             val isAuthenticated = authAnonymously().getOrElse { false }
                             if (isAuthenticated) {
-                                navigator.resetRoot(QuarterliesScreen())
+                                navigator.resetRoot(HomeNavScreen)
                             } else {
                                 showConfirmAnonymousAuth = false
                                 onAuthError()

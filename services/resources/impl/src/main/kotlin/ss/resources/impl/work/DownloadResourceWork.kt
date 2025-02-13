@@ -30,14 +30,15 @@ import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import io.adventech.blockkit.model.resource.ResourceFont
+import io.adventech.blockkit.model.resource.ResourceFontAttributes
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.buffer
 import okio.sink
 import ss.foundation.coroutines.DispatcherProvider
-import ss.lessons.api.ResourcesApi
 import ss.libraries.storage.api.dao.FontFilesDao
+import ss.libraries.storage.api.dao.ResourcesDao
 import ss.libraries.storage.api.entity.FontFileEntity
 import timber.log.Timber
 import java.io.File
@@ -47,7 +48,7 @@ class DownloadResourceWork @AssistedInject constructor(
     @Assisted private val appContext: Context,
     @Assisted private val workerParams: WorkerParameters,
     private val fontFilesDao: FontFilesDao,
-    private val resourcesApi: ResourcesApi,
+    private val resourcesDao: ResourcesDao,
     private val dispatcherProvider: DispatcherProvider,
     private val okHttpClient: OkHttpClient,
 ) : CoroutineWorker(appContext, workerParams) {
@@ -55,10 +56,9 @@ class DownloadResourceWork @AssistedInject constructor(
     override suspend fun doWork(): Result {
         val index = inputData.getString(INDEX_KEY) ?: return Result.failure()
 
-        val resource = withContext(dispatcherProvider.default) {
-            resourcesApi.resource(index)
-                .body() ?: return@withContext null
-        } ?: return Result.retry()
+        val resource = withContext(dispatcherProvider.io) {
+            resourcesDao.getBy(index) ?: return@withContext null
+        } ?: return Result.failure()
 
         withContext(dispatcherProvider.io) {
             downloadFiles(resource.fonts.orEmpty())
@@ -77,6 +77,7 @@ class DownloadResourceWork @AssistedInject constructor(
                             FontFileEntity(
                                 fileName = fileName,
                                 name = font.name,
+                                attributes = font.attributes ?: ResourceFontAttributes.UNKNOWN,
                             )
                         )
                     }

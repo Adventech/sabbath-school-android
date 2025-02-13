@@ -30,6 +30,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,23 +39,40 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import io.adventech.blockkit.model.BlockItem
+import io.adventech.blockkit.model.input.UserInput
+import io.adventech.blockkit.model.input.UserInputRequest
+import io.adventech.blockkit.ui.input.UserInputState
+import io.adventech.blockkit.ui.input.find
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.Styler
+import io.adventech.blockkit.ui.style.background
 import io.adventech.blockkit.ui.style.secondaryBackground
 import io.adventech.blockkit.ui.style.secondaryForeground
+import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
 
 @Composable
-internal fun AppealContent(blockItem: BlockItem.Appeal, modifier: Modifier = Modifier) {
-    var isChecked by remember { mutableStateOf(false) }
+internal fun AppealContent(
+    blockItem: BlockItem.Appeal,
+    modifier: Modifier = Modifier,
+    userInputState: UserInputState? = null,
+    onHandleUri: (String) -> Unit = {},
+) {
     val theme = LocalReaderStyle.current.theme
+    val containerColor = theme.secondaryBackground()
     val textColor = theme.secondaryForeground()
+    val userInput by remember(userInputState) {
+        mutableStateOf<UserInput.Appeal?>(userInputState?.find(blockItem.id))
+    }
+    var isChecked by remember(userInput) { mutableStateOf(userInput?.appeal == true) }
 
     ElevatedCard(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.elevatedCardColors(
-            contentColor = theme.secondaryBackground()
+            containerColor = containerColor,
+            contentColor = textColor,
         ),
         shape = Styler.roundedShape(),
     ) {
@@ -69,16 +87,49 @@ internal fun AppealContent(blockItem: BlockItem.Appeal, modifier: Modifier = Mod
                 markdownText = blockItem.markdown,
                 modifier = Modifier.fillMaxWidth(),
                 color = textColor,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                onHandleUri = onHandleUri,
             )
 
             Checkbox(
                 checked = isChecked,
-                onCheckedChange = { isChecked = it },
-                colors = CheckboxDefaults.colors(checkedColor = textColor),
+                onCheckedChange = {
+                    isChecked = it
+                    userInputState?.eventSink(
+                        UserInputState.Event.InputChanged(
+                            UserInputRequest.Appeal(
+                                blockId = blockItem.id,
+                                appeal = isChecked,
+                            )
+                        )
+                    )
+                },
+                colors = CheckboxDefaults.colors(
+                    checkedColor = textColor,
+                    uncheckedColor = textColor,
+                    checkmarkColor = theme.background(),
+                ),
             )
         }
     }
 
+}
+
+@PreviewLightDark
+@Composable
+private fun Preview() {
+    BlocksPreviewTheme {
+        Surface {
+            AppealContent(
+                blockItem = BlockItem.Appeal(
+                    id = "1",
+                    style = null,
+                    markdown = "This is an appeal",
+                    data = null,
+                    nested = false
+                )
+            )
+        }
+    }
 }
 

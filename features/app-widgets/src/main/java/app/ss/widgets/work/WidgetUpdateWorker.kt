@@ -34,8 +34,6 @@ import androidx.work.WorkerParameters
 import app.ss.widgets.data.AppWidgetRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import ss.lessons.api.helper.SyncHelper
-import ss.libraries.appwidget.api.AppWidgetHelper
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -44,16 +42,11 @@ internal class WidgetUpdateWorker @AssistedInject constructor(
     @Assisted appContext: Context,
     @Assisted workerParams: WorkerParameters,
     private val repository: AppWidgetRepository,
-    private val helper: AppWidgetHelper,
-    private val syncHelper: SyncHelper,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result = try {
-        repository.defaultQuarterlyIndex()?.let {
-            syncHelper.syncQuarterlyInfo(it)
-            helper.syncQuarterly(it)
-            Result.success()
-        } ?: Result.failure()
+        repository.sync()
+        Result.success()
     } catch (e: Exception) {
         Timber.e(e)
         if (runAttemptCount < 10) {

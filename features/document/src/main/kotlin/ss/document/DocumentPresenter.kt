@@ -23,26 +23,48 @@
 package ss.document
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.Snapshot
+import app.ss.models.PDFAux
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.foundation.NavEvent
+import com.slack.circuit.foundation.onNavEvent
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuitx.android.IntentScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
+import io.adventech.blockkit.model.ReferenceScope
 import io.adventech.blockkit.model.resource.ResourceDocument
+import io.adventech.blockkit.model.resource.Segment
+import io.adventech.blockkit.model.resource.SegmentType
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
-import ss.document.components.segment.hasCover
-import ss.document.producer.OverlayStateProducer
+import org.joda.time.DateTime
+import ss.document.components.DocumentTopAppBarAction
+import ss.document.producer.ReaderStyleStateProducer
 import ss.document.producer.TopAppbarActionsProducer
+import ss.document.producer.TopAppbarActionsState
+import ss.document.producer.UserInputStateProducer
+import ss.document.segment.producer.SegmentOverlayStateProducer
 import ss.libraries.circuit.navigation.DocumentScreen
+import ss.libraries.circuit.navigation.ExpandedAudioPlayerScreen
+import ss.libraries.circuit.navigation.PdfScreen
+import ss.libraries.circuit.navigation.ResourceScreen
+import ss.libraries.pdf.api.PdfReader
+import ss.misc.DateHelper
 import ss.resources.api.ResourcesRepository
+import ss.document.DocumentOverlayState.Segment as SegmentOverlayState
+import ss.document.producer.TopAppbarActionsState.Event as TopAppbarEvent
+import ss.document.segment.producer.SegmentOverlayStateProducer.Event as SegmentOverlayEvent
 
 class DocumentPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
@@ -50,23 +72,49 @@ class DocumentPresenter @AssistedInject constructor(
     private val resourcesRepository: ResourcesRepository,
     private val actionsProducer: TopAppbarActionsProducer,
     private val fontFamilyProvider: FontFamilyProvider,
-    private val overlayStateProducer: OverlayStateProducer,
+    private val readerStyleStateProducer: ReaderStyleStateProducer,
+    private val segmentOverlayStateProducer: SegmentOverlayStateProducer,
+    private val userInputStateProducer: UserInputStateProducer,
+    private val pdfReader: PdfReader,
 ) : Presenter<State> {
+
+    private val today get() = DateTime.now().withTimeAtStartOfDay()
 
     @Composable
     override fun present(): State {
         val response by rememberDocument()
         val documentPages by rememberDocumentSegments(response)
-        var selectedPage by rememberRetained(documentPages) { mutableStateOf(documentPages.firstOrNull()) }
+        var selectedPage by rememberRetained(documentPages) { mutableStateOf(documentPages.defaultPage()) }
 
         val resourceDocument = response
 
-        val actions = actionsProducer(screen.resourceIndex, screen.index, selectedPage)
-        val overlayState = overlayStateProducer()
+        LaunchedEffect(resourceDocument) { checkPdfOnlySegment(resourceDocument) }
+
+        val actionsState = resourceDocument?.let {
+            actionsProducer(
+                navigator = navigator,
+                resourceId = it.resourceId,
+                resourceIndex = it.resourceIndex,
+                documentIndex = screen.index,
+                documentId = resourceDocument.id,
+                segment = selectedPage,
+            )
+        } ?: TopAppbarActionsState.Empty
+
+        val userInputState = userInputStateProducer(documentId = resourceDocument?.id)
+        val actionsOverlayState = actionsState.overlayState
+        val segmentOverlayState = segmentOverlayStateProducer(navigator, userInputState)
+        val overlayState = rememberRetained(actionsOverlayState, segmentOverlayState) { actionsOverlayState ?: segmentOverlayState }
+
+        val readerStyle = readerStyleStateProducer()
 
         val eventSink: (Event) -> Unit = { event ->
             when (event) {
                 Event.OnNavBack -> navigator.pop()
+                is Event.OnActionClick -> {
+                    actionsState.eventSink(TopAppbarEvent.OnActionClick(event.action))
+                }
+
                 is SuccessEvent.OnPageChange -> {
                     selectedPage = documentPages.getOrNull(event.page)
                 }
@@ -75,46 +123,137 @@ class DocumentPresenter @AssistedInject constructor(
                     selectedPage = event.segment
                 }
 
-                is Event.Blocks.OnHandleUri -> {
-                    (overlayState as? OverlayStateProducer.State.None)?.eventSink(OverlayStateProducer.Event.OnHandleUri(event.uri, event.data))
+                is SuccessEvent.OnNavEvent -> {
+                    when (val event = event.event) {
+                        is NavEvent.GoTo -> {
+                            if (event.screen is ExpandedAudioPlayerScreen) {
+                                actionsState.eventSink(TopAppbarEvent.OnActionClick(DocumentTopAppBarAction.Audio))
+                            } else {
+                                navigator.goTo(event.screen)
+                            }
+                        }
+                        else -> navigator.onNavEvent(event)
+                    }
+                }
+
+                is SuccessEvent.OnHandleUri -> {
+                    val event = SegmentOverlayEvent.OnHandleUri(event.uri, event.data)
+                    sendSegmentOverlayEvent(segmentOverlayState, event)
+                }
+
+                is SuccessEvent.OnHandleReference -> {
+                    val (scope, segment, resource, document) = event.model
+
+                    if (segment != null && resourceDocument != null && scope == ReferenceScope.SEGMENT) {
+                        val event = SegmentOverlayEvent.OnHiddenSegment(
+                            segment = segment,
+                            documentId = resourceDocument.id,
+                            documentIndex = resourceDocument.index,
+                        )
+                        sendSegmentOverlayEvent(segmentOverlayState, event)
+                    } else if (document != null && scope == ReferenceScope.DOCUMENT) {
+                        navigator.goTo(DocumentScreen(document.index))
+                    } else if (resource != null && scope == ReferenceScope.RESOURCE) {
+                        navigator.goTo(ResourceScreen(resource.index))
+                    }
                 }
             }
         }
 
         return when {
-            resourceDocument == null -> State.Loading(screen.title, false, overlayState, eventSink)
+            resourceDocument == null -> State.Loading(false, eventSink)
             else -> State.Success(
                 title = selectedPage?.title ?: resourceDocument.title,
                 hasCover = selectedPage?.hasCover() == true,
-                actions = actions,
+                actions = actionsState.actions,
                 initialPage = documentPages.indexOf(selectedPage),
                 segments = documentPages,
                 selectedSegment = selectedPage,
                 titleBelowCover = resourceDocument.titleBelowCover == true,
                 style = resourceDocument.style,
+                readerStyle = readerStyle,
                 fontFamilyProvider = fontFamilyProvider,
+                documentId = resourceDocument.id,
+                documentIndex = resourceDocument.index,
+                resourceIndex = resourceDocument.resourceIndex,
                 eventSink = eventSink,
-                overlayState = overlayState
+                overlayState = overlayState,
+                userInputState = userInputState,
             )
         }
     }
 
     @Composable
     private fun rememberDocument() = produceRetainedState<ResourceDocument?>(null) {
-        value = resourcesRepository.document(screen.index).getOrNull()
+        resourcesRepository.document(screen.index).collect { value = it }
     }
 
     @Composable
     private fun rememberDocumentSegments(document: ResourceDocument?) = rememberRetained(document) {
         mutableStateOf(
-            (document?.segments?.map { it.copy(cover = it.cover ?: screen.cover) } ?: emptyList())
+            (document?.segments?.map { it.copy(cover = it.cover ?: document.cover) } ?: emptyList())
                 .toImmutableList()
         )
+    }
+
+    private fun ImmutableList<Segment>.defaultPage(): Segment? {
+        screen.segmentIndex?.toIntOrNull()?.let { index ->
+            getOrNull(index)?.let { return it }
+        }
+        forEachIndexed { index, segment ->
+            val date = segment.date?.let { DateHelper.parseDate(it) }
+
+            if (date?.isEqual(today) == true) {
+                return segment
+            }
+        }
+        return firstOrNull()
+    }
+
+    private fun checkPdfOnlySegment(resourceDocument: ResourceDocument?) {
+        val document = resourceDocument ?: return
+        val segments = document.segments ?: return
+        val blocks = segments.flatMap { it.blocks.orEmpty() }
+        val pdfs = segments.flatMap { it.pdf.orEmpty() }
+
+        if (blocks.isEmpty() && pdfs.isNotEmpty()) {
+            val pdfs = segments.flatMap { it.pdf.orEmpty() }
+            val screen = PdfScreen(
+                documentId = document.id,
+                resourceId = document.resourceId,
+                resourceIndex = document.resourceIndex,
+                documentIndex = document.index,
+                pdfs = pdfs.map {
+                    PDFAux(
+                        id = it.id,
+                        src = it.src,
+                        title = it.title,
+                        target = it.target,
+                        targetIndex = it.targetIndex,
+                    )
+                },
+            )
+            Snapshot.withMutableSnapshot {
+                navigator.pop()
+                navigator.goTo(IntentScreen(pdfReader.launchIntent(screen)))
+            }
+        }
     }
 
     @CircuitInject(DocumentScreen::class, SingletonComponent::class)
     @AssistedFactory
     interface Factory {
         fun create(navigator: Navigator, screen: DocumentScreen): DocumentPresenter
+    }
+}
+
+internal fun Segment.hasCover(): Boolean {
+    return type == SegmentType.BLOCK && cover != null
+}
+
+internal fun sendSegmentOverlayEvent(overlayState: DocumentOverlayState, event: SegmentOverlayEvent) {
+    when (val state = overlayState) {
+        is SegmentOverlayState.None -> state.eventSink(event)
+        else -> Unit
     }
 }

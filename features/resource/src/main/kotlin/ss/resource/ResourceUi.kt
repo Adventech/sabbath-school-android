@@ -22,12 +22,20 @@
 
 package ss.resource
 
+import android.widget.TextView
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -36,14 +44,23 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
+import app.ss.design.compose.extensions.color.parse
+import app.ss.design.compose.extensions.color.toAndroidColor
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import app.ss.design.compose.widget.scaffold.SystemUiEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.overlay.OverlayEffect
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
+import io.noties.markwon.Markwon
 import ss.libraries.circuit.navigation.ResourceScreen
+import ss.libraries.circuit.overlay.BottomSheetOverlay
 import ss.resource.components.CoverContent
 import ss.resource.components.ResourceCover
 import ss.resource.components.ResourceLoadingView
@@ -51,6 +68,7 @@ import ss.resource.components.ResourceTopAppBar
 import ss.resource.components.footer
 import ss.resource.components.footerBackgroundColor
 import ss.resource.components.resourceSections
+import com.cryart.design.R as DesignR
 
 @OptIn(ExperimentalMaterial3Api::class)
 @CircuitInject(ResourceScreen::class, SingletonComponent::class)
@@ -69,6 +87,7 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
                 isShowingNavigationBar = collapsed,
                 title = state.title,
                 modifier = Modifier,
+                iconTint = (state as? State.Success)?.resource?.primaryColorDark?.let { Color.parse(it) },
                 scrollBehavior = scrollBehavior,
                 onNavBack = { state.eventSink(Event.OnNavBack) }
             )
@@ -103,7 +122,14 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
                                 resource = resource,
                                 modifier = Modifier,
                                 scrollOffset = { listState.firstVisibleItemScrollOffset.toFloat() },
-                                content = { CoverContent(resource, it) }
+                                content = {
+                                    CoverContent(
+                                        resource = resource,
+                                        type = it,
+                                        ctaOnClick = { state.eventSink(Event.OnCtaClick) },
+                                        readMoreClick = { state.eventSink(Event.OnReadMoreClick) },
+                                    )
+                                }
                             )
                         }
 
@@ -111,10 +137,60 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
 
                         footer(state.credits, state.features)
                     }
+
+                    OverlayContent(state.overlayState)
                 }
             }
         }
     }
 
     SystemUiEffect(lightStatusBar)
+}
+
+@Composable
+private fun OverlayContent(state: ResourceOverlayState?) {
+    OverlayEffect(state) {
+        when (state) {
+            is ResourceOverlayState.IntroductionBottomSheet -> state.onResult(
+                show(BottomSheetOverlay(skipPartiallyExpanded = true) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState())
+                            .padding(horizontal = 16.dp)
+                    ) {
+                        MarkdownText(
+                            text = state.markdown,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(horizontal = 8.dp, vertical = 16.dp),
+                        )
+
+                        Spacer(modifier = Modifier.height(48.dp))
+                    }
+
+                })
+            )
+
+            null -> Unit
+        }
+    }
+}
+
+@Composable
+private fun MarkdownText(text: String, modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+    val markwon = remember { Markwon.create(context) }
+    val contentColor = SsTheme.colors.primaryForeground
+
+    AndroidView(
+        factory = { _ ->
+            TextView(context).apply {
+                markwon.setMarkdown(this, text)
+                setTextColor(contentColor.toAndroidColor())
+                setTextAppearance(DesignR.style.TextAppearance_Markdown)
+            }
+        },
+        modifier = modifier,
+    )
 }

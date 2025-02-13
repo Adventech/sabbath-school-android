@@ -28,6 +28,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import ss.libraries.media.model.extensions.id
+import ss.services.media.ui.PlaybackConnection
 import javax.inject.Inject
 
 @HiltViewModel

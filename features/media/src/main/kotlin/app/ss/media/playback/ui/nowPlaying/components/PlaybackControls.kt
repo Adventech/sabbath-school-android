@@ -36,11 +36,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
-import androidx.compose.material3.ripple
 import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.minimumInteractiveComponentSize
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Stable
@@ -58,8 +58,8 @@ import androidx.compose.ui.unit.dp
 import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconSlot
-import app.ss.media.playback.PlaybackConnection
-import app.ss.media.playback.ui.spec.PlaybackStateSpec
+import ss.services.media.ui.PlaybackConnection
+import ss.services.media.ui.spec.PlaybackStateSpec
 import app.ss.translations.R.string as RString
 import ss.libraries.media.resources.R as MediaR
 

@@ -22,25 +22,197 @@
 
 package io.adventech.blockkit.ui
 
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.unit.dp
 import io.adventech.blockkit.model.BlockItem
+import io.adventech.blockkit.model.input.Highlight
+import io.adventech.blockkit.model.input.HighlightColor
+import io.adventech.blockkit.model.input.UserInput
+import io.adventech.blockkit.model.input.UserInputRequest
+import io.adventech.blockkit.ui.input.MarkdownTextInput
+import io.adventech.blockkit.ui.input.SelectionBlockContainer
+import io.adventech.blockkit.ui.input.UserInputState
+import io.adventech.blockkit.ui.input.find
+import io.adventech.blockkit.ui.input.rememberContentHighlights
 import io.adventech.blockkit.ui.style.Styler
+import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 internal fun ParagraphContent(
+    blockItem: BlockItem.Paragraph,
+    modifier: Modifier = Modifier,
+    parent: BlockItem? = null,
+    inputState: UserInputState? = null,
+    onHandleUri: (String) -> Unit = {},
+) {
+    val isSelectable = remember(parent) { parent.isChildSelectable() }
+    if (isSelectable) {
+        SelectableParagraph(
+            blockItem = blockItem,
+            modifier = modifier,
+            inputState = inputState,
+            onHandleUri = onHandleUri,
+        )
+    } else {
+        ReadOnlyParagraph(
+            blockItem = blockItem,
+            modifier = modifier,
+            onHandleUri = onHandleUri,
+        )
+    }
+}
+
+@Composable
+private fun ReadOnlyParagraph(
     blockItem: BlockItem.Paragraph,
     modifier: Modifier = Modifier,
     onHandleUri: (String) -> Unit = {},
 ) {
     val blockStyle = blockItem.style?.text
 
-    MarkdownText(
-        markdownText = blockItem.markdown,
-        modifier = modifier,
-        color = Styler.textColor(blockStyle),
-        style = Styler.textStyle(blockStyle),
-        textAlign = Styler.textAlign(blockStyle),
-        onHandleUri = onHandleUri,
-    )
+    SelectionContainer {
+        MarkdownText(
+            markdownText = blockItem.markdown,
+            modifier = modifier,
+            color = Styler.textColor(blockStyle),
+            style = Styler.textStyle(blockStyle),
+            textAlign = Styler.textAlign(blockStyle),
+            onHandleUri = onHandleUri,
+        )
+    }
 }
+
+@Composable
+private fun SelectableParagraph(
+    blockItem: BlockItem.Paragraph,
+    modifier: Modifier = Modifier,
+    inputState: UserInputState? = null,
+    onHandleUri: (String) -> Unit = {},
+) {
+    val blockStyle = blockItem.style?.text
+
+    val highlights = rememberContentHighlights(blockItem.id, inputState)
+    var localHighlights by remember(highlights) { mutableStateOf(highlights) }
+
+    var textFieldValue by remember { mutableStateOf<TextFieldValue?>(null) }
+    val currentSelection = textFieldValue?.selection
+
+    SelectionBlockContainer(
+        selection = currentSelection,
+        onHighlight = { highlight ->
+            textFieldValue = textFieldValue?.copy(
+                selection = TextRange.Zero,
+            )
+            val input: UserInput.Highlights? = inputState?.find(blockItem.id)
+            val highlights = input?.highlights.orEmpty() + highlight
+            val request = UserInputRequest.Highlights(
+                blockId = blockItem.id,
+                highlights = highlights
+            )
+            localHighlights = highlights.toImmutableList()
+            inputState?.eventSink?.invoke(UserInputState.Event.InputChanged(request))
+        },
+        onRemoveHighlight = {
+            // Remove any highlight who's startIndex and endIndex are in the range of the current selection
+            val selection = currentSelection ?: return@SelectionBlockContainer
+            val input: UserInput.Highlights? = inputState?.find(blockItem.id)
+            val highlights = removeHighlightsInRange(input?.highlights.orEmpty(), selection)
+            val request = UserInputRequest.Highlights(
+                blockId = blockItem.id,
+                highlights = highlights
+            )
+            localHighlights = highlights.toImmutableList()
+            inputState?.eventSink?.invoke(UserInputState.Event.InputChanged(request))
+            textFieldValue = textFieldValue?.copy(
+                selection = TextRange.Zero,
+            )
+        }
+    ) {
+        MarkdownTextInput(
+            markdownText = blockItem.markdown,
+            onValueChange = { textFieldValue = it },
+            modifier = modifier,
+            selection = currentSelection ?: TextRange.Zero,
+            color = Styler.textColor(blockStyle),
+            style = Styler.textStyle(blockStyle),
+            textAlign = Styler.textAlign(blockStyle),
+            onHandleUri = onHandleUri,
+            highlights = localHighlights,
+        )
+    }
+}
+
+private fun removeHighlightsInRange(highlights: List<Highlight>, range: TextRange): List<Highlight> {
+    return highlights.filterNot { highlight ->
+        highlight.startIndex in range.min..range.max && highlight.endIndex in range.min..range.max ||
+            highlight.startIndex <= range.max && highlight.endIndex >= range.min
+    }
+}
+
+private fun BlockItem?.isChildSelectable(): Boolean {
+    return when (this) {
+        null -> true
+        is BlockItem.Collapse -> true
+        is BlockItem.Quote -> true
+        is BlockItem.BlockListItem -> true
+        is BlockItem.ExcerptItem -> true
+        is BlockItem.TableBlock -> true
+        else -> false
+    }
+}
+
+@Composable
+@PreviewLightDark
+private fun Preview() {
+    val blockId = "blockId"
+    val inputState = remember {
+        UserInputState(
+            input = highlights.map {
+                UserInput.Highlights(
+                    blockId = blockId,
+                    id = "",
+                    timestamp = 0L,
+                    highlights = highlights
+                )
+            }.toImmutableList(),
+            bibleVersion = null,
+            eventSink = {}
+        )
+    }
+    BlocksPreviewTheme {
+        Surface {
+            ParagraphContent(
+                blockItem = BlockItem.Paragraph(
+                    id = blockId,
+                    style = null,
+                    data = null,
+                    nested = null,
+                    markdown = MARKDOWN
+                ),
+                modifier = Modifier.padding(16.dp),
+                inputState = inputState,
+            )
+        }
+    }
+}
+
+internal const val MARKDOWN =
+    "Kotlin's **sealed interfaces** provide a structured way to represent restricted hierarchies. For example, if you're designing a UI state system, you might have states like `Loading`, `Fallback`, and `Navigation`. Unlike `sealed class`, a **sealed interface** allows multiple inheritance, making it more flexible. If you prefer an explicit approach, using `None` instead of nullable types can improve clarity. 🚀"
+private val highlights = listOf(
+    Highlight(startIndex = 9, endIndex = 26, length = 17, color = HighlightColor.BLUE),
+    Highlight(startIndex = 89, endIndex = 111, length = 22, color = HighlightColor.YELLOW),
+    Highlight(startIndex = 112, endIndex = 126, length = 14, color = HighlightColor.ORANGE),
+    Highlight(startIndex = 163, endIndex = 296, length = 22, color = HighlightColor.GREEN)
+)

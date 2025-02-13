@@ -29,6 +29,10 @@ plugins {
     alias(libs.plugins.hilt)
 }
 
+android {
+    namespace = "ss.document"
+}
+
 foundry {
     features { compose() }
 }
@@ -44,9 +48,13 @@ dependencies {
     implementation(projects.common.translations)
     implementation(projects.libraries.blockKit.ui)
     implementation(projects.libraries.circuit.api)
+    implementation(projects.libraries.media.api)
+    implementation(projects.libraries.media.resources)
+    implementation(projects.libraries.pdf.api)
+    implementation(projects.libraries.prefs.api)
+    implementation(projects.services.media.ui)
     implementation(projects.services.resources.api)
 
-    implementation(libs.androidx.palette)
     implementation(libs.coil.compose)
     implementation(libs.google.hilt.android)
     implementation(libs.joda.android)

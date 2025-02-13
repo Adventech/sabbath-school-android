@@ -26,6 +26,7 @@ import androidx.annotation.Keep
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import io.adventech.blockkit.model.BlockItem
+import io.adventech.blockkit.model.Style
 
 @Keep
 @JsonClass(generateAdapter = true)
@@ -43,7 +44,10 @@ data class Segment(
     val cover: String? = null,
     val blocks: List<BlockItem>? = null,
     val date: String? = null,
-    val background: String? = null
+    val background: String? = null,
+    val pdf: List<PdfAux>? = null,
+    val video: List<VideoClipSegment>? = null,
+    val style: Style? = null,
 )
 
 @JsonClass(generateAdapter = false)

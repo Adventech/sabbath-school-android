@@ -36,8 +36,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.adventech.blockkit.model.BlockLevelStyle
 import io.adventech.blockkit.model.BlocksStyle
+import io.adventech.blockkit.model.SegmentStyle
 import io.adventech.blockkit.model.SpacingStyle
 import io.adventech.blockkit.model.TextStyleAlignment
+import io.adventech.blockkit.ui.color.Gray100
+import io.adventech.blockkit.ui.color.Gray300
+import io.adventech.blockkit.ui.color.Primary800
+import io.adventech.blockkit.ui.color.Primary950
+import io.adventech.blockkit.ui.color.Sepia300
+import io.adventech.blockkit.ui.color.Sepia400
+import io.adventech.blockkit.ui.color.parse
 import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
 import io.adventech.blockkit.model.TextStyle as BlockTextStyle
 
@@ -48,12 +56,15 @@ object Styler {
         blockStyle: BlockTextStyle?,
         template: StyleTemplate = BlockStyleTemplate.DEFAULT,
     ): Color {
-        val readerStyle = LocalReaderStyle.current
         val blockStyleColor = blockStyle?.color?.let { Color.parse(it) }
-        val color = when (readerStyle.theme) {
-            ReaderStyle.Theme.Light -> blockStyleColor
-            ReaderStyle.Theme.Auto -> blockStyleColor?.takeUnless { isSystemInDarkTheme() }
-            else -> null
+        val color = if (template.themeColorOverride) {
+            when (LocalReaderStyle.current.theme) {
+                ReaderStyle.Theme.Light -> blockStyleColor
+                ReaderStyle.Theme.Auto -> blockStyleColor?.takeUnless { isSystemInDarkTheme() }
+                else -> null
+            }
+        } else {
+            blockStyleColor
         }
         return color ?: template.textColorDefault()
     }
@@ -85,23 +96,25 @@ object Styler {
         return TextStyle(
             color = textColor(blockStyle, template),
             fontSize = textSize(blockStyle, template),
-            fontFamily = fontFamily(blockStyle),
+            fontFamily = fontFamily(blockStyle, template),
         )
     }
 
     @Composable
-    private fun fontFamily(blockStyle: BlockTextStyle?): FontFamily {
+    private fun fontFamily(blockStyle: BlockTextStyle?, template: StyleTemplate = BlockStyleTemplate.DEFAULT): FontFamily {
         val blocksStyle = LocalBlocksStyle.current
         val typeface = blockStyle?.typeface ?: blocksStyle?.nested?.all?.text?.typeface
-        return typeface?.let { LocalFontFamilyProvider.current.invoke(typeface) } ?: defaultFontFamily()
+        return typeface?.let { LocalFontFamilyProvider.current.invoke(typeface) } ?: template.fontFamilyDefault()
     }
 
     @Composable
-    fun defaultFontFamily(): FontFamily = when (LocalReaderStyle.current.typeface) {
-        ReaderStyle.Typeface.Andada -> FontProvider.googleFontFamily("Lora")
+    fun defaultFontFamily(): FontFamily = fontFamily(LocalReaderStyle.current.typeface)
+
+    fun fontFamily(typeface: ReaderStyle.Typeface): FontFamily = when (typeface) {
+        ReaderStyle.Typeface.Andada -> LoraFontFamily
         ReaderStyle.Typeface.Lato -> LatoFontFamily
-        ReaderStyle.Typeface.PtSerif -> FontProvider.googleFontFamily("PTSerif")
-        ReaderStyle.Typeface.PtSans -> FontProvider.googleFontFamily("PTSans")
+        ReaderStyle.Typeface.PtSerif -> PTSerifFontFamily
+        ReaderStyle.Typeface.PtSans -> PTSansFontFamily
     }
 
     fun padding(
@@ -153,6 +166,38 @@ object Styler {
         val light = Color.Gray100
         val sepia = Color.Sepia300
         val dark = Color.Primary950
+        return themedColor(light, sepia, dark, theme)
+    }
+
+    @Composable
+    fun genericForegroundColorForInteractiveBlock(
+        theme: ReaderStyle.Theme = LocalReaderStyle.current.theme,
+    ): Color {
+        val light = Color.Black
+        val sepia = Color(0xFF5b4636)
+        val dark = Color.White
+
+        return themedColor(light, sepia, dark, theme)
+    }
+
+    fun roundedShape() = RoundedCornerShape(6.dp)
+
+    @Composable
+    fun borderColor(): Color {
+        val light = Color.Gray300
+        val sepia = Color.Sepia400
+        val dark = Color.Primary800
+
+        return themedColor(light, sepia, dark)
+    }
+
+    @Composable
+    fun themedColor(
+        light: Color,
+        sepia: Color,
+        dark: Color,
+        theme: ReaderStyle.Theme = LocalReaderStyle.current.theme,
+    ): Color {
         return when (theme) {
             ReaderStyle.Theme.Light -> light
             ReaderStyle.Theme.Dark -> dark
@@ -160,9 +205,8 @@ object Styler {
             ReaderStyle.Theme.Sepia -> sepia
         }
     }
-
-    fun roundedShape() = RoundedCornerShape(6.dp)
 }
 
 
 val LocalBlocksStyle = staticCompositionLocalOf<BlocksStyle?> { null }
+val LocalSegmentStyle = staticCompositionLocalOf<SegmentStyle?> { null }

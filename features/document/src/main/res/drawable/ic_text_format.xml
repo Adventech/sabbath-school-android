@@ -1,0 +1,41 @@
+<!--
+  ~ Copyright (c) 2025. Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="22.744dp"
+    android:height="14.443dp"
+    android:viewportWidth="22.744"
+    android:viewportHeight="14.443">
+    <path
+        android:fillAlpha="0"
+        android:fillColor="#FF000000"
+        android:pathData="M0,0h22.744v14.443h-22.744z"
+        android:strokeAlpha="0" />
+    <path
+        android:fillAlpha="0.85"
+        android:fillColor="#ffffff"
+        android:pathData="M17.236,14.424C18.74,14.424 20.146,13.604 20.752,12.334L20.791,12.334L20.791,13.623C20.791,14.111 21.123,14.434 21.582,14.434C22.051,14.434 22.383,14.111 22.383,13.584L22.383,7.061C22.383,4.932 20.82,3.564 18.34,3.564C16.504,3.564 14.971,4.375 14.414,5.635C14.307,5.869 14.229,6.104 14.229,6.318C14.229,6.748 14.551,7.031 14.971,7.031C15.273,7.031 15.508,6.914 15.654,6.641C16.201,5.508 17.031,4.971 18.301,4.971C19.824,4.971 20.732,5.83 20.732,7.197L20.732,8.037L17.578,8.213C15.107,8.35 13.731,9.492 13.731,11.309C13.731,13.174 15.166,14.424 17.236,14.424ZM17.637,13.066C16.318,13.066 15.42,12.344 15.42,11.269C15.42,10.234 16.25,9.541 17.783,9.443L20.732,9.258L20.732,10.293C20.732,11.846 19.355,13.066 17.637,13.066Z" />
+    <path
+        android:fillAlpha="0.85"
+        android:fillColor="#ffffff"
+        android:pathData="M0.82,14.424C1.338,14.424 1.592,14.229 1.777,13.682L3.037,10.234L8.799,10.234L10.059,13.682C10.244,14.229 10.498,14.424 11.006,14.424C11.523,14.424 11.856,14.111 11.856,13.623C11.856,13.457 11.826,13.301 11.748,13.096L7.168,0.898C6.943,0.303 6.543,0 5.918,0C5.313,0 4.902,0.293 4.688,0.889L0.107,13.106C0.029,13.311 0,13.467 0,13.633C0,14.121 0.313,14.424 0.82,14.424ZM3.516,8.75L5.889,2.178L5.938,2.178L8.311,8.75Z" />
+</vector>

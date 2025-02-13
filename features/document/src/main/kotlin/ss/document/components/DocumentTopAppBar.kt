@@ -22,29 +22,33 @@
 
 package ss.document.components
 
+import androidx.annotation.DrawableRes
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.automirrored.rounded.Article
-import androidx.compose.material.icons.rounded.Headphones
 import androidx.compose.material.icons.rounded.MoreVert
-import androidx.compose.material.icons.rounded.OndemandVideo
-import androidx.compose.material.icons.rounded.TextFormat
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -60,45 +64,48 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.icon.IconBox
+import app.ss.design.compose.widget.icon.IconButtonResSlot
 import app.ss.design.compose.widget.icon.IconButtonSlot
 import app.ss.design.compose.widget.icon.Icons
 import io.adventech.blockkit.model.resource.Segment
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import ss.document.components.segment.dateDisplay
+import ss.misc.DateHelper
 import androidx.compose.material.icons.Icons as MaterialIcons
 import app.ss.translations.R as L10nR
+import ss.document.R as DocumentR
+import ss.libraries.media.resources.R as MediaR
 
 enum class DocumentTopAppBarAction(
-    val icon: ImageVector,
+    @DrawableRes val iconRes: Int,
     val title: Int,
     val primary: Boolean,
 ) {
     Audio(
-        icon = MaterialIcons.Rounded.Headphones,
+        iconRes = MediaR.drawable.ic_audio_icon,
         title = L10nR.string.ss_media_audio,
         primary = true,
     ),
     Video(
-        icon = MaterialIcons.Rounded.OndemandVideo,
+        iconRes = MediaR.drawable.ic_video_icon,
         title = L10nR.string.ss_media_videos,
         primary = true,
     ),
     Pdf(
-        icon = MaterialIcons.AutoMirrored.Rounded.Article,
+        iconRes = DocumentR.drawable.ic_text_document,
         title = L10nR.string.ss_pdf_original,
         primary = false,
     ),
     DisplayOptions(
-        icon = MaterialIcons.Rounded.TextFormat,
+        iconRes = DocumentR.drawable.ic_text_format,
         title = L10nR.string.ss_settings_display_options,
         primary = false,
     )
@@ -114,38 +121,46 @@ internal fun DocumentTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior? = null,
     actions: ImmutableList<DocumentTopAppBarAction> = persistentListOf(),
     onNavBack: () -> Unit = {},
+    onActionClick: (DocumentTopAppBarAction) -> Unit = {},
 ) {
     var expanded by remember { mutableStateOf(false) }
-    DropdownMenu(
-        expanded = expanded,
-        onDismissRequest = { expanded = false },
-        modifier = modifier,
-        offset = DpOffset((-16).dp, 0.dp),
-        shape = RoundedCornerShape(16.dp),
-        containerColor = SsTheme.colors.primaryBackground,
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentSize(Alignment.TopEnd),
     ) {
-        actions.filter { it.primary == false }.forEach {
-            DropdownMenuItem(
-                text = {
-                    Text(
-                        text = stringResource(it.title),
-                        modifier = Modifier,
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                },
-                onClick = {
-                    expanded = false
-                },
-                modifier = Modifier,
-                leadingIcon = {
-                    Icon(
-                        imageVector = it.icon,
-                        contentDescription = stringResource(it.title),
-                        modifier = Modifier,
-                        tint = SsTheme.colors.primaryForeground
-                    )
-                }
-            )
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier,
+            offset = DpOffset((-16).dp, 0.dp),
+            shape = RoundedCornerShape(16.dp),
+            containerColor = SsTheme.colors.primaryBackground,
+        ) {
+            actions.filter { it.primary == false }.forEach { action ->
+                DropdownMenuItem(
+                    text = {
+                        Text(
+                            text = stringResource(action.title),
+                            modifier = Modifier,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    },
+                    onClick = {
+                        expanded = false
+                        onActionClick(action)
+                    },
+                    modifier = Modifier,
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(action.iconRes),
+                            contentDescription = stringResource(action.title),
+                            modifier = Modifier,
+                            tint = SsTheme.colors.primaryForeground
+                        )
+                    }
+                )
+            }
         }
     }
 
@@ -168,26 +183,41 @@ internal fun DocumentTopAppBar(
         },
         modifier = modifier,
         navigationIcon = {
-            val containerColor by topAppBarContainerColor(collapsible, collapsed)
-            val iconColor by topAppBarContentColor(collapsible, collapsed)
-            IconButton(
-                onClick = onNavBack,
-                colors = IconButtonDefaults.iconButtonColors(containerColor = containerColor),
-            ) {
-                IconBox(
-                    icon = Icons.ArrowBack,
-                    contentColor = iconColor,
-                )
+            val contentColor by topAppBarContentColor(collapsible, collapsed)
+
+            IconButton(onClick = onNavBack) {
+                AnimatedContent(collapsed) { isCollapsed ->
+                    if (isCollapsed) {
+                        Icon(
+                            painter = painterResource(DocumentR.drawable.ic_arrow_backward),
+                            contentDescription = stringResource(L10nR.string.ss_action_arrow_back),
+                            tint = contentColor,
+                        )
+                    } else {
+                        Box(
+                            modifier = Modifier
+                                .size(26.dp)
+                                .background(Color.Black.copy(0.6f), CircleShape),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            IconBox(
+                                icon = Icons.ArrowBack,
+                                contentColor = Color.White,
+                            )
+                        }
+                    }
+                }
+
             }
         },
         actions = {
             buildList {
-                actions.filter { it.primary }.forEach {
+                actions.filter { it.primary }.forEach { action ->
                     add(
-                        IconButtonSlot(
-                            imageVector = it.icon,
-                            contentDescription = stringResource(it.title),
-                            onClick = {},
+                        IconButtonResSlot(
+                            iconRes = action.iconRes,
+                            contentDescription = stringResource(action.title),
+                            onClick = { onActionClick(action) },
                         )
                     )
                 }
@@ -201,11 +231,12 @@ internal fun DocumentTopAppBar(
                     )
                 }
             }.forEach { icon ->
-                val containerColor by topAppBarContainerColor(collapsible, collapsed)
                 val iconColor by topAppBarContentColor(collapsible, collapsed)
+                val onClick = (icon as? IconButtonSlot)?.onClick ?: (icon as? IconButtonResSlot)?.onClick
                 IconButton(
-                    onClick = icon.onClick,
-                    colors = IconButtonDefaults.iconButtonColors(containerColor = containerColor),
+                    onClick = {
+                        onClick?.invoke()
+                    },
                 ) {
                     IconBox(
                         icon = icon,
@@ -223,27 +254,15 @@ internal fun DocumentTopAppBar(
 }
 
 @Composable
-private fun topAppBarContainerColor(
-    collapsible: Boolean,
-    collapsed: Boolean,
-) = animateColorAsState(
-    targetValue = when {
-        !collapsible -> Color.Transparent
-        collapsible && !collapsed -> Color.Black.copy(alpha = 0.5f)
-        else -> Color.Transparent
-    },
-    label = "container color"
-)
-
-@Composable
 private fun topAppBarContentColor(
     collapsible: Boolean,
     collapsed: Boolean,
+    isDarkMode: Boolean = isSystemInDarkTheme(),
 ) = animateColorAsState(
     targetValue = when {
-        !collapsible -> SsTheme.colors.primaryForeground
+        !collapsible -> if (isDarkMode) Color.White else Color.Black
         collapsible && !collapsed -> Color.White
-        else -> SsTheme.colors.primaryForeground
+        else -> if (isDarkMode) Color.White else Color.Black
     },
     label = "icon-color"
 )
@@ -300,15 +319,15 @@ private fun DocumentSegmentDropdown(
                             Text(
                                 text = segment.title,
                                 style = MaterialTheme.typography.titleMedium,
-                                color = SsTheme.colors.primaryForeground
+                                color = SsTheme.colors.primaryForeground,
                             )
                         },
                         supportingContent = {
-                            segment.date?.dateDisplay()?.let {
+                            (segment.date?.dateDisplay() ?: segment.subtitle)?.let {
                                 Text(
                                     text = it,
                                     style = MaterialTheme.typography.bodyMedium,
-                                    color = SsTheme.colors.secondaryForeground
+                                    color = SsTheme.colors.secondaryForeground,
                                 )
                             }
                         }
@@ -342,4 +361,8 @@ private fun DocumentSegmentDropdown(
 
         IconBox(Icons.ArrowDropDown)
     }
+}
+
+internal fun String?.dateDisplay(): String? {
+    return this?.let { DateHelper.formatDate(it) }
 }

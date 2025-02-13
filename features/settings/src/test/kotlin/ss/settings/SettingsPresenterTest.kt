@@ -44,7 +44,7 @@ import ss.settings.repository.SettingsRepository
 class SettingsPresenterTest {
 
     private val context: Context = ApplicationProvider.getApplicationContext()
-    private val screen = SettingsScreen(true)
+    private val screen = SettingsScreen
     private val navigator = FakeNavigator(screen)
 
     @Test
@@ -55,7 +55,6 @@ class SettingsPresenterTest {
             context = context,
             repository = FakeRepository(entities),
             navigator = navigator,
-            screen = screen,
         )
 
         presenter.test {
@@ -72,7 +71,6 @@ class SettingsPresenterTest {
             context = context,
             repository = FakeRepository(entities),
             navigator = navigator,
-            screen = screen,
         )
 
         presenter.test {
@@ -94,7 +92,6 @@ class SettingsPresenterTest {
             context = context,
             repository = FakeRepository(entities),
             navigator = navigator,
-            screen = screen,
         )
 
         presenter.test {

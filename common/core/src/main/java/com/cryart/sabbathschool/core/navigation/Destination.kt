@@ -28,7 +28,6 @@ import androidx.core.net.toUri
 enum class Destination(val key: String) {
 
     ABOUT("about"),
-    READ("read"),
     READ_WEB("sabbath-school.adventech.io"),
     ;
 

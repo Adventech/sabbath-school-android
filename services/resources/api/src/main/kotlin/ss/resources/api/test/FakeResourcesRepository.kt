@@ -28,14 +28,17 @@ import app.ss.models.PDFAux
 import app.ss.models.VideoAux
 import io.adventech.blockkit.model.feed.FeedGroup
 import io.adventech.blockkit.model.feed.FeedType
+import io.adventech.blockkit.model.input.UserInput
+import io.adventech.blockkit.model.input.UserInputRequest
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.model.resource.ResourceDocument
+import io.adventech.blockkit.model.resource.Segment
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import ss.resources.api.ResourcesRepository
 import ss.resources.model.FeedModel
+import ss.resources.model.FontModel
 import ss.resources.model.LanguageModel
-import java.io.File
 
 @VisibleForTesting(otherwise = VisibleForTesting.NONE)
 class FakeResourcesRepository(
@@ -48,19 +51,31 @@ class FakeResourcesRepository(
         TODO("Not yet implemented")
     }
 
-    override suspend fun feed(type: FeedType): Result<FeedModel> {
+    override fun feed(type: FeedType): Flow<FeedModel> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun feedGroup(id: String, type: FeedType): Result<FeedGroup> {
+    override fun feedGroup(id: String, type: FeedType): Flow<FeedGroup> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun resource(index: String): Result<Resource> {
+    override fun resource(index: String): Flow<Resource> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun document(index: String): Result<ResourceDocument> {
+    override fun document(index: String): Flow<ResourceDocument> {
+        TODO("Not yet implemented")
+    }
+
+    override fun documentInput(documentId: String): Flow<List<UserInput>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun saveDocumentInput(documentId: String, input: UserInputRequest) {
+        TODO("Not yet implemented")
+    }
+
+    override fun segment(id: String, index: String): Flow<Segment> {
         TODO("Not yet implemented")
     }
 
@@ -85,7 +100,15 @@ class FakeResourcesRepository(
         TODO("Not yet implemented")
     }
 
-    override suspend fun fontFile(name: String): Flow<File?> {
+    override fun fontFile(name: String): Flow<FontModel?> {
+        TODO("Not yet implemented")
+    }
+
+    override fun bibleVersion(): Flow<String?> {
+        TODO("Not yet implemented")
+    }
+
+    override fun saveBibleVersion(version: String) {
         TODO("Not yet implemented")
     }
 }

@@ -32,4 +32,6 @@ enum class FeedScope {
     UNKNOWN,
     @Json(name = "resource") RESOURCE,
     @Json(name = "document") DOCUMENT,
+    @Json(name = "author") AUTHOR,
+    @Json(name = "category") CATEGORY,
 }

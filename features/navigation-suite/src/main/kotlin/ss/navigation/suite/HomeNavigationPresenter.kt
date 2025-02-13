@@ -44,6 +44,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import org.joda.time.LocalDate
+import ss.libraries.appwidget.api.AppWidgetHelper
 import ss.libraries.circuit.navigation.FeedScreen
 import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.prefs.api.SSPrefs
@@ -53,6 +56,7 @@ class HomeNavigationPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val resourcesRepository: ResourcesRepository,
     private val ssPrefs: SSPrefs,
+    private val appWidgetHelper: AppWidgetHelper,
 ) : Presenter<State> {
 
     @CircuitInject(HomeNavScreen::class, SingletonComponent::class)
@@ -108,7 +112,9 @@ class HomeNavigationPresenter @AssistedInject constructor(
 
     /** Returns a list of [NavbarItem]s based on the selected [language]. */
     private fun getLanguageNavigation(language: String): Flow<ImmutableList<NavbarItem>> {
-        return resourcesRepository.language(language).map { model ->
+        return resourcesRepository.language(language)
+            .onEach { appWidgetHelper.syncQuarterly(defaultQuarterlyIndex()) }
+            .map { model ->
             if (model.aij || model.pm || model.devo) {
                 buildList {
                     add(NavbarItem.SabbathSchool)
@@ -118,14 +124,29 @@ class HomeNavigationPresenter @AssistedInject constructor(
                     if (model.pm) {
                         add(NavbarItem.PersonalMinistries)
                     }
+                    if (model.explore) {
+                        add(NavbarItem.Explore)
+                    }
                     if (model.devo) {
                         add(NavbarItem.Devotionals)
                     }
-                    add(NavbarItem.Account)
                 }.toImmutableList()
             } else {
                 persistentListOf()
             }
         }
+    }
+
+    private fun defaultQuarterlyIndex(): String {
+        val languageCode = ssPrefs.getLanguageCode()
+        val currentDate = LocalDate.now()
+        val year = currentDate.year
+        val quarter = when (currentDate.monthOfYear) {
+            in 1..3 -> "01"
+            in 4..6 -> "02"
+            in 7..9 -> "03"
+            else -> "04"
+        }
+        return "$languageCode-$year-$quarter"
     }
 }

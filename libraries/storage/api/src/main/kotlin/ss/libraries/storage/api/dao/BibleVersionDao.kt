@@ -24,11 +24,12 @@ package ss.libraries.storage.api.dao
 
 import androidx.room.Dao
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 import ss.libraries.storage.api.entity.BibleVersionEntity
 
 @Dao
 interface BibleVersionDao : BaseDao<BibleVersionEntity> {
 
     @Query("SELECT * FROM bible_version WHERE language = :language")
-    fun get(language: String): BibleVersionEntity?
+    fun get(language: String): Flow<BibleVersionEntity?>
 }

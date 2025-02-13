@@ -35,6 +35,6 @@ data class FeedGroup(
     val direction: FeedDirection,
     val title: String?,
     val view: FeedView,
-    val resources: List<Resource>,
+    val resources: List<Resource>?,
     val seeAll: String?
 )

@@ -34,4 +34,5 @@ data class LanguageResponse(
     val pm: Boolean,
     val aij: Boolean,
     val ss: Boolean,
+    val explore: Boolean,
 )

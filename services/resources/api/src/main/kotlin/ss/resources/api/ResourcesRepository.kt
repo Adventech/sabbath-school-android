@@ -27,10 +27,14 @@ import app.ss.models.PDFAux
 import app.ss.models.VideoAux
 import io.adventech.blockkit.model.feed.FeedGroup
 import io.adventech.blockkit.model.feed.FeedType
+import io.adventech.blockkit.model.input.UserInput
+import io.adventech.blockkit.model.input.UserInputRequest
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.model.resource.ResourceDocument
+import io.adventech.blockkit.model.resource.Segment
 import kotlinx.coroutines.flow.Flow
 import ss.resources.model.FeedModel
+import ss.resources.model.FontModel
 import ss.resources.model.LanguageModel
 import java.io.File
 
@@ -39,13 +43,19 @@ interface ResourcesRepository {
 
     fun language(code: String): Flow<LanguageModel>
 
-    suspend fun feed(type: FeedType): Result<FeedModel>
+    fun feed(type: FeedType): Flow<FeedModel>
 
-    suspend fun feedGroup(id: String, type: FeedType): Result<FeedGroup>
+    fun feedGroup(id: String, type: FeedType): Flow<FeedGroup>
 
-    suspend fun resource(index: String): Result<Resource>
+    fun resource(index: String): Flow<Resource>
 
-    suspend fun document(index: String): Result<ResourceDocument>
+    fun document(index: String): Flow<ResourceDocument>
+
+    fun documentInput(documentId: String): Flow<List<UserInput>>
+
+    fun saveDocumentInput(documentId: String, input: UserInputRequest)
+
+    fun segment(id: String, index: String): Flow<Segment>
 
     suspend fun audio(resourceIndex: String, documentIndex: String): Result<List<AudioAux>>
 
@@ -53,5 +63,9 @@ interface ResourcesRepository {
 
     suspend fun pdf(resourceIndex: String, documentIndex: String): Result<List<PDFAux>>
 
-    suspend fun fontFile(name: String): Flow<File?>
+    fun fontFile(name: String): Flow<FontModel?>
+
+    fun bibleVersion(): Flow<String?>
+
+    fun saveBibleVersion(version: String)
 }

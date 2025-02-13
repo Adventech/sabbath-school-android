@@ -52,7 +52,6 @@ internal class PrefetchImagesWorker @AssistedInject constructor(
         val language = workerParams.inputData.getString(LANGUAGE_KEY)
 
         if (inputImages.isNullOrEmpty() && language.isNullOrEmpty()) {
-            Timber.i("No images to cache")
             return Result.failure()
         }
 

@@ -29,6 +29,10 @@ plugins {
     alias(libs.plugins.hilt)
 }
 
+android {
+    namespace = "ss.resource"
+}
+
 foundry {
     features { compose() }
 }
@@ -38,16 +42,20 @@ ksp {
 }
 
 dependencies {
+    implementation(projects.common.design)
     implementation(projects.common.designCompose)
     implementation(projects.common.misc)
     implementation(projects.common.translations)
     implementation(projects.libraries.blockKit.ui)
     implementation(projects.libraries.circuit.api)
+    implementation(projects.libraries.pdf.api)
     implementation(projects.services.resources.api)
 
     implementation(libs.coil.compose)
     implementation(libs.google.hilt.android)
     implementation(libs.joda.android)
+    implementation(libs.markwon.core)
+
     ksp(libs.google.hilt.compiler)
     ksp(libs.circuit.codegen)
 

@@ -22,6 +22,7 @@
 
 package app.ss.design.compose.widget.icon
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -29,6 +30,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 
 /**
  * An IconButton [IconSlot]
@@ -51,6 +53,35 @@ data class IconButtonSlot(
         ) {
             Icon(
                 imageVector = imageVector,
+                contentDescription = contentDescription,
+                tint = tint ?: contentColor,
+                modifier = modifier
+            )
+        }
+    }
+}
+
+/**
+ * An IconButton [IconSlot]
+ */
+@Immutable
+data class IconButtonResSlot(
+    @DrawableRes val iconRes: Int,
+    val contentDescription: String,
+    val onClick: () -> Unit,
+    val enabled: Boolean = true,
+    val tint: Color? = null
+) : IconSlot {
+
+    @Composable
+    override fun Content(contentColor: Color, modifier: Modifier) {
+        androidx.compose.material3.IconButton(
+            onClick = onClick,
+            enabled = enabled,
+            modifier = Modifier.wrapContentSize()
+        ) {
+            Icon(
+                painter = painterResource(id = iconRes),
                 contentDescription = contentDescription,
                 tint = tint ?: contentColor,
                 modifier = modifier

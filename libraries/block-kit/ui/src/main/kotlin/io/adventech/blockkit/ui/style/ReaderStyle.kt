@@ -23,25 +23,41 @@
 package io.adventech.blockkit.ui.style
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import io.adventech.blockkit.ui.color.Gray20
+import io.adventech.blockkit.ui.color.Gray50
+import io.adventech.blockkit.ui.color.Gray700
+import io.adventech.blockkit.ui.color.Gray800
+import io.adventech.blockkit.ui.color.Primary400
+import io.adventech.blockkit.ui.color.Primary950
+import io.adventech.blockkit.ui.color.Sepia100
+import io.adventech.blockkit.ui.color.Sepia200
+import io.adventech.blockkit.ui.color.Sepia400
 
 sealed class ReaderStyle {
     enum class Theme(val value: String) {
         Light("light"),
         Sepia("sepia"),
         Dark("dark"),
-        Auto("auto")
+        Auto("auto");
+
+        companion object {
+            fun from(value: String): Theme = entries.associateBy(Theme::value)[value] ?: Auto
+        }
     }
 
     enum class Typeface(val value: String) {
         Andada("andada"),
         Lato("lato"),
         PtSerif("pt-serif"),
-        PtSans("pt-sans")
+        PtSans("pt-sans");
+
+        companion object {
+            fun from(value: String): Typeface = entries.associateBy(Typeface::value)[value] ?: Lato
+        }
     }
 
     enum class Size(val value: String) {
@@ -50,6 +66,10 @@ sealed class ReaderStyle {
         Medium("medium"),
         Large("large"),
         Huge("huge");
+
+        companion object {
+            fun from(value: String): Size = entries.associateBy(Size::value)[value] ?: Medium
+        }
     }
 }
 
@@ -63,7 +83,7 @@ data class ReaderStyleConfig(
 val LocalReaderStyle = staticCompositionLocalOf { ReaderStyleConfig() }
 
 @Composable
-fun ReaderStyle.Theme.background() : Color {
+fun ReaderStyle.Theme.background(): Color {
     return when (this) {
         ReaderStyle.Theme.Light -> Color.White
         ReaderStyle.Theme.Sepia -> Color.Sepia100
@@ -73,7 +93,7 @@ fun ReaderStyle.Theme.background() : Color {
 }
 
 @Composable
-fun ReaderStyle.Theme.secondaryBackground() : Color {
+fun ReaderStyle.Theme.secondaryBackground(): Color {
     return when (this) {
         ReaderStyle.Theme.Light -> Color.Gray50
         ReaderStyle.Theme.Sepia -> Color.Sepia200
@@ -83,17 +103,17 @@ fun ReaderStyle.Theme.secondaryBackground() : Color {
 }
 
 @Composable
-fun ReaderStyle.Theme.primaryForeground() : Color {
+fun ReaderStyle.Theme.primaryForeground(): Color {
     return when (this) {
         ReaderStyle.Theme.Light -> Color.Primary950
         ReaderStyle.Theme.Sepia -> Color.Sepia400
-        ReaderStyle.Theme.Dark -> Color.Gray200
-        ReaderStyle.Theme.Auto -> if (isSystemInDarkTheme()) Color.Gray200 else Color.Primary950
+        ReaderStyle.Theme.Dark -> Color.Gray20
+        ReaderStyle.Theme.Auto -> if (isSystemInDarkTheme()) Color.Gray20 else Color.Primary950
     }
 }
 
 @Composable
-fun ReaderStyle.Theme.secondaryForeground() : Color {
+fun ReaderStyle.Theme.secondaryForeground(): Color {
     return when (this) {
         ReaderStyle.Theme.Light -> Color.Gray700
         ReaderStyle.Theme.Sepia -> Color.Sepia400

@@ -24,6 +24,7 @@ package io.adventech.blockkit.ui.style
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import io.adventech.blockkit.model.BlockStyleSpacing
@@ -36,6 +37,9 @@ interface StyleTemplate {
     @Composable
     fun textColorDefault(): Color
 
+    @Composable
+    fun fontFamilyDefault(): FontFamily
+
     val textSizePoints: (ReaderStyle.Size, TextStyleSize) -> Float
 
     val defaultTextSizePoints: (TextStyleSize?) -> Float
@@ -43,6 +47,8 @@ interface StyleTemplate {
     val textTypefaceEnabled: Boolean
 
     val paddingSizePoints: (BlockStyleSpacing?) -> Int
+
+    val themeColorOverride: Boolean
 }
 
 interface BlockStyleTemplate : StyleTemplate {
@@ -58,7 +64,15 @@ interface BlockStyleTemplate : StyleTemplate {
         return config.theme.primaryForeground()
     }
 
+    @Composable
+    override fun fontFamilyDefault(): FontFamily {
+        return Styler.defaultFontFamily()
+    }
+
     override val textTypefaceEnabled: Boolean
+        get() = true
+
+    override val themeColorOverride: Boolean
         get() = true
 
     override val defaultTextSizePoints: (TextStyleSize?) -> Float get() = { textStyleSize ->
@@ -162,15 +176,38 @@ internal data class HeadingStyleTemplate(private val depth: Int) : BlockStyleTem
                     6 to 17f
                 ),
                 ReaderStyle.Size.Huge to mapOf(
-                    1 to 34f,
-                    2 to 28f,
-                    3 to 24f,
-                    4 to 20f,
-                    5 to 17f,
-                    6 to 15f
+                    1 to 42f,
+                    2 to 38f,
+                    3 to 34f,
+                    4 to 30f,
+                    5 to 24f,
+                    6 to 20f
                 )
             )
 
             sizeMatrix[size]?.get(depth) ?: 34f
         }
+}
+
+internal data object StoryStyleTemplate : BlockStyleTemplate {
+    override val themeColorOverride: Boolean
+        get() = false
+
+    override val textSizePoints: (ReaderStyle.Size, TextStyleSize) -> Float
+        get() = { _, _ ->  28f }
+
+    @Composable
+    override fun textSizeDefault(): TextUnit {
+        return 28.sp
+    }
+
+    @Composable
+    override fun textColorDefault(): Color {
+        return Color.White
+    }
+
+    @Composable
+    override fun fontFamilyDefault(): FontFamily {
+        return LatoFontFamily
+    }
 }

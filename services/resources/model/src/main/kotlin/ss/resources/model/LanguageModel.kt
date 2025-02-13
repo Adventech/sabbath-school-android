@@ -30,4 +30,5 @@ data class LanguageModel(
     val pm: Boolean = false,
     val aij: Boolean = false,
     val ss: Boolean = false,
+    val explore: Boolean = false,
 )

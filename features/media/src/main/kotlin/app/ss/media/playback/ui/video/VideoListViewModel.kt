@@ -30,6 +30,7 @@ import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.models.media.SSVideosInfo
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
@@ -44,6 +45,7 @@ class VideoListViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     val videoListFlow: StateFlow<VideoListData> = flowOf(savedStateHandle.lessonIndex)
         .mapNotNull { it }
         .flatMapLatest { index ->
@@ -63,10 +65,12 @@ internal fun List<SSVideosInfo>.toData(
     VideoListData.Vertical(
         featured = featuredVideo,
         clips = allVideos.subtract(setOf(featuredVideo)).toList(),
+        showDragHandle = true,
     )
 } else {
     VideoListData.Horizontal(
         data = this,
-        target = lessonIndex
+        target = lessonIndex,
+        showDragHandle = true,
     )
 }

@@ -44,8 +44,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.design.compose.theme.LatoFontFamily
 import app.ss.design.compose.theme.SsTheme
-import app.ss.media.playback.ui.spec.NowPlayingSpec
 import app.ss.models.media.AudioFile
+import ss.services.media.ui.spec.NowPlayingSpec
 
 internal enum class BoxState { Collapsed, Expanded }
 

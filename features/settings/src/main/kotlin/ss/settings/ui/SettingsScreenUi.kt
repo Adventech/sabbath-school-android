@@ -74,22 +74,20 @@ fun SettingsScreenUi(
                 spec = TopAppBarSpec(topAppBarType = TopAppBarType.Large),
                 title = { Text(text = stringResource(id = L10nR.string.ss_settings)) },
                 navigationIcon = {
-                    if (state.showNavigation) {
-                        IconButton(onClick = {
-                            state.eventSick(Event.NavBack)
-                        }) {
-                            IconBox(icon = Icons.ArrowBack)
-                        }
+                    IconButton(onClick = {
+                        state.eventSick(Event.NavBack)
+                    }) {
+                        IconBox(icon = Icons.ArrowBack)
                     }
                 },
                 scrollBehavior = scrollBehavior,
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color.Transparent,
                     scrolledContainerColor = Color.Transparent,
-                ).takeUnless { !state.showNavigation }
+                )
             )
         },
-        blurTopBar = !state.showNavigation
+        blurTopBar = true
     ) { contentPadding ->
 
         LazyColumn(

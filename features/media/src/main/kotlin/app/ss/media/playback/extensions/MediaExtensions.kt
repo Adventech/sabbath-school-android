@@ -22,6 +22,6 @@
 
 package app.ss.media.playback.extensions
 
-import app.ss.media.playback.ui.spec.PlaybackStateSpec
+import ss.services.media.ui.spec.PlaybackStateSpec
 
 internal val NONE_PLAYBACK_STATE: PlaybackStateSpec = PlaybackStateSpec.NONE

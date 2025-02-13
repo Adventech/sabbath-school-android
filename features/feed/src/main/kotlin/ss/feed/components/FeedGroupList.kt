@@ -73,7 +73,7 @@ internal fun FeedLazyColum(
                 when (group.direction) {
                     FeedDirection.UNKNOWN -> Unit
                     FeedDirection.VERTICAL -> {
-                        group.resources.forEach { resource ->
+                        group.resources?.forEach { resource ->
                             FeedResourceView(resource.toSpec(group), Modifier.padding(8.dp)) {
                                 itemClick(resource)
                             }
@@ -114,7 +114,7 @@ private fun LazyListScope.checkDirection(
     when (group.direction) {
         FeedDirection.UNKNOWN -> Unit
         FeedDirection.VERTICAL -> {
-            items(group.resources, key = { it.id }) { resource ->
+            items(group.resources.orEmpty(), key = { it.id }) { resource ->
                 FeedResourceView(resource.toSpec(group), Modifier.padding(8.dp)) {
                     itemClick(resource)
                 }

@@ -40,6 +40,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -54,13 +55,16 @@ import app.ss.design.compose.widget.text.ReadMoreText
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.ui.MarkdownText
 import io.adventech.blockkit.ui.style.Styler
+import io.adventech.blockkit.ui.style.thenIf
 import kotlinx.collections.immutable.toImmutableList
 import app.ss.translations.R as L10n
 
 @Composable
 internal fun ColumnScope.CoverContent(
     resource: Resource,
-    type: CoverContentType
+    type: CoverContentType,
+    ctaOnClick: () -> Unit,
+    readMoreClick: () -> Unit
 ) {
     val textAlign: TextAlign
     val alignment: Alignment.Horizontal
@@ -80,8 +84,9 @@ internal fun ColumnScope.CoverContent(
         }
     }
 
+    val styleTemplate = ResourceStyleTemplate
     val descriptionStyle = resource.style?.resource?.description?.text
-    val descriptionColor = descriptionStyle?.color?.let { Color.parse(it) } ?: Color.White
+    val descriptionColor = Styler.textColor(descriptionStyle, styleTemplate)
 
     val description: @Composable () -> Unit = {
         resource.description?.let {
@@ -112,7 +117,12 @@ internal fun ColumnScope.CoverContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = SsTheme.dimens.grid_4, vertical = 8.dp)
-                        .clickable { }
+                        .thenIf(resource.introduction.isNullOrEmpty() == false) {
+                            clickable { readMoreClick() }
+                        },
+                    readMoreColor = Color.parse(resource.primaryColorDark),
+                    readMoreFontSize = 13.sp,
+                    readMoreFontStyle = FontStyle.Italic,
                 )
             }
 
@@ -125,6 +135,7 @@ internal fun ColumnScope.CoverContent(
     val readButton: @Composable () -> Unit = {
         if (resource.cta?.hidden != true) {
             CtaButton(
+                onClick = ctaOnClick,
                 color = Color.parse(resource.primaryColorDark),
                 text = resource.cta?.text,
                 alignment = alignment,
@@ -147,14 +158,17 @@ internal fun ColumnScope.CoverContent(
         }
     }
 
-    val styleTemplate = ResourceStyleTemplate()
     val style = resource.style?.resource?.title?.text
+    val titleColor = Styler.textColor(style, styleTemplate)
+    val titleStyle = style?.let { Styler.textStyle(style, styleTemplate) } ?: SsTheme.typography.titleLarge
     MarkdownText(
         markdownText = resource.markdownTitle ?: resource.title,
-        style = SsTheme.typography.titleLarge.copy(
+        style = titleStyle.copy(
             fontSize = 30.sp,
+            color = titleColor,
+            lineHeight = 40.sp,
         ),
-        color = Styler.textColor(style, styleTemplate),
+        color = titleColor,
         textAlign = Styler.textAlign(style) ?: textAlign,
         styleTemplate = styleTemplate,
         maxLines = 3,
@@ -165,10 +179,9 @@ internal fun ColumnScope.CoverContent(
             .padding(top = paddingTop, bottom = 8.dp)
     )
 
-    resource.markdownSubtitle?.let {
-        val subtitleStyle = resource.style?.resource?.subtitle?.text
-        val subtitleColor = subtitleStyle?.color?.let { Color.parse(it) } ?: SsColors.White70
-
+    val subtitleStyle = resource.style?.resource?.subtitle?.text
+    val subtitleColor = subtitleStyle?.color?.let { Color.parse(it) } ?: SsColors.White70
+    resource.markdownSubtitle ?: resource.subtitle?.let {
         MarkdownText(
             markdownText = it,
             style = Styler.textStyle(subtitleStyle, styleTemplate).copy(
@@ -181,25 +194,8 @@ internal fun ColumnScope.CoverContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = SsTheme.dimens.grid_4)
-                .padding(top = 4.dp, bottom = 16.dp)
+                .padding(top = 4.dp, bottom = 8.dp)
         )
-    }
-
-    if (resource.markdownSubtitle == null) {
-        resource.subtitle?.let {
-            Text(
-                text = it,
-                style = SsTheme.typography.titleSmall.copy(
-                    fontSize = 16.sp
-                ),
-                color = SsColors.White70,
-                textAlign = textAlign,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = SsTheme.dimens.grid_4)
-                    .padding(top = 8.dp, bottom = 16.dp)
-            )
-        }
     }
 
     if (type == CoverContentType.SECONDARY_LARGE) {
@@ -215,6 +211,7 @@ internal fun ColumnScope.CoverContent(
 
 @Composable
 private fun ColumnScope.CtaButton(
+    onClick: () -> Unit,
     color: Color,
     text: String?,
     alignment: Alignment.Horizontal
@@ -230,7 +227,7 @@ private fun ColumnScope.CtaButton(
         verticalAlignment = Alignment.CenterVertically
     ) {
         ElevatedButton(
-            onClick = {},
+            onClick = onClick,
             modifier = Modifier,
             shape = readButtonShape,
             colors = buttonColors,

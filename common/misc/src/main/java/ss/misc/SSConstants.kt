@@ -64,4 +64,5 @@ object SSConstants {
     const val SS_LATEST_QUARTERLY = "ss_latest_quarterly"
     const val SS_API_BASE_URL = "https://sabbath-school.adventech.io/"
     const val SS_STAGE_API_BASE_URL = "https://sabbath-school-stage.adventech.io/"
+    const val SS_IMAGES_BASE_URL = "https://sabbath-school.adventech.io/api/v3/images/"
 }

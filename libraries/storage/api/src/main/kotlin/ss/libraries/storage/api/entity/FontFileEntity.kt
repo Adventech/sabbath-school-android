@@ -22,11 +22,16 @@
 
 package ss.libraries.storage.api.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import io.adventech.blockkit.model.resource.ResourceFontAttributes
 
 @Entity(tableName = "font_files")
 data class FontFileEntity(
     @PrimaryKey val fileName: String,
     val name: String,
+
+    @ColumnInfo(defaultValue = "UNKNOWN")
+    val attributes: ResourceFontAttributes = ResourceFontAttributes.UNKNOWN
 )

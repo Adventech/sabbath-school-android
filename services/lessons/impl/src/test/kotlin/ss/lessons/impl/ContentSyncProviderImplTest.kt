@@ -36,7 +36,6 @@ import org.junit.runner.RunWith
 import ss.foundation.coroutines.test.TestDispatcherProvider
 import ss.lessons.impl.helper.FakeSyncHelper
 import ss.lessons.test.FakeLessonsApi
-import ss.lessons.test.FakePdfReader
 import ss.libraries.storage.api.entity.LessonEntity
 import ss.libraries.storage.api.entity.QuarterlyEntity
 import ss.libraries.storage.api.entity.QuarterlyInfoEntity
@@ -49,14 +48,12 @@ class ContentSyncProviderImplTest {
     private val fakeQuarterliesDao = FakeQuarterliesDao()
     private val fakeReadsDao = FakeReadsDao()
     private val fakeLessonsDao = FakeLessonsDao()
-    private val fakePdfReader = FakePdfReader()
     private val fakeWorkScheduler = FakeWorkScheduler()
 
     private val underTest = ContentSyncProviderImpl(
         quarterliesDao = fakeQuarterliesDao,
         readsDao = fakeReadsDao,
         lessonsDao = fakeLessonsDao,
-        pdfReader = fakePdfReader,
         lessonsApi = FakeLessonsApi(),
         syncHelper = FakeSyncHelper(),
         workScheduler = fakeWorkScheduler,
@@ -177,26 +174,5 @@ class ContentSyncProviderImplTest {
         underTest.syncQuarterlies()
 
         fakeQuarterliesDao.lastUpdatedQuarterly!!.offlineState shouldBeEqualTo OfflineState.PARTIAL
-    }
-
-    @Test
-    fun `syncQuarterlies - has all pdfs marked COMPLETE`() = runTest {
-        val pdfs = listOf(LessonPdf(id = "id", title = "Title", src = "/uri/to/file"))
-        fakeQuarterliesDao.infoEntitiesForSync = listOf(
-            QuarterlyInfoEntity(
-                quarterly = quarterlyEntity,
-                lessons = listOf(
-                    lessonEntity.copy(
-                        pdfs = pdfs,
-                        pdfOnly = true
-                    )
-                )
-            )
-        )
-        fakePdfReader.downloadFiles(pdfs)
-
-        underTest.syncQuarterlies()
-
-        fakeQuarterliesDao.lastUpdatedQuarterly!!.offlineState shouldBeEqualTo OfflineState.COMPLETE
     }
 }

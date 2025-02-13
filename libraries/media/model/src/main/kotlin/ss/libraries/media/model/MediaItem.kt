@@ -88,8 +88,8 @@ fun AudioFile.toMediaItem(): MediaItem = MediaItem.Builder()
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 fun SSVideo.toMediaItem(): MediaItem = MediaItem.Builder()
     .setMediaId(id)
-    .setUri(src)
-    .setMimeType(MimeTypes.BASE_TYPE_VIDEO)
+    .setUri(hls ?: src)
+    .setMimeType(hls?.let { MimeTypes.APPLICATION_M3U8 } ?: MimeTypes.BASE_TYPE_VIDEO)
     .setMediaMetadata(
         MediaMetadata.Builder()
             .setTitle(title)
@@ -101,7 +101,7 @@ fun SSVideo.toMediaItem(): MediaItem = MediaItem.Builder()
             .setExtras(
                 bundleOf(
                     KEY_ID to id,
-                    KEY_SOURCE to src,
+                    KEY_SOURCE to (hls ?: src),
                     KEY_TARGET to target,
                     KEY_TARGET_INDEX to targetIndex,
                 )

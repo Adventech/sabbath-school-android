@@ -37,14 +37,14 @@ ksp { arg("room.schemaLocation", "$projectDir/schemas") }
 dependencies {
     api(projects.libraries.storage.api)
 
-    implementation(libs.google.hilt.android)
-    ksp(libs.google.hilt.compiler)
     implementation(libs.androidx.room)
     implementation(libs.androidx.room.runtime)
-    ksp(libs.androidx.room.compiler)
+    implementation(libs.google.hilt.android)
+    implementation(libs.moshix.adapters)
     implementation(libs.square.moshi.kotlin)
-    ksp(libs.square.moshi.codegen)
     implementation(libs.timber)
 
-    testImplementation(libs.bundles.testing.common)
+    ksp(libs.androidx.room.compiler)
+    ksp(libs.google.hilt.compiler)
+    ksp(libs.square.moshi.codegen)
 }

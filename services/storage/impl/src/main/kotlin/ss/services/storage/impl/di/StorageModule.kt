@@ -28,9 +28,13 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import io.adventech.blockkit.model.feed.FeedGroup
 import ss.libraries.storage.api.dao.AppWidgetDao
 import ss.libraries.storage.api.dao.AudioDao
 import ss.libraries.storage.api.dao.BibleVersionDao
+import ss.libraries.storage.api.dao.DocumentsDao
+import ss.libraries.storage.api.dao.FeedDao
+import ss.libraries.storage.api.dao.FeedGroupDao
 import ss.libraries.storage.api.dao.FontFilesDao
 import ss.libraries.storage.api.dao.LanguagesDao
 import ss.libraries.storage.api.dao.LessonsDao
@@ -40,7 +44,10 @@ import ss.libraries.storage.api.dao.QuarterliesDao
 import ss.libraries.storage.api.dao.ReadCommentsDao
 import ss.libraries.storage.api.dao.ReadHighlightsDao
 import ss.libraries.storage.api.dao.ReadsDao
+import ss.libraries.storage.api.dao.ResourcesDao
+import ss.libraries.storage.api.dao.SegmentsDao
 import ss.libraries.storage.api.dao.UserDao
+import ss.libraries.storage.api.dao.UserInputDao
 import ss.libraries.storage.api.dao.VideoClipsDao
 import ss.libraries.storage.api.dao.VideoInfoDao
 import ss.services.storage.impl.SabbathSchoolDatabase
@@ -140,6 +147,42 @@ object StorageModule {
     fun provideFontFilesDao(
         @ApplicationContext context: Context
     ): FontFilesDao = context.database().fontFilesDao()
+
+    @Provides
+    @Singleton
+    fun provideSegmentsDao(
+        @ApplicationContext context: Context
+    ): SegmentsDao = context.database().segmentsDao()
+
+    @Provides
+    @Singleton
+    fun provideUserInputDao(
+        @ApplicationContext context: Context
+    ): UserInputDao = context.database().userInputDao()
+
+    @Provides
+    @Singleton
+    fun provideDocumentsDao(
+        @ApplicationContext context: Context
+    ): DocumentsDao = context.database().documentsDao()
+
+    @Provides
+    @Singleton
+    fun provideResourcesDao(
+        @ApplicationContext context: Context
+    ): ResourcesDao = context.database().resourcesDao()
+
+    @Provides
+    @Singleton
+    fun provideFeedDao(
+        @ApplicationContext context: Context
+    ): FeedDao = context.database().feedDao()
+
+    @Provides
+    @Singleton
+    fun provideFeedGroupDao(
+        @ApplicationContext context: Context
+    ): FeedGroupDao = context.database().feedGroupDao()
 }
 
 private fun Context.database(): SabbathSchoolDatabase = SabbathSchoolDatabase.getInstance(this)

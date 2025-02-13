@@ -57,8 +57,8 @@ object AppModule {
 
     @Provides
     fun provideAppConfig() = AppConfig(
-        BuildConfig.VERSION_NAME,
-        BuildConfig.WEB_CLIENT_ID,
+        version = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
+        webClientId = BuildConfig.WEB_CLIENT_ID,
         isDebug = BuildConfig.DEBUG
     )
 }

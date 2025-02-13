@@ -36,12 +36,21 @@ dependencies {
     api(projects.libraries.blockKit.model)
     api(projects.libraries.blockKit.parser)
 
+    implementation(projects.common.translations)
+    implementation(projects.libraries.circuit.api)
+    implementation(projects.libraries.media.api)
     implementation(projects.libraries.ui.placeholder)
+    implementation(projects.services.media.ui)
 
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.google.fonts)
     implementation(libs.atlassian.commonmark)
     implementation(libs.bundles.compose)
     implementation(libs.bundles.compose.tooling)
     implementation(libs.coil.compose)
+    implementation(libs.haze)
+    implementation(libs.haze.materials)
+    implementation(libs.saket.extendedspans)
+    implementation(libs.timber)
+
+    testImplementation(libs.bundles.testing.common)
 }

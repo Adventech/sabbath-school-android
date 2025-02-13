@@ -111,13 +111,16 @@ internal fun VideoListScreen(
         ),
         state = listState
     ) {
-        item {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                contentAlignment = Alignment.TopCenter
-            ) {
-                DragHandle()
+
+        if (videoList.showDragHandle) {
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.TopCenter
+                ) {
+                    DragHandle()
+                }
             }
         }
 

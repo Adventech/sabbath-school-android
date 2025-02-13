@@ -36,4 +36,5 @@ dependencies {
     api(libs.google.hilt.android)
     implementation(projects.common.core)
     implementation(projects.common.designCompose)
+    implementation(projects.common.models)
 }

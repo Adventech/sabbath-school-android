@@ -42,6 +42,7 @@ import kotlinx.collections.immutable.toImmutableList
 import ss.libraries.circuit.navigation.ResourceScreen
 import ss.resource.components.content.ResourceSectionsStateProducer
 import ss.resource.components.spec.toSpec
+import ss.resource.producer.ResourceCtaScreenProducer
 import ss.resources.api.ResourcesRepository
 
 class ResourcePresenter @AssistedInject constructor(
@@ -49,6 +50,7 @@ class ResourcePresenter @AssistedInject constructor(
     @Assisted private val screen: ResourceScreen,
     private val resourcesRepository: ResourcesRepository,
     private val resourceSectionStateProducer: ResourceSectionsStateProducer,
+    private val resourceCtaScreenProducer: ResourceCtaScreenProducer,
     private val fontFamilyProvider: FontFamilyProvider,
 ) : Presenter<State> {
 
@@ -57,16 +59,29 @@ class ResourcePresenter @AssistedInject constructor(
         val resourceResponse by rememberResource()
         var title by rememberRetained(resourceResponse) { mutableStateOf(resourceResponse?.title ?: "") }
 
-        val eventSink: (Event) -> Unit = { event ->
-            when (event) {
-                Event.OnNavBack -> navigator.pop()
-            }
-        }
-
         val resource = resourceResponse
         val credits = rememberRetained(resource) { resource?.credits?.map { it.toSpec() }?.toImmutableList() ?: persistentListOf() }
         val features = rememberRetained(resource) { resource?.features?.map { it.toSpec() }?.toImmutableList() ?: persistentListOf() }
         val sections = resource?.let { resourceSectionStateProducer(navigator, it) }?.specs ?: persistentListOf()
+        val ctaScreen = resourceCtaScreenProducer(resource)
+
+        var overlayState by rememberRetained { mutableStateOf<ResourceOverlayState?>(null) }
+
+        val eventSink: (Event) -> Unit = { event ->
+            when (event) {
+                Event.OnNavBack -> navigator.pop()
+                Event.OnCtaClick -> {
+                    ctaScreen?.let { navigator.goTo(it) }
+                }
+                Event.OnReadMoreClick -> {
+                    resource?.introduction?.let {
+                        overlayState = ResourceOverlayState.IntroductionBottomSheet(it) { result ->
+                            overlayState = null
+                        }
+                    }
+                }
+            }
+        }
 
         return when {
             resource != null -> State.Success(
@@ -76,7 +91,8 @@ class ResourcePresenter @AssistedInject constructor(
                 credits = credits,
                 features = features,
                 fontFamilyProvider = fontFamilyProvider,
-                eventSink = eventSink
+                overlayState = overlayState,
+                eventSink = eventSink,
             )
 
             else -> State.Loading(
@@ -88,8 +104,7 @@ class ResourcePresenter @AssistedInject constructor(
 
     @Composable
     private fun rememberResource() = produceRetainedState<Resource?>(null) {
-        val resource = resourcesRepository.resource(screen.index)
-        value = resource.getOrNull()
+        resourcesRepository.resource(screen.index).collect { value = it }
     }
 
     @CircuitInject(ResourceScreen::class, SingletonComponent::class)

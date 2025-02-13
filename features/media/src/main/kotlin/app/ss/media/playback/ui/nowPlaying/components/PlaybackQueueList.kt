@@ -40,7 +40,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.BottomSheetDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -59,10 +62,10 @@ import androidx.compose.ui.unit.sp
 import app.ss.design.compose.extensions.modifier.thenIf
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.divider.Divider
-import app.ss.media.playback.ui.spec.NowPlayingSpec
-import app.ss.media.playback.ui.spec.PlaybackQueueSpec
-import app.ss.media.playback.ui.spec.toSpec
 import kotlinx.coroutines.launch
+import ss.services.media.ui.spec.NowPlayingSpec
+import ss.services.media.ui.spec.PlaybackQueueSpec
+import ss.services.media.ui.spec.toSpec
 import app.ss.translations.R as L10nR
 
 private const val SCROLL_TO_ITEM_KEY = "playbackQueue"
@@ -107,6 +110,7 @@ internal fun PlaybackQueueList(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AudioRow(
     spec: NowPlayingSpec,
@@ -152,7 +156,10 @@ private fun AudioRow(
             AnimatedVisibility(visible = isSelected && isPlaying) {
                 NowPlayingAnimation()
             }
-        }
+        },
+        colors = ListItemDefaults.colors(
+            containerColor = BottomSheetDefaults.ContainerColor
+        ),
     )
 }
 

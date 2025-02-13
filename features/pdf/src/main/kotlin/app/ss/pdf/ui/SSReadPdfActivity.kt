@@ -33,7 +33,6 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import app.ss.media.playback.ui.nowPlaying.showNowPlaying
 import app.ss.media.playback.ui.video.showVideoList
-import app.ss.models.PdfAnnotations
 import app.ss.pdf.PdfReaderPrefs
 import app.ss.pdf.R
 import com.cryart.sabbathschool.core.extensions.view.tint
@@ -43,6 +42,7 @@ import com.pspdfkit.ui.DocumentDescriptor
 import com.pspdfkit.ui.PdfActivity
 import com.pspdfkit.ui.tabs.PdfTabBarCloseMode
 import dagger.hilt.android.AndroidEntryPoint
+import io.adventech.blockkit.model.input.PDFAuxAnnotations
 import ss.foundation.coroutines.flow.collectIn
 import javax.inject.Inject
 import app.ss.translations.R as L10n
@@ -100,9 +100,11 @@ class SSReadPdfActivity : PdfActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> true.also { finish() }
-            ID_AUDIO -> true.also { supportFragmentManager.showNowPlaying(viewModel.lessonIndex) }
+            ID_AUDIO -> true.also {
+                supportFragmentManager.showNowPlaying(viewModel.resourceId)
+            }
             ID_VIDEO -> true.also {
-                viewModel.lessonIndex?.let {
+                viewModel.documentIndex?.let {
                     supportFragmentManager.showVideoList(it)
                 }
             }
@@ -135,11 +137,11 @@ class SSReadPdfActivity : PdfActivity() {
             documentCoordinator.setVisibleDocument(loadedDocuments.first())
         }
 
-        viewModel.annotationsUpdateFlow.collectIn(this) { docIndex ->
-            val document = documentCoordinator.documents.getOrNull(docIndex)?.document ?: return@collectIn
-            val annotations = viewModel.annotationsMap[docIndex] ?: return@collectIn
-
-            loadAnnotations(document, annotations)
+        viewModel.annotationsStateFlow.collectIn(this) { annotations ->
+            annotations.forEach { (index, annotations) ->
+                val document = documentCoordinator.documents.getOrNull(index)?.document ?: return@forEach
+                loadAnnotations(document, annotations)
+            }
         }
 
         viewModel.mediaAvailabilityFlow.collectIn(this) { invalidateOptionsMenu() }
@@ -148,12 +150,13 @@ class SSReadPdfActivity : PdfActivity() {
     override fun onDocumentLoaded(document: PdfDocument) {
         val index = loadedDocuments.indexOfFirst { it.uid == documentCoordinator.visibleDocument?.uid }
         if (index >= 0) {
-            val annotations = viewModel.annotationsMap[index] ?: return
-            loadAnnotations(document, annotations)
+            viewModel.annotationsStateFlow.value[index]?.let { annotations ->
+                loadAnnotations(document, annotations)
+            }
         }
     }
 
-    private fun loadAnnotations(document: PdfDocument, annotations: List<PdfAnnotations>) {
+    private fun loadAnnotations(document: PdfDocument, annotations: List<PDFAuxAnnotations>) {
         if (annotations.isEmpty()) return
 
         with(document.annotationProvider) {
@@ -181,4 +184,4 @@ class SSReadPdfActivity : PdfActivity() {
     }
 }
 
-internal const val ARG_PDF_FILES = "ss_arg_pdf_files"
+internal const val ARG_PDF_SCREEN = "as_arg_pdf_screen"

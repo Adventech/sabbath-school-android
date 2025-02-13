@@ -295,10 +295,20 @@ sealed interface BlockItem {
         val caption: String?,
     ) : BlockItem
 
-    data object Unknown : BlockItem {
-        override var id: String = UUID.randomUUID().toString()
-        override var style: BlockStyle? = null
-        override var data: BlockData? = null
-        override var nested: Boolean? = null
-    }
+    @JsonClass(generateAdapter = true)
+    data class Carousel(
+        override val id: String,
+        override val style: BlockStyle?,
+        override val data: BlockData?,
+        override val nested: Boolean?,
+        val items: List<BlockItem>,
+    ) : BlockItem
+
+    @JsonClass(generateAdapter = true)
+    data class Unknown(
+        override val id: String = UUID.randomUUID().toString(),
+        override val style: BlockStyle? = null,
+        override val data: BlockData? = null,
+        override val nested: Boolean? = null,
+    ) : BlockItem
 }

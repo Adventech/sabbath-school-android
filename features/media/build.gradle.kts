@@ -29,17 +29,14 @@ plugins {
     alias(libs.plugins.hilt)
 }
 
-android {
-    namespace = "app.ss.media"
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
-    }
-}
+android { namespace = "app.ss.media" }
 
 foundry {
     features { compose() }
+}
+
+ksp {
+    arg("circuit.codegen.mode", "hilt")
 }
 
 dependencies {
@@ -53,24 +50,25 @@ dependencies {
     implementation(projects.libraries.media.resources)
     implementation(projects.libraries.media.service)
     implementation(projects.libraries.storage.api)
+    implementation(projects.libraries.circuit.api)
+    implementation(projects.services.media.ui)
+    implementation(projects.services.resources.api)
 
     implementation(libs.androidx.activity)
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.compose.material)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.fragment)
-    implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.lifecycle.extensions)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     implementation(libs.google.hilt.android)
-    ksp(libs.google.hilt.compiler)
     implementation(libs.google.material)
 
     implementation(libs.kotlin.coroutines.guava)
     implementation(libs.timber)
     implementation(libs.coil.compose)
+
+    ksp(libs.circuit.codegen)
+    ksp(libs.google.hilt.compiler)
 
     testImplementation(libs.bundles.testing.common)
     testImplementation(projects.libraries.testUtils)

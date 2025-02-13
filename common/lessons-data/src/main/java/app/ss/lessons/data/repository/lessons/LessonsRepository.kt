@@ -37,7 +37,5 @@ interface LessonsRepository {
 
     fun checkReaderArtifact()
 
-    suspend fun getPreferredBibleVersion(): String?
-
     suspend fun savePreferredBibleVersion(version: String)
 }

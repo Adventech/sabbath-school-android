@@ -26,8 +26,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import app.ss.models.LessonPdf
-import app.ss.pdf.ui.ARG_PDF_FILES
-import app.ss.pdf.ui.SSReadPdfActivity
+import app.ss.models.PDFAux
 import com.pspdfkit.annotations.AnnotationType
 import com.pspdfkit.configuration.activity.PdfActivityConfiguration
 import com.pspdfkit.configuration.activity.TabBarHidingMode
@@ -37,13 +36,15 @@ import com.pspdfkit.configuration.settings.SettingsMenuItemType
 import com.pspdfkit.configuration.sharing.ShareFeatures
 import com.pspdfkit.document.download.DownloadJob
 import com.pspdfkit.document.download.DownloadRequest
-import com.pspdfkit.ui.PdfActivityIntentBuilder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
-import ss.lessons.api.PdfReader
-import ss.lessons.model.LocalFile
-import ss.misc.SSConstants
+import app.ss.pdf.ui.ARG_PDF_SCREEN
+import app.ss.pdf.ui.SSReadPdfActivity
+import com.pspdfkit.ui.PdfActivityIntentBuilder
+import ss.libraries.circuit.navigation.PdfScreen
+import ss.libraries.pdf.api.LocalFile
+import ss.libraries.pdf.api.PdfReader
 import timber.log.Timber
 import java.io.File
 import java.util.EnumSet
@@ -68,7 +69,7 @@ internal class PdfReaderImpl @Inject constructor(
         AnnotationType.FREETEXT
     )
 
-    override fun launchIntent(pdfs: List<LessonPdf>, lessonIndex: String): Intent {
+    override fun launchIntent(screen: PdfScreen): Intent {
         val excludedAnnotationTypes = ArrayList(EnumSet.allOf(AnnotationType::class.java))
         allowedAnnotations.forEach { excludedAnnotationTypes.remove(it) }
 
@@ -99,13 +100,10 @@ internal class PdfReaderImpl @Inject constructor(
             .configuration(config)
             .activityClass(SSReadPdfActivity::class.java)
             .build()
-            .apply {
-                putParcelableArrayListExtra(ARG_PDF_FILES, ArrayList(pdfs))
-                putExtra(SSConstants.SS_LESSON_INDEX_EXTRA, lessonIndex)
-            }
+            .apply { putExtra(ARG_PDF_SCREEN, screen) }
     }
 
-    override suspend fun downloadFiles(pdfs: List<LessonPdf>): Result<List<LocalFile>> {
+    override suspend fun downloadFiles(pdfs: List<PDFAux>): Result<List<LocalFile>> {
         return try {
             val files = pdfs.mapNotNull {
                 withContext(dispatcherProvider.io) { downloadFile(context, it) }
@@ -123,7 +121,7 @@ internal class PdfReaderImpl @Inject constructor(
 
     private suspend fun downloadFile(
         context: Context,
-        pdf: LessonPdf
+        pdf: PDFAux
     ): LocalFile? = suspendCoroutine { continuation ->
         val outputFile = File(context.getDir(FILE_DIRECTORY, Context.MODE_PRIVATE), "${pdf.id}.pdf")
         if (outputFile.exists()) {

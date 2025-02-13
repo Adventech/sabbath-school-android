@@ -30,13 +30,15 @@ import io.adventech.blockkit.model.TextStyleSize
 import io.adventech.blockkit.ui.style.BlockStyleTemplate
 import io.adventech.blockkit.ui.style.ReaderStyle
 
-class ResourceStyleTemplate : BlockStyleTemplate {
+object ResourceStyleTemplate : BlockStyleTemplate {
 
     @Composable
     override fun textSizeDefault(): TextUnit = 30.sp
 
     @Composable
     override fun textColorDefault(): Color = Color.White
+
+    override val themeColorOverride: Boolean = false
 
     override val textSizePoints: (ReaderStyle.Size, TextStyleSize) -> Float
         get() = { _, size ->

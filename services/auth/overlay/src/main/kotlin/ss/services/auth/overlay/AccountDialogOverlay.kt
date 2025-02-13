@@ -61,7 +61,6 @@ import app.ss.translations.R.string as L10nR
 
 class AccountDialogOverlay(
     private val userInfo: UserInfo,
-    private val showSettings: Boolean,
 ) : Overlay<AccountDialogOverlay.Result> {
 
     @OptIn(ExperimentalMaterial3Api::class)
@@ -76,7 +75,6 @@ class AccountDialogOverlay(
                 ) {
                     DialogContent(
                         userInfo = userInfo,
-                        showSettings = showSettings,
                         modifier = Modifier,
                         onResult = navigator::finish,
                     )
@@ -99,7 +97,7 @@ class AccountDialogOverlay(
 }
 
 @Composable
-private fun DialogContent(userInfo: UserInfo, showSettings: Boolean, modifier: Modifier = Modifier, onResult: (AccountDialogOverlay.Result) -> Unit = { }) {
+private fun DialogContent(userInfo: UserInfo, modifier: Modifier = Modifier, onResult: (AccountDialogOverlay.Result) -> Unit = { }) {
     val context = LocalContext.current
     val listItemColors = ListItemDefaults.colors(
         containerColor = AlertDialogDefaults.containerColor
@@ -162,24 +160,22 @@ private fun DialogContent(userInfo: UserInfo, showSettings: Boolean, modifier: M
 
         Divider(modifier = Modifier.padding(vertical = 16.dp))
 
-        if (showSettings) {
-            ListItem(
-                headlineContent = {
-                    Text(
-                        text = stringResource(id = L10nR.ss_settings),
-                        style = SsTheme.typography.titleMedium
-                    )
-                },
-                modifier = Modifier.clickable { onResult(AccountDialogOverlay.Result.GoToSettings) },
-                leadingContent = {
-                    IconBox(
-                        icon = Icons.Settings,
-                        modifier = Modifier
-                    )
-                },
-                colors = listItemColors,
-            )
-        }
+        ListItem(
+            headlineContent = {
+                Text(
+                    text = stringResource(id = L10nR.ss_settings),
+                    style = SsTheme.typography.titleMedium
+                )
+            },
+            modifier = Modifier.clickable { onResult(AccountDialogOverlay.Result.GoToSettings) },
+            leadingContent = {
+                IconBox(
+                    icon = Icons.Settings,
+                    modifier = Modifier
+                )
+            },
+            colors = listItemColors,
+        )
 
         ListItem(
             headlineContent = {
@@ -242,7 +238,7 @@ private val AccountImgSize = 48.dp
 private fun PreviewDialogContent() {
     SsTheme {
         Surface(color = AlertDialogDefaults.containerColor) {
-            DialogContent(userInfo = UserInfo(), true)
+            DialogContent(userInfo = UserInfo())
         }
     }
 }

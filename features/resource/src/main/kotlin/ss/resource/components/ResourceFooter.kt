@@ -31,8 +31,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
@@ -66,7 +66,6 @@ internal fun LazyListScope.footer(
             modifier = Modifier
                 .height(8.dp)
                 .fillMaxWidth()
-                .background(footerBackgroundColor())
         )
     }
 
@@ -76,7 +75,6 @@ internal fun LazyListScope.footer(
             description = feature.description,
             image = feature.image,
             modifier = Modifier
-                .background(footerBackgroundColor())
         )
     }
 
@@ -85,7 +83,6 @@ internal fun LazyListScope.footer(
             title = credit.name,
             description = credit.value,
             modifier = Modifier
-                .background(footerBackgroundColor())
         )
     }
 
@@ -100,7 +97,6 @@ internal fun LazyListScope.footer(
             } else SsColors.BaseGrey2,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(footerBackgroundColor())
                 .padding(
                     horizontal = 16.dp,
                     vertical = 10.dp
@@ -109,21 +105,7 @@ internal fun LazyListScope.footer(
     }
 
     item {
-        Spacer(
-            modifier = Modifier
-                .height(48.dp)
-                .fillMaxWidth()
-                .background(footerBackgroundColor())
-        )
-    }
-
-    item {
-        Spacer(
-            Modifier
-                .windowInsetsBottomHeight(WindowInsets.safeDrawing)
-                .fillMaxWidth()
-                .background(footerBackgroundColor())
-        )
+        Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.systemBars))
     }
 }
 

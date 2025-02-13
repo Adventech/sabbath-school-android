@@ -22,8 +22,10 @@
 
 package io.adventech.blockkit.model.input
 
+import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass
 
+@Keep
 @JsonClass(generateAdapter = true)
 data class PDFAuxAnnotations(
     val pageIndex: Int,

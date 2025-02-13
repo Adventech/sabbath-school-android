@@ -25,7 +25,6 @@ package ss.feed.components.view
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
@@ -62,14 +61,16 @@ internal fun FeedGroupView(
     itemClick: (Resource) -> Unit = {},
 ) {
     Column(
-        modifier = modifier.fillMaxWidth().padding(bottom = Dimens.grid_4),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(bottom = Dimens.grid_4),
         verticalArrangement = Arrangement.spacedBy(Dimens.grid_2),
     ) {
         FeedGroupHeader(group.title, group.seeAll, Modifier, seeAllClick)
 
         SnappingLazyRow(modifier = Modifier.fillMaxWidth()) {
-            items(group.resources, key = { it.id }) { resource ->
-                FeedResourceView(resource.toSpec(group), Modifier.padding(8.dp)) {
+            items(group.resources.orEmpty(), key = { it.id }) { resource ->
+                FeedResourceView(resource.toSpec(group), Modifier.padding(horizontal = Dimens.grid_4)) {
                     itemClick(resource)
                 }
             }
@@ -86,27 +87,23 @@ private fun FeedGroupHeader(
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = title?.uppercase() ?: "",
-            modifier = Modifier.padding(
-                start = Dimens.grid_4,
-                end = Dimens.grid_2
-            ),
+            modifier = Modifier
+                .weight(1f)
+                .padding(
+                    start = Dimens.grid_4,
+                    end = Dimens.grid_2
+                ),
             style = SsTheme.typography.titleSmall.copy(
                 fontSize = 13.sp,
             ),
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            maxLines = 1,
+            maxLines = 2,
             overflow = TextOverflow.Ellipsis,
-        )
-
-        Spacer(
-            modifier = Modifier
-                .weight(1f)
-                .padding(horizontal = Dimens.grid_2)
         )
 
         seeAll?.let {

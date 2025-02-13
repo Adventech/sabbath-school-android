@@ -32,6 +32,7 @@ plugins {
     alias(libs.plugins.foundry.base)
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.embrace)
 }
 
 val useReleaseKeystore = file(BuildAndroidConfig.KEYSTORE_PROPS_FILE).exists()
@@ -39,7 +40,7 @@ val appVersionCode = readPropertyValue(
     filePath = BuildAndroidConfig.VERSION_PROPS_FILE,
     key = "BUILD_NUMBER",
     defaultValue = "1"
-).toInt() + 21856
+).toInt() + 21860
 
 val webClientId = readPropertyValue(
     filePath = "$rootDir/${BuildAndroidConfig.API_KEYS_PROPS_FILE}",
@@ -54,7 +55,7 @@ android {
         applicationId = BuildAndroidConfig.APP_ID
 
         versionCode = appVersionCode
-        versionName = "${BuildAndroidConfig.Version.name} ($appVersionCode)"
+        versionName = BuildAndroidConfig.Version.name
 
         testInstrumentationRunner = "com.cryart.sabbathschool.SSAppTestRunner"
 
@@ -142,16 +143,12 @@ dependencies {
     implementation(projects.common.translations)
     implementation(projects.features.appWidgets)
     implementation(projects.features.auth)
-    implementation(projects.features.bible)
     implementation(projects.features.document)
     implementation(projects.features.feed)
     implementation(projects.features.languages)
-    implementation(projects.features.lessons)
     implementation(projects.features.media)
     implementation(projects.features.navigationSuite)
     implementation(projects.features.pdf)
-    implementation(projects.features.quarterlies)
-    implementation(projects.features.readings)
     implementation(projects.features.resource)
     implementation(projects.features.settings)
     implementation(projects.libraries.circuit.api)
@@ -159,6 +156,7 @@ dependencies {
     implementation(projects.services.circuit.impl)
     implementation(projects.services.lessons.impl)
     implementation(projects.services.media.impl)
+    implementation(projects.services.media.ui)
     implementation(projects.services.prefs.impl)
     implementation(projects.services.resources.impl)
     implementation(projects.services.storage.impl)
@@ -183,6 +181,8 @@ dependencies {
     implementation(libs.timber)
 
     implementation(libs.joda.android)
+
+    implementation(libs.embrace.android.sdk)
 
     testImplementation(libs.bundles.testing.common)
     testImplementation(projects.libraries.foundation.coroutines.test)
@@ -222,8 +222,8 @@ object BuildAndroidConfig {
     const val VERSION_PROPS_FILE = "../release/build_number.properties"
 
     object Version {
-        private const val MAJOR = 4
-        private const val MINOR = 62
+        private const val MAJOR = 5
+        private const val MINOR = 0
         private const val PATCH = 0
 
         const val name = "$MAJOR.$MINOR.$PATCH"

@@ -23,12 +23,6 @@
 package ss.resources.impl
 
 import android.content.Context
-import androidx.work.Constraints
-import androidx.work.ExistingWorkPolicy
-import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.workDataOf
 import app.ss.models.AudioAux
 import app.ss.models.PDFAux
 import app.ss.models.VideoAux
@@ -38,8 +32,11 @@ import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.adventech.blockkit.model.feed.FeedGroup
 import io.adventech.blockkit.model.feed.FeedType
+import io.adventech.blockkit.model.input.UserInput
+import io.adventech.blockkit.model.input.UserInputRequest
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.model.resource.ResourceDocument
+import io.adventech.blockkit.model.resource.Segment
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filter
@@ -51,14 +48,24 @@ import kotlinx.coroutines.withContext
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.ResourcesApi
+import ss.libraries.storage.api.dao.AudioDao
+import ss.libraries.storage.api.dao.BibleVersionDao
+import ss.libraries.storage.api.dao.DocumentsDao
+import ss.libraries.storage.api.dao.FeedDao
+import ss.libraries.storage.api.dao.FeedGroupDao
 import ss.libraries.storage.api.dao.FontFilesDao
 import ss.libraries.storage.api.dao.LanguagesDao
-import ss.libraries.storage.api.entity.LanguageEntity
+import ss.libraries.storage.api.dao.ResourcesDao
+import ss.libraries.storage.api.dao.SegmentsDao
+import ss.libraries.storage.api.dao.UserInputDao
+import ss.libraries.storage.api.dao.VideoInfoDao
 import ss.prefs.api.SSPrefs
 import ss.resources.api.ResourcesRepository
+import ss.resources.impl.ext.toEntity
+import ss.resources.impl.ext.toModel
 import ss.resources.impl.sync.SyncHelper
-import ss.resources.impl.work.DownloadResourceWork
 import ss.resources.model.FeedModel
+import ss.resources.model.FontModel
 import ss.resources.model.LanguageModel
 import timber.log.Timber
 import java.io.File
@@ -67,8 +74,17 @@ import javax.inject.Inject
 internal class ResourcesRepositoryImpl @Inject constructor(
     @ApplicationContext private val appContext: Context,
     private val resourcesApi: ResourcesApi,
+    private val audioDao: AudioDao,
+    private val documentsDao: DocumentsDao,
+    private val feedDao: FeedDao,
+    private val feedGroupDao: FeedGroupDao,
+    private val videoInfoDao: VideoInfoDao,
     private val fontFilesDao: FontFilesDao,
     private val languagesDao: LanguagesDao,
+    private val segmentsDao: SegmentsDao,
+    private val userInputDao: UserInputDao,
+    private val resourcesDao: ResourcesDao,
+    private val bibleVersionDao: BibleVersionDao,
     private val syncHelper: SyncHelper,
     private val dispatcherProvider: DispatcherProvider,
     private val connectivityHelper: ConnectivityHelper,
@@ -96,115 +112,63 @@ internal class ResourcesRepositoryImpl @Inject constructor(
             .flowOn(dispatcherProvider.io)
             .catch { Timber.e(it) }
 
-    private fun LanguageEntity.toModel() = LanguageModel(
-        code = code,
-        name = name,
-        nativeName = nativeName,
-        devo = devo,
-        pm = pm,
-        aij = aij,
-        ss = ss,
-    )
+    override fun feed(type: FeedType): Flow<FeedModel> {
+        val language = ssPrefs.get().getLanguageCode()
 
-    override suspend fun feed(type: FeedType): Result<FeedModel> {
-        return withContext(dispatcherProvider.default) {
-            when (val resource = safeApiCall(connectivityHelper) {
-                resourcesApi.feed(
-                    language = ssPrefs.get().getLanguageCode(),
-                    type = type.name.lowercase()
-                )
-            }) {
-                is NetworkResource.Failure -> {
-                    Result.failure(Throwable("Failed to fetch feed, ${resource.errorBody}"))
-                }
+        return feedDao.get(language, type)
+            .filterNotNull()
+            .map { entity -> entity.toModel() }
+            .onStart { syncHelper.syncFeed(language, type) }
+            .flowOn(dispatcherProvider.io)
+            .catch { Timber.e(it) }
+    }
 
-                is NetworkResource.Success -> {
-                    resource.value.body()?.let {
-                        Result.success(
-                            FeedModel(title = it.title, it.groups)
-                        )
-                    } ?: Result.failure(Throwable("Failed to fetch feed, body is null"))
-                }
+    override fun feedGroup(id: String, type: FeedType): Flow<FeedGroup> {
+        val language = ssPrefs.get().getLanguageCode()
+        return feedGroupDao
+            .get(id)
+            .filterNotNull()
+            .map { it.toModel() }
+            .onStart { syncHelper.syncFeedGroup(id, language, type) }
+            .flowOn(dispatcherProvider.io)
+            .catch { Timber.e(it) }
+    }
+
+    override fun resource(index: String): Flow<Resource> = resourcesDao
+        .get(index)
+        .filterNotNull()
+        .map { it.toModel() }
+        .onStart { syncHelper.syncResource(index) }
+        .flowOn(dispatcherProvider.io)
+        .catch { Timber.e(it) }
+
+    override fun document(index: String): Flow<ResourceDocument> = documentsDao
+        .get(index)
+        .filterNotNull()
+        .map { it.toModel() }
+        .onStart { syncHelper.syncDocument(index) }
+        .flowOn(dispatcherProvider.io)
+        .catch { Timber.e(it) }
+
+    override fun documentInput(documentId: String): Flow<List<UserInput>> {
+        return userInputDao.getDocumentInput(documentId)
+            .map { entities -> entities.map { it.input } }
+            .onStart { syncHelper.syncUserInput(documentId) }
+            .flowOn(dispatcherProvider.io)
+            .catch {
+                Timber.e(it)
+                emit(emptyList())
             }
-        }
     }
 
-    override suspend fun feedGroup(id: String, type: FeedType): Result<FeedGroup> {
-        return withContext(dispatcherProvider.default) {
-            when (val resource = safeApiCall(connectivityHelper) {
-                resourcesApi.feedGroup(
-                    language = ssPrefs.get().getLanguageCode(),
-                    type = type.name.lowercase(),
-                    groupId = id
-                )
-            }) {
-                is NetworkResource.Failure -> {
-                    Result.failure(Throwable("Failed to fetch feed group, ${resource.errorBody}"))
-                }
+    override fun saveDocumentInput(documentId: String, input: UserInputRequest) = syncHelper.saveUserInput(documentId, input)
 
-                is NetworkResource.Success -> {
-                    resource.value.body()?.let {
-                        Result.success(it)
-                    } ?: Result.failure(Throwable("Failed to fetch feed group, body is null"))
-                }
-            }
-        }
-    }
-
-    override suspend fun resource(index: String): Result<Resource> {
-        return withContext(dispatcherProvider.default) {
-            when (val resource = safeApiCall(connectivityHelper) {
-                resourcesApi.resource(index)
-            }) {
-                is NetworkResource.Failure -> {
-                    Result.failure(Throwable("Failed to fetch Resource, ${resource.errorBody}"))
-                }
-
-                is NetworkResource.Success -> {
-                    downloadResource(index)
-
-                    resource.value.body()?.let {
-                        Result.success(it)
-                    } ?: Result.failure(Throwable("Failed to fetch Resource, body is null"))
-                }
-            }
-        }
-    }
-
-    private fun downloadResource(index: String) {
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
-        val request = OneTimeWorkRequestBuilder<DownloadResourceWork>()
-            .setConstraints(constraints)
-            .setInputData(workDataOf(DownloadResourceWork.INDEX_KEY to index,))
-            .build()
-
-        val workManager = WorkManager.getInstance(appContext)
-        workManager.enqueueUniqueWork(
-            DownloadResourceWork::class.java.simpleName,
-            ExistingWorkPolicy.REPLACE,
-            request
-        )
-    }
-
-    override suspend fun document(index: String): Result<ResourceDocument> {
-        return withContext(dispatcherProvider.default) {
-            when (val resource = safeApiCall(connectivityHelper) {
-                resourcesApi.document(index)
-            }) {
-                is NetworkResource.Failure -> {
-                    Result.failure(Throwable("Failed to fetch Document, ${resource.errorBody}"))
-                }
-
-                is NetworkResource.Success -> {
-                    resource.value.body()?.let {
-                        Result.success(it)
-                    } ?: Result.failure(Throwable("Failed to fetch Document, body is null"))
-                }
-            }
-        }
-    }
+    override fun segment(id: String, index: String): Flow<Segment> = segmentsDao.get(id)
+        .filterNotNull()
+        .map { it.toModel() }
+        .onStart { syncHelper.syncSegment(index) }
+        .flowOn(dispatcherProvider.io)
+        .catch { Timber.e(it) }
 
     override suspend fun audio(resourceIndex: String, documentIndex: String): Result<List<AudioAux>> {
         return withContext(dispatcherProvider.default) {
@@ -217,7 +181,12 @@ internal class ResourcesRepositoryImpl @Inject constructor(
 
                 is NetworkResource.Success -> {
                     resource.value.body()?.let {
-                        Result.success(it.filter { it.target.startsWith(documentIndex) })
+                        val audio = it.filter { it.target.startsWith(documentIndex) }
+                        withContext(dispatcherProvider.io) {
+                            audioDao.delete()
+                            audioDao.insertAll(audio.map { it.toEntity() })
+                        }
+                        Result.success(audio)
                     } ?: Result.failure(Throwable("Failed to fetch Audio, body is null"))
                 }
             }
@@ -235,7 +204,13 @@ internal class ResourcesRepositoryImpl @Inject constructor(
 
                 is NetworkResource.Success -> {
                     resource.value.body()?.let {
-                        Result.success(it)
+                        val videos = it
+                        val entities = videos.mapIndexed { index, video -> video.toEntity("$resourceIndex-$index", documentIndex) }
+                        withContext(dispatcherProvider.io) {
+                            videoInfoDao.delete()
+                            videoInfoDao.insertAll(entities)
+                        }
+                        Result.success(videos)
                     } ?: Result.failure(Throwable("Failed to fetch Videos, body is null"))
                 }
             }
@@ -260,11 +235,24 @@ internal class ResourcesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun fontFile(name: String): Flow<File?> {
+    override fun fontFile(name: String): Flow<FontModel?> {
         return fontFilesDao.get(name)
             .filterNotNull()
-            .map { File(appContext.filesDir, "fonts/${it.fileName}") }
-            .filter { it.exists() }
+            .map { entity ->
+                FontModel(
+                    file = File(appContext.filesDir, "fonts/${entity.fileName}"),
+                    attributes = entity.attributes
+                )
+            }
+            .filter { it.file.exists() }
             .flowOn(dispatcherProvider.io)
     }
+
+    override fun bibleVersion(): Flow<String?> =
+        bibleVersionDao.get(ssPrefs.get().getLanguageCode())
+            .map { it?.version }
+            .flowOn(dispatcherProvider.io)
+
+    override fun saveBibleVersion(version: String) =
+        syncHelper.saveBibleVersion(ssPrefs.get().getLanguageCode(), version)
 }

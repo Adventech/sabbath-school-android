@@ -28,10 +28,14 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import ss.document.producer.FontFamilyProviderImpl
-import ss.document.producer.OverlayStateProducer
-import ss.document.producer.OverlayStateProducerImpl
+import ss.document.producer.ReaderStyleStateProducer
+import ss.document.producer.ReaderStyleStateProducerImpl
 import ss.document.producer.TopAppbarActionsProducer
 import ss.document.producer.TopAppbarActionsProducerImpl
+import ss.document.producer.UserInputStateProducer
+import ss.document.producer.UserInputStateProducerImpl
+import ss.document.segment.producer.OverlayStateProducerImpl
+import ss.document.segment.producer.SegmentOverlayStateProducer
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -43,5 +47,11 @@ internal abstract class BindingsModule {
     internal abstract fun bindFontFamilyProvider(impl: FontFamilyProviderImpl): FontFamilyProvider
 
     @Binds
-    internal abstract fun bindOverlayStateProducer(impl: OverlayStateProducerImpl): OverlayStateProducer
+    internal abstract fun bindReaderStyleStateProducer(impl: ReaderStyleStateProducerImpl): ReaderStyleStateProducer
+
+    @Binds
+    internal abstract fun bindSegmentOverlayStateProducer(impl: OverlayStateProducerImpl): SegmentOverlayStateProducer
+
+    @Binds
+    internal abstract fun bindUserInputStateProducer(impl: UserInputStateProducerImpl): UserInputStateProducer
 }

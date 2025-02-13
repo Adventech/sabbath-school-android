@@ -38,7 +38,6 @@ import com.cryart.sabbathschool.ui.home.HomeActivity
 import org.joda.time.DateTime
 import ss.prefs.api.SSPrefs
 import ss.settings.DailyReminder
-import timber.log.Timber
 import app.ss.translations.R as L10n
 import com.cryart.design.R as DesignR
 
@@ -95,7 +94,6 @@ class DailyReminderManagerImpl(
 
     override fun reSchedule() {
         getPendingIntent(false)?.let {
-            Timber.i("Cancelling Alarm...")
             alarmManager.cancel(it)
         }
 
@@ -146,7 +144,6 @@ class DailyReminderManagerImpl(
 
     override fun cancel() {
         getPendingIntent(false)?.let {
-            Timber.i("Cancelling Alarm...")
             alarmManager.cancel(it)
         }
         ssPrefs.setReminderEnabled(false)

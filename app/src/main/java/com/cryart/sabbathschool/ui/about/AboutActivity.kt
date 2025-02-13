@@ -26,8 +26,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.cryart.sabbathschool.BuildConfig
 import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
@@ -43,6 +46,7 @@ class AboutActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(binding.root)
 
         bindUi()
@@ -80,6 +84,22 @@ class AboutActivity : AppCompatActivity() {
     private fun bindUi() {
         setSupportActionBar(binding.ssToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        ViewCompat.setOnApplyWindowInsetsListener(
+            binding.scrollView
+        ) { v, insets ->
+            val innerPadding = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+                    or WindowInsetsCompat.Type.displayCutout()
+            )
+            v.setPadding(
+                innerPadding.left,
+                innerPadding.top,
+                innerPadding.right,
+                innerPadding.bottom
+            )
+            insets
+        }
 
         binding.instagramIb.setOnClickListener {
             launchWebUrl(getString(L10n.string.ss_settings_instagram_url))

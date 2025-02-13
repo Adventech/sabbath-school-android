@@ -3,8 +3,8 @@ package app.ss.widgets.data
 import android.content.Context
 import app.ss.models.AppWidgetDay
 import app.ss.widgets.AppWidgetAction
-import app.ss.widgets.model.WeekDayModel
 import app.ss.widgets.model.TodayWidgetState
+import app.ss.widgets.model.WeekDayModel
 import app.ss.widgets.model.WeekModel
 import app.ss.widgets.model.WeekWidgetState
 import com.cryart.sabbathschool.core.extensions.context.fetchBitmap
@@ -12,16 +12,16 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.onStart
 import org.joda.time.DateTime
+import org.joda.time.LocalDate
 import ss.foundation.coroutines.DispatcherProvider
+import ss.lessons.api.helper.SyncHelper
+import ss.libraries.appwidget.api.AppWidgetHelper
 import ss.libraries.storage.api.dao.AppWidgetDao
-import ss.libraries.storage.api.dao.QuarterliesDao
 import ss.misc.DateHelper.formatDate
-import ss.misc.DateHelper.isNowInRange
 import ss.misc.DateHelper.parseDate
 import ss.misc.SSConstants.SS_DATE_FORMAT_OUTPUT_DAY
 import ss.misc.SSConstants.SS_DATE_FORMAT_OUTPUT_DAY_SHORT
@@ -31,43 +31,41 @@ import javax.inject.Inject
 
 interface AppWidgetRepository {
 
-    suspend fun defaultQuarterlyIndex(): String?
-
     fun weekState(context: Context? = null): Flow<WeekWidgetState>
 
     fun todayState(context: Context? = null): Flow<TodayWidgetState>
+
+    suspend fun sync()
 }
 
 private const val MAX_DAYS = 7
 
 class AppWidgetRepositoryImpl @Inject constructor(
     private val appWidgetDao: AppWidgetDao,
-    private val quarterliesDao: QuarterliesDao,
     private val ssPrefs: SSPrefs,
     private val widgetAction: AppWidgetAction,
+    private val syncHelper: SyncHelper,
+    private val helper: AppWidgetHelper,
     private val dispatcherProvider: DispatcherProvider,
 ) : AppWidgetRepository {
 
     private val today get() = DateTime.now().withTimeAtStartOfDay()
 
-    private fun quarterlyIndex(): Flow<String?> = ssPrefs.lastQuarterlyIndex()
-        .map { it ?: defaultQuarterlyIndex() }
-
-    override suspend fun defaultQuarterlyIndex(): String? {
-        ssPrefs.getLastQuarterlyIndex()?.let { return it }
-
-        val quarterlies = withContext(dispatcherProvider.io) {
-            quarterliesDao.get(ssPrefs.getLanguageCode())
+    private fun defaultQuarterlyIndex(): String {
+        val languageCode = ssPrefs.getLanguageCode()
+        val currentDate = LocalDate.now()
+        val year = currentDate.year
+        val quarter = when (currentDate.monthOfYear) {
+            in 1..3 -> "01"
+            in 4..6 -> "02"
+            in 7..9 -> "03"
+            else -> "04"
         }
-        return quarterlies.firstOrNull { quarterly ->
-            isNowInRange(quarterly.start_date, quarterly.end_date)
-        }?.index
+        return "$languageCode-$year-$quarter"
     }
 
     override fun weekState(context: Context?): Flow<WeekWidgetState> {
-        return quarterlyIndex()
-            .filterNotNull()
-            .flatMapLatest { appWidgetDao.findBy(it) }
+        return appWidgetDao.findBy(defaultQuarterlyIndex())
             .filterNotNull()
             .map { entity ->
                 WeekWidgetState.Success(
@@ -86,6 +84,7 @@ class AppWidgetRepositoryImpl @Inject constructor(
                     lessonIntent = widgetAction.launchLesson(entity.quarterlyIndex)
                 )
             }
+            .onStart { sync() }
             .flowOn(dispatcherProvider.io)
             .catch {
                 Timber.e(it)
@@ -93,9 +92,7 @@ class AppWidgetRepositoryImpl @Inject constructor(
     }
 
     override fun todayState(context: Context?): Flow<TodayWidgetState> {
-        return quarterlyIndex()
-            .filterNotNull()
-            .flatMapLatest { appWidgetDao.findBy(it) }
+        return appWidgetDao.findBy(defaultQuarterlyIndex())
             .filterNotNull()
             .map { entity ->
                 val day = entity.days.firstOrNull { it.isToday() }
@@ -109,11 +106,18 @@ class AppWidgetRepositoryImpl @Inject constructor(
                     )
                 } ?: TodayWidgetState.Error
             }
+            .onStart { sync() }
             .flowOn(dispatcherProvider.io)
             .catch {
                 Timber.e(it)
                 emit(TodayWidgetState.Error)
             }
+    }
+
+    override suspend fun sync() {
+        val quarterlyIndex = defaultQuarterlyIndex()
+        syncHelper.syncQuarterlyInfo(quarterlyIndex)
+        helper.syncQuarterly(quarterlyIndex)
     }
 
     private suspend fun AppWidgetDay.toModel(context: Context?, dateFormat: String) = WeekDayModel(

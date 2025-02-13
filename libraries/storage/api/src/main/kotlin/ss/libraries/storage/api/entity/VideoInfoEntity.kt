@@ -22,10 +22,12 @@
 
 package ss.libraries.storage.api.entity
 
+import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import app.ss.models.media.SSVideo
 
+@Keep
 @Entity(tableName = "video_info")
 data class VideoInfoEntity(
     @PrimaryKey val id: String,

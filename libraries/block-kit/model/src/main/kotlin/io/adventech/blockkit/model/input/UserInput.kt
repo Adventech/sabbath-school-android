@@ -32,63 +32,85 @@ import java.util.UUID
 @AdaptedBy(UserInputJsonAdapterFactory::class)
 sealed interface UserInput {
     val blockId: String
+    val id: String
+    val timestamp: Long
 
     @JsonClass(generateAdapter = true)
     data class Appeal(
         override val blockId: String,
-        val appeal: Boolean
+        override val id: String,
+        override val timestamp: Long,
+        val appeal: Boolean,
     ) : UserInput
 
     @JsonClass(generateAdapter = true)
     data class Checklist(
         override val blockId: String,
+        override val id: String,
+        override val timestamp: Long,
         val checked: List<Int>
     ) : UserInput
 
     @JsonClass(generateAdapter = true)
     data class Comment(
         override val blockId: String,
+        override val id: String,
+        override val timestamp: Long,
         val comment: String
     ) : UserInput
 
     @JsonClass(generateAdapter = true)
     data class Completion(
         override val blockId: String,
+        override val id: String,
+        override val timestamp: Long,
         val completion: Map<String, String>
     ) : UserInput
 
     @JsonClass(generateAdapter = true)
     data class Highlights(
         override val blockId: String,
+        override val id: String,
+        override val timestamp: Long,
         val highlights: List<Highlight>
     ) : UserInput
 
     @JsonClass(generateAdapter = true)
     data class MultipleChoice(
         override val blockId: String,
+        override val id: String,
+        override val timestamp: Long,
         val choice: Int
     ) : UserInput
 
     @JsonClass(generateAdapter = true)
     data class Poll(
         override val blockId: String,
+        override val id: String,
+        override val timestamp: Long,
         val vote: Int
     ) : UserInput
 
     @JsonClass(generateAdapter = true)
     data class Question(
         override val blockId: String,
+        override val id: String,
+        override val timestamp: Long,
         val answer: String
     ) : UserInput
 
     @JsonClass(generateAdapter = true)
     data class Annotation(
         override val blockId: String,
+        override val id: String,
+        override val timestamp: Long,
         val pdfId: String,
         val data: List<PDFAuxAnnotations>,
     ) : UserInput
 
     data object Unknown : UserInput {
         override val blockId: String = UUID.randomUUID().toString()
+        override val id: String = UUID.randomUUID().toString()
+        override val timestamp: Long = System.currentTimeMillis()
     }
 }

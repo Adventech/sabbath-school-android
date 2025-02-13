@@ -30,7 +30,6 @@ import android.os.Bundle
 import androidx.core.app.TaskStackBuilder
 import androidx.core.os.bundleOf
 import app.ss.auth.AuthRepository
-import app.ss.readings.SSReadingActivity
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
 import com.cryart.sabbathschool.ui.about.AboutActivity
@@ -39,10 +38,10 @@ import kotlinx.coroutines.launch
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.mainScopable
-import ss.libraries.circuit.navigation.LessonsScreen
+import ss.libraries.circuit.navigation.DocumentScreen
+import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.libraries.circuit.navigation.LoginScreen
-import ss.libraries.circuit.navigation.QuarterliesScreen
-import ss.prefs.api.SSPrefs
+import ss.libraries.circuit.navigation.ResourceScreen
 import ss.services.circuit.impl.CircuitActivity
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -52,7 +51,6 @@ import javax.inject.Singleton
 class AppNavigatorImpl
 @Inject
 constructor(
-    private val ssPrefs: SSPrefs,
     private val authRepository: AuthRepository,
     private val dispatcherProvider: DispatcherProvider
 ) : AppNavigator, Scopable by mainScopable(dispatcherProvider) {
@@ -76,21 +74,7 @@ constructor(
                 intent.putExtras(it)
             }
 
-            when (destination) {
-                Destination.READ -> {
-                    with(TaskStackBuilder.create(activity)) {
-                        addNextIntent(screenIntent(activity, QuarterliesScreen()))
-                        ssPrefs.getLastQuarterlyIndex()?.let { index ->
-                            addNextIntent(screenIntent(activity, LessonsScreen(index)))
-                        }
-                        addNextIntent(intent)
-                        startActivities()
-                    }
-                }
-                else -> {
-                    activity.startActivity(intent)
-                }
-            }
+            activity.startActivity(intent)
         }
     }
 
@@ -116,7 +100,6 @@ constructor(
     private fun getDestinationClass(destination: Destination): Class<*>? {
         return when (destination) {
             Destination.ABOUT -> AboutActivity::class.java
-            Destination.READ -> SSReadingActivity::class.java
             else -> null
         }
     }
@@ -130,7 +113,7 @@ constructor(
     }
 
     /**
-     * Navigate to either [LessonsScreen] or [SSReadingActivity]
+     * Navigate to either [ResourceScreen] or [DocumentScreen]
      * depending on the uri from web (sabbath-school.adventech.io) received.
      *
      * If no quarterly index is found in the Uri we launch normal flow.
@@ -148,52 +131,52 @@ constructor(
             return@launch
         }
 
-        val segments = uri.pathSegments
-        val quarterlyIndex: String
-        val lessonIndex: String
         val endIntent: Intent
         val taskBuilder = TaskStackBuilder.create(activity)
-        taskBuilder.addNextIntent(screenIntent(activity, QuarterliesScreen()))
+        taskBuilder.addNextIntent(screenIntent(activity, HomeNavScreen))
 
-        if (uri.path?.matches(WEB_LINK_REGEX.toRegex()) == true && segments.size >= 2) {
-            quarterlyIndex = "${segments.first()}-${segments[1]}"
+        val model = parseWebUrl(uri.toString()) ?: return@launch launchNormalFlow(activity)
 
-            if (segments.size > 2) {
-                lessonIndex = "$quarterlyIndex-${segments[2]}"
-
-                val readPosition = if (segments.size > 3) {
-                    val dayNumber = segments[3].filter { it.isDigit() }
-                    val index = dayNumber.toIntOrNull()?.minus(1)
-                    index?.toString()
-                } else {
-                    null
-                }
-
-                taskBuilder.addNextIntent(screenIntent(activity, LessonsScreen(quarterlyIndex)))
-                endIntent = SSReadingActivity.launchIntent(activity, lessonIndex, readPosition)
-            } else {
-                endIntent = screenIntent(activity, LessonsScreen(quarterlyIndex))
-            }
-
-            with(taskBuilder) {
-                addNextIntent(endIntent)
-                startActivities()
-            }
+        if (model.documentIndex != null) {
+            taskBuilder.addNextIntent(screenIntent(activity, ResourceScreen(model.resourceIndex)))
+            endIntent = screenIntent(activity, DocumentScreen(model.documentIndex))
         } else {
-            launchNormalFlow(activity)
+            endIntent = screenIntent(
+                activity, ResourceScreen(model.resourceIndex)
+            )
+        }
+
+        with(taskBuilder) {
+            addNextIntent(endIntent)
+            startActivities()
+        }
+    }
+
+    private fun parseWebUrl(url: String): NavigationModel? {
+        val regex = Regex("https://sabbath-school(?:-stage)?\\.adventech\\.io(?:/resources)?/([a-z]{2})(?:/([a-z]+))?/([\\w-]+)(?:/(.*))?")
+        val matchResult = regex.matchEntire(url)
+
+        return if (matchResult != null) {
+            val (language, categoryOpt, resource, document) = matchResult.destructured
+            val category = if (categoryOpt.isNotEmpty()) categoryOpt else "ss"
+            val resourceIndex = "$language/$category/$resource"
+            val documentIndex = if (document.isNotEmpty()) "$resourceIndex/${document.substringBefore("/")}" else null
+
+            NavigationModel(resourceIndex, documentIndex)
+        } else {
+            null
         }
     }
 
     private fun launchNormalFlow(activity: Activity) {
-        val intent = screenIntent(activity, QuarterliesScreen()).apply {
+        val intent = screenIntent(activity, HomeNavScreen).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         activity.startActivity(intent)
     }
-
-    companion object {
-        private const val WEB_LINK_REGEX =
-            "(^\\/[a-z]{2,}\\/?\$)|(^\\/[a-z]{2,}\\/\\d{4}-\\d{2}(-[a-z]{2})?\\/?\$)|(^\\/[a-z]{2,}\\/\\d{4}-\\d{2}(-[a-z]{2})?\\/\\d{2}\\/?\$)|" +
-                "(^\\/[a-z]{2,}\\/\\d{4}-\\d{2}(-[a-z]{2})?\\/\\d{2}\\/\\d{2}(-.+)?\\/?\$)"
-    }
 }
+
+private data class NavigationModel(
+    val resourceIndex: String,
+    val documentIndex: String?
+)

@@ -44,7 +44,7 @@ suspend fun <T> safeApiCall(
                 NetworkResource.Failure(false, throwable.code(), throwable.response()?.errorBody())
             }
             else -> {
-                NetworkResource.Failure(true, null, null)
+                NetworkResource.Failure(isNetworkError = false, throwable = throwable)
             }
         }
     }
