@@ -45,9 +45,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -83,6 +83,7 @@ fun StorySlideContent(
     val (screenWidth, screenHeight) = LocalConfiguration.current.run {
         screenWidthDp to screenHeightDp
     }
+    val density = LocalDensity.current
     val textStyle = Styler.textStyle(
         blockStyle = blockItem.style?.text,
         template = StoryStyleTemplate
@@ -99,7 +100,10 @@ fun StorySlideContent(
 
     LaunchedEffect(pagerState.currentPage, pagerState.currentPageOffsetFraction) {
         // Calculate the target scroll position
-        val targetScroll = ((pagerState.currentPage + pagerState.currentPageOffsetFraction) / pages.size) * totalScrollableWidth
+        val progress = (pagerState.currentPage + pagerState.currentPageOffsetFraction) / (pages.size - 1)
+        val maxScroll = totalScrollableWidth
+        val targetScroll = progress * maxScroll
+
         imageScrollState.scrollTo(targetScroll.toInt())
     }
 
@@ -111,8 +115,12 @@ fun StorySlideContent(
         ) {
             StoryImage(
                 data = blockItem.image,
-                screenHeight = screenHeight,
-                onAvailableWidth = { totalScrollableWidth = it },
+                screenHeightInPx = with(density) { screenHeight.dp.toPx() },
+                onAvailableWidth = { imageWidthInPx ->
+                    totalScrollableWidth = with(density) {
+                        imageWidthInPx - screenWidth.dp.toPx()
+                    }
+                },
             )
         }
 
@@ -205,7 +213,7 @@ private fun splitTextIntoPages(
 @Composable
 internal fun StoryImage(
     data: String,
-    screenHeight: Int,
+    screenHeightInPx: Float,
     onAvailableWidth: (Float) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -225,7 +233,7 @@ internal fun StoryImage(
             val (realWidth, realHeight) = state.painter.intrinsicSize.run {
                 width to height
             }
-            val availableWidth = (realWidth / realHeight) * screenHeight
+            val availableWidth = (realWidth / realHeight) * screenHeightInPx
             onAvailableWidth(availableWidth)
         }
     }
