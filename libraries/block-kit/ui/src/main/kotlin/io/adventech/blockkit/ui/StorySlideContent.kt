@@ -71,7 +71,6 @@ import coil.size.Size
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.ImageStyleTextAlignment
 import io.adventech.blockkit.ui.color.parse
-import io.adventech.blockkit.ui.style.LatoFontFamily
 import io.adventech.blockkit.ui.style.StoryStyleTemplate
 import io.adventech.blockkit.ui.style.Styler
 
