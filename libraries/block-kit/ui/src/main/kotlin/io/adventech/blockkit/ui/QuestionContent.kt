@@ -67,10 +67,7 @@ import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
 
 @Composable
 internal fun QuestionContent(
-    blockItem: BlockItem.Question,
-    modifier: Modifier = Modifier,
-    inputState: UserInputState? = null,
-    onHandleUri: (String) -> Unit = {}
+    blockItem: BlockItem.Question, modifier: Modifier = Modifier, inputState: UserInputState? = null, onHandleUri: (String) -> Unit = {}
 ) {
     val input by remember(inputState) {
         mutableStateOf<UserInput.Question?>(inputState?.find(blockItem.id))
@@ -80,15 +77,12 @@ internal fun QuestionContent(
         val content = input?.answer ?: ""
         mutableStateOf(TextFieldValue(text = content, selection = TextRange(content.length)))
     }
-    val textStyle = blockItem.style?.text
     val inputTextStyle = Styler.textStyle(blockStyle = inputBlockTextStyle)
-    val contentColor = Styler.genericForegroundColorForInteractiveBlock()
 
     ElevatedCard(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = answerBackgroundColor(),
-            contentColor = inputTextStyle.color
+            containerColor = answerBackgroundColor(), contentColor = inputTextStyle.color
         ),
         elevation = CardDefaults.elevatedCardElevation(
             defaultElevation = 2.dp
@@ -98,15 +92,13 @@ internal fun QuestionContent(
             modifier = Modifier.fillMaxWidth(),
         ) {
             if (blockItem.markdown.isNotEmpty()) {
-                MarkdownText(
-                    markdownText = blockItem.markdown,
+                QuestionText(
+                    blockItem = blockItem,
+                    userInputState = inputState,
+                    onHandleUri = onHandleUri,
                     modifier = Modifier
                         .background(Styler.genericBackgroundColorForInteractiveBlock())
-                        .padding(horizontal = 16.dp, vertical = 12.dp),
-                    color = contentColor,
-                    style = Styler.textStyle(textStyle).copy(color = contentColor),
-                    textAlign = Styler.textAlign(textStyle),
-                    onHandleUri = onHandleUri,
+                        .padding(horizontal = 16.dp, vertical = 12.dp)
                 )
             }
 
@@ -135,9 +127,35 @@ internal fun QuestionContent(
 }
 
 @Composable
+private fun QuestionText(
+    blockItem: BlockItem.Question,
+    userInputState: UserInputState?,
+    onHandleUri: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val paragraphBlock = remember(blockItem) {
+        BlockItem.Paragraph(
+            id = blockItem.id,
+            style = blockItem.style,
+            data = blockItem.data,
+            nested = null,
+            markdown = blockItem.markdown,
+        )
+    }
+
+    ParagraphContent(
+        blockItem = paragraphBlock,
+        modifier = modifier,
+        parent = blockItem,
+        inputState = userInputState,
+        onHandleUri = onHandleUri,
+    )
+}
+
+@Composable
 private fun InputBox(
     modifier: Modifier = Modifier,
-    content: @Composable (Modifier) -> Unit
+    content: @Composable (Modifier) -> Unit,
 ) {
     val verticalColor = Color.Red.copy(alpha = 0.3f)
     val horizontalColor = DividerDefaults.color.copy(alpha = 0.5f)
@@ -158,7 +176,7 @@ private fun InputBox(
                 color = verticalColor,
                 start = Offset(xOffset, 0f),
                 end = Offset(xOffset, size.height),
-                strokeWidth = 0.5.dp.toPx()
+                strokeWidth = 0.5.dp.toPx(),
             )
 
             // Draw first horizontal line (1/3 from the top)
@@ -166,7 +184,7 @@ private fun InputBox(
                 color = horizontalColor,
                 start = Offset(0f, height / 3),
                 end = Offset(width, height / 3),
-                strokeWidth = 0.5.dp.toPx()
+                strokeWidth = 0.5.dp.toPx(),
             )
 
             // Draw second horizontal line (2/3 from the top)
@@ -174,7 +192,7 @@ private fun InputBox(
                 color = horizontalColor,
                 start = Offset(0f, 2 * height / 3),
                 end = Offset(width, 2 * height / 3),
-                strokeWidth = 0.5.dp.toPx()
+                strokeWidth = 0.5.dp.toPx(),
             )
         }
 
@@ -207,7 +225,7 @@ private val inputBlockTextStyle = TextStyle(
     color = null,
     size = TextStyleSize.BASE,
     align = null,
-    offset = null
+    offset = null,
 )
 
 @PreviewLightDark
@@ -221,7 +239,7 @@ private fun Preview() {
                     style = null,
                     data = null,
                     nested = null,
-                    markdown = "What is the meaning of life?"
+                    markdown = "What is the meaning of life?",
                 ),
                 modifier = Modifier.padding(16.dp)
             )

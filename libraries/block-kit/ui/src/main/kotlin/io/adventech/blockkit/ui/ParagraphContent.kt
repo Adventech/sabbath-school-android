@@ -164,11 +164,12 @@ private fun removeHighlightsInRange(highlights: List<Highlight>, range: TextRang
 private fun BlockItem?.isChildSelectable(): Boolean {
     return when (this) {
         null -> true
-        is BlockItem.Collapse -> true
-        is BlockItem.Quote -> true
-        is BlockItem.BlockListItem -> true
-        is BlockItem.ExcerptItem -> true
-        is BlockItem.TableBlock -> true
+        is BlockItem.Collapse,
+        is BlockItem.Quote,
+        is BlockItem.BlockListItem,
+        is BlockItem.ExcerptItem,
+        is BlockItem.TableBlock,
+        is BlockItem.Question -> true
         else -> false
     }
 }
