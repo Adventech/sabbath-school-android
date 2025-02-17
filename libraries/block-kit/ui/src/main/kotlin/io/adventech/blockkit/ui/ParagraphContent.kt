@@ -22,6 +22,9 @@
 
 package io.adventech.blockkit.ui
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Surface
@@ -31,6 +34,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -101,6 +105,7 @@ private fun SelectableParagraph(
     inputState: UserInputState? = null,
     onHandleUri: (String) -> Unit = {},
 ) {
+    val context = LocalContext.current
     val blockStyle = blockItem.style?.text
 
     val highlights = rememberContentHighlights(blockItem.id, inputState)
@@ -138,6 +143,13 @@ private fun SelectableParagraph(
             textFieldValue = textFieldValue?.copy(
                 selection = TextRange.Zero,
             )
+        },
+        onSearchSelection = { selection ->
+            val searchText = textFieldValue?.text?.substring(selection.min..selection.max) ?: return@SelectionBlockContainer
+            textFieldValue = textFieldValue?.copy(
+                selection = TextRange.Zero,
+            )
+            onSearchSelection(context, searchText)
         }
     ) {
         MarkdownTextInput(
@@ -164,13 +176,19 @@ private fun removeHighlightsInRange(highlights: List<Highlight>, range: TextRang
 private fun BlockItem?.isChildSelectable(): Boolean {
     return when (this) {
         null -> true
-        is BlockItem.Collapse -> true
-        is BlockItem.Quote -> true
-        is BlockItem.BlockListItem -> true
-        is BlockItem.ExcerptItem -> true
-        is BlockItem.TableBlock -> true
+        is BlockItem.Collapse,
+        is BlockItem.Quote,
+        is BlockItem.BlockListItem,
+        is BlockItem.ExcerptItem,
+        is BlockItem.TableBlock,
+        is BlockItem.Question -> true
         else -> false
     }
+}
+
+private fun onSearchSelection(context: Context, query: String) {
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/search?q=$query"))
+    context.startActivity(intent)
 }
 
 @Composable

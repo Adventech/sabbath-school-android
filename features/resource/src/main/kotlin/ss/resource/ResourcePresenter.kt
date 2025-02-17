@@ -74,7 +74,7 @@ class ResourcePresenter @AssistedInject constructor(
                     ctaScreen?.let { navigator.goTo(it) }
                 }
                 Event.OnReadMoreClick -> {
-                    resource?.introduction?.let {
+                    (resource?.introduction ?: resource?.markdownDescription ?: resource?.description)?.let {
                         overlayState = ResourceOverlayState.IntroductionBottomSheet(it) { result ->
                             overlayState = null
                         }

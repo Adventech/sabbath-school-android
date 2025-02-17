@@ -82,14 +82,17 @@ class ExcerptOverlay(private val state: State) : Overlay<ExcerptOverlay.Result> 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content(navigator: OverlayNavigator<Result>) {
+        var selectedOption by remember { mutableStateOf<String?>(null) }
+
         BlocksDialogSurface(
             readerStyle = state.style,
             modifier = Modifier,
-            onDismiss = { navigator.finish(Result.Dismissed(null)) }
+            onDismiss = { navigator.finish(Result.Dismissed(selectedOption)) }
         ) {
             DialogContent(
                 state = state,
-                onDismiss = { navigator.finish(Result.Dismissed(it)) },
+                onDismiss = { navigator.finish(Result.Dismissed(selectedOption)) },
+                onSelectionChange = { selectedOption = it }
             )
         }
     }
@@ -111,8 +114,9 @@ class ExcerptOverlay(private val state: State) : Overlay<ExcerptOverlay.Result> 
 @Composable
 private fun DialogContent(
     state: ExcerptOverlay.State,
-    onDismiss: (String?) -> Unit,
-    modifier: Modifier = Modifier
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier,
+    onSelectionChange: (String) -> Unit = {},
 ) {
     val readerStyle = LocalReaderStyle.current
     val backgroundColor = readerStyle.theme.background()
@@ -145,8 +149,7 @@ private fun DialogContent(
                     expanded = false
                     selectedOption = option
                     coroutineScope.launch { scrollState.animateScrollTo(0) }
-
-                    // Intentionally do not send an event to update the bible version here because that will trigger the dialog to close and re-open.
+                    onSelectionChange(option)
                 }
             )
         }
@@ -162,7 +165,7 @@ private fun DialogContent(
             TopAppBar(
                 title = {},
                 navigationIcon = {
-                    IconButton(onClick = { onDismiss(selectedOption) }) {
+                    IconButton(onClick = { onDismiss() }) {
                         IconBox(Icons.Close, contentColor = contentColor)
                     }
                 },

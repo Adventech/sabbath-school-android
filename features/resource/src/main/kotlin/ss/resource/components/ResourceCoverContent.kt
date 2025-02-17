@@ -117,7 +117,7 @@ internal fun ColumnScope.CoverContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = SsTheme.dimens.grid_4, vertical = 8.dp)
-                        .thenIf(resource.introduction.isNullOrEmpty() == false) {
+                        .thenIf((resource.introduction ?: resource.markdownDescription ?: resource.description).isNullOrEmpty() == false) {
                             clickable { readMoreClick() }
                         },
                     readMoreColor = Color.parse(resource.primaryColorDark),
