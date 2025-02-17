@@ -28,6 +28,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -39,6 +40,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -47,6 +49,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -79,6 +82,8 @@ internal fun QuestionContent(
     }
     val inputTextStyle = Styler.textStyle(blockStyle = inputBlockTextStyle)
 
+    var inputLines by remember { mutableIntStateOf(INPUT_MIN_LINES) }
+
     ElevatedCard(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
@@ -102,7 +107,7 @@ internal fun QuestionContent(
                 )
             }
 
-            InputBox(modifier = Modifier.fillMaxWidth()) { contentModifier ->
+            InputBox(lines = inputLines, modifier = Modifier.fillMaxWidth()) { contentModifier ->
                 BasicTextField(
                     value = textFieldValue,
                     onValueChange = {
@@ -114,12 +119,14 @@ internal fun QuestionContent(
                         inputState?.eventSink?.invoke(UserInputState.Event.InputChanged(answer))
                     },
                     modifier = contentModifier
-                        .padding(vertical = 8.dp)
-                        .padding(start = 46.dp, end = 8.dp),
-                    minLines = INPUT_MAX_LINES,
+                        .padding(answerPaddingValues()),
+                    minLines = INPUT_MIN_LINES,
                     maxLines = INPUT_MAX_LINES,
                     textStyle = inputTextStyle,
                     cursorBrush = SolidColor(inputTextStyle.color),
+                    onTextLayout = { layoutResult ->
+                        inputLines = layoutResult.lineCount.coerceIn(INPUT_MIN_LINES, INPUT_MAX_LINES)
+                    }
                 )
             }
         }
@@ -154,6 +161,7 @@ private fun QuestionText(
 
 @Composable
 private fun InputBox(
+    lines: Int,
     modifier: Modifier = Modifier,
     content: @Composable (Modifier) -> Unit,
 ) {
@@ -170,7 +178,7 @@ private fun InputBox(
             val height = size.height
             val width = size.width
 
-            val xOffset = 100f // offset pixels from the left
+            val xOffset = VERTICAL_LINE_OFFSET_PX // offset pixels from the left
             // Draw vertical line
             drawLine(
                 color = verticalColor,
@@ -179,21 +187,16 @@ private fun InputBox(
                 strokeWidth = 0.5.dp.toPx(),
             )
 
-            // Draw first horizontal line (1/3 from the top)
-            drawLine(
-                color = horizontalColor,
-                start = Offset(0f, height / 3),
-                end = Offset(width, height / 3),
-                strokeWidth = 0.5.dp.toPx(),
-            )
-
-            // Draw second horizontal line (2/3 from the top)
-            drawLine(
-                color = horizontalColor,
-                start = Offset(0f, 2 * height / 3),
-                end = Offset(width, 2 * height / 3),
-                strokeWidth = 0.5.dp.toPx(),
-            )
+            // Draw horizontal lines dynamically based on the `lines` parameter
+            for (i in 1 until lines) {
+                val yOffset = i * (height / lines)
+                drawLine(
+                    color = horizontalColor,
+                    start = Offset(0f, yOffset),
+                    end = Offset(width, yOffset),
+                    strokeWidth = 0.5.dp.toPx(),
+                )
+            }
         }
 
         content(
@@ -218,7 +221,24 @@ private fun answerBackgroundColor(): Color {
     }
 }
 
-private const val INPUT_MAX_LINES = 3
+@Composable
+private fun answerPaddingValues(): PaddingValues {
+    val density = LocalDensity.current
+    val startPadding = with(density) {
+        VERTICAL_LINE_OFFSET_PX.toDp()
+    } + 8.dp
+
+    return PaddingValues(
+        start = startPadding,
+        end = 8.dp,
+        top = 0.dp,
+        bottom = 0.dp
+    )
+}
+
+private const val INPUT_MIN_LINES = 3
+private const val INPUT_MAX_LINES = 15
+private const val VERTICAL_LINE_OFFSET_PX = 100f
 
 private val inputBlockTextStyle = TextStyle(
     typeface = null,
