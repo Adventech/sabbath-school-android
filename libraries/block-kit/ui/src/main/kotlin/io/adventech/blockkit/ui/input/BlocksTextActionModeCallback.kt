@@ -38,6 +38,7 @@ internal class BlocksTextActionModeCallback(
     var onCutRequested: (() -> Unit)? = null,
     var onSelectAllRequested: (() -> Unit)? = null,
     var onHighlightRequested: (() -> Unit)? = null,
+    var onSearchRequested: (() -> Unit)? = null,
     var onHighlightColorRequested: ((HighlightColor) -> Unit)? = null,
     var onRemoveHighlightRequested: (() -> Unit)? = null,
 ) {
@@ -57,6 +58,9 @@ internal class BlocksTextActionModeCallback(
             Mode.TEXT -> {
                 onHighlightRequested?.let {
                     addMenuItem(menu, MenuItemOption.Highlight)
+                }
+                onSearchRequested?.let {
+                    addMenuItem(menu, MenuItemOption.Search)
                 }
                 onCopyRequested?.let {
                     addMenuItem(menu, MenuItemOption.Copy)
@@ -96,6 +100,7 @@ internal class BlocksTextActionModeCallback(
             MenuItemOption.Cut.id -> onCutRequested?.invoke()
             MenuItemOption.SelectAll.id -> onSelectAllRequested?.invoke()
             MenuItemOption.Highlight.id -> onHighlightRequested?.invoke()
+            MenuItemOption.Search.id -> onSearchRequested?.invoke()
             BlockKitR.id.highlight_blue -> {
                 onHighlightColorRequested?.invoke(HighlightColor.BLUE)
             }
@@ -129,6 +134,7 @@ internal class BlocksTextActionModeCallback(
             Mode.HIGHLIGHTS -> showHighlights(mode, menu)
             Mode.TEXT -> {
                 addOrRemoveMenuItem(menu, MenuItemOption.Highlight, onHighlightRequested)
+                addOrRemoveMenuItem(menu, MenuItemOption.Search, onSearchRequested)
                 addOrRemoveMenuItem(menu, MenuItemOption.Copy, onCopyRequested)
                 addOrRemoveMenuItem(menu, MenuItemOption.Paste, onPasteRequested)
                 addOrRemoveMenuItem(menu, MenuItemOption.Cut, onCutRequested)
@@ -175,6 +181,7 @@ internal enum class MenuItemOption(val id: Int) {
     Cut(2),
     SelectAll(3),
     Highlight(4),
+    Search(5),
     ;
 
     val titleResource: Int
@@ -184,6 +191,7 @@ internal enum class MenuItemOption(val id: Int) {
             Cut -> android.R.string.cut
             SelectAll -> android.R.string.selectAll
             Highlight -> L10nR.string.ss_action_highlight
+            Search -> L10nR.string.ss_search
         }
 
     /**

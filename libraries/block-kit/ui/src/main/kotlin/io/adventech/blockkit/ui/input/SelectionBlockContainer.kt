@@ -43,6 +43,7 @@ internal fun SelectionBlockContainer(
     modifier: Modifier = Modifier,
     onHighlight: (Highlight) -> Unit = {},
     onRemoveHighlight: () -> Unit = {},
+    onSearchSelection: (TextRange) -> Unit = {},
     content: @Composable () -> Unit,
 ) {
     var isDestroy by remember { mutableStateOf(false) }
@@ -78,6 +79,17 @@ internal fun SelectionBlockContainer(
                     if (selection.length > 0) {
                         onRemoveHighlight()
                     }
+                }
+            },
+            onSearch = {
+                isDestroy = true
+                selection?.takeIf { it.length > 0 }?.let { selection ->
+                    val (startIndex, endIndex) = if (selection.end < selection.start) {
+                        selection.end to selection.start
+                    } else {
+                        selection.start to selection.end
+                    }
+                    onSearchSelection(TextRange(startIndex, endIndex))
                 }
             }
         )
