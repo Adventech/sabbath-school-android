@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,16 +20,12 @@
  * THE SOFTWARE.
  */
 
-package ss.libraries.storage.api.entity
+package ss.services.storage.impl.migration
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.DeleteTable
+import androidx.room.migration.AutoMigrationSpec
 
-@Entity(tableName = "highlights")
-data class ReadHighlightsEntity(
-    @PrimaryKey val readIndex: String,
-    val highlights: String,
-    @ColumnInfo(defaultValue = "1675209600")
-    val timestamp: Long
-)
+@DeleteTable(tableName = "annotations")
+@DeleteTable(tableName = "comments")
+@DeleteTable(tableName = "highlights")
+class LegacyUserInputMigration: AutoMigrationSpec
