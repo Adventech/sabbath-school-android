@@ -37,11 +37,8 @@ import ss.libraries.storage.api.dao.FeedGroupDao
 import ss.libraries.storage.api.dao.FontFilesDao
 import ss.libraries.storage.api.dao.LanguagesDao
 import ss.libraries.storage.api.dao.LessonsDao
-import ss.libraries.storage.api.dao.PdfAnnotationsDao
 import ss.libraries.storage.api.dao.PublishingInfoDao
 import ss.libraries.storage.api.dao.QuarterliesDao
-import ss.libraries.storage.api.dao.ReadCommentsDao
-import ss.libraries.storage.api.dao.ReadHighlightsDao
 import ss.libraries.storage.api.dao.ReadsDao
 import ss.libraries.storage.api.dao.ResourcesDao
 import ss.libraries.storage.api.dao.SegmentsDao
@@ -59,17 +56,15 @@ import ss.libraries.storage.api.entity.UserInputEntity
 import ss.libraries.storage.api.entity.FontFileEntity
 import ss.libraries.storage.api.entity.LanguageEntity
 import ss.libraries.storage.api.entity.LessonEntity
-import ss.libraries.storage.api.entity.PdfAnnotationsEntity
 import ss.libraries.storage.api.entity.PublishingInfoEntity
 import ss.libraries.storage.api.entity.QuarterlyEntity
-import ss.libraries.storage.api.entity.ReadCommentsEntity
 import ss.libraries.storage.api.entity.ReadEntity
-import ss.libraries.storage.api.entity.ReadHighlightsEntity
 import ss.libraries.storage.api.entity.ResourceEntity
 import ss.libraries.storage.api.entity.SegmentEntity
 import ss.libraries.storage.api.entity.UserEntity
 import ss.libraries.storage.api.entity.VideoClipEntity
 import ss.libraries.storage.api.entity.VideoInfoEntity
+import ss.services.storage.impl.migration.LegacyUserInputMigration
 
 @Database(
     entities = [
@@ -78,9 +73,6 @@ import ss.libraries.storage.api.entity.VideoInfoEntity
         QuarterlyEntity::class,
         LessonEntity::class,
         ReadEntity::class,
-        PdfAnnotationsEntity::class,
-        ReadCommentsEntity::class,
-        ReadHighlightsEntity::class,
         UserEntity::class,
         VideoClipEntity::class,
         VideoInfoEntity::class,
@@ -95,7 +87,7 @@ import ss.libraries.storage.api.entity.VideoInfoEntity
         FeedEntity::class,
         FeedGroupEntity::class,
     ],
-    version = 26,
+    version = 27,
     exportSchema = true,
     autoMigrations = [
         AutoMigration(from = 2, to = 3),
@@ -122,6 +114,7 @@ import ss.libraries.storage.api.entity.VideoInfoEntity
         AutoMigration(from = 23, to = 24),
         AutoMigration(from = 24, to = 25),
         AutoMigration(from = 25, to = 26),
+        AutoMigration(from = 26, to = 27, spec = LegacyUserInputMigration::class),
     ]
 )
 @TypeConverters(Converters::class, ResourcesConverters::class)
@@ -136,12 +129,6 @@ internal abstract class SabbathSchoolDatabase : RoomDatabase() {
     abstract fun lessonsDao(): LessonsDao
 
     abstract fun readsDao(): ReadsDao
-
-    abstract fun pdfAnnotationsDao(): PdfAnnotationsDao
-
-    abstract fun readCommentsDao(): ReadCommentsDao
-
-    abstract fun readHighlightsDao(): ReadHighlightsDao
 
     abstract fun videoClipsDao(): VideoClipsDao
 

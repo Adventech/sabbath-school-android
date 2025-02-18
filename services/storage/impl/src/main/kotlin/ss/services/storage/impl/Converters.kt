@@ -27,7 +27,6 @@ import app.ss.models.AppWidgetDay
 import app.ss.models.LessonPdf
 import app.ss.models.QuarterlyGroup
 import app.ss.models.SSBibleVerses
-import app.ss.models.SSComment
 import app.ss.models.SSDay
 import app.ss.models.auth.AccountToken
 import app.ss.models.media.SSVideo
@@ -44,7 +43,6 @@ import io.adventech.blockkit.model.resource.Feature
 import io.adventech.blockkit.model.resource.PdfAux
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.VideoClipSegment
-import timber.log.Timber
 import java.lang.reflect.Type
 
 internal object Converters {
@@ -75,10 +73,6 @@ internal object Converters {
     }
     private val versesAdapter: JsonAdapter<List<SSBibleVerses>> by lazy {
         val listDataType: Type = Types.newParameterizedType(List::class.java, SSBibleVerses::class.java)
-        moshi.adapter(listDataType)
-    }
-    private val commentsAdapter: JsonAdapter<List<SSComment>> by lazy {
-        val listDataType: Type = Types.newParameterizedType(List::class.java, SSComment::class.java)
         moshi.adapter(listDataType)
     }
     private val stringsAdapter: JsonAdapter<List<String>> by lazy {
@@ -166,22 +160,6 @@ internal object Converters {
 
     @TypeConverter
     fun fromBibleVerses(verses: List<SSBibleVerses>?): String? = versesAdapter.toJson(verses)
-
-    @TypeConverter
-    fun toComments(value: String?): List<SSComment>? = try {
-        value?.let {
-            val jsonString = it
-                .replace("\"a\"", "\"elementId\"")
-                .replace("\"b\"", "\"comment\"")
-            commentsAdapter.fromJson(jsonString)
-        }
-    } catch (ex: Exception) {
-        Timber.e(ex)
-        emptyList()
-    }
-
-    @TypeConverter
-    fun fromComments(comments: List<SSComment>?): String? = commentsAdapter.toJson(comments)
 
     @TypeConverter
     fun toStrings(value: String?): List<String>? = value?.let { jsonString ->
