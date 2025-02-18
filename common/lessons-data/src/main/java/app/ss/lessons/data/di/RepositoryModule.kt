@@ -26,8 +26,6 @@ import app.ss.lessons.data.repository.lessons.LessonsRepository
 import app.ss.lessons.data.repository.lessons.LessonsRepositoryImpl
 import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.lessons.data.repository.media.MediaRepositoryImpl
-import app.ss.lessons.data.repository.user.UserDataRepository
-import app.ss.lessons.data.repository.user.UserDataRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -42,7 +40,4 @@ abstract class RepositoryModule {
 
     @Binds
     internal abstract fun bindMediaRepository(impl: MediaRepositoryImpl): MediaRepository
-
-    @Binds
-    internal abstract fun bindUserDataRepository(impl: UserDataRepositoryImpl): UserDataRepository
 }
