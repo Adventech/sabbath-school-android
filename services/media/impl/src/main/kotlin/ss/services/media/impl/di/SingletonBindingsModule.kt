@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,17 +20,19 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.di
+package ss.services.media.impl.di
 
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import ss.libraries.media.api.MediaRepository
+import ss.services.media.impl.MediaRepositoryImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class RepositoryModule {
-
+abstract class SingletonBindingsModule {
     @Binds
     internal abstract fun bindMediaRepository(impl: MediaRepositoryImpl): MediaRepository
+
 }

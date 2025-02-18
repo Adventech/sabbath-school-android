@@ -152,6 +152,7 @@ dependencies {
     implementation(projects.features.settings)
     implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.foundation.coroutines)
+    implementation(projects.libraries.media.api)
     implementation(projects.services.circuit.impl)
     implementation(projects.services.lessons.impl)
     implementation(projects.services.media.impl)
