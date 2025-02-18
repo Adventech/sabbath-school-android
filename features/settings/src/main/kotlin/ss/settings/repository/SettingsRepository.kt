@@ -30,7 +30,6 @@ import app.ss.design.compose.extensions.list.DividerEntity
 import app.ss.design.compose.extensions.list.ListEntity
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.icon.ResIcon
-import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.models.config.AppConfig
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
@@ -72,7 +71,6 @@ internal class SettingsRepositoryImpl @Inject constructor(
     private val dailyReminder: DailyReminder,
     private val dispatcherProvider: DispatcherProvider,
     private val prefs: SSPrefs,
-    private val userDataRepository: UserDataRepository,
     private val contentSyncProvider: ContentSyncProvider,
 ) : SettingsRepository, Scopable by ioScopable(dispatcherProvider) {
 
@@ -212,7 +210,7 @@ internal class SettingsRepositoryImpl @Inject constructor(
 
     override fun signOut() {
         scope.launch {
-            userDataRepository.clear()
+            prefs.clear()
             authRepository.logout()
         }
     }
@@ -220,7 +218,7 @@ internal class SettingsRepositoryImpl @Inject constructor(
     override fun deleteAccount() {
         scope.launch {
             authRepository.deleteAccount()
-            userDataRepository.clear()
+            prefs.clear()
         }
     }
 
