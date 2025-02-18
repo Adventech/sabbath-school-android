@@ -26,7 +26,6 @@ import app.ss.models.SSDay
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
 import kotlinx.coroutines.flow.Flow
-import ss.lessons.model.result.LessonReads
 
 interface LessonsRepositoryV2 {
 
@@ -36,5 +35,4 @@ interface LessonsRepositoryV2 {
 
     fun getDayRead(day: SSDay): Flow<Result<SSRead>>
 
-    fun getLessonReads(lessonIndex: String): Flow<Result<LessonReads>>
 }

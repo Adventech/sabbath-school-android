@@ -25,15 +25,9 @@ package ss.lessons.test
 import androidx.annotation.VisibleForTesting
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
-import app.ss.models.SSReadComments
-import app.ss.models.SSReadHighlights
 import okhttp3.ResponseBody
 import retrofit2.Response
 import ss.lessons.api.SSLessonsApi
-import ss.lessons.model.AnnotationsPdf
-import ss.lessons.model.ReadComments
-import ss.lessons.model.ReadHighlights
-import ss.lessons.model.request.UploadPdfAnnotationsRequest
 
 /** Fake implementation of [SSLessonsApi]. **/
 @VisibleForTesting(otherwise = VisibleForTesting.NONE)
@@ -65,30 +59,6 @@ class FakeLessonsApi : SSLessonsApi {
     }
 
     override suspend fun getDayRead(fullPath: String): Response<SSRead> = dayReadMap[fullPath]!!
-
-    override suspend fun getPdfAnnotations(lessonIndex: String, pdfId: String): Response<List<AnnotationsPdf>> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun uploadAnnotations(lessonIndex: String, pdfId: String, request: UploadPdfAnnotationsRequest): Response<ResponseBody> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getComments(readIndex: String): Response<ReadComments> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun uploadComments(comments: SSReadComments): Response<ResponseBody> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getHighlights(readIndex: String): Response<ReadHighlights> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun uploadHighlights(highlights: SSReadHighlights): Response<ResponseBody> {
-        TODO("Not yet implemented")
-    }
 
     override suspend fun readerArtifact(url: String): Response<ResponseBody> {
         TODO("Not yet implemented")
