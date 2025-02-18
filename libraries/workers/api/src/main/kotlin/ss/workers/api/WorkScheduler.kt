@@ -26,20 +26,6 @@ package ss.workers.api
 interface WorkScheduler {
 
     /**
-     * Prefetch cover images for [language] quarterlies.
-     *
-     * @param language The current selected language.
-     */
-    fun preFetchImages(language: String)
-
-    /**
-     * Prefetch cover images.
-     *
-     * @param images The images to cache.
-     */
-    fun preFetchImages(images: Set<String>)
-
-    /**
      * Schedules background work to download quarterly content matching the given [index].
      * Called specifically when the user clicks on download quarterly.
      * Scheduled on a CONNECTED network.

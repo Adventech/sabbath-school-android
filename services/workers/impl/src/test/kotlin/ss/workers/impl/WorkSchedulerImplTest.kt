@@ -29,7 +29,6 @@ import androidx.work.NetworkType
 import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
-import ss.workers.impl.workers.PrefetchImagesWorker
 import ss.workers.impl.workers.SyncQuarterliesWorker
 import ss.workers.impl.workers.SyncQuarterlyWorker
 
@@ -39,24 +38,6 @@ class WorkSchedulerImplTest {
     private val fakeWorkManager = FakeWorkManager()
 
     private val underTest = WorkSchedulerImpl(fakeWorkManager)
-
-    @Test
-    fun `preFetchImages - verify constrains`() {
-        underTest.preFetchImages("en")
-
-        with(fakeWorkManager) {
-            capturedUniqueWorkName shouldBeEqualTo PrefetchImagesWorker.uniqueWorkName
-            capturedExistingWorkPolicy shouldBeEqualTo ExistingWorkPolicy.KEEP
-            with(capturedOneTimeWorkRequest!!.workSpec) {
-                input.getString(PrefetchImagesWorker.LANGUAGE_KEY) shouldBeEqualTo "en"
-                with(constraints) {
-                    requiredNetworkType shouldBeEqualTo NetworkType.UNMETERED
-                    requiresBatteryNotLow() shouldBe true
-                    requiresStorageNotLow() shouldBe true
-                }
-            }
-        }
-    }
 
     @Test
     fun `syncQuarterly - verify constrains`() {
