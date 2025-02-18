@@ -34,8 +34,5 @@ import dagger.hilt.components.SingletonComponent
 abstract class RepositoryModule {
 
     @Binds
-    internal abstract fun bindLessonsRepository(impl: LessonsRepositoryImpl): LessonsRepository
-
-    @Binds
     internal abstract fun bindMediaRepository(impl: MediaRepositoryImpl): MediaRepository
 }
