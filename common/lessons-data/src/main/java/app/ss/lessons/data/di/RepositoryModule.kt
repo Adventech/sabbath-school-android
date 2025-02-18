@@ -22,8 +22,6 @@
 
 package app.ss.lessons.data.di
 
-import app.ss.lessons.data.repository.media.MediaRepository
-import app.ss.lessons.data.repository.media.MediaRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

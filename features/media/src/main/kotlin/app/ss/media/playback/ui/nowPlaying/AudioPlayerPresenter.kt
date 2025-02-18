@@ -25,7 +25,6 @@ package app.ss.media.playback.ui.nowPlaying
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.models.media.AudioFile
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
@@ -38,6 +37,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import ss.libraries.circuit.navigation.AudioPlayerScreen
+import ss.libraries.media.api.MediaRepository
 import ss.libraries.media.model.extensions.id
 import ss.libraries.media.model.extensions.targetIndex
 import ss.libraries.media.model.toAudio

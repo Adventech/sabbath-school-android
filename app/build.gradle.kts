@@ -137,7 +137,6 @@ dependencies {
     implementation(projects.common.core)
     implementation(projects.common.design)
     implementation(projects.common.designCompose)
-    implementation(projects.common.lessonsData)
     implementation(projects.common.network)
     implementation(projects.common.runtimePermissions)
     implementation(projects.common.translations)

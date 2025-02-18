@@ -45,7 +45,6 @@ dependencies {
     implementation(projects.common.auth)
     implementation(projects.common.core)
     implementation(projects.common.designCompose)
-    implementation(projects.common.lessonsData)
     implementation(projects.common.translations)
     implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.foundation.coroutines)

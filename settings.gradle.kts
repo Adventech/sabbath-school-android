@@ -46,7 +46,6 @@ include(
     ":common:design",
     ":common:design-compose",
     ":features:languages",
-    ":common:lessons-data",
     ":common:misc",
     ":common:models",
     ":common:network",
