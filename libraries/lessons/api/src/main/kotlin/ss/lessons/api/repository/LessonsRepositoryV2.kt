@@ -22,17 +22,9 @@
 
 package ss.lessons.api.repository
 
-import app.ss.models.SSDay
 import app.ss.models.SSLessonInfo
-import app.ss.models.SSRead
-import kotlinx.coroutines.flow.Flow
 
 interface LessonsRepositoryV2 {
 
-    fun getLessonInfo(lessonIndex: String): Flow<Result<SSLessonInfo>>
-
     suspend fun getLessonInfoResult(lessonIndex: String, path: String): Result<SSLessonInfo>
-
-    fun getDayRead(day: SSDay): Flow<Result<SSRead>>
-
 }

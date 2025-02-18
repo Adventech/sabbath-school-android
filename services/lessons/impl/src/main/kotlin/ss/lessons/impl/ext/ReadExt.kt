@@ -33,12 +33,3 @@ internal fun SSRead.toEntity(): ReadEntity = ReadEntity(
     content = content,
     bible = bible
 )
-
-internal fun ReadEntity.toModel(): SSRead = SSRead(
-    index = index,
-    id = id,
-    date = date,
-    title = title,
-    content = content,
-    bible = bible
-)
