@@ -37,10 +37,6 @@ class FakeQuarterliesRepository : QuarterliesRepository {
     var quarterlyInfoMap: MutableMap<String, Result<SSQuarterlyInfo>> = mutableMapOf()
     var publishingInfoFlow: Flow<Result<PublishingInfo?>> = emptyFlow()
 
-    override fun getQuarterly(index: String): Flow<Result<SSQuarterlyInfo>> {
-       return quarterlyInfoMap[index]?.let { flowOf(it) } ?: emptyFlow()
-    }
-
     override suspend fun getQuarterlyInfo(index: String): Result<SSQuarterlyInfo> {
         return quarterlyInfoMap[index]!!
     }

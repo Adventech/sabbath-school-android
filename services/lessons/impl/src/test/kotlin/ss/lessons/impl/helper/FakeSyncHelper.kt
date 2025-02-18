@@ -27,9 +27,6 @@ import ss.lessons.api.helper.SyncHelper
 import app.ss.models.SSQuarterlyInfo
 
 class FakeSyncHelper : SyncHelper {
-    override fun syncQuarterly(index: String) {
-        TODO("Not yet implemented")
-    }
 
     override suspend fun syncQuarterlyInfo(index: String): SSQuarterlyInfo? {
         TODO("Not yet implemented")

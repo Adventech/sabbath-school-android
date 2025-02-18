@@ -56,10 +56,6 @@ internal class SyncHelperImpl @Inject constructor(
 
     private val exceptionLogger = CoroutineExceptionHandler { _, exception -> Timber.e(exception) }
 
-    override fun syncQuarterly(index: String) {
-        scope.launch(exceptionLogger) { syncQuarterlyInfo(index) }
-    }
-
     override suspend fun syncQuarterlyInfo(index: String): SSQuarterlyInfo? {
         val language = index.substringBefore('-')
         val id = index.substringAfter('-')
