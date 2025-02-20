@@ -39,7 +39,6 @@ import kotlinx.coroutines.flow.map
 import ss.libraries.circuit.navigation.AudioPlayerScreen
 import ss.libraries.media.api.MediaRepository
 import ss.libraries.media.model.extensions.id
-import ss.libraries.media.model.extensions.targetIndex
 import ss.libraries.media.model.toAudio
 import ss.services.media.ui.PlaybackConnection
 
@@ -110,32 +109,30 @@ class AudioPlayerPresenter @AssistedInject constructor(
     private suspend fun generateQueue() {
         val nowPlaying = playbackConnection.nowPlaying.first()
         val lessonIndex = screen.resourceId
-        // Correct queue or playlist already set
-        if (nowPlaying.targetIndex?.contains(lessonIndex) == true) return
 
         val playlist = repository.getPlayList(lessonIndex)
 
         if (nowPlaying.id.isEmpty()) {
             setAudioQueue(playlist)
         } else {
+            val state = playbackConnection.playbackState.first()
             val audio = repository.findAudioFile(nowPlaying.id)
-            if (audio?.targetIndex?.startsWith(lessonIndex) == false) {
-                val state = playbackConnection.playbackState.first()
-                setAudioQueue(playlist, state.isPlaying)
+
+            if (audio == null || audio.targetIndex.startsWith(lessonIndex) == false || !state.isPlaying) {
+                if (state.isPlaying) {
+                    playbackConnection.playPause()
+                }
+                setAudioQueue(playlist)
             }
         }
     }
 
-    private fun setAudioQueue(playlist: List<AudioFile>, play: Boolean = false) {
+    private fun setAudioQueue(playlist: List<AudioFile>) {
         if (playlist.isEmpty()) return
 
-        val index = playlist.indexOfFirst { it.targetIndex == screen.documentIndex }
+        val index = playlist.indexOfFirst { it.targetIndex == screen.segmentId }
         val position = index.coerceAtLeast(0)
-        playbackConnection.setQueue(playlist, index)
-
-        if (play) {
-            playbackConnection.playAudios(playlist, position)
-        }
+        playbackConnection.setQueue(playlist, position)
     }
 
     @CircuitInject(AudioPlayerScreen::class, SingletonComponent::class)

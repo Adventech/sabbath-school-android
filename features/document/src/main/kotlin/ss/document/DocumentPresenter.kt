@@ -223,6 +223,7 @@ class DocumentPresenter @AssistedInject constructor(
                 resourceId = document.resourceId,
                 resourceIndex = document.resourceIndex,
                 documentIndex = document.index,
+                segmentId = null,
                 pdfs = pdfs.map {
                     PDFAux(
                         id = it.id,

@@ -65,6 +65,7 @@ class ReadPdfViewModel @Inject constructor(
 
     val resourceId: String? get() = savedStateHandle.screen?.resourceId
     val documentIndex: String? get() = savedStateHandle.screen?.documentIndex
+    val segmentId: String? get() = savedStateHandle.screen?.segmentId
 
     private val mediaAvailability = MutableStateFlow(MediaAvailability())
     val mediaAvailabilityFlow = mediaAvailability.asStateFlow()

@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import app.ss.models.AudioAux
 import app.ss.models.PDFAux
@@ -110,20 +111,22 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
             if (segment?.type == SegmentType.PDF) return@produceRetainedState
             value = repository.pdf(resourceIndex, documentIndex).getOrNull().orEmpty()
         }
-        val actions = buildList {
-            if (audio.isNotEmpty()) {
-                add(DocumentTopAppBarAction.Audio)
-            }
-            if (video.isNotEmpty()) {
-                add(DocumentTopAppBarAction.Video)
-            }
-            if (segment?.type == SegmentType.BLOCK) {
-                if (pdfs.isNotEmpty()) {
-                    add(DocumentTopAppBarAction.Pdf)
+        val actions = remember(audio, video, pdfs, segment) {
+            buildList {
+                if (audio.isNotEmpty()) {
+                    add(DocumentTopAppBarAction.Audio)
                 }
-                add(DocumentTopAppBarAction.DisplayOptions)
-            }
-        }.toImmutableList()
+                if (video.isNotEmpty()) {
+                    add(DocumentTopAppBarAction.Video)
+                }
+                if (segment?.type == SegmentType.BLOCK) {
+                    if (pdfs.isNotEmpty()) {
+                        add(DocumentTopAppBarAction.Pdf)
+                    }
+                    add(DocumentTopAppBarAction.DisplayOptions)
+                }
+            }.toImmutableList()
+        }
 
         return TopAppbarActionsState(
             actions = actions,
@@ -134,10 +137,10 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
                         when (event.action) {
                             DocumentTopAppBarAction.Audio -> {
                                 bottomSheetState = BottomSheet(
-                                    screen = AudioPlayerScreen(resourceId, documentIndex),
+                                    screen = AudioPlayerScreen(resourceId, segment?.id),
                                     skipPartiallyExpanded = true,
                                     themed = false,
-                                ) { result ->
+                                ) { _ ->
                                     bottomSheetState = null
                                 }
                             }
@@ -146,7 +149,7 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
                                     screen = VideosScreen(documentIndex, documentId),
                                     skipPartiallyExpanded = true,
                                     themed = false,
-                                ) { result ->
+                                ) { _ ->
                                     bottomSheetState = null
                                 }
                             }
@@ -156,6 +159,7 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
                                     resourceId = resourceId,
                                     documentIndex = documentIndex,
                                     resourceIndex = resourceIndex,
+                                    segmentId = segment?.id,
                                     pdfs = pdfs.map {
                                         PDFAux(
                                             id = it.id,
@@ -173,7 +177,7 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
                                     screen = ReaderOptionsScreen,
                                     skipPartiallyExpanded = false,
                                     themed = false,
-                                ) { result ->
+                                ) { _ ->
                                     bottomSheetState = null
                                 }
                             }

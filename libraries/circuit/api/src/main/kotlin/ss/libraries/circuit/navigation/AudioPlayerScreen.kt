@@ -28,7 +28,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class AudioPlayerScreen(
     val resourceId: String,
-    val documentIndex: String,
+    val segmentId: String?,
 ): Screen
 
 @Parcelize

@@ -32,5 +32,6 @@ data class PdfScreen(
     val resourceId: String,
     val documentIndex: String,
     val resourceIndex: String,
+    val segmentId: String?,
     val pdfs: List<PDFAux>,
 ): Screen
