@@ -145,11 +145,18 @@ private fun SelectableParagraph(
             )
         },
         onSearchSelection = { selection ->
-            val searchText = textFieldValue?.text?.substring(selection.min..selection.max) ?: return@SelectionBlockContainer
+            val text = textFieldValue?.text ?: return@SelectionBlockContainer
+            val start = selection.min.coerceIn(0, text.length)
+            val end = selection.max.coerceIn(start, text.length)
+
+            val searchText = text.substring(start, end).trim()
+
             textFieldValue = textFieldValue?.copy(
                 selection = TextRange.Zero,
             )
-            onSearchSelection(context, searchText)
+            if (searchText.isNotBlank()) {
+                onSearchSelection(context, searchText)
+            }
         }
     ) {
         MarkdownTextInput(
