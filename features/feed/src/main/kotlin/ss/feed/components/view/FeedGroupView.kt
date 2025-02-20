@@ -24,9 +24,12 @@ package ss.feed.components.view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -68,11 +71,16 @@ internal fun FeedGroupView(
     ) {
         FeedGroupHeader(group.title, group.seeAll, Modifier, seeAllClick)
 
-        SnappingLazyRow(modifier = Modifier.fillMaxWidth()) {
+        SnappingLazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(horizontal = Dimens.grid_4),
+        ) {
             items(group.resources.orEmpty(), key = { it.id }) { resource ->
-                FeedResourceView(resource.toSpec(group), Modifier.padding(horizontal = Dimens.grid_4)) {
+                FeedResourceView(resource.toSpec(group), Modifier) {
                     itemClick(resource)
                 }
+
+                Spacer(modifier = Modifier.width(20.dp))
             }
         }
     }

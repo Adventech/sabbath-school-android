@@ -120,7 +120,7 @@ private fun FeedResourceTitle(
             text = title,
             modifier = Modifier,
             style = SsTheme.typography.titleSmall.copy(
-                fontSize = 15.sp
+                fontSize = if (direction == ContentDirection.HORIZONTAL) 20.sp else 15.sp
             ),
             color = SsTheme.colors.primaryForeground,
             lineHeight = 18.sp,

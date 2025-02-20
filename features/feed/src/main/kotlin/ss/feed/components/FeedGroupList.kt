@@ -145,7 +145,7 @@ internal fun FeedLazyColum(
         items(resources, key = { it.id }) { spec ->
             FeedResourceView(
                 spec = spec,
-                modifier = Modifier.padding(horizontal = Dimens.grid_4, vertical = Dimens.grid_3)
+                modifier = Modifier.padding(horizontal = Dimens.grid_4, vertical = Dimens.grid_2)
             ) {
                 itemClick(spec.index)
             }
