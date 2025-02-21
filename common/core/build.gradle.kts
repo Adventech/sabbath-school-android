@@ -27,17 +27,7 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
 }
 
-android {
-    namespace = "com.cryart.sabbathschool.core"
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-    }
-
-    buildFeatures {
-        viewBinding = true
-    }
-}
+android { namespace = "com.cryart.sabbathschool.core" }
 
 dependencies {
     api(projects.common.misc)
