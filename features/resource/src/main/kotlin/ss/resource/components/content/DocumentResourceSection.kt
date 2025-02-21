@@ -55,9 +55,6 @@ import androidx.compose.ui.unit.sp
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.content.ContentBox
-import app.ss.design.compose.widget.icon.IconBox
-import app.ss.design.compose.widget.icon.Icons
-import app.ss.design.compose.widget.icon.ResIcon
 import app.ss.design.compose.widget.image.RemoteImage
 import app.ss.translations.R as L10n
 import io.adventech.blockkit.model.feed.FeedResourceKind
@@ -142,7 +139,9 @@ data class DocumentResourceSection(
                 )
             }
 
-            document.cover?.takeIf { resourceKind == FeedResourceKind.BLOG }?.let {
+            document.cover?.takeIf {
+                resourceKind == FeedResourceKind.BLOG || resourceKind == FeedResourceKind.MAGAZINE
+            }?.let {
                 ContentBox(
                     content = RemoteImage(
                         data = it,
