@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.CircuitUiEvent
@@ -37,7 +38,6 @@ import io.adventech.blockkit.ui.input.UserInputState
 import kotlinx.collections.immutable.toImmutableList
 import ss.document.DocumentOverlayState
 import ss.document.producer.ReaderStyleStateProducer
-import ss.document.producer.UserInputStateProducer
 import ss.document.segment.components.overlay.BlocksOverlay
 import ss.document.segment.components.overlay.ExcerptOverlay
 import ss.document.segment.hidden.HiddenSegmentScreen
@@ -77,70 +77,72 @@ internal class OverlayStateProducerImpl @Inject constructor(
         var overlayState by rememberRetained { mutableStateOf<DocumentOverlayState?>(null) }
         val readerStyle = readerStyleStateProducer()
 
-        val defaultState = SegmentOverlayState.None { event ->
-            when (event) {
-                is SegmentOverlayStateProducer.Event.OnHandleUri -> {
-                    val uri = Uri.parse(event.uri)
-                    val data = event.data
+        val defaultState = remember(readerStyle, userInputState) {
+            SegmentOverlayState.None { event ->
+                when (event) {
+                    is SegmentOverlayStateProducer.Event.OnHandleUri -> {
+                        val uri = Uri.parse(event.uri)
+                        val data = event.data
 
-                    when (uri.scheme) {
-                        SCHEME_BIBLE -> {
-                            val excerpt = data?.bible?.get(uri.host) ?: return@None
+                        when (uri.scheme) {
+                            SCHEME_BIBLE -> {
+                                val excerpt = data?.bible?.get(uri.host) ?: return@None
 
-                            overlayState = SegmentOverlayState.Excerpt(
-                                ExcerptOverlay.State(
-                                    excerpt = excerpt,
-                                    style = readerStyle,
-                                    userInputState = userInputState,
-                                )
-                            ) { result ->
-                                when (result) {
-                                    is ExcerptOverlay.Result.Dismissed -> {
-                                        result.bibleVersion?.let {
-                                            userInputState.eventSink(UserInputState.Event.BibleVersionChanged(it))
+                                overlayState = SegmentOverlayState.Excerpt(
+                                    ExcerptOverlay.State(
+                                        excerpt = excerpt,
+                                        style = readerStyle,
+                                        userInputState = userInputState,
+                                    )
+                                ) { result ->
+                                    when (result) {
+                                        is ExcerptOverlay.Result.Dismissed -> {
+                                            result.bibleVersion?.let {
+                                                userInputState.eventSink(UserInputState.Event.BibleVersionChanged(it))
+                                            }
                                         }
                                     }
+                                    overlayState = null
                                 }
-                                overlayState = null
                             }
-                        }
 
-                        SCHEME_EGW -> {
-                            val blocks = data?.egw?.get(uri.host) ?: return@None
-                            overlayState = SegmentOverlayState.Blocks(
-                                state = BlocksOverlay.State(
-                                    blocks = blocks.toImmutableList(),
-                                    style = readerStyle,
-                                    userInputState = userInputState,
-                                )
-                            ) {
-                                overlayState = null
+                            SCHEME_EGW -> {
+                                val blocks = data?.egw?.get(uri.host) ?: return@None
+                                overlayState = SegmentOverlayState.Blocks(
+                                    state = BlocksOverlay.State(
+                                        blocks = blocks.toImmutableList(),
+                                        style = readerStyle,
+                                        userInputState = userInputState,
+                                    )
+                                ) {
+                                    overlayState = null
+                                }
                             }
-                        }
 
-                        SCHEME_COMPLETION -> {
-                            Timber.d("Handling completion uri: ${uri.host}")
-                        }
+                            SCHEME_COMPLETION -> {
+                                Timber.d("Handling completion uri: ${uri.host}")
+                            }
 
-                        in WEB_SCHEMES -> {
-                            navigator.goTo(CustomTabsIntentScreen(event.uri))
+                            in WEB_SCHEMES -> {
+                                navigator.goTo(CustomTabsIntentScreen(event.uri))
+                            }
                         }
                     }
-                }
 
-                is SegmentOverlayStateProducer.Event.OnHiddenSegment -> {
-                    overlayState = DocumentOverlayState.BottomSheet(
-                        screen = HiddenSegmentScreen(
-                            id = event.segment.id,
-                            index = event.segment.index,
-                            documentIndex = event.documentIndex,
-                        ),
-                        skipPartiallyExpanded = true,
-                        themed = true,
-                        onResult = { result ->
-                            overlayState = null
-                        }
-                    )
+                    is SegmentOverlayStateProducer.Event.OnHiddenSegment -> {
+                        overlayState = DocumentOverlayState.BottomSheet(
+                            screen = HiddenSegmentScreen(
+                                id = event.segment.id,
+                                index = event.segment.index,
+                                documentIndex = event.documentIndex,
+                            ),
+                            skipPartiallyExpanded = true,
+                            themed = true,
+                            onResult = { result ->
+                                overlayState = null
+                            }
+                        )
+                    }
                 }
             }
         }
@@ -150,8 +152,20 @@ internal class OverlayStateProducerImpl @Inject constructor(
 
         return when (state) {
             is DocumentOverlayState.BottomSheet -> state
-            is SegmentOverlayState.Blocks -> state.copy(state = state.state.copy(userInputState = userInputState))
-            is SegmentOverlayState.Excerpt -> state.copy(state = state.state.copy(userInputState = userInputState))
+            is SegmentOverlayState.Blocks -> state.copy(
+                state = state.state.copy(
+                    style = readerStyle,
+                    userInputState = userInputState,
+                )
+            )
+
+            is SegmentOverlayState.Excerpt -> state.copy(
+                state = state.state.copy(
+                    style = readerStyle,
+                    userInputState = userInputState,
+                )
+            )
+
             is SegmentOverlayState.None -> state
         }
     }
