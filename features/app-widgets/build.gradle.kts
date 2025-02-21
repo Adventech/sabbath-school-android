@@ -45,7 +45,6 @@ dependencies {
     implementation(projects.common.core)
     implementation(projects.common.design)
     implementation(projects.common.designCompose)
-    implementation(projects.common.lessonsData)
     implementation(projects.common.translations)
     implementation(projects.libraries.appWidget.api)
     implementation(projects.libraries.foundation.coroutines)

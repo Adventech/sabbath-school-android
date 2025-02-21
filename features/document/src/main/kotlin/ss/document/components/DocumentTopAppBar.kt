@@ -32,7 +32,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -118,6 +117,7 @@ internal fun DocumentTopAppBar(
     modifier: Modifier = Modifier,
     collapsible: Boolean = false,
     collapsed: Boolean = false,
+    contentColor: Color = SsTheme.colors.primaryForeground,
     scrollBehavior: TopAppBarScrollBehavior? = null,
     actions: ImmutableList<DocumentTopAppBarAction> = persistentListOf(),
     onNavBack: () -> Unit = {},
@@ -183,7 +183,7 @@ internal fun DocumentTopAppBar(
         },
         modifier = modifier,
         navigationIcon = {
-            val contentColor by topAppBarContentColor(collapsible, collapsed)
+            val contentColor by topAppBarContentColor(collapsible, collapsed, contentColor)
 
             IconButton(onClick = onNavBack) {
                 AnimatedContent(collapsed) { isCollapsed ->
@@ -231,7 +231,7 @@ internal fun DocumentTopAppBar(
                     )
                 }
             }.forEach { icon ->
-                val iconColor by topAppBarContentColor(collapsible, collapsed)
+                val iconColor by topAppBarContentColor(collapsible, collapsed, contentColor)
                 val onClick = (icon as? IconButtonSlot)?.onClick ?: (icon as? IconButtonResSlot)?.onClick
                 IconButton(
                     onClick = {
@@ -257,12 +257,12 @@ internal fun DocumentTopAppBar(
 private fun topAppBarContentColor(
     collapsible: Boolean,
     collapsed: Boolean,
-    isDarkMode: Boolean = isSystemInDarkTheme(),
+    contentColor: Color,
 ) = animateColorAsState(
     targetValue = when {
-        !collapsible -> if (isDarkMode) Color.White else Color.Black
+        !collapsible -> contentColor
         collapsible && !collapsed -> Color.White
-        else -> if (isDarkMode) Color.White else Color.Black
+        else -> contentColor
     },
     label = "icon-color"
 )
@@ -271,6 +271,7 @@ private fun topAppBarContentColor(
 internal fun DocumentTitleBar(
     segments: ImmutableList<Segment>,
     selectedSegment: Segment?,
+    contentColor: Color,
     modifier: Modifier = Modifier,
     onSelection: (Segment) -> Unit = {},
 ) {
@@ -280,11 +281,13 @@ internal fun DocumentTitleBar(
             modifier = modifier,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
+            color = contentColor,
         )
     } else {
         DocumentSegmentDropdown(
             segments = segments,
             selectedSegment = selectedSegment,
+            contentColor = contentColor,
             modifier = modifier,
             onSelection = onSelection
         )
@@ -295,6 +298,7 @@ internal fun DocumentTitleBar(
 private fun DocumentSegmentDropdown(
     segments: ImmutableList<Segment>,
     selectedSegment: Segment?,
+    contentColor: Color,
     modifier: Modifier = Modifier,
     onSelection: (Segment) -> Unit = {},
 ) {
@@ -357,9 +361,13 @@ private fun DocumentSegmentDropdown(
             modifier = Modifier.weight(1f),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
+            color = contentColor
         )
 
-        IconBox(Icons.ArrowDropDown)
+        IconBox(
+            icon = Icons.ArrowDropDown,
+            contentColor = contentColor,
+        )
     }
 }
 

@@ -34,7 +34,6 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import ss.workers.api.WorkScheduler
-import ss.workers.impl.workers.PrefetchImagesWorker
 import ss.workers.impl.workers.SyncQuarterliesWorker
 import ss.workers.impl.workers.SyncQuarterlyWorker
 import java.util.concurrent.TimeUnit
@@ -51,40 +50,6 @@ const val SYNC_FLEX_INTERVAL = 4L
 internal class WorkSchedulerImpl @Inject constructor(
     private val workManager: WorkManager
 ) : WorkScheduler {
-
-    override fun preFetchImages(language: String) {
-        schedulePreFetchImages(language = language)
-    }
-
-    override fun preFetchImages(images: Set<String>) {
-        schedulePreFetchImages(images = images)
-    }
-
-    private fun schedulePreFetchImages(
-        language: String? = null,
-        images: Set<String>? = null
-    ) {
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .setRequiresBatteryNotLow(true)
-            .setRequiresStorageNotLow(true)
-            .build()
-        val request = OneTimeWorkRequestBuilder<PrefetchImagesWorker>()
-            .setConstraints(constraints)
-            .setInputData(
-                workDataOf(
-                    PrefetchImagesWorker.LANGUAGE_KEY to language,
-                    PrefetchImagesWorker.IMAGES_KEY to images?.toTypedArray()
-                )
-            )
-            .build()
-
-        workManager.enqueueUniqueWork(
-            PrefetchImagesWorker.uniqueWorkName,
-            ExistingWorkPolicy.KEEP,
-            request
-        )
-    }
 
     override fun syncQuarterly(index: String) {
         val constraints = Constraints.Builder()

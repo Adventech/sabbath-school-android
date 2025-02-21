@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.lessons.data.repository.media
+package ss.services.media.impl
 
 import android.net.Uri
 import app.ss.models.media.AudioFile
@@ -42,6 +42,7 @@ import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.defaultScopable
 import ss.lessons.api.SSMediaApi
 import ss.lessons.model.request.SSMediaRequest
+import ss.libraries.media.api.MediaRepository
 import ss.libraries.storage.api.dao.AudioDao
 import ss.libraries.storage.api.dao.VideoInfoDao
 import ss.libraries.storage.api.entity.AudioFileEntity
@@ -49,13 +50,6 @@ import ss.libraries.storage.api.entity.VideoInfoEntity
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
-
-interface MediaRepository {
-    fun getAudio(lessonIndex: String): Flow<List<SSAudio>>
-    suspend fun findAudioFile(id: String): AudioFile?
-    suspend fun getPlayList(lessonIndex: String): List<AudioFile>
-    fun getVideo(lessonIndex: String): Flow<List<SSVideosInfo>>
-}
 
 @Singleton
 internal class MediaRepositoryImpl @Inject constructor(
@@ -164,3 +158,4 @@ private fun VideoInfoEntity.toModel(): SSVideosInfo = SSVideosInfo(
     clips = clips,
     lessonIndex = lessonIndex
 )
+

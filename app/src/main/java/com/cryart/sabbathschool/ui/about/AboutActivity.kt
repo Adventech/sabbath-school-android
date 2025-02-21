@@ -26,32 +26,34 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ShareCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.cryart.sabbathschool.BuildConfig
+import app.ss.models.config.AppConfig
 import com.cryart.sabbathschool.R
 import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
-import com.cryart.sabbathschool.core.extensions.view.viewBinding
-import com.cryart.sabbathschool.databinding.SsAboutActivityBinding
+import dagger.hilt.android.AndroidEntryPoint
 import ss.misc.SSConstants
-import ss.misc.SSEvent
+import javax.inject.Inject
 import app.ss.translations.R as L10n
 
+@AndroidEntryPoint
 class AboutActivity : AppCompatActivity() {
 
-    private val binding by viewBinding(SsAboutActivityBinding::inflate)
+    @Inject
+    lateinit var appConfig: AppConfig
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(binding.root)
+        setContentView(R.layout.ss_about_activity)
 
         bindUi()
-
-        SSEvent.track(this, SSConstants.SS_EVENT_ABOUT_OPEN)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -82,11 +84,11 @@ class AboutActivity : AppCompatActivity() {
     }
 
     private fun bindUi() {
-        setSupportActionBar(binding.ssToolbar)
+        setSupportActionBar(findViewById<Toolbar>(R.id.ss_toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         ViewCompat.setOnApplyWindowInsetsListener(
-            binding.scrollView
+            findViewById(R.id.scrollView)
         ) { v, insets ->
             val innerPadding = insets.getInsets(
                 WindowInsetsCompat.Type.systemBars()
@@ -101,18 +103,18 @@ class AboutActivity : AppCompatActivity() {
             insets
         }
 
-        binding.instagramIb.setOnClickListener {
+        findViewById<View>(R.id.instagram_ib).setOnClickListener {
             launchWebUrl(getString(L10n.string.ss_settings_instagram_url))
         }
-        binding.facebookIb.setOnClickListener {
+        findViewById<View>(R.id.facebook_ib).setOnClickListener {
             launchWebUrl(getString(L10n.string.ss_settings_facebook_url))
         }
-        binding.githubIb.setOnClickListener {
+        findViewById<View>(R.id.github_ib).setOnClickListener {
             launchWebUrl(getString(L10n.string.ss_settings_github_url))
         }
-        binding.aboutLink.setOnClickListener {
+        findViewById<View>(R.id.about_link).setOnClickListener {
             launchWebUrl(getString(L10n.string.ss_settings_website_url))
         }
-        binding.versionInfo.text = getString(L10n.string.ss_settings_version_with_param_string, BuildConfig.VERSION_NAME)
+        findViewById<TextView>(R.id.version_info).text = getString(L10n.string.ss_settings_version_with_param_string, appConfig.version)
     }
 }

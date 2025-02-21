@@ -25,20 +25,18 @@ package ss.document.segment.components.overlay
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import app.ss.design.compose.theme.SsTheme
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.ReaderStyleConfig
 import io.adventech.blockkit.ui.style.background
-import io.adventech.blockkit.ui.style.primaryForeground
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,15 +47,13 @@ internal fun BlocksDialogSurface(
     content: @Composable () -> Unit,
 ) {
     CompositionLocalProvider(LocalReaderStyle provides readerStyle) {
-        val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-
-        ModalBottomSheet(
+        // Revert back to bottom sheet when this issue is fixed: https://issuetracker.google.com/issues/353304855
+        BasicAlertDialog(
             onDismissRequest = { onDismiss() },
             modifier = modifier,
-            sheetState = sheetState,
-            containerColor = Color.Transparent,
-            contentColor = readerStyle.theme.primaryForeground(),
-            dragHandle = { }
+            properties = DialogProperties(
+                usePlatformDefaultWidth = false,
+            )
         ) {
             Surface(
                 modifier = Modifier

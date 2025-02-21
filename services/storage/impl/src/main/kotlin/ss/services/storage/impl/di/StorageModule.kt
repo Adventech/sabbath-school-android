@@ -28,7 +28,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import io.adventech.blockkit.model.feed.FeedGroup
 import ss.libraries.storage.api.dao.AppWidgetDao
 import ss.libraries.storage.api.dao.AudioDao
 import ss.libraries.storage.api.dao.BibleVersionDao
@@ -38,11 +37,8 @@ import ss.libraries.storage.api.dao.FeedGroupDao
 import ss.libraries.storage.api.dao.FontFilesDao
 import ss.libraries.storage.api.dao.LanguagesDao
 import ss.libraries.storage.api.dao.LessonsDao
-import ss.libraries.storage.api.dao.PdfAnnotationsDao
 import ss.libraries.storage.api.dao.PublishingInfoDao
 import ss.libraries.storage.api.dao.QuarterliesDao
-import ss.libraries.storage.api.dao.ReadCommentsDao
-import ss.libraries.storage.api.dao.ReadHighlightsDao
 import ss.libraries.storage.api.dao.ReadsDao
 import ss.libraries.storage.api.dao.ResourcesDao
 import ss.libraries.storage.api.dao.SegmentsDao
@@ -86,24 +82,6 @@ object StorageModule {
     fun provideReadsDao(
         @ApplicationContext context: Context
     ): ReadsDao = context.database().readsDao()
-
-    @Provides
-    @Singleton
-    fun providePdfAnnotationsDao(
-        @ApplicationContext context: Context
-    ): PdfAnnotationsDao = context.database().pdfAnnotationsDao()
-
-    @Provides
-    @Singleton
-    fun provideReadCommentsDao(
-        @ApplicationContext context: Context
-    ): ReadCommentsDao = context.database().readCommentsDao()
-
-    @Provides
-    @Singleton
-    fun provideReadHighlightsDao(
-        @ApplicationContext context: Context
-    ): ReadHighlightsDao = context.database().readHighlightsDao()
 
     @Provides
     @Singleton

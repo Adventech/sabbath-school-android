@@ -36,6 +36,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -46,19 +47,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.content.ContentBox
-import app.ss.design.compose.widget.icon.IconBox
-import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.image.RemoteImage
+import app.ss.translations.R as L10n
 import io.adventech.blockkit.model.feed.FeedResourceKind
 import io.adventech.blockkit.model.resource.ResourceDocument
 import org.joda.time.format.DateTimeFormat
 import ss.misc.SSConstants
+import ss.resource.R as ResourceR
 
 @Immutable
 data class DocumentResourceSection(
@@ -129,10 +132,16 @@ data class DocumentResourceSection(
             }
 
             if (document.externalURL != null) {
-                IconBox(Icons.OpenInBrowser)
+                Icon(
+                    painter = painterResource(ResourceR.drawable.ic_arrow_up_forward_square),
+                    contentDescription = stringResource(L10n.string.ss_open_in_browser),
+                    tint = SsTheme.colors.secondaryForeground,
+                )
             }
 
-            document.cover?.takeIf { resourceKind == FeedResourceKind.BLOG }?.let {
+            document.cover?.takeIf {
+                resourceKind == FeedResourceKind.BLOG || resourceKind == FeedResourceKind.MAGAZINE
+            }?.let {
                 ContentBox(
                     content = RemoteImage(
                         data = it,

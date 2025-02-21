@@ -23,8 +23,6 @@
 package com.cryart.sabbathschool.core.extensions.view
 
 import android.view.View
-import android.view.ViewGroup
-import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 
@@ -57,28 +55,4 @@ fun View.fadeTo(visible: Boolean, duration: Long = 500, startDelay: Long = 0, to
         .setDuration(duration)
         .setStartDelay(startDelay)
         .start()
-}
-
-/**
- * Cancels the animation started by [fadeTo] and jumps to the end of it.
- */
-fun View.cancelFade() {
-    val tagKey = "fadeTo".hashCode()
-    val visible = getTag(tagKey)?.castOrNull<Boolean>() ?: return
-    animate().cancel()
-    isVisible = visible
-    alpha = if (visible) getTag("fadeToAlpha".hashCode())?.castOrNull<Float>() ?: 1f else 0f
-    setTag(tagKey, null)
-}
-
-/**
- * Cancels the fade for this view and any ancestors.
- */
-fun View.cancelFadeRecursively() {
-    cancelFade()
-    castOrNull<ViewGroup>()?.children?.asSequence()?.forEach { it.cancelFade() }
-}
-
-private inline fun <reified T> Any.castOrNull(): T? {
-    return this as? T
 }

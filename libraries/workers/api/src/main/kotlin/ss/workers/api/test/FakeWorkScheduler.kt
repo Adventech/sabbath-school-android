@@ -28,20 +28,8 @@ import ss.workers.api.WorkScheduler
 @VisibleForTesting
 class FakeWorkScheduler : WorkScheduler {
 
-    var preFetchImagesLanguage: String? = null
-        private set
-    var preFetchImagesImages: Set<String>? = null
-        private set
     var quarterlySyncIndex: String? = null
         private set
-
-    override fun preFetchImages(language: String) {
-        this.preFetchImagesLanguage = language
-    }
-
-    override fun preFetchImages(images: Set<String>) {
-        this.preFetchImagesImages = images
-    }
 
     override fun syncQuarterly(index: String) {
         quarterlySyncIndex = index

@@ -28,10 +28,8 @@ import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
@@ -56,25 +54,6 @@ internal class QuarterliesRepositoryImpl @Inject constructor(
     private val deviceHelper: DeviceHelper,
     private val dispatcherProvider: DispatcherProvider,
 ) : QuarterliesRepository, Scopable by ioScopable(dispatcherProvider) {
-
-    override fun getQuarterly(index: String): Flow<Result<SSQuarterlyInfo>> = quarterliesDao
-        .getInfoFlow(index)
-        .filterNotNull()
-        .mapNotNull { it.takeUnless { it.lessons.isEmpty() } }
-        .map { entity ->
-            Result.success(
-                SSQuarterlyInfo(
-                    quarterly = entity.quarterly.toModel(),
-                    lessons = entity.lessons.sortedBy { it.order }.map { it.toModel() }
-                )
-            )
-        }
-        .onStart { syncHelper.syncQuarterly(index) }
-        .flowOn(dispatcherProvider.io)
-        .catch {
-            Timber.e(it)
-            emit(Result.failure(it))
-        }
 
     override suspend fun getQuarterlyInfo(index: String): Result<SSQuarterlyInfo> {
         val cached = withContext(dispatcherProvider.io) {

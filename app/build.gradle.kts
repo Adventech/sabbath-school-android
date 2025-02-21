@@ -109,7 +109,6 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
         buildConfig = true
     }
 
@@ -137,7 +136,6 @@ dependencies {
     implementation(projects.common.core)
     implementation(projects.common.design)
     implementation(projects.common.designCompose)
-    implementation(projects.common.lessonsData)
     implementation(projects.common.network)
     implementation(projects.common.runtimePermissions)
     implementation(projects.common.translations)
@@ -153,6 +151,7 @@ dependencies {
     implementation(projects.features.settings)
     implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.foundation.coroutines)
+    implementation(projects.libraries.media.api)
     implementation(projects.services.circuit.impl)
     implementation(projects.services.lessons.impl)
     implementation(projects.services.media.impl)
@@ -223,8 +222,8 @@ object BuildAndroidConfig {
 
     object Version {
         private const val MAJOR = 5
-        private const val MINOR = 1
-        private const val PATCH = 2
+        private const val MINOR = 2
+        private const val PATCH = 0
 
         const val name = "$MAJOR.$MINOR.$PATCH"
     }

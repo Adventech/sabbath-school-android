@@ -26,7 +26,6 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.models.media.SSVideosInfo
 import com.cryart.sabbathschool.core.extensions.intent.lessonIndex
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,6 +36,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import ss.foundation.coroutines.flow.stateIn
+import ss.libraries.media.api.MediaRepository
 import javax.inject.Inject
 
 @HiltViewModel

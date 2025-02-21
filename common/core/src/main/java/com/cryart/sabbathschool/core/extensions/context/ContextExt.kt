@@ -24,22 +24,15 @@ package com.cryart.sabbathschool.core.extensions.context
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.core.app.ShareCompat
 import androidx.core.net.toUri
 import coil.imageLoader
 import coil.request.ImageRequest
 import com.cryart.sabbathschool.core.R
 import timber.log.Timber
-
-fun Context.isDarkTheme(): Boolean {
-    return resources.configuration.uiMode and
-        Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
-}
 
 fun Context.launchWebUrl(url: String): Boolean {
     return launchWebUrl(url.toWebUri())
@@ -76,31 +69,6 @@ fun Context.launchWebUrl(uri: Uri): Boolean {
 
 fun String.toWebUri(): Uri {
     return (if (startsWith("http://") || startsWith("https://")) this else "https://$this").toUri()
-}
-
-object ContextHelper {
-    @JvmStatic
-    fun launchWebUrl(context: Context, url: String) {
-        context.launchWebUrl(url)
-    }
-
-    @JvmStatic
-    fun isDarkTheme(context: Context): Boolean = context.isDarkTheme()
-}
-
-fun Context.shareContent(content: String, chooser: String = "") {
-    val shareIntent = ShareCompat.IntentBuilder(this)
-        .setType("text/plain")
-        .setText(content)
-        .intent
-    if (shareIntent.resolveActivity(packageManager) != null) {
-        startActivity(Intent.createChooser(shareIntent, chooser))
-    }
-}
-
-@Suppress("UNCHECKED_CAST")
-fun <T> Context.systemService(name: String): T {
-    return getSystemService(name) as T
 }
 
 suspend fun Context.fetchBitmap(source: Any?): Bitmap? {

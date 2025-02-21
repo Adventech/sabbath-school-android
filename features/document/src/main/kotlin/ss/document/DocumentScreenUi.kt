@@ -32,13 +32,10 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeContent
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,9 +43,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import app.ss.design.compose.widget.scaffold.SystemUiEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -57,6 +56,8 @@ import com.slack.circuit.foundation.NavEvent
 import com.slack.circuit.overlay.ContentWithOverlays
 import com.slack.circuit.overlay.OverlayEffect
 import dagger.hilt.components.SingletonComponent
+import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
+import dev.chrisbanes.haze.materials.HazeMaterials
 import io.adventech.blockkit.model.resource.SegmentType
 import io.adventech.blockkit.ui.style.LocalBlocksStyle
 import io.adventech.blockkit.ui.style.LocalReaderStyle
@@ -76,7 +77,7 @@ import ss.libraries.circuit.navigation.DocumentScreen
 import ss.libraries.circuit.navigation.MiniAudioPlayerScreen
 import ss.libraries.circuit.overlay.BottomSheetOverlay
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalHazeMaterialsApi::class)
 @CircuitInject(DocumentScreen::class, SingletonComponent::class)
 @Composable
 fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
@@ -95,6 +96,9 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
             }
         }
     }
+
+    val containerColor = state.containerColor()
+    val contentColor = state.contentColor()
 
     HazeScaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -116,6 +120,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                             DocumentTitleBar(
                                 segments = state.segments,
                                 selectedSegment = state.selectedSegment,
+                                contentColor = contentColor,
                                 onSelection = { state.eventSink(SuccessEvent.OnSegmentSelection(it)) }
                             )
                         }
@@ -123,12 +128,15 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                     scrollBehavior = scrollBehavior,
                     collapsible = state.hasCover,
                     collapsed = collapsed,
+                    contentColor = contentColor,
                     actions = (state as? State.Success)?.actions ?: persistentListOf(),
                     onNavBack = { state.eventSink(Event.OnNavBack) },
                     onActionClick = { state.eventSink(Event.OnActionClick(it)) }
                 )
             }
         },
+        containerColor = containerColor,
+        contentColor = contentColor,
         bottomBar = {
             val hidePlayer = (state as? State.Success)?.selectedSegment?.type == SegmentType.STORY && !collapsed
             if (!hidePlayer) {
@@ -140,6 +148,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                 )
             }
         },
+        hazeStyle = HazeMaterials.regular(containerColor),
         blurTopBar = !state.hasCover || collapsed,
     ) { contentPadding ->
         when (state) {
@@ -237,4 +246,16 @@ private fun State.showTopBar(collapsed: Boolean): Boolean = when (this) {
 
         null -> true
     }
+}
+
+@Composable
+private fun State.containerColor(): Color = when (this) {
+    is State.Loading -> SsTheme.colors.primaryBackground
+    is State.Success -> readerStyle.theme.background()
+}
+
+@Composable
+private fun State.contentColor(): Color = when (this) {
+    is State.Loading -> SsTheme.colors.primaryForeground
+    is State.Success -> readerStyle.theme.primaryForeground()
 }

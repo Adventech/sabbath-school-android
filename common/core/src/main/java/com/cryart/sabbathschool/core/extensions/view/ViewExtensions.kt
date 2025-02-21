@@ -23,17 +23,8 @@
 package com.cryart.sabbathschool.core.extensions.view
 
 import android.graphics.drawable.Drawable
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.ColorInt
-import androidx.annotation.LayoutRes
 import androidx.core.graphics.drawable.DrawableCompat
-
-@Suppress("UNCHECKED_CAST")
-fun <V : View> ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): V {
-    return LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot) as V
-}
 
 fun Drawable.tint(@ColorInt color: Int) {
     val wrapped = DrawableCompat.wrap(this)

@@ -37,7 +37,6 @@ import ss.libraries.storage.api.dao.QuarterliesDao
 import ss.libraries.storage.api.dao.ReadsDao
 import ss.libraries.storage.api.entity.LessonEntity
 import ss.libraries.storage.api.entity.QuarterlyEntity
-import ss.workers.api.WorkScheduler
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -49,7 +48,6 @@ internal class ContentSyncProviderImpl @Inject constructor(
     private val lessonsDao: LessonsDao,
     private val lessonsApi: SSLessonsApi,
     private val syncHelper: SyncHelper,
-    private val workScheduler: WorkScheduler,
     private val dispatcherProvider: DispatcherProvider,
 ) : ContentSyncProvider {
 
@@ -99,8 +97,6 @@ internal class ContentSyncProviderImpl @Inject constructor(
                     lessonInfoResponse.body()?.lesson?.cover?.let { covers.add(it) }
                 }
             }
-
-            workScheduler.preFetchImages(covers)
 
             quarterliesDao.setOfflineState(
                 index,

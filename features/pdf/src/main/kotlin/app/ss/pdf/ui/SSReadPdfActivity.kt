@@ -101,7 +101,7 @@ class SSReadPdfActivity : PdfActivity() {
         return when (item.itemId) {
             android.R.id.home -> true.also { finish() }
             ID_AUDIO -> true.also {
-                supportFragmentManager.showNowPlaying(viewModel.resourceId)
+                supportFragmentManager.showNowPlaying(viewModel.resourceId, viewModel.segmentId)
             }
             ID_VIDEO -> true.also {
                 viewModel.documentIndex?.let {

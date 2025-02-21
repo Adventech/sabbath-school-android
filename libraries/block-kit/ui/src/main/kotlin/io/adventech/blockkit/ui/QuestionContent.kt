@@ -39,6 +39,8 @@ import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -70,16 +72,22 @@ import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
 
 @Composable
 internal fun QuestionContent(
-    blockItem: BlockItem.Question, modifier: Modifier = Modifier, inputState: UserInputState? = null, onHandleUri: (String) -> Unit = {}
+    blockItem: BlockItem.Question,
+    modifier: Modifier = Modifier,
+    inputState: UserInputState? = null,
+    onHandleUri: (String) -> Unit = {},
 ) {
     val input by remember(inputState) {
         mutableStateOf<UserInput.Question?>(inputState?.find(blockItem.id))
     }
 
+    var currentSelection by remember { mutableStateOf(TextRange.Zero) }
     var textFieldValue by rememberSaveable(input, stateSaver = TextFieldValue.Saver) {
         val content = input?.answer ?: ""
-        mutableStateOf(TextFieldValue(text = content, selection = TextRange(content.length)))
+        mutableStateOf(TextFieldValue(text = content, selection = currentSelection))
     }
+    // Use a separate state to store the latest value for disposal
+    var latestTextFieldValue by remember { mutableStateOf(textFieldValue) }
     val inputTextStyle = Styler.textStyle(blockStyle = inputBlockTextStyle)
 
     var inputLines by remember { mutableIntStateOf(INPUT_MIN_LINES) }
@@ -112,11 +120,7 @@ internal fun QuestionContent(
                     value = textFieldValue,
                     onValueChange = {
                         textFieldValue = it
-                        val answer = UserInputRequest.Question(
-                            blockId = blockItem.id,
-                            answer = it.text.trim(),
-                        )
-                        inputState?.eventSink?.invoke(UserInputState.Event.InputChanged(answer))
+                        currentSelection = it.selection
                     },
                     modifier = contentModifier
                         .padding(answerPaddingValues()),
@@ -128,6 +132,21 @@ internal fun QuestionContent(
                         inputLines = layoutResult.lineCount.coerceIn(INPUT_MIN_LINES, INPUT_MAX_LINES)
                     }
                 )
+            }
+        }
+    }
+
+    // Update the latest value whenever textFieldValue changes
+    LaunchedEffect(textFieldValue) { latestTextFieldValue = textFieldValue }
+    DisposableEffect(Unit) {
+        // Save the latest input value when the composable is disposed
+        onDispose {
+            val latestInput = UserInputRequest.Question(
+                blockId = blockItem.id,
+                answer = latestTextFieldValue.text.trim(),
+            )
+            if (latestInput.answer != input?.answer) {
+                inputState?.eventSink?.invoke(UserInputState.Event.InputChanged(latestInput))
             }
         }
     }

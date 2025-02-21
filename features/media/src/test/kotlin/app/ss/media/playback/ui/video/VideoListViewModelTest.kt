@@ -3,7 +3,6 @@ package app.ss.media.playback.ui.video
 import androidx.lifecycle.SavedStateHandle
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.cash.turbine.test
-import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.models.media.AudioFile
 import app.ss.models.media.SSAudio
 import app.ss.models.media.SSVideo
@@ -15,6 +14,7 @@ import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
 import org.junit.runner.RunWith
+import ss.libraries.media.api.MediaRepository
 import ss.misc.SSConstants
 
 private const val LESSON_INDEX = "2022-01-01"

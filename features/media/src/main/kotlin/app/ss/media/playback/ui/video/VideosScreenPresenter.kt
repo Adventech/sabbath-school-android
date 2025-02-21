@@ -24,7 +24,6 @@ package app.ss.media.playback.ui.video
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import app.ss.lessons.data.repository.media.MediaRepository
 import app.ss.media.playback.ui.video.player.VideoPlayerActivity
 import app.ss.models.media.SSVideosInfo
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -38,6 +37,7 @@ import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.map
 import ss.libraries.circuit.navigation.VideosScreen
+import ss.libraries.media.api.MediaRepository
 
 class VideosScreenPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,

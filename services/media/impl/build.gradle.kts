@@ -29,6 +29,13 @@ plugins {
 }
 
 dependencies {
+    implementation(projects.common.network)
+    implementation(projects.libraries.foundation.android)
+    implementation(projects.libraries.lessons.api)
+    implementation(projects.libraries.media.api)
+    implementation(projects.libraries.media.service)
+    implementation(projects.libraries.storage.api)
+
     implementation(libs.androidx.lifecycle.process)
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.exoplayer.hls)
@@ -36,10 +43,9 @@ dependencies {
     implementation(libs.androidx.media3.ui)
     implementation(libs.google.hilt.android)
     implementation(libs.kotlin.coroutines.guava)
-    implementation(projects.libraries.media.api)
-    implementation(projects.libraries.media.service)
-    ksp(libs.google.hilt.compiler)
     implementation(libs.timber)
+
+    ksp(libs.google.hilt.compiler)
 
     testImplementation(libs.bundles.testing.common)
     testImplementation(projects.libraries.foundation.coroutines.test)

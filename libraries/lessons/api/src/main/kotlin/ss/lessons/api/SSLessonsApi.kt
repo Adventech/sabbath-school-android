@@ -24,19 +24,11 @@ package ss.lessons.api
 
 import app.ss.models.SSLessonInfo
 import app.ss.models.SSRead
-import app.ss.models.SSReadComments
-import app.ss.models.SSReadHighlights
 import okhttp3.ResponseBody
 import retrofit2.Response
-import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Url
-import ss.lessons.model.AnnotationsPdf
-import ss.lessons.model.ReadComments
-import ss.lessons.model.ReadHighlights
-import ss.lessons.model.request.UploadPdfAnnotationsRequest
 
 interface SSLessonsApi {
 
@@ -54,39 +46,6 @@ interface SSLessonsApi {
 
     @GET
     suspend fun getDayRead(@Url fullPath: String): Response<SSRead>
-
-    @GET("api/v2/annotations/{lessonIndex}/{pdfId}")
-    suspend fun getPdfAnnotations(
-        @Path("lessonIndex") lessonIndex: String,
-        @Path("pdfId") pdfId: String
-    ): Response<List<AnnotationsPdf>>
-
-    @POST("api/v2/annotations/{lessonIndex}/{pdfId}")
-    suspend fun uploadAnnotations(
-        @Path("lessonIndex") lessonIndex: String,
-        @Path("pdfId") pdfId: String,
-        @Body request: UploadPdfAnnotationsRequest
-    ): Response<ResponseBody>
-
-    @GET("api/v2/comments/{readIndex}")
-    suspend fun getComments(
-        @Path("readIndex") readIndex: String
-    ): Response<ReadComments>
-
-    @POST("api/v2/comments")
-    suspend fun uploadComments(
-        @Body comments: SSReadComments
-    ): Response<ResponseBody>
-
-    @GET("api/v2/highlights/{readIndex}")
-    suspend fun getHighlights(
-        @Path("readIndex") readIndex: String
-    ): Response<ReadHighlights>
-
-    @POST("api/v2/highlights")
-    suspend fun uploadHighlights(
-        @Body highlights: SSReadHighlights
-    ): Response<ResponseBody>
 
     @GET
     suspend fun readerArtifact(
