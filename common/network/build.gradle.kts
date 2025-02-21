@@ -27,13 +27,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
 }
 
-android {
-    namespace = "app.ss.network"
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-    }
-}
+android { namespace = "app.ss.network" }
 
 dependencies {
     implementation(projects.libraries.foundation.android)
