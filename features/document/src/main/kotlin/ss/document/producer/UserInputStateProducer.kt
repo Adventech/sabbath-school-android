@@ -23,18 +23,13 @@
 package ss.document.producer
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import com.slack.circuit.retained.produceRetainedState
 import io.adventech.blockkit.model.input.UserInput
-import io.adventech.blockkit.model.input.UserInputRequest
 import io.adventech.blockkit.ui.input.UserInputState
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.distinctUntilChanged
 import ss.resources.api.ResourcesRepository
 import javax.inject.Inject
 
@@ -45,13 +40,9 @@ interface UserInputStateProducer {
     operator fun invoke(documentId: String?): UserInputState
 }
 
-private const val DEBOUNCE_TIME = 2000L
-
 internal class UserInputStateProducerImpl @Inject constructor(
     private val resourcesRepository: ResourcesRepository,
 ) : UserInputStateProducer {
-
-    private val userInputRequest = MutableStateFlow<UserInputRequest?>(null)
 
     @OptIn(FlowPreview::class)
     @Composable
@@ -63,28 +54,15 @@ internal class UserInputStateProducerImpl @Inject constructor(
             resourcesRepository.bibleVersion().collect { value = it }
         }
 
-        val updatedUserInput by produceRetainedState<UserInputRequest?>(null) {
-            userInputRequest
-                .debounce(DEBOUNCE_TIME)
-                .distinctUntilChanged()
-                .collect { value = it }
-        }
-
-        LaunchedEffect(updatedUserInput) {
-            updatedUserInput?.let {
-                documentId?.let { id ->
-                    resourcesRepository.saveDocumentInput(id, it)
-                }
-            }
-        }
-
         return UserInputState(
             input = input.toImmutableList(),
             bibleVersion = bibleVersion,
             eventSink = { event ->
                 when (event) {
                     is UserInputState.Event.InputChanged -> {
-                        saveUserInput(documentId, event.input)
+                        documentId?.let { id ->
+                            resourcesRepository.saveDocumentInput(id, event.input)
+                        }
                     }
 
                     is UserInputState.Event.BibleVersionChanged -> {
@@ -93,15 +71,5 @@ internal class UserInputStateProducerImpl @Inject constructor(
                 }
             }
         )
-    }
-
-    private fun saveUserInput(documentId: String?, userInput: UserInputRequest) {
-        if (userInput is UserInputRequest.Question) {
-            userInputRequest.tryEmit(userInput)
-        } else {
-            documentId?.let { id ->
-                resourcesRepository.saveDocumentInput(id, userInput)
-            }
-        }
     }
 }
