@@ -32,7 +32,6 @@ plugins {
     alias(libs.plugins.foundry.base)
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.hilt)
-    alias(libs.plugins.embrace)
 }
 
 val useReleaseKeystore = file(BuildAndroidConfig.KEYSTORE_PROPS_FILE).exists()
@@ -181,8 +180,6 @@ dependencies {
 
     implementation(libs.joda.android)
 
-    implementation(libs.embrace.android.sdk)
-
     testImplementation(libs.bundles.testing.common)
     testImplementation(projects.libraries.foundation.coroutines.test)
     testImplementation(projects.libraries.testUtils)
@@ -222,7 +219,7 @@ object BuildAndroidConfig {
 
     object Version {
         private const val MAJOR = 5
-        private const val MINOR = 2
+        private const val MINOR = 3
         private const val PATCH = 0
 
         const val name = "$MAJOR.$MINOR.$PATCH"

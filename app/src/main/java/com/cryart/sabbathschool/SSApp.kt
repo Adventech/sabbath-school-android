@@ -27,7 +27,6 @@ import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import app.ss.models.config.AppConfig
 import dagger.hilt.android.HiltAndroidApp
-import io.embrace.android.embracesdk.Embrace
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -43,11 +42,4 @@ class SSApp : Application(), Configuration.Provider {
         get() = Configuration.Builder()
             .setWorkerFactory(workerFactory)
             .build()
-
-    override fun onCreate() {
-        super.onCreate()
-        if (!appConfig.isDebug) {
-            Embrace.getInstance().start(this)
-        }
-    }
 }
