@@ -25,4 +25,6 @@
     <issue id="all">
         <ignore regexp="com.pspdfkit.*" />
     </issue>
+    <!-- Suppress the UnknownIssueId warning for EnsureInitializerMetadata -->
+    <issue id="EnsureInitializerMetadata" severity="ignore" />
 </lint>
