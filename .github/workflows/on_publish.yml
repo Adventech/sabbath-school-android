@@ -24,12 +24,6 @@ jobs:
         env:
           ENCRYPT_KEY: ${{ secrets.ENCRYPT_KEY }}
 
-      - name: Add Embrace config
-        env:
-          EMBRACE_CONFIG: ${{ secrets.EMBRACE_CONFIG }}
-        run: |
-          echo $EMBRACE_CONFIG > app/src/main/embrace-config.json
-
       - name: Generate build number
         run: echo "BUILD_NUMBER=${{github.run_number}}" > release/build_number.properties
 

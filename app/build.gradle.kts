@@ -32,7 +32,6 @@ plugins {
     alias(libs.plugins.foundry.base)
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.hilt)
-    alias(libs.plugins.embrace)
 }
 
 val useReleaseKeystore = file(BuildAndroidConfig.KEYSTORE_PROPS_FILE).exists()
@@ -180,8 +179,6 @@ dependencies {
     implementation(libs.timber)
 
     implementation(libs.joda.android)
-
-    implementation(libs.embrace.android.sdk)
 
     testImplementation(libs.bundles.testing.common)
     testImplementation(projects.libraries.foundation.coroutines.test)
