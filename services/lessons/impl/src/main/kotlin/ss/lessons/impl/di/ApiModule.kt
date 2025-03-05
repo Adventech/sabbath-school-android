@@ -31,6 +31,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.zacsweers.moshix.adapters.AdaptedBy
+import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -72,6 +73,7 @@ object ApiModule {
         .connectTimeout(1, TimeUnit.MINUTES)
         .readTimeout(1, TimeUnit.MINUTES)
         .writeTimeout(2, TimeUnit.MINUTES)
+        .connectionPool(ConnectionPool(5, 5, TimeUnit.MINUTES))
         .addInterceptor(
             HttpLoggingInterceptor().apply {
                 level = if (appConfig.isDebug) {
