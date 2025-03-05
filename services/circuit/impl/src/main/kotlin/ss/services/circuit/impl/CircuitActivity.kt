@@ -42,7 +42,7 @@ import com.slack.circuit.foundation.rememberCircuitNavigator
 import com.slack.circuit.overlay.ContentWithOverlays
 import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuitx.android.rememberAndroidScreenAwareNavigator
-import com.slack.circuitx.gesturenavigation.GestureNavigationDecoration
+import com.slack.circuitx.gesturenavigation.GestureNavigationDecorationFactory
 import dagger.hilt.android.AndroidEntryPoint
 import ss.services.circuit.impl.navigator.AndroidSupportingNavigator
 import javax.inject.Inject
@@ -80,13 +80,14 @@ class CircuitActivity : ComponentActivity() {
                     val navigator = rememberAndroidScreenAwareNavigator(supportingNavigator, this)
                     ContentWithOverlays {
                         NavigableCircuitContent(
-                            navigator,
-                            backstack,
-                            Modifier,
-                            circuit,
-                            decoration = GestureNavigationDecoration {
-                                navigator.pop()
-                            }
+                            navigator = navigator,
+                            backStack = backstack,
+                            modifier = Modifier,
+                            circuit = circuit,
+                            decoratorFactory =
+                                remember(navigator) {
+                                    GestureNavigationDecorationFactory(onBackInvoked = navigator::pop)
+                                },
                         )
                     }
 
