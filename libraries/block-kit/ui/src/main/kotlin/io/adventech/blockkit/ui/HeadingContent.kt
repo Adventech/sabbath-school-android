@@ -49,5 +49,6 @@ internal fun HeadingContent(
         textAlign = Styler.textAlign(blockStyle),
         onHandleUri = onHandleUri,
         highlights = highlights,
+        disableListParser = true,
     )
 }

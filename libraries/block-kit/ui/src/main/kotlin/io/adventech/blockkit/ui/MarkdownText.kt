@@ -75,6 +75,7 @@ import me.saket.extendedspans.ExtendedSpans
 import me.saket.extendedspans.RoundedCornerSpanPainter
 import me.saket.extendedspans.RoundedCornerSpanPainter.TextPaddingValues
 import me.saket.extendedspans.drawBehind
+import org.commonmark.internal.DocumentParser
 import org.commonmark.node.Code
 import org.commonmark.node.Document
 import org.commonmark.node.Emphasis
@@ -82,6 +83,7 @@ import org.commonmark.node.HardLineBreak
 import org.commonmark.node.Heading
 import org.commonmark.node.Image
 import org.commonmark.node.Link
+import org.commonmark.node.ListBlock
 import org.commonmark.node.Node
 import org.commonmark.node.Paragraph
 import org.commonmark.node.StrongEmphasis
@@ -103,8 +105,9 @@ fun MarkdownText(
     overflow: TextOverflow = TextOverflow.Clip,
     highlights: ImmutableList<Highlight> = persistentListOf(),
     onHandleUri: (String) -> Unit = {},
+    disableListParser: Boolean = false,
 ) {
-    val styledText = rememberMarkdownText(markdownText, style, styleTemplate, color, highlights)
+    val styledText = rememberMarkdownText(markdownText, style, styleTemplate, color, highlights, disableListParser)
 
     val layoutResult = remember { mutableStateOf<TextLayoutResult?>(null) }
 
@@ -182,6 +185,7 @@ internal fun rememberMarkdownText(
     styleTemplate: StyleTemplate = BlockStyleTemplate.DEFAULT,
     color: Color = MaterialTheme.colorScheme.onSurface,
     highlights: ImmutableList<Highlight> = persistentListOf(),
+    disableListParser: Boolean = false,
 ): AnnotatedString {
     val attributedTextParser by remember { mutableStateOf(AttributedTextParser()) }
     val typefaces by remember(markdownText) { mutableStateOf(attributedTextParser.parseTypeface(markdownText)) }
@@ -195,7 +199,15 @@ internal fun rememberMarkdownText(
     }
 
     val parsedNode = remember(markdownText) {
-        val parser = Parser.builder().build()
+        val parserBuilder = Parser.builder()
+        if (disableListParser) {
+            val blockParserTypes = DocumentParser.getDefaultBlockParserTypes();
+            // disable list parser
+            blockParserTypes.remove(ListBlock::class.java)
+            parserBuilder.enabledBlockTypes(blockParserTypes)
+        }
+
+        val parser = parserBuilder.build()
         parser.parse(markdownText) as Document
     }
     return buildAnnotatedString {
