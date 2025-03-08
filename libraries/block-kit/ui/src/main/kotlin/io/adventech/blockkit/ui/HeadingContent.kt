@@ -89,6 +89,17 @@ private fun Preview() {
                         depth = 1,
                     ),
                 )
+
+                HeadingContent(
+                    blockItem = BlockItem.Heading(
+                        id = "heading-three",
+                        style = null,
+                        data = null,
+                        nested = null,
+                        markdown = "- Heading",
+                        depth = 1,
+                    ),
+                )
             }
         }
     }

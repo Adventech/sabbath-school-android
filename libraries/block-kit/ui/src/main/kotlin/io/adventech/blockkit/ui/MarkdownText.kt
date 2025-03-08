@@ -291,7 +291,7 @@ internal fun AnnotatedString.Builder.appendMarkdownChildren(
                     }
                     is BulletList -> {
                         append(child.bulletMarker)
-                        append("")
+                        append(" ")
                     }
                 }
                 appendMarkdownChildren(child.firstChild, color, fontSize, parser, fontProvider, fontSizeProvider)
