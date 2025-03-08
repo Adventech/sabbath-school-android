@@ -75,6 +75,7 @@ import me.saket.extendedspans.ExtendedSpans
 import me.saket.extendedspans.RoundedCornerSpanPainter
 import me.saket.extendedspans.RoundedCornerSpanPainter.TextPaddingValues
 import me.saket.extendedspans.drawBehind
+import org.commonmark.node.BulletList
 import org.commonmark.node.Code
 import org.commonmark.node.Document
 import org.commonmark.node.Emphasis
@@ -85,6 +86,7 @@ import org.commonmark.node.Link
 import org.commonmark.node.ListBlock
 import org.commonmark.node.ListItem
 import org.commonmark.node.Node
+import org.commonmark.node.OrderedList
 import org.commonmark.node.Paragraph
 import org.commonmark.node.StrongEmphasis
 import org.commonmark.node.Text
@@ -281,6 +283,17 @@ internal fun AnnotatedString.Builder.appendMarkdownChildren(
                 appendMarkdownChildren(child, color, fontSize, parser, fontProvider, fontSizeProvider)
             }
             is ListBlock -> {
+                when (child) {
+                    is OrderedList -> {
+                        append(child.startNumber.toString())
+                        append(child.delimiter)
+                        append(" ")
+                    }
+                    is BulletList -> {
+                        append(child.bulletMarker)
+                        append("")
+                    }
+                }
                 appendMarkdownChildren(child.firstChild, color, fontSize, parser, fontProvider, fontSizeProvider)
             }
         }
