@@ -82,6 +82,8 @@ import org.commonmark.node.HardLineBreak
 import org.commonmark.node.Heading
 import org.commonmark.node.Image
 import org.commonmark.node.Link
+import org.commonmark.node.ListBlock
+import org.commonmark.node.ListItem
 import org.commonmark.node.Node
 import org.commonmark.node.Paragraph
 import org.commonmark.node.StrongEmphasis
@@ -273,6 +275,13 @@ internal fun AnnotatedString.Builder.appendMarkdownChildren(
                     appendMarkdownChildren(child, color, fontSize, parser, fontProvider, fontSizeProvider)
                 }
                 appendLine()
+            }
+
+            is ListItem -> {
+                appendMarkdownChildren(child, color, fontSize, parser, fontProvider, fontSizeProvider)
+            }
+            is ListBlock -> {
+                appendMarkdownChildren(child.firstChild, color, fontSize, parser, fontProvider, fontSizeProvider)
             }
         }
         child = child.next
