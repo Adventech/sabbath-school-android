@@ -40,8 +40,6 @@ import androidx.glance.ImageProvider
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.components.Scaffold
 import androidx.glance.appwidget.cornerRadius
-import androidx.glance.appwidget.lazy.LazyColumn
-import androidx.glance.appwidget.lazy.itemsIndexed
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
 import androidx.glance.layout.Alignment
@@ -60,6 +58,7 @@ import androidx.glance.text.Text
 import app.ss.widgets.glance.BaseGlanceAppWidget
 import app.ss.widgets.glance.extensions.clickable
 import app.ss.widgets.glance.extensions.stringResource
+import app.ss.widgets.glance.layout.RoundedScrollingLazyColumn
 import app.ss.widgets.glance.theme.SsGlanceTheme
 import app.ss.widgets.glance.theme.todayBody
 import app.ss.widgets.glance.theme.todayTitle
@@ -111,15 +110,14 @@ private fun SuccessContent(state: WeekWidgetState.Success, modifier: GlanceModif
             modifier = GlanceModifier.clickable(intent = state.lessonIntent),
         )
 
-        LazyColumn(modifier = GlanceModifier.defaultWeight()) {
-            val items = model.days
-
-            itemsIndexed(items) { index, item ->
-                Column(
-                    modifier = GlanceModifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 12.dp)
-                ) {
+        Box(
+            modifier = GlanceModifier
+                .defaultWeight()
+                .padding(horizontal = 12.dp),
+        ) {
+            RoundedScrollingLazyColumn(
+                items = model.days,
+                itemContentProvider = { item ->
                     DayInfo(
                         model = item,
                         modifier = GlanceModifier.fillMaxWidth()
@@ -128,15 +126,18 @@ private fun SuccessContent(state: WeekWidgetState.Success, modifier: GlanceModif
                             .cornerRadius(8.dp)
                             .clickable(intent = item.intent)
                     )
-
-                    Spacer(
-                        modifier = GlanceModifier
-                            .fillMaxWidth()
-                            .height(if (index == items.lastIndex) 8.dp else 4.dp)
-                    )
-                }
-            }
+                },
+                modifier = GlanceModifier.fillMaxSize(),
+                contentCornerRadius = 8.dp,
+                verticalItemsSpacing = 8.dp,
+            )
         }
+
+        Spacer(
+            modifier = GlanceModifier
+                .fillMaxWidth()
+                .height(8.dp)
+        )
     }
 }
 
@@ -157,18 +158,18 @@ private fun LessonInfoRow(
                 provider = BitmapImageProvider(bitmap),
                 contentDescription = quarterlyTitle,
                 modifier =
-                GlanceModifier.background(colorProvider = GlanceTheme.colors.surfaceVariant)
-                    .size(width = CoverWidth, height = CoverHeight)
-                    .cornerRadius(6.dp),
+                    GlanceModifier.background(colorProvider = GlanceTheme.colors.surfaceVariant)
+                        .size(width = CoverWidth, height = CoverHeight)
+                        .cornerRadius(6.dp),
                 contentScale = ContentScale.Crop,
             )
         }
             ?: run {
                 Spacer(
                     modifier =
-                    GlanceModifier.background(colorProvider = GlanceTheme.colors.surfaceVariant)
-                        .size(width = CoverWidth, height = CoverHeight)
-                        .cornerRadius(8.dp),
+                        GlanceModifier.background(colorProvider = GlanceTheme.colors.surfaceVariant)
+                            .size(width = CoverWidth, height = CoverHeight)
+                            .cornerRadius(8.dp),
                 )
             }
 
@@ -214,7 +215,7 @@ private fun DayInfo(model: WeekDayModel, modifier: GlanceModifier = GlanceModifi
     )
 
     Row(
-        modifier = modifier.padding(vertical = 8.dp, horizontal = 4.dp),
+        modifier = modifier.padding(vertical = 10.dp, horizontal = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
