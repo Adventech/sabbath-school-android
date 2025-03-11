@@ -24,7 +24,6 @@ package app.ss.widgets.glance.today
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Bitmap
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -52,15 +51,9 @@ import app.ss.widgets.glance.BaseGlanceAppWidget
 import app.ss.widgets.glance.WidgetLoading
 import app.ss.widgets.glance.extensions.clickable
 import app.ss.widgets.glance.theme.SsGlanceTheme
-import app.ss.widgets.model.TodayWidgetModel
 import app.ss.widgets.model.TodayWidgetState
 
 internal class TodayImageAppWidget : BaseGlanceAppWidget() {
-
-    data class Data(
-        val model: TodayWidgetModel? = null,
-        val modelCover: Bitmap? = null
-    )
 
     override val sizeMode = SizeMode.Responsive(
         setOf(DpSize(180.dp, 55.dp), DpSize(180.dp, 110.dp), DpSize(300.dp, 110.dp))
@@ -85,11 +78,10 @@ internal class TodayImageAppWidget : BaseGlanceAppWidget() {
     ) {
         val cover = (state as? TodayWidgetState.Success)?.model?.image
         Scaffold(
-            modifier = modifier
-                .clickable(intent = state.launchIntent),
+            modifier = modifier,
             horizontalPadding = 0.dp,
         ) {
-            Box(modifier = GlanceModifier) {
+            Box(modifier = GlanceModifier.fillMaxSize().clickable(intent = state.launchIntent)) {
                 cover?.let { bitmap ->
                     Image(
                         provider = BitmapImageProvider(bitmap),
