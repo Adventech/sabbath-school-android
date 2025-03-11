@@ -86,10 +86,10 @@ internal class TodayAppWidget : BaseGlanceAppWidget() {
         val isSmallMode = LocalSize.current == smallMode
 
         Scaffold(
-            modifier = modifier.clickable(intent = state.launchIntent),
+            modifier = modifier,
             horizontalPadding = 0.dp
         ) {
-            Box(modifier = GlanceModifier) {
+            Box(modifier = GlanceModifier.fillMaxSize().clickable(intent = state.launchIntent)) {
                 WidgetAppLogo()
 
                 when (state) {
