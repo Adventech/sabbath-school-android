@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,10 @@ import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -67,9 +70,12 @@ import io.adventech.blockkit.ui.color.toColor
 import io.adventech.blockkit.ui.style.BlockStyleTemplate
 import io.adventech.blockkit.ui.style.StyleTemplate
 import io.adventech.blockkit.ui.style.Styler
+import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import me.saket.extendedspans.ExtendedSpans
 import me.saket.extendedspans.RoundedCornerSpanPainter
 import me.saket.extendedspans.RoundedCornerSpanPainter.TextPaddingValues
@@ -187,8 +193,7 @@ internal fun rememberMarkdownText(
     highlights: ImmutableList<Highlight> = persistentListOf(),
 ): AnnotatedString {
     val attributedTextParser = remember { AttributedTextParser() }
-    val typefaces = remember(markdownText) { attributedTextParser.parseTypeface(markdownText) }
-    val fonts = typefaces.associate { name -> name to LocalFontFamilyProvider.current.invoke(name) }
+    val fonts by rememberMarkdownFonts(markdownText, attributedTextParser)
     val defaultFontFamily = Styler.defaultFontFamily()
     val fontProvider: (String?) -> FontFamily = remember(fonts) { { it?.let { fonts[it] } ?: defaultFontFamily } }
     val fontSizeProvider: (TextStyleSize?) -> TextUnit = remember { { styleTemplate.defaultTextSizePoints(it).sp } }
@@ -219,6 +224,34 @@ internal fun rememberMarkdownText(
         }
     }
 }
+
+@Composable
+private fun rememberMarkdownFonts(markdownText: String, attributedTextParser: AttributedTextParser): State<Map<String, FontFamily>> {
+    val typefaces = remember(markdownText) { attributedTextParser.parseTypeface(markdownText) }
+    val provider = LocalFontFamilyProvider.current
+    val defaultFontFamily = Styler.defaultFontFamily()
+
+    return produceState(emptyMap(), typefaces) {
+        getCombinedFontFamilies(typefaces, provider, defaultFontFamily).collect { fontFamilies ->
+            val fontFamilyMap = mutableMapOf<String, FontFamily>()
+            typefaces.zip(fontFamilies).forEach { (name, fontFamily) ->
+                fontFamilyMap[name] = fontFamily // Add to the map
+            }
+            value = fontFamilyMap
+        }
+    }
+}
+
+private fun getCombinedFontFamilies(
+    fontNames: Set<String>,
+    provider: FontFamilyProvider,
+    defaultFontFamily: FontFamily,
+): Flow<List<FontFamily>> {
+    return fontNames
+        .map { fontName -> provider(fontName, defaultFontFamily) } // Get individual flows for each font name
+        .let { fontFlows -> combine(fontFlows) { it.toList() } } // Combine them into a single Flow
+}
+
 
 @OptIn(ExperimentalTextApi::class)
 internal fun AnnotatedString.Builder.appendMarkdownChildren(
@@ -282,6 +315,7 @@ internal fun AnnotatedString.Builder.appendMarkdownChildren(
             is ListItem -> {
                 appendMarkdownChildren(child, color, fontSize, parser, fontProvider, fontSizeProvider)
             }
+
             is ListBlock -> {
                 when (child) {
                     is OrderedList -> {
@@ -289,6 +323,7 @@ internal fun AnnotatedString.Builder.appendMarkdownChildren(
                         append(child.delimiter)
                         append(" ")
                     }
+
                     is BulletList -> {
                         append(child.bulletMarker)
                         append(" ")
