@@ -71,6 +71,8 @@ import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
+private const val FONTS_DIR = "fonts"
+
 internal class ResourcesRepositoryImpl @Inject constructor(
     @ApplicationContext private val appContext: Context,
     private val resourcesApi: ResourcesApi,
@@ -235,12 +237,12 @@ internal class ResourcesRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun fontFile(name: String): Flow<FontModel?> {
-        return fontFilesDao.get(name)
+    override fun fontFile(fontName: String): Flow<FontModel?> {
+        return fontFilesDao.get(fontName)
             .filterNotNull()
             .map { entity ->
                 FontModel(
-                    file = File(appContext.filesDir, "fonts/${entity.fileName}"),
+                    file = File(appContext.filesDir, "$FONTS_DIR/${entity.fileName}"),
                     attributes = entity.attributes
                 )
             }

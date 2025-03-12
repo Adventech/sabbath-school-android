@@ -100,7 +100,7 @@ class FakeResourcesRepository(
         TODO("Not yet implemented")
     }
 
-    override fun fontFile(name: String): Flow<FontModel?> {
+    override fun fontFile(fontName: String): Flow<FontModel?> {
         TODO("Not yet implemented")
     }
 
