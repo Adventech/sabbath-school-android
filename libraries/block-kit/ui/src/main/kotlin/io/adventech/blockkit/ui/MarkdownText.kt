@@ -30,7 +30,6 @@ import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -187,34 +186,35 @@ internal fun rememberMarkdownText(
     color: Color = MaterialTheme.colorScheme.onSurface,
     highlights: ImmutableList<Highlight> = persistentListOf(),
 ): AnnotatedString {
-    val attributedTextParser by remember { mutableStateOf(AttributedTextParser()) }
-    val typefaces by remember(markdownText) { mutableStateOf(attributedTextParser.parseTypeface(markdownText)) }
-    var fonts = typefaces.associate { name -> name to LocalFontFamilyProvider.current.invoke(name) }
+    val attributedTextParser = remember { AttributedTextParser() }
+    val typefaces = remember(markdownText) { attributedTextParser.parseTypeface(markdownText) }
+    val fonts = typefaces.associate { name -> name to LocalFontFamilyProvider.current.invoke(name) }
     val defaultFontFamily = Styler.defaultFontFamily()
-    val fontProvider: (String?) -> FontFamily = {
-        it?.let { fonts[it] } ?: defaultFontFamily
-    }
-    val fontSizeProvider: (TextStyleSize?) -> TextUnit = {
-        styleTemplate.defaultTextSizePoints(it).sp
-    }
+    val fontProvider: (String?) -> FontFamily = remember(fonts) { { it?.let { fonts[it] } ?: defaultFontFamily } }
+    val fontSizeProvider: (TextStyleSize?) -> TextUnit = remember { { styleTemplate.defaultTextSizePoints(it).sp } }
 
+    val parser = remember { Parser.builder().build() }
     val parsedNode = remember(markdownText) {
-        val parser = Parser.builder().build()
         parser.parse(markdownText) as Document
     }
-    return buildAnnotatedString {
-        withStyle(style.toSpanStyle()) {
-            appendMarkdownChildren(parsedNode, color, style.fontSize, attributedTextParser, fontProvider, fontSizeProvider)
-        }
 
-        // Apply highlights to the result text
-        highlights.forEach { highlight ->
-            if (highlight.endIndex > highlight.startIndex) {
-                addStyle(
-                    style = SpanStyle(background = highlight.color.toColor()),
-                    start = highlight.startIndex,
-                    end = highlight.endIndex
-                )
+    return remember(parsedNode, style, color, highlights, fontProvider, fontSizeProvider) {
+        buildAnnotatedString {
+            withStyle(style.toSpanStyle()) {
+                appendMarkdownChildren(parsedNode, color, style.fontSize, attributedTextParser, fontProvider, fontSizeProvider)
+            }
+
+            // Apply highlights to the result text
+            highlights.forEach { highlight ->
+                // Ensure indices are within valid bounds of the text.
+                val textLength = this.length
+                if (highlight.startIndex in 0 until textLength && highlight.endIndex in (highlight.startIndex + 1)..textLength) {
+                    addStyle(
+                        style = SpanStyle(background = highlight.color.toColor()),
+                        start = highlight.startIndex,
+                        end = highlight.endIndex,
+                    )
+                }
             }
         }
     }
