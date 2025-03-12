@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,39 +22,33 @@
 
 package ss.document.producer
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import com.slack.circuit.retained.produceRetainedState
 import io.adventech.blockkit.model.resource.ResourceFontAttributes
-import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import jakarta.inject.Inject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
 import ss.resources.api.ResourcesRepository
 
 internal class FontFamilyProviderImpl @Inject constructor(
     private val repository: ResourcesRepository,
 ) : FontFamilyProvider {
 
-    @Composable
-    override fun invoke(name: String): FontFamily {
-        val defaultFontFamily = Styler.defaultFontFamily()
-        val customFontFamily by produceRetainedState<FontFamily>(defaultFontFamily, key1 = name) {
-            repository.fontFile(name)
-                .collect { model ->
-                    value = model?.let {
-                        val (file, attributes) = model
-                        val (weight, style) = attributes.style()
+    override fun invoke(name: String, defaultFontFamily: FontFamily): Flow<FontFamily> {
+        return repository.fontFile(name)
+            .map { model ->
+                model?.let {
+                    val (file, attributes) = model
+                    val (weight, style) = attributes.style()
 
-                        FontFamily(Font(file, weight, style))
-                    } ?: defaultFontFamily
-                }
-        }
-
-        return customFontFamily
+                    FontFamily(Font(file, weight, style))
+                } ?: defaultFontFamily
+            }
+            .catch { emit(defaultFontFamily) }
     }
 
     private fun ResourceFontAttributes.style(): Pair<FontWeight, FontStyle> {
@@ -80,5 +74,4 @@ internal class FontFamilyProviderImpl @Inject constructor(
             ResourceFontAttributes.BLACK_ITALIC -> FontWeight.Black to FontStyle.Italic
         }
     }
-
 }

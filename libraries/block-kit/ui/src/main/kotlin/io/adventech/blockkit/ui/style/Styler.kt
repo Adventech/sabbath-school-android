@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,8 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -104,7 +106,18 @@ object Styler {
     private fun fontFamily(blockStyle: BlockTextStyle?, template: StyleTemplate = BlockStyleTemplate.DEFAULT): FontFamily {
         val blocksStyle = LocalBlocksStyle.current
         val typeface = blockStyle?.typeface ?: blocksStyle?.nested?.all?.text?.typeface
-        return typeface?.let { LocalFontFamilyProvider.current.invoke(typeface) } ?: template.fontFamilyDefault()
+        val defaultFontFamily = template.fontFamilyDefault()
+
+        if (typeface == null) {
+            return defaultFontFamily
+        } else {
+            val provider = LocalFontFamilyProvider.current
+            val fontFamily by produceState(defaultFontFamily) {
+                provider(typeface, defaultFontFamily)
+                    .collect { value = it }
+            }
+            return fontFamily
+        }
     }
 
     @Composable
@@ -145,6 +158,7 @@ object Styler {
                         Color.parse(it)
                     }
                 }
+
                 else -> genericBackgroundColorForInteractiveBlock(readerStyle.theme)
             }
         }

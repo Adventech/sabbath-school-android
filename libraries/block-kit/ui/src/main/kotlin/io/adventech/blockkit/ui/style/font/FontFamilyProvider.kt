@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,26 +22,22 @@
 
 package io.adventech.blockkit.ui.style.font
 
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.font.FontFamily
-import io.adventech.blockkit.ui.style.Styler
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
 @Stable
 interface FontFamilyProvider {
-    @Composable
-    operator fun invoke(name: String): FontFamily
+    operator fun invoke(name: String, default: FontFamily): Flow<FontFamily>
 }
 
 internal data object DefaultFontFamilyProvider : FontFamilyProvider {
 
-    @Composable
-    override fun invoke(name: String): FontFamily {
-        return Styler.defaultFontFamily()
+    override fun invoke(name: String, default: FontFamily): Flow<FontFamily> {
+        return flowOf(default)
     }
 }
 
-val LocalFontFamilyProvider= staticCompositionLocalOf<FontFamilyProvider> { DefaultFontFamilyProvider }
-
-
+val LocalFontFamilyProvider = staticCompositionLocalOf<FontFamilyProvider> { DefaultFontFamilyProvider }
