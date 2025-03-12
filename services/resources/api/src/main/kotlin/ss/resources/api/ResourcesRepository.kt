@@ -36,7 +36,6 @@ import kotlinx.coroutines.flow.Flow
 import ss.resources.model.FeedModel
 import ss.resources.model.FontModel
 import ss.resources.model.LanguageModel
-import java.io.File
 
 interface ResourcesRepository {
     fun languages(query: String? = null): Flow<List<LanguageModel>>
@@ -63,7 +62,7 @@ interface ResourcesRepository {
 
     suspend fun pdf(resourceIndex: String, documentIndex: String): Result<List<PDFAux>>
 
-    fun fontFile(name: String): Flow<FontModel?>
+    fun fontFile(fontName: String): Flow<FontModel?>
 
     fun bibleVersion(): Flow<String?>
 
