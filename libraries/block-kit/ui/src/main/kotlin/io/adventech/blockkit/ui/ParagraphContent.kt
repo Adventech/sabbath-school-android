@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,6 @@ package io.adventech.blockkit.ui
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Surface
@@ -39,6 +38,7 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.input.Highlight
 import io.adventech.blockkit.model.input.HighlightColor
@@ -194,7 +194,7 @@ private fun BlockItem?.isChildSelectable(): Boolean {
 }
 
 private fun onSearchSelection(context: Context, query: String) {
-    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/search?q=$query"))
+    val intent = Intent(Intent.ACTION_VIEW, "https://www.google.com/search?q=$query".toUri())
     context.startActivity(intent)
 }
 
