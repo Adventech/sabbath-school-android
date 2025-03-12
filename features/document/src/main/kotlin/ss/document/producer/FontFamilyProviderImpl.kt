@@ -28,9 +28,9 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import app.ss.design.compose.theme.LatoFontFamily
 import com.slack.circuit.retained.produceRetainedState
 import io.adventech.blockkit.model.resource.ResourceFontAttributes
+import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import jakarta.inject.Inject
 import ss.resources.api.ResourcesRepository
@@ -41,7 +41,8 @@ internal class FontFamilyProviderImpl @Inject constructor(
 
     @Composable
     override fun invoke(name: String): FontFamily {
-        val customFontFamily by produceRetainedState<FontFamily?>(null) {
+        val defaultFontFamily = Styler.defaultFontFamily()
+        val customFontFamily by produceRetainedState<FontFamily>(defaultFontFamily, key1 = name) {
             repository.fontFile(name)
                 .collect { model ->
                     value = model?.let {
@@ -49,11 +50,11 @@ internal class FontFamilyProviderImpl @Inject constructor(
                         val (weight, style) = attributes.style()
 
                         FontFamily(Font(file, weight, style))
-                    }
+                    } ?: defaultFontFamily
                 }
         }
 
-        return customFontFamily ?: LatoFontFamily
+        return customFontFamily
     }
 
     private fun ResourceFontAttributes.style(): Pair<FontWeight, FontStyle> {
