@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -43,6 +43,7 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.withContext
 import ss.foundation.android.connectivity.ConnectivityHelper
@@ -108,7 +109,7 @@ internal class ResourcesRepositoryImpl @Inject constructor(
 
     override fun language(code: String): Flow<LanguageModel> =
         languagesDao.get(code)
-            .onStart { syncHelper.syncLanguages() }
+            .onEach { if (it == null) syncHelper.syncLanguages()  }
             .filterNotNull()
             .map { entity -> entity.toModel() }
             .flowOn(dispatcherProvider.io)
