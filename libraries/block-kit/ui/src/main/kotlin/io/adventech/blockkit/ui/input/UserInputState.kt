@@ -45,5 +45,5 @@ data class UserInputState(
 }
 
 inline fun <reified T : UserInput> UserInputState.find(blockId: String): T? {
-    return input.firstOrNull { it.blockId == blockId } as? T
+    return input.firstOrNull { it.blockId == blockId && it is T } as? T
 }
