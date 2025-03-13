@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 package ss.resource.components
 
 import android.content.res.Configuration
+import android.os.Build
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -53,6 +54,7 @@ import androidx.compose.ui.draw.BlurredEdgeTreatment
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalConfiguration
@@ -101,15 +103,18 @@ fun ResourceCover(
             CoverContentType.PRIMARY -> {
                 ContentPrimary(
                     splashImage = resource.covers.splash,
-                    color = resource.primaryColor,
+                    primaryColor = resource.primaryColor,
+                    primaryDarkColor = resource.primaryColorDark,
                     modifier = Modifier.align(Alignment.BottomCenter),
                 ) {
                     content(coverContentType)
                 }
             }
+
             CoverContentType.SECONDARY -> {
                 ContentSecondary(resource) { content(coverContentType) }
             }
+
             CoverContentType.SECONDARY_LARGE -> {
                 ContentSecondaryLarge(resource) { content(coverContentType) }
             }
@@ -148,28 +153,47 @@ private fun CoverBox(
 @Composable
 private fun ContentPrimary(
     splashImage: String?,
-    color: String,
+    primaryColor: String,
+    primaryDarkColor: String,
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Box(modifier = modifier) {
-        CoverImageBox(
-            cover = splashImage,
-            color = color,
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.4f)
-                .align(Alignment.BottomCenter)
-                .blur(
-                    radius = 40.dp,
-                    edgeTreatment = BlurredEdgeTreatment.Unbounded,
-                )
-        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            CoverImageBox(
+                cover = splashImage,
+                color = primaryColor,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.4f)
+                    .align(Alignment.BottomCenter)
+                    .blur(
+                        radius = 40.dp,
+                        edgeTreatment = BlurredEdgeTreatment.Unbounded,
+                    )
+            )
 
-        Column(
-            modifier = Modifier,
-            content = content,
-        )
+            Column(
+                modifier = Modifier,
+                content = content,
+            )
+        } else {
+            val gradient = remember(primaryColor) {
+                Brush.verticalGradient(
+                    colors = listOf(
+                        Color.Transparent,
+                        Color.Black.copy(0.1f),
+                        Color.parse(primaryColor),
+                        Color.parse(primaryDarkColor),
+                    )
+                )
+            }
+
+            Column(
+                modifier = Modifier.background(gradient),
+                content = content,
+            )
+        }
     }
 }
 
