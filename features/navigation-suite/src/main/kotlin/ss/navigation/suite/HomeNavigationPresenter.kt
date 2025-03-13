@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -42,21 +42,19 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
-import org.joda.time.LocalDate
-import ss.libraries.appwidget.api.AppWidgetHelper
 import ss.libraries.circuit.navigation.FeedScreen
 import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.prefs.api.SSPrefs
 import ss.resources.api.ResourcesRepository
+import ss.resources.model.LanguageModel
 
 class HomeNavigationPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val resourcesRepository: ResourcesRepository,
     private val ssPrefs: SSPrefs,
-    private val appWidgetHelper: AppWidgetHelper,
 ) : Presenter<State> {
 
     @CircuitInject(HomeNavScreen::class, SingletonComponent::class)
@@ -113,40 +111,20 @@ class HomeNavigationPresenter @AssistedInject constructor(
     /** Returns a list of [NavbarItem]s based on the selected [language]. */
     private fun getLanguageNavigation(language: String): Flow<ImmutableList<NavbarItem>> {
         return resourcesRepository.language(language)
-            .onEach { appWidgetHelper.syncQuarterly(defaultQuarterlyIndex()) }
-            .map { model ->
-            if (model.aij || model.pm || model.devo) {
-                buildList {
-                    add(NavbarItem.SabbathSchool)
-                    if (model.aij) {
-                        add(NavbarItem.AliveInJesus)
-                    }
-                    if (model.pm) {
-                        add(NavbarItem.PersonalMinistries)
-                    }
-                    if (model.devo) {
-                        add(NavbarItem.Devotionals)
-                    }
-                    if (model.explore) {
-                        add(NavbarItem.Explore)
-                    }
-                }.toImmutableList()
-            } else {
-                persistentListOf()
-            }
-        }
+            .map { it.toNavbarItems() }
+            .catch { emit(persistentListOf()) }
     }
 
-    private fun defaultQuarterlyIndex(): String {
-        val languageCode = ssPrefs.getLanguageCode()
-        val currentDate = LocalDate.now()
-        val year = currentDate.year
-        val quarter = when (currentDate.monthOfYear) {
-            in 1..3 -> "01"
-            in 4..6 -> "02"
-            in 7..9 -> "03"
-            else -> "04"
+    private fun LanguageModel.toNavbarItems(): ImmutableList<NavbarItem> {
+        if (!aij && !pm && !devo && !explore) {
+            return persistentListOf()
         }
-        return "$languageCode-$year-$quarter"
+        return buildList {
+            add(NavbarItem.SabbathSchool)
+            if (aij) add(NavbarItem.AliveInJesus)
+            if (pm) add(NavbarItem.PersonalMinistries)
+            if (devo) add(NavbarItem.Devotionals)
+            if (explore) add(NavbarItem.Explore)
+        }.toImmutableList()
     }
 }
