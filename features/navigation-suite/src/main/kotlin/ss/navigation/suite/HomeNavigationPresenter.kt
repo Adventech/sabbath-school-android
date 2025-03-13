@@ -50,6 +50,7 @@ import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.prefs.api.SSPrefs
 import ss.resources.api.ResourcesRepository
 import ss.resources.model.LanguageModel
+import timber.log.Timber
 
 class HomeNavigationPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
@@ -112,7 +113,10 @@ class HomeNavigationPresenter @AssistedInject constructor(
     private fun getLanguageNavigation(language: String): Flow<ImmutableList<NavbarItem>> {
         return resourcesRepository.language(language)
             .map { it.toNavbarItems() }
-            .catch { emit(persistentListOf()) }
+            .catch {
+                Timber.e(it, "Failed to get Navbar items for language: $language")
+                emit(persistentListOf())
+            }
     }
 
     private fun LanguageModel.toNavbarItems(): ImmutableList<NavbarItem> {
