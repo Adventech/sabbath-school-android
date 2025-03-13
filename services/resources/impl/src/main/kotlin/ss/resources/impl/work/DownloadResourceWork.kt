@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
 package ss.resources.impl.work
 
 import android.content.Context
-import android.net.Uri
+import androidx.core.net.toUri
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
@@ -87,7 +87,7 @@ class DownloadResourceWork @AssistedInject constructor(
     }
 
     private fun downloadFile(context: Context, resourceFont: ResourceFont): Pair<String?, File?> {
-        val uri = Uri.parse(resourceFont.src)
+        val uri = resourceFont.src.toUri()
         val fileName = uri.lastPathSegment
         val fontsDir = File(context.filesDir, FONTS_PATH)
         if (!fontsDir.exists()) {
