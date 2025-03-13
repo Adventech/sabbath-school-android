@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -48,7 +48,6 @@ ksp {
 dependencies {
     implementation(projects.common.designCompose)
     implementation(projects.common.translations)
-    implementation(projects.libraries.appWidget.api)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.prefs.api)
