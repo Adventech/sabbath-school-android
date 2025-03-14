@@ -20,22 +20,26 @@
  * THE SOFTWARE.
  */
 
-package ss.libraries.storage.api.dao
+package app.ss.storage.test
 
-import androidx.room.Dao
-import androidx.room.Query
+import androidx.annotation.VisibleForTesting
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
+import ss.libraries.storage.api.dao.UserInputDao
 import ss.libraries.storage.api.entity.UserInputEntity
 
-@Dao
-interface UserInputDao : BaseDao<UserInputEntity> {
+@VisibleForTesting(otherwise = VisibleForTesting.NONE)
+class FakeUserInputDao : FakeBaseDao<UserInputEntity>(), UserInputDao {
 
-    @Query("SELECT * FROM user_input WHERE documentId = :documentId")
-    fun getDocumentInput(documentId: String): Flow<List<UserInputEntity>>
+    override fun getDocumentInput(documentId: String): Flow<List<UserInputEntity>> {
+        return flowOf(items.toList().filter { it.documentId == documentId })
+    }
 
-    @Query("SELECT id FROM user_input WHERE localId = :localId")
-    fun getId(localId: String): String?
+    override fun getId(localId: String): String? {
+        return items.find { it.localId == localId }?.id
+    }
 
-    @Query("DELETE FROM user_input")
-    fun clear()
+    override fun clear() {
+        items.clear()
+    }
 }

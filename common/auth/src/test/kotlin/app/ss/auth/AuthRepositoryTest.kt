@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,52 +22,71 @@
 
 package app.ss.auth
 
+import app.cash.turbine.test
 import app.ss.auth.api.SSAuthApi
+import app.ss.models.auth.AccountToken
+import app.ss.storage.test.FakeUserDao
+import app.ss.storage.test.FakeUserInputDao
+import io.adventech.blockkit.model.input.UserInput
 import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody
-import org.junit.Before
+import org.amshove.kluent.shouldBe
+import org.amshove.kluent.shouldContain
+import org.amshove.kluent.shouldNotContain
 import org.junit.Test
 import retrofit2.Response
-import ss.foundation.android.connectivity.ConnectivityHelper
+import ss.foundation.android.connectivity.FakeConnectivityHelper
 import ss.foundation.coroutines.test.TestDispatcherProvider
-import ss.libraries.storage.api.dao.UserDao
+import ss.libraries.storage.api.entity.UserEntity
+import ss.libraries.storage.api.entity.UserInputEntity
 
 class AuthRepositoryTest {
 
     private val mockAuthApi: SSAuthApi = mockk()
-    private val mockUserDao: UserDao = mockk()
-    private val mockConnectivityHelper: ConnectivityHelper = mockk()
+    private val fakeUserDao = FakeUserDao()
+    private val fakeUserInputDao = FakeUserInputDao()
+    private val fakeConnectivityHelper = FakeConnectivityHelper(true)
 
-    private lateinit var repository: AuthRepository
+    private val fakeUser = UserEntity(
+        uid = "uid",
+        displayName = "displayName",
+        email = "email",
+        photo = "photo",
+        emailVerified = true,
+        phoneNumber = "phoneNumber",
+        isAnonymous = false,
+        tenantId = "tenantId",
+        stsTokenManager = AccountToken.fake(),
+    )
 
-    @Before
-    fun setup() {
-        coEvery { mockUserDao.clear() }.returns(Unit)
-        every { mockConnectivityHelper.isConnected() }.returns(true)
-
-        repository = AuthRepositoryImpl(
-            authApi = mockAuthApi,
-            userDao = mockUserDao,
-            dispatcherProvider = TestDispatcherProvider(),
-            connectivityHelper = mockConnectivityHelper
-        )
-    }
+    private val repository: AuthRepository = AuthRepositoryImpl(
+        authApi = mockAuthApi,
+        userDao = fakeUserDao,
+        userInputDao = fakeUserInputDao,
+        dispatcherProvider = TestDispatcherProvider(),
+        connectivityHelper = fakeConnectivityHelper,
+    )
 
     @Test
     fun deleteAccount() = runTest {
+        fakeUserDao.insertItem(fakeUser)
+        fakeUserDao.getCurrent() shouldBe fakeUser
+
         coEvery { mockAuthApi.deleteAccount() }.returns(Response.success(mockk()))
 
         repository.deleteAccount()
 
-        coVerify { mockUserDao.clear() }
+        fakeUserDao.getCurrent() shouldBe null
     }
 
     @Test
     fun deleteAccountFail() = runTest {
+        fakeUserDao.insertItem(fakeUser)
+        fakeUserDao.getCurrent() shouldBe fakeUser
+
         val mockResponseBody = mockk<ResponseBody>()
         every { mockResponseBody.contentType() }.returns(null)
         every { mockResponseBody.contentLength() }.returns(0L)
@@ -75,7 +94,41 @@ class AuthRepositoryTest {
 
         repository.deleteAccount()
 
-        coVerify(inverse = true) { mockUserDao.clear() }
+        fakeUserDao.getCurrent() shouldBe fakeUser
+    }
+
+    @Test
+    fun `logout - should clear logged in user`() = runTest {
+        fakeUserDao.currentUserFlow.test {
+            awaitItem() shouldBe null
+
+            fakeUserDao.insertItem(fakeUser)
+            awaitItem() shouldBe fakeUser
+
+            repository.logout()
+
+            awaitItem() shouldBe null
+
+            ensureAllEventsConsumed()
+        }
+    }
+
+    @Test
+    fun `logout - should clear all user input`() = runTest {
+        val userInput = UserInputEntity(
+            localId = "localId",
+            id = "id",
+            documentId = "documentId",
+            input = UserInput.Unknown,
+            timestamp = 0L,
+        )
+
+        fakeUserInputDao.insertItem(userInput)
+        fakeUserInputDao.items shouldContain userInput
+
+        repository.logout()
+
+        fakeUserInputDao.items shouldNotContain userInput
     }
 
 }
