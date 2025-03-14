@@ -20,22 +20,35 @@
  * THE SOFTWARE.
  */
 
-package ss.libraries.storage.api.dao
+package app.ss.storage.test
 
-import androidx.room.Dao
-import androidx.room.Query
+import androidx.annotation.VisibleForTesting
 import kotlinx.coroutines.flow.Flow
-import ss.libraries.storage.api.entity.UserInputEntity
+import kotlinx.coroutines.flow.MutableStateFlow
+import ss.libraries.storage.api.dao.UserDao
+import ss.libraries.storage.api.entity.UserEntity
 
-@Dao
-interface UserInputDao : BaseDao<UserInputEntity> {
+@VisibleForTesting(otherwise = VisibleForTesting.NONE)
+class FakeUserDao : FakeBaseDao<UserEntity>(), UserDao {
 
-    @Query("SELECT * FROM user_input WHERE documentId = :documentId")
-    fun getDocumentInput(documentId: String): Flow<List<UserInputEntity>>
+    var currentUserFlow = MutableStateFlow<UserEntity?>(null)
 
-    @Query("SELECT id FROM user_input WHERE localId = :localId")
-    fun getId(localId: String): String?
+    override fun getCurrent(): UserEntity? {
+        return items.firstOrNull()
+    }
 
-    @Query("DELETE FROM user_input")
-    fun clear()
+    override suspend fun get(): UserEntity? = items.firstOrNull()
+
+    override fun getAsFlow(): Flow<UserEntity?> = currentUserFlow
+
+    override suspend fun clear() {
+        currentUserFlow.value = null
+        items.clear()
+    }
+
+    override suspend fun insertItem(item: UserEntity) {
+        super.insertItem(item)
+        currentUserFlow.value = item
+    }
+
 }

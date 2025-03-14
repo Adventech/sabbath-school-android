@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,6 +37,7 @@ import retrofit2.Response
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
 import ss.libraries.storage.api.dao.UserDao
+import ss.libraries.storage.api.dao.UserInputDao
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -78,6 +79,7 @@ interface AuthRepository {
 internal class AuthRepositoryImpl @Inject constructor(
     private val authApi: SSAuthApi,
     private val userDao: UserDao,
+    private val userInputDao: UserInputDao,
     private val dispatcherProvider: DispatcherProvider,
     private val connectivityHelper: ConnectivityHelper
 ) : AuthRepository {
@@ -115,7 +117,10 @@ internal class AuthRepositoryImpl @Inject constructor(
         userDao.insertItem(user.toEntity())
     }
 
-    override suspend fun logout() = withContext(dispatcherProvider.io) { userDao.clear() }
+    override suspend fun logout() = withContext(dispatcherProvider.io) {
+        userDao.clear()
+        userInputDao.clear()
+    }
 
     override suspend fun deleteAccount() {
         withContext(dispatcherProvider.io) {
