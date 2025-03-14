@@ -20,22 +20,24 @@
  * THE SOFTWARE.
  */
 
-package ss.libraries.storage.api.dao
+package app.ss.storage.test
 
-import androidx.room.Dao
-import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
-import ss.libraries.storage.api.entity.UserInputEntity
+import androidx.annotation.VisibleForTesting
+import ss.libraries.storage.api.dao.BaseDao
 
-@Dao
-interface UserInputDao : BaseDao<UserInputEntity> {
+@VisibleForTesting(otherwise = VisibleForTesting.NONE)
+abstract class FakeBaseDao<T> : BaseDao<T> {
+    val items = mutableSetOf<T>()
 
-    @Query("SELECT * FROM user_input WHERE documentId = :documentId")
-    fun getDocumentInput(documentId: String): Flow<List<UserInputEntity>>
+    override suspend fun insertItem(item: T) {
+        items.add(item)
+    }
 
-    @Query("SELECT id FROM user_input WHERE localId = :localId")
-    fun getId(localId: String): String?
+    override suspend fun insertAll(items: List<T>) {
+        this.items.addAll(items)
+    }
 
-    @Query("DELETE FROM user_input")
-    fun clear()
+    override suspend fun update(item: T) {
+        items.add(item)
+    }
 }
