@@ -34,6 +34,7 @@ import androidx.work.WorkerParameters
 import app.ss.widgets.data.AppWidgetRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import ss.libraries.appwidget.api.AppWidgetHelper
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -42,11 +43,13 @@ internal class WidgetUpdateWorker @AssistedInject constructor(
     @Assisted appContext: Context,
     @Assisted workerParams: WorkerParameters,
     private val repository: AppWidgetRepository,
+    private val appWidgetHelper: AppWidgetHelper,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result = try {
         // Skip cache to refresh cached data at-least every 4 hours
         repository.sync(skipCache = true)
+        appWidgetHelper.refreshAll()
         Result.success()
     } catch (e: Exception) {
         Timber.e(e)

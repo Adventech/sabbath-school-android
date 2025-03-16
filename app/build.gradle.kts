@@ -148,6 +148,7 @@ dependencies {
     implementation(projects.features.pdf)
     implementation(projects.features.resource)
     implementation(projects.features.settings)
+    implementation(projects.libraries.appWidget.api)
     implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.media.api)
