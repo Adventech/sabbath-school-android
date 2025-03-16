@@ -100,11 +100,11 @@ internal class ResourcesRepositoryImpl @Inject constructor(
         } else {
             languagesDao.search("%$query%")
         }).map { entities -> entities.map { it.toModel() } }
-            .flowOn(dispatcherProvider.io)
             .catch {
                 Timber.e(it)
                 emit(emptyList())
             }
+            .flowOn(dispatcherProvider.io)
     }
 
     override fun language(code: String): Flow<LanguageModel> =
@@ -112,8 +112,8 @@ internal class ResourcesRepositoryImpl @Inject constructor(
             .onEach { if (it == null) syncHelper.syncLanguages()  }
             .filterNotNull()
             .map { entity -> entity.toModel() }
-            .flowOn(dispatcherProvider.io)
             .catch { Timber.e(it) }
+            .flowOn(dispatcherProvider.io)
 
     override fun feed(type: FeedType): Flow<FeedModel> {
         val language = ssPrefs.get().getLanguageCode()
@@ -122,8 +122,8 @@ internal class ResourcesRepositoryImpl @Inject constructor(
             .filterNotNull()
             .map { entity -> entity.toModel() }
             .onStart { syncHelper.syncFeed(language, type) }
-            .flowOn(dispatcherProvider.io)
             .catch { Timber.e(it) }
+            .flowOn(dispatcherProvider.io)
     }
 
     override fun feedGroup(id: String, type: FeedType): Flow<FeedGroup> {
@@ -133,8 +133,8 @@ internal class ResourcesRepositoryImpl @Inject constructor(
             .filterNotNull()
             .map { it.toModel() }
             .onStart { syncHelper.syncFeedGroup(id, language, type) }
-            .flowOn(dispatcherProvider.io)
             .catch { Timber.e(it) }
+            .flowOn(dispatcherProvider.io)
     }
 
     override fun resource(index: String): Flow<Resource> = resourcesDao
@@ -142,26 +142,26 @@ internal class ResourcesRepositoryImpl @Inject constructor(
         .filterNotNull()
         .map { it.toModel() }
         .onStart { syncHelper.syncResource(index) }
-        .flowOn(dispatcherProvider.io)
         .catch { Timber.e(it) }
+        .flowOn(dispatcherProvider.io)
 
     override fun document(index: String): Flow<ResourceDocument> = documentsDao
         .get(index)
         .filterNotNull()
         .map { it.toModel() }
         .onStart { syncHelper.syncDocument(index) }
-        .flowOn(dispatcherProvider.io)
         .catch { Timber.e(it) }
+        .flowOn(dispatcherProvider.io)
 
     override fun documentInput(documentId: String): Flow<List<UserInput>> {
         return userInputDao.getDocumentInput(documentId)
             .map { entities -> entities.map { it.input } }
             .onStart { syncHelper.syncUserInput(documentId) }
-            .flowOn(dispatcherProvider.io)
             .catch {
                 Timber.e(it)
                 emit(emptyList())
             }
+            .flowOn(dispatcherProvider.io)
     }
 
     override fun saveDocumentInput(documentId: String, input: UserInputRequest) = syncHelper.saveUserInput(documentId, input)
@@ -170,8 +170,8 @@ internal class ResourcesRepositoryImpl @Inject constructor(
         .filterNotNull()
         .map { it.toModel() }
         .onStart { syncHelper.syncSegment(index) }
-        .flowOn(dispatcherProvider.io)
         .catch { Timber.e(it) }
+        .flowOn(dispatcherProvider.io)
 
     override suspend fun audio(resourceIndex: String, documentIndex: String): Result<List<AudioAux>> {
         return withContext(dispatcherProvider.default) {
@@ -248,6 +248,7 @@ internal class ResourcesRepositoryImpl @Inject constructor(
                 )
             }
             .filter { it.file.exists() }
+            .catch { Timber.e(it) }
             .flowOn(dispatcherProvider.io)
     }
 

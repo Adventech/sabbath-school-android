@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -79,7 +79,7 @@ class FeedPresenter @AssistedInject constructor(
     @Composable
     override fun present(): State {
         val coroutineScope = rememberCoroutineScope()
-        val feedType by rememberRetained { mutableStateOf(screen.type.toFeedType()) }
+        val feedType = rememberRetained { screen.type.toFeedType() }
         val userInfo by produceRetainedState<UserInfo?>(initialValue = null) {
             value = authRepository.getUser().getOrNull()?.run {
                 UserInfo(displayName, email, photo)
