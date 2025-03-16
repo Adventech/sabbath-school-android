@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,6 +33,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
+import ss.libraries.appwidget.api.AppWidgetHelper
 import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.libraries.circuit.navigation.LoginScreen
 import ss.prefs.api.SSPrefs
@@ -42,6 +43,7 @@ class HomePresenter @AssistedInject constructor(
     private val ssPrefs: SSPrefs,
     private val authRepository: AuthRepository,
     private val dailyReminderManager: DailyReminderManager,
+    private val appWidgetHelper: AppWidgetHelper,
 ) : Presenter<HomeScreen.State> {
 
     @CircuitInject(HomeScreen::class, SingletonComponent::class)
@@ -65,6 +67,8 @@ class HomePresenter @AssistedInject constructor(
             }
             navigator.resetRoot(screen)
         }
+
+        LaunchedEffect(Unit) { appWidgetHelper.refreshAll() }
 
         return HomeScreen.State
     }
