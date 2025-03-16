@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -85,7 +85,6 @@ include(
     ":libraries:test_utils",
     ":libraries:test_utils:robolectric-core",
     ":libraries:ui:placeholder",
-    ":libraries:workers:api",
     ":services:auth:overlay",
     ":services:circuit:impl",
     ":services:lessons:impl",
@@ -96,7 +95,6 @@ include(
     ":services:resources:impl",
     ":services:resources:model",
     ":services:storage:impl",
-    ":services:workers:impl"
 )
 rootProject.name = "sabbath-school-android"
 
