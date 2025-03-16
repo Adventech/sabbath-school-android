@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -52,7 +52,7 @@ private const val WEB_CLIENT_ID = "web_id"
 class LoginPresenterTest {
 
     private val fakeNavigator = FakeNavigator(LoginScreen)
-    private val appConfig = AppConfig(version = "", webClientId = WEB_CLIENT_ID)
+    private val appConfig = AppConfig(version = "", 1, webClientId = WEB_CLIENT_ID)
     private val fakeCredentialManager = FakeCredentialManagerWrapper()
     private val fakeAuthRepository = FakeAuthRepository()
 
