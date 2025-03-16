@@ -61,7 +61,6 @@ include(
     ":features:resource",
     ":features:settings",
     ":libraries:app-widget:api",
-    ":libraries:app-widget:test-fixtures",
     ":libraries:block-kit:model",
     ":libraries:block-kit:parser",
     ":libraries:block-kit:ui",

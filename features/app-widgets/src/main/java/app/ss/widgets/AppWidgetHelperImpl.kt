@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -44,7 +44,7 @@ import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.defaultScopable
-import ss.lessons.api.repository.LessonsRepositoryV2
+import ss.lessons.api.repository.LessonsRepository
 import ss.lessons.api.repository.QuarterliesRepository
 import ss.libraries.appwidget.api.AppWidgetHelper
 import ss.libraries.storage.api.dao.AppWidgetDao
@@ -57,7 +57,7 @@ class AppWidgetHelperImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val appWidgetDao: AppWidgetDao,
     private val quarterliesRepository: QuarterliesRepository,
-    private val lessonsRepository: LessonsRepositoryV2,
+    private val lessonsRepository: LessonsRepository,
     private val dispatcherProvider: DispatcherProvider,
 ) : AppWidgetHelper, Scopable by defaultScopable(dispatcherProvider) {
 

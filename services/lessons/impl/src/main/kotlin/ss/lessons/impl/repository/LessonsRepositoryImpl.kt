@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,7 @@ import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.ioScopable
 import ss.lessons.api.SSLessonsApi
-import ss.lessons.api.repository.LessonsRepositoryV2
+import ss.lessons.api.repository.LessonsRepository
 import ss.lessons.impl.ext.toEntity
 import ss.lessons.impl.ext.toInfoModel
 import ss.libraries.storage.api.dao.LessonsDao
@@ -41,12 +41,12 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-internal class LessonsRepositoryV2Impl @Inject constructor(
+internal class LessonsRepositoryImpl @Inject constructor(
     private val lessonsApi: SSLessonsApi,
     private val lessonsDao: LessonsDao,
     private val connectivityHelper: ConnectivityHelper,
     private val dispatcherProvider: DispatcherProvider,
-) : LessonsRepositoryV2, Scopable by ioScopable(dispatcherProvider) {
+) : LessonsRepository, Scopable by ioScopable(dispatcherProvider) {
 
     override suspend fun getLessonInfoResult(lessonIndex: String, path: String): Result<SSLessonInfo> {
         val cached = withContext(dispatcherProvider.io) {
