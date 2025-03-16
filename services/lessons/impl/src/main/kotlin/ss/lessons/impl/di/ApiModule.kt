@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -40,7 +40,6 @@ import ss.lessons.api.ResourcesApi
 import ss.lessons.api.SSLessonsApi
 import ss.lessons.api.SSMediaApi
 import ss.lessons.api.SSQuarterliesApi
-import ss.libraries.storage.api.dao.UserDao
 import ss.misc.SSConstants
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -66,9 +65,9 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideOkhttpClient(
-        userDao: UserDao,
         tokenAuthenticator: TokenAuthenticator,
-        appConfig: AppConfig
+        appConfig: AppConfig,
+        headersInterceptor: RequestHeadersInterceptor,
     ): OkHttpClient = OkHttpClient.Builder()
         .connectTimeout(1, TimeUnit.MINUTES)
         .readTimeout(1, TimeUnit.MINUTES)
@@ -77,22 +76,13 @@ object ApiModule {
         .addInterceptor(
             HttpLoggingInterceptor().apply {
                 level = if (appConfig.isDebug) {
-                    HttpLoggingInterceptor.Level.BODY
+                    HttpLoggingInterceptor.Level.HEADERS
                 } else {
                     HttpLoggingInterceptor.Level.NONE
                 }
             }
         )
-        .addInterceptor { chain ->
-            chain.proceed(
-                chain.request().newBuilder().also { request ->
-                    request.addHeader("Accept", "application/json")
-                    userDao.getCurrent()?.let {
-                        request.addHeader("x-ss-auth-access-token", it.stsTokenManager.accessToken)
-                    }
-                }.build()
-            )
-        }
+        .addInterceptor(headersInterceptor)
         .authenticator(tokenAuthenticator)
         .retryOnConnectionFailure(true)
         .build()
