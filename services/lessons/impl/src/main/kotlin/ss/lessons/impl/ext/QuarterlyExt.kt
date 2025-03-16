@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,9 @@ package ss.lessons.impl.ext
 
 import app.ss.models.OfflineState
 import app.ss.models.SSQuarterly
+import app.ss.models.SSQuarterlyInfo
 import ss.libraries.storage.api.entity.QuarterlyEntity
+import ss.libraries.storage.api.entity.QuarterlyInfoEntity
 
 internal fun SSQuarterly.toEntity(
     offlineState: OfflineState
@@ -72,4 +74,9 @@ internal fun QuarterlyEntity.toModel(): SSQuarterly = SSQuarterly(
     features = features,
     credits = credits,
     offlineState = offlineState
+)
+
+internal fun QuarterlyInfoEntity.toModel(): SSQuarterlyInfo = SSQuarterlyInfo(
+    quarterly = quarterly.toModel(),
+    lessons = lessons.sortedBy { it.order }.map { it.toModel() }
 )

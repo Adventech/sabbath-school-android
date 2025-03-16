@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,6 +35,7 @@ import ss.foundation.coroutines.ioScopable
 import ss.lessons.api.SSQuarterliesApi
 import ss.lessons.api.helper.SyncHelper
 import ss.lessons.impl.ext.toEntity
+import ss.lessons.impl.ext.toModel
 import ss.lessons.model.request.PublishingInfoRequest
 import ss.libraries.storage.api.dao.LessonsDao
 import ss.libraries.storage.api.dao.PublishingInfoDao
@@ -57,6 +58,11 @@ internal class SyncHelperImpl @Inject constructor(
     private val exceptionLogger = CoroutineExceptionHandler { _, exception -> Timber.e(exception) }
 
     override suspend fun syncQuarterlyInfo(index: String): SSQuarterlyInfo? {
+        val cached = quarterliesDao.getInfo(index)
+        if (cached != null) {
+            return cached.toModel()
+        }
+
         val language = index.substringBefore('-')
         val id = index.substringAfter('-')
 
@@ -103,7 +109,7 @@ internal class SyncHelperImpl @Inject constructor(
             } ?: run { lessonsDao.insertItem(lesson.toEntity(quarterIndex, order = index)) }
         }
         val state = quarterliesDao.getOfflineState(info.quarterly.index) ?: OfflineState.NONE
-        quarterliesDao.update(info.quarterly.toEntity(state))
+        quarterliesDao.insertItem(info.quarterly.toEntity(state))
     }
 
     override fun syncPublishingInfo(country: String, language: String) {
