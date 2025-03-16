@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -158,7 +158,7 @@ internal class SettingsRepositoryImpl @Inject constructor(
         PrefListEntity.Generic(
             icon = Icons.VersionInfo,
             title = ContentSpec.Res(L10nR.string.ss_settings_version),
-            summary = ContentSpec.Str(appConfig.version),
+            summary = ContentSpec.Str("${appConfig.version} (${appConfig.versionCode})"),
             id = "about-version",
             onClick = {
                 onEntityClick(SettingsEntity.About.Version)
