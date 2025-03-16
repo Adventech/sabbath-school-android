@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,31 +22,16 @@
 
 package ss.lessons.api
 
-import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo
 import retrofit2.Response
-import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.POST
 import retrofit2.http.Path
-import ss.lessons.model.PublishingInfoData
-import ss.lessons.model.request.PublishingInfoRequest
 
 interface SSQuarterliesApi {
-
-    @GET("api/v2/{lang}/quarterlies/index.json")
-    suspend fun getQuarterlies(
-        @Path("lang") language: String
-    ): Response<List<SSQuarterly>>
 
     @GET("api/v2/{lang}/quarterlies/{id}/index.json")
     suspend fun getQuarterlyInfo(
         @Path("lang") language: String,
         @Path("id") id: String
     ): Response<SSQuarterlyInfo>
-
-    @POST("api/v2/misc/publishing/info")
-    suspend fun getPublishingInfo(
-        @Body request: PublishingInfoRequest
-    ): Response<PublishingInfoData>
 }
