@@ -76,7 +76,7 @@ object ApiModule {
         .addInterceptor(
             HttpLoggingInterceptor().apply {
                 level = if (appConfig.isDebug) {
-                    HttpLoggingInterceptor.Level.HEADERS
+                    HttpLoggingInterceptor.Level.BODY
                 } else {
                     HttpLoggingInterceptor.Level.NONE
                 }
