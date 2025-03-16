@@ -22,7 +22,24 @@
 
 package ss.libraries.appwidget.api
 
+import androidx.annotation.VisibleForTesting
+
 interface AppWidgetHelper {
     fun refreshAll()
     suspend fun isAdded(): Boolean
+}
+
+@VisibleForTesting(otherwise = VisibleForTesting.NONE)
+class FakeAppWidgetHelper : AppWidgetHelper {
+
+    var isRefreshAllCalled = false
+        private set
+
+    override fun refreshAll() {
+        isRefreshAllCalled = true
+    }
+
+    override suspend fun isAdded(): Boolean {
+        return true
+    }
 }
