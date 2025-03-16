@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,20 +22,8 @@
 
 package ss.lessons.api.repository
 
-import app.ss.models.PublishingInfo
-import app.ss.models.QuarterlyGroup
-import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo
-import kotlinx.coroutines.flow.Flow
 
 interface QuarterliesRepository {
-
     suspend fun getQuarterlyInfo(index: String): Result<SSQuarterlyInfo>
-
-    fun getQuarterlies(
-        languageCode: String? = null,
-        group: QuarterlyGroup? = null,
-    ): Flow<Result<List<SSQuarterly>>>
-
-    fun getPublishingInfo(): Flow<Result<PublishingInfo?>>
 }

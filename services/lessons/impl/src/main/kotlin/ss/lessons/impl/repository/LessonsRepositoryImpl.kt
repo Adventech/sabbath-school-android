@@ -55,6 +55,9 @@ internal class LessonsRepositoryImpl @Inject constructor(
 
         return if (cached == null) {
             fetchLessonInfo(path)?.let {
+                withContext(dispatcherProvider.io) {
+                    lessonsDao.insertItem(it)
+                }
                 Result.success(it.toInfoModel())
             } ?: Result.failure(Throwable("Failed to fetch Lesson Info: $lessonIndex"))
         } else {

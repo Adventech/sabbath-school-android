@@ -26,8 +26,7 @@ import app.ss.models.OfflineState
 import app.ss.models.SSQuarterlyInfo
 import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
@@ -36,11 +35,8 @@ import ss.lessons.api.SSQuarterliesApi
 import ss.lessons.api.helper.SyncHelper
 import ss.lessons.impl.ext.toEntity
 import ss.lessons.impl.ext.toModel
-import ss.lessons.model.request.PublishingInfoRequest
 import ss.libraries.storage.api.dao.LessonsDao
-import ss.libraries.storage.api.dao.PublishingInfoDao
 import ss.libraries.storage.api.dao.QuarterliesDao
-import ss.libraries.storage.api.entity.PublishingInfoEntity
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -49,16 +45,15 @@ import javax.inject.Singleton
 internal class SyncHelperImpl @Inject constructor(
     private val quarterliesApi: SSQuarterliesApi,
     private val quarterliesDao: QuarterliesDao,
-    private val publishingInfoDao: PublishingInfoDao,
     private val lessonsDao: LessonsDao,
     private val connectivityHelper: ConnectivityHelper,
-    dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider
 ) : SyncHelper, Scopable by ioScopable(dispatcherProvider) {
 
-    private val exceptionLogger = CoroutineExceptionHandler { _, exception -> Timber.e(exception) }
-
     override suspend fun syncQuarterlyInfo(index: String): SSQuarterlyInfo? {
-        val cached = quarterliesDao.getInfo(index)
+        val cached = withContext(dispatcherProvider.io) {
+            quarterliesDao.getInfo(index)
+        }
         if (cached != null) {
             return cached.toModel()
         }
@@ -79,21 +74,6 @@ internal class SyncHelperImpl @Inject constructor(
         }
     }
 
-    override fun syncQuarterlies(language: String) {
-        scope.launch(exceptionLogger) {
-            when (val response = safeApiCall(connectivityHelper) { quarterliesApi.getQuarterlies(language) }) {
-                is NetworkResource.Failure -> Timber.e("Failed to fetch quarterlies: isNetwork=${response.isNetworkError}, ${response.errorBody}")
-                is NetworkResource.Success -> response.value.body()?.let { quarterlies ->
-                    val entities = quarterlies.map {
-                        val state = quarterliesDao.getOfflineState(it.index) ?: OfflineState.NONE
-                        it.toEntity(state)
-                    }
-                    quarterliesDao.insertAll(entities)
-                }
-            }
-        }
-    }
-
     private suspend fun saveQuarterlyInfo(info: SSQuarterlyInfo) {
         val quarterIndex = info.quarterly.index
         info.lessons.forEachIndexed { index, lesson ->
@@ -110,25 +90,5 @@ internal class SyncHelperImpl @Inject constructor(
         }
         val state = quarterliesDao.getOfflineState(info.quarterly.index) ?: OfflineState.NONE
         quarterliesDao.insertItem(info.quarterly.toEntity(state))
-    }
-
-    override fun syncPublishingInfo(country: String, language: String) {
-        scope.launch(exceptionLogger) {
-            when (val response = safeApiCall(connectivityHelper) {
-                quarterliesApi.getPublishingInfo(PublishingInfoRequest(country, language))
-            }) {
-                is NetworkResource.Failure -> Unit
-                is NetworkResource.Success -> response.value.body()?.data?.let {
-                    publishingInfoDao.insertItem(
-                        PublishingInfoEntity(
-                            country = country,
-                            language = language,
-                            message = it.message,
-                            url = it.url,
-                        )
-                    )
-                }
-            }
-        }
     }
 }

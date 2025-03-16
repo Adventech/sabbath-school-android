@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,15 +22,7 @@
 
 package ss.lessons.impl.repository
 
-import app.ss.models.PublishingInfo
-import app.ss.models.QuarterlyGroup
-import app.ss.models.SSQuarterly
 import app.ss.models.SSQuarterlyInfo
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
@@ -38,20 +30,12 @@ import ss.foundation.coroutines.ioScopable
 import ss.lessons.api.helper.SyncHelper
 import ss.lessons.api.repository.QuarterliesRepository
 import ss.lessons.impl.ext.toModel
-import ss.libraries.storage.api.dao.PublishingInfoDao
 import ss.libraries.storage.api.dao.QuarterliesDao
-import ss.libraries.storage.api.entity.QuarterlyEntity
-import ss.misc.DeviceHelper
-import ss.prefs.api.SSPrefs
-import timber.log.Timber
 import javax.inject.Inject
 
 internal class QuarterliesRepositoryImpl @Inject constructor(
     private val quarterliesDao: QuarterliesDao,
-    private val publishingInfoDao: PublishingInfoDao,
-    private val ssPrefs: SSPrefs,
     private val syncHelper: SyncHelper,
-    private val deviceHelper: DeviceHelper,
     private val dispatcherProvider: DispatcherProvider,
 ) : QuarterliesRepository, Scopable by ioScopable(dispatcherProvider) {
 
@@ -73,38 +57,5 @@ internal class QuarterliesRepositoryImpl @Inject constructor(
             )
         }
     }
-
-    override fun getQuarterlies(
-        languageCode: String?,
-        group: QuarterlyGroup?
-    ): Flow<Result<List<SSQuarterly>>> = quarterliesDbFlow(languageCode, group)
-        .map { entities -> Result.success(entities.map { it.toModel() }) }
-        .onStart {
-            val language = languageCode ?: ssPrefs.getLanguageCode()
-            syncHelper.syncQuarterlies(language)
-        }
-        .flowOn(dispatcherProvider.io)
-        .catch {
-            Timber.e(it)
-            emit(Result.failure(it))
-        }
-
-    private fun quarterliesDbFlow(languageCode: String?, group: QuarterlyGroup?): Flow<List<QuarterlyEntity>> {
-        val code = languageCode ?: ssPrefs.getLanguageCode()
-        return group?.let { quarterliesDao.getFlow(code, it) } ?: quarterliesDao.getFlow(code)
-    }
-
-    override fun getPublishingInfo(): Flow<Result<PublishingInfo?>> =
-        publishingInfoDao.get(deviceHelper.country(), ssPrefs.getLanguageCode())
-            .map {
-                val info = it?.let { PublishingInfo(it.message, it.url) }
-                Result.success(info)
-            }
-            .onStart { syncHelper.syncPublishingInfo(deviceHelper.country(), ssPrefs.getLanguageCode()) }
-            .flowOn(dispatcherProvider.io)
-            .catch {
-                Timber.e(it)
-                emit(Result.failure(it))
-            }
 
 }
