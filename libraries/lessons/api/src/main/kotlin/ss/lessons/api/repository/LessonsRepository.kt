@@ -26,5 +26,5 @@ import app.ss.models.SSLessonInfo
 
 interface LessonsRepository {
 
-    suspend fun getLessonInfoResult(lessonIndex: String, path: String): Result<SSLessonInfo>
+    suspend fun getLessonInfoResult(lessonIndex: String, path: String, skipCache: Boolean): Result<SSLessonInfo>
 }

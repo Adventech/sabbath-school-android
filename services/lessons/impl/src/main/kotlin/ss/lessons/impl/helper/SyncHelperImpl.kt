@@ -22,21 +22,25 @@
 
 package ss.lessons.impl.helper
 
+import app.ss.models.AppWidgetDay
 import app.ss.models.OfflineState
+import app.ss.models.SSLesson
 import app.ss.models.SSQuarterlyInfo
 import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
 import kotlinx.coroutines.withContext
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
-import ss.foundation.coroutines.Scopable
-import ss.foundation.coroutines.ioScopable
 import ss.lessons.api.SSQuarterliesApi
 import ss.lessons.api.helper.SyncHelper
+import ss.lessons.api.repository.LessonsRepository
 import ss.lessons.impl.ext.toEntity
 import ss.lessons.impl.ext.toModel
+import ss.libraries.storage.api.dao.AppWidgetDao
 import ss.libraries.storage.api.dao.LessonsDao
 import ss.libraries.storage.api.dao.QuarterliesDao
+import ss.libraries.storage.api.entity.AppWidgetEntity
+import ss.misc.DateHelper.isNowInRange
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -46,18 +50,49 @@ internal class SyncHelperImpl @Inject constructor(
     private val quarterliesApi: SSQuarterliesApi,
     private val quarterliesDao: QuarterliesDao,
     private val lessonsDao: LessonsDao,
+    private val appWidgetDao: AppWidgetDao,
+    private val lessonsRepository: LessonsRepository,
     private val connectivityHelper: ConnectivityHelper,
     private val dispatcherProvider: DispatcherProvider
-) : SyncHelper, Scopable by ioScopable(dispatcherProvider) {
+) : SyncHelper {
 
-    override suspend fun syncQuarterlyInfo(index: String): SSQuarterlyInfo? {
+    override suspend fun syncAppWidgetInfo(quarterlyIndex: String, skipCache: Boolean) {
         val cached = withContext(dispatcherProvider.io) {
-            quarterliesDao.getInfo(index)
+            quarterliesDao.getInfo(quarterlyIndex)?.takeUnless { it.lessons.isEmpty() }
         }
-        if (cached != null) {
-            return cached.toModel()
-        }
+        val quarterlyInfo = (if (cached == null || skipCache) {
+            quarterlyInfoFromNetwork(quarterlyIndex)
+        } else {
+            cached.toModel()
+        }) ?: return
 
+        val lesson = quarterlyInfo.lessons.firstOrNull { it.isCurrent() } ?: return
+        val lessonIndex = lesson.index
+        val lessonPath = lesson.path
+        lessonsRepository.getLessonInfoResult(lessonIndex, lessonPath, skipCache).onSuccess { info ->
+            val (lesson, days, _) = info
+
+            val entity = AppWidgetEntity(
+                quarterlyIndex = quarterlyIndex,
+                cover = quarterlyInfo.quarterly.cover,
+                title = quarterlyInfo.quarterly.title,
+                description = lesson.title,
+                days = days.mapIndexed { index, day ->
+                    AppWidgetDay(
+                        lessonIndex = lesson.index,
+                        dayIndex = index,
+                        title = day.title,
+                        date = day.date,
+                        image = lesson.cover,
+                    )
+                }
+            )
+
+            appWidgetDao.insertItem(entity)
+        }
+    }
+
+    private suspend fun quarterlyInfoFromNetwork(index: String): SSQuarterlyInfo? {
         val language = index.substringBefore('-')
         val id = index.substringAfter('-')
 
@@ -69,7 +104,7 @@ internal class SyncHelperImpl @Inject constructor(
 
             is NetworkResource.Success -> response.value.body()?.let { quarterlyInfo ->
                 saveQuarterlyInfo(quarterlyInfo)
-                return quarterlyInfo
+                quarterlyInfo
             }
         }
     }
@@ -90,5 +125,9 @@ internal class SyncHelperImpl @Inject constructor(
         }
         val state = quarterliesDao.getOfflineState(info.quarterly.index) ?: OfflineState.NONE
         quarterliesDao.insertItem(info.quarterly.toEntity(state))
+    }
+
+    private fun SSLesson.isCurrent(): Boolean {
+        return isNowInRange(start_date, end_date)
     }
 }

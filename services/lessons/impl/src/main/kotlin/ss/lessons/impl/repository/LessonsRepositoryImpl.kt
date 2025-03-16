@@ -48,16 +48,14 @@ internal class LessonsRepositoryImpl @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
 ) : LessonsRepository, Scopable by ioScopable(dispatcherProvider) {
 
-    override suspend fun getLessonInfoResult(lessonIndex: String, path: String): Result<SSLessonInfo> {
+    override suspend fun getLessonInfoResult(lessonIndex: String, path: String, skipCache: Boolean): Result<SSLessonInfo> {
         val cached = withContext(dispatcherProvider.io) {
             lessonsDao.get(lessonIndex)?.takeUnless { it.days.isEmpty() }
         }
 
-        return if (cached == null) {
+        return if (cached == null || skipCache) {
             fetchLessonInfo(path)?.let {
-                withContext(dispatcherProvider.io) {
-                    lessonsDao.insertItem(it)
-                }
+                withContext(dispatcherProvider.io) { lessonsDao.insertItem(it) }
                 Result.success(it.toInfoModel())
             } ?: Result.failure(Throwable("Failed to fetch Lesson Info: $lessonIndex"))
         } else {
