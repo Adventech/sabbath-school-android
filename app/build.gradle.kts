@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -158,7 +158,6 @@ dependencies {
     implementation(projects.services.prefs.impl)
     implementation(projects.services.resources.impl)
     implementation(projects.services.storage.impl)
-    implementation(projects.services.workers.impl)
 
     implementation(libs.google.material)
     implementation(libs.androidx.activity.compose)
@@ -219,8 +218,8 @@ object BuildAndroidConfig {
 
     object Version {
         private const val MAJOR = 5
-        private const val MINOR = 4
-        private const val PATCH = 1
+        private const val MINOR = 5
+        private const val PATCH = 0
 
         const val name = "$MAJOR.$MINOR.$PATCH"
     }
