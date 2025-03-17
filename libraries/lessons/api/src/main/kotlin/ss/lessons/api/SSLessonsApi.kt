@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,32 +23,14 @@
 package ss.lessons.api
 
 import app.ss.models.SSLessonInfo
-import app.ss.models.SSRead
-import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
-import retrofit2.http.Url
 
 interface SSLessonsApi {
-
-    @GET("api/v2/{lang}/quarterlies/{quarterlyId}/lessons/{lessonId}/index.json")
-    suspend fun getLessonInfo(
-        @Path("lang") language: String,
-        @Path("quarterlyId") quarterlyId: String,
-        @Path("lessonId") lessonId: String
-    ): Response<SSLessonInfo>
 
     @GET("api/v2/{lesson}/index.json")
     suspend fun getLessonInfo(
         @Path("lesson") lessonPath: String,
     ): Response<SSLessonInfo>
-
-    @GET
-    suspend fun getDayRead(@Url fullPath: String): Response<SSRead>
-
-    @GET
-    suspend fun readerArtifact(
-        @Url url: String
-    ): Response<ResponseBody>
 }
