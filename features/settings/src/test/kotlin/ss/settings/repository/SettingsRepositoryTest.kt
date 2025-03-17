@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,6 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.cash.turbine.test
 import app.ss.auth.AuthRepository
-import app.ss.lessons.data.repository.user.UserDataRepository
 import app.ss.models.config.AppConfig
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -48,29 +47,26 @@ import ss.settings.DailyReminder
 @RunWith(AndroidJUnit4::class)
 class SettingsRepositoryTest {
 
-    private val mockAppConfig: AppConfig = mockk()
+    private val appConfig = AppConfig(version = "1.0.0", versionCode = 1, webClientId = "")
     private val mockPrefs: SSPrefs = mockk()
     private val mockDailyReminder: DailyReminder = mockk()
     private val mockAuthRepository: AuthRepository = mockk()
-    private val mockUserRepository: UserDataRepository = mockk()
     private val fakeContentSyncProvider = FakeContentSyncProvider()
 
     private lateinit var repository: SettingsRepository
 
     @Before
     fun setup() {
-        every { mockAppConfig.version }.returns("1.0.0")
         every { mockPrefs.reminderEnabled() }.returns(false)
         every { mockPrefs.reminderTimeFlow() }.returns(flowOf(ReminderTime(8, 0)))
 
         repository = SettingsRepositoryImpl(
             context = ApplicationProvider.getApplicationContext(),
-            appConfig = mockAppConfig,
+            appConfig = appConfig,
             prefs = mockPrefs,
             dailyReminder = mockDailyReminder,
             authRepository = mockAuthRepository,
             dispatcherProvider = TestDispatcherProvider(),
-            userDataRepository = mockUserRepository,
             contentSyncProvider = fakeContentSyncProvider,
         )
     }
@@ -99,27 +95,21 @@ class SettingsRepositoryTest {
 
     @Test
     fun `signOut - clear repositories`() = runTest {
-        coEvery { mockUserRepository.clear() }.returns(Unit)
         coEvery { mockAuthRepository.logout() }.returns(Unit)
+        coEvery { mockPrefs.clear() }.returns(Unit)
 
         repository.signOut()
 
-        coVerify {
-            mockUserRepository.clear()
-            mockAuthRepository.logout()
-        }
+        coVerify { mockAuthRepository.logout() }
     }
 
     @Test
     fun `deleteAccount - clear repository and delete account`() = runTest {
-        coEvery { mockUserRepository.clear() }.returns(Unit)
         coEvery { mockAuthRepository.deleteAccount() }.returns(Unit)
+        coEvery { mockPrefs.clear() }.returns(Unit)
 
         repository.deleteAccount()
 
-        coVerify {
-            mockAuthRepository.deleteAccount()
-            mockUserRepository.clear()
-        }
+        coVerify { mockAuthRepository.deleteAccount() }
     }
 }
