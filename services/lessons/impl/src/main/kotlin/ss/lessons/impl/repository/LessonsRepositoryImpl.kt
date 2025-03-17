@@ -28,8 +28,6 @@ import app.ss.network.safeApiCall
 import kotlinx.coroutines.withContext
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
-import ss.foundation.coroutines.Scopable
-import ss.foundation.coroutines.ioScopable
 import ss.lessons.api.SSLessonsApi
 import ss.lessons.api.repository.LessonsRepository
 import ss.lessons.impl.ext.toEntity
@@ -46,7 +44,7 @@ internal class LessonsRepositoryImpl @Inject constructor(
     private val lessonsDao: LessonsDao,
     private val connectivityHelper: ConnectivityHelper,
     private val dispatcherProvider: DispatcherProvider,
-) : LessonsRepository, Scopable by ioScopable(dispatcherProvider) {
+) : LessonsRepository {
 
     override suspend fun getLessonInfoResult(lessonIndex: String, path: String, skipCache: Boolean): Result<SSLessonInfo> {
         val cached = withContext(dispatcherProvider.io) {
@@ -77,7 +75,7 @@ internal class LessonsRepositoryImpl @Inject constructor(
             }
 
             is NetworkResource.Success -> response.value.body()?.let { info ->
-                val lesson = lessonsDao.get(info.lesson.index)
+                val lesson = withContext(dispatcherProvider.io) { lessonsDao.get(info.lesson.index) }
                 val quarterlyIndex = lesson?.quarter ?: "$language-$quarterlyId"
                 val order = lesson?.order ?: 0
 
