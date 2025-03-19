@@ -41,6 +41,7 @@ import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import ss.libraries.appwidget.api.AppWidgetHelper
 import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.libraries.circuit.navigation.LanguagesScreen
 import ss.prefs.api.SSPrefs
@@ -53,6 +54,7 @@ constructor(
     @Assisted private val navigator: Navigator,
     private val repository: ResourcesRepository,
     private val ssPrefs: SSPrefs,
+    private val appWidgetHelper: AppWidgetHelper,
 ) : Presenter<State> {
 
     @CircuitInject(LanguagesScreen::class, SingletonComponent::class)
@@ -86,6 +88,7 @@ constructor(
                     when (event) {
                         is LanguagesEvent.Select -> {
                             if (modelSelected(event.model)) {
+                                appWidgetHelper.languageChanged()
                                 navigator.resetRoot(HomeNavScreen)
                             } else {
                                 navigator.pop()

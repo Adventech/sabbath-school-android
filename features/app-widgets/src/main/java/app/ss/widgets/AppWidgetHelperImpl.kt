@@ -64,7 +64,7 @@ class AppWidgetHelperImpl @Inject constructor(
             if (isAdded()) {
                 updateWidgets()
 
-                WidgetUpdateWorker.enqueue(context)
+                WidgetUpdateWorker.enqueuePeriodic(context)
             } else {
                 WidgetUpdateWorker.cancel(context)
             }
@@ -86,7 +86,15 @@ class AppWidgetHelperImpl @Inject constructor(
         TodayImageAppWidget().updateAll(context)
     }
 
-    override suspend fun isAdded(): Boolean {
+    override fun languageChanged() {
+        scope.launch {
+            if (isAdded()) {
+                WidgetUpdateWorker.enqueue(context)
+            }
+        }
+    }
+
+    private suspend fun isAdded(): Boolean {
         val appWidgetManager = AppWidgetManager.getInstance(context)
         val glanceAppWidgetManager = GlanceAppWidgetManager(context)
 

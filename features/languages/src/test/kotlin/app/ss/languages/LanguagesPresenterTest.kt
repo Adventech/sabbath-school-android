@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,6 +33,7 @@ import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeInstanceOf
 import org.junit.Test
+import ss.libraries.appwidget.api.FakeAppWidgetHelper
 import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.libraries.circuit.navigation.LanguagesScreen
 import ss.prefs.api.test.FakeSSPrefs
@@ -46,12 +47,14 @@ class LanguagesPresenterTest {
     private val fakeNavigator = FakeNavigator(LanguagesScreen)
     private val fakeRepository = FakeResourcesRepository(languagesFlow)
     private val fakeSSPrefs = FakeSSPrefs(MutableStateFlow("en"))
+    private val fakeAppWidgetHelper = FakeAppWidgetHelper()
 
     private val underTest =
         LanguagesPresenter(
             navigator = fakeNavigator,
             repository = fakeRepository,
             ssPrefs = fakeSSPrefs,
+            appWidgetHelper = fakeAppWidgetHelper,
         )
 
     @Test
@@ -138,7 +141,6 @@ class LanguagesPresenterTest {
             state.eventSink(LanguagesEvent.Select(LanguageUiModel("es", "Spanish", "Español", false)))
 
             fakeSSPrefs.setLanguageCode shouldBeEqualTo "es"
-            fakeSSPrefs.setLastQuarterlyIndex shouldBeEqualTo null
 
             ensureAllEventsConsumed()
         }
@@ -158,7 +160,8 @@ class LanguagesPresenterTest {
             state.eventSink(LanguagesEvent.Select(LanguageUiModel("es", "Spanish", "Español", false)))
 
             fakeSSPrefs.setLanguageCode shouldBeEqualTo "es"
-            fakeSSPrefs.setLastQuarterlyIndex shouldBeEqualTo null
+
+            fakeAppWidgetHelper.isLanguageChangedCalled shouldBeEqualTo true
 
             fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo HomeNavScreen
 
@@ -180,7 +183,6 @@ class LanguagesPresenterTest {
             state.eventSink(LanguagesEvent.Select(LanguageUiModel("en", "English", "English", false)))
 
             fakeSSPrefs.setLanguageCode shouldBeEqualTo "en"
-            fakeSSPrefs.setLastQuarterlyIndex shouldBeEqualTo null
 
             fakeNavigator.awaitPop().result shouldBeEqualTo null
 
