@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,8 @@
 package com.cryart.sabbathschool.navigation
 
 import android.app.Activity
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.core.os.BundleCompat
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.ss.auth.test.FakeAuthRepository
@@ -93,7 +93,7 @@ class AppNavigatorImplTest {
 
     @Test
     fun `should ignore invalid deep-link`() {
-        val uri = Uri.parse("https://stackoverflow.com/")
+        val uri = "https://stackoverflow.com/".toUri()
         navigator.navigate(activity, uri)
 
         val shadow = Shadows.shadowOf(activity)
@@ -106,7 +106,7 @@ class AppNavigatorImplTest {
     fun `should navigate to login when not authenticated - web-link`() {
         fakeAuthRepository.userDelegate = { Result.success(null) }
 
-        val uri = Uri.parse("https://sabbath-school.adventech.io/en/2021-03")
+        val uri = "https://sabbath-school.adventech.io/en/2021-03".toUri()
 
         navigator.navigate(activity, uri)
 
@@ -119,7 +119,7 @@ class AppNavigatorImplTest {
 
     @Test
     fun `should navigate to resource screen - web-link`() {
-        val uri = Uri.parse("https://sabbath-school.adventech.io/en/2021-03")
+        val uri = "https://sabbath-school.adventech.io/en/2021-03".toUri()
         navigator.navigate(activity, uri)
 
         val shadow = Shadows.shadowOf(activity)
@@ -131,7 +131,7 @@ class AppNavigatorImplTest {
 
     @Test
     fun `should navigate to resource screen - aij - web-link`() {
-        val uri = Uri.parse("https://sabbath-school.adventech.io/resources/en/aij/2025-00-bb-pb")
+        val uri = "https://sabbath-school.adventech.io/resources/en/aij/2025-00-bb-pb".toUri()
         navigator.navigate(activity, uri)
 
         val shadow = Shadows.shadowOf(activity)
@@ -143,7 +143,7 @@ class AppNavigatorImplTest {
 
     @Test
     fun `should navigate to document screen - web-link`() {
-        val uri = Uri.parse("https://sabbath-school.adventech.io/en/2021-03/03/07-friday-further-thought/")
+        val uri = "https://sabbath-school.adventech.io/en/2021-03/03/07-friday-further-thought/".toUri()
         navigator.navigate(activity, uri)
 
         val shadow = Shadows.shadowOf(activity)
@@ -155,7 +155,7 @@ class AppNavigatorImplTest {
 
     @Test
     fun `should launch normal flow for invalid web-link`() {
-        val uri = Uri.parse("https://sabbath-school.adventech.io/03/07-friday-further-thought/")
+        val uri = "https://sabbath-school.adventech.io/03/07-friday-further-thought/".toUri()
         navigator.navigate(activity, uri)
 
         val shadow = Shadows.shadowOf(activity)

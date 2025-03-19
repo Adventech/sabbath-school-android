@@ -22,7 +22,7 @@
 
 package ss.services.media.impl
 
-import android.net.Uri
+import androidx.core.net.toUri
 import app.ss.models.media.AudioFile
 import app.ss.models.media.SSAudio
 import app.ss.models.media.SSVideosInfo
@@ -135,7 +135,7 @@ fun AudioFileEntity.toAudio(): AudioFile = AudioFile(
     artist = artist,
     image = image,
     imageRatio = imageRatio,
-    source = Uri.parse(src),
+    source = src.toUri(),
     target = target,
     targetIndex = targetIndex,
     title = title

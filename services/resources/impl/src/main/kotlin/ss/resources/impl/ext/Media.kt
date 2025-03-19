@@ -22,7 +22,7 @@
 
 package ss.resources.impl.ext
 
-import android.net.Uri
+import androidx.core.net.toUri
 import app.ss.models.AudioAux
 import app.ss.models.VideoAux
 import app.ss.models.media.SSVideo
@@ -66,7 +66,7 @@ internal fun VideoAux.toEntity(
 
 private fun String.isFullUrl(): Boolean {
     return try {
-        val uri = Uri.parse(this)
+        val uri = toUri()
         uri.scheme != null && uri.host != null
     } catch (e: Exception) {
         Timber.e(e)

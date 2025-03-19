@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -22,8 +22,7 @@
 
 package com.cryart.sabbathschool.core.navigation
 
-import android.net.Uri
-import androidx.core.net.toUri
+import com.cryart.sabbathschool.core.navigation.Destination.entries
 
 enum class Destination(val key: String) {
 
@@ -36,25 +35,4 @@ enum class Destination(val key: String) {
 
         fun fromKey(type: String) = map[type]
     }
-}
-
-private const val SCHEME = "ss_app://"
-
-/**
- * Builds a navigation [Uri] from a [Destination]
- *
- * Example:
- * Passing [Destination.READ] with extras [Pair("lesson_index", "index")]
- * will return `ss_app://read?lesson_index=index`
- *
- */
-fun Destination.toUri(vararg extras: Pair<String, String> = emptyArray()): Uri {
-    val query = if (extras.isNotEmpty()) {
-        extras.joinToString(separator = "&", prefix = "?") { pair ->
-            "${pair.first}=${pair.second}"
-        }
-    } else {
-        ""
-    }
-    return "$SCHEME$key$query".toUri()
 }
