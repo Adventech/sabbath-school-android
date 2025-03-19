@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,6 @@ import ss.prefs.model.SSReadingDisplayOptions
 
 interface SSPrefs {
     fun clear()
-    fun getDisplayOptions(callback: (SSReadingDisplayOptions) -> Unit)
     fun displayOptionsFlow(): Flow<SSReadingDisplayOptions>
     fun setDisplayOptions(ssReadingDisplayOptions: SSReadingDisplayOptions)
     fun getReminderTime(): ReminderTime
@@ -37,19 +36,11 @@ interface SSPrefs {
     fun getLanguageCode(): String
     fun getLanguageCodeFlow(): Flow<String>
     fun setLanguageCode(languageCode: String)
-    fun lastQuarterlyIndex(): Flow<String?>
-    fun getLastQuarterlyIndex(): String?
-    fun getReaderArtifactLastModified(): String?
     fun reminderEnabled(): Boolean
     fun setReminderEnabled(enabled: Boolean)
     fun isAppReBrandingPromptShown(): Boolean
     fun isReminderScheduled(): Boolean
-    fun setLastQuarterlyIndex(index: String?)
     fun setReaderArtifactLastModified(lastModified: String)
     fun setAppReBrandingShown()
-    fun setThemeColor(primary: String, primaryDark: String)
-    fun getThemeColor(): ThemeColor
     fun setReminderScheduled(scheduled: Boolean = true)
-    fun isReadingLatestQuarterly(): Boolean
-    fun setReadingLatestQuarterly(state: Boolean)
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,10 +29,6 @@ object SSConstants {
     const val SS_DATE_FORMAT_OUTPUT_DAY_SHORT = "EEE, MMMM dd"
     const val SS_LESSON_INDEX_EXTRA = "SS_LESSON_INDEX"
     const val SS_READ_INDEX_EXTRA = "SS_READ_INDEX"
-    const val SS_COLOR_THEME_LAST_PRIMARY = "SS_COLOR_THEME_LAST_PRIMARY"
-    const val SS_COLOR_THEME_LAST_PRIMARY_DARK = "SS_COLOR_THEME_LAST_PRIMARY_DARK"
-    const val COLOR_PRIMARY_FALLBACK = "#385bb2"
-    const val COLOR_PRIMARY_DARK_FALLBACK = "#27407d"
     const val SS_REMINDER_SCHEDULED = "ss_reminder_scheduled"
     const val SS_REMINDER_TIME_SETTINGS_FORMAT = "HH:mm"
     const val SS_SETTINGS_REMINDER_ENABLED_KEY = "ss_settings_reminder_enabled"
@@ -42,11 +38,9 @@ object SSConstants {
     const val SS_SETTINGS_FONT_KEY = "ss_settings_display_options_font"
     const val SS_SETTINGS_SIZE_KEY = "ss_settings_display_options_size"
     const val SS_LAST_LANGUAGE_INDEX = "ss_last_language_index"
-    const val SS_LAST_QUARTERLY_INDEX = "ss_last_quarterly_index"
     const val SS_APP_RE_BRANDING_PROMPT_SEEN = "ss_app_re_branding_prompt_seen"
     const val SS_READER_ARTIFACT_LAST_MODIFIED = "sabbath-school-reader-last-modified"
     const val SS_APP_PLAY_STORE_LINK = "https://play.google.com/store/apps/details?id=com.cryart.sabbathschool"
-    const val SS_LATEST_QUARTERLY = "ss_latest_quarterly"
     const val SS_API_BASE_URL = "https://sabbath-school.adventech.io/"
     const val SS_STAGE_API_BASE_URL = "https://sabbath-school-stage.adventech.io/"
     const val SS_IMAGES_BASE_URL = "https://sabbath-school.adventech.io/api/v3/images/"

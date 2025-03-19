@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -46,10 +45,7 @@ import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.ioScopable
 import ss.misc.DateHelper
 import ss.misc.SSConstants
-import ss.misc.SSConstants.COLOR_PRIMARY_DARK_FALLBACK
-import ss.misc.SSConstants.COLOR_PRIMARY_FALLBACK
 import ss.prefs.api.SSPrefs
-import ss.prefs.api.ThemeColor
 import ss.prefs.model.ReminderTime
 import ss.prefs.model.SSReadingDisplayOptions
 import timber.log.Timber
@@ -182,58 +178,9 @@ internal class SSPrefsImpl(
         }
     }
 
-    override fun lastQuarterlyIndex(): Flow<String?> {
-        return dataStore.data.map {
-            it[stringPreferencesKey(SSConstants.SS_LAST_QUARTERLY_INDEX)]
-        }
-    }
-
-    override fun getLastQuarterlyIndex(): String? {
-        return sharedPreferences.getString(SSConstants.SS_LAST_QUARTERLY_INDEX, null)
-    }
-
-    override fun setLastQuarterlyIndex(index: String?) {
-        sharedPreferences.edit {
-            putString(SSConstants.SS_LAST_QUARTERLY_INDEX, index)
-        }
-
-        scope.launch {
-            dataStore.edit { settings ->
-                val key = stringPreferencesKey(SSConstants.SS_LAST_QUARTERLY_INDEX)
-                index?.let {
-                    settings[key] = index
-                } ?: run {
-                    settings.remove(key)
-                }
-            }
-        }
-    }
-
-    override fun getReaderArtifactLastModified(): String? {
-        return sharedPreferences.getString(SSConstants.SS_READER_ARTIFACT_LAST_MODIFIED, null)
-    }
-
     override fun setReaderArtifactLastModified(lastModified: String) {
         sharedPreferences.edit {
             putString(SSConstants.SS_READER_ARTIFACT_LAST_MODIFIED, lastModified)
-        }
-    }
-
-    /**
-     * By pre-loading the [SSReadingDisplayOptions] in [displayOptionsFlow]
-     * Later synchronous reads may be faster or may avoid a disk I/O operation
-     * altogether if the initial read has completed.
-     */
-    override fun getDisplayOptions(callback: (SSReadingDisplayOptions) -> Unit) {
-        scope.launch {
-            val settings = try {
-                dataStore.data.first()
-            } catch (ex: Exception) {
-                Timber.e(ex)
-                emptyPreferences()
-            }
-
-            callback(settings.toDisplayOptions())
         }
     }
 
@@ -283,32 +230,8 @@ internal class SSPrefsImpl(
         putBoolean(SSConstants.SS_APP_RE_BRANDING_PROMPT_SEEN, true)
     }
 
-    override fun setThemeColor(primary: String, primaryDark: String) {
-        sharedPreferences.edit {
-            putString(SSConstants.SS_COLOR_THEME_LAST_PRIMARY, primary)
-            putString(SSConstants.SS_COLOR_THEME_LAST_PRIMARY_DARK, primaryDark)
-        }
-    }
-
-    override fun getThemeColor(): ThemeColor {
-        val primary = sharedPreferences.getString(SSConstants.SS_COLOR_THEME_LAST_PRIMARY, COLOR_PRIMARY_FALLBACK)
-        val secondary = sharedPreferences.getString(SSConstants.SS_COLOR_THEME_LAST_PRIMARY_DARK, COLOR_PRIMARY_DARK_FALLBACK)
-        return ThemeColor(
-            primary ?: COLOR_PRIMARY_FALLBACK,
-            secondary ?: COLOR_PRIMARY_DARK_FALLBACK
-        )
-    }
-
     override fun setReminderScheduled(scheduled: Boolean) = sharedPreferences.edit {
         putBoolean(SSConstants.SS_REMINDER_SCHEDULED, scheduled)
-    }
-
-    override fun isReadingLatestQuarterly(): Boolean {
-        return sharedPreferences.getBoolean(SSConstants.SS_LATEST_QUARTERLY, false)
-    }
-
-    override fun setReadingLatestQuarterly(state: Boolean) = sharedPreferences.edit {
-        putBoolean(SSConstants.SS_LATEST_QUARTERLY, state)
     }
 
     override fun clear() {

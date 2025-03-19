@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,6 @@ import io.mockk.verify
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import ss.foundation.coroutines.test.TestDispatcherProvider
@@ -46,17 +45,12 @@ class SSPrefsImplTest {
     private val mockDataStore: DataStore<Preferences> = mockk(relaxed = true)
     private val mockSharedPreferences: SharedPreferences = mockk()
 
-    private lateinit var impl: SSPrefsImpl
-
-    @Before
-    fun setup() {
-        impl = SSPrefsImpl(
-            mockDataStore,
-            mockSharedPreferences,
-            mockk(),
-            TestDispatcherProvider()
-        )
-    }
+    private val impl = SSPrefsImpl(
+        mockDataStore,
+        mockSharedPreferences,
+        mockk(),
+        TestDispatcherProvider()
+    )
 
     @Test
     fun `default value returned for empty preferences`() = runTest {
@@ -69,15 +63,6 @@ class SSPrefsImplTest {
         impl.displayOptionsFlow().test {
             awaitItem() shouldBeEqualTo SSReadingDisplayOptions("default", "medium", "lato")
             awaitComplete()
-        }
-    }
-
-    @Test
-    fun `default value returned when exception is thrown during synchronous read`() = runTest {
-        every { mockDataStore.data }.answers { error("IO error") }
-
-        impl.getDisplayOptions { options ->
-            options shouldBeEqualTo SSReadingDisplayOptions("default", "medium", "lato")
         }
     }
 

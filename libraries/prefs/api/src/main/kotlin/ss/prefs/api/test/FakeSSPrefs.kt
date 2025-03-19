@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,38 +22,27 @@
 
 package ss.prefs.api.test
 
+import androidx.annotation.VisibleForTesting
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
-import org.jetbrains.annotations.VisibleForTesting
 import ss.prefs.api.SSPrefs
-import ss.prefs.api.ThemeColor
 import ss.prefs.model.ReminderTime
 import ss.prefs.model.SSReadingDisplayOptions
 
 /** Fake implementation of [SSPrefs] for use in tests. **/
-@VisibleForTesting
+@VisibleForTesting(otherwise = VisibleForTesting.NONE)
 class FakeSSPrefs(
     private val languagesFlow: MutableStateFlow<String> = MutableStateFlow("")
 ) : SSPrefs {
 
     var setLanguageCode: String? = null
         private set
-    var setLastQuarterlyIndex: String? = ""
-        private set
-
-    var quarterlyIndexDelegate: () -> String? = { throw NotImplementedError() }
 
     var reminderEnabledDelegate: () -> Boolean = { false }
     var reminderScheduledDelegate: () -> Boolean = { false }
-    var isReadingLatestQuarterlyDelegate: () -> Boolean = { false }
 
     override fun clear() {
-        TODO("Not yet implemented")
-    }
-
-    override fun getDisplayOptions(callback: (SSReadingDisplayOptions) -> Unit) {
         TODO("Not yet implemented")
     }
 
@@ -86,16 +75,6 @@ class FakeSSPrefs(
         languagesFlow.update { languageCode }
     }
 
-    override fun lastQuarterlyIndex(): Flow<String?> {
-        return flowOf(quarterlyIndexDelegate())
-    }
-
-    override fun getLastQuarterlyIndex(): String? = quarterlyIndexDelegate()
-
-    override fun getReaderArtifactLastModified(): String? {
-        return null
-    }
-
     override fun reminderEnabled(): Boolean {
         return reminderEnabledDelegate()
     }
@@ -110,33 +89,13 @@ class FakeSSPrefs(
         return reminderScheduledDelegate()
     }
 
-    override fun setLastQuarterlyIndex(index: String?) {
-        setLastQuarterlyIndex = index
-    }
-
     override fun setReaderArtifactLastModified(lastModified: String) {
 
     }
 
     override fun setAppReBrandingShown() {}
 
-    override fun setThemeColor(primary: String, primaryDark: String) {
-
-    }
-
-    override fun getThemeColor(): ThemeColor {
-        TODO("Not yet implemented")
-    }
-
     override fun setReminderScheduled(scheduled: Boolean) {
-
-    }
-
-    override fun isReadingLatestQuarterly(): Boolean {
-        return isReadingLatestQuarterlyDelegate()
-    }
-
-    override fun setReadingLatestQuarterly(state: Boolean) {
 
     }
 }
