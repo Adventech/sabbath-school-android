@@ -39,7 +39,8 @@ class VideoListViewModelTest {
         underTest.videoListFlow.test {
             awaitItem() shouldBeEqualTo VideoListData.Horizontal(
                 data = emptyList(),
-                target = LESSON_INDEX
+                target = LESSON_INDEX,
+                showDragHandle = true,
             )
 
             videoFlow.emit(
@@ -56,6 +57,7 @@ class VideoListViewModelTest {
             awaitItem() shouldBeEqualTo VideoListData.Vertical(
                 featured = featuredVideo,
                 clips = listOf(fakeVideo),
+                showDragHandle = true,
             )
 
             ensureAllEventsConsumed()
@@ -82,7 +84,8 @@ class VideoListViewModelTest {
         underTest.videoListFlow.test {
             awaitItem() shouldBeEqualTo VideoListData.Horizontal(
                 data = emptyList(),
-                target = LESSON_INDEX
+                target = LESSON_INDEX,
+                showDragHandle = true,
             )
 
             videoFlow.emit(
@@ -104,7 +107,8 @@ class VideoListViewModelTest {
 
             awaitItem() shouldBeEqualTo VideoListData.Horizontal(
                 data = data,
-                target = LESSON_INDEX
+                target = LESSON_INDEX,
+                showDragHandle = true,
             )
 
             ensureAllEventsConsumed()
