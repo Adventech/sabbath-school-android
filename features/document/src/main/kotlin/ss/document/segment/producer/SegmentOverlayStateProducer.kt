@@ -22,13 +22,13 @@
 
 package ss.document.segment.producer
 
-import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.core.net.toUri
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.Navigator
@@ -81,7 +81,7 @@ internal class OverlayStateProducerImpl @Inject constructor(
             SegmentOverlayState.None { event ->
                 when (event) {
                     is SegmentOverlayStateProducer.Event.OnHandleUri -> {
-                        val uri = Uri.parse(event.uri)
+                        val uri = event.uri.toUri()
                         val data = event.data
 
                         when (uri.scheme) {
