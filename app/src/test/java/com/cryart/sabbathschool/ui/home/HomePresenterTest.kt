@@ -56,7 +56,6 @@ class HomePresenterTest {
     fun `present - user authed - schedule reminder`() = runTest {
         fakeAuthRepository.userDelegate = { Result.success(SSUser.fake()) }
         with(fakePrefs) {
-            quarterlyIndexDelegate = { null }
             reminderEnabledDelegate = { true }
             reminderScheduledDelegate = { false }
         }
@@ -75,7 +74,6 @@ class HomePresenterTest {
     fun `present - user authed - reminder scheduled`() = runTest {
         fakeAuthRepository.userDelegate = { Result.success(SSUser.fake()) }
         with(fakePrefs) {
-            quarterlyIndexDelegate = { null }
             reminderEnabledDelegate = { true }
             reminderScheduledDelegate = { true }
         }
@@ -98,25 +96,6 @@ class HomePresenterTest {
             awaitItem()
 
             fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo LoginScreen
-
-            ensureAllEventsConsumed()
-        }
-    }
-
-    @Test
-    fun `present - user authed - last index available - not reading latest quarterly - go to Lessons`() = runTest {
-        val index = "index-1"
-        fakeAuthRepository.userDelegate = { Result.success(SSUser.fake()) }
-        with(fakePrefs) {
-            quarterlyIndexDelegate = { index }
-            reminderEnabledDelegate = { false }
-            isReadingLatestQuarterlyDelegate = { false }
-        }
-
-        underTest.test {
-            awaitItem()
-
-            fakeNavigator.awaitResetRoot().newRoot shouldBeEqualTo HomeNavScreen
 
             ensureAllEventsConsumed()
         }
