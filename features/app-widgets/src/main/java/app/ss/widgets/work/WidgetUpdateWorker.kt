@@ -28,6 +28,8 @@ import androidx.work.Constraints
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.OutOfQuotaPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
@@ -66,10 +68,25 @@ internal class WidgetUpdateWorker @AssistedInject constructor(
         private val uniqueWorkName = WidgetUpdateWorker::class.java.simpleName
 
         /**
-         * Enqueues a new worker to refresh widget data only if not enqueued already.
-         *
+         * Enqueues background work request to refresh widget data.
          */
         fun enqueue(context: Context) {
+            WorkManager.getInstance(context).enqueue(
+                OneTimeWorkRequestBuilder<WidgetUpdateWorker>()
+                    .setConstraints(
+                        Constraints.Builder()
+                            .setRequiredNetworkType(NetworkType.CONNECTED)
+                            .build()
+                    )
+                    .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
+                    .build()
+            )
+        }
+
+        /**
+         * Enqueues a new worker to refresh widget data only if not enqueued already.
+         */
+        fun enqueuePeriodic(context: Context) {
             val manager = WorkManager.getInstance(context)
             val requestBuilder = PeriodicWorkRequestBuilder<WidgetUpdateWorker>(
                 4,
