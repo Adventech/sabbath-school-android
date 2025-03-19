@@ -39,5 +39,4 @@ dependencies {
     implementation(libs.joda.android)
     implementation(libs.coil.core)
 
-    testImplementation(libs.bundles.testing.common)
 }
