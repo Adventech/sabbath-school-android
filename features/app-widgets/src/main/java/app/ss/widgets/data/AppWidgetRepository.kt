@@ -34,6 +34,7 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import org.joda.time.DateTime
@@ -41,6 +42,7 @@ import org.joda.time.LocalDate
 import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.helper.SyncHelper
 import ss.libraries.storage.api.dao.AppWidgetDao
+import ss.libraries.storage.api.entity.AppWidgetEntity
 import ss.misc.DateHelper.formatDate
 import ss.misc.DateHelper.parseDate
 import ss.misc.SSConstants.SS_DATE_FORMAT_OUTPUT_DAY
@@ -70,8 +72,7 @@ class AppWidgetRepositoryImpl @Inject constructor(
 
     private val today get() = DateTime.now().withTimeAtStartOfDay()
 
-    private fun defaultQuarterlyIndex(): String {
-        val languageCode = ssPrefs.getLanguageCode()
+    private fun defaultQuarterlyIndex(languageCode: String = ssPrefs.getLanguageCode()): String {
         val currentDate = LocalDate.now()
         val year = currentDate.year
         val quarter = when (currentDate.monthOfYear) {
@@ -83,9 +84,15 @@ class AppWidgetRepositoryImpl @Inject constructor(
         return "$languageCode-$year-$quarter"
     }
 
-    override fun weekState(context: Context?): Flow<WeekWidgetState> {
-        return appWidgetDao.findBy(defaultQuarterlyIndex())
+    private fun latestAppWidgetEntity(): Flow<AppWidgetEntity> {
+        return ssPrefs.getLanguageCodeFlow()
+            .map { defaultQuarterlyIndex(it) }
+            .flatMapLatest { appWidgetDao.findBy(it) }
             .filterNotNull()
+    }
+
+    override fun weekState(context: Context?): Flow<WeekWidgetState> {
+        return latestAppWidgetEntity()
             .map { entity ->
                 WeekWidgetState.Success(
                     model = WeekModel(
@@ -108,8 +115,7 @@ class AppWidgetRepositoryImpl @Inject constructor(
     }
 
     override fun todayState(context: Context?): Flow<TodayWidgetState> {
-        return appWidgetDao.findBy(defaultQuarterlyIndex())
-            .filterNotNull()
+        return latestAppWidgetEntity()
             .map { entity ->
                 val day = entity.days.firstOrNull { it.isToday() }
                 day?.let {
