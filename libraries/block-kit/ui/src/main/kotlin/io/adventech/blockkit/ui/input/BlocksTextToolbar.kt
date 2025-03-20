@@ -35,7 +35,7 @@ class BlocksTextToolbar(
     private val destroy: Boolean = false,
     private val onHighlight: (HighlightColor) -> Unit = {},
     private val onRemoveHighlight: () -> Unit = {},
-    private val onSearch: () -> Unit = {},
+    private val onSearch: (() -> Unit)? = null,
 ) : TextToolbar {
 
     private var actionMode: ActionMode? = null
@@ -67,10 +67,12 @@ class BlocksTextToolbar(
                 ActionMode.TYPE_FLOATING
             )
         }
-        textActionModeCallback.onSearchRequested = {
-            textActionModeCallback.viewMode = BlocksTextActionModeCallback.Mode.NONE
-            hide()
-            onSearch()
+        onSearch?.let {
+            textActionModeCallback.onSearchRequested = {
+                textActionModeCallback.viewMode = BlocksTextActionModeCallback.Mode.NONE
+                hide()
+                onSearch()
+            }
         }
         textActionModeCallback.onHighlightColorRequested = { color ->
             textActionModeCallback.viewMode = BlocksTextActionModeCallback.Mode.NONE

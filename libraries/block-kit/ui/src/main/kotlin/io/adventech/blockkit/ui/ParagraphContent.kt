@@ -195,7 +195,9 @@ private fun BlockItem?.isChildSelectable(): Boolean {
 
 private fun onSearchSelection(context: Context, query: String) {
     val intent = Intent(Intent.ACTION_VIEW, "https://www.google.com/search?q=$query".toUri())
-    context.startActivity(intent)
+    if (intent.resolveActivity(context.packageManager) != null) {
+        context.startActivity(intent)
+    }
 }
 
 @Composable

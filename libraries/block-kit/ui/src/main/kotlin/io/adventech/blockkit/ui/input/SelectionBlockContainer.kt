@@ -22,6 +22,8 @@
 
 package io.adventech.blockkit.ui.input
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -31,9 +33,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalTextToolbar
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.TextRange
+import androidx.core.net.toUri
 import io.adventech.blockkit.model.input.Highlight
 import kotlinx.coroutines.delay
 
@@ -46,7 +50,9 @@ internal fun SelectionBlockContainer(
     onSearchSelection: (TextRange) -> Unit = {},
     content: @Composable () -> Unit,
 ) {
+    val context = LocalContext.current
     var isDestroy by remember { mutableStateOf(false) }
+    val canSearchSelection = remember { context.isBrowserInstalled() }
 
     CompositionLocalProvider(
         LocalTextToolbar provides BlocksTextToolbar(
@@ -81,16 +87,20 @@ internal fun SelectionBlockContainer(
                     }
                 }
             },
-            onSearch = {
-                isDestroy = true
-                selection?.takeIf { it.length > 0 }?.let { selection ->
-                    val (startIndex, endIndex) = if (selection.end < selection.start) {
-                        selection.end to selection.start
-                    } else {
-                        selection.start to selection.end
+            onSearch = if (canSearchSelection) {
+                {
+                    isDestroy = true
+                    selection?.takeIf { it.length > 0 }?.let { selection ->
+                        val (startIndex, endIndex) = if (selection.end < selection.start) {
+                            selection.end to selection.start
+                        } else {
+                            selection.start to selection.end
+                        }
+                        onSearchSelection(TextRange(startIndex, endIndex))
                     }
-                    onSearchSelection(TextRange(startIndex, endIndex))
                 }
+            } else {
+                null
             }
         )
     ) {
@@ -106,4 +116,9 @@ internal fun SelectionBlockContainer(
             isDestroy = false
         }
     }
+}
+
+private fun Context.isBrowserInstalled(): Boolean {
+    val intent = Intent(Intent.ACTION_VIEW, "https://www.google.com".toUri())
+    return intent.resolveActivity(packageManager) != null
 }
