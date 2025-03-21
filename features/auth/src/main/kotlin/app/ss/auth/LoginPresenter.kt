@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,6 +32,7 @@ import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
 import androidx.credentials.exceptions.GetCredentialException
+import androidx.credentials.exceptions.NoCredentialException
 import app.ss.design.compose.extensions.content.ContentSpec
 import app.ss.design.compose.extensions.snackbar.SsSnackbarState
 import app.ss.models.config.AppConfig
@@ -139,6 +140,9 @@ class LoginPresenter @AssistedInject constructor(
             val authenticated = handleCredentialResponse(response)
             Result.success(authenticated)
         } catch (ex: GetCredentialException) {
+            Timber.e(ex)
+            Result.failure(ex)
+        } catch (ex: NoCredentialException) {
             Timber.e(ex)
             Result.failure(ex)
         }

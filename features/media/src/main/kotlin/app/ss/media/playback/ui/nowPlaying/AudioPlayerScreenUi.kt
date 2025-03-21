@@ -121,8 +121,8 @@ internal fun NowPlayingScreen(
 @Composable
 internal fun NowPlayingScreen(
     spec: NowPlayingScreenSpec,
-    listState: LazyListState = rememberLazyListState(),
     modifier: Modifier = Modifier,
+    listState: LazyListState = rememberLazyListState(),
 ) {
     val (_, _, playbackState, playbackProgressState, playbackConnection, playbackSpeed, isDraggable) = spec
 

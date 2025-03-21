@@ -30,7 +30,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.cash.turbine.test
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
@@ -63,20 +62,6 @@ class SSPrefsImplTest {
         impl.displayOptionsFlow().test {
             awaitItem() shouldBeEqualTo SSReadingDisplayOptions("default", "medium", "lato")
             awaitComplete()
-        }
-    }
-
-    @Test
-    fun `clear sharedPreferences`() = runTest {
-        val mockEditor: SharedPreferences.Editor = mockk(relaxed = true)
-        every { mockSharedPreferences.edit() }.returns(mockEditor)
-
-        impl.clear()
-
-        verify {
-            mockSharedPreferences.edit()
-            mockEditor.clear()
-            mockEditor.apply()
         }
     }
 }

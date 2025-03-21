@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Copyright (c) 2025. Adventech <info@adventech.io>
   ~
@@ -21,13 +21,20 @@
   ~ THE SOFTWARE.
   -->
 
-<resources>
+<issues format="6" by="lint 8.9.0" type="baseline" client="gradle" dependencies="false" name="AGP (8.9.0)" variant="all" version="8.9.0">
 
-    <style name="Platform.V29.Theme.SS" parent="Platform.V24.Theme.SS">
-        <item name="android:enforceStatusBarContrast">false</item>
-        <item name="colorControlHighlight">@color/on_surface_16</item>
-    </style>
+    <issue
+        id="UnknownIssueId"
+        message="Unknown issue id &quot;EnsureInitializerMetadata&quot;">
+        <location
+            file="build.gradle.kts"/>
+    </issue>
 
-    <style name="Platform.Theme.SS" parent="Platform.V29.Theme.SS" />
+    <issue
+        id="UnknownIssueId"
+        message="Unknown issue id &quot;EnsureInitializerMetadata&quot;">
+        <location
+            file="build.gradle.kts"/>
+    </issue>
 
-</resources>
+</issues>
