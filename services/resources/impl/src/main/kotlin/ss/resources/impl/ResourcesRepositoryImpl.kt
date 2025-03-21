@@ -75,7 +75,7 @@ import javax.inject.Inject
 private const val FONTS_DIR = "fonts"
 
 internal class ResourcesRepositoryImpl @Inject constructor(
-    @ApplicationContext private val appContext: Context,
+    @param:ApplicationContext private val appContext: Context,
     private val resourcesApi: ResourcesApi,
     private val audioDao: AudioDao,
     private val documentsDao: DocumentsDao,

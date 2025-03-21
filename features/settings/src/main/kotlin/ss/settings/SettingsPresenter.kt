@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -46,7 +46,7 @@ import ss.settings.repository.SettingsEntity
 import ss.settings.repository.SettingsRepository
 
 class SettingsPresenter @AssistedInject constructor(
-    @ApplicationContext private val context: Context,
+    @param:ApplicationContext private val context: Context,
     private val repository: SettingsRepository,
     @Assisted private val navigator: Navigator,
 ) : Presenter<State> {

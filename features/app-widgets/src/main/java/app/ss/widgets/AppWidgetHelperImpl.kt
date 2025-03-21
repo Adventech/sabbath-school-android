@@ -47,7 +47,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class AppWidgetHelperImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
+    @param:ApplicationContext private val context: Context,
     private val dispatcherProvider: DispatcherProvider,
 ) : AppWidgetHelper, Scopable by defaultScopable(dispatcherProvider) {
 

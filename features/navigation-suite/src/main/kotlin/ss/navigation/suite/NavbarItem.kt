@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,7 @@ import com.slack.circuit.runtime.screen.Screen
 import ss.libraries.circuit.navigation.FeedScreen
 import app.ss.translations.R as L10nR
 
-enum class NavbarItem(@DrawableRes val iconRes: Int, @StringRes val title: Int) {
+enum class NavbarItem(@param:DrawableRes val iconRes: Int, @param:StringRes val title: Int) {
     SabbathSchool(R.drawable.ss_ic_sabbath_school, L10nR.string.ss_app_name),
     AliveInJesus(R.drawable.ss_ic_aij, L10nR.string.ss_alive_in_jesus),
     PersonalMinistries(R.drawable.ss_ic_pm, L10nR.string.ss_personal_ministries),

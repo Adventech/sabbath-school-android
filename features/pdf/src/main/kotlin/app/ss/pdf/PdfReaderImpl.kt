@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,8 @@ import android.content.Intent
 import android.net.Uri
 import app.ss.models.LessonPdf
 import app.ss.models.PDFAux
+import app.ss.pdf.ui.ARG_PDF_SCREEN
+import app.ss.pdf.ui.SSReadPdfActivity
 import com.pspdfkit.annotations.AnnotationType
 import com.pspdfkit.configuration.activity.PdfActivityConfiguration
 import com.pspdfkit.configuration.activity.TabBarHidingMode
@@ -36,12 +38,10 @@ import com.pspdfkit.configuration.settings.SettingsMenuItemType
 import com.pspdfkit.configuration.sharing.ShareFeatures
 import com.pspdfkit.document.download.DownloadJob
 import com.pspdfkit.document.download.DownloadRequest
+import com.pspdfkit.ui.PdfActivityIntentBuilder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
-import app.ss.pdf.ui.ARG_PDF_SCREEN
-import app.ss.pdf.ui.SSReadPdfActivity
-import com.pspdfkit.ui.PdfActivityIntentBuilder
 import ss.libraries.circuit.navigation.PdfScreen
 import ss.libraries.pdf.api.LocalFile
 import ss.libraries.pdf.api.PdfReader
@@ -55,7 +55,7 @@ import kotlin.coroutines.suspendCoroutine
 
 @Singleton
 internal class PdfReaderImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
+    @param:ApplicationContext private val context: Context,
     private val readerPrefs: PdfReaderPrefs,
     private val dispatcherProvider: DispatcherProvider
 ) : PdfReader, DownloadJob.ProgressListenerAdapter() {
