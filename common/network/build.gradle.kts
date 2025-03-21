@@ -30,15 +30,13 @@ plugins {
 android { namespace = "app.ss.network" }
 
 dependencies {
+    implementation(libs.square.moshi.kotlin)
+    implementation(libs.square.okhttp)
+    implementation(libs.square.retrofit)
+    implementation(libs.square.retrofit.converter.moshi)
+    implementation(libs.timber)
     implementation(projects.libraries.foundation.android)
     implementation(projects.libraries.foundation.coroutines)
 
-    implementation(libs.timber)
-
-    implementation(libs.square.moshi.kotlin)
     ksp(libs.square.moshi.codegen)
-
-    implementation(libs.square.retrofit)
-    implementation(libs.square.okhttp)
-    implementation(libs.square.retrofit.converter.moshi)
 }

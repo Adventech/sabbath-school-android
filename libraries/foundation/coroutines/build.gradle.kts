@@ -31,10 +31,12 @@ plugins {
 android { namespace = "ss.foundation.coroutines" }
 
 dependencies {
+    api(libs.kotlin.coroutines)
+    api(libs.kotlin.coroutines.android)
+
     implementation(libs.androidx.lifecycle.common)
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.google.hilt.android)
+
     ksp(libs.google.hilt.compiler)
-    api(libs.kotlin.coroutines)
-    api(libs.kotlin.coroutines.android)
 }

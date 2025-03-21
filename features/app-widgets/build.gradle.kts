@@ -42,6 +42,19 @@ foundry {
 }
 
 dependencies {
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.glance)
+    implementation(libs.androidx.glance.appwidget)
+    implementation(libs.androidx.glance.material3)
+    implementation(libs.androidx.hilt.work)
+    implementation(libs.androidx.work)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.core)
+    implementation(libs.google.hilt.android)
+    implementation(libs.google.material)
+    implementation(libs.joda.android)
+    implementation(libs.kotlinx.collectionsImmutable)
+    implementation(libs.timber)
     implementation(projects.common.core)
     implementation(projects.common.design)
     implementation(projects.common.designCompose)
@@ -52,23 +65,9 @@ dependencies {
     implementation(projects.libraries.prefs.api)
     implementation(projects.libraries.storage.api)
 
-    implementation(libs.androidx.core)
-    implementation(libs.androidx.glance)
-    implementation(libs.androidx.glance.appwidget)
-    implementation(libs.androidx.glance.material3)
-    implementation(libs.androidx.hilt.work)
-    ksp(libs.androidx.hilt.compiler)
-    implementation(libs.androidx.work)
-    implementation(libs.joda.android)
-
-    implementation(libs.google.hilt.android)
-    ksp(libs.google.hilt.compiler)
-    implementation(libs.google.material)
-    implementation(libs.kotlinx.collectionsImmutable)
-    implementation(libs.timber)
-    implementation(libs.coil.core)
-    implementation(libs.coil.compose)
-
     testImplementation(libs.bundles.testing.common)
     testImplementation(projects.libraries.testUtils)
+
+    ksp(libs.androidx.hilt.compiler)
+    ksp(libs.google.hilt.compiler)
 }

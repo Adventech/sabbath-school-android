@@ -31,31 +31,31 @@ plugins {
 android { namespace = "ss.lessons.impl" }
 
 dependencies {
-    implementation(projects.libraries.lessons.api)
-    implementation(projects.common.auth)
-    implementation(projects.common.misc)
-    implementation(projects.common.network)
-    implementation(projects.libraries.foundation.android)
-    implementation(projects.libraries.storage.api)
-    implementation(projects.libraries.prefs.api)
-
     implementation(libs.google.hilt.android)
     implementation(libs.joda.android)
     implementation(libs.moshix.adapters)
     implementation(libs.square.moshi.kotlin)
-    compileOnly(libs.javax.annotation)
     implementation(libs.square.okhttp)
     implementation(libs.square.okhttp.logging)
     implementation(libs.square.retrofit)
     implementation(libs.square.retrofit.converter.moshi)
     implementation(libs.timber)
+    implementation(projects.common.auth)
+    implementation(projects.common.misc)
+    implementation(projects.common.network)
+    implementation(projects.libraries.foundation.android)
+    implementation(projects.libraries.lessons.api)
+    implementation(projects.libraries.prefs.api)
+    implementation(projects.libraries.storage.api)
+
+    compileOnly(libs.javax.annotation)
+
+    testImplementation(libs.bundles.testing.common)
+    testImplementation(projects.libraries.foundation.coroutines.test)
+    testImplementation(projects.libraries.lessons.test)
+    testImplementation(projects.libraries.storage.test)
+    testImplementation(projects.libraries.testUtils)
 
     ksp(libs.google.hilt.compiler)
     ksp(libs.square.moshi.codegen)
-
-    testImplementation(libs.bundles.testing.common)
-    testImplementation(projects.libraries.storage.test)
-    testImplementation(projects.libraries.foundation.coroutines.test)
-    testImplementation(projects.libraries.lessons.test)
-    testImplementation(projects.libraries.testUtils)
 }

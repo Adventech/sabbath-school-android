@@ -20,6 +20,12 @@ ksp {
 }
 
 dependencies {
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.auth)
+    implementation(libs.google.hilt.android)
+    implementation(libs.google.id)
+    implementation(libs.timber)
     implementation(projects.common.auth)
     implementation(projects.common.designCompose)
     implementation(projects.common.models)
@@ -27,15 +33,9 @@ dependencies {
     implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.foundation.coroutines)
 
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.credentials)
-    implementation(libs.androidx.credentials.auth)
-    implementation(libs.google.hilt.android)
-    ksp(libs.google.hilt.compiler)
-    ksp(libs.circuit.codegen)
-    implementation(libs.google.id)
-    implementation(libs.timber)
-
     testImplementation(libs.bundles.testing.common)
     testImplementation(projects.libraries.foundation.coroutines.test)
+
+    ksp(libs.circuit.codegen)
+    ksp(libs.google.hilt.compiler)
 }

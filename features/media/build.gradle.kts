@@ -40,35 +40,32 @@ ksp {
 }
 
 dependencies {
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.lifecycle.extensions)
+    implementation(libs.coil.compose)
+    implementation(libs.google.hilt.android)
+    implementation(libs.google.material)
+    implementation(libs.kotlin.coroutines.guava)
+    implementation(libs.timber)
     implementation(projects.common.core)
     implementation(projects.common.design)
     implementation(projects.common.designCompose)
     implementation(projects.common.translations)
+    implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.media.api)
     implementation(projects.libraries.media.resources)
     implementation(projects.libraries.media.service)
     implementation(projects.libraries.storage.api)
-    implementation(projects.libraries.circuit.api)
     implementation(projects.services.media.ui)
     implementation(projects.services.resources.api)
 
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.core)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.lifecycle.extensions)
-
-    implementation(libs.google.hilt.android)
-    implementation(libs.google.material)
-
-    implementation(libs.kotlin.coroutines.guava)
-    implementation(libs.timber)
-    implementation(libs.coil.compose)
+    testImplementation(libs.bundles.testing.common)
+    testImplementation(projects.libraries.testUtils)
 
     ksp(libs.circuit.codegen)
     ksp(libs.google.hilt.compiler)
-
-    testImplementation(libs.bundles.testing.common)
-    testImplementation(projects.libraries.testUtils)
 }

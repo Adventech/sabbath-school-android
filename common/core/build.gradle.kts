@@ -30,13 +30,13 @@ plugins {
 android { namespace = "com.cryart.sabbathschool.core" }
 
 dependencies {
-    api(projects.common.misc)
     api(libs.circuit.runtime)
+    api(projects.common.misc)
+
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.browser)
     implementation(libs.androidx.core)
-    implementation(libs.timber)
-    implementation(libs.joda.android)
     implementation(libs.coil.core)
-
+    implementation(libs.joda.android)
+    implementation(libs.timber)
 }

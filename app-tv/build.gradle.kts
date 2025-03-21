@@ -97,6 +97,20 @@ ksp {
 }
 
 dependencies {
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.tv.foundation)
+    implementation(libs.androidx.tv.material) {
+        exclude(group = "androidx.compose.animation", module = "animation")
+    }
+    implementation(libs.bundles.circuit)
+    implementation(libs.bundles.compose)
+    implementation(libs.bundles.compose.tooling)
+    implementation(libs.coil.compose)
+    implementation(libs.google.hilt.android)
+    implementation(libs.kotlinx.collectionsImmutable)
+    implementation(libs.timber)
     implementation(projects.common.translations)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.lessons.api)
@@ -108,29 +122,15 @@ dependencies {
     implementation(projects.services.prefs.impl)
     implementation(projects.services.storage.impl)
 
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.bundles.compose)
-    implementation(libs.bundles.compose.tooling)
-    implementation(libs.androidx.core)
-    implementation(libs.androidx.tv.foundation)
-    implementation(libs.androidx.tv.material) {
-        exclude(group = "androidx.compose.animation", module = "animation")
-    }
-    implementation(libs.bundles.circuit)
-    implementation(libs.coil.compose)
-    implementation(libs.google.hilt.android)
-    ksp(libs.google.hilt.compiler)
-    ksp(libs.circuit.codegen)
-    implementation(libs.kotlinx.collectionsImmutable)
-    implementation(libs.timber)
-
     testImplementation(libs.bundles.testing.common)
     testImplementation(projects.libraries.foundation.coroutines.test)
     testImplementation(projects.libraries.lessons.test)
     testImplementation(projects.libraries.media.testFixtures)
     testImplementation(projects.libraries.storage.test)
     testImplementation(projects.libraries.testUtils)
+
+    ksp(libs.circuit.codegen)
+    ksp(libs.google.hilt.compiler)
 }
 
 object BuildAndroidConfig {

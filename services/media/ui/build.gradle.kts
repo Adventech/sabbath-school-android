@@ -31,14 +31,13 @@ foundry {
 }
 
 dependencies {
+    implementation(libs.coil.compose)
+    implementation(libs.timber)
     implementation(projects.common.designCompose)
     implementation(projects.common.translations)
     implementation(projects.libraries.media.api)
     implementation(projects.libraries.media.model)
     implementation(projects.libraries.media.resources)
-
-    implementation(libs.coil.compose)
-    implementation(libs.timber)
 
     testImplementation(libs.bundles.testing.common)
 }

@@ -59,6 +59,19 @@ ksp {
 }
 
 dependencies {
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.lifecycle.viewmodel)
+    implementation(libs.androidx.preference)
+    implementation(libs.google.hilt.android)
+    implementation(libs.google.material)
+    implementation(libs.pdfkit) {
+        // We don't need these transitive dependencies
+        exclude(group = "com.google.android.material", module = "material")
+        exclude(group = "androidx.compose.runtime", module = "runtime") // imported as aar and breaks the build
+    }
+    implementation(libs.timber)
     implementation(projects.common.core)
     implementation(projects.common.design)
     implementation(projects.common.designCompose)
@@ -73,24 +86,8 @@ dependencies {
     implementation(projects.libraries.pdf.api)
     implementation(projects.services.resources.api)
 
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.core)
-    implementation(libs.androidx.lifecycle.viewmodel)
-    implementation(libs.google.material)
-    implementation(libs.androidx.preference)
-
-    implementation(libs.google.hilt.android)
-    ksp(libs.google.hilt.compiler)
     ksp(libs.circuit.codegen)
-
-    implementation(libs.timber)
-
-    implementation(libs.pdfkit) {
-        // We don't need these transitive dependencies
-        exclude(group = "com.google.android.material", module = "material")
-        exclude(group = "androidx.compose.runtime", module = "runtime") // imported as aar and breaks the build
-    }
+    ksp(libs.google.hilt.compiler)
 }
 
 /**

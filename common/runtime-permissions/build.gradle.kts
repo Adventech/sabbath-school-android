@@ -35,6 +35,7 @@ android {
 dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.google.hilt.android)
-    ksp(libs.google.hilt.compiler)
     implementation(libs.timber)
+
+    ksp(libs.google.hilt.compiler)
 }

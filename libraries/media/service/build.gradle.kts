@@ -29,11 +29,11 @@ plugins {
 }
 
 dependencies {
+    implementation(libs.google.hilt.android)
+    implementation(libs.timber)
     implementation(projects.common.translations)
     implementation(projects.libraries.media.api)
     implementation(projects.libraries.media.resources)
 
-    implementation(libs.google.hilt.android)
     ksp(libs.google.hilt.compiler)
-    implementation(libs.timber)
 }

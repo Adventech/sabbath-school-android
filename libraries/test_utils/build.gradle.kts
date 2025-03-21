@@ -33,18 +33,15 @@ android {
 }
 
 dependencies {
+    implementation(libs.google.hilt.android)
+    implementation(libs.square.moshi.kotlin)
+    implementation(libs.test.google.hilt)
+    implementation(libs.test.junit)
+    implementation(libs.timber)
     implementation(projects.common.auth)
     implementation(projects.common.core)
     implementation(projects.libraries.lessons.model)
 
-    implementation(libs.google.hilt.android)
-    implementation(libs.test.google.hilt)
     ksp(libs.google.hilt.compiler)
-
-    implementation(libs.timber)
-
-    implementation(libs.square.moshi.kotlin)
     ksp(libs.square.moshi.codegen)
-
-    implementation(libs.test.junit)
 }

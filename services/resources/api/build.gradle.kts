@@ -27,7 +27,8 @@ plugins {
 }
 
 dependencies {
-    api(projects.services.resources.model)
     api(projects.libraries.foundation.coroutines)
+    api(projects.services.resources.model)
+
     implementation(libs.androidx.annotations)
 }

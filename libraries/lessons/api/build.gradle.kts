@@ -29,8 +29,8 @@ plugins {
 android { namespace = "ss.lessons.api" }
 
 dependencies {
-    api(projects.libraries.foundation.coroutines)
-    api(projects.libraries.lessons.model)
     api(libs.square.okhttp)
     api(libs.square.retrofit)
+    api(projects.libraries.foundation.coroutines)
+    api(projects.libraries.lessons.model)
 }
