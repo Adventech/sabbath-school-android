@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues name="AGP (8.9.0)" by="lint 8.9.0" client="gradle" dependencies="false" format="6"
+    type="baseline" variant="all" version="8.9.0">
+
+    <issue id="UnknownIssueId" message="Unknown issue id &quot;EnsureInitializerMetadata&quot;">
+        <location file="build.gradle.kts" />
+    </issue>
+
+    <issue id="UnknownIssueId" message="Unknown issue id &quot;EnsureInitializerMetadata&quot;">
+        <location file="build.gradle.kts" />
+    </issue>
+
+</issues>

@@ -35,7 +35,7 @@ android {
 }
 
 dependencies {
-    implementation(libs.google.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.core)
+    implementation(libs.google.material)
 }

@@ -129,8 +129,19 @@ ksp {
 }
 
 dependencies {
-    baselineProfile(projects.baselineprofile)
-
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.hilt.work)
+    implementation(libs.androidx.profileinstaller)
+    implementation(libs.androidx.startup)
+    implementation(libs.androidx.work)
+    implementation(libs.google.hilt.android)
+    implementation(libs.google.material)
+    implementation(libs.joda.android)
+    implementation(libs.timber)
     implementation(projects.common.auth)
     implementation(projects.common.core)
     implementation(projects.common.design)
@@ -160,36 +171,25 @@ dependencies {
     implementation(projects.services.resources.impl)
     implementation(projects.services.storage.impl)
 
-    implementation(libs.google.material)
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.core)
-    implementation(libs.androidx.core.splashscreen)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.profileinstaller)
-    implementation(libs.androidx.startup)
-    implementation(libs.androidx.work)
-    implementation(libs.androidx.hilt.work)
-    ksp(libs.androidx.hilt.compiler)
-
-    implementation(libs.google.hilt.android)
-    ksp(libs.google.hilt.compiler)
-    ksp(libs.circuit.codegen)
-
-    implementation(libs.timber)
-
-    implementation(libs.joda.android)
-
     testImplementation(libs.bundles.testing.common)
     testImplementation(projects.libraries.foundation.coroutines.test)
     testImplementation(projects.libraries.testUtils)
-    kspTest(libs.google.hilt.compiler)
+
     androidTestImplementation(libs.bundles.testing.android.common)
-    kspAndroidTest(libs.google.hilt.compiler)
-    androidTestImplementation(projects.libraries.testUtils)
     androidTestImplementation(libs.test.androidx.espresso.contrib) {
         exclude(group = "org.checkerframework", module = "checker")
     }
+    androidTestImplementation(projects.libraries.testUtils)
+
+    baselineProfile(projects.baselineprofile)
+
+    ksp(libs.androidx.hilt.compiler)
+    ksp(libs.circuit.codegen)
+    ksp(libs.google.hilt.compiler)
+
+    kspAndroidTest(libs.google.hilt.compiler)
+
+    kspTest(libs.google.hilt.compiler)
 }
 
 /**

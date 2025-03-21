@@ -35,7 +35,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.libraries.foundation.coroutines)
     implementation(libs.test.coroutines)
     implementation(libs.test.junit)
+    implementation(projects.libraries.foundation.coroutines)
 }

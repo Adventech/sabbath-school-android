@@ -38,14 +38,16 @@ android {
 
 dependencies {
     api(projects.libraries.prefs.api)
+
+    implementation(libs.androidx.datastore.prefs)
+    implementation(libs.androidx.preference)
+    implementation(libs.google.hilt.android)
+    implementation(libs.timber)
     implementation(projects.common.misc)
     implementation(projects.libraries.foundation.coroutines)
-    implementation(libs.androidx.preference)
-    implementation(libs.androidx.datastore.prefs)
-    implementation(libs.google.hilt.android)
-    ksp(libs.google.hilt.compiler)
-    implementation(libs.timber)
 
     testImplementation(libs.bundles.testing.common)
     testImplementation(projects.libraries.foundation.coroutines.test)
+
+    ksp(libs.google.hilt.compiler)
 }

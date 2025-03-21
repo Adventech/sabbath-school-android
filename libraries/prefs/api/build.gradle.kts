@@ -27,7 +27,8 @@ plugins {
 }
 
 dependencies {
-    api(projects.libraries.prefs.model)
     api(libs.kotlin.coroutines)
+    api(projects.libraries.prefs.model)
+
     implementation(libs.androidx.annotations)
 }

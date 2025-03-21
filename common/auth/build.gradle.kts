@@ -32,27 +32,26 @@ plugins {
 android { namespace = "app.ss.libraries.auth" }
 
 dependencies {
-    implementation(projects.common.models)
+    implementation(libs.google.hilt.android)
+    implementation(libs.square.moshi.kotlin)
+    implementation(libs.square.okhttp)
+    implementation(libs.square.retrofit)
+    implementation(libs.square.retrofit.converter.moshi)
+    implementation(libs.timber)
     implementation(projects.common.misc)
+    implementation(projects.common.models)
     implementation(projects.common.network)
     implementation(projects.libraries.foundation.android)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.storage.api)
 
-    implementation(libs.google.hilt.android)
-    ksp(libs.google.hilt.compiler)
-    implementation(libs.timber)
-
-    implementation(libs.square.moshi.kotlin)
-    ksp(libs.square.moshi.codegen)
     compileOnly(libs.javax.annotation)
-
-    implementation(libs.square.retrofit.converter.moshi)
-    implementation(libs.square.retrofit)
-    implementation(libs.square.okhttp)
 
     testImplementation(libs.bundles.testing.common)
     testImplementation(projects.libraries.foundation.coroutines.test)
     testImplementation(projects.libraries.storage.test)
     testImplementation(projects.libraries.testUtils)
+
+    ksp(libs.google.hilt.compiler)
+    ksp(libs.square.moshi.codegen)
 }

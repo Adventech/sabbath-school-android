@@ -39,20 +39,18 @@ foundry {
 }
 
 dependencies {
-    implementation(projects.common.translations)
-    implementation(projects.libraries.ui.placeholder)
-
-    implementation(libs.timber)
-    implementation(libs.kotlin.coroutines)
-
-    implementation(libs.androidx.core)
-    implementation(libs.androidx.compose.material)
-    implementation(libs.snapper)
-
     api(platform(libs.androidx.compose.bom))
-    api(libs.coil.compose)
     api(libs.bundles.compose)
     api(libs.bundles.compose.tooling)
+    api(libs.coil.compose)
     api(libs.haze)
     api(libs.haze.materials)
+
+    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.core)
+    implementation(libs.kotlin.coroutines)
+    implementation(libs.snapper)
+    implementation(libs.timber)
+    implementation(projects.common.translations)
+    implementation(projects.libraries.ui.placeholder)
 }

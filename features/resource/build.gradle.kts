@@ -42,6 +42,10 @@ ksp {
 }
 
 dependencies {
+    implementation(libs.coil.compose)
+    implementation(libs.google.hilt.android)
+    implementation(libs.joda.android)
+    implementation(libs.markwon.core)
     implementation(projects.common.design)
     implementation(projects.common.designCompose)
     implementation(projects.common.misc)
@@ -51,14 +55,9 @@ dependencies {
     implementation(projects.libraries.pdf.api)
     implementation(projects.services.resources.api)
 
-    implementation(libs.coil.compose)
-    implementation(libs.google.hilt.android)
-    implementation(libs.joda.android)
-    implementation(libs.markwon.core)
-
-    ksp(libs.google.hilt.compiler)
-    ksp(libs.circuit.codegen)
-
     testImplementation(libs.bundles.testing.common)
+
+    ksp(libs.circuit.codegen)
+    ksp(libs.google.hilt.compiler)
 }
 

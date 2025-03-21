@@ -31,9 +31,9 @@ plugins {
 android { namespace = "ss.misc" }
 
 dependencies {
+    implementation(libs.google.hilt.android)
     implementation(libs.joda.android)
     implementation(libs.timber)
 
-    implementation(libs.google.hilt.android)
     ksp(libs.google.hilt.compiler)
 }

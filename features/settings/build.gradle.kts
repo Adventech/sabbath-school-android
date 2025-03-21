@@ -42,6 +42,8 @@ ksp {
 }
 
 dependencies {
+    implementation(libs.google.hilt.android)
+    implementation(libs.timber)
     implementation(projects.common.auth)
     implementation(projects.common.core)
     implementation(projects.common.designCompose)
@@ -51,14 +53,11 @@ dependencies {
     implementation(projects.libraries.lessons.api)
     implementation(projects.libraries.prefs.api)
 
-    implementation(libs.google.hilt.android)
-    ksp(libs.google.hilt.compiler)
-    ksp(libs.circuit.codegen)
-
-    implementation(libs.timber)
-
     testImplementation(libs.bundles.testing.common)
-    testImplementation(projects.libraries.testUtils)
     testImplementation(projects.libraries.foundation.coroutines.test)
     testImplementation(projects.libraries.lessons.test)
+    testImplementation(projects.libraries.testUtils)
+
+    ksp(libs.circuit.codegen)
+    ksp(libs.google.hilt.compiler)
 }

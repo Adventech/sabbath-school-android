@@ -34,10 +34,11 @@ foundry {
 }
 
 dependencies {
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.google.hilt.android)
     implementation(projects.common.core)
     implementation(projects.common.designCompose)
     implementation(projects.libraries.circuit.api)
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.google.hilt.android)
+
     ksp(libs.google.hilt.compiler)
 }

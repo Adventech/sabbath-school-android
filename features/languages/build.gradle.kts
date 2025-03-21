@@ -40,6 +40,10 @@ ksp {
 }
 
 dependencies {
+    implementation(libs.androidx.lifecycle.extensions)
+    implementation(libs.google.hilt.android)
+    implementation(libs.kotlinx.collectionsImmutable)
+    implementation(libs.timber)
     implementation(projects.common.designCompose)
     implementation(projects.common.translations)
     implementation(projects.libraries.appWidget.api)
@@ -47,13 +51,9 @@ dependencies {
     implementation(projects.libraries.prefs.api)
     implementation(projects.services.resources.api)
 
-    implementation(libs.androidx.lifecycle.extensions)
-    implementation(libs.google.hilt.android)
-    ksp(libs.google.hilt.compiler)
-    ksp(libs.circuit.codegen)
-    implementation(libs.kotlinx.collectionsImmutable)
-    implementation(libs.timber)
-
     testImplementation(libs.bundles.testing.common)
     testImplementation(projects.libraries.foundation.coroutines.test)
+
+    ksp(libs.circuit.codegen)
+    ksp(libs.google.hilt.compiler)
 }

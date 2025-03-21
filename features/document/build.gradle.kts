@@ -43,6 +43,10 @@ ksp {
 }
 
 dependencies {
+    implementation(libs.coil.compose)
+    implementation(libs.google.hilt.android)
+    implementation(libs.joda.android)
+    implementation(libs.timber)
     implementation(projects.common.designCompose)
     implementation(projects.common.misc)
     implementation(projects.common.translations)
@@ -55,13 +59,9 @@ dependencies {
     implementation(projects.services.media.ui)
     implementation(projects.services.resources.api)
 
-    implementation(libs.coil.compose)
-    implementation(libs.google.hilt.android)
-    implementation(libs.joda.android)
-    implementation(libs.timber)
-    ksp(libs.google.hilt.compiler)
-    ksp(libs.circuit.codegen)
-
     testImplementation(libs.bundles.testing.common)
+
+    ksp(libs.circuit.codegen)
+    ksp(libs.google.hilt.compiler)
 }
 

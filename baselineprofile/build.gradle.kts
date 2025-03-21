@@ -22,10 +22,10 @@ baselineProfile {
 }
 
 dependencies {
-    implementation(libs.test.androidx.ext)
-    implementation(libs.test.androidx.espresso.core)
-    implementation(libs.test.androidx.uiautomator)
     implementation(libs.test.androidx.benchmark.macro)
+    implementation(libs.test.androidx.espresso.core)
+    implementation(libs.test.androidx.ext)
+    implementation(libs.test.androidx.uiautomator)
 }
 
 androidComponents {

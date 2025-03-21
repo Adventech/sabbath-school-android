@@ -30,8 +30,10 @@ plugins {
 android { namespace = "ss.lessons.model" }
 
 dependencies {
-    api(projects.common.models)
     api(libs.androidx.annotations)
+    api(projects.common.models)
+
     implementation(libs.square.moshi.kotlin)
+
     ksp(libs.square.moshi.codegen)
 }

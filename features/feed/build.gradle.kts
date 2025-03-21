@@ -39,6 +39,8 @@ ksp {
 }
 
 dependencies {
+    implementation(libs.coil.compose)
+    implementation(libs.google.hilt.android)
     implementation(projects.common.auth)
     implementation(projects.common.core)
     implementation(projects.common.designCompose)
@@ -47,11 +49,9 @@ dependencies {
     implementation(projects.services.auth.overlay)
     implementation(projects.services.resources.api)
 
-    implementation(libs.coil.compose)
-    implementation(libs.google.hilt.android)
-    ksp(libs.google.hilt.compiler)
-    ksp(libs.circuit.codegen)
-
     testImplementation(libs.bundles.testing.common)
+
+    ksp(libs.circuit.codegen)
+    ksp(libs.google.hilt.compiler)
 }
 

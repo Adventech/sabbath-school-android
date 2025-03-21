@@ -31,6 +31,11 @@ plugins {
 dependencies {
     api(projects.services.resources.api)
 
+    implementation(libs.androidx.annotations)
+    implementation(libs.androidx.hilt.work)
+    implementation(libs.androidx.work)
+    implementation(libs.google.hilt.android)
+    implementation(libs.timber)
     implementation(projects.common.misc)
     implementation(projects.common.network)
     implementation(projects.libraries.foundation.android)
@@ -38,12 +43,6 @@ dependencies {
     implementation(projects.libraries.prefs.api)
     implementation(projects.libraries.storage.api)
 
-    implementation(libs.androidx.annotations)
-    implementation(libs.androidx.hilt.work)
-    implementation(libs.androidx.work)
-    implementation(libs.google.hilt.android)
-    implementation(libs.timber)
-
-    ksp(libs.google.hilt.compiler)
     ksp(libs.androidx.hilt.compiler)
+    ksp(libs.google.hilt.compiler)
 }
