@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -61,8 +61,6 @@ import ss.resources.impl.work.DownloadResourceWork
 import timber.log.Timber
 import java.util.Locale
 import javax.inject.Inject
-import kotlin.collections.map
-import kotlin.collections.orEmpty
 
 interface SyncHelper {
     fun syncLanguages()
@@ -77,7 +75,7 @@ interface SyncHelper {
 }
 
 internal class SyncHelperImpl @Inject constructor(
-    @ApplicationContext private val appContext: Context,
+    @param:ApplicationContext private val appContext: Context,
     private val resourcesApi: ResourcesApi,
     private val feedDao: FeedDao,
     private val feedGroupDao: FeedGroupDao,
