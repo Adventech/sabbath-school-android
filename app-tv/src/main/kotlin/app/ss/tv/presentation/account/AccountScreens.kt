@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,7 @@ import app.ss.translations.R as L10nR
 
 enum class AccountScreens(
     val icon: ImageVector,
-    @StringRes val title: Int,
+    @param:StringRes val title: Int,
     val circuitScreen: Screen
 ) {
     About(Icons.Rounded.Info, L10nR.string.ss_about, AboutScreen),

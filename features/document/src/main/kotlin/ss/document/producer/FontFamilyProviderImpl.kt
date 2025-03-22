@@ -38,7 +38,7 @@ internal class FontFamilyProviderImpl @Inject constructor(
     private val repository: ResourcesRepository,
 ) : FontFamilyProvider {
 
-    override fun invoke(name: String, defaultFontFamily: FontFamily): Flow<FontFamily> {
+    override fun invoke(name: String, default: FontFamily): Flow<FontFamily> {
         return repository.fontFile(name)
             .map { model ->
                 model?.let {
@@ -46,9 +46,9 @@ internal class FontFamilyProviderImpl @Inject constructor(
                     val (weight, style) = attributes.style()
 
                     FontFamily(Font(file, weight, style))
-                } ?: defaultFontFamily
+                } ?: default
             }
-            .catch { emit(defaultFontFamily) }
+            .catch { emit(default) }
     }
 
     private fun ResourceFontAttributes.style(): Pair<FontWeight, FontStyle> {

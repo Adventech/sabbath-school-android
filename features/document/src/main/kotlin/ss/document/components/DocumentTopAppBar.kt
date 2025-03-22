@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -84,7 +84,7 @@ import ss.document.R as DocumentR
 import ss.libraries.media.resources.R as MediaR
 
 enum class DocumentTopAppBarAction(
-    @DrawableRes val iconRes: Int,
+    @param:DrawableRes val iconRes: Int,
     val title: Int,
     val primary: Boolean,
 ) {
