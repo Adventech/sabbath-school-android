@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,7 @@ data class UserModel(
     val uid: String,
     val displayName: String?,
     val email: String?,
-    @Json(name = "photoURL") val photo: String?,
+    @param:Json(name = "photoURL") val photo: String?,
     val emailVerified: Boolean,
     val phoneNumber: String?,
     val isAnonymous: Boolean,

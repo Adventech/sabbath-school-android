@@ -65,7 +65,7 @@ interface SettingsRepository {
 
 @Singleton
 internal class SettingsRepositoryImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
+    @param:ApplicationContext private val context: Context,
     private val appConfig: AppConfig,
     private val authRepository: AuthRepository,
     private val dailyReminder: DailyReminder,

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,8 +39,8 @@ import app.ss.translations.R.string as L10n
  */
 @Immutable
 data class ResIcon(
-    @DrawableRes val res: Int,
-    @StringRes val contentDescription: Int?
+    @param:DrawableRes val res: Int,
+    @param:StringRes val contentDescription: Int?
 ) : IconSlot {
 
     @Composable

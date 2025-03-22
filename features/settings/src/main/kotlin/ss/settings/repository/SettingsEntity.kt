@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,7 @@ import app.ss.translations.R as L10nR
 
 sealed interface SettingsEntity {
 
-    sealed class About(@StringRes val resId: Int) : SettingsEntity {
+    sealed class About(@param:StringRes val resId: Int) : SettingsEntity {
         data object Facebook : About(L10nR.string.ss_settings_facebook_url)
         data object Github : About(L10nR.string.ss_settings_github_url)
         data object Instagram : About(L10nR.string.ss_settings_instagram_url)
