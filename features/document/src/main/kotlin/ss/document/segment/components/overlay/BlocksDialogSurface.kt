@@ -22,6 +22,14 @@
 
 package ss.document.segment.components.overlay
 
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
+import android.view.View
+import android.view.Window
+import android.view.WindowManager
+import android.widget.FrameLayout
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,15 +38,18 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.window.DialogWindowProvider
 import app.ss.design.compose.theme.SsTheme
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.ReaderStyleConfig
 import io.adventech.blockkit.ui.style.background
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun BlocksDialogSurface(
     readerStyle: ReaderStyleConfig,
@@ -48,21 +59,74 @@ internal fun BlocksDialogSurface(
 ) {
     CompositionLocalProvider(LocalReaderStyle provides readerStyle) {
         // Revert back to bottom sheet when this issue is fixed: https://issuetracker.google.com/issues/353304855
-        BasicAlertDialog(
+        FullScreenDialog(
             onDismissRequest = { onDismiss() },
             modifier = modifier,
-            properties = DialogProperties(
-                usePlatformDefaultWidth = false,
-            )
         ) {
             Surface(
                 modifier = Modifier
                     .safeDrawingPadding()
-                    .padding(horizontal = SsTheme.dimens.grid_4),
+                    .padding(horizontal = SsTheme.dimens.grid_4)
+                    .padding(bottom = 16.dp),
                 shape = RoundedCornerShape(12.dp),
                 color = readerStyle.theme.background(),
-                content = content
+                content = content,
             )
         }
     }
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FullScreenDialog(
+    onDismissRequest: () -> Unit,
+    modifier: Modifier = Modifier,
+    properties: DialogProperties = DialogProperties(),
+    content: @Composable () -> Unit
+) {
+    BasicAlertDialog(
+        onDismissRequest = onDismissRequest,
+        modifier = modifier,
+        properties = DialogProperties(
+            dismissOnBackPress = properties.dismissOnBackPress,
+            dismissOnClickOutside = properties.dismissOnClickOutside,
+            securePolicy = properties.securePolicy,
+            usePlatformDefaultWidth = true, // must be true as a part of work around
+            decorFitsSystemWindows = false
+        ),
+        content = {
+            val activityWindow = getActivityWindow()
+            val dialogWindow = getDialogWindow()
+            val parentView = LocalView.current.parent as View
+            SideEffect {
+                if (activityWindow != null && dialogWindow != null) {
+                    val attributes = WindowManager.LayoutParams()
+                    attributes.copyFrom(activityWindow.attributes)
+                    attributes.type = dialogWindow.attributes.type
+                    dialogWindow.attributes = attributes
+                    parentView.layoutParams = FrameLayout.LayoutParams(activityWindow.decorView.width, activityWindow.decorView.height)
+                }
+            }
+
+
+            Surface(modifier = Modifier.fillMaxSize(), color = Color.Transparent) {
+                content()
+            }
+        }
+    )
+}
+
+// Window utils
+@Composable
+private fun getDialogWindow(): Window? = (LocalView.current.parent as? DialogWindowProvider)?.window
+
+@Composable
+private fun getActivityWindow(): Window? = LocalView.current.context.getActivityWindow()
+
+private tailrec fun Context.getActivityWindow(): Window? =
+    when (this) {
+        is Activity -> window
+        is ContextWrapper -> baseContext.getActivityWindow()
+        else -> null
+    }
+
