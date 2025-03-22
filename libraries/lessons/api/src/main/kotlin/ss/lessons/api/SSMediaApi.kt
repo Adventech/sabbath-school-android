@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,7 @@ interface SSMediaApi {
     @GET("api/v1/{lang}/quarterlies/{quarterly_id}/audio.json")
     suspend fun getAudio(
         @Path("lang") language: String,
-        @Path("quarterly_id") quarterlyId: String
+        @Path("quarterly_id", encoded = true) quarterlyId: String
     ): Response<List<SSAudio>>
 
     @GET("api/v2/video/languages.json")
