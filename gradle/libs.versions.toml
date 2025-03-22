@@ -50,6 +50,7 @@ moshix = "0.29.0"
 pdfkit = "2024.9.1"
 robolectric = "4.14.1"
 saket-extendedspans = "1.4.0"
+saket-telephoto = "0.15.1"
 snapper = "0.3.0"
 sortDependencies = "0.14"
 spotless = "7.0.2"
@@ -143,6 +144,7 @@ haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
 haze-materials = { module = "dev.chrisbanes.haze:haze-materials", version.ref = "haze" }
 material3-adaptive-navigation-suite = { module = "androidx.compose.material3:material3-adaptive-navigation-suite", version.ref = "material3-adaptive-navigation-suite" }
 saket-extendedspans = { module = "me.saket.extendedspans:extendedspans", version.ref = "saket-extendedspans" }
+saket-telephoto = { module = "me.saket.telephoto:zoomable-image-coil", version.ref = "saket-telephoto" }
 
 javax-annotation = { module = "javax.annotation:javax.annotation-api", version.ref = "javax-annotation" }
 joda-android = { module = "net.danlew:android.joda", version.ref = "joda-android" }
