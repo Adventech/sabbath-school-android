@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -45,41 +45,41 @@ interface ResourcesApi {
     suspend fun languages(): Response<List<LanguageResponse>>
 
     @GET("api/v3/{language}/{type}/index.json")
-    suspend fun feed(@Path("language") language: String, @Path("type") type: String): Response<FeedResponse>
+    suspend fun feed(@Path("language", encoded = true) language: String, @Path("type", encoded = true) type: String): Response<FeedResponse>
 
     @GET("api/v3/{language}/{type}/feeds/{groupId}/index.json")
     suspend fun feedGroup(
-        @Path("language") language: String,
-        @Path("type") type: String,
-        @Path("groupId") groupId: String,
+        @Path("language", encoded = true) language: String,
+        @Path("type", encoded = true) type: String,
+        @Path("groupId", encoded = true) groupId: String,
     ): Response<FeedGroup>
 
     @GET("api/v3/{index}/sections/index.json")
-    suspend fun resource(@Path("index") index: String): Response<Resource>
+    suspend fun resource(@Path("index", encoded = true) index: String): Response<Resource>
 
     @GET("api/v3/{index}/index.json")
-    suspend fun document(@Path("index") index: String): Response<ResourceDocument>
+    suspend fun document(@Path("index", encoded = true) index: String): Response<ResourceDocument>
 
     @GET("api/v3/{index}/index.json")
-    suspend fun segment(@Path("index") index: String): Response<Segment>
+    suspend fun segment(@Path("index", encoded = true) index: String): Response<Segment>
 
     @GET("api/v3/resources/user/input/document/{documentId}")
-    suspend fun userInput(@Path("documentId") documentId: String): Response<List<UserInput>>
+    suspend fun userInput(@Path("documentId", encoded = true) documentId: String): Response<List<UserInput>>
 
     @POST("api/v3/resources/user/input/{inputType}/{documentId}/{blockId}")
     suspend fun saveUserInput(
-        @Path("inputType") inputType: String,
-        @Path("documentId") documentId: String,
-        @Path("blockId") blockId: String,
+        @Path("inputType", encoded = true) inputType: String,
+        @Path("documentId", encoded = true) documentId: String,
+        @Path("blockId", encoded = true) blockId: String,
         @Body userInput: UserInputRequest
     )
 
     @GET("api/v3/{index}/audio.json")
-    suspend fun audio(@Path("index") index: String): Response<List<AudioAux>>
+    suspend fun audio(@Path("index", encoded = true) index: String): Response<List<AudioAux>>
 
     @GET("api/v3/{index}/video.json")
-    suspend fun video(@Path("index") index: String): Response<List<VideoAux>>
+    suspend fun video(@Path("index", encoded = true) index: String): Response<List<VideoAux>>
 
     @GET("api/v3/{index}/pdf.json")
-    suspend fun pdf(@Path("index") index: String): Response<List<PDFAux>>
+    suspend fun pdf(@Path("index", encoded = true) index: String): Response<List<PDFAux>>
 }

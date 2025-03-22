@@ -31,6 +31,6 @@ interface SSLessonsApi {
 
     @GET("api/v2/{lesson}/index.json")
     suspend fun getLessonInfo(
-        @Path("lesson") lessonPath: String,
+        @Path("lesson", encoded = true) lessonPath: String,
     ): Response<SSLessonInfo>
 }

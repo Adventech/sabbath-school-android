@@ -32,6 +32,6 @@ interface SSQuarterliesApi {
     @GET("api/v2/{lang}/quarterlies/{id}/index.json")
     suspend fun getQuarterlyInfo(
         @Path("lang") language: String,
-        @Path("id") id: String
+        @Path("id", encoded = true) id: String
     ): Response<SSQuarterlyInfo>
 }
