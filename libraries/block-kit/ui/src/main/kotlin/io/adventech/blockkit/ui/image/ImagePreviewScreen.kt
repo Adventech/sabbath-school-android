@@ -33,13 +33,11 @@ data class ImagePreviewScreen(
     val id: String,
     val src: String,
     val caption: String?,
-    val aspectRatio: Float,
 ): Screen
 
 data class ImagePreviewScreenState(
     val src: String,
     val caption: String?,
-    val aspectRatio: Float,
     val eventSink: (Event) -> Unit,
 ): CircuitUiState {
     sealed interface Event : CircuitUiEvent {

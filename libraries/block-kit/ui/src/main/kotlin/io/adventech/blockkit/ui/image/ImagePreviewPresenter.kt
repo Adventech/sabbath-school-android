@@ -55,7 +55,6 @@ class ImagePreviewPresenter @AssistedInject constructor(
         return State(
             src = screen.src,
             caption = screen.caption,
-            aspectRatio = screen.aspectRatio,
         ) { event ->
             when (event) {
                 Event.Close -> navigator.pop()
