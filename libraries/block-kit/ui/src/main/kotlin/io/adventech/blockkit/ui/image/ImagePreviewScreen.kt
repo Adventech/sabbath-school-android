@@ -22,6 +22,7 @@
 
 package io.adventech.blockkit.ui.image
 
+import android.content.Context
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
@@ -29,6 +30,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class ImagePreviewScreen(
+    val id: String,
     val src: String,
     val caption: String?,
     val aspectRatio: Float,
@@ -42,6 +44,6 @@ data class ImagePreviewScreenState(
 ): CircuitUiState {
     sealed interface Event : CircuitUiEvent {
         object Close : Event
-        object Download : Event
+        data class Download(val context: Context) : Event
     }
 }
