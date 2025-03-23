@@ -108,7 +108,6 @@ internal fun ImageContent(blockItem: BlockItem.Image, modifier: Modifier = Modif
             id = blockItem.id,
             data = blockItem.src,
             contentDescription = blockItem.caption,
-            aspectRatio = aspectRatio,
             modifier = Modifier,
             onDismiss = { showPreview = false },
         )
@@ -120,7 +119,6 @@ private fun ImageContentPreview(
     id: String,
     data: String,
     contentDescription: String?,
-    aspectRatio: Float,
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit = {},
 ) {
@@ -130,7 +128,7 @@ private fun ImageContentPreview(
         windowLightStatusBar = false,
     ) {
         CircuitContent(
-            screen = ImagePreviewScreen(id, data, contentDescription, aspectRatio),
+            screen = ImagePreviewScreen(id, data, contentDescription),
             onNavEvent = { navEvent ->
                 when (navEvent) {
                     is NavEvent.Pop -> onDismiss()
