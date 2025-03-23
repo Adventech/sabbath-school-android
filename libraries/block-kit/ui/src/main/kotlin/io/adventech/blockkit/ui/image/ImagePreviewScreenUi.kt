@@ -254,7 +254,6 @@ private fun DialogPreview() {
                 state = ImagePreviewScreenState(
                     src = "https://images.unsplash.com/photo-1632210000000-0b1b3b3b3b3b",
                     caption = "Lorem ipsum dolor sit amet consectetur adipiscing elit",
-                    aspectRatio = 16 / 9f,
                     eventSink = {},
                 ),
             )
