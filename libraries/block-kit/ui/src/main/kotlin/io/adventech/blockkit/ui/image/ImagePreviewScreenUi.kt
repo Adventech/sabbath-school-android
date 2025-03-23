@@ -22,6 +22,10 @@
 
 package io.adventech.blockkit.ui.image
 
+import android.Manifest
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
@@ -41,9 +45,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -67,7 +76,19 @@ import app.ss.translations.R as L10nR
 @CircuitInject(ImagePreviewScreen::class, SingletonComponent::class)
 @Composable
 fun ImagePreviewScreenUi(state: ImagePreviewScreenState, modifier: Modifier = Modifier) {
+    val context = LocalContext.current
     val zoomableState = rememberZoomableImageState(rememberZoomableState(zoomSpec = zoomSpec))
+    var hasStoragePermission by remember {
+        // Storage permission is not required on Android R and above.
+        mutableStateOf(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+    }
+    val launcher = rememberLauncherForActivityResult(RequestPermission()) { wasGranted ->
+        hasStoragePermission = wasGranted
+
+        if (wasGranted) {
+            state.eventSink(Event.Download(context))
+        }
+    }
 
     Box(
         modifier = modifier
@@ -88,7 +109,13 @@ fun ImagePreviewScreenUi(state: ImagePreviewScreenState, modifier: Modifier = Mo
 
         TopRowActions(
             onBack = { state.eventSink(Event.Close) },
-            onDownload = { state.eventSink(Event.Download) },
+            onDownload = {
+                if (hasStoragePermission) {
+                    state.eventSink(Event.Download(context))
+                } else {
+                    launcher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                }
+            },
             modifier = Modifier
                 .safeDrawingPadding()
                 .displayCutoutPadding()

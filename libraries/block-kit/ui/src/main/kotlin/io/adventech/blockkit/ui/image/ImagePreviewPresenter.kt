@@ -22,7 +22,12 @@
 
 package io.adventech.blockkit.ui.image
 
+import android.app.DownloadManager
+import android.content.Context
+import android.os.Environment
+import android.widget.Toast
 import androidx.compose.runtime.Composable
+import androidx.core.net.toUri
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -31,6 +36,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.ui.image.ImagePreviewScreenState.Event
+import app.ss.translations.R as L10nR
 import io.adventech.blockkit.ui.image.ImagePreviewScreenState as State
 
 class ImagePreviewPresenter @AssistedInject constructor(
@@ -53,8 +59,23 @@ class ImagePreviewPresenter @AssistedInject constructor(
         ) { event ->
             when (event) {
                 Event.Close -> navigator.pop()
-                Event.Download -> Unit
+                is Event.Download -> downloadImage(event.context, screen.src, screen.id)
             }
         }
+    }
+
+    private fun downloadImage(context: Context, url: String, fileName: String) {
+        val downloadTitle = "$fileName.png"
+        val request = DownloadManager.Request(url.toUri())
+            .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
+            .setTitle(downloadTitle)
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            .setAllowedOverMetered(true)
+            .setAllowedOverRoaming(false)
+            .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, downloadTitle)
+        val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        downloadManager.enqueue(request)
+
+        Toast.makeText(context, context.getString(L10nR.string.ss_downloading), Toast.LENGTH_SHORT).show()
     }
 }
