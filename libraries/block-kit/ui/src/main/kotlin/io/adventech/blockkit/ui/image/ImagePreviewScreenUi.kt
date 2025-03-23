@@ -45,6 +45,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -70,6 +71,10 @@ import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.ui.image.ImagePreviewScreenState.Event
 import io.adventech.blockkit.ui.style.LatoFontFamily
 import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
+import kotlinx.coroutines.delay
+import me.saket.telephoto.flick.FlickToDismiss
+import me.saket.telephoto.flick.FlickToDismissState
+import me.saket.telephoto.flick.rememberFlickToDismissState
 import me.saket.telephoto.zoomable.OverzoomEffect
 import me.saket.telephoto.zoomable.ZoomLimit
 import me.saket.telephoto.zoomable.ZoomSpec
@@ -95,6 +100,18 @@ fun ImagePreviewScreenUi(state: ImagePreviewScreenState, modifier: Modifier = Mo
         }
     }
 
+    val flickState = rememberFlickToDismissState()
+
+    LaunchedEffect(flickState.gestureState) {
+        when (val gestureState = flickState.gestureState) {
+            is FlickToDismissState.GestureState.Dismissing -> {
+                delay(gestureState.animationDuration / 2)
+                state.eventSink(Event.Close)
+            }
+            else -> Unit
+        }
+    }
+
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -102,13 +119,15 @@ fun ImagePreviewScreenUi(state: ImagePreviewScreenState, modifier: Modifier = Mo
         contentAlignment = Alignment.Center,
     ) {
 
-        ZoomableAsyncImage(
-            data = state.src,
-            contentDescription = state.caption,
-            modifier = Modifier
-                .fillMaxSize()
-                .zIndex(1f),
-        )
+        FlickToDismiss(flickState) {
+            ZoomableAsyncImage(
+                data = state.src,
+                contentDescription = state.caption,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .zIndex(1f),
+            )
+        }
 
         TopRowActions(
             onBack = { state.eventSink(Event.Close) },
