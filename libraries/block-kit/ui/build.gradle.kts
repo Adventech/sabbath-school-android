@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.haze.materials)
     implementation(libs.saket.extendedspans)
     implementation(libs.saket.telephoto)
+    implementation(libs.saket.telephoto.flick)
     implementation(libs.timber)
     implementation(projects.common.translations)
     implementation(projects.libraries.circuit.api)
