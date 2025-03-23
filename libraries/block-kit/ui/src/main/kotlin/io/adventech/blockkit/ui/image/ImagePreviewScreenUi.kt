@@ -25,6 +25,7 @@ package io.adventech.blockkit.ui.image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
@@ -32,18 +33,20 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowCircleDown
 import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
@@ -58,7 +61,9 @@ import me.saket.telephoto.zoomable.ZoomSpec
 import me.saket.telephoto.zoomable.coil.ZoomableAsyncImage
 import me.saket.telephoto.zoomable.rememberZoomableImageState
 import me.saket.telephoto.zoomable.rememberZoomableState
+import app.ss.translations.R as L10nR
 
+@OptIn(ExperimentalMaterial3Api::class)
 @CircuitInject(ImagePreviewScreen::class, SingletonComponent::class)
 @Composable
 fun ImagePreviewScreenUi(state: ImagePreviewScreenState, modifier: Modifier = Modifier) {
@@ -81,54 +86,78 @@ fun ImagePreviewScreenUi(state: ImagePreviewScreenState, modifier: Modifier = Mo
             clipToBounds = false,
         )
 
-        val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
-
-        IconButton(
-            onClick = { state.eventSink(Event.Close) },
+        TopRowActions(
+            onBack = { state.eventSink(Event.Close) },
+            onDownload = { state.eventSink(Event.Download) },
             modifier = Modifier
-                .align(if (isRtl) Alignment.TopEnd else Alignment.TopStart)
                 .safeDrawingPadding()
-                .zIndex(2f)
-        ) {
-            Icon(
-                imageVector = Icons.Rounded.Close,
-                contentDescription = null,
-                tint = Color.White,
-            )
-        }
+                .displayCutoutPadding()
+                .align(Alignment.TopCenter)
+                .zIndex(2f),
+        )
 
-        IconButton(
-            onClick = {
-                state.eventSink(Event.Download)
-            },
+        ImageCaption(
+            caption = state.caption,
             modifier = Modifier
-                .align(if (isRtl) Alignment.TopStart else Alignment.TopEnd)
-                .safeDrawingPadding()
-                .zIndex(2f)
-        ) {
-            Icon(
-                imageVector = Icons.Rounded.ArrowCircleDown,
-                contentDescription = null,
-                tint = Color.White,
-            )
-        }
+                .align(Alignment.BottomCenter)
+                .zIndex(3f),
+        )
+    }
+}
 
-        state.caption?.takeUnless { it.isEmpty() }?.let {
-            Text(
-                text = it,
-                modifier = Modifier
-                    .safeDrawingPadding()
-                    .padding(bottom = 20.dp)
-                    .align(Alignment.BottomCenter)
-                    .background(Color.Black.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
-                    .padding(16.dp)
-                    .zIndex(3f),
-                fontSize = 14.sp,
-                fontStyle = FontStyle.Italic,
-                fontFamily = LatoFontFamily,
-                color = Color.White.copy(alpha = 0.7f),
-            )
-        }
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun TopRowActions(
+    onBack: () -> Unit,
+    onDownload: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    TopAppBar(
+        title = {},
+        modifier = modifier,
+        navigationIcon = {
+            IconButton(
+                onClick = onBack,
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Close,
+                    contentDescription = stringResource(L10nR.string.ss_action_back),
+                )
+            }
+        },
+        actions = {
+            IconButton(
+                onClick = onDownload,
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.ArrowCircleDown,
+                    contentDescription = stringResource(L10nR.string.ss_action_download),
+                )
+            }
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color.Transparent,
+            navigationIconContentColor = Color.White,
+            actionIconContentColor = Color.White
+        )
+    )
+}
+
+@Composable
+private fun ImageCaption(caption: String?, modifier: Modifier = Modifier) {
+    caption?.takeUnless { it.isEmpty() }?.let {
+        Text(
+            text = it,
+            modifier = modifier
+                .safeDrawingPadding()
+                .padding(bottom = 20.dp)
+                .background(Color.Black.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                .padding(16.dp),
+            fontSize = 14.sp,
+            fontStyle = FontStyle.Italic,
+            fontFamily = LatoFontFamily,
+            color = Color.White.copy(alpha = 0.7f),
+        )
     }
 }
 
