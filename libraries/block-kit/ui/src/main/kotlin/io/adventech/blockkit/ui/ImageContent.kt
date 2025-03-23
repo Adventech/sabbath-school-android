@@ -105,6 +105,7 @@ internal fun ImageContent(blockItem: BlockItem.Image, modifier: Modifier = Modif
 
     if (showPreview) {
         ImageContentPreview(
+            id = blockItem.id,
             data = blockItem.src,
             contentDescription = blockItem.caption,
             aspectRatio = aspectRatio,
@@ -116,6 +117,7 @@ internal fun ImageContent(blockItem: BlockItem.Image, modifier: Modifier = Modif
 
 @Composable
 private fun ImageContentPreview(
+    id: String,
     data: String,
     contentDescription: String?,
     aspectRatio: Float,
@@ -124,7 +126,7 @@ private fun ImageContentPreview(
 ) {
     FullScreenDialog(onDismissRequest = onDismiss, modifier = modifier) {
         CircuitContent(
-            screen = ImagePreviewScreen(data, contentDescription, aspectRatio),
+            screen = ImagePreviewScreen(id, data, contentDescription, aspectRatio),
             onNavEvent = { navEvent ->
                 when (navEvent) {
                     is NavEvent.Pop -> onDismiss()
