@@ -29,6 +29,7 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.FrameLayout
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,6 +41,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.DialogWindowProvider
+import androidx.core.view.WindowCompat
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,6 +49,7 @@ fun FullScreenDialog(
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
     properties: DialogProperties = DialogProperties(),
+    windowLightStatusBar: Boolean = !isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
     BasicAlertDialog(
@@ -70,9 +73,9 @@ fun FullScreenDialog(
                     attributes.type = dialogWindow.attributes.type
                     dialogWindow.attributes = attributes
                     parentView.layoutParams = FrameLayout.LayoutParams(activityWindow.decorView.width, activityWindow.decorView.height)
+                    WindowCompat.getInsetsController(dialogWindow, parentView).isAppearanceLightStatusBars = windowLightStatusBar
                 }
             }
-
 
             Surface(modifier = Modifier.fillMaxSize(), color = Color.Transparent) {
                 content()
