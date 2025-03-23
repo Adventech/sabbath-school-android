@@ -26,9 +26,9 @@ import android.Manifest
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -52,6 +52,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
@@ -59,6 +60,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import coil.size.Scale
+import coil.size.Size
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.ui.image.ImagePreviewScreenState.Event
@@ -67,9 +73,9 @@ import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
 import me.saket.telephoto.zoomable.OverzoomEffect
 import me.saket.telephoto.zoomable.ZoomLimit
 import me.saket.telephoto.zoomable.ZoomSpec
-import me.saket.telephoto.zoomable.coil.ZoomableAsyncImage
-import me.saket.telephoto.zoomable.rememberZoomableImageState
+import me.saket.telephoto.zoomable.ZoomableContentLocation
 import me.saket.telephoto.zoomable.rememberZoomableState
+import me.saket.telephoto.zoomable.zoomable
 import app.ss.translations.R as L10nR
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -77,7 +83,6 @@ import app.ss.translations.R as L10nR
 @Composable
 fun ImagePreviewScreenUi(state: ImagePreviewScreenState, modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    val zoomableState = rememberZoomableImageState(rememberZoomableState(zoomSpec = zoomSpec))
     var hasStoragePermission by remember {
         // Storage permission is not required on Android R and above.
         mutableStateOf(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
@@ -98,13 +103,11 @@ fun ImagePreviewScreenUi(state: ImagePreviewScreenState, modifier: Modifier = Mo
     ) {
 
         ZoomableAsyncImage(
-            model = state.src,
+            data = state.src,
             contentDescription = state.caption,
             modifier = Modifier
-                .aspectRatio(state.aspectRatio)
+                .fillMaxSize()
                 .zIndex(1f),
-            state = zoomableState,
-            clipToBounds = false,
         )
 
         TopRowActions(
@@ -186,6 +189,39 @@ private fun ImageCaption(caption: String?, modifier: Modifier = Modifier) {
             color = Color.White.copy(alpha = 0.7f),
         )
     }
+}
+
+@Composable
+private fun ZoomableAsyncImage(
+    data: String?,
+    contentDescription: String?,
+    modifier: Modifier = Modifier,
+) {
+    val painter = rememberAsyncImagePainter(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(data)
+            .crossfade(true)
+            .size(Size.ORIGINAL)
+            .scale(scale = Scale.FIT)
+            .build()
+    )
+    val zoomableState = rememberZoomableState(zoomSpec)
+
+    when (painter.state) {
+        is AsyncImagePainter.State.Success -> {
+            zoomableState.setContentLocation(
+                ZoomableContentLocation.scaledInsideAndCenterAligned(painter.intrinsicSize)
+            )
+        }
+        else -> Unit
+    }
+
+    Image(
+        painter = painter,
+        contentDescription = contentDescription,
+        modifier = modifier.zoomable(zoomableState),
+        contentScale = ContentScale.Inside,
+    )
 }
 
 private val zoomSpec = ZoomSpec(maximum = ZoomLimit(factor = 4f, overzoomEffect = OverzoomEffect.RubberBanding))

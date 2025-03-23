@@ -144,7 +144,8 @@ haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
 haze-materials = { module = "dev.chrisbanes.haze:haze-materials", version.ref = "haze" }
 material3-adaptive-navigation-suite = { module = "androidx.compose.material3:material3-adaptive-navigation-suite", version.ref = "material3-adaptive-navigation-suite" }
 saket-extendedspans = { module = "me.saket.extendedspans:extendedspans", version.ref = "saket-extendedspans" }
-saket-telephoto = { module = "me.saket.telephoto:zoomable-image-coil", version.ref = "saket-telephoto" }
+saket-telephoto = { module = "me.saket.telephoto:zoomable", version.ref = "saket-telephoto" }
+saket-telephoto-flick = { module = "me.saket.telephoto:flick", version.ref = "saket-telephoto" }
 
 javax-annotation = { module = "javax.annotation:javax.annotation-api", version.ref = "javax-annotation" }
 joda-android = { module = "net.danlew:android.joda", version.ref = "joda-android" }
