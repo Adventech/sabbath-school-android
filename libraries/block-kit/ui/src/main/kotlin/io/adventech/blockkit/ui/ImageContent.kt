@@ -31,44 +31,32 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.safeDrawingPadding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Scale
+import com.slack.circuit.foundation.CircuitContent
+import com.slack.circuit.foundation.NavEvent
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.ui.dialog.FullScreenDialog
+import io.adventech.blockkit.ui.image.ImagePreviewScreen
 import io.adventech.blockkit.ui.style.LatoFontFamily
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.thenIf
-import me.saket.telephoto.zoomable.OverzoomEffect
-import me.saket.telephoto.zoomable.ZoomLimit
-import me.saket.telephoto.zoomable.ZoomSpec
-import me.saket.telephoto.zoomable.coil.ZoomableAsyncImage
-import me.saket.telephoto.zoomable.rememberZoomableImageState
-import me.saket.telephoto.zoomable.rememberZoomableState
 
 @Composable
 internal fun ImageContent(blockItem: BlockItem.Image, modifier: Modifier = Modifier) {
@@ -128,49 +116,25 @@ internal fun ImageContent(blockItem: BlockItem.Image, modifier: Modifier = Modif
 
 @Composable
 private fun ImageContentPreview(
-    data: String?,
+    data: String,
     contentDescription: String?,
     aspectRatio: Float,
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit = {},
 ) {
-    val zoomableState = rememberZoomableImageState(rememberZoomableState(zoomSpec = zoomSpec))
-
     FullScreenDialog(onDismissRequest = onDismiss, modifier = modifier) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Black),
-            contentAlignment = Alignment.Center,
-        ) {
-
-            ZoomableAsyncImage(
-                model = data,
-                contentDescription = contentDescription,
-                modifier = Modifier.aspectRatio(aspectRatio),
-                state = zoomableState,
-                clipToBounds = false,
-            )
-
-            val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
-
-            IconButton(
-                onClick = onDismiss,
-                modifier = Modifier
-                    .align(if (isRtl) Alignment.TopEnd else Alignment.TopStart)
-                    .safeDrawingPadding()
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.Close,
-                    contentDescription = null,
-                    tint = Color.White,
-                )
-            }
-        }
+        CircuitContent(
+            screen = ImagePreviewScreen(data, contentDescription, aspectRatio),
+            onNavEvent = { navEvent ->
+                when (navEvent) {
+                    is NavEvent.Pop -> onDismiss()
+                    else -> Unit
+                }
+            },
+        )
     }
 }
 
-private val zoomSpec = ZoomSpec(maximum = ZoomLimit(factor = 5f, overzoomEffect = OverzoomEffect.RubberBanding))
 
 @Composable
 internal fun AsyncImageBox(
