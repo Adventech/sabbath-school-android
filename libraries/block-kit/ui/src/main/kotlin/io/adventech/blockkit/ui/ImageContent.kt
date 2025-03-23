@@ -124,7 +124,11 @@ private fun ImageContentPreview(
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit = {},
 ) {
-    FullScreenDialog(onDismissRequest = onDismiss, modifier = modifier) {
+    FullScreenDialog(
+        onDismissRequest = onDismiss,
+        modifier = modifier,
+        windowLightStatusBar = false,
+    ) {
         CircuitContent(
             screen = ImagePreviewScreen(id, data, contentDescription, aspectRatio),
             onNavEvent = { navEvent ->
