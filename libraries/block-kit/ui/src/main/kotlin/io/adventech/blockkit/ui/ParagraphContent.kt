@@ -235,8 +235,13 @@ private fun Preview() {
     }
 }
 
-internal const val MARKDOWN =
-    "Kotlin's **sealed interfaces** provide a structured way to represent restricted hierarchies. For example, if you're designing a UI state system, you might have states like `Loading`, `Fallback`, and `Navigation`. Unlike `sealed class`, a **sealed interface** allows multiple inheritance, making it more flexible. If you prefer an explicit approach, using `None` instead of nullable types can improve clarity. 🚀"
+internal val MARKDOWN =
+    """
+    Kotlin's **sealed interfaces** provide a structured way to represent restricted hierarchies. For example, if you're designing a UI state system, 
+    you might have states like `Loading`, `Fallback`, and `Navigation`. Unlike `sealed class`, a **sealed interface** allows multiple inheritance, making it 
+    more flexible. If you prefer an explicit approach, using `None` instead of nullable types can improve clarity. 🚀
+    See the [official documentation](https://kotlinlang.org/docs/sealed-interfaces.html) for more information. Learn about other topics at https://kotlinlang.org.
+    """.trimIndent()
 private val highlights = listOf(
     Highlight(startIndex = 9, endIndex = 26, length = 17, color = HighlightColor.BLUE),
     Highlight(startIndex = 89, endIndex = 111, length = 22, color = HighlightColor.YELLOW),
