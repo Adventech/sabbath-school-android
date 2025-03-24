@@ -27,7 +27,6 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -85,13 +84,14 @@ internal fun CollapseContent(
             defaultElevation = cardElevation,
         ),
         colors = CardDefaults.elevatedCardColors(
-            containerColor = Styler.genericBackgroundColorForInteractiveBlock()
+            containerColor = Styler.backgroundColor(null)
         )
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .background(Styler.genericBackgroundColorForInteractiveBlock())
                     .clickable { expanded = !expanded }
                     .padding(horizontal = 16.dp, vertical = 12.dp),
                 verticalAlignment = Alignment.CenterVertically,
@@ -122,7 +122,7 @@ internal fun CollapseContent(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(contentBackgroundColor())
+                        .background(contentBackgroundColor)
                         .padding(horizontal = 16.dp, vertical = 12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
@@ -140,10 +140,7 @@ internal fun CollapseContent(
     }
 }
 
-@Composable
-private fun contentBackgroundColor(): Color {
-    return (if (isSystemInDarkTheme()) Color(0xFF636366) else Color(0xFF8E8E93)).copy(alpha = 0.1f)
-}
+private val contentBackgroundColor = Color(0x1A808080)
 
 private val captionBlockTextStyle = TextStyle(
     typeface = null,
