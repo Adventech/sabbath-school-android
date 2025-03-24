@@ -355,6 +355,7 @@ private fun textStyleFromLevel(level: Int): TextStyleSize {
  * @param fontProvider The font provider to use for custom fonts.
  * @param fontSizeProvider The font size provider to use for custom font sizes.
  */
+@OptIn(ExperimentalTextApi::class)
 private fun AnnotatedString.Builder.appendText(
     text: Text,
     fontSize: TextUnit,
@@ -364,25 +365,51 @@ private fun AnnotatedString.Builder.appendText(
 ) {
     val markdown = text.literal
     var lastIndex = 0
-    parser.findAllMatches(markdown).forEach { matchResult ->
+
+    // Find all URL matches
+    val plainUrlMatches = urlRegex.findAll(markdown).toList()
+
+    // Find all parser matches
+    val attributedTextMatches = parser.findAllMatches(markdown).toList()
+
+    // Combine URL matches and parser matches
+    val allMatches = (attributedTextMatches + plainUrlMatches)
+        .sortedBy { it.range.first } // Sort by start index
+
+    allMatches.forEach { matchResult ->
         val matchStart = matchResult.range.first
         val matchEnd = matchResult.range.last
-        val text = matchResult.groups[1]?.value ?: ""
-        val styleJson = matchResult.groups[2]?.value ?: ""
 
         // Append text before the match
         if (matchStart > lastIndex) {
             append(markdown.substring(lastIndex, matchStart))
         }
 
-        // Extract inline text style from JSON
-        val inlineTextStyle = parser.parseJsonStyle(styleJson)
-        if (inlineTextStyle != null) {
-            withStyle(inlineTextStyle.toSpanStyle(fontSize, fontProvider, fontSizeProvider)) {
-                append(text)
+        when (matchResult) {
+            in attributedTextMatches -> {
+                // Handle parser matches
+                val text = matchResult.groups[1]?.value ?: ""
+                val styleJson = matchResult.groups[2]?.value ?: ""
+
+                // Extract inline text style from JSON
+                val inlineTextStyle = parser.parseJsonStyle(styleJson)
+                if (inlineTextStyle != null) {
+                    withStyle(inlineTextStyle.toSpanStyle(fontSize, fontProvider, fontSizeProvider)) {
+                        append(text)
+                    }
+                } else {
+                    append(text)
+                }
             }
-        } else {
-            append(text)
+            in plainUrlMatches -> {
+                // Handle URL matches
+                val webUrl = matchResult.value
+                withStyle(SpanStyle(textDecoration = TextDecoration.Underline)) {
+                    withAnnotation(TAG_URL, webUrl) {
+                        append(webUrl)
+                    }
+                }
+            }
         }
 
         lastIndex = matchEnd + 1
@@ -393,6 +420,9 @@ private fun AnnotatedString.Builder.appendText(
         append(markdown.substring(lastIndex))
     }
 }
+
+// Regex to detect plain web URLs
+private val urlRegex = Regex("""(https?://|www\.)\S+""")
 
 private fun io.adventech.blockkit.model.TextStyle.toSpanStyle(
     defaultFontSize: TextUnit,
