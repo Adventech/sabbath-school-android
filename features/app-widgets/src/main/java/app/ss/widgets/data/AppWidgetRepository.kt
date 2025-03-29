@@ -72,17 +72,12 @@ class AppWidgetRepositoryImpl @Inject constructor(
 
     private val today get() = DateTime.now().withTimeAtStartOfDay()
 
-    private fun defaultQuarterlyIndex(languageCode: String = ssPrefs.getLanguageCode()): String {
-        val currentDate = LocalDate.now()
-        val year = currentDate.year
-        val quarter = when (currentDate.monthOfYear) {
-            in 1..3 -> "01"
-            in 4..6 -> "02"
-            in 7..9 -> "03"
-            else -> "04"
-        }
-        return "$languageCode-$year-$quarter"
-    }
+    private fun defaultQuarterlyIndex(
+        languageCode: String = ssPrefs.getLanguageCode()
+    ): String = CurrentQuarterIndex(
+        currentDate = LocalDate.now(),
+        languageCode = languageCode,
+    )
 
     private fun latestAppWidgetEntity(): Flow<AppWidgetEntity> {
         return ssPrefs.getLanguageCodeFlow()
