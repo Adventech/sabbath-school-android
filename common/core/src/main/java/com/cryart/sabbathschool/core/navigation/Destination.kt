@@ -22,8 +22,6 @@
 
 package com.cryart.sabbathschool.core.navigation
 
-import com.cryart.sabbathschool.core.navigation.Destination.entries
-
 enum class Destination(val key: String) {
 
     ABOUT("about"),

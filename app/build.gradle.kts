@@ -140,7 +140,7 @@ dependencies {
     implementation(libs.androidx.work)
     implementation(libs.google.hilt.android)
     implementation(libs.google.material)
-    implementation(libs.joda.android)
+    implementation(libs.joda.time)
     implementation(libs.timber)
     implementation(projects.common.auth)
     implementation(projects.common.core)

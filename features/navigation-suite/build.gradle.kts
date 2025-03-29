@@ -47,7 +47,6 @@ ksp {
 
 dependencies {
     implementation(libs.google.hilt.android)
-    implementation(libs.joda.android)
     implementation(libs.material3.adaptive.navigation.suite)
     implementation(libs.timber)
     implementation(projects.common.designCompose)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@ android { namespace = "ss.misc" }
 
 dependencies {
     implementation(libs.google.hilt.android)
-    implementation(libs.joda.android)
+    implementation(libs.joda.time)
     implementation(libs.timber)
 
     ksp(libs.google.hilt.compiler)
