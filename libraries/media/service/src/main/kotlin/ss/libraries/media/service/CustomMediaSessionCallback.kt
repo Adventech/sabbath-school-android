@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,8 @@ import android.os.Bundle
 import androidx.annotation.OptIn
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.CommandButton
+import androidx.media3.session.CommandButton.ICON_FAST_FORWARD
+import androidx.media3.session.CommandButton.ICON_REWIND
 import androidx.media3.session.MediaSession
 import androidx.media3.session.SessionCommand
 import androidx.media3.session.SessionResult
@@ -76,19 +78,21 @@ internal class CustomMediaSessionCallback(
         return Futures.immediateFuture(SessionResult(SessionResult.RESULT_SUCCESS))
     }
 
+    @OptIn(UnstableApi::class)
     private fun getRewindCommandButton(sessionCommand: SessionCommand): CommandButton {
-        return CommandButton.Builder()
+        return CommandButton.Builder(ICON_REWIND)
             .setDisplayName(context.getString(L10nR.string.ss_action_rewind))
             .setSessionCommand(sessionCommand)
-            .setIconResId(MediaR.drawable.ic_audio_icon_backward)
+            .setCustomIconResId(MediaR.drawable.ic_audio_icon_backward)
             .build()
     }
 
+    @OptIn(UnstableApi::class)
     private fun getForwardCommandButton(sessionCommand: SessionCommand): CommandButton {
-        return CommandButton.Builder()
+        return CommandButton.Builder(ICON_FAST_FORWARD)
             .setDisplayName(context.getString(L10nR.string.ss_action_forward))
             .setSessionCommand(sessionCommand)
-            .setIconResId(MediaR.drawable.ic_audio_icon_forward)
+            .setCustomIconResId(MediaR.drawable.ic_audio_icon_forward)
             .build()
     }
 }
