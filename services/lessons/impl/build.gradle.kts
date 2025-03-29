@@ -32,7 +32,6 @@ android { namespace = "ss.lessons.impl" }
 
 dependencies {
     implementation(libs.google.hilt.android)
-    implementation(libs.joda.android)
     implementation(libs.moshix.adapters)
     implementation(libs.square.moshi.kotlin)
     implementation(libs.square.okhttp)
