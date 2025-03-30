@@ -25,15 +25,11 @@ package io.adventech.blockkit.ui
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontStyle
@@ -41,11 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
-import dev.chrisbanes.haze.HazeState
-import dev.chrisbanes.haze.hazeEffect
-import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
-import dev.chrisbanes.haze.materials.HazeMaterials
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.ui.media.MediaPlayer
 import io.adventech.blockkit.ui.style.Styler
@@ -85,8 +77,6 @@ private fun PlayerContent(
     exoPlayer: ExoPlayer,
     modifier: Modifier = Modifier,
 ) {
-    val hazeState = remember { HazeState() }
-
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -102,15 +92,6 @@ private fun PlayerContent(
             },
             modifier = Modifier
                 .fillMaxSize()
-                .hazeSource(hazeState),
-        )
-
-        Spacer(
-            Modifier
-                .fillMaxSize(0.5f)
-                .align(Alignment.Center)
-                .clip(MaterialTheme.shapes.large)
-                .hazeEffect(hazeState, HazeMaterials.ultraThin()),
         )
     }
 }
