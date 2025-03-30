@@ -39,12 +39,14 @@ import androidx.media3.exoplayer.ExoPlayer
 import kotlinx.coroutines.delay
 import ss.libraries.media.api.PLAYBACK_PROGRESS_INTERVAL
 import ss.libraries.media.model.PlaybackProgressState
+import ss.services.media.ui.spec.PlaybackSpeed
 import ss.services.media.ui.spec.PlaybackStateSpec
 
 @Composable
 fun MediaPlayer(
     source: String,
     modifier: Modifier = Modifier,
+    playbackSpeed: PlaybackSpeed = PlaybackSpeed.NORMAL,
     content: @Composable ColumnScope.(ExoPlayer, PlaybackStateSpec, PlaybackProgressState, () -> Unit, (Long) -> Unit) -> Unit,
 ) {
     val context = LocalContext.current
@@ -102,6 +104,13 @@ fun MediaPlayer(
                 position = exoPlayer.currentPosition,
             )
         }
+    }
+
+    LaunchedEffect(playbackSpeed) {
+        exoPlayer.setPlaybackSpeed(playbackSpeed.speed)
+        playbackState = playbackState.copy(
+            speed = playbackSpeed,
+        )
     }
 
     Column(modifier = modifier) {

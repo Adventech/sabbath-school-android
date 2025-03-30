@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,24 +22,13 @@
 
 package ss.services.media.ui.spec
 
-import androidx.compose.runtime.Immutable
-
-@Immutable
-data class PlaybackStateSpec(
-    val isPlaying: Boolean,
-    val isPlayEnabled: Boolean,
-    val isError: Boolean,
-    val isBuffering: Boolean,
-    val canShowMini: Boolean,
-    val speed: PlaybackSpeed = PlaybackSpeed.NORMAL,
+enum class PlaybackSpeed(
+    val label: String,
+    val speed: Float
 ) {
-    companion object {
-        val NONE = PlaybackStateSpec(
-            isPlaying = false,
-            isPlayEnabled = false,
-            isError = false,
-            isBuffering = false,
-            false
-        )
-    }
+    SLOW("0.5x", 0.5f),
+    NORMAL("1x", 1f),
+    FAST("1.25x", 1.25f),
+    FASTER("1.5x", 1.5f),
+    FASTEST("2.0x", 2f);
 }

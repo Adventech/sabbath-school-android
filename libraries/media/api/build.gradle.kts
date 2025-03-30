@@ -30,6 +30,7 @@ dependencies {
     api(libs.androidx.media3.exoplayer)
     api(libs.androidx.media3.session)
     api(libs.androidx.media3.ui)
+    api(libs.androidx.media3.ui.compose)
     api(projects.libraries.foundation.coroutines)
     api(projects.libraries.media.model)
 }
