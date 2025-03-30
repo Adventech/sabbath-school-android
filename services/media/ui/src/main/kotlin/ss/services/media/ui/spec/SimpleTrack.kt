@@ -22,26 +22,26 @@
 
 package ss.services.media.ui.spec
 
-import androidx.compose.runtime.Immutable
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
+import androidx.compose.runtime.Stable
 
-@Immutable
-data class PlaybackStateSpec(
-    val isPlaying: Boolean,
-    val isPlayEnabled: Boolean,
-    val isError: Boolean,
-    val isBuffering: Boolean,
-    val canShowMini: Boolean,
-    val availableTracks: ImmutableList<SimpleTrack> = persistentListOf()
-) {
-    companion object {
-        val NONE = PlaybackStateSpec(
-            isPlaying = false,
-            isPlayEnabled = false,
-            isError = false,
-            isBuffering = false,
-            false
-        )
-    }
+@Stable
+sealed interface SimpleTrack {
+    val id: String
+    val language: String
+    val label: String
+    val isSelected: Boolean
+
+    data class Audio(
+        override val id: String,
+        override val language: String,
+        override val label: String,
+        override val isSelected: Boolean,
+    ) : SimpleTrack
+
+    data class Subtitle(
+        override val id: String,
+        override val language: String,
+        override val label: String,
+        override val isSelected: Boolean
+    ) : SimpleTrack
 }

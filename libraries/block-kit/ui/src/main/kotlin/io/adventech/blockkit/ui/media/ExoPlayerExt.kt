@@ -22,61 +22,38 @@
 
 package io.adventech.blockkit.ui.media
 
-import androidx.annotation.OptIn
-import androidx.media3.common.Player
-import androidx.media3.common.util.UnstableApi
-import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.common.C
+import androidx.media3.common.Tracks
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
+import ss.services.media.ui.spec.SimpleTrack
 
-@OptIn(UnstableApi::class)
-internal fun ExoPlayer.availableTracks(): List<SimpleTrack> {
-    val hasTracks =
-        isCommandAvailable(Player.COMMAND_GET_TRACKS) && !currentTracks.isEmpty
+internal fun Tracks.asSimpleTracks(): ImmutableList<SimpleTrack> {
+    val simpleTracks = mutableListOf<SimpleTrack>()
 
-    if (!hasTracks) {
-        return emptyList()
-    }
+    for (trackGroup in groups) {
+        // Group level information.
+        val trackType = trackGroup.type
+        for (i in 0 until trackGroup.length) {
+            // Individual track information.
+            val isSupported = trackGroup.isTrackSupported(i)
+            if (!isSupported) continue
+            val isSelected = trackGroup.isTrackSelected(i)
+            val trackFormat = trackGroup.getTrackFormat(i)
+            val id = trackFormat.id ?: continue
+            val language = trackFormat.language ?: continue
+            val label = trackFormat.label?.replaceFirstChar { it.uppercase() } ?: continue
 
-    return currentTracks.groups.flatMap { trackGroup ->
-        (0 until trackGroup.length).mapNotNull { i ->
-            val format = trackGroup.getTrackFormat(i)
-            val id = format.id
-            when {
-                id?.startsWith("audio-high") == true -> {
-                    format.language?.let { language ->
-                        format.label?.let { label ->
-                            SimpleTrack.Audio(id, language, label.replaceFirstChar { it.uppercase() })
-                        }
-                    }
-                }
-
-                id?.startsWith("subs") == true -> {
-                    format.language?.let { language ->
-                        format.label?.let { label ->
-                            SimpleTrack.Subtitle(id, language, label.replaceFirstChar { it.uppercase() })
-                        }
-                    }
-                }
-
+            when (trackType) {
+                C.TRACK_TYPE_AUDIO -> SimpleTrack.Audio(id, language, label, isSelected)
+                C.TRACK_TYPE_TEXT -> SimpleTrack.Subtitle(id, language, label, isSelected)
                 else -> null
+            }?.let { simpleTrack ->
+                simpleTracks.add(simpleTrack)
             }
         }
     }
+
+    return simpleTracks.toImmutableList()
 }
 
-internal sealed interface SimpleTrack {
-    val id: String
-    val language: String
-    val label: String
-
-    data class Audio(
-        override val id: String,
-        override val language: String,
-        override val label: String,
-    ) : SimpleTrack
-
-    data class Subtitle(
-        override val id: String,
-        override val language: String,
-        override val label: String,
-    ) : SimpleTrack
-}

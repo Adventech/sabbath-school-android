@@ -48,6 +48,7 @@ import me.saket.cascade.CascadeDropdownMenu
 import me.saket.cascade.CascadeDropdownMenuItem
 import me.saket.cascade.rememberCascadeState
 import ss.services.media.ui.spec.PlaybackSpeed
+import ss.services.media.ui.spec.SimpleTrack
 import app.ss.translations.R as L10nR
 
 @Composable
@@ -89,7 +90,7 @@ internal fun VideoSettingsDropdownMenu(
                 children = {
                     tracks.forEach { track ->
                         DropdownMenuItem(
-                            text = { ChildMenuItem(track.label, false) },
+                            text = { ChildMenuItem(track.label, track.isSelected) },
                             onClick = { onTrackSelected(track) },
                         )
                     }
@@ -104,7 +105,7 @@ internal fun VideoSettingsDropdownMenu(
                 children = {
                     tracks.forEach { track ->
                         DropdownMenuItem(
-                            text = { ChildMenuItem(track.label, false) },
+                            text = { ChildMenuItem(track.label, track.isSelected) },
                             onClick = { onTrackSelected(track) },
                         )
                     }

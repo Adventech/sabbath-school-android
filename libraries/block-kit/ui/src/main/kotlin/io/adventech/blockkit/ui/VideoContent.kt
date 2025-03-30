@@ -62,6 +62,7 @@ import androidx.compose.ui.unit.sp
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.compose.PlayerSurface
+import androidx.media3.ui.compose.SURFACE_TYPE_SURFACE_VIEW
 import androidx.media3.ui.compose.modifiers.resizeWithContentScale
 import androidx.media3.ui.compose.state.rememberPlayPauseButtonState
 import androidx.media3.ui.compose.state.rememberPlaybackSpeedState
@@ -73,16 +74,11 @@ import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.materials.HazeMaterials
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.ui.media.MediaPlayer
-import io.adventech.blockkit.ui.media.SimpleTrack
 import io.adventech.blockkit.ui.media.VideoSettingsDropdownMenu
-import io.adventech.blockkit.ui.media.availableTracks
 import io.adventech.blockkit.ui.style.LatoFontFamily
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
 import io.adventech.blockkit.ui.style.thenIf
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
 import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.extensions.millisToDuration
@@ -90,6 +86,7 @@ import ss.services.media.ui.PlaybackPlayPause
 import ss.services.media.ui.common.PlaybackSlider
 import ss.services.media.ui.spec.PlaybackSpeed
 import ss.services.media.ui.spec.PlaybackStateSpec
+import ss.services.media.ui.spec.SimpleTrack
 
 @Composable
 fun VideoContent(blockItem: BlockItem.Video, modifier: Modifier = Modifier) {
@@ -152,6 +149,7 @@ private fun PlayerContent(
             modifier = scaledModifier
                 .hazeSource(hazeState)
                 .clickable { isControlVisible = !isControlVisible },
+            surfaceType = SURFACE_TYPE_SURFACE_VIEW,
         )
 
         if (presentationState.coverSurface) {
@@ -174,8 +172,25 @@ private fun PlayerContent(
             onPlayPause = { playPauseButtonState.onClick() },
             onSeekTo = onSeekTo,
             onPlaybackSpeedChange = { playbackSpeedState.updatePlaybackSpeed(it.speed) },
+            onTrackSelected = { track ->
+                exoPlayer.trackSelectionParameters = when (track) {
+                    is SimpleTrack.Audio -> {
+                        exoPlayer.trackSelectionParameters
+                            .buildUpon()
+                            .setMaxVideoSizeSd()
+                            .setPreferredAudioLanguage(track.language)
+                            .build()
+                    }
+                    is SimpleTrack.Subtitle -> {
+                        exoPlayer.trackSelectionParameters
+                            .buildUpon()
+                            .setMaxVideoSizeSd()
+                            .setPreferredTextLanguage(track.language)
+                            .build()
+                    }
+                }
+            },
             onMenuShownChange = { isMenuVisible = it },
-            availableTracks = exoPlayer.availableTracks().toImmutableList(),
         )
     }
 
@@ -201,7 +216,7 @@ private fun VideoControls(
     onPlayPause: () -> Unit = {},
     onSeekTo: (Long) -> Unit = {},
     onPlaybackSpeedChange: (PlaybackSpeed) -> Unit = {},
-    availableTracks: ImmutableList<SimpleTrack> = persistentListOf(),
+    onTrackSelected: (SimpleTrack) -> Unit = {},
     onMenuShownChange: (Boolean) -> Unit = {},
 ) {
     val (draggingProgress, setDraggingProgress) = remember { mutableStateOf<Float?>(null) }
@@ -290,7 +305,7 @@ private fun VideoControls(
     VideoSettingsDropdownMenu(
         isMenuShown = isMenuShown,
         onDismissRequest = { isMenuShown = false },
-        availableTracks = availableTracks,
+        availableTracks = playbackState.availableTracks,
         playbackSpeed = playbackSpeed,
         modifier = Modifier,
         onPlaybackSpeedChange = {
@@ -298,6 +313,7 @@ private fun VideoControls(
             isMenuShown = false
         },
         onTrackSelected = {
+            onTrackSelected(it)
             isMenuShown = false
         },
     )

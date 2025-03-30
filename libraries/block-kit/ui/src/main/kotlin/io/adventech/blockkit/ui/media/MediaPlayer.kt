@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.Tracks
 import androidx.media3.exoplayer.ExoPlayer
 import kotlinx.coroutines.delay
 import ss.libraries.media.api.PLAYBACK_PROGRESS_INTERVAL
@@ -82,6 +83,13 @@ fun MediaPlayer(
                         super.onIsPlayingChanged(isPlaying)
                         playbackState = playbackState.copy(
                             isPlaying = isPlaying,
+                        )
+                    }
+
+                    override fun onTracksChanged(tracks: Tracks) {
+                        super.onTracksChanged(tracks)
+                        playbackState = playbackState.copy(
+                            availableTracks = tracks.asSimpleTracks()
                         )
                     }
                 })
