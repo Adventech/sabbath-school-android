@@ -57,6 +57,7 @@ dependencies {
     implementation(libs.saket.telephoto.flick)
     implementation(libs.timber)
     implementation(projects.common.translations)
+    implementation(projects.libraries.cascadeCompose)
     implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.media.api)
     implementation(projects.libraries.ui.placeholder)
