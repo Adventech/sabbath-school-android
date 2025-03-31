@@ -23,8 +23,13 @@
 package io.adventech.blockkit.ui
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.VisibilityThreshold
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.expandIn
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
@@ -62,6 +67,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.media3.common.text.Cue
@@ -243,7 +249,11 @@ private fun VideoControls(
         ) {
             AnimatedVisibility(
                 visible = visible,
-                modifier = Modifier.size(64.dp)
+                modifier = Modifier.size(64.dp),
+                enter = fadeIn() + expandIn(
+                    expandFrom = Alignment.Center,
+                ),
+                exit = shrinkOut(shrinkTowards = Alignment.Center) + fadeOut(),
             ) {
                 PlaybackPlayPause(
                     spec = playbackState,
@@ -264,7 +274,12 @@ private fun VideoControls(
                     .padding(horizontal = 16.dp)
                     .align(Alignment.BottomCenter),
                 enter = fadeIn() + slideInVertically(initialOffsetY = { it }),
-                exit = slideOutVertically(targetOffsetY = { it }) + fadeOut(),
+                exit = slideOutVertically(
+                    animationSpec = spring(
+                        stiffness = Spring.StiffnessVeryLow,
+                        visibilityThreshold = IntOffset.VisibilityThreshold
+                    ),
+                    targetOffsetY = { it }) + fadeOut(),
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
