@@ -33,6 +33,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.VideoSettings
 import androidx.compose.material3.Icon
@@ -59,6 +60,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.media3.common.text.Cue
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.compose.PlayerSurface
@@ -67,6 +69,7 @@ import androidx.media3.ui.compose.modifiers.resizeWithContentScale
 import androidx.media3.ui.compose.state.rememberPlayPauseButtonState
 import androidx.media3.ui.compose.state.rememberPlaybackSpeedState
 import androidx.media3.ui.compose.state.rememberPresentationState
+import dev.chrisbanes.haze.HazeDefaults
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.hazeEffect
 import dev.chrisbanes.haze.hazeSource
@@ -79,6 +82,8 @@ import io.adventech.blockkit.ui.style.LatoFontFamily
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
 import io.adventech.blockkit.ui.style.thenIf
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.delay
 import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.extensions.millisToDuration
@@ -158,6 +163,11 @@ private fun PlayerContent(
                 .background(Color.Black))
         }
 
+        VideoSubtitles(
+            cues = playbackState.currentCues,
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
+
         VideoControls(
             visible = isControlVisible,
             playbackState = playbackState,
@@ -166,7 +176,11 @@ private fun PlayerContent(
             modifier = Modifier
                 .fillMaxSize()
                 .thenIf(isControlVisible) {
-                    hazeEffect(hazeState, HazeMaterials.ultraThin(containerColor = Color.Black))
+                    if (HazeDefaults.blurEnabled()) {
+                        hazeEffect(hazeState, HazeMaterials.ultraThin(containerColor = Color.Black))
+                    } else {
+                        background(overlayColor, Styler.roundedShape())
+                    }
                 }
                 .clip(Styler.roundedShape()),
             onPlayPause = { playPauseButtonState.onClick() },
@@ -319,6 +333,36 @@ private fun VideoControls(
     )
 }
 
+@Composable
+fun VideoSubtitles(cues: ImmutableList<Cue>, modifier: Modifier) {
+    val text = remember(cues) {
+        buildString {
+            cues.forEachIndexed { index, cue ->
+                append(cue.text)
+                if (cues.lastIndex != index) {
+                    append("\n")
+                }
+            }
+        }
+    }
+    if (text.isNotEmpty()) {
+        Text(
+            text = text,
+            modifier = modifier
+                .padding(6.dp)
+                .background(overlayColor, RoundedCornerShape(6.dp))
+                .padding(4.dp),
+            color = Color.White,
+            fontSize = 11.sp,
+            fontFamily = LatoFontFamily,
+            textAlign = TextAlign.Center,
+            lineHeight = 11.sp
+        )
+    }
+}
+
+private val overlayColor = Color.Black.copy(alpha = 0.38f)
+
 @Preview
 @Composable
 private fun Preview() {
@@ -338,6 +382,34 @@ private fun Preview() {
                     .aspectRatio(16 / 9f)
                     .clip(Styler.roundedShape()),
             )
+        }
+    }
+}
+
+
+@androidx.annotation.OptIn(UnstableApi::class)
+@Preview
+@Composable
+private fun PreviewSubtitles() {
+    val previewCue = remember {
+        Cue.Builder()
+            .setText("May the Lord be able to say of every child, every young person, and every parent")
+            .build()
+    }
+
+    BlocksPreviewTheme {
+        Surface(color = Color.White) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(16 / 9f)
+            ) {
+                VideoSubtitles(
+                    cues = persistentListOf(previewCue),
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                )
+            }
         }
     }
 }

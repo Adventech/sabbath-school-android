@@ -23,6 +23,7 @@
 package ss.services.media.ui.spec
 
 import androidx.compose.runtime.Immutable
+import androidx.media3.common.text.Cue
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -33,7 +34,8 @@ data class PlaybackStateSpec(
     val isError: Boolean,
     val isBuffering: Boolean,
     val canShowMini: Boolean,
-    val availableTracks: ImmutableList<SimpleTrack> = persistentListOf()
+    val availableTracks: ImmutableList<SimpleTrack> = persistentListOf(),
+    val currentCues: ImmutableList<Cue> = persistentListOf()
 ) {
     companion object {
         val NONE = PlaybackStateSpec(
