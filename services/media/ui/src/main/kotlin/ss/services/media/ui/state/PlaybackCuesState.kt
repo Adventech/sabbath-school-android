@@ -20,25 +20,38 @@
  * THE SOFTWARE.
  */
 
-package ss.services.media.ui.spec
+package ss.services.media.ui.state
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.media3.common.Player
+import androidx.media3.common.listen
+import androidx.media3.common.text.Cue
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
+
+@Composable
+fun rememberPlaybackCuesState(player: Player): PlaybackCuesState {
+    val playbackCuesState = remember(player) { PlaybackCuesState(player) }
+    LaunchedEffect(player) { playbackCuesState.observe() }
+    return playbackCuesState
+}
 
 @Immutable
-data class PlaybackStateSpec(
-    val isPlaying: Boolean,
-    val isPlayEnabled: Boolean,
-    val isError: Boolean,
-    val isBuffering: Boolean,
-    val canShowMini: Boolean,
-) {
-    companion object {
-        val NONE = PlaybackStateSpec(
-            isPlaying = false,
-            isPlayEnabled = false,
-            isError = false,
-            isBuffering = false,
-            false
-        )
+class PlaybackCuesState(private val player: Player) {
+
+    var cues by mutableStateOf<ImmutableList<Cue>>(persistentListOf())
+        private set
+
+    suspend fun observe(): Unit = player.listen { events ->
+        if (events.contains(Player.EVENT_CUES)) {
+            cues = currentCues.cues.toImmutableList()
+        }
     }
 }

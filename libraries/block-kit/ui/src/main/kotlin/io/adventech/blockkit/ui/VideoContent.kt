@@ -92,6 +92,7 @@ import ss.services.media.ui.common.PlaybackSlider
 import ss.services.media.ui.spec.PlaybackSpeed
 import ss.services.media.ui.spec.PlaybackStateSpec
 import ss.services.media.ui.spec.SimpleTrack
+import ss.services.media.ui.state.rememberPlaybackCuesState
 import ss.services.media.ui.state.rememberPlaybackTracksState
 
 @Composable
@@ -143,6 +144,7 @@ private fun PlayerContent(
     val presentationState = rememberPresentationState(exoPlayer)
     val playbackSpeedState = rememberPlaybackSpeedState(exoPlayer)
     val playbackTracksState = rememberPlaybackTracksState(exoPlayer)
+    val playbackCuesState = rememberPlaybackCuesState(exoPlayer)
     val scaledModifier = Modifier.resizeWithContentScale(ContentScale.Fit, presentationState.videoSizeDp)
 
     Box(
@@ -166,7 +168,7 @@ private fun PlayerContent(
         }
 
         VideoSubtitles(
-            cues = playbackState.currentCues,
+            cues = playbackCuesState.cues,
             modifier = Modifier.align(Alignment.BottomCenter)
         )
 

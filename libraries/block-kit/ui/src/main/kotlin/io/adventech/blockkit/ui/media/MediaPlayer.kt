@@ -35,9 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
-import androidx.media3.common.text.CueGroup
 import androidx.media3.exoplayer.ExoPlayer
-import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
 import ss.libraries.media.api.PLAYBACK_PROGRESS_INTERVAL
 import ss.libraries.media.model.PlaybackProgressState
@@ -84,13 +82,6 @@ fun MediaPlayer(
                         super.onIsPlayingChanged(isPlaying)
                         playbackState = playbackState.copy(
                             isPlaying = isPlaying,
-                        )
-                    }
-
-                    override fun onCues(cueGroup: CueGroup) {
-                        super.onCues(cueGroup)
-                        playbackState = playbackState.copy(
-                            currentCues = cueGroup.cues.toImmutableList(),
                         )
                     }
                 })

@@ -70,9 +70,9 @@ class PlaybackTracksState(private val player: Player) {
         }
     }
 
-    suspend fun observe(): Nothing = player.listen { events ->
+    suspend fun observe(): Unit = player.listen { events ->
         if (events.contains(Player.EVENT_TRACKS_CHANGED)) {
-            tracks = this.currentTracks.asSimpleTracks()
+            tracks = currentTracks.asSimpleTracks()
         }
     }
 }
