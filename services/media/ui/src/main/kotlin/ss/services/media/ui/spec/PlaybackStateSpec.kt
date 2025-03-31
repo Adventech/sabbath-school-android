@@ -34,7 +34,6 @@ data class PlaybackStateSpec(
     val isError: Boolean,
     val isBuffering: Boolean,
     val canShowMini: Boolean,
-    val availableTracks: ImmutableList<SimpleTrack> = persistentListOf(),
     val currentCues: ImmutableList<Cue> = persistentListOf()
 ) {
     companion object {

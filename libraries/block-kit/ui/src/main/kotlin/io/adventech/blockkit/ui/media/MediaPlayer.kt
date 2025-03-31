@@ -35,7 +35,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
-import androidx.media3.common.Tracks
 import androidx.media3.common.text.CueGroup
 import androidx.media3.exoplayer.ExoPlayer
 import kotlinx.collections.immutable.toImmutableList
@@ -85,13 +84,6 @@ fun MediaPlayer(
                         super.onIsPlayingChanged(isPlaying)
                         playbackState = playbackState.copy(
                             isPlaying = isPlaying,
-                        )
-                    }
-
-                    override fun onTracksChanged(tracks: Tracks) {
-                        super.onTracksChanged(tracks)
-                        playbackState = playbackState.copy(
-                            availableTracks = tracks.asSimpleTracks()
                         )
                     }
 

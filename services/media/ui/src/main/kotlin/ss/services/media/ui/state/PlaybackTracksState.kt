@@ -20,15 +20,64 @@
  * THE SOFTWARE.
  */
 
-package io.adventech.blockkit.ui.media
+package ss.services.media.ui.state
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.media3.common.C
+import androidx.media3.common.Player
 import androidx.media3.common.Tracks
+import androidx.media3.common.listen
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import ss.services.media.ui.spec.SimpleTrack
 
-internal fun Tracks.asSimpleTracks(): ImmutableList<SimpleTrack> {
+@Composable
+fun rememberPlaybackTracksState(player: Player): PlaybackTracksState {
+    val playbackTracksState = remember(player) { PlaybackTracksState(player) }
+    LaunchedEffect(player) { playbackTracksState.observe() }
+    return playbackTracksState
+}
+
+@Immutable
+class PlaybackTracksState(private val player: Player) {
+    var tracks by mutableStateOf<ImmutableList<SimpleTrack>>(persistentListOf())
+        private set
+
+    fun selectTrack(track: SimpleTrack) {
+        player.trackSelectionParameters = when (track) {
+            is SimpleTrack.Audio -> {
+                player.trackSelectionParameters
+                    .buildUpon()
+                    .setMaxVideoSizeSd()
+                    .setPreferredAudioLanguage(track.language)
+                    .build()
+            }
+
+            is SimpleTrack.Subtitle -> {
+                player.trackSelectionParameters
+                    .buildUpon()
+                    .setMaxVideoSizeSd()
+                    .setPreferredTextLanguage(track.language)
+                    .build()
+            }
+        }
+    }
+
+    suspend fun observe(): Nothing = player.listen { events ->
+        if (events.contains(Player.EVENT_TRACKS_CHANGED)) {
+            tracks = this.currentTracks.asSimpleTracks()
+        }
+    }
+}
+
+private fun Tracks.asSimpleTracks(): ImmutableList<SimpleTrack> {
     val simpleTracks = mutableListOf<SimpleTrack>()
 
     for (trackGroup in groups) {
@@ -56,4 +105,3 @@ internal fun Tracks.asSimpleTracks(): ImmutableList<SimpleTrack> {
 
     return simpleTracks.toImmutableList()
 }
-

@@ -92,6 +92,7 @@ import ss.services.media.ui.common.PlaybackSlider
 import ss.services.media.ui.spec.PlaybackSpeed
 import ss.services.media.ui.spec.PlaybackStateSpec
 import ss.services.media.ui.spec.SimpleTrack
+import ss.services.media.ui.state.rememberPlaybackTracksState
 
 @Composable
 fun VideoContent(blockItem: BlockItem.Video, modifier: Modifier = Modifier) {
@@ -141,6 +142,7 @@ private fun PlayerContent(
     val playPauseButtonState = rememberPlayPauseButtonState(exoPlayer)
     val presentationState = rememberPresentationState(exoPlayer)
     val playbackSpeedState = rememberPlaybackSpeedState(exoPlayer)
+    val playbackTracksState = rememberPlaybackTracksState(exoPlayer)
     val scaledModifier = Modifier.resizeWithContentScale(ContentScale.Fit, presentationState.videoSizeDp)
 
     Box(
@@ -183,27 +185,11 @@ private fun PlayerContent(
                     }
                 }
                 .clip(Styler.roundedShape()),
+            availableTracks = playbackTracksState.tracks,
             onPlayPause = { playPauseButtonState.onClick() },
             onSeekTo = onSeekTo,
             onPlaybackSpeedChange = { playbackSpeedState.updatePlaybackSpeed(it.speed) },
-            onTrackSelected = { track ->
-                exoPlayer.trackSelectionParameters = when (track) {
-                    is SimpleTrack.Audio -> {
-                        exoPlayer.trackSelectionParameters
-                            .buildUpon()
-                            .setMaxVideoSizeSd()
-                            .setPreferredAudioLanguage(track.language)
-                            .build()
-                    }
-                    is SimpleTrack.Subtitle -> {
-                        exoPlayer.trackSelectionParameters
-                            .buildUpon()
-                            .setMaxVideoSizeSd()
-                            .setPreferredTextLanguage(track.language)
-                            .build()
-                    }
-                }
-            },
+            onTrackSelected = { playbackTracksState.selectTrack(it) },
             onMenuShownChange = { isMenuVisible = it },
         )
     }
@@ -227,6 +213,7 @@ private fun VideoControls(
     progressState: PlaybackProgressState,
     playbackSpeed: PlaybackSpeed,
     modifier: Modifier = Modifier,
+    availableTracks: ImmutableList<SimpleTrack> = persistentListOf(),
     onPlayPause: () -> Unit = {},
     onSeekTo: (Long) -> Unit = {},
     onPlaybackSpeedChange: (PlaybackSpeed) -> Unit = {},
@@ -319,7 +306,7 @@ private fun VideoControls(
     VideoSettingsDropdownMenu(
         isMenuShown = isMenuShown,
         onDismissRequest = { isMenuShown = false },
-        availableTracks = playbackState.availableTracks,
+        availableTracks = availableTracks,
         playbackSpeed = playbackSpeed,
         modifier = Modifier,
         onPlaybackSpeedChange = {
