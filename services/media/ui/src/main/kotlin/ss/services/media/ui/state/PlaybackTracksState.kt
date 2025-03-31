@@ -50,7 +50,7 @@ class PlaybackTracksState(private val player: Player) {
     var tracks by mutableStateOf<ImmutableList<SimpleTrack>>(persistentListOf())
         private set
 
-    fun selectTrack(track: SimpleTrack) {
+    fun selectTrack(track: SimpleTrack?) {
         player.trackSelectionParameters = when (track) {
             is SimpleTrack.Audio -> {
                 player.trackSelectionParameters
@@ -65,6 +65,14 @@ class PlaybackTracksState(private val player: Player) {
                     .buildUpon()
                     .setMaxVideoSizeSd()
                     .setPreferredTextLanguage(track.language)
+                    .build()
+            }
+            else -> {
+                // Disable captions
+                player.trackSelectionParameters
+                    .buildUpon()
+                    .setMaxVideoSizeSd()
+                    .setPreferredTextLanguage(null)
                     .build()
             }
         }

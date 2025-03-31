@@ -35,7 +35,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.VideoSettings
+import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
@@ -219,7 +219,7 @@ private fun VideoControls(
     onPlayPause: () -> Unit = {},
     onSeekTo: (Long) -> Unit = {},
     onPlaybackSpeedChange: (PlaybackSpeed) -> Unit = {},
-    onTrackSelected: (SimpleTrack) -> Unit = {},
+    onTrackSelected: (SimpleTrack?) -> Unit = {},
     onMenuShownChange: (Boolean) -> Unit = {},
 ) {
     val (draggingProgress, setDraggingProgress) = remember { mutableStateOf<Float?>(null) }
@@ -294,7 +294,7 @@ private fun VideoControls(
                         modifier = Modifier,
                     ) {
                         Icon(
-                            imageVector = Icons.Rounded.VideoSettings,
+                            imageVector = Icons.Rounded.Settings,
                             contentDescription = null,
                             modifier = Modifier,
                             tint = contentColor

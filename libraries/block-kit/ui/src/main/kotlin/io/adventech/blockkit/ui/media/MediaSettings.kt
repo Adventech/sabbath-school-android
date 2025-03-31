@@ -22,15 +22,15 @@
 
 package io.adventech.blockkit.ui.media
 
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Check
-import androidx.compose.material.icons.rounded.SettingsVoice
-import androidx.compose.material.icons.rounded.Speed
-import androidx.compose.material.icons.rounded.Subtitles
+import androidx.compose.material.icons.rounded.ClosedCaption
+import androidx.compose.material.icons.rounded.SlowMotionVideo
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -39,6 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
@@ -50,6 +51,7 @@ import me.saket.cascade.rememberCascadeState
 import ss.services.media.ui.spec.PlaybackSpeed
 import ss.services.media.ui.spec.SimpleTrack
 import app.ss.translations.R as L10nR
+import io.adventech.blockkit.ui.R as BlockKitR
 
 @Composable
 internal fun VideoSettingsDropdownMenu(
@@ -59,7 +61,7 @@ internal fun VideoSettingsDropdownMenu(
     playbackSpeed: PlaybackSpeed,
     modifier: Modifier = Modifier,
     onPlaybackSpeedChange: (PlaybackSpeed) -> Unit = {},
-    onTrackSelected: (SimpleTrack) -> Unit = {},
+    onTrackSelected: (SimpleTrack?) -> Unit = {},
 ) {
     val cascadeState = rememberCascadeState()
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
@@ -73,7 +75,7 @@ internal fun VideoSettingsDropdownMenu(
         shape = RoundedCornerShape(8.dp)
     ) {
         CascadeDropdownMenuItem(
-            text = { ParentMenuItem(L10nR.string.ss_media_playback_speed, Icons.Rounded.Speed) },
+            text = { ParentMenuItem(L10nR.string.ss_media_playback_speed, Icons.Rounded.SlowMotionVideo) },
             children = {
                 PlaybackSpeed.entries.forEach { speed ->
                     DropdownMenuItem(
@@ -86,7 +88,7 @@ internal fun VideoSettingsDropdownMenu(
         )
         availableTracks.filter { it is SimpleTrack.Audio }.takeUnless { it.isEmpty() }?.let { tracks ->
             CascadeDropdownMenuItem(
-                text = { ParentMenuItem(L10nR.string.ss_media_audio, Icons.Rounded.SettingsVoice) },
+                text = { ParentMenuItem(L10nR.string.ss_media_audio, BlockKitR.drawable.ic_voice_selection) },
                 children = {
                     tracks.forEach { track ->
                         DropdownMenuItem(
@@ -101,8 +103,13 @@ internal fun VideoSettingsDropdownMenu(
 
         availableTracks.filter { it is SimpleTrack.Subtitle }.takeUnless { it.isEmpty() }?.let { tracks ->
             CascadeDropdownMenuItem(
-                text = { ParentMenuItem(L10nR.string.ss_media_subtitles, Icons.Rounded.Subtitles) },
+                text = { ParentMenuItem(L10nR.string.ss_media_captions, Icons.Rounded.ClosedCaption) },
                 children = {
+                    DropdownMenuItem(
+                        text = { ChildMenuItem(stringResource(L10nR.string.ss_off), tracks.none { it.isSelected }) },
+                        onClick = { onTrackSelected(null) },
+                    )
+
                     tracks.forEach { track ->
                         DropdownMenuItem(
                             text = { ChildMenuItem(track.label, track.isSelected) },
@@ -129,6 +136,32 @@ private fun ParentMenuItem(
     ) {
         Icon(
             imageVector = icon,
+            contentDescription = null,
+            modifier = Modifier,
+        )
+
+        Text(
+            text = stringResource(text),
+            modifier = Modifier.weight(1f),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
+    }
+}
+
+@Composable
+private fun ParentMenuItem(
+    @StringRes text: Int,
+    @DrawableRes icon: Int,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        Icon(
+            painter = painterResource(icon),
             contentDescription = null,
             modifier = Modifier,
         )
