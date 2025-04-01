@@ -23,8 +23,8 @@
 package ss.services.media.ui.state
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,17 +40,24 @@ import ss.services.media.ui.spec.SimpleTrack
 
 @Composable
 fun rememberPlaybackTracksState(player: Player): PlaybackTracksState {
-    val playbackTracksState = remember(player) { PlaybackTracksState(player) }
+    val playbackTracksState = remember(player) { PlaybackTracksStateImpl(player) }
     LaunchedEffect(player) { playbackTracksState.observe() }
     return playbackTracksState
 }
 
-@Immutable
-class PlaybackTracksState(private val player: Player) {
-    var tracks by mutableStateOf<ImmutableList<SimpleTrack>>(persistentListOf())
+@Stable
+interface PlaybackTracksState {
+    val tracks: ImmutableList<SimpleTrack>
+
+    fun selectTrack(track: SimpleTrack?)
+}
+
+internal class PlaybackTracksStateImpl(private val player: Player): PlaybackTracksState {
+
+    override var tracks by mutableStateOf<ImmutableList<SimpleTrack>>(persistentListOf())
         private set
 
-    fun selectTrack(track: SimpleTrack?) {
+    override fun selectTrack(track: SimpleTrack?) {
         player.trackSelectionParameters = when (track) {
             is SimpleTrack.Audio -> {
                 player.trackSelectionParameters
@@ -82,6 +89,10 @@ class PlaybackTracksState(private val player: Player) {
         if (events.contains(Player.EVENT_TRACKS_CHANGED)) {
             tracks = currentTracks.asSimpleTracks()
         }
+    }
+
+    override fun toString(): String {
+        return "PlaybackTracksState(tracks=$tracks)"
     }
 }
 

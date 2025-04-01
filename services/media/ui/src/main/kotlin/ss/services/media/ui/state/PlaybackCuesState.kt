@@ -23,8 +23,8 @@
 package ss.services.media.ui.state
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,20 +38,28 @@ import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 fun rememberPlaybackCuesState(player: Player): PlaybackCuesState {
-    val playbackCuesState = remember(player) { PlaybackCuesState(player) }
+    val playbackCuesState = remember(player) { PlaybackCuesStateImpl(player) }
     LaunchedEffect(player) { playbackCuesState.observe() }
     return playbackCuesState
 }
 
-@Immutable
-class PlaybackCuesState(private val player: Player) {
+@Stable
+interface PlaybackCuesState {
+    val cues: ImmutableList<Cue>
+}
 
-    var cues by mutableStateOf<ImmutableList<Cue>>(persistentListOf())
+internal class PlaybackCuesStateImpl(private val player: Player): PlaybackCuesState {
+
+    override var cues by mutableStateOf<ImmutableList<Cue>>(persistentListOf())
         private set
 
     suspend fun observe(): Unit = player.listen { events ->
         if (events.contains(Player.EVENT_CUES)) {
             cues = currentCues.cues.toImmutableList()
         }
+    }
+
+    override fun toString(): String {
+        return "PlaybackCuesState(cues=$cues)"
     }
 }

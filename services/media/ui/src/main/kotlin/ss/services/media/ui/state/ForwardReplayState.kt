@@ -23,7 +23,6 @@
 package ss.services.media.ui.state
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -51,7 +50,6 @@ interface ForwardReplayState {
     fun replay()
 }
 
-@Immutable
 internal class ForwardReplayStateImpl(private val player: Player): ForwardReplayState {
 
     override var isForwardEnabled by mutableStateOf(player.isCommandAvailable(COMMAND_SEEK_FORWARD))
