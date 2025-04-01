@@ -33,6 +33,7 @@ import androidx.media3.common.C
 import androidx.media3.common.Player
 import androidx.media3.common.Tracks
 import androidx.media3.common.listen
+import androidx.media3.common.util.UnstableApi
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
@@ -85,6 +86,7 @@ internal class PlaybackTracksStateImpl(private val player: Player): PlaybackTrac
         }
     }
 
+    @androidx.annotation.OptIn(UnstableApi::class)
     suspend fun observe(): Unit = player.listen { events ->
         if (events.contains(Player.EVENT_TRACKS_CHANGED)) {
             tracks = currentTracks.asSimpleTracks()

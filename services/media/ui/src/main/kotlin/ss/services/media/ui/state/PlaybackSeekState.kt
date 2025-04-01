@@ -33,6 +33,7 @@ import androidx.media3.common.Player
 import androidx.media3.common.Player.COMMAND_SEEK_BACK
 import androidx.media3.common.Player.COMMAND_SEEK_FORWARD
 import androidx.media3.common.listen
+import androidx.media3.common.util.UnstableApi
 
 @Composable
 fun rememberPlaybackSeekState(player: Player): PlaybackSeekState {
@@ -66,6 +67,7 @@ internal class PlaybackSeekStateImpl(private val player: Player): PlaybackSeekSt
         player.seekBack()
     }
 
+    @androidx.annotation.OptIn(UnstableApi::class)
     suspend fun observe(): Unit = player.listen { events ->
         if (events.containsAny(Player.EVENT_AVAILABLE_COMMANDS_CHANGED)) {
             isForwardEnabled = isCommandAvailable(COMMAND_SEEK_FORWARD)

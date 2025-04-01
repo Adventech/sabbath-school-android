@@ -32,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.media3.common.Player
 import androidx.media3.common.listen
 import androidx.media3.common.text.Cue
+import androidx.media3.common.util.UnstableApi
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
@@ -53,6 +54,7 @@ internal class PlaybackCuesStateImpl(private val player: Player): PlaybackCuesSt
     override var cues by mutableStateOf<ImmutableList<Cue>>(persistentListOf())
         private set
 
+    @androidx.annotation.OptIn(UnstableApi::class)
     suspend fun observe(): Unit = player.listen { events ->
         if (events.contains(Player.EVENT_CUES)) {
             cues = currentCues.cues.toImmutableList()
