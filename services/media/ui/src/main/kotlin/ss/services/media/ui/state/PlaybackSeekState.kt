@@ -35,22 +35,22 @@ import androidx.media3.common.Player.COMMAND_SEEK_FORWARD
 import androidx.media3.common.listen
 
 @Composable
-fun rememberForwardReplayState(player: Player): ForwardReplayState {
-    val forwardReplayState = remember(player) { ForwardReplayStateImpl(player) }
+fun rememberPlaybackSeekState(player: Player): PlaybackSeekState {
+    val forwardReplayState = remember(player) { PlaybackSeekStateImpl(player) }
     LaunchedEffect(player) { forwardReplayState.observe() }
     return forwardReplayState
 }
 
 @Stable
-interface ForwardReplayState {
+interface PlaybackSeekState {
     val isForwardEnabled: Boolean
     val isReplayEnabled: Boolean
 
-    fun forward()
-    fun replay()
+    fun seekForward()
+    fun seekBack()
 }
 
-internal class ForwardReplayStateImpl(private val player: Player): ForwardReplayState {
+internal class PlaybackSeekStateImpl(private val player: Player): PlaybackSeekState {
 
     override var isForwardEnabled by mutableStateOf(player.isCommandAvailable(COMMAND_SEEK_FORWARD))
         private set
@@ -58,11 +58,11 @@ internal class ForwardReplayStateImpl(private val player: Player): ForwardReplay
     override var isReplayEnabled by mutableStateOf(player.isCommandAvailable(COMMAND_SEEK_BACK))
         private set
 
-    override fun forward() {
+    override fun seekForward() {
         player.seekForward()
     }
 
-    override fun replay() {
+    override fun seekBack() {
         player.seekBack()
     }
 

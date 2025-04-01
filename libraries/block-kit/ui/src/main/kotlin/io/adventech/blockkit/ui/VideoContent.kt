@@ -102,9 +102,9 @@ import ss.services.media.ui.common.PlaybackSlider
 import ss.services.media.ui.spec.PlaybackSpeed
 import ss.services.media.ui.spec.PlaybackStateSpec
 import ss.services.media.ui.spec.SimpleTrack
-import ss.services.media.ui.state.ForwardReplayState
-import ss.services.media.ui.state.rememberForwardReplayState
+import ss.services.media.ui.state.PlaybackSeekState
 import ss.services.media.ui.state.rememberPlaybackCuesState
+import ss.services.media.ui.state.rememberPlaybackSeekState
 import ss.services.media.ui.state.rememberPlaybackTracksState
 import ss.libraries.media.resources.R as MediaR
 
@@ -158,7 +158,7 @@ private fun PlayerContent(
     val playbackSpeedState = rememberPlaybackSpeedState(exoPlayer)
     val playbackTracksState = rememberPlaybackTracksState(exoPlayer)
     val playbackCuesState = rememberPlaybackCuesState(exoPlayer)
-    val forwardReplayState = rememberForwardReplayState(exoPlayer)
+    val playbackSeekState = rememberPlaybackSeekState(exoPlayer)
     val scaledModifier = Modifier.resizeWithContentScale(ContentScale.Fit, presentationState.videoSizeDp)
 
     Box(
@@ -189,7 +189,7 @@ private fun PlayerContent(
         VideoControls(
             visible = isControlVisible,
             playbackState = playbackState,
-            forwardReplayState = forwardReplayState,
+            playbackSeekState = playbackSeekState,
             progressState = progressState,
             playbackSpeed = PlaybackSpeed.fromSpeed(playbackSpeedState.playbackSpeed),
             modifier = Modifier
@@ -227,7 +227,7 @@ private fun PlayerContent(
 private fun VideoControls(
     visible: Boolean,
     playbackState: PlaybackStateSpec,
-    forwardReplayState: ForwardReplayState,
+    playbackSeekState: PlaybackSeekState,
     progressState: PlaybackProgressState,
     playbackSpeed: PlaybackSpeed,
     modifier: Modifier = Modifier,
@@ -261,7 +261,7 @@ private fun VideoControls(
             ) {
                 MainPlayerControls(
                     playbackState = playbackState,
-                    forwardReplayState = forwardReplayState,
+                    playbackSeekState = playbackSeekState,
                     modifier = Modifier.align(Alignment.Center),
                     contentColor = contentColor,
                     onPlayPause = onPlayPause,
@@ -347,7 +347,7 @@ private fun VideoControls(
 @Composable
 private fun MainPlayerControls(
     playbackState: PlaybackStateSpec,
-    forwardReplayState: ForwardReplayState,
+    playbackSeekState: PlaybackSeekState,
     modifier: Modifier = Modifier,
     contentColor: Color = Color.White,
     onPlayPause: () -> Unit = {},
@@ -359,9 +359,9 @@ private fun MainPlayerControls(
         verticalAlignment = Alignment.CenterVertically,
     ) {
 
-        if (forwardReplayState.isReplayEnabled) {
+        if (playbackSeekState.isReplayEnabled) {
             IconButton(
-                onClick = { forwardReplayState.replay() },
+                onClick = { playbackSeekState.seekBack() },
                 modifier = Modifier
                     .minimumInteractiveComponentSize()
                     .size(48.dp),
@@ -387,9 +387,9 @@ private fun MainPlayerControls(
             iconSize = 48.dp,
         )
 
-        if (forwardReplayState.isForwardEnabled) {
+        if (playbackSeekState.isForwardEnabled) {
             IconButton(
-                onClick = { forwardReplayState.forward() },
+                onClick = { playbackSeekState.seekForward() },
                 modifier = Modifier
                     .minimumInteractiveComponentSize()
                     .size(48.dp),
@@ -445,11 +445,11 @@ private fun Preview() {
             VideoControls(
                 visible = true,
                 playbackState = PlaybackStateSpec.NONE.copy(isPlaying = true),
-                forwardReplayState = object: ForwardReplayState {
+                playbackSeekState = object: PlaybackSeekState {
                     override val isForwardEnabled: Boolean = true
                     override val isReplayEnabled: Boolean = true
-                    override fun forward() {}
-                    override fun replay() {}
+                    override fun seekForward() {}
+                    override fun seekBack() {}
                 },
                 progressState = PlaybackProgressState(
                     total = 10000L,
