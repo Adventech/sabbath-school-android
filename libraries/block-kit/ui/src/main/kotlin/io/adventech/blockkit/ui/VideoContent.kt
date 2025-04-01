@@ -26,10 +26,8 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.animation.core.spring
-import androidx.compose.animation.expandIn
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
@@ -37,6 +35,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -64,6 +63,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -102,8 +102,11 @@ import ss.services.media.ui.common.PlaybackSlider
 import ss.services.media.ui.spec.PlaybackSpeed
 import ss.services.media.ui.spec.PlaybackStateSpec
 import ss.services.media.ui.spec.SimpleTrack
+import ss.services.media.ui.state.ForwardReplayState
+import ss.services.media.ui.state.rememberForwardReplayState
 import ss.services.media.ui.state.rememberPlaybackCuesState
 import ss.services.media.ui.state.rememberPlaybackTracksState
+import ss.libraries.media.resources.R as MediaR
 
 @Composable
 fun VideoContent(blockItem: BlockItem.Video, modifier: Modifier = Modifier) {
@@ -155,6 +158,7 @@ private fun PlayerContent(
     val playbackSpeedState = rememberPlaybackSpeedState(exoPlayer)
     val playbackTracksState = rememberPlaybackTracksState(exoPlayer)
     val playbackCuesState = rememberPlaybackCuesState(exoPlayer)
+    val forwardReplayState = rememberForwardReplayState(exoPlayer)
     val scaledModifier = Modifier.resizeWithContentScale(ContentScale.Fit, presentationState.videoSizeDp)
 
     Box(
@@ -185,6 +189,7 @@ private fun PlayerContent(
         VideoControls(
             visible = isControlVisible,
             playbackState = playbackState,
+            forwardReplayState = forwardReplayState,
             progressState = progressState,
             playbackSpeed = PlaybackSpeed.fromSpeed(playbackSpeedState.playbackSpeed),
             modifier = Modifier
@@ -222,6 +227,7 @@ private fun PlayerContent(
 private fun VideoControls(
     visible: Boolean,
     playbackState: PlaybackStateSpec,
+    forwardReplayState: ForwardReplayState,
     progressState: PlaybackProgressState,
     playbackSpeed: PlaybackSpeed,
     modifier: Modifier = Modifier,
@@ -249,21 +255,16 @@ private fun VideoControls(
         ) {
             AnimatedVisibility(
                 visible = visible,
-                modifier = Modifier.size(64.dp),
-                enter = fadeIn() + expandIn(
-                    expandFrom = Alignment.Center,
-                ),
-                exit = shrinkOut(shrinkTowards = Alignment.Center) + fadeOut(),
+                modifier = Modifier,
+                enter = fadeIn(),
+                exit = fadeOut(),
             ) {
-                PlaybackPlayPause(
-                    spec = playbackState,
+                MainPlayerControls(
+                    playbackState = playbackState,
+                    forwardReplayState = forwardReplayState,
+                    modifier = Modifier.align(Alignment.Center),
                     contentColor = contentColor,
                     onPlayPause = onPlayPause,
-                    modifier = Modifier
-                        .minimumInteractiveComponentSize()
-                        .size(64.dp)
-                        .align(Alignment.Center),
-                    iconSize = 48.dp,
                 )
             }
 
@@ -344,6 +345,69 @@ private fun VideoControls(
 }
 
 @Composable
+private fun MainPlayerControls(
+    playbackState: PlaybackStateSpec,
+    forwardReplayState: ForwardReplayState,
+    modifier: Modifier = Modifier,
+    contentColor: Color = Color.White,
+    onPlayPause: () -> Unit = {},
+) {
+
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+
+        if (forwardReplayState.isReplayEnabled) {
+            IconButton(
+                onClick = { forwardReplayState.replay() },
+                modifier = Modifier
+                    .minimumInteractiveComponentSize()
+                    .size(48.dp),
+            ) {
+                Icon(
+                    painter = painterResource(MediaR.drawable.ic_audio_icon_backward),
+                    contentDescription = null,
+                    modifier = Modifier.size(40.dp),
+                    tint = contentColor
+                )
+            }
+        } else {
+            Spacer(Modifier.size(48.dp))
+        }
+
+        PlaybackPlayPause(
+            spec = playbackState,
+            contentColor = contentColor,
+            onPlayPause = onPlayPause,
+            modifier = Modifier
+                .minimumInteractiveComponentSize()
+                .size(64.dp),
+            iconSize = 48.dp,
+        )
+
+        if (forwardReplayState.isForwardEnabled) {
+            IconButton(
+                onClick = { forwardReplayState.forward() },
+                modifier = Modifier
+                    .minimumInteractiveComponentSize()
+                    .size(48.dp),
+            ) {
+                Icon(
+                    painter = painterResource(MediaR.drawable.ic_audio_icon_forward),
+                    contentDescription = null,
+                    modifier = Modifier.size(40.dp),
+                    tint = contentColor
+                )
+            }
+        } else {
+            Spacer(Modifier.size(48.dp))
+        }
+    }
+}
+
+@Composable
 fun VideoSubtitles(cues: ImmutableList<Cue>, modifier: Modifier) {
     val text = remember(cues) {
         buildString {
@@ -381,6 +445,12 @@ private fun Preview() {
             VideoControls(
                 visible = true,
                 playbackState = PlaybackStateSpec.NONE.copy(isPlaying = true),
+                forwardReplayState = object: ForwardReplayState {
+                    override val isForwardEnabled: Boolean = true
+                    override val isReplayEnabled: Boolean = true
+                    override fun forward() {}
+                    override fun replay() {}
+                },
                 progressState = PlaybackProgressState(
                     total = 10000L,
                     position = 3000L,

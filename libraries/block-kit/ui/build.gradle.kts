@@ -60,6 +60,7 @@ dependencies {
     implementation(projects.libraries.cascadeCompose)
     implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.media.api)
+    implementation(projects.libraries.media.resources)
     implementation(projects.libraries.ui.placeholder)
     implementation(projects.services.media.ui)
 

@@ -37,6 +37,8 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import kotlinx.coroutines.delay
+import ss.libraries.media.api.DEFAULT_FORWARD
+import ss.libraries.media.api.DEFAULT_REWIND
 import ss.libraries.media.api.PLAYBACK_PROGRESS_INTERVAL
 import ss.libraries.media.model.PlaybackProgressState
 import ss.services.media.ui.spec.PlaybackStateSpec
@@ -63,6 +65,8 @@ fun MediaPlayer(
 
     val exoPlayer = remember(context, source) {
         ExoPlayer.Builder(context)
+            .setSeekBackIncrementMs(DEFAULT_REWIND)
+            .setSeekForwardIncrementMs(DEFAULT_FORWARD)
             .build().apply {
                 addListener(object : Player.Listener {
                     override fun onPlaybackStateChanged(state: Int) {
