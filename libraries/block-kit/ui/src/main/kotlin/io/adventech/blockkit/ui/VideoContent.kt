@@ -203,7 +203,12 @@ private fun PlayerContent(
                 }
                 .clip(Styler.roundedShape()),
             availableTracks = playbackTracksState.tracks,
-            onPlayPause = { playPauseButtonState.onClick() },
+            onPlayPause = {
+                if (playPauseButtonState.showPlay && exoPlayer.currentPosition == exoPlayer.duration) {
+                    exoPlayer.seekTo(0)
+                }
+                playPauseButtonState.onClick()
+            },
             onSeekTo = onSeekTo,
             onPlaybackSpeedChange = { playbackSpeedState.updatePlaybackSpeed(it.speed) },
             onTrackSelected = { playbackTracksState.selectTrack(it) },
