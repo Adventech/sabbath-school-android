@@ -50,7 +50,7 @@ import ss.services.media.ui.spec.PlaybackStateSpec
 fun MediaPlayer(
     source: String,
     modifier: Modifier = Modifier,
-    content: @Composable ColumnScope.(ExoPlayer, PlaybackStateSpec, PlaybackProgressState, () -> Unit, (Long) -> Unit) -> Unit,
+    content: @Composable ColumnScope.(ExoPlayer, PlaybackStateSpec, PlaybackProgressState, (Long) -> Unit) -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -127,16 +127,6 @@ fun MediaPlayer(
             exoPlayer,
             playbackState,
             progressState,
-            {
-                if (exoPlayer.isPlaying) {
-                    exoPlayer.pause()
-                } else {
-                    if (exoPlayer.currentPosition == exoPlayer.duration) {
-                        exoPlayer.seekTo(0)
-                    }
-                    exoPlayer.play()
-                }
-            },
             { position ->
                 progressState = progressState.copy(
                     position = position,

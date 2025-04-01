@@ -115,7 +115,7 @@ fun VideoContent(blockItem: BlockItem.Video, modifier: Modifier = Modifier) {
     MediaPlayer(
         source = blockItem.src,
         modifier = modifier,
-    ) { exoplayer, playbackState, progressState, _, onSeekTo ->
+    ) { exoplayer, playbackState, progressState, onSeekTo ->
 
         PlayerContent(
             exoPlayer = exoplayer,
