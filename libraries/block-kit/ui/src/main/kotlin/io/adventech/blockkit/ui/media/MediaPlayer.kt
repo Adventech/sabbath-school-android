@@ -33,8 +33,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import kotlinx.coroutines.delay
 import ss.libraries.media.api.DEFAULT_FORWARD
@@ -43,6 +45,7 @@ import ss.libraries.media.api.PLAYBACK_PROGRESS_INTERVAL
 import ss.libraries.media.model.PlaybackProgressState
 import ss.services.media.ui.spec.PlaybackStateSpec
 
+@androidx.annotation.OptIn(UnstableApi::class)
 @Composable
 fun MediaPlayer(
     source: String,
@@ -97,6 +100,17 @@ fun MediaPlayer(
         exoPlayer.prepare()
 
         onDispose { exoPlayer.release() }
+    }
+
+    LifecycleResumeEffect(Unit) {
+        onPauseOrDispose {
+            if (exoPlayer.isPlaying) {
+                exoPlayer.pause()
+                playbackState = playbackState.copy(
+                    isPlaying = false,
+                )
+            }
+        }
     }
 
     LaunchedEffect(playbackState.isPlaying) {
