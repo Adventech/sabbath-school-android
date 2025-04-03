@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,13 +24,19 @@ plugins {
     alias(libs.plugins.foundry.base)
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.parcelize)
+}
+
+android { namespace = "me.saket.cascade" }
+
+foundry {
+    features { compose() }
 }
 
 dependencies {
-    api(libs.androidx.media3.exoplayer)
-    api(libs.androidx.media3.session)
-    api(libs.androidx.media3.ui)
-    api(libs.androidx.media3.ui.compose)
-    api(projects.libraries.foundation.coroutines)
-    api(projects.libraries.media.model)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.bundles.compose)
+    implementation(libs.bundles.compose.tooling)
+    implementation(libs.timber)
 }

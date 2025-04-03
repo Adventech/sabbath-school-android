@@ -92,7 +92,7 @@ fun VideoSegmentScreenUi(state: State, modifier: Modifier = Modifier) {
         contentColor = contentColor,
     ) { contentPadding ->
         LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(top = 12.dp),
             contentPadding = contentPadding,
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {

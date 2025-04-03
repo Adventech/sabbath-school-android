@@ -64,6 +64,7 @@ include(
     ":libraries:block-kit:model",
     ":libraries:block-kit:parser",
     ":libraries:block-kit:ui",
+    ":libraries:cascade-compose",
     ":libraries:circuit:api",
     ":libraries:foundation:android",
     ":libraries:foundation:coroutines",

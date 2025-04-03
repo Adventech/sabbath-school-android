@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,17 +20,23 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    alias(libs.plugins.foundry.base)
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+package me.saket.cascade.internal
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
+
+internal fun interface MinSdkReader {
+    @Composable
+    fun minSdk(): Int
 }
 
-dependencies {
-    api(libs.androidx.media3.exoplayer)
-    api(libs.androidx.media3.session)
-    api(libs.androidx.media3.ui)
-    api(libs.androidx.media3.ui.compose)
-    api(projects.libraries.foundation.coroutines)
-    api(projects.libraries.media.model)
+internal object RealMinSdkReader : MinSdkReader {
+    @Composable
+    override fun minSdk(): Int {
+        val context = LocalContext.current
+        return remember {
+            context.packageManager.getPackageInfo(context.packageName, 0).applicationInfo?.minSdkVersion ?: 0
+        }
+    }
 }

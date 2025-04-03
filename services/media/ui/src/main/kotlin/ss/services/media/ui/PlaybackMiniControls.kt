@@ -30,6 +30,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -45,7 +46,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.HourglassBottom
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonColors
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -315,22 +319,41 @@ private fun PlaybackReplay(
 fun PlaybackPlayPause(
     spec: PlaybackStateSpec,
     contentColor: Color,
-    onPlayPause: () -> Unit
+    onPlayPause: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    colors: IconButtonColors = IconButtonDefaults.iconButtonColors(),
+    interactionSource: MutableInteractionSource? = null,
+    iconSize: Dp = PlaybackMiniControlsDefaults.playPauseSize
 ) {
-    IconButton(onClick = onPlayPause) {
-        val painter = when {
-            spec.isPlaying -> painterResource(id = MediaR.drawable.ic_audio_icon_pause)
-            spec.isPlayEnabled -> painterResource(id = MediaR.drawable.ic_audio_icon_play)
-            spec.isError -> rememberVectorPainter(MaterialIcons.Rounded.ErrorOutline)
-            else -> rememberVectorPainter(MaterialIcons.Rounded.HourglassBottom)
+    IconButton(
+        onClick = onPlayPause,
+        modifier = modifier,
+        enabled = enabled,
+        colors = colors,
+        interactionSource = interactionSource,
+    ) {
+        if (spec.isBuffering) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(iconSize),
+                color = contentColor,
+            )
+        } else {
+            val painter = when {
+                spec.isPlaying -> painterResource(id = MediaR.drawable.ic_audio_icon_pause)
+                spec.isError -> rememberVectorPainter(MaterialIcons.Rounded.ErrorOutline)
+                spec.isPlayEnabled -> painterResource(id = MediaR.drawable.ic_audio_icon_play)
+                else -> rememberVectorPainter(MaterialIcons.Rounded.HourglassBottom)
+            }
+
+            IconBox(
+                icon = IconSlot.fromPainter(
+                    painter = painter,
+                    contentDescription = stringResource(id = RString.ss_action_play_pause)
+                ),
+                modifier = Modifier.size(iconSize),
+                contentColor = contentColor
+            )
         }
-        IconBox(
-            icon = IconSlot.fromPainter(
-                painter = painter,
-                contentDescription = stringResource(id = RString.ss_action_play_pause)
-            ),
-            modifier = Modifier.size(PlaybackMiniControlsDefaults.playPauseSize),
-            contentColor = contentColor
-        )
     }
 }

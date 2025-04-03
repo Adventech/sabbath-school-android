@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,17 +20,17 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    alias(libs.plugins.foundry.base)
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-}
+package me.saket.cascade
 
-dependencies {
-    api(libs.androidx.media3.exoplayer)
-    api(libs.androidx.media3.session)
-    api(libs.androidx.media3.ui)
-    api(libs.androidx.media3.ui.compose)
-    api(projects.libraries.foundation.coroutines)
-    api(projects.libraries.media.model)
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.unit.dp
+
+internal object CascadeDefaults {
+  val menuWidth = 196.dp
+  val shadowElevation = 3.dp
+
+  val shape: Shape
+    @Composable get() = MaterialTheme.shapes.extraSmall
 }

@@ -110,6 +110,8 @@
     <string name="ss_media_audio">Audio</string>
     <string name="ss_media_video">Video</string>
     <string name="ss_media_videos">Videos</string>
+    <string name="ss_media_playback_speed">Playback Speed</string>
+    <string name="ss_media_captions">Captions</string>
 
     <string name="ss_pdf_original">Original layout</string>
     <string name="ss_get_printed_resources">Get Printed Resources</string>
@@ -146,4 +148,5 @@
     <string name="ss_action_comment">Comment</string>
     <string name="ss_action_highlight">Highlight</string>
     <string name="ss_downloading">Downloading…</string>
+    <string name="ss_off">Off</string>
 </resources>

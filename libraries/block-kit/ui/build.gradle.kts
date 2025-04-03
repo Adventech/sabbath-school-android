@@ -45,6 +45,7 @@ dependencies {
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.atlassian.commonmark)
     implementation(libs.bundles.compose)
     implementation(libs.bundles.compose.tooling)
@@ -57,8 +58,10 @@ dependencies {
     implementation(libs.saket.telephoto.flick)
     implementation(libs.timber)
     implementation(projects.common.translations)
+    implementation(projects.libraries.cascadeCompose)
     implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.media.api)
+    implementation(projects.libraries.media.resources)
     implementation(projects.libraries.ui.placeholder)
     implementation(projects.services.media.ui)
 

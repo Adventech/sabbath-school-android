@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,17 +20,24 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    alias(libs.plugins.foundry.base)
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-}
+package me.saket.cascade.internal
 
-dependencies {
-    api(libs.androidx.media3.exoplayer)
-    api(libs.androidx.media3.session)
-    api(libs.androidx.media3.ui)
-    api(libs.androidx.media3.ui.compose)
-    api(projects.libraries.foundation.coroutines)
-    api(projects.libraries.media.model)
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntRect
+import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.window.PopupPositionProvider
+
+internal class FixedPopupPositionProvider(
+  private val position: IntOffset
+) : PopupPositionProvider {
+
+  override fun calculatePosition(
+    anchorBounds: IntRect,
+    windowSize: IntSize,
+    layoutDirection: LayoutDirection,
+    popupContentSize: IntSize
+  ): IntOffset {
+    return position
+  }
 }
