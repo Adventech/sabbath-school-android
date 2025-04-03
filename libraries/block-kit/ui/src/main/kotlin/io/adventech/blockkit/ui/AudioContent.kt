@@ -67,6 +67,9 @@ import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.ui.compose.state.rememberPlayPauseButtonState
 import io.adventech.blockkit.model.AudioBlockCredits
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.BlockStyle
@@ -89,12 +92,12 @@ fun AudioContent(blockItem: BlockItem.Audio, modifier: Modifier = Modifier) {
     MediaPlayer(
         source = blockItem.src,
         modifier = modifier,
-    ) { _, playbackState, progressState, onPlayPause, onSeekTo ->
+    ) { player, playbackState, progressState, onSeekTo ->
         PlayerContent(
+            player = player,
             playbackState = playbackState,
             progressState = progressState,
             modifier = Modifier,
-            onPlayPause = onPlayPause,
             onSeekTo = onSeekTo
         )
 
@@ -120,6 +123,31 @@ fun AudioContent(blockItem: BlockItem.Audio, modifier: Modifier = Modifier) {
     }
 }
 
+@androidx.annotation.OptIn(UnstableApi::class)
+@Composable
+private fun PlayerContent(
+    player: Player,
+    playbackState: PlaybackStateSpec,
+    progressState: PlaybackProgressState,
+    modifier: Modifier = Modifier,
+    onSeekTo: (Long) -> Unit = {},
+) {
+    val playPauseButtonState = rememberPlayPauseButtonState(player)
+
+    PlayerContent(
+        playbackState = playbackState,
+        progressState = progressState,
+        modifier = modifier,
+        onPlayPause = {
+            if (playPauseButtonState.showPlay && player.currentPosition == player.duration) {
+                player.seekTo(0)
+            }
+            playPauseButtonState.onClick()
+        },
+        onSeekTo = onSeekTo,
+    )
+}
+
 @Composable
 private fun PlayerContent(
     playbackState: PlaybackStateSpec,
@@ -129,7 +157,6 @@ private fun PlayerContent(
     onSeekTo: (Long) -> Unit = {},
 ) {
     val contentColor = genericForegroundColorForInteractiveBlock()
-
     val (draggingProgress, setDraggingProgress) = remember { mutableStateOf<Float?>(null) }
 
     val currentDuration = when (draggingProgress != null) {

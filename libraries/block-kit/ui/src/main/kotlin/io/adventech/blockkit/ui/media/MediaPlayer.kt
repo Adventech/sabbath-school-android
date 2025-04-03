@@ -33,19 +33,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import kotlinx.coroutines.delay
+import ss.libraries.media.api.DEFAULT_FORWARD
+import ss.libraries.media.api.DEFAULT_REWIND
 import ss.libraries.media.api.PLAYBACK_PROGRESS_INTERVAL
 import ss.libraries.media.model.PlaybackProgressState
 import ss.services.media.ui.spec.PlaybackStateSpec
 
+@androidx.annotation.OptIn(UnstableApi::class)
 @Composable
 fun MediaPlayer(
     source: String,
     modifier: Modifier = Modifier,
-    content: @Composable ColumnScope.(ExoPlayer, PlaybackStateSpec, PlaybackProgressState, () -> Unit, (Long) -> Unit) -> Unit,
+    content: @Composable ColumnScope.(ExoPlayer, PlaybackStateSpec, PlaybackProgressState, (Long) -> Unit) -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -63,6 +68,8 @@ fun MediaPlayer(
 
     val exoPlayer = remember(context, source) {
         ExoPlayer.Builder(context)
+            .setSeekBackIncrementMs(DEFAULT_REWIND)
+            .setSeekForwardIncrementMs(DEFAULT_FORWARD)
             .build().apply {
                 addListener(object : Player.Listener {
                     override fun onPlaybackStateChanged(state: Int) {
@@ -95,6 +102,17 @@ fun MediaPlayer(
         onDispose { exoPlayer.release() }
     }
 
+    LifecycleResumeEffect(Unit) {
+        onPauseOrDispose {
+            if (exoPlayer.isPlaying) {
+                exoPlayer.pause()
+                playbackState = playbackState.copy(
+                    isPlaying = false,
+                )
+            }
+        }
+    }
+
     LaunchedEffect(playbackState.isPlaying) {
         while (playbackState.isPlaying) {
             delay(PLAYBACK_PROGRESS_INTERVAL)
@@ -109,16 +127,6 @@ fun MediaPlayer(
             exoPlayer,
             playbackState,
             progressState,
-            {
-                if (exoPlayer.isPlaying) {
-                    exoPlayer.pause()
-                } else {
-                    if (exoPlayer.currentPosition == exoPlayer.duration) {
-                        exoPlayer.seekTo(0)
-                    }
-                    exoPlayer.play()
-                }
-            },
             { position ->
                 progressState = progressState.copy(
                     position = position,

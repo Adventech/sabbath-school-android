@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,17 +20,21 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    alias(libs.plugins.foundry.base)
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-}
+package ss.services.media.ui.spec
 
-dependencies {
-    api(libs.androidx.media3.exoplayer)
-    api(libs.androidx.media3.session)
-    api(libs.androidx.media3.ui)
-    api(libs.androidx.media3.ui.compose)
-    api(projects.libraries.foundation.coroutines)
-    api(projects.libraries.media.model)
+enum class PlaybackSpeed(
+    val label: String,
+    val speed: Float
+) {
+    SLOW("0.5x", 0.5f),
+    NORMAL("1x", 1f),
+    FAST("1.25x", 1.25f),
+    FASTER("1.5x", 1.5f),
+    FASTEST("2.0x", 2f);
+
+    companion object {
+        fun fromSpeed(speed: Float): PlaybackSpeed {
+            return entries.firstOrNull { it.speed == speed } ?: NORMAL
+        }
+    }
 }
