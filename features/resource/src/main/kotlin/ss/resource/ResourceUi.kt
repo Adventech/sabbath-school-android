@@ -125,6 +125,7 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
                                 content = {
                                     CoverContent(
                                         resource = resource,
+                                        documentTitle = state.readDocumentTitle,
                                         type = it,
                                         ctaOnClick = { state.eventSink(Event.OnCtaClick) },
                                         readMoreClick = { state.eventSink(Event.OnReadMoreClick) },

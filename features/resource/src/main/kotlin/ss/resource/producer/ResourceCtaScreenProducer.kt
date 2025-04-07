@@ -25,6 +25,7 @@ package ss.resource.producer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
+import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuitx.android.IntentScreen
 import io.adventech.blockkit.model.feed.FeedType
@@ -38,11 +39,20 @@ import ss.misc.DateHelper
 import ss.resource.components.content.pdfScreen
 import javax.inject.Inject
 
+sealed interface CtaScreenState : CircuitUiState {
+    data object None : CtaScreenState
+
+    data class Default(
+        val screen: Screen,
+        val title: String?,
+    ) : CtaScreenState
+}
+
 @Stable
 interface ResourceCtaScreenProducer {
 
     @Composable
-    operator fun invoke(resource: Resource?): Screen?
+    operator fun invoke(resource: Resource?): CtaScreenState
 }
 
 internal class ResourceCtaScreenProducerImpl @Inject constructor(
@@ -50,15 +60,14 @@ internal class ResourceCtaScreenProducerImpl @Inject constructor(
 ) : ResourceCtaScreenProducer {
 
     @Composable
-    override fun invoke(resource: Resource?): Screen? {
-        if (resource == null) return null
-        return remember(resource) { calculateScreen(resource) }
+    override fun invoke(resource: Resource?): CtaScreenState {
+        return remember(resource) { resource?.let { calculateScreen(resource)  } ?: CtaScreenState.None }
     }
 
     private fun calculateScreen(
         resource: Resource,
         today: DateTime = DateTime.now()
-    ): Screen? {
+    ): CtaScreenState.Default? {
         val sections = resource.sections ?: return null
         val isSabbathMorning = today.dayOfWeek().get() == DateTimeConstants.SATURDAY && today.hourOfDay().get() < 12
         val dateTime = if (isSabbathMorning && resource.type == FeedType.SS) {
@@ -76,10 +85,10 @@ internal class ResourceCtaScreenProducerImpl @Inject constructor(
 
                 if (fallsBetween) {
                     document.pdfScreen()?.let {
-                        return IntentScreen(pdfReader.launchIntent(it))
+                        return CtaScreenState.Default(IntentScreen(pdfReader.launchIntent(it)), null)
                     }
 
-                    return DocumentScreen(document.index)
+                    return CtaScreenState.Default(DocumentScreen(document.index), document.title)
                 }
             }
         }
@@ -89,7 +98,7 @@ internal class ResourceCtaScreenProducerImpl @Inject constructor(
         // Default to the first document and section
         return sections.firstOrNull()?.let { section ->
             section.documents.firstOrNull()?.let { document ->
-                DocumentScreen(document.index)
+                CtaScreenState.Default(DocumentScreen(document.index), null)
             }
         }
     }

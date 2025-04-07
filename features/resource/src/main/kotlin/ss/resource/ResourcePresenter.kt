@@ -35,6 +35,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
+import io.adventech.blockkit.model.resource.ProgressTracking
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import kotlinx.collections.immutable.persistentListOf
@@ -42,6 +43,7 @@ import kotlinx.collections.immutable.toImmutableList
 import ss.libraries.circuit.navigation.ResourceScreen
 import ss.resource.components.content.ResourceSectionsStateProducer
 import ss.resource.components.spec.toSpec
+import ss.resource.producer.CtaScreenState
 import ss.resource.producer.ResourceCtaScreenProducer
 import ss.resources.api.ResourcesRepository
 
@@ -64,6 +66,11 @@ class ResourcePresenter @AssistedInject constructor(
         val features = rememberRetained(resource) { resource?.features?.map { it.toSpec() }?.toImmutableList() ?: persistentListOf() }
         val sections = resource?.let { resourceSectionStateProducer(navigator, it) }?.specs ?: persistentListOf()
         val ctaScreen = resourceCtaScreenProducer(resource)
+        val readDocumentTitle = rememberRetained(resource, ctaScreen) {
+            (ctaScreen as? CtaScreenState.Default)?.title?.takeIf {
+                resource?.progressTracking in setOf(ProgressTracking.AUTOMATIC, ProgressTracking.AUTOMATIC) == true
+            } ?: ""
+        }
 
         var overlayState by rememberRetained { mutableStateOf<ResourceOverlayState?>(null) }
 
@@ -71,7 +78,10 @@ class ResourcePresenter @AssistedInject constructor(
             when (event) {
                 Event.OnNavBack -> navigator.pop()
                 Event.OnCtaClick -> {
-                    ctaScreen?.let { navigator.goTo(it) }
+                    when (ctaScreen) {
+                        is CtaScreenState.Default -> navigator.goTo(ctaScreen.screen)
+                        CtaScreenState.None -> Unit
+                    }
                 }
                 Event.OnReadMoreClick -> {
                     (resource?.introduction ?: resource?.markdownDescription ?: resource?.description)?.let {
@@ -86,6 +96,7 @@ class ResourcePresenter @AssistedInject constructor(
         return when {
             resource != null -> State.Success(
                 title = title,
+                readDocumentTitle = readDocumentTitle.takeUnless { it.isBlank() },
                 resource = resource,
                 sections = sections,
                 credits = credits,

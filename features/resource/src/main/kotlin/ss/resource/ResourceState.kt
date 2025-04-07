@@ -44,6 +44,7 @@ sealed interface State: CircuitUiState {
 
     data class Success(
         override val title: String,
+        val readDocumentTitle: String?,
         val resource: Resource,
         val sections: ImmutableList<ResourceSectionSpec>,
         val credits: ImmutableList<CreditSpec>,
