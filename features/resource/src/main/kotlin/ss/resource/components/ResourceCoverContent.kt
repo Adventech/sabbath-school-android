@@ -23,6 +23,7 @@
 package ss.resource.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -62,6 +63,7 @@ import app.ss.translations.R as L10n
 @Composable
 internal fun ColumnScope.CoverContent(
     resource: Resource,
+    documentTitle: String?,
     type: CoverContentType,
     ctaOnClick: () -> Unit,
     readMoreClick: () -> Unit
@@ -138,6 +140,7 @@ internal fun ColumnScope.CoverContent(
                 onClick = ctaOnClick,
                 color = Color.parse(resource.primaryColorDark),
                 text = resource.cta?.text,
+                documentTitle = documentTitle,
                 alignment = alignment,
             )
         }
@@ -214,6 +217,7 @@ private fun ColumnScope.CtaButton(
     onClick: () -> Unit,
     color: Color,
     text: String?,
+    documentTitle: String?,
     alignment: Alignment.Horizontal
 ) {
     val buttonColors = SsButtonDefaults.colors(
@@ -234,12 +238,31 @@ private fun ColumnScope.CtaButton(
             elevation = ButtonDefaults.elevatedButtonElevation(readButtonElevation),
             contentPadding = PaddingValues(horizontal = 36.dp)
         ) {
-            Text(
-                text = text ?: stringResource(id = L10n.string.ss_lessons_read).uppercase(),
-                style = SsTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight.Bold
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                Text(
+                    text = text ?: stringResource(id = L10n.string.ss_lessons_read).uppercase(),
+                    style = SsTheme.typography.titleMedium.copy(
+                        fontWeight = FontWeight.Bold
+                    )
                 )
-            )
+
+                documentTitle?.let {
+                    Text(
+                        text = it,
+                        style = SsTheme.typography.bodySmall.copy(
+                            fontSize = 13.sp,
+                            color = SsColors.White70
+                        ),
+                        modifier = Modifier,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
         }
     }
 }

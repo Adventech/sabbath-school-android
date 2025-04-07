@@ -51,6 +51,7 @@ fun ResourceEntity.toModel() = Resource(
     preferredCover = preferredCover,
     fonts = fonts,
     style = style,
+    progressTracking = progressTracking,
 )
 
 fun Resource.toEntity() = ResourceEntity(
@@ -79,4 +80,5 @@ fun Resource.toEntity() = ResourceEntity(
     preferredCover = preferredCover,
     fonts = fonts,
     style = style,
+    progressTracking = progressTracking,
 )

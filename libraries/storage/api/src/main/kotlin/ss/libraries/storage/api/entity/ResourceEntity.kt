@@ -29,6 +29,7 @@ import io.adventech.blockkit.model.feed.FeedResourceKind
 import io.adventech.blockkit.model.feed.FeedType
 import io.adventech.blockkit.model.resource.Credit
 import io.adventech.blockkit.model.resource.Feature
+import io.adventech.blockkit.model.resource.ProgressTracking
 import io.adventech.blockkit.model.resource.ResourceCTA
 import io.adventech.blockkit.model.resource.ResourceCovers
 import io.adventech.blockkit.model.resource.ResourceFont
@@ -62,5 +63,6 @@ data class ResourceEntity(
     val cta: ResourceCTA?,
     val preferredCover: ResourcePreferredCover?,
     val fonts: List<ResourceFont>? = null,
-    val style: Style? = null
+    val style: Style? = null,
+    val progressTracking: ProgressTracking? = null,
 )
