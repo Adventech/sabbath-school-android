@@ -45,6 +45,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
@@ -62,26 +63,26 @@ import io.adventech.blockkit.ui.style.thenIf
 internal fun ImageContent(blockItem: BlockItem.Image, modifier: Modifier = Modifier) {
     var showPreview by remember { mutableStateOf(false) }
     val aspectRatio = remember(blockItem) { blockItem.style?.image?.aspectRatio ?: (16 / 9f) }
+    val shape = Styler.roundedShape()
 
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        AsyncImageBox(
-            data = blockItem.src,
+        AsyncImage(
+            model = blockItem.src,
             contentDescription = blockItem.caption,
             modifier = Modifier
                 .thenIf(blockItem.style?.block?.rounded != false) {
-                    background(color = Styler.backgroundColor(null), Styler.roundedShape())
-                        .clip(Styler.roundedShape())
+                    background(color = Styler.backgroundColor(null), shape)
+                        .clip(shape)
                 }
                 .fillMaxWidth()
                 .aspectRatio(aspectRatio)
                 .thenIf(blockItem.style?.image?.expandable != false) {
                     clickable { showPreview = true }
                 },
-            contentScale = ContentScale.Fit,
-            scale = Scale.FILL,
+            contentScale = ContentScale.FillWidth,
         )
 
         blockItem.caption?.takeUnless { it.isEmpty() }?.let { text ->
