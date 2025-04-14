@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,7 @@
 
 package io.adventech.blockkit.ui
 
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -42,7 +42,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,6 +50,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.slack.circuit.retained.rememberRetained
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.TextStyle
@@ -66,7 +66,7 @@ internal fun CollapseContent(
     userInputState: UserInputState? = null,
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
 ) {
-    var expanded by remember { mutableStateOf(false) }
+    var expanded by rememberRetained { mutableStateOf(false) }
     val iconRotation by animateFloatAsState(
         targetValue = if (expanded) 180f else 0f,
         label = "card-rotation"
@@ -87,7 +87,7 @@ internal fun CollapseContent(
             containerColor = Styler.backgroundColor(null)
         )
     ) {
-        Column(modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.fillMaxWidth().animateContentSize()) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -118,7 +118,7 @@ internal fun CollapseContent(
                 )
             }
 
-            AnimatedVisibility(visible = expanded) {
+            if (expanded) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()

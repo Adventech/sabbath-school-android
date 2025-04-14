@@ -49,7 +49,6 @@ import io.adventech.blockkit.ui.style.background
 import io.adventech.blockkit.ui.style.primaryForeground
 import ss.document.segment.components.SegmentCover
 import ss.document.segment.components.SegmentHeader
-import kotlin.collections.orEmpty
 
 @Composable
 internal fun SegmentBlocksContent(
@@ -72,9 +71,10 @@ internal fun SegmentBlocksContent(
         state = listState,
         verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
-        item {
+        item(key = "cover-${segment.id}") {
             SegmentCover(
                 cover = segment.cover,
+                modifier = Modifier.animateItem(),
                 headerContent = {
                     if ((segment.titleBelowCover ?: titleBelowCover) == false) {
                         SegmentHeader(
@@ -91,34 +91,30 @@ internal fun SegmentBlocksContent(
         }
 
         if ((segment.titleBelowCover ?: titleBelowCover)) {
-            item {
+            item(key = "header-${segment.id}") {
                 SegmentHeader(
                     title = segment.markdownTitle ?: segment.title,
                     subtitle = segment.markdownSubtitle ?: segment.subtitle,
                     date = segment.date,
                     contentColor = contentColor,
                     style = segmentStyle,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().animateItem(),
                 )
             }
         }
 
-        items(segment.blocks.orEmpty()) { block ->
+        items(segment.blocks.orEmpty(), key = { it.id }) { block ->
             BlockContent(
                 blockItem = block,
-                modifier = Modifier,
+                modifier = Modifier.animateItem(),
                 userInputState = userInputState,
                 onHandleUri = onHandleUri,
                 onHandleReference = onHandleReference,
             )
         }
 
-        item {
-            Spacer(Modifier.height(48.dp))
-        }
+        item(key = "spacer") { Spacer(Modifier.height(48.dp)) }
 
-        item {
-            Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.systemBars))
-        }
+        item(key = "spacer-system") { Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.systemBars)) }
     }
 }

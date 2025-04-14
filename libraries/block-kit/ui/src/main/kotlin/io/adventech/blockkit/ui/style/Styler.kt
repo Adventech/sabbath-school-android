@@ -26,6 +26,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.staticCompositionLocalOf
@@ -53,6 +54,7 @@ import io.adventech.blockkit.model.TextStyle as BlockTextStyle
 
 object Styler {
 
+    @Stable
     @Composable
     fun textColor(
         blockStyle: BlockTextStyle?,
@@ -80,6 +82,7 @@ object Styler {
         }
     }
 
+    @Stable
     @Composable
     fun textSize(
         blockStyle: BlockTextStyle?,
@@ -90,6 +93,7 @@ object Styler {
         } ?: template.textSizeDefault()
     }
 
+    @Stable
     @Composable
     fun textStyle(
         blockStyle: BlockTextStyle?,
@@ -102,6 +106,7 @@ object Styler {
         )
     }
 
+    @Stable
     @Composable
     private fun fontFamily(blockStyle: BlockTextStyle?, template: StyleTemplate = BlockStyleTemplate.DEFAULT): FontFamily {
         val blocksStyle = LocalBlocksStyle.current
@@ -120,6 +125,7 @@ object Styler {
         }
     }
 
+    @Stable
     @Composable
     fun defaultFontFamily(): FontFamily = fontFamily(LocalReaderStyle.current.typeface)
 
@@ -142,6 +148,7 @@ object Styler {
         )
     }
 
+    @Stable
     @Composable
     fun backgroundColor(style: BlockLevelStyle?): Color {
         val readerStyle = LocalReaderStyle.current
@@ -173,6 +180,7 @@ object Styler {
 
     }
 
+    @Stable
     @Composable
     fun genericBackgroundColorForInteractiveBlock(
         theme: ReaderStyle.Theme = LocalReaderStyle.current.theme,
@@ -183,6 +191,7 @@ object Styler {
         return themedColor(light, sepia, dark, theme)
     }
 
+    @Stable
     @Composable
     fun genericForegroundColorForInteractiveBlock(
         theme: ReaderStyle.Theme = LocalReaderStyle.current.theme,
@@ -196,6 +205,7 @@ object Styler {
 
     fun roundedShape() = RoundedCornerShape(6.dp)
 
+    @Stable
     @Composable
     fun borderColor(): Color {
         val light = Color.Gray300
@@ -205,6 +215,7 @@ object Styler {
         return themedColor(light, sepia, dark)
     }
 
+    @Stable
     @Composable
     fun themedColor(
         light: Color,
