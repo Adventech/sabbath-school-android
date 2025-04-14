@@ -108,11 +108,7 @@ fun StorySlideContent(
     }
 
     Box(modifier = modifier.fillMaxSize()) {
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .horizontalScroll(imageScrollState)
-        ) {
+        if (pages.size == 1) {
             StoryImage(
                 data = blockItem.image,
                 screenHeightInPx = with(density) { screenHeight.dp.toPx() },
@@ -121,7 +117,24 @@ fun StorySlideContent(
                         imageWidthInPx - screenWidth.dp.toPx()
                     }
                 },
+                modifier = Modifier.fillMaxSize()
             )
+        } else {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .horizontalScroll(imageScrollState)
+            ) {
+                StoryImage(
+                    data = blockItem.image,
+                    screenHeightInPx = with(density) { screenHeight.dp.toPx() },
+                    onAvailableWidth = { imageWidthInPx ->
+                        totalScrollableWidth = with(density) {
+                            imageWidthInPx - screenWidth.dp.toPx()
+                        }
+                    },
+                )
+            }
         }
 
         HorizontalPager(
