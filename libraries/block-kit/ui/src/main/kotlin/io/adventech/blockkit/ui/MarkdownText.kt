@@ -422,7 +422,7 @@ private fun AnnotatedString.Builder.appendText(
 }
 
 // Regex to detect plain web URLs
-private val urlRegex = Regex("""(https?://|www\.)\S+""")
+private val urlRegex = Regex("""(https?://|www\.)\S+[^!:,.;\s]""")
 
 private fun io.adventech.blockkit.model.TextStyle.toSpanStyle(
     defaultFontSize: TextUnit,
