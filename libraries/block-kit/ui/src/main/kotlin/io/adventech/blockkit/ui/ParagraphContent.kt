@@ -51,6 +51,7 @@ import io.adventech.blockkit.ui.input.find
 import io.adventech.blockkit.ui.input.rememberContentHighlights
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
+import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
@@ -215,6 +216,7 @@ private fun Preview() {
                 )
             }.toImmutableList(),
             bibleVersion = null,
+            collapseContent = persistentMapOf(),
             eventSink = {}
         )
     }

@@ -29,11 +29,13 @@ import com.slack.circuit.runtime.CircuitUiState
 import io.adventech.blockkit.model.input.UserInput
 import io.adventech.blockkit.model.input.UserInputRequest
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.ImmutableMap
 
 @Stable
 data class UserInputState(
     val input: ImmutableList<UserInput>,
     val bibleVersion: String?,
+    val collapseContent: ImmutableMap<String, Boolean>,
     val eventSink: (Event) -> Unit,
 ) : CircuitUiState {
 
@@ -41,6 +43,7 @@ data class UserInputState(
     sealed interface Event : CircuitUiEvent {
         data class InputChanged(val input: UserInputRequest) : Event
         data class BibleVersionChanged(val version: String) : Event
+        data class CollapseContentChanged(val blockId: String, val isCollapsed: Boolean) : Event
     }
 }
 

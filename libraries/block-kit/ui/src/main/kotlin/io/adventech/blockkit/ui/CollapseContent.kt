@@ -66,7 +66,9 @@ internal fun CollapseContent(
     userInputState: UserInputState? = null,
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
 ) {
-    var expanded by rememberRetained { mutableStateOf(false) }
+    var expanded by rememberRetained(userInputState?.collapseContent) {
+        mutableStateOf(userInputState?.collapseContent?.get(blockItem.id) == true)
+    }
     val iconRotation by animateFloatAsState(
         targetValue = if (expanded) 180f else 0f,
         label = "card-rotation"
@@ -87,12 +89,24 @@ internal fun CollapseContent(
             containerColor = Styler.backgroundColor(null)
         )
     ) {
-        Column(modifier = Modifier.fillMaxWidth().animateContentSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .animateContentSize(),
+        ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Styler.genericBackgroundColorForInteractiveBlock())
-                    .clickable { expanded = !expanded }
+                    .clickable {
+                        expanded = !expanded
+                        userInputState?.eventSink?.invoke(
+                            UserInputState.Event.CollapseContentChanged(
+                                blockId = blockItem.id,
+                                isCollapsed = expanded
+                            )
+                        )
+                    }
                     .padding(horizontal = 16.dp, vertical = 12.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
