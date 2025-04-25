@@ -25,11 +25,13 @@ package ss.document.producer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import com.slack.circuit.retained.produceRetainedState
+import com.slack.circuit.retained.rememberRetained
 import io.adventech.blockkit.model.input.UserInput
 import io.adventech.blockkit.ui.input.UserInputState
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.FlowPreview
+import kotlinx.collections.immutable.toImmutableMap
 import ss.resources.api.ResourcesRepository
 import javax.inject.Inject
 
@@ -44,7 +46,6 @@ internal class UserInputStateProducerImpl @Inject constructor(
     private val resourcesRepository: ResourcesRepository,
 ) : UserInputStateProducer {
 
-    @OptIn(FlowPreview::class)
     @Composable
     override fun invoke(documentId: String?): UserInputState {
         val input by produceRetainedState(emptyList<UserInput>(), documentId) {
@@ -53,10 +54,12 @@ internal class UserInputStateProducerImpl @Inject constructor(
         val bibleVersion by produceRetainedState<String?>(null) {
             resourcesRepository.bibleVersion().collect { value = it }
         }
+        var collapseContent = rememberRetained { mutableStateMapOf<String, Boolean>() }
 
         return UserInputState(
             input = input.toImmutableList(),
             bibleVersion = bibleVersion,
+            collapseContent = collapseContent.toImmutableMap(),
             eventSink = { event ->
                 when (event) {
                     is UserInputState.Event.InputChanged -> {
@@ -67,6 +70,10 @@ internal class UserInputStateProducerImpl @Inject constructor(
 
                     is UserInputState.Event.BibleVersionChanged -> {
                         resourcesRepository.saveBibleVersion(event.version)
+                    }
+
+                    is UserInputState.Event.CollapseContentChanged -> {
+                        collapseContent[event.blockId] = event.isCollapsed
                     }
                 }
             }
