@@ -29,8 +29,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -65,8 +63,6 @@ fun DocumentPager(
         initialPage = initialPage,
         pageCount = { segments.size },
     )
-
-    LaunchedEffect(initialPage) { pagerState.animateScrollToPage(initialPage) }
 
     var pageListStateMap = remember { mutableMapOf<Int, LazyListState>() }
 
@@ -113,4 +109,6 @@ fun DocumentPager(
             }
         }
     }
+
+    LaunchedEffect(initialPage) { pagerState.scrollToPage(initialPage) }
 }
