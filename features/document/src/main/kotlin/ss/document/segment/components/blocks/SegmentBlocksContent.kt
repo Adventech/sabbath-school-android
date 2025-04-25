@@ -22,6 +22,9 @@
 
 package ss.document.segment.components.blocks
 
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.VisibilityThreshold
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
@@ -37,6 +40,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.resource.ReferenceModel
@@ -106,7 +110,12 @@ internal fun SegmentBlocksContent(
         items(segment.blocks.orEmpty(), key = { it.id }) { block ->
             BlockContent(
                 blockItem = block,
-                modifier = Modifier.animateItem(),
+                modifier = Modifier.animateItem(
+                    placementSpec = spring(
+                        stiffness = Spring.StiffnessLow,
+                        visibilityThreshold = IntOffset.VisibilityThreshold,
+                    )
+                ),
                 userInputState = userInputState,
                 onHandleUri = onHandleUri,
                 onHandleReference = onHandleReference,
