@@ -56,6 +56,8 @@ internal fun BlocksDialogSurface(
                     .padding(bottom = 16.dp),
                 shape = RoundedCornerShape(12.dp),
                 color = readerStyle.theme.background(),
+                tonalElevation = 3.dp,
+                shadowElevation = 3.dp,
                 content = content,
             )
         }
