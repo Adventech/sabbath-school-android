@@ -34,6 +34,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -45,11 +46,11 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Scale
+import coil.size.Size
 import com.slack.circuit.foundation.CircuitContent
 import com.slack.circuit.foundation.NavEvent
 import io.adventech.blockkit.model.BlockItem
@@ -62,28 +63,36 @@ import io.adventech.blockkit.ui.style.thenIf
 @Composable
 internal fun ImageContent(blockItem: BlockItem.Image, modifier: Modifier = Modifier) {
     var showPreview by remember { mutableStateOf(false) }
-    val aspectRatio = remember(blockItem) { blockItem.style?.image?.aspectRatio ?: (16 / 9f) }
+    var loadedImage by remember { mutableStateOf(false) }
     val shape = Styler.roundedShape()
+    var aspectRatio by remember { mutableFloatStateOf(blockItem.style?.image?.aspectRatio ?: (16f / 9f)) }
 
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        AsyncImage(
-            model = blockItem.src,
-            contentDescription = blockItem.caption,
+        Box(
             modifier = Modifier
-                .thenIf(blockItem.style?.block?.rounded != false) {
-                    background(color = Styler.backgroundColor(null), shape)
-                        .clip(shape)
-                }
                 .fillMaxWidth()
                 .aspectRatio(aspectRatio)
-                .thenIf(blockItem.style?.image?.expandable != false) {
-                    clickable { showPreview = true }
+                .thenIf(blockItem.style?.block?.rounded != false) {
+                    clip(shape).background(color = Styler.backgroundColor(null), shape)
+                }
+                .clickable(
+                    enabled = blockItem.style?.image?.expandable != false && loadedImage,
+                    onClick = { showPreview = true }
+                )
+        ) {
+            AsyncImage(
+                data = blockItem.src,
+                contentDescription = blockItem.caption,
+                onAvailableAspectRatio = {
+                    aspectRatio = it
+                    loadedImage = true
                 },
-            contentScale = ContentScale.FillWidth,
-        )
+                modifier = Modifier.fillMaxSize()
+            )
+        }
 
         blockItem.caption?.takeUnless { it.isEmpty() }?.let { text ->
             var textAlign by remember(text) { mutableStateOf(TextAlign.Start) }
@@ -113,6 +122,44 @@ internal fun ImageContent(blockItem: BlockItem.Image, modifier: Modifier = Modif
             onDismiss = { showPreview = false },
         )
     }
+}
+
+/** Crop the image while maintaining original image aspect ratio. **/
+@Composable
+private fun AsyncImage(
+    data: String,
+    contentDescription: String?,
+    onAvailableAspectRatio: (Float) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val painter = rememberAsyncImagePainter(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(data)
+            .size(Size.ORIGINAL)
+            .scale(scale = Scale.FILL)
+            .build()
+    )
+
+    when (val state = painter.state) {
+        is AsyncImagePainter.State.Loading -> Unit
+        AsyncImagePainter.State.Empty,
+        is AsyncImagePainter.State.Error -> Unit
+
+        is AsyncImagePainter.State.Success -> {
+            val (realWidth, realHeight) = state.painter.intrinsicSize.run {
+                width to height
+            }
+            val imageAspectRatio = (realWidth / realHeight)
+            onAvailableAspectRatio(imageAspectRatio)
+        }
+    }
+
+    Image(
+        painter = painter,
+        contentDescription = contentDescription,
+        modifier = modifier,
+        contentScale = ContentScale.Crop,
+    )
 }
 
 @Composable
