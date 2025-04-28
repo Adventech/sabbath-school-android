@@ -23,8 +23,9 @@
 package io.adventech.blockkit.ui
 
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -40,13 +41,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
@@ -66,17 +67,15 @@ internal fun CollapseContent(
     userInputState: UserInputState? = null,
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
 ) {
-    var expanded by rememberRetained(userInputState?.collapseContent) {
-        mutableStateOf(userInputState?.collapseContent?.get(blockItem.id) == true)
+    val expanded by rememberRetained(userInputState?.collapseContent) {
+        derivedStateOf { userInputState?.collapseContent?.get(blockItem.id) == true }
     }
     val iconRotation by animateFloatAsState(
         targetValue = if (expanded) 180f else 0f,
+        animationSpec = tween(durationMillis = 200),
         label = "card-rotation"
     )
-    val cardElevation by animateDpAsState(
-        targetValue = if (expanded) 6.dp else 1.dp,
-        label = "card-elevation"
-    )
+    val cardElevation = if (expanded) 6.dp else 1.dp
     val captionTextStyle = Styler.textStyle(blockStyle = captionBlockTextStyle)
 
     ElevatedCard(
@@ -92,18 +91,22 @@ internal fun CollapseContent(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .animateContentSize(),
+                .animateContentSize(
+                    animationSpec = tween(
+                        durationMillis = 200,
+                        easing = FastOutSlowInEasing
+                    )
+                ),
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Styler.genericBackgroundColorForInteractiveBlock())
                     .clickable {
-                        expanded = !expanded
                         userInputState?.eventSink?.invoke(
                             UserInputState.Event.CollapseContentChanged(
                                 blockId = blockItem.id,
-                                isCollapsed = expanded
+                                isCollapsed = !expanded
                             )
                         )
                     }
@@ -125,9 +128,7 @@ internal fun CollapseContent(
                 Icon(
                     imageVector = Icons.Rounded.KeyboardArrowDown,
                     contentDescription = null,
-                    modifier = Modifier.graphicsLayer {
-                        rotationZ = iconRotation
-                    },
+                    modifier = Modifier.rotate(iconRotation),
                     tint = captionTextStyle.color
                 )
             }
@@ -140,13 +141,15 @@ internal fun CollapseContent(
                         .padding(horizontal = 16.dp, vertical = 12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    blockItem.items.forEach { item ->
-                        BlockContent(
-                            blockItem = item,
-                            nested = true,
-                            userInputState = userInputState,
-                            onHandleUri = onHandleUri,
-                        )
+                    blockItem.items.forEachIndexed { index, item ->
+                        key(item.id) {
+                            BlockContent(
+                                blockItem = item,
+                                nested = true,
+                                userInputState = userInputState,
+                                onHandleUri = onHandleUri,
+                            )
+                        }
                     }
                 }
             }
