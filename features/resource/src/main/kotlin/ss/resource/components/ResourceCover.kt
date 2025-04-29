@@ -59,12 +59,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.thenIf
+import app.ss.design.compose.extensions.window.containerHeight
+import app.ss.design.compose.extensions.window.containerWidth
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
 import coil.size.Scale
@@ -359,7 +362,7 @@ private const val MAX_WIDTH = 200f
 @Stable
 @Composable
 private fun nonSplashCover(coverType: ResourceCoverType): DpSize {
-    val screenWidth = LocalConfiguration.current.screenWidthDp.toFloat()
+    val screenWidth = LocalWindowInfo.current.containerWidth()
 
     val width = if (isLargeScreen()) MAX_WIDTH else (screenWidth / (if (coverType == ResourceCoverType.PORTRAIT) 2.5f else 1.5f))
     val height = width / coverType.aspectRatio
@@ -371,6 +374,6 @@ private fun nonSplashCover(coverType: ResourceCoverType): DpSize {
 @Composable
 private fun defaultHeight(): Dp {
     val config = LocalConfiguration.current
-    val screenHeight = config.screenHeightDp
+    val screenHeight = LocalWindowInfo.current.containerHeight()
     return (screenHeight.toFloat() * (if (isLargeScreen() && (config.orientation == Configuration.ORIENTATION_LANDSCAPE)) 0.8f else 0.6f)).dp
 }

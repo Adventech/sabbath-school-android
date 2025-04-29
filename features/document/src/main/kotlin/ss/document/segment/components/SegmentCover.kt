@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,9 +31,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.modifier.asPlaceholder
+import app.ss.design.compose.extensions.window.containerHeight
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
 
@@ -43,7 +44,7 @@ internal fun SegmentCover(
     modifier: Modifier = Modifier,
     headerContent: @Composable () -> Unit = {  },
 ) {
-    val height = LocalConfiguration.current.screenHeightDp
+    val height = LocalWindowInfo.current.containerHeight()
 
     Box(modifier.fillMaxWidth(), contentAlignment = Alignment.BottomCenter) {
         if (cover == null) {

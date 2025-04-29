@@ -20,16 +20,20 @@
  * THE SOFTWARE.
  */
 
-package app.ss.design.compose.extensions
+package app.ss.design.compose.extensions.window
 
-import android.os.Build
-import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalWindowInfo
-import app.ss.design.compose.extensions.window.containerWidth
-
-@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)
-fun isS() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.WindowInfo
 
 @Composable
-fun isLargeScreen(): Boolean = LocalWindowInfo.current.containerWidth() >= 600
+fun WindowInfo.containerWidth(): Float {
+    val density = LocalDensity.current.density
+    return containerSize.width / density
+}
+
+@Composable
+fun WindowInfo.containerHeight(): Float {
+    val density = LocalDensity.current.density
+    return containerSize.height / density
+}
