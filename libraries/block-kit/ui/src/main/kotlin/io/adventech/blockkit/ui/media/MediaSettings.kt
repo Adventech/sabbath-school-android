@@ -38,7 +38,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -64,7 +65,7 @@ internal fun VideoSettingsDropdownMenu(
     onTrackSelected: (SimpleTrack?) -> Unit = {},
 ) {
     val cascadeState = rememberCascadeState()
-    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+    val screenWidth = (LocalWindowInfo.current.containerSize.width / LocalDensity.current.density).dp
 
     CascadeDropdownMenu(
         expanded = isMenuShown,

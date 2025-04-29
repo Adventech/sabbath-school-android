@@ -44,10 +44,11 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.modifier.asPlaceholder
+import app.ss.design.compose.extensions.window.containerWidth
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.ui.BlockContent
@@ -118,7 +119,7 @@ private fun HiddenSegmentContent(state: State.Success, modifier: Modifier = Modi
 private fun HiddenSegmentContent(state: State.Loading, modifier: Modifier = Modifier) {
     val readerStyle = state.readerStyle
     val contentColor = readerStyle.theme.primaryForeground()
-    val screenWidth = LocalConfiguration.current.screenWidthDp.toFloat()
+    val screenWidth = LocalWindowInfo.current.containerWidth()
 
     HiddenSegmentScaffold(readerStyle, modifier) {
         itemsIndexed(listOf(1, 2, 3)) { index, item ->
