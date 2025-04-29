@@ -75,6 +75,7 @@ import io.adventech.blockkit.ui.style.ReaderStyleConfig
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.background
 import io.adventech.blockkit.ui.style.primaryForeground
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 
 class ExcerptOverlay(private val state: State) : Overlay<ExcerptOverlay.Result> {
@@ -143,7 +144,7 @@ private fun DialogContent(
             shape = RoundedCornerShape(16.dp),
         ) {
             ExcerptOptions(
-                options = blockItem.options,
+                options = blockItem.options.toImmutableList(),
                 selectedOption = selectedOption,
                 onOptionSelected = { option ->
                     expanded = false

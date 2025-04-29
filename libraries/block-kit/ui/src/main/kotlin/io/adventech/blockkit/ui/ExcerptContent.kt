@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -46,6 +46,7 @@ import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -59,6 +60,8 @@ import androidx.compose.ui.unit.dp
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.style.Styler
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 internal fun ExcerptContent(
@@ -84,7 +87,7 @@ internal fun ExcerptContent(
             shape = RoundedCornerShape(16.dp),
         ) {
             ExcerptOptions(
-                options = blockItem.options,
+                options = blockItem.options.toImmutableList(),
                 selectedOption = selectedOption,
                 onOptionSelected = { option ->
                     expanded = false
@@ -143,14 +146,21 @@ fun ExcerptItemContent(
         verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         blockItem.items.forEach {
-            BlockContent(it, nested = blockItem.nested, parent = blockItem, userInputState = userInputState)
+            key(it.id) {
+                BlockContent(
+                    blockItem = it,
+                    nested = blockItem.nested,
+                    parent = blockItem,
+                    userInputState = userInputState,
+                )
+            }
         }
     }
 }
 
 @Composable
 fun ExcerptOptions(
-    options: List<String>,
+    options: ImmutableList<String>,
     selectedOption: String?,
     onOptionSelected: (String) -> Unit,
 ) {

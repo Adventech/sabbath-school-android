@@ -141,10 +141,11 @@ internal fun CollapseContent(
                         .padding(horizontal = 16.dp, vertical = 12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    blockItem.items.forEachIndexed { index, item ->
+                    blockItem.items.forEach { item ->
                         key(item.id) {
                             BlockContent(
                                 blockItem = item,
+                                modifier = Modifier.fillMaxWidth(),
                                 nested = true,
                                 userInputState = userInputState,
                                 onHandleUri = onHandleUri,
