@@ -42,7 +42,6 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Text
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -74,7 +73,6 @@ import io.adventech.blockkit.ui.color.parse
 import io.adventech.blockkit.ui.style.StoryStyleTemplate
 import io.adventech.blockkit.ui.style.Styler
 
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun StorySlideContent(
     blockItem: BlockItem.StorySlide,
