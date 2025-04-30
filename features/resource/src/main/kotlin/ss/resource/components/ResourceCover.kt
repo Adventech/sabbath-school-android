@@ -182,7 +182,7 @@ private fun ContentPrimary(
                     .hazeEffect {
                         blurEnabled = true
                         backgroundColor = Color.Transparent
-                        blurRadius = 80.dp
+                        blurRadius = 500.dp
                         tints = listOf(
                             HazeTint(Color.Transparent),
                             HazeTint(Color.Black.copy(0.1f)),
