@@ -23,7 +23,7 @@
 package ss.resource.components
 
 import android.content.res.Configuration
-import android.os.Build
+import android.graphics.Bitmap
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -50,14 +50,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.BlurredEdgeTreatment
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.Dp
@@ -70,7 +70,15 @@ import app.ss.design.compose.extensions.window.containerHeight
 import app.ss.design.compose.extensions.window.containerWidth
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import coil.size.Scale
+import coil.size.Size
+import coil.transform.Transformation
+import dev.chrisbanes.haze.HazeDefaults
+import dev.chrisbanes.haze.HazeProgressive
+import dev.chrisbanes.haze.HazeTint
+import dev.chrisbanes.haze.hazeEffect
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.model.resource.ResourceCoverType
 import io.adventech.blockkit.model.resource.ResourcePreferredCover
@@ -109,6 +117,7 @@ fun ResourceCover(
                     primaryColor = resource.primaryColor,
                     primaryDarkColor = resource.primaryColorDark,
                     modifier = Modifier.align(Alignment.BottomCenter),
+                    scrollOffset = scrollOffset,
                 ) {
                     content(coverContentType)
                 }
@@ -159,21 +168,35 @@ private fun ContentPrimary(
     primaryColor: String,
     primaryDarkColor: String,
     modifier: Modifier = Modifier,
+    scrollOffset: () -> Float = { 0f },
     content: @Composable ColumnScope.() -> Unit
 ) {
     Box(modifier = modifier) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            CoverImageBox(
-                cover = splashImage,
-                color = primaryColor,
+        if (HazeDefaults.blurEnabled()) {
+            BottomHalfAsyncImage(
+                model = splashImage,
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(0.4f)
                     .align(Alignment.BottomCenter)
-                    .blur(
-                        radius = 40.dp,
-                        edgeTreatment = BlurredEdgeTreatment.Unbounded,
-                    )
+                    .hazeEffect {
+                        blurEnabled = true
+                        backgroundColor = Color.Transparent
+                        blurRadius = 80.dp
+                        tints = listOf(
+                            HazeTint(Color.Transparent),
+                            HazeTint(Color.Black.copy(0.1f)),
+                            HazeTint(Color.White.copy(0f)),
+                            HazeTint(Color.White.copy(0.3f)),
+                        )
+                        progressive = HazeProgressive.verticalGradient(
+                            startIntensity = 0f,
+                            endIntensity = 1f,
+                        )
+                    }
+                    .graphicsLayer {
+                        translationY = scrollOffset() * 0.5f
+                    }
             )
 
             Column(
@@ -197,6 +220,45 @@ private fun ContentPrimary(
                 content = content,
             )
         }
+    }
+}
+
+@Composable
+private fun BottomHalfAsyncImage(
+    model: Any?,
+    modifier: Modifier = Modifier,
+) {
+    val context = LocalContext.current
+
+    AsyncImage(
+        model = ImageRequest.Builder(context)
+            .data(model)
+            .transformations(BottomHalfTransformation())
+            .build(),
+        contentDescription = null,
+        modifier = modifier,
+        contentScale = ContentScale.Crop
+    )
+}
+
+private class BottomHalfTransformation : Transformation {
+
+    override val cacheKey: String = "Bottom40PercentTransformation"
+
+    override suspend fun transform(input: Bitmap, size: Size): Bitmap {
+        val height = input.height
+        val startY = (height * 0.6f).toInt() // Start at 60% height (shows bottom 40%)
+        val bottomHeight = height - startY
+
+        // Create the cropped bitmap
+        val cropped = Bitmap.createBitmap(input, 0, startY, input.width, bottomHeight)
+
+        // Recycle the original bitmap if it's mutable (to save memory)
+        if (input.isMutable) {
+            input.recycle()
+        }
+
+        return cropped
     }
 }
 
