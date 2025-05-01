@@ -31,7 +31,7 @@ import ss.libraries.storage.api.entity.ResourceEntity
 interface ResourcesDao : BaseDao<ResourceEntity> {
 
     @Query("SELECT * FROM resources WHERE `index` = :index")
-    fun get(index: String): Flow<ResourceEntity>
+    fun get(index: String): Flow<ResourceEntity?>
 
     @Query("SELECT * FROM resources WHERE `index` = :index")
     fun getBy(index: String): ResourceEntity?

@@ -28,6 +28,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import kotlinx.coroutines.Dispatchers
 import ss.libraries.storage.api.dao.AppWidgetDao
 import ss.libraries.storage.api.dao.AudioDao
 import ss.libraries.storage.api.dao.BibleVersionDao
@@ -170,7 +171,8 @@ internal abstract class SabbathSchoolDatabase : RoomDatabase() {
 
         private fun buildDatabase(context: Context): SabbathSchoolDatabase =
             Room.databaseBuilder(context, SabbathSchoolDatabase::class.java, DATABASE_NAME)
-                .fallbackToDestructiveMigration()
+                .fallbackToDestructiveMigration(dropAllTables = true)
+                .setQueryCoroutineContext(Dispatchers.IO)
                 .build()
     }
 }
