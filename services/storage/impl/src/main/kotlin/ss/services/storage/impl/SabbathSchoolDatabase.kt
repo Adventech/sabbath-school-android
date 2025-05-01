@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -52,7 +52,6 @@ import ss.libraries.storage.api.entity.BibleVersionEntity
 import ss.libraries.storage.api.entity.DocumentEntity
 import ss.libraries.storage.api.entity.FeedEntity
 import ss.libraries.storage.api.entity.FeedGroupEntity
-import ss.libraries.storage.api.entity.UserInputEntity
 import ss.libraries.storage.api.entity.FontFileEntity
 import ss.libraries.storage.api.entity.LanguageEntity
 import ss.libraries.storage.api.entity.LessonEntity
@@ -62,6 +61,7 @@ import ss.libraries.storage.api.entity.ReadEntity
 import ss.libraries.storage.api.entity.ResourceEntity
 import ss.libraries.storage.api.entity.SegmentEntity
 import ss.libraries.storage.api.entity.UserEntity
+import ss.libraries.storage.api.entity.UserInputEntity
 import ss.libraries.storage.api.entity.VideoClipEntity
 import ss.libraries.storage.api.entity.VideoInfoEntity
 import ss.services.storage.impl.migration.LegacyUserInputMigration
@@ -170,7 +170,7 @@ internal abstract class SabbathSchoolDatabase : RoomDatabase() {
 
         private fun buildDatabase(context: Context): SabbathSchoolDatabase =
             Room.databaseBuilder(context, SabbathSchoolDatabase::class.java, DATABASE_NAME)
-                .fallbackToDestructiveMigration(dropAllTables = true)
+                .fallbackToDestructiveMigration()
                 .build()
     }
 }
