@@ -23,7 +23,6 @@
 package ss.resource.components
 
 import android.content.res.Configuration
-import android.graphics.Bitmap
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -48,6 +47,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -73,8 +73,6 @@ import app.ss.design.compose.widget.image.RemoteImage
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Scale
-import coil.size.Size
-import coil.transform.Transformation
 import dev.chrisbanes.haze.HazeDefaults
 import dev.chrisbanes.haze.HazeProgressive
 import dev.chrisbanes.haze.HazeTint
@@ -91,6 +89,7 @@ fun ResourceCover(
     content: @Composable ColumnScope.(CoverContentType) -> Unit
 ) {
     val isLargeScreen = isLargeScreen()
+    var splashImageLoaded by remember { mutableStateOf(false) }
     val coverContentType by remember(resource) {
         mutableStateOf(
             if (resource.covers.splash.isNullOrEmpty()) {
@@ -108,7 +107,8 @@ fun ResourceCover(
         color = resource.primaryColor,
         splashImage = resource.covers.splash,
         modifier = modifier,
-        scrollOffset = scrollOffset
+        scrollOffset = scrollOffset,
+        onCoverLoaded = { splashImageLoaded = true }
     ) {
         when (coverContentType) {
             CoverContentType.PRIMARY -> {
@@ -116,6 +116,7 @@ fun ResourceCover(
                     splashImage = resource.covers.splash,
                     primaryColor = resource.primaryColor,
                     primaryDarkColor = resource.primaryColorDark,
+                    splashImageLoaded = splashImageLoaded,
                     modifier = Modifier.align(Alignment.BottomCenter),
                     scrollOffset = scrollOffset,
                 ) {
@@ -140,6 +141,7 @@ private fun CoverBox(
     splashImage: String?,
     modifier: Modifier = Modifier,
     scrollOffset: () -> Float = { 0f },
+    onCoverLoaded: () -> Unit = {},
     content: @Composable BoxScope.() -> Unit
 ) {
     Box(
@@ -155,7 +157,8 @@ private fun CoverBox(
             modifier = Modifier
                 .graphicsLayer {
                     translationY = scrollOffset() * 0.5f
-                }
+                },
+            onCoverLoaded = onCoverLoaded,
         )
 
         content()
@@ -167,12 +170,13 @@ private fun ContentPrimary(
     splashImage: String?,
     primaryColor: String,
     primaryDarkColor: String,
+    splashImageLoaded: Boolean,
     modifier: Modifier = Modifier,
     scrollOffset: () -> Float = { 0f },
     content: @Composable ColumnScope.() -> Unit
 ) {
     Box(modifier = modifier) {
-        if (HazeDefaults.blurEnabled()) {
+        if (HazeDefaults.blurEnabled() && splashImageLoaded) {
             BottomHalfAsyncImage(
                 model = splashImage,
                 modifier = Modifier
@@ -241,32 +245,12 @@ private fun BottomHalfAsyncImage(
     )
 }
 
-private class BottomHalfTransformation : Transformation {
-
-    override val cacheKey: String = "Bottom40PercentTransformation"
-
-    override suspend fun transform(input: Bitmap, size: Size): Bitmap {
-        val height = input.height
-        val startY = (height * 0.6f).toInt() // Start at 60% height (shows bottom 40%)
-        val bottomHeight = height - startY
-
-        // Create the cropped bitmap
-        val cropped = Bitmap.createBitmap(input, 0, startY, input.width, bottomHeight)
-
-        // Recycle the original bitmap if it's mutable (to save memory)
-        if (input.isMutable) {
-            input.recycle()
-        }
-
-        return cropped
-    }
-}
-
 @Composable
 private fun CoverImageBox(
     cover: String?,
     color: String,
     modifier: Modifier = Modifier,
+    onCoverLoaded: () -> Unit = {},
 ) {
     val placeholder: @Composable () -> Unit = {
         Spacer(
@@ -282,6 +266,7 @@ private fun CoverImageBox(
             scale = Scale.FILL,
             loading = placeholder,
             error = placeholder,
+            onSuccess = { onCoverLoaded() }
         ),
         modifier = modifier
     )
