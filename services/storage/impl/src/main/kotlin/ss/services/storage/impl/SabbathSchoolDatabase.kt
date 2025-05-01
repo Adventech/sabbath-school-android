@@ -170,7 +170,7 @@ internal abstract class SabbathSchoolDatabase : RoomDatabase() {
 
         private fun buildDatabase(context: Context): SabbathSchoolDatabase =
             Room.databaseBuilder(context, SabbathSchoolDatabase::class.java, DATABASE_NAME)
-                .fallbackToDestructiveMigration()
+                .fallbackToDestructiveMigration(dropAllTables = true)
                 .build()
     }
 }
