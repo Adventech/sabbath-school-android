@@ -24,7 +24,7 @@ package ss.resource.producer
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.remember
+import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuitx.android.IntentScreen
@@ -61,7 +61,7 @@ internal class ResourceCtaScreenProducerImpl @Inject constructor(
 
     @Composable
     override fun invoke(resource: Resource?): CtaScreenState {
-        return remember(resource) { resource?.let { calculateScreen(resource)  } ?: CtaScreenState.None }
+        return rememberRetained (resource) { resource?.let { calculateScreen(resource)  } ?: CtaScreenState.None }
     }
 
     private fun calculateScreen(
@@ -78,8 +78,8 @@ internal class ResourceCtaScreenProducerImpl @Inject constructor(
 
         sections.forEach { section ->
             section.documents.forEachIndexed { index, document ->
-                val startDate = document.startDate?.let { DateHelper.parseDate(it) } ?: return@forEach
-                val endDate = document.endDate?.let { DateHelper.parseDate(it) } ?: return@forEach
+                val startDate = document.startDate?.let { DateHelper.parseDate(it) } ?: return@forEachIndexed
+                val endDate = document.endDate?.let { DateHelper.parseDate(it) } ?: return@forEachIndexed
 
                 val fallsBetween = Interval(startDate, endDate.plusDays(1)).contains(dateTime)
 
