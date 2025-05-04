@@ -72,6 +72,7 @@ import io.adventech.blockkit.ui.style.StyleTemplate
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
+import io.adventech.blockkit.ui.style.rememberAttributedTextColorOverride
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.Flow
@@ -197,7 +198,7 @@ internal fun rememberMarkdownText(
     val defaultFontFamily = Styler.defaultFontFamily()
     val fontProvider: (String?) -> FontFamily = remember(fonts) { { it?.let { fonts[it] } ?: defaultFontFamily } }
     val fontSizeProvider: (TextStyleSize?) -> TextUnit = remember { { styleTemplate.defaultTextSizePoints(it).sp } }
-    val attributedTextColorOverride = Styler.attributedTextColorOverride(color)
+    val attributedTextColorOverride = rememberAttributedTextColorOverride(color, styleTemplate)
 
     val parser = remember { Parser.builder().build() }
     val parsedNode = remember(markdownText) {
