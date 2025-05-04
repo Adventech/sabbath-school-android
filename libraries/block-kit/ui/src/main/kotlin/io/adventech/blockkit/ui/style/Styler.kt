@@ -42,6 +42,7 @@ import io.adventech.blockkit.model.BlocksStyle
 import io.adventech.blockkit.model.SegmentStyle
 import io.adventech.blockkit.model.SpacingStyle
 import io.adventech.blockkit.model.TextStyleAlignment
+import io.adventech.blockkit.ui.color.AttributedTextColorOverride
 import io.adventech.blockkit.ui.color.Gray100
 import io.adventech.blockkit.ui.color.Gray300
 import io.adventech.blockkit.ui.color.Primary800
@@ -228,6 +229,21 @@ object Styler {
             ReaderStyle.Theme.Dark -> dark
             ReaderStyle.Theme.Auto -> if (isSystemInDarkTheme()) dark else light
             ReaderStyle.Theme.Sepia -> sepia
+        }
+    }
+
+    @Stable
+    @Composable
+    internal fun attributedTextColorOverride(color: Color): AttributedTextColorOverride {
+        return when (LocalReaderStyle.current.theme) {
+            ReaderStyle.Theme.Light -> AttributedTextColorOverride.None
+            ReaderStyle.Theme.Sepia,
+            ReaderStyle.Theme.Dark -> AttributedTextColorOverride.CustomColor(color)
+            ReaderStyle.Theme.Auto -> if (isSystemInDarkTheme()) {
+                AttributedTextColorOverride.CustomColor(color)
+            } else {
+                AttributedTextColorOverride.None
+            }
         }
     }
 }
