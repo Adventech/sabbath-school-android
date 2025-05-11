@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,9 +33,6 @@ import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
 import ss.libraries.media.api.DEFAULT_FORWARD
 import ss.libraries.media.api.DEFAULT_REWIND
-import timber.log.Timber
-
-private const val LOG_TAG = "SS_MediaService"
 
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 abstract class MediaService : MediaSessionService() {
@@ -88,7 +85,6 @@ abstract class MediaService : MediaSessionService() {
 
     private inner class MediaSessionServiceListener : Listener {
         override fun onForegroundServiceStartNotAllowedException() {
-            Timber.tag(LOG_TAG).i("MediaService: onForegroundServiceStartNotAllowedException")
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 super.onForegroundServiceStartNotAllowedException()
             }
