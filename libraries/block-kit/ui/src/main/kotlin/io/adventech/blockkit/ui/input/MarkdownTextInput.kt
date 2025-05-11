@@ -92,9 +92,7 @@ internal fun MarkdownTextInput(
         )
     }
 
-    val text = remember(styledText) {
-        extendedSpans.extend(styledText)
-    }
+    val text = remember(styledText) { extendedSpans.extend(styledText) }
     var textFieldValue by remember(text, selection) { mutableStateOf(TextFieldValue(text, selection)) }
 
     BasicTextField(

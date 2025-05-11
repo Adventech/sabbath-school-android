@@ -192,18 +192,16 @@ internal fun rememberMarkdownText(
     styleTemplate: StyleTemplate = BlockStyleTemplate.DEFAULT,
     color: Color = MaterialTheme.colorScheme.onSurface,
     highlights: ImmutableList<Highlight> = persistentListOf(),
+    attributedTextParser: AttributedTextParser = remember { AttributedTextParser() }
 ): AnnotatedString {
-    val attributedTextParser = remember { AttributedTextParser() }
-    val fonts by rememberMarkdownFonts(markdownText, attributedTextParser)
     val defaultFontFamily = Styler.defaultFontFamily()
+    val fonts by rememberMarkdownFonts(markdownText, attributedTextParser, defaultFontFamily)
     val fontProvider: (String?) -> FontFamily = remember(fonts) { { it?.let { fonts[it] } ?: defaultFontFamily } }
     val fontSizeProvider: (TextStyleSize?) -> TextUnit = remember { { styleTemplate.defaultTextSizePoints(it).sp } }
     val attributedTextColorOverride = rememberAttributedTextColorOverride(color, styleTemplate)
 
     val parser = remember { Parser.builder().build() }
-    val parsedNode = remember(markdownText) {
-        parser.parse(markdownText) as Document
-    }
+    val parsedNode = remember(markdownText) { parser.parse(markdownText) as Document }
 
     return remember(parsedNode, style, color, attributedTextColorOverride, highlights, fontProvider, fontSizeProvider) {
         buildAnnotatedString {
@@ -228,10 +226,13 @@ internal fun rememberMarkdownText(
 }
 
 @Composable
-private fun rememberMarkdownFonts(markdownText: String, attributedTextParser: AttributedTextParser): State<Map<String, FontFamily>> {
+private fun rememberMarkdownFonts(
+    markdownText: String,
+    attributedTextParser: AttributedTextParser,
+    defaultFontFamily: FontFamily,
+): State<Map<String, FontFamily>> {
     val typefaces = remember(markdownText) { attributedTextParser.parseTypeface(markdownText) }
     val provider = LocalFontFamilyProvider.current
-    val defaultFontFamily = Styler.defaultFontFamily()
 
     return produceState(emptyMap(), typefaces) {
         getCombinedFontFamilies(typefaces, provider, defaultFontFamily).collect { fontFamilies ->
@@ -254,8 +255,7 @@ private fun getCombinedFontFamilies(
         .let { fontFlows -> combine(fontFlows) { it.toList() } } // Combine them into a single Flow
 }
 
-
-internal fun AnnotatedString.Builder.appendMarkdownChildren(
+private fun AnnotatedString.Builder.appendMarkdownChildren(
     parent: Node,
     color: Color,
     attrTextColorOverride: AttributedTextColorOverride,
