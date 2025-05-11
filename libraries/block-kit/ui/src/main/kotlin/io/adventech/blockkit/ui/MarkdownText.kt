@@ -41,7 +41,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.SpanStyle
@@ -65,6 +64,7 @@ import io.adventech.blockkit.model.TextStyleOffset
 import io.adventech.blockkit.model.TextStyleSize
 import io.adventech.blockkit.model.input.Highlight
 import io.adventech.blockkit.parser.AttributedTextParser
+import io.adventech.blockkit.ui.color.AttributedTextColorOverride
 import io.adventech.blockkit.ui.color.parse
 import io.adventech.blockkit.ui.color.toColor
 import io.adventech.blockkit.ui.style.BlockStyleTemplate
@@ -72,6 +72,7 @@ import io.adventech.blockkit.ui.style.StyleTemplate
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
+import io.adventech.blockkit.ui.style.rememberAttributedTextColorOverride
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.Flow
@@ -191,22 +192,21 @@ internal fun rememberMarkdownText(
     styleTemplate: StyleTemplate = BlockStyleTemplate.DEFAULT,
     color: Color = MaterialTheme.colorScheme.onSurface,
     highlights: ImmutableList<Highlight> = persistentListOf(),
+    attributedTextParser: AttributedTextParser = remember { AttributedTextParser() }
 ): AnnotatedString {
-    val attributedTextParser = remember { AttributedTextParser() }
-    val fonts by rememberMarkdownFonts(markdownText, attributedTextParser)
     val defaultFontFamily = Styler.defaultFontFamily()
+    val fonts by rememberMarkdownFonts(markdownText, attributedTextParser, defaultFontFamily)
     val fontProvider: (String?) -> FontFamily = remember(fonts) { { it?.let { fonts[it] } ?: defaultFontFamily } }
     val fontSizeProvider: (TextStyleSize?) -> TextUnit = remember { { styleTemplate.defaultTextSizePoints(it).sp } }
+    val attributedTextColorOverride = rememberAttributedTextColorOverride(color, styleTemplate)
 
     val parser = remember { Parser.builder().build() }
-    val parsedNode = remember(markdownText) {
-        parser.parse(markdownText) as Document
-    }
+    val parsedNode = remember(markdownText) { parser.parse(markdownText) as Document }
 
-    return remember(parsedNode, style, color, highlights, fontProvider, fontSizeProvider) {
+    return remember(parsedNode, style, color, attributedTextColorOverride, highlights, fontProvider, fontSizeProvider) {
         buildAnnotatedString {
             withStyle(style.toSpanStyle()) {
-                appendMarkdownChildren(parsedNode, color, style.fontSize, attributedTextParser, fontProvider, fontSizeProvider)
+                appendMarkdownChildren(parsedNode, color, attributedTextColorOverride, style.fontSize, attributedTextParser, fontProvider, fontSizeProvider)
             }
 
             // Apply highlights to the result text
@@ -226,10 +226,13 @@ internal fun rememberMarkdownText(
 }
 
 @Composable
-private fun rememberMarkdownFonts(markdownText: String, attributedTextParser: AttributedTextParser): State<Map<String, FontFamily>> {
+private fun rememberMarkdownFonts(
+    markdownText: String,
+    attributedTextParser: AttributedTextParser,
+    defaultFontFamily: FontFamily,
+): State<Map<String, FontFamily>> {
     val typefaces = remember(markdownText) { attributedTextParser.parseTypeface(markdownText) }
     val provider = LocalFontFamilyProvider.current
-    val defaultFontFamily = Styler.defaultFontFamily()
 
     return produceState(emptyMap(), typefaces) {
         getCombinedFontFamilies(typefaces, provider, defaultFontFamily).collect { fontFamilies ->
@@ -252,11 +255,10 @@ private fun getCombinedFontFamilies(
         .let { fontFlows -> combine(fontFlows) { it.toList() } } // Combine them into a single Flow
 }
 
-
-@OptIn(ExperimentalTextApi::class)
-internal fun AnnotatedString.Builder.appendMarkdownChildren(
+private fun AnnotatedString.Builder.appendMarkdownChildren(
     parent: Node,
     color: Color,
+    attrTextColorOverride: AttributedTextColorOverride,
     fontSize: TextUnit,
     parser: AttributedTextParser,
     fontProvider: (String?) -> FontFamily,
@@ -266,23 +268,23 @@ internal fun AnnotatedString.Builder.appendMarkdownChildren(
     while (child != null) {
         when (child) {
             is Paragraph -> {
-                appendMarkdownChildren(child, color, fontSize, parser, fontProvider, fontSizeProvider)
+                appendMarkdownChildren(child, color, attrTextColorOverride, fontSize, parser, fontProvider, fontSizeProvider)
             }
 
             is Text -> {
-                appendText(child, fontSize, parser, fontProvider, fontSizeProvider)
+                appendText(child, fontSize, parser, attrTextColorOverride, fontProvider, fontSizeProvider)
             }
 
             is Image -> appendInlineContent(TAG_IMAGE_URL, child.destination)
             is Emphasis -> {
                 withStyle(SpanStyle(fontStyle = FontStyle.Italic)) {
-                    appendMarkdownChildren(child, color, fontSize, parser, fontProvider, fontSizeProvider)
+                    appendMarkdownChildren(child, color, attrTextColorOverride, fontSize, parser, fontProvider, fontSizeProvider)
                 }
             }
 
             is StrongEmphasis -> {
                 withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
-                    appendMarkdownChildren(child, color, fontSize, parser, fontProvider, fontSizeProvider)
+                    appendMarkdownChildren(child, color, attrTextColorOverride, fontSize, parser, fontProvider, fontSizeProvider)
                 }
             }
 
@@ -299,7 +301,7 @@ internal fun AnnotatedString.Builder.appendMarkdownChildren(
             is Link -> {
                 withStyle(SpanStyle(color, textDecoration = TextDecoration.Underline)) {
                     withAnnotation(TAG_URL, child.destination) {
-                        appendMarkdownChildren(child, color, fontSize, parser, fontProvider, fontSizeProvider)
+                        appendMarkdownChildren(child, color,attrTextColorOverride, fontSize, parser, fontProvider, fontSizeProvider)
                     }
                 }
             }
@@ -307,13 +309,13 @@ internal fun AnnotatedString.Builder.appendMarkdownChildren(
             is Heading -> {
                 val fontSize = fontSizeProvider(textStyleFromLevel(child.level))
                 withStyle(SpanStyle(fontWeight = FontWeight.Bold, fontSize = fontSize)) {
-                    appendMarkdownChildren(child, color, fontSize, parser, fontProvider, fontSizeProvider)
+                    appendMarkdownChildren(child, color, attrTextColorOverride,fontSize, parser, fontProvider, fontSizeProvider)
                 }
                 appendLine()
             }
 
             is ListItem -> {
-                appendMarkdownChildren(child, color, fontSize, parser, fontProvider, fontSizeProvider)
+                appendMarkdownChildren(child, color, attrTextColorOverride,fontSize, parser, fontProvider, fontSizeProvider)
             }
 
             is ListBlock -> {
@@ -329,7 +331,7 @@ internal fun AnnotatedString.Builder.appendMarkdownChildren(
                         append(" ")
                     }
                 }
-                appendMarkdownChildren(child.firstChild, color, fontSize, parser, fontProvider, fontSizeProvider)
+                appendMarkdownChildren(child.firstChild, color, attrTextColorOverride, fontSize, parser, fontProvider, fontSizeProvider)
             }
         }
         child = child.next
@@ -355,11 +357,11 @@ private fun textStyleFromLevel(level: Int): TextStyleSize {
  * @param fontProvider The font provider to use for custom fonts.
  * @param fontSizeProvider The font size provider to use for custom font sizes.
  */
-@OptIn(ExperimentalTextApi::class)
 private fun AnnotatedString.Builder.appendText(
     text: Text,
     fontSize: TextUnit,
     parser: AttributedTextParser,
+    attrTextColorOverride: AttributedTextColorOverride,
     fontProvider: (String?) -> FontFamily,
     fontSizeProvider: (TextStyleSize?) -> TextUnit,
 ) {
@@ -394,7 +396,7 @@ private fun AnnotatedString.Builder.appendText(
                 // Extract inline text style from JSON
                 val inlineTextStyle = parser.parseJsonStyle(styleJson)
                 if (inlineTextStyle != null) {
-                    withStyle(inlineTextStyle.toSpanStyle(fontSize, fontProvider, fontSizeProvider)) {
+                    withStyle(inlineTextStyle.toSpanStyle(attrTextColorOverride, fontSize, fontProvider, fontSizeProvider)) {
                         append(text)
                     }
                 } else {
@@ -425,16 +427,21 @@ private fun AnnotatedString.Builder.appendText(
 private val urlRegex = Regex("""(https?://|www\.)\S+[^!:,.;\s]""")
 
 private fun io.adventech.blockkit.model.TextStyle.toSpanStyle(
+    attributedTextColorOverride: AttributedTextColorOverride,
     defaultFontSize: TextUnit,
     fontProvider: (String?) -> FontFamily,
     fontSizeProvider: (TextStyleSize?) -> TextUnit
 ): SpanStyle {
+    val color = when (attributedTextColorOverride) {
+        is AttributedTextColorOverride.CustomColor -> color?.let { attributedTextColorOverride.color } ?: Color.Unspecified
+        AttributedTextColorOverride.None -> color?.let { Color.parse(it) } ?: Color.Unspecified
+    }
     val fontSize = size?.let {
         fontSizeProvider(it) * if (offset == null) 1.0f else OFFSET_MULTIPLIER
     } ?: defaultFontSize.takeUnless { offset == null }?.let { it * OFFSET_MULTIPLIER }
 
     return SpanStyle(
-        color = color?.let { Color.parse(it) } ?: Color.Unspecified,
+        color = color,
         fontFamily = typeface?.let { fontProvider(typeface) },
         fontSize = fontSize ?: TextUnit.Unspecified,
         baselineShift = offset?.toBaselineShift(),

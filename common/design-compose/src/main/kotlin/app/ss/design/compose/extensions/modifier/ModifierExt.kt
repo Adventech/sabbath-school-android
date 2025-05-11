@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,10 +24,12 @@ package app.ss.design.compose.extensions.modifier
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import ss.ui.placeholder.asPlaceholder
 
@@ -54,3 +56,17 @@ fun Modifier.asPlaceholder(
         highlightColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.75f)
     )
 }
+
+fun Modifier.keepScreenOn(): Modifier = this.then(
+    Modifier.composed {
+        val view = LocalView.current
+        DisposableEffect(Unit) {
+            view.keepScreenOn = true
+            onDispose {
+                view.keepScreenOn = false
+            }
+        }
+        Modifier
+    }
+)
+

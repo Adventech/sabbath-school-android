@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,40 +26,15 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import app.ss.models.OfflineState
-import app.ss.models.QuarterlyGroup
-import kotlinx.coroutines.flow.Flow
 import ss.libraries.storage.api.entity.QuarterlyEntity
 import ss.libraries.storage.api.entity.QuarterlyInfoEntity
 
 @Dao
 interface QuarterliesDao : BaseDao<QuarterlyEntity> {
 
-    @Query("SELECT * FROM quarterlies WHERE lang = :language")
-    fun get(language: String): List<QuarterlyEntity>
-
-    @Query("SELECT * FROM quarterlies WHERE lang = :language")
-    fun getFlow(language: String): Flow<List<QuarterlyEntity>>
-
-    @Transaction
-    @Query("SELECT * FROM quarterlies")
-    fun getAllForSync(): List<QuarterlyInfoEntity>
-
-    @Query("SELECT * FROM quarterlies WHERE lang = :language AND quarterly_group = :group")
-    fun get(language: String, group: QuarterlyGroup): List<QuarterlyEntity>
-
-    @Query("SELECT * FROM quarterlies WHERE lang = :language AND quarterly_group = :group")
-    fun getFlow(language: String, group: QuarterlyGroup): Flow<List<QuarterlyEntity>>
-
     @Transaction
     @Query("SELECT * FROM quarterlies WHERE quarterlies.`index` = :quarterlyIndex")
     fun getInfo(quarterlyIndex: String): QuarterlyInfoEntity?
-
-    @Transaction
-    @Query("SELECT * FROM quarterlies WHERE quarterlies.`index` = :quarterlyIndex")
-    fun getInfoFlow(quarterlyIndex: String): Flow<QuarterlyInfoEntity?>
-
-    @Query("SELECT cover FROM quarterlies WHERE lang = :language")
-    suspend fun getCovers(language: String): List<String>
 
     @Query("SELECT offlineState FROM quarterlies WHERE quarterlies.`index` = :index")
     suspend fun getOfflineState(index: String): OfflineState?

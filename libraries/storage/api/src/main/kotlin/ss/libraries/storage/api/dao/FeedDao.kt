@@ -31,5 +31,5 @@ import ss.libraries.storage.api.entity.FeedEntity
 @Dao
 interface FeedDao : BaseDao<FeedEntity> {
     @Query("SELECT * FROM feed WHERE language = :language AND type = :type")
-    fun get(language: String, type: FeedType): Flow<FeedEntity>
+    fun get(language: String, type: FeedType): Flow<FeedEntity?>
 }

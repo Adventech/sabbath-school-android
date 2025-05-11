@@ -20,19 +20,13 @@
  * THE SOFTWARE.
  */
 
-package ss.libraries.storage.api.dao
+package io.adventech.blockkit.ui.color
 
-import androidx.room.Dao
-import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
-import ss.libraries.storage.api.entity.ResourceEntity
+import androidx.compose.runtime.Stable
+import androidx.compose.ui.graphics.Color
 
-@Dao
-interface ResourcesDao : BaseDao<ResourceEntity> {
-
-    @Query("SELECT * FROM resources WHERE `index` = :index")
-    fun get(index: String): Flow<ResourceEntity?>
-
-    @Query("SELECT * FROM resources WHERE `index` = :index")
-    fun getBy(index: String): ResourceEntity?
+@Stable
+internal sealed interface AttributedTextColorOverride {
+    data object None : AttributedTextColorOverride
+    data class CustomColor(val color: Color) : AttributedTextColorOverride
 }

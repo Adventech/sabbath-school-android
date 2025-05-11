@@ -29,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -42,6 +43,7 @@ import io.adventech.blockkit.model.BlocksStyle
 import io.adventech.blockkit.model.SegmentStyle
 import io.adventech.blockkit.model.SpacingStyle
 import io.adventech.blockkit.model.TextStyleAlignment
+import io.adventech.blockkit.ui.color.AttributedTextColorOverride
 import io.adventech.blockkit.ui.color.Gray100
 import io.adventech.blockkit.ui.color.Gray300
 import io.adventech.blockkit.ui.color.Primary800
@@ -50,6 +52,7 @@ import io.adventech.blockkit.ui.color.Sepia300
 import io.adventech.blockkit.ui.color.Sepia400
 import io.adventech.blockkit.ui.color.parse
 import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
+import io.adventech.blockkit.ui.style.ReaderStyle.Theme
 import io.adventech.blockkit.model.TextStyle as BlockTextStyle
 
 object Styler {
@@ -63,8 +66,8 @@ object Styler {
         val blockStyleColor = blockStyle?.color?.let { Color.parse(it) }
         val color = if (template.themeColorOverride) {
             when (LocalReaderStyle.current.theme) {
-                ReaderStyle.Theme.Light -> blockStyleColor
-                ReaderStyle.Theme.Auto -> blockStyleColor?.takeUnless { isSystemInDarkTheme() }
+                Theme.Light -> blockStyleColor
+                Theme.Auto -> blockStyleColor?.takeUnless { isSystemInDarkTheme() }
                 else -> null
             }
         } else {
@@ -157,8 +160,8 @@ object Styler {
         // This block's level style
         style?.backgroundColor?.let {
             return when (readerStyle.theme) {
-                ReaderStyle.Theme.Light -> Color.parse(it)
-                ReaderStyle.Theme.Auto -> {
+                Theme.Light -> Color.parse(it)
+                Theme.Auto -> {
                     if (isSystemInDarkTheme()) {
                         genericBackgroundColorForInteractiveBlock(readerStyle.theme)
                     } else {
@@ -183,7 +186,7 @@ object Styler {
     @Stable
     @Composable
     fun genericBackgroundColorForInteractiveBlock(
-        theme: ReaderStyle.Theme = LocalReaderStyle.current.theme,
+        theme: Theme = LocalReaderStyle.current.theme,
     ): Color {
         val light = Color.Gray100
         val sepia = Color.Sepia300
@@ -194,7 +197,7 @@ object Styler {
     @Stable
     @Composable
     fun genericForegroundColorForInteractiveBlock(
-        theme: ReaderStyle.Theme = LocalReaderStyle.current.theme,
+        theme: Theme = LocalReaderStyle.current.theme,
     ): Color {
         val light = Color.Black
         val sepia = Color(0xFF5b4636)
@@ -221,14 +224,33 @@ object Styler {
         light: Color,
         sepia: Color,
         dark: Color,
-        theme: ReaderStyle.Theme = LocalReaderStyle.current.theme,
+        theme: Theme = LocalReaderStyle.current.theme,
     ): Color {
         return when (theme) {
-            ReaderStyle.Theme.Light -> light
-            ReaderStyle.Theme.Dark -> dark
-            ReaderStyle.Theme.Auto -> if (isSystemInDarkTheme()) dark else light
-            ReaderStyle.Theme.Sepia -> sepia
+            Theme.Light -> light
+            Theme.Dark -> dark
+            Theme.Auto -> if (isSystemInDarkTheme()) dark else light
+            Theme.Sepia -> sepia
         }
+    }
+}
+
+@Composable
+internal fun rememberAttributedTextColorOverride(
+    color: Color,
+    styleTemplate: StyleTemplate,
+    isDarkTheme: Boolean = isSystemInDarkTheme(),
+    theme: Theme = LocalReaderStyle.current.theme,
+) = remember(color, styleTemplate, isDarkTheme) {
+    if (styleTemplate.themeColorOverride) {
+        when (theme) {
+            Theme.Light -> AttributedTextColorOverride.None
+            Theme.Sepia,
+            Theme.Dark -> AttributedTextColorOverride.CustomColor(color)
+            Theme.Auto -> if (isDarkTheme) AttributedTextColorOverride.CustomColor(color) else AttributedTextColorOverride.None
+        }
+    } else {
+        AttributedTextColorOverride.None
     }
 }
 
