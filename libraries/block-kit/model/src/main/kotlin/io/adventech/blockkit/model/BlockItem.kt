@@ -188,7 +188,7 @@ sealed interface BlockItem {
         override val nested: Boolean?,
         val ordered: Boolean?,
         val start: Int?,
-        val items: List<BlockItem>,
+        val items: List<MultipleChoiceItem>,
         val answer: Int,
     ) : BlockItem
 

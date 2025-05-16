@@ -91,8 +91,16 @@ fun BlockContent(
             is BlockItem.Image -> {
                 ImageContent(blockItem, blockModifier)
             }
-            is BlockItem.MultipleChoice -> Unit
-            is BlockItem.MultipleChoiceItem -> Unit
+            is BlockItem.MultipleChoice -> {
+                MultipleChoiceContent(blockItem, blockModifier, userInputState) {
+                    onHandleUri(it, blockItem.data)
+                }
+            }
+            is BlockItem.MultipleChoiceItem -> {
+                MultipleChoiceItemContent(blockItem, blockModifier) {
+                    onHandleUri(it, blockItem.data)
+                }
+            }
             is BlockItem.Paragraph -> {
                 ParagraphContent(
                     blockItem = blockItem,
