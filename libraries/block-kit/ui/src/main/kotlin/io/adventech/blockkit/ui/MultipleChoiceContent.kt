@@ -22,6 +22,8 @@
 
 package io.adventech.blockkit.ui
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -34,9 +36,15 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.RadioButtonDefaults
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -47,16 +55,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.input.UserInput
 import io.adventech.blockkit.model.input.UserInputRequest
-import io.adventech.blockkit.ui.color.Gray50
+import io.adventech.blockkit.ui.color.Gray300
 import io.adventech.blockkit.ui.color.Gray500
-import io.adventech.blockkit.ui.color.Gray900
-import io.adventech.blockkit.ui.color.Sepia300
+import io.adventech.blockkit.ui.color.Gray800
 import io.adventech.blockkit.ui.color.Sepia400
 import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.input.find
@@ -68,8 +76,8 @@ import io.adventech.blockkit.ui.style.background
 import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
 
 @Composable
-fun ChecklistContent(
-    blockItem: BlockItem.Checklist,
+fun MultipleChoiceContent(
+    blockItem: BlockItem.MultipleChoice,
     modifier: Modifier = Modifier,
     userInputState: UserInputState? = null,
     onHandleUri: (String) -> Unit = {},
@@ -86,18 +94,21 @@ fun ChecklistContent(
 
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(4.dp)) {
         blockItem.items.forEach { item ->
-            ChecklistItemContent(
+            MultipleChoiceItemContent(
                 blockItem = item,
                 modifier = Modifier,
                 checked = checkedListMap[item.index] == true,
+                answer = blockItem.answer,
                 onCheckedChange = { index, checked ->
+                    // Only one item can be checked at a time
+                    checkedListMap.keys.forEach { checkedListMap[it] = false }
                     checkedListMap[index] = checked
 
                     userInputState?.eventSink(
                         UserInputState.Event.InputChanged(
                             UserInputRequest.Checklist(
                                 blockId = blockItem.id,
-                                checked = checkedListMap.filter { it.value }.keys.toList(),
+                                checked = listOf(index)
                             )
                         )
                     )
@@ -109,11 +120,12 @@ fun ChecklistContent(
 }
 
 @Composable
-fun ChecklistItemContent(
-    blockItem: BlockItem.ChecklistItem,
+fun MultipleChoiceItemContent(
+    blockItem: BlockItem.MultipleChoiceItem,
     modifier: Modifier = Modifier,
     checked: Boolean = false,
-    onCheckedChange: (Int, Boolean) -> Unit = {_, _ -> },
+    answer: Int = -1,
+    onCheckedChange: (Int, Boolean) -> Unit = { _, _ -> },
     onHandleUri: (String) -> Unit = {},
 ) {
     var isChecked by remember(checked) { mutableStateOf(checked) }
@@ -134,24 +146,69 @@ fun ChecklistItemContent(
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
+        val buttonContainerColor by animateColorAsState(
+            if (isChecked) Styler.borderColor() else checkmarkBackgroundColor()
+        )
 
         Box(
             modifier = Modifier
                 .fillMaxHeight()
-                .background(checkmarkBackgroundColor()),
+                .background(buttonContainerColor),
             contentAlignment = Alignment.Center,
         ) {
-            RadioButton(
-                selected = isChecked,
+
+            IconButton(
+                modifier = Modifier,
                 onClick = {
-                    isChecked = !isChecked
-                    onCheckedChange(blockItem.index, isChecked)
+                    // Only one item can be checked at a time
+                    if (!isChecked) {
+                        isChecked = true
+                        onCheckedChange(blockItem.index, true)
+                    }
                 },
-                colors = RadioButtonDefaults.colors(
-                    selectedColor = checkMarkColor(),
-                    unselectedColor = Styler.borderColor(),
-                )
-            )
+            ) {
+                Box(
+                    modifier = Modifier.background(checkMarkBackgroundColor(isChecked), CircleShape),
+                    contentAlignment = Alignment.Center
+                ) {
+                    if (isChecked) {
+                        if (blockItem.index == answer) {
+                            Icon(
+                                imageVector = Icons.Rounded.Check,
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(IconSize)
+                                    .padding(2.dp),
+                                tint = checkMarkColor()
+                            )
+                        } else {
+                            Icon(
+                                imageVector = Icons.Rounded.Close,
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(IconSize)
+                                    .padding(2.dp),
+                                tint = checkMarkColor()
+                            )
+                        }
+                    } else {
+                        val circleColor = Styler.borderColor()
+                        Canvas(
+                            Modifier
+                                .wrapContentSize(Alignment.Center)
+                        ) {
+                            // Draw the circle
+                            val strokeWidth = RadioStrokeWidth.toPx()
+                            drawCircle(
+                                circleColor,
+                                radius = (IconSize / 2).toPx() - strokeWidth / 2,
+                                style = Stroke(strokeWidth)
+                            )
+                        }
+
+                    }
+                }
+            }
         }
 
         Spacer(
@@ -173,37 +230,65 @@ fun ChecklistItemContent(
 }
 
 @Composable
-internal fun checkmarkBackgroundColor(): Color {
-    val light = Color.Gray50
-    val sepia = Color.Sepia300
-    val dark = Color.Gray900
+private fun checkMarkBackgroundColor(selected: Boolean): Color {
+    val light = if (selected) Color.White else Color.Gray300
+    val sepia = if (selected) Color.White else Color.Sepia400
+    val dark = if (selected) Color.White else Color.Gray800
 
-    return Styler.themedColor(light, sepia, dark)
+    return Styler.themedColor(
+        light = light,
+        sepia = sepia,
+        dark = dark
+    )
 }
 
 @Composable
 private fun checkMarkColor(): Color {
     val light = Color.Gray500
     val sepia = Color.Sepia400
-    val dark = Color.White
+    val dark = Styler.borderColor()
 
     return Styler.themedColor(light, sepia, dark)
 }
+
+private val RadioStrokeWidth = 2.dp
+private val IconSize = 24.dp
+
+private val previewBlockItem = BlockItem.MultipleChoice(
+    id = "",
+    style = null,
+    data = null,
+    nested = null,
+    ordered = true,
+    start = 0,
+    items = listOf(
+        BlockItem.MultipleChoiceItem(
+            id = "0",
+            style = null,
+            data = null,
+            nested = null,
+            index = 0,
+            markdown = "Yes, I agree."
+        ),
+        BlockItem.MultipleChoiceItem(
+            id = "1",
+            style = null,
+            data = null,
+            nested = null,
+            index = 1,
+            markdown = "I have questions."
+        )
+    ),
+    answer = 0
+)
 
 @PreviewLightDark
 @Composable
 private fun Preview() {
     BlocksPreviewTheme {
         Surface(contentColor = LocalReaderStyle.current.theme.background()) {
-            ChecklistItemContent(
-                blockItem = BlockItem.ChecklistItem(
-                    id = "",
-                    style = null,
-                    data = null,
-                    markdown = MARKDOWN,
-                    nested = null,
-                    index = 0
-                ),
+            MultipleChoiceContent(
+                blockItem = previewBlockItem,
                 modifier = Modifier.padding(16.dp),
             )
         }
@@ -215,20 +300,10 @@ private fun Preview() {
 private fun PreviewSepia() {
     BlocksPreviewTheme(theme = ReaderStyleConfig(theme = ReaderStyle.Theme.Sepia)) {
         Surface(contentColor = LocalReaderStyle.current.theme.background()) {
-            ChecklistItemContent(
-                blockItem = BlockItem.ChecklistItem(
-                    id = "",
-                    style = null,
-                    data = null,
-                    markdown = MARKDOWN,
-                    nested = null,
-                    index = 0
-                ),
+            MultipleChoiceContent(
+                blockItem = previewBlockItem,
                 modifier = Modifier.padding(16.dp),
             )
         }
     }
 }
-
-
-
