@@ -85,7 +85,7 @@ internal fun CollapseContent(
             defaultElevation = cardElevation,
         ),
         colors = CardDefaults.elevatedCardColors(
-            containerColor = Styler.backgroundColor(null)
+            containerColor = Styler.genericBackgroundColorForInteractiveBlock()
         )
     ) {
         Column(
@@ -147,6 +147,7 @@ internal fun CollapseContent(
                                 blockItem = item,
                                 modifier = Modifier.fillMaxWidth(),
                                 nested = true,
+                                parent = blockItem,
                                 userInputState = userInputState,
                                 onHandleUri = onHandleUri,
                             )
