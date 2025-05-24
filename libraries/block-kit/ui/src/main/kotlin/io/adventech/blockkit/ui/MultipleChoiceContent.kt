@@ -223,6 +223,7 @@ fun MultipleChoiceItemContent(
             modifier = Modifier
                 .weight(1f)
                 .padding(horizontal = 12.dp, vertical = 6.dp),
+            color = Styler.textColor(blockItem.style?.text),
             style = style,
             onHandleUri = onHandleUri,
         )
