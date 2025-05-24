@@ -29,15 +29,18 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.exclude
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContent
-import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -86,7 +89,7 @@ fun StorySlideContent(
         blockStyle = blockItem.style?.text,
         template = StoryStyleTemplate
     )
-    val pages = splitTextIntoPages(blockItem.markdown, screenWidth.dp, textStyle)
+    val pages = splitTextIntoPages(blockItem.markdown, screenWidth.dp, textStyle, blockItem.alignment)
 
     val pagerState = rememberPagerState(
         initialPage = 0,
@@ -141,14 +144,14 @@ fun StorySlideContent(
         ) { page ->
             Box(
                 modifier = Modifier.fillMaxSize(),
-                contentAlignment = blockItem.alignment.toAlignment(),
+                contentAlignment = blockItem.alignment.toContentAlignment(),
             ) {
                 Text(
                     text = pages[page],
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(color = blockItem.style?.block?.backgroundColor?.let { Color.parse(it) } ?: Color.Transparent)
-                        .windowInsetsPadding(WindowInsets.safeContent)
+                        .padding(getContentInsets(blockItem.alignment).asPaddingValues())
                         .padding(blockItem.alignment.toPadding()),
                     style = textStyle,
                     textAlign = Styler.textAlign(blockItem.style?.text),
@@ -159,15 +162,15 @@ fun StorySlideContent(
     }
 }
 
-private fun ImageStyleTextAlignment.toAlignment(): Alignment = when (this) {
+private fun ImageStyleTextAlignment.toContentAlignment(): Alignment = when (this) {
     ImageStyleTextAlignment.TOP -> Alignment.TopStart
     ImageStyleTextAlignment.BOTTOM -> Alignment.BottomStart
     ImageStyleTextAlignment.UNKNOWN -> Alignment.Center
 }
 
 private fun ImageStyleTextAlignment.toPadding(): PaddingValues = when (this) {
-    ImageStyleTextAlignment.TOP -> PaddingValues(top = 24.dp)
-    ImageStyleTextAlignment.BOTTOM -> PaddingValues(bottom = 16.dp)
+    ImageStyleTextAlignment.TOP -> PaddingValues(top = 24.dp, bottom = 16.dp)
+    ImageStyleTextAlignment.BOTTOM -> PaddingValues(vertical = 16.dp)
     ImageStyleTextAlignment.UNKNOWN -> PaddingValues(0.dp)
 }
 
@@ -176,10 +179,11 @@ private fun splitTextIntoPages(
     text: String,
     screenWidthDp: Dp,
     textStyle: TextStyle,
+    imageStyleTextAlignment: ImageStyleTextAlignment,
     maxLines: Int = DEFAULT_MAX_LINES,
 ): List<AnnotatedString> {
     val layoutDirection = LocalLayoutDirection.current
-    val insetPaddings = WindowInsets.safeContent.asPaddingValues()
+    val insetPaddings = getContentInsets(imageStyleTextAlignment).asPaddingValues()
     val startPadding = insetPaddings.calculateStartPadding(layoutDirection)
     val endPadding = insetPaddings.calculateEndPadding(layoutDirection)
 
@@ -219,6 +223,25 @@ private fun splitTextIntoPages(
     }
 
     return pages
+}
+
+/**
+ * Get the insets based on the alignment of the image style text.
+ *
+ * @param alignment The alignment of the image style text.
+ * @return The insets to be applied.
+ */
+@Composable
+private fun getContentInsets(alignment: ImageStyleTextAlignment): WindowInsets {
+    return WindowInsets.safeContent.run {
+        when (alignment) {
+            ImageStyleTextAlignment.UNKNOWN -> this
+            ImageStyleTextAlignment.TOP -> // exclude the bottom inset
+                exclude(WindowInsets.systemBars.only(WindowInsetsSides.Bottom))
+            ImageStyleTextAlignment.BOTTOM -> // exclude the top inset
+                exclude(WindowInsets.systemBars.only(WindowInsetsSides.Top))
+        }
+    }
 }
 
 @Composable
