@@ -52,6 +52,7 @@ internal fun HeadingContent(
     MarkdownText(
         markdownText = blockItem.markdown,
         modifier = modifier,
+        color = Styler.textColor(blockStyle),
         style = Styler.textStyle(blockStyle, template).copy(fontWeight = FontWeight.Bold),
         textAlign = Styler.textAlign(blockStyle),
         onHandleUri = onHandleUri,
