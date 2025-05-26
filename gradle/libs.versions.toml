@@ -67,6 +67,7 @@ test-androidx-uiautomator = "2.3.0"
 test-junit = "4.13.2"
 test-kluent = "1.73"
 test-mockk = "1.14.2"
+roborazzi = "1.44.0-alpha04"
 timber = "5.0.1"
 
 [libraries]
@@ -166,6 +167,7 @@ square-retrofit-converter-moshi = { module = "com.squareup.retrofit2:converter-m
 moshix-adapters = { module = "dev.zacsweers.moshix:moshi-adapters", version.ref = "moshix" }
 test-androidx-archcore = { module = "androidx.arch.core:core-testing", version.ref = "test-androidx-archcore" }
 test-androidx-benchmark-macro = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "test-androidx-benchmark-macro" }
+test-androidx-compose-ui-junit = { module = "androidx.compose.ui:ui-test-junit4" }
 test-androidx-core = { module = "androidx.test:core", version.ref = "test-androidx" }
 test-androidx-espresso-contrib = { module = "androidx.test.espresso:espresso-contrib", version.ref = "test-androidx-espresso" }
 test-androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "test-androidx-espresso" }
@@ -183,6 +185,9 @@ test-kluent = { module = "org.amshove.kluent:kluent-android", version.ref = "tes
 test-mockk = { module = "io.mockk:mockk", version.ref = "test-mockk" }
 test-robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 test-turbine = { module = "app.cash.turbine:turbine", version.ref = "cash-app-turbine" }
+test-roborazzi-compose = { module = "io.github.takahirom.roborazzi:roborazzi", version.ref = "roborazzi" }
+test-roborazzi-core = { module = "io.github.takahirom.roborazzi:roborazzi-compose", version.ref = "roborazzi" }
+test-roborazzi-rules = { module = "io.github.takahirom.roborazzi:roborazzi-junit-rule", version.ref = "roborazzi" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
 [bundles]
@@ -256,6 +261,7 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
 sortDependencies = { id = "com.squareup.sort-dependencies", version.ref = "sortDependencies" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 android-test = { id = "com.android.test", version.ref = "gradle-android" }
