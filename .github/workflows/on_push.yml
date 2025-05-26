@@ -26,3 +26,6 @@ jobs:
 
       - name: Run Code Quality Checks
         run: ./gradlew check
+
+      - name: Screenshot Tests
+        run: ./gradlew verifyAndRecordRoborazziRelease -Pfoundry.test.snapshots=true --stacktrace

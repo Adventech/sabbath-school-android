@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - main
+      - develop
 
 jobs:
   testing:
@@ -60,3 +61,6 @@ jobs:
 
       - name: Build Release
         run: ./gradlew app:bundleRelease --stacktrace
+
+      - name: Screenshot Tests
+        run: ./gradlew verifyAndRecordRoborazziRelease -Pfoundry.test.snapshots=true --stacktrace
