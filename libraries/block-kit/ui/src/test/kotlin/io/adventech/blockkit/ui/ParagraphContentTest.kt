@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,22 +20,20 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    alias(libs.plugins.foundry.root)
-    alias(libs.plugins.foundry.base)
-    alias(libs.plugins.spotless) apply false
-    alias(libs.plugins.android.application) apply false
-    alias(libs.plugins.kotlin.jvm) apply false
-    alias(libs.plugins.hilt) apply false
-    alias(libs.plugins.gradle.cache.fix) apply false
-    alias(libs.plugins.gradle.retry) apply false
-    alias(libs.plugins.sortDependencies) apply false
-    alias(libs.plugins.ksp) apply false
-    alias(libs.plugins.android.library) apply false
-    alias(libs.plugins.kotlin.android) apply false
-    alias(libs.plugins.kotlin.compose.compiler)
-    alias(libs.plugins.kotlin.parcelize) apply false
-    alias(libs.plugins.android.test) apply false
-    alias(libs.plugins.baselineprofile) apply false
-    alias(libs.plugins.roborazzi) apply false
+package io.adventech.blockkit.ui
+
+import app.ss.testing.roborazzi.BaseScreenshotTest
+import org.junit.Test
+
+class ParagraphContentTest : BaseScreenshotTest() {
+
+    @Test
+    fun testThemesSnapshot() {
+        snapshot { ParagraphContentPreviewTheme() }
+    }
+
+    @Test
+    fun testHighlightsSnapshot() {
+        snapshot { ParagraphContentPreviewHighlights() }
+    }
 }

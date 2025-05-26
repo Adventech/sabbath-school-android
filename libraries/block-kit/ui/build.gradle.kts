@@ -33,6 +33,7 @@ android { namespace = "io.adventech.blockkit.ui" }
 
 foundry {
     features { compose() }
+    android { features { snapshotTests() } }
 }
 
 ksp {
