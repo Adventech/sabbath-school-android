@@ -53,7 +53,6 @@ dependencies {
     testImplementation(projects.libraries.foundation.coroutines.test)
     testImplementation(projects.libraries.lessons.test)
     testImplementation(projects.libraries.storage.test)
-    testImplementation(projects.libraries.testUtils)
 
     ksp(libs.google.hilt.compiler)
     ksp(libs.square.moshi.codegen)

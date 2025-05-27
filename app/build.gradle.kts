@@ -173,13 +173,11 @@ dependencies {
 
     testImplementation(libs.bundles.testing.common)
     testImplementation(projects.libraries.foundation.coroutines.test)
-    testImplementation(projects.libraries.testUtils)
 
     androidTestImplementation(libs.bundles.testing.android.common)
     androidTestImplementation(libs.test.androidx.espresso.contrib) {
         exclude(group = "org.checkerframework", module = "checker")
     }
-    androidTestImplementation(projects.libraries.testUtils)
 
     baselineProfile(projects.baselineprofile)
 
