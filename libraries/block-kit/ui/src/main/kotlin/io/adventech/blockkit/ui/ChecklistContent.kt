@@ -37,7 +37,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -47,7 +46,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import io.adventech.blockkit.model.BlockItem
@@ -60,12 +58,8 @@ import io.adventech.blockkit.ui.color.Sepia300
 import io.adventech.blockkit.ui.color.Sepia400
 import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.input.find
-import io.adventech.blockkit.ui.style.LocalReaderStyle
-import io.adventech.blockkit.ui.style.ReaderStyle
-import io.adventech.blockkit.ui.style.ReaderStyleConfig
 import io.adventech.blockkit.ui.style.Styler
-import io.adventech.blockkit.ui.style.background
-import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
+import io.adventech.blockkit.ui.style.theme.BlocksDynamicPreviewTheme
 
 @Composable
 fun ChecklistContent(
@@ -193,43 +187,21 @@ private fun checkMarkColor(): Color {
 
 @PreviewLightDark
 @Composable
-private fun Preview() {
-    BlocksPreviewTheme {
-        Surface(contentColor = LocalReaderStyle.current.theme.background()) {
-            ChecklistItemContent(
-                blockItem = BlockItem.ChecklistItem(
-                    id = "",
-                    style = null,
-                    data = null,
-                    markdown = MARKDOWN,
-                    nested = null,
-                    index = 0
-                ),
-                modifier = Modifier.padding(16.dp),
-            )
-        }
+internal fun CheckListContentPreviewTheme() {
+    BlocksDynamicPreviewTheme {
+        ChecklistItemContent(
+            blockItem = BlockItem.ChecklistItem(
+                id = "",
+                style = null,
+                data = null,
+                markdown = "This is a paragraph with **bold text** and *italic text*.<br/>" +
+                    " It also contains a [link](https://example.com) and some `inline code`.",
+                nested = null,
+                index = 0
+            ),
+            modifier = Modifier.padding(16.dp),
+        )
     }
 }
-
-@Preview
-@Composable
-private fun PreviewSepia() {
-    BlocksPreviewTheme(theme = ReaderStyleConfig(theme = ReaderStyle.Theme.Sepia)) {
-        Surface(contentColor = LocalReaderStyle.current.theme.background()) {
-            ChecklistItemContent(
-                blockItem = BlockItem.ChecklistItem(
-                    id = "",
-                    style = null,
-                    data = null,
-                    markdown = MARKDOWN,
-                    nested = null,
-                    index = 0
-                ),
-                modifier = Modifier.padding(16.dp),
-            )
-        }
-    }
-}
-
 
 

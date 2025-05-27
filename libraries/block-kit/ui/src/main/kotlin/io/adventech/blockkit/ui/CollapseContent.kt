@@ -38,7 +38,6 @@ import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -58,7 +57,7 @@ import io.adventech.blockkit.model.TextStyle
 import io.adventech.blockkit.model.TextStyleSize
 import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.style.Styler
-import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
+import io.adventech.blockkit.ui.style.theme.BlocksDynamicPreviewTheme
 
 @Composable
 internal fun CollapseContent(
@@ -171,35 +170,33 @@ private val captionBlockTextStyle = TextStyle(
 
 @PreviewLightDark
 @Composable
-private fun Preview() {
-    BlocksPreviewTheme {
-        Surface {
-            CollapseContent(
-                blockItem = BlockItem.Collapse(
-                    id = "1",
-                    style = null,
-                    data = null,
-                    nested = null,
-                    caption = "Caption",
-                    items = listOf(
-                        BlockItem.Paragraph(
-                            id = "2",
-                            style = null,
-                            data = null,
-                            nested = null,
-                            markdown = "This _is a paragraph_"
-                        ),
-                        BlockItem.Paragraph(
-                            id = "3",
-                            style = null,
-                            data = null,
-                            nested = null,
-                            markdown = "This is another **paragraph**"
-                        )
+internal fun CollapseContentPreview() {
+    BlocksDynamicPreviewTheme {
+        CollapseContent(
+            blockItem = BlockItem.Collapse(
+                id = "1",
+                style = null,
+                data = null,
+                nested = null,
+                caption = "Caption",
+                items = listOf(
+                    BlockItem.Paragraph(
+                        id = "2",
+                        style = null,
+                        data = null,
+                        nested = null,
+                        markdown = "This _is a paragraph_"
+                    ),
+                    BlockItem.Paragraph(
+                        id = "3",
+                        style = null,
+                        data = null,
+                        nested = null,
+                        markdown = "This is another **paragraph**"
                     )
-                ),
-                modifier = Modifier.padding(16.dp)
-            )
-        }
+                )
+            ),
+            modifier = Modifier.padding(16.dp)
+        )
     }
 }

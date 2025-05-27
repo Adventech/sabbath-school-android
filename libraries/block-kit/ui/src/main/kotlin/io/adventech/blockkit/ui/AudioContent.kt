@@ -44,7 +44,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -80,7 +79,7 @@ import io.adventech.blockkit.ui.style.Styler.genericBackgroundColorForInteractiv
 import io.adventech.blockkit.ui.style.Styler.genericForegroundColorForInteractiveBlock
 import io.adventech.blockkit.ui.style.background
 import io.adventech.blockkit.ui.style.primaryForeground
-import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
+import io.adventech.blockkit.ui.style.theme.BlocksDynamicPreviewTheme
 import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.extensions.millisToDuration
 import ss.services.media.ui.PlaybackPlayPause
@@ -363,18 +362,17 @@ private fun CreditsContent(credits: AudioBlockCredits, onDismiss: () -> Unit) {
 
 @Composable
 @PreviewLightDark
-private fun Preview() {
-    BlocksPreviewTheme {
-        Surface {
-            PlayerContent(
-                playbackState = PlaybackStateSpec.NONE.copy(
-                    isPlayEnabled = true
-                ),
-                progressState = PlaybackProgressState(
-                    total = 3 * 60 * 1000,
-                    position = 60 * 1000
-                ),
-            )
-        }
+internal fun AudioContentPreview() {
+    BlocksDynamicPreviewTheme {
+        PlayerContent(
+            playbackState = PlaybackStateSpec.NONE.copy(
+                isPlayEnabled = true
+            ),
+            progressState = PlaybackProgressState(
+                total = 3 * 60 * 1000,
+                position = 60 * 1000
+            ),
+            modifier = Modifier.padding(8.dp)
+        )
     }
 }

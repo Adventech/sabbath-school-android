@@ -14,5 +14,6 @@ dependencies {
     api(libs.test.roborazzi.compose)
     api(libs.test.roborazzi.rules)
 
+    implementation(libs.androidx.compose.foundation)
     implementation(libs.test.roborazzi.core)
 }

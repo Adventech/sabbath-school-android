@@ -26,20 +26,15 @@ import app.ss.testing.roborazzi.BaseScreenshotTest
 import app.ss.testing.roborazzi.TestLightDark
 import org.junit.Test
 
-class ParagraphContentTest : BaseScreenshotTest() {
+class QuestionContentTest : BaseScreenshotTest() {
 
     @Test
-    fun testThemesSnapshot() {
-        snapshot(TestLightDark.LIGHT) { ParagraphContentPreviewTheme() }
+    fun testSnapShot() {
+        snapshot(TestLightDark.LIGHT) { QuestionContentPreview() }
     }
 
     @Test
-    fun testThemesSnapshotDark() {
-        snapshot(TestLightDark.DARK) { ParagraphContentPreviewTheme() }
-    }
-
-    @Test
-    fun testHighlightsSnapshot() {
-        snapshot(TestLightDark.BOTH) { ParagraphContentPreviewHighlights() }
+    fun testSnapShotDark() {
+        snapshot(TestLightDark.DARK) { QuestionContentPreview() }
     }
 }

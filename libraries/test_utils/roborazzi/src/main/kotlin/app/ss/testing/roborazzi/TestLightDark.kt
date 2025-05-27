@@ -20,26 +20,11 @@
  * THE SOFTWARE.
  */
 
-package io.adventech.blockkit.ui
+package app.ss.testing.roborazzi
 
-import app.ss.testing.roborazzi.BaseScreenshotTest
-import app.ss.testing.roborazzi.TestLightDark
-import org.junit.Test
-
-class ParagraphContentTest : BaseScreenshotTest() {
-
-    @Test
-    fun testThemesSnapshot() {
-        snapshot(TestLightDark.LIGHT) { ParagraphContentPreviewTheme() }
-    }
-
-    @Test
-    fun testThemesSnapshotDark() {
-        snapshot(TestLightDark.DARK) { ParagraphContentPreviewTheme() }
-    }
-
-    @Test
-    fun testHighlightsSnapshot() {
-        snapshot(TestLightDark.BOTH) { ParagraphContentPreviewHighlights() }
-    }
+enum class TestLightDark {
+    SYSTEM,
+    LIGHT,
+    DARK,
+    BOTH,
 }

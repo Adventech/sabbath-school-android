@@ -38,7 +38,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -54,7 +53,7 @@ import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.ReferenceScope
 import io.adventech.blockkit.model.resource.ReferenceModel
 import io.adventech.blockkit.ui.style.Styler
-import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
+import io.adventech.blockkit.ui.style.theme.BlocksDynamicPreviewTheme
 import ss.ui.placeholder.asPlaceholder
 
 @Composable
@@ -160,24 +159,23 @@ private fun BlockItem.Reference.isHiddenSegment(): Boolean {
 
 @PreviewLightDark
 @Composable
-private fun Preview() {
-    BlocksPreviewTheme {
-        Surface {
-            ReferenceContent(
-                blockItem = BlockItem.Reference(
-                    id = "1",
-                    style = null,
-                    data = null,
-                    nested = false,
-                    segment = null,
-                    target = "",
-                    scope = ReferenceScope.DOCUMENT,
-                    title = "Teacher Comments",
-                    subtitle = "Quarterly Lesson",
-                    resource = null,
-                    document = null,
-                )
-            )
-        }
+internal fun ReferenceContentPreview() {
+    BlocksDynamicPreviewTheme {
+        ReferenceContent(
+            blockItem = BlockItem.Reference(
+                id = "1",
+                style = null,
+                data = null,
+                nested = false,
+                segment = null,
+                target = "",
+                scope = ReferenceScope.DOCUMENT,
+                title = "Teacher Comments",
+                subtitle = "Quarterly Lesson",
+                resource = null,
+                document = null,
+            ),
+            modifier = Modifier.padding(16.dp),
+        )
     }
 }
