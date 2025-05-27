@@ -46,7 +46,6 @@ dependencies {
 
     testImplementation(libs.bundles.testing.common)
     testImplementation(projects.libraries.foundation.coroutines.test)
-    testImplementation(projects.libraries.testUtils)
 
     ksp(libs.google.hilt.compiler)
 }

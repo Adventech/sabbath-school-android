@@ -64,7 +64,6 @@ dependencies {
     implementation(projects.services.resources.api)
 
     testImplementation(libs.bundles.testing.common)
-    testImplementation(projects.libraries.testUtils)
 
     ksp(libs.circuit.codegen)
     ksp(libs.google.hilt.compiler)

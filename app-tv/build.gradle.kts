@@ -127,7 +127,6 @@ dependencies {
     testImplementation(projects.libraries.lessons.test)
     testImplementation(projects.libraries.media.testFixtures)
     testImplementation(projects.libraries.storage.test)
-    testImplementation(projects.libraries.testUtils)
 
     ksp(libs.circuit.codegen)
     ksp(libs.google.hilt.compiler)
