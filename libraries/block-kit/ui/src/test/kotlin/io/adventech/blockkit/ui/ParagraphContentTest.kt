@@ -24,7 +24,6 @@ package io.adventech.blockkit.ui
 
 import app.ss.testing.roborazzi.BaseScreenshotTest
 import org.junit.Test
-import org.robolectric.annotation.Config
 
 class ParagraphContentTest : BaseScreenshotTest() {
 
@@ -33,7 +32,6 @@ class ParagraphContentTest : BaseScreenshotTest() {
         snapshot { ParagraphContentPreviewTheme() }
     }
 
-    @Config(qualifiers = "+night")
     @Test
     fun testHighlightsSnapshot() {
         snapshot { ParagraphContentPreviewHighlights() }
