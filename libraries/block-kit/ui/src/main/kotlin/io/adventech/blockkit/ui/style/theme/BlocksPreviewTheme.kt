@@ -24,20 +24,28 @@ package io.adventech.blockkit.ui.style.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import io.adventech.blockkit.ui.color.Gray300
 import io.adventech.blockkit.ui.color.Primary
 import io.adventech.blockkit.ui.color.Primary100
 import io.adventech.blockkit.ui.style.LocalReaderStyle
+import io.adventech.blockkit.ui.style.ReaderStyle
 import io.adventech.blockkit.ui.style.ReaderStyleConfig
+import io.adventech.blockkit.ui.style.background
 
 @Composable
 internal fun BlocksPreviewTheme(
@@ -60,6 +68,21 @@ internal fun BlocksPreviewTheme(
             colorScheme = colorScheme,
             content = content,
         )
+    }
+}
+
+@Composable
+internal fun BlocksDynamicPreviewTheme(content: @Composable () -> Unit) {
+    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+        items(ReaderStyle.Theme.entries) { theme ->
+            val readerStyle = remember(theme) { ReaderStyleConfig(theme = theme) }
+
+            BlocksPreviewTheme(theme = readerStyle) {
+                Surface(color = readerStyle.theme.background()) {
+                    content()
+                }
+            }
+        }
     }
 }
 

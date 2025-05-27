@@ -25,7 +25,6 @@ package io.adventech.blockkit.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -36,7 +35,7 @@ import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.input.rememberContentHighlights
 import io.adventech.blockkit.ui.style.HeadingStyleTemplate
 import io.adventech.blockkit.ui.style.Styler
-import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
+import io.adventech.blockkit.ui.style.theme.BlocksDynamicPreviewTheme
 
 @Composable
 internal fun HeadingContent(
@@ -62,46 +61,44 @@ internal fun HeadingContent(
 
 @PreviewLightDark
 @Composable
-private fun Preview() {
-    BlocksPreviewTheme {
-        Surface {
-            Column(
-                modifier = Modifier.padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                HeadingContent(
-                    blockItem = BlockItem.Heading(
-                        id = "heading",
-                        style = null,
-                        data = null,
-                        nested = null,
-                        markdown = "Heading",
-                        depth = 1,
-                    ),
-                )
+internal fun HeadingContentPreview() {
+    BlocksDynamicPreviewTheme {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            HeadingContent(
+                blockItem = BlockItem.Heading(
+                    id = "heading",
+                    style = null,
+                    data = null,
+                    nested = null,
+                    markdown = "Heading",
+                    depth = 1,
+                ),
+            )
 
-                HeadingContent(
-                    blockItem = BlockItem.Heading(
-                        id = "heading-two",
-                        style = null,
-                        data = null,
-                        nested = null,
-                        markdown = "2. Heading",
-                        depth = 1,
-                    ),
-                )
+            HeadingContent(
+                blockItem = BlockItem.Heading(
+                    id = "heading-two",
+                    style = null,
+                    data = null,
+                    nested = null,
+                    markdown = "2. Heading",
+                    depth = 1,
+                ),
+            )
 
-                HeadingContent(
-                    blockItem = BlockItem.Heading(
-                        id = "heading-three",
-                        style = null,
-                        data = null,
-                        nested = null,
-                        markdown = "- Heading",
-                        depth = 1,
-                    ),
-                )
-            }
+            HeadingContent(
+                blockItem = BlockItem.Heading(
+                    id = "heading-three",
+                    style = null,
+                    data = null,
+                    nested = null,
+                    markdown = "- Heading",
+                    depth = 1,
+                ),
+            )
         }
     }
 }
