@@ -30,7 +30,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -51,7 +50,7 @@ import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.background
 import io.adventech.blockkit.ui.style.secondaryBackground
 import io.adventech.blockkit.ui.style.secondaryForeground
-import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
+import io.adventech.blockkit.ui.style.theme.BlocksDynamicPreviewTheme
 
 @Composable
 internal fun AppealContent(
@@ -117,19 +116,18 @@ internal fun AppealContent(
 
 @PreviewLightDark
 @Composable
-private fun Preview() {
-    BlocksPreviewTheme {
-        Surface {
-            AppealContent(
-                blockItem = BlockItem.Appeal(
-                    id = "1",
-                    style = null,
-                    markdown = "This is an appeal",
-                    data = null,
-                    nested = false
-                )
-            )
-        }
+internal fun AppealContentPreview() {
+    BlocksDynamicPreviewTheme {
+        AppealContent(
+            blockItem = BlockItem.Appeal(
+                id = "1",
+                style = null,
+                markdown = "This is an appeal",
+                data = null,
+                nested = false
+            ),
+            modifier = Modifier.padding(12.dp),
+        )
     }
 }
 

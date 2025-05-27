@@ -37,7 +37,6 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -68,7 +67,7 @@ import io.adventech.blockkit.ui.input.find
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.ReaderStyle
 import io.adventech.blockkit.ui.style.Styler
-import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
+import io.adventech.blockkit.ui.style.theme.BlocksDynamicPreviewTheme
 
 @Composable
 internal fun QuestionContent(
@@ -269,19 +268,17 @@ private val inputBlockTextStyle = TextStyle(
 
 @PreviewLightDark
 @Composable
-private fun Preview() {
-    BlocksPreviewTheme {
-        Surface {
-            QuestionContent(
-                blockItem = BlockItem.Question(
-                    id = "1",
-                    style = null,
-                    data = null,
-                    nested = null,
-                    markdown = "What is the meaning of life?",
-                ),
-                modifier = Modifier.padding(16.dp)
-            )
-        }
+internal fun QuestionContentPreview() {
+    BlocksDynamicPreviewTheme {
+        QuestionContent(
+            blockItem = BlockItem.Question(
+                id = "1",
+                style = null,
+                data = null,
+                nested = null,
+                markdown = "What is the meaning of life?",
+            ),
+            modifier = Modifier.padding(16.dp)
+        )
     }
 }

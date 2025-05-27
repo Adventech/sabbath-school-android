@@ -22,7 +22,16 @@
 
 package app.ss.testing.roborazzi
 
+import android.content.res.Configuration
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onRoot
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -52,10 +61,68 @@ abstract class BaseScreenshotTest {
         )
     )
 
-    protected fun snapshot(content: @Composable () -> Unit) {
+    protected fun snapshot(testLightDark: TestLightDark = TestLightDark.SYSTEM, content: @Composable () -> Unit) {
         composeTestRule.apply {
-            setContent { content() }
+            setContent { SnapshotContent(testLightDark, content) }
             onRoot().captureRoboImage()
+        }
+    }
+
+    @Composable
+    private fun SnapshotContent(testLightDark: TestLightDark, content: @Composable () -> Unit) {
+        when (testLightDark) {
+            TestLightDark.SYSTEM -> {
+                content()
+            }
+
+            TestLightDark.LIGHT -> {
+                CompositionLocalProvider(
+                    LocalConfiguration provides createConfiguration(Configuration.UI_MODE_NIGHT_NO)
+                ) {
+                    content()
+                }
+            }
+
+            TestLightDark.DARK -> {
+                CompositionLocalProvider(
+                    LocalConfiguration provides createConfiguration(Configuration.UI_MODE_NIGHT_YES)
+                ) {
+                    content()
+                }
+            }
+
+            TestLightDark.BOTH -> {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
+                    verticalArrangement = Arrangement.Center,
+                ) {
+                    Box(Modifier.weight(1f)) {
+                        CompositionLocalProvider(
+                            LocalConfiguration provides createConfiguration(Configuration.UI_MODE_NIGHT_NO)
+                        ) {
+                            content()
+                        }
+                    }
+
+                    Box(Modifier.weight(1f)) {
+                        CompositionLocalProvider(
+                            LocalConfiguration provides createConfiguration(Configuration.UI_MODE_NIGHT_YES)
+                        ) {
+                            content()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun createConfiguration(uiModeConfig: Int): Configuration {
+        val original = LocalConfiguration.current
+        return Configuration(original).apply {
+            uiMode = uiModeConfig
         }
     }
 }

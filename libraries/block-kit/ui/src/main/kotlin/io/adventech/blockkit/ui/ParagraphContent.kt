@@ -28,8 +28,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -54,10 +52,9 @@ import io.adventech.blockkit.ui.input.SelectionBlockContainer
 import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.input.find
 import io.adventech.blockkit.ui.input.rememberContentHighlights
-import io.adventech.blockkit.ui.style.ReaderStyle
-import io.adventech.blockkit.ui.style.ReaderStyleConfig
+import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.Styler
-import io.adventech.blockkit.ui.style.background
+import io.adventech.blockkit.ui.style.theme.BlocksDynamicPreviewTheme
 import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
 import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.collections.immutable.toImmutableList
@@ -263,47 +260,39 @@ private val highlights = listOf(
 @PreviewLightDark
 @Composable
 internal fun ParagraphContentPreviewTheme() {
-    LazyColumn(modifier = Modifier.fillMaxWidth()) {
-        items(ReaderStyle.Theme.entries) { theme ->
-            val readerStyle = remember(theme) { ReaderStyleConfig(theme = theme) }
+    BlocksDynamicPreviewTheme {
+        val theme = LocalReaderStyle.current.theme
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            HeadingContent(
+                blockItem = BlockItem.Heading(
+                    id = "blockId",
+                    style = null,
+                    data = null,
+                    nested = null,
+                    markdown = "${theme.name} theme",
+                    depth = 3,
+                ),
+                modifier = Modifier.fillMaxWidth(),
+                inputState = null,
+            )
 
-            BlocksPreviewTheme(theme = readerStyle) {
-                Surface(color = readerStyle.theme.background()) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        HeadingContent(
-                            blockItem = BlockItem.Heading(
-                                id = "blockId",
-                                style = null,
-                                data = null,
-                                nested = null,
-                                markdown = "${theme.name} theme",
-                                depth = 3,
-                            ),
-                            modifier = Modifier.fillMaxWidth(),
-                            inputState = null,
-                        )
-
-                        ParagraphContent(
-                            blockItem = BlockItem.Paragraph(
-                                id = "blockId",
-                                style = null,
-                                data = null,
-                                nested = null,
-                                markdown = "This is a paragraph with **bold text** and *italic text*.<br/>" +
-                                    " It also contains a [link](https://example.com) and some `inline code`."
-                            ),
-                            modifier = Modifier,
-                            inputState = null,
-                        )
-                    }
-                }
-            }
-
+            ParagraphContent(
+                blockItem = BlockItem.Paragraph(
+                    id = "blockId",
+                    style = null,
+                    data = null,
+                    nested = null,
+                    markdown = "This is a paragraph with **bold text** and *italic text*.<br/>" +
+                        " It also contains a [link](https://example.com) and some `inline code`."
+                ),
+                modifier = Modifier,
+                inputState = null,
+            )
         }
     }
 }
