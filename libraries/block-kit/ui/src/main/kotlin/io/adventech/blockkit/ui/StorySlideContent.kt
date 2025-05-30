@@ -151,7 +151,7 @@ fun StorySlideContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(color = blockItem.style?.block?.backgroundColor?.let { Color.parse(it) } ?: Color.Transparent)
-                        .padding(getContentInsets(blockItem.alignment).asPaddingValues())
+                        .padding(getContentInsets(blockItem.alignment).asMinPaddingValues())
                         .padding(blockItem.alignment.toPadding()),
                     style = textStyle,
                     textAlign = Styler.textAlign(blockItem.style?.text),
@@ -183,7 +183,7 @@ private fun splitTextIntoPages(
     maxLines: Int = DEFAULT_MAX_LINES,
 ): List<AnnotatedString> {
     val layoutDirection = LocalLayoutDirection.current
-    val insetPaddings = getContentInsets(imageStyleTextAlignment).asPaddingValues()
+    val insetPaddings = getContentInsets(imageStyleTextAlignment).asMinPaddingValues()
     val startPadding = insetPaddings.calculateStartPadding(layoutDirection)
     val endPadding = insetPaddings.calculateEndPadding(layoutDirection)
 
@@ -242,6 +242,26 @@ private fun getContentInsets(alignment: ImageStyleTextAlignment): WindowInsets {
                 exclude(WindowInsets.systemBars.only(WindowInsetsSides.Top))
         }
     }
+}
+
+/**
+ * Convert WindowInsets to PaddingValues with minimum horizontal padding values.
+ *
+ * @return PaddingValues with minimum padding values.
+ */
+@Composable
+private fun WindowInsets.asMinPaddingValues(): PaddingValues {
+    val layoutDirection = LocalLayoutDirection.current
+    val paddings = this.asPaddingValues()
+    val (startPadding, endPadding) = paddings.run {
+        calculateStartPadding(layoutDirection) to calculateEndPadding(layoutDirection)
+    }
+    return PaddingValues(
+        start = startPadding.coerceAtLeast(16.dp),
+        top = paddings.calculateTopPadding(),
+        end = endPadding.coerceAtLeast(16.dp),
+        bottom = paddings.calculateBottomPadding(),
+    )
 }
 
 @Composable
