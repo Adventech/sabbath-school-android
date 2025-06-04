@@ -72,6 +72,7 @@ import io.adventech.blockkit.ui.image.ImagePreviewScreenState.Event
 import io.adventech.blockkit.ui.style.LatoFontFamily
 import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
 import kotlinx.coroutines.delay
+import me.saket.telephoto.ExperimentalTelephotoApi
 import me.saket.telephoto.flick.FlickToDismiss
 import me.saket.telephoto.flick.FlickToDismissState
 import me.saket.telephoto.flick.rememberFlickToDismissState
@@ -83,7 +84,7 @@ import me.saket.telephoto.zoomable.rememberZoomableState
 import me.saket.telephoto.zoomable.zoomable
 import app.ss.translations.R as L10nR
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalTelephotoApi::class)
 @CircuitInject(ImagePreviewScreen::class, SingletonComponent::class)
 @Composable
 fun ImagePreviewScreenUi(state: ImagePreviewScreenState, modifier: Modifier = Modifier) {
