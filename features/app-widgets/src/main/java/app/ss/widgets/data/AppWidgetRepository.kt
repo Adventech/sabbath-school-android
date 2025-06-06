@@ -33,10 +33,11 @@ import com.cryart.sabbathschool.core.extensions.context.fetchBitmap
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import ss.foundation.coroutines.DispatcherProvider
@@ -79,40 +80,44 @@ class AppWidgetRepositoryImpl @Inject constructor(
         languageCode = languageCode,
     )
 
-    private fun latestAppWidgetEntity(): Flow<AppWidgetEntity> {
+    private fun latestAppWidgetEntity(): Flow<AppWidgetEntity?> {
         return ssPrefs.getLanguageCodeFlow()
             .map { defaultQuarterlyIndex(it) }
             .flatMapLatest { appWidgetDao.findBy(it) }
-            .filterNotNull()
+            .flowOn(dispatcherProvider.io)
     }
 
     override fun weekState(context: Context?): Flow<WeekWidgetState> {
         return latestAppWidgetEntity()
-            .map { entity ->
-                WeekWidgetState.Success(
-                    model = WeekModel(
-                        quarterlyIndex = entity.quarterlyIndex,
-                        cover = entity.cover,
-                        image = context?.fetchBitmap(entity.cover),
-                        title = entity.title,
-                        description = entity.description,
-                        days = entity.days
-                            .take(MAX_DAYS)
-                            .map { day ->
-                                day.toModel(null, SS_DATE_FORMAT_OUTPUT_DAY_SHORT)
-                            }.toImmutableList()
-                    ),
-                    lessonIntent = widgetAction.launchLesson(entity.quarterlyIndex)
-                )
+            .mapLatest { entity ->
+                entity?.let {
+                    val image = withContext(dispatcherProvider.io) { context?.fetchBitmap(entity.cover) }
+                    val days = entity.days
+                        .take(MAX_DAYS)
+                        .map { day ->
+                            day.toModel(context, SS_DATE_FORMAT_OUTPUT_DAY_SHORT)
+                        }.toImmutableList()
+                    WeekWidgetState.Success(
+                        model = WeekModel(
+                            quarterlyIndex = entity.quarterlyIndex,
+                            cover = entity.cover,
+                            image = image,
+                            title = entity.title,
+                            description = entity.description,
+                            days = days
+                        ),
+                        lessonIntent = widgetAction.launchLesson(entity.quarterlyIndex)
+                    )
+                } ?: WeekWidgetState.Error
             }
-            .catch { Timber.e(it) }
             .flowOn(dispatcherProvider.io)
+            .catch { Timber.e(it) }
     }
 
     override fun todayState(context: Context?): Flow<TodayWidgetState> {
         return latestAppWidgetEntity()
-            .map { entity ->
-                val day = entity.days.firstOrNull { it.isToday() }
+            .mapLatest { entity ->
+                val day = entity?.days?.firstOrNull { it.isToday() }
                 day?.let {
                     TodayWidgetState.Success(
                         model = it.toModel(context, SS_DATE_FORMAT_OUTPUT_DAY),
@@ -123,12 +128,11 @@ class AppWidgetRepositoryImpl @Inject constructor(
                     )
                 } ?: TodayWidgetState.Error
             }
+            .flowOn(dispatcherProvider.io)
             .catch {
                 Timber.e(it)
                 emit(TodayWidgetState.Error)
             }
-            .flowOn(dispatcherProvider.io)
-
     }
 
     override suspend fun sync(skipCache: Boolean) {
@@ -140,7 +144,7 @@ class AppWidgetRepositoryImpl @Inject constructor(
         title = title,
         date = formatDate(date, dateFormat),
         cover = image,
-        image = context?.fetchBitmap(image),
+        image = withContext(dispatcherProvider.io) { context?.fetchBitmap(image) },
         intent = widgetAction.launchRead(
             lessonIndex = lessonIndex,
             dayIndex = dayIndex.toString()
