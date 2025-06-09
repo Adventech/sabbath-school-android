@@ -48,6 +48,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -61,6 +62,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
@@ -83,6 +85,7 @@ class ExcerptOverlay(private val state: State) : Overlay<ExcerptOverlay.Result> 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content(navigator: OverlayNavigator<Result>) {
+        val hapticFeedback = LocalSsHapticFeedback.current
         var selectedOption by remember { mutableStateOf<String?>(null) }
 
         BlocksDialogSurface(
@@ -96,6 +99,7 @@ class ExcerptOverlay(private val state: State) : Overlay<ExcerptOverlay.Result> 
                 onSelectionChange = { selectedOption = it }
             )
         }
+        LaunchedEffect(Unit) { hapticFeedback.performScreenView() }
     }
 
     @Immutable
@@ -119,6 +123,7 @@ private fun DialogContent(
     modifier: Modifier = Modifier,
     onSelectionChange: (String) -> Unit = {},
 ) {
+    val hapticFeedback = LocalSsHapticFeedback.current
     val readerStyle = LocalReaderStyle.current
     val backgroundColor = readerStyle.theme.background()
     val contentColor = readerStyle.theme.primaryForeground()
@@ -147,6 +152,7 @@ private fun DialogContent(
                 options = blockItem.options.toImmutableList(),
                 selectedOption = selectedOption,
                 onOptionSelected = { option ->
+                    hapticFeedback.performClick()
                     expanded = false
                     selectedOption = option
                     coroutineScope.launch { scrollState.animateScrollTo(0) }
@@ -166,7 +172,10 @@ private fun DialogContent(
             TopAppBar(
                 title = {},
                 navigationIcon = {
-                    IconButton(onClick = { onDismiss() }) {
+                    IconButton(onClick = {
+                        hapticFeedback.performClick()
+                        onDismiss()
+                    }) {
                         IconBox(Icons.Close, contentColor = contentColor)
                     }
                 },
@@ -176,7 +185,10 @@ private fun DialogContent(
                             .sizeIn(minHeight = 48.dp)
                             .padding(horizontal = 6.dp, vertical = 2.dp)
                             .clip(RoundedCornerShape(12.dp))
-                            .clickable { expanded = true }
+                            .clickable {
+                                expanded = true
+                                hapticFeedback.performClick()
+                            }
                             .padding(horizontal = 12.dp, vertical = 12.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(4.dp)

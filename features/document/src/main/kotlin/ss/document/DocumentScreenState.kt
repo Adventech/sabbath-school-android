@@ -97,6 +97,7 @@ sealed interface DocumentOverlayState : CircuitUiState {
         val screen: Screen,
         val skipPartiallyExpanded: Boolean,
         val themed: Boolean,
+        val feedback: Boolean,
         val onResult: (BottomSheetOverlay.Result) -> Unit,
     ) : DocumentOverlayState
 

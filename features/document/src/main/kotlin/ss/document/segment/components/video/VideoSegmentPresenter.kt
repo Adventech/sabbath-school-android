@@ -102,6 +102,7 @@ class VideoSegmentPresenter @AssistedInject constructor(
                                 screen = ReaderOptionsScreen,
                                 skipPartiallyExpanded = false,
                                 themed = false,
+                                feedback = true,
                             ) { result ->
                                 bottomSheetState = null
                             }

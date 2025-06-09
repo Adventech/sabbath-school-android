@@ -38,11 +38,13 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
+import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
 import com.slack.circuit.overlay.Overlay
@@ -61,6 +63,7 @@ class BlocksOverlay(private val state: State) : Overlay<BlocksOverlay.Result> {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content(navigator: OverlayNavigator<Result>) {
+        val hapticFeedback = LocalSsHapticFeedback.current
         BlocksDialogSurface(
             readerStyle = state.style,
             modifier = Modifier,
@@ -71,6 +74,8 @@ class BlocksOverlay(private val state: State) : Overlay<BlocksOverlay.Result> {
                 onDismiss = { navigator.finish(Result.Dismissed) },
             )
         }
+
+        LaunchedEffect(Unit) { hapticFeedback.performScreenView() }
     }
 
     @Immutable
@@ -93,6 +98,7 @@ private fun DialogContent(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val hapticFeedback = LocalSsHapticFeedback.current
     val readerStyle = LocalReaderStyle.current
     val backgroundColor = readerStyle.theme.background()
     val contentColor = readerStyle.theme.primaryForeground()
@@ -107,7 +113,10 @@ private fun DialogContent(
             TopAppBar(
                 title = {},
                 navigationIcon = {
-                    IconButton(onClick = onDismiss) {
+                    IconButton(onClick = {
+                        hapticFeedback.performClick()
+                        onDismiss()
+                    }) {
                         IconBox(Icons.Close, contentColor = contentColor)
                     }
                 },
