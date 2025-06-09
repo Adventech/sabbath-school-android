@@ -38,6 +38,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
 import io.adventech.blockkit.model.BlockData
@@ -52,6 +53,7 @@ fun StorySegmentUi(
     onCollapseChange: (Boolean) -> Unit = {},
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
 ) {
+    val hapticFeedback = LocalSsHapticFeedback.current
     var expanded by remember { mutableStateOf(false) }
 
     Box(
@@ -74,7 +76,10 @@ fun StorySegmentUi(
                 contentAlignment = Alignment.TopStart,
             ) {
                 IconButton(
-                    onClick = onNavBack,
+                    onClick = {
+                        hapticFeedback.performClick()
+                        onNavBack()
+                    },
                     colors = IconButtonDefaults.iconButtonColors(
                         containerColor = Color.Transparent,
                     )

@@ -65,6 +65,11 @@ interface SsHapticFeedback {
      */
     fun performToggleSwitch(on: Boolean)
 
+    /**
+     * Performs a haptic feedback for a gesture end action.
+     */
+    fun performGestureEnd()
+
 }
 
 val LocalSsHapticFeedback =
@@ -80,4 +85,5 @@ internal class DefaultSsHapticFeedback(
     override fun performScreenView() = hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
     override fun performSegmentSwitch() = hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
     override fun performToggleSwitch(on: Boolean) = hapticFeedback.performHapticFeedback(if (on) HapticFeedbackType.ToggleOn else HapticFeedbackType.ToggleOff)
+    override fun performGestureEnd() = hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd)
 }
