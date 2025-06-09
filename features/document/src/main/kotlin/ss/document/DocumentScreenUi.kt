@@ -36,6 +36,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -73,10 +74,13 @@ import ss.document.components.DocumentLoadingView
 import ss.document.components.DocumentPager
 import ss.document.components.DocumentTitleBar
 import ss.document.components.DocumentTopAppBar
+import ss.document.reader.ReaderOptionsScreen
 import ss.document.segment.components.overlay.BlocksOverlay
 import ss.document.segment.components.overlay.ExcerptOverlay
+import ss.libraries.circuit.navigation.AudioPlayerScreen
 import ss.libraries.circuit.navigation.DocumentScreen
 import ss.libraries.circuit.navigation.MiniAudioPlayerScreen
+import ss.libraries.circuit.navigation.VideosScreen
 import ss.libraries.circuit.overlay.BottomSheetOverlay
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalHazeMaterialsApi::class)
@@ -209,6 +213,7 @@ internal fun DocumentOverlay(
     readerStyle: ReaderStyleConfig,
     onNavEvent: (event: NavEvent) -> Unit,
 ) {
+    val hapticFeedback = LocalSsHapticFeedback.current
     val containerColor = readerStyle.theme.background()
     val contentColor = readerStyle.theme.primaryForeground()
 
@@ -227,6 +232,13 @@ internal fun DocumentOverlay(
                                 screen = overlayState.screen,
                                 onNavEvent = onNavEvent,
                             )
+                        }
+
+                        LaunchedEffect(Unit) {
+                            // Feedback already provided on the top bar
+                            if (overlayState.feedback) {
+                                hapticFeedback.performScreenView()
+                            }
                         }
                     })
                 )

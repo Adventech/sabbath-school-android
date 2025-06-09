@@ -39,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.theme.Dimens
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -66,6 +67,7 @@ fun VideoSegmentScreenUi(state: State, modifier: Modifier = Modifier) {
     val readerStyle = LocalReaderStyle.current
     val containerColor = readerStyle.theme.background()
     val contentColor = readerStyle.theme.primaryForeground()
+    val hapticFeedback = LocalSsHapticFeedback.current
 
     HazeScaffold(
         modifier = modifier,
@@ -83,7 +85,10 @@ fun VideoSegmentScreenUi(state: State, modifier: Modifier = Modifier) {
                 actions = persistentListOf(
                     DocumentTopAppBarAction.DisplayOptions,
                 ),
-                onNavBack = { state.eventSink(Event.OnNavBack) },
+                onNavBack = {
+                    hapticFeedback.performClick()
+                    state.eventSink(Event.OnNavBack)
+                },
                 onActionClick = { state.eventSink(Event.OnTopAppBarAction(it)) }
             )
         },
@@ -92,7 +97,9 @@ fun VideoSegmentScreenUi(state: State, modifier: Modifier = Modifier) {
         contentColor = contentColor,
     ) { contentPadding ->
         LazyColumn(
-            modifier = Modifier.fillMaxWidth().padding(top = 12.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 12.dp),
             contentPadding = contentPadding,
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {

@@ -25,9 +25,7 @@ package ss.document.reader
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.SegmentedButton
@@ -46,8 +44,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.theme.SsTheme
-import app.ss.design.compose.widget.divider.Divider
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.ResIcon
 import app.ss.design.compose.widget.material.LegacySlider
@@ -64,22 +62,27 @@ import ss.document.R as DocumentR
 @CircuitInject(ReaderOptionsScreen::class, SingletonComponent::class)
 @Composable
 fun ReaderOptionsUi(state: State, modifier: Modifier = Modifier) {
-    Column(modifier = modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-        ReaderOptionsTheme(state.config.theme) { state.eventSink(Event.OnThemeChanged(it)) }
+    val hapticFeedback = LocalSsHapticFeedback.current
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(bottom = 16.dp), horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        ReaderOptionsTheme(state.config.theme) {
+            hapticFeedback.performSegmentSwitch()
+            state.eventSink(Event.OnThemeChanged(it))
+        }
 
-        Divider(Modifier.padding(vertical = 12.dp))
+        ReaderOptionsTypeface(state.config.typeface) {
+            hapticFeedback.performSegmentSwitch()
+            state.eventSink(Event.OnTypefaceChanged(it))
+        }
 
-        ReaderOptionsTypeface(state.config.typeface) { state.eventSink(Event.OnTypefaceChanged(it)) }
-
-        Divider(Modifier.padding(vertical = 12.dp))
-
-        ReaderOptionsFontSize(state.config.size) { state.eventSink(Event.OnFontSizeChanged(it)) }
-
-        Spacer(
-            Modifier
-                .fillMaxWidth()
-                .height(16.dp)
-        )
+        ReaderOptionsFontSize(state.config.size) {
+            hapticFeedback.performGestureEnd()
+            state.eventSink(Event.OnFontSizeChanged(it))
+        }
     }
 }
 

@@ -138,6 +138,7 @@ internal class OverlayStateProducerImpl @Inject constructor(
                             ),
                             skipPartiallyExpanded = true,
                             themed = true,
+                            feedback = true,
                             onResult = { result ->
                                 overlayState = null
                             }
