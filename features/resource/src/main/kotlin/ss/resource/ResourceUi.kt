@@ -40,6 +40,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -51,6 +52,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.extensions.color.toAndroidColor
+import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import app.ss.design.compose.widget.scaffold.SystemUiEffect
@@ -75,6 +77,7 @@ import com.cryart.design.R as DesignR
 @Composable
 fun ResourceUi(state: State, modifier: Modifier = Modifier) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val hapticFeedback = LocalSsHapticFeedback.current
     val listState: LazyListState = rememberLazyListState()
     val collapsed by remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
     val isSystemInDarkTheme = isSystemInDarkTheme()
@@ -89,7 +92,10 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
                 modifier = Modifier,
                 iconTint = (state as? State.Success)?.resource?.primaryColorDark?.let { Color.parse(it) },
                 scrollBehavior = scrollBehavior,
-                onNavBack = { state.eventSink(Event.OnNavBack) }
+                onNavBack = {
+                    hapticFeedback.performClick()
+                    state.eventSink(Event.OnNavBack)
+                }
             )
         },
         blurTopBar = collapsed,
@@ -127,8 +133,13 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
                                         resource = resource,
                                         documentTitle = state.readDocumentTitle,
                                         type = it,
-                                        ctaOnClick = { state.eventSink(Event.OnCtaClick) },
-                                        readMoreClick = { state.eventSink(Event.OnReadMoreClick) },
+                                        ctaOnClick = {
+                                            state.eventSink(Event.OnCtaClick)
+                                            hapticFeedback.performScreenView()
+                                        },
+                                        readMoreClick = {
+                                            state.eventSink(Event.OnReadMoreClick)
+                                        },
                                     )
                                 }
                             )
@@ -150,6 +161,7 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
 
 @Composable
 private fun OverlayContent(state: ResourceOverlayState?) {
+    val hapticFeedback = LocalSsHapticFeedback.current
     OverlayEffect(state) {
         when (state) {
             is ResourceOverlayState.IntroductionBottomSheet -> state.onResult(
@@ -169,6 +181,8 @@ private fun OverlayContent(state: ResourceOverlayState?) {
 
                         Spacer(modifier = Modifier.height(48.dp))
                     }
+
+                    LaunchedEffect(Unit) { hapticFeedback.performScreenView() }
 
                 })
             )

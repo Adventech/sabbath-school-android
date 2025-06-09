@@ -52,15 +52,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
-import app.ss.translations.R as L10n
 import io.adventech.blockkit.model.feed.FeedResourceKind
 import io.adventech.blockkit.model.resource.ResourceDocument
 import org.joda.time.format.DateTimeFormat
 import ss.misc.SSConstants
+import app.ss.translations.R as L10n
 import ss.resource.R as ResourceR
 
 @Immutable
@@ -74,13 +75,17 @@ data class DocumentResourceSection(
 
     @Composable
     override fun Content(modifier: Modifier) {
+        val hapticFeedback = LocalSsHapticFeedback.current
         Row(
             modifier = modifier
                 .fillMaxWidth()
                 .sizeIn(minHeight = 48.dp)
                 .padding(horizontal = 6.dp, vertical = 2.dp)
                 .clip(RoundedCornerShape(12.dp))
-                .clickable { onClick() }
+                .clickable {
+                    onClick()
+                    hapticFeedback.performScreenView()
+                }
                 .padding(horizontal = 12.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {

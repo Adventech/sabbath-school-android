@@ -31,6 +31,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.appbar.FeedTopAppBar
 import app.ss.design.compose.widget.scaffold.HazeScaffold
@@ -48,6 +49,7 @@ import ss.services.auth.overlay.AccountDialogOverlay
 fun FeedScreenUi(state: State, modifier: Modifier = Modifier) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val listState = rememberLazyListState()
+    val hapticFeedback = LocalSsHapticFeedback.current
 
     HazeScaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -76,8 +78,14 @@ fun FeedScreenUi(state: State, modifier: Modifier = Modifier) {
                     modifier = Modifier,
                     state = listState,
                     contentPadding = contentPadding,
-                    seeAllClick = { state.eventSink(SuccessEvent.OnSeeAllClick(it)) },
-                    itemClick = { state.eventSink(SuccessEvent.OnItemClick(it.index)) }
+                    seeAllClick = {
+                        state.eventSink(SuccessEvent.OnSeeAllClick(it))
+                        hapticFeedback.performScreenView()
+                    },
+                    itemClick = {
+                        state.eventSink(SuccessEvent.OnItemClick(it.index))
+                        hapticFeedback.performScreenView()
+                    }
                 )
             }
 

@@ -45,6 +45,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.CircuitContent
@@ -78,6 +79,7 @@ private fun NavigationSuite(
     modifier: Modifier = Modifier,
 ) {
     val layoutType = NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(currentWindowAdaptiveInfo())
+    val hapticFeedback = LocalSsHapticFeedback.current
 
     val content: @Composable (PaddingValues) -> Unit = {
         AnimatedContent(
@@ -114,7 +116,10 @@ private fun NavigationSuite(
                                     )
                                 },
                                 selected = model.screen() == state.selectedItem,
-                                onClick = { state.eventSink(State.NavbarNavigation.Event.OnItemSelected(model)) },
+                                onClick = {
+                                    state.eventSink(State.NavbarNavigation.Event.OnItemSelected(model))
+                                    hapticFeedback.performSegmentSwitch()
+                                },
                             )
                         }
                     }
@@ -135,7 +140,10 @@ private fun NavigationSuite(
                                 )
                             },
                             selected = state.selectedItem == model.screen(),
-                            onClick = { state.eventSink(State.NavbarNavigation.Event.OnItemSelected(model)) },
+                            onClick = {
+                                state.eventSink(State.NavbarNavigation.Event.OnItemSelected(model))
+                                hapticFeedback.performSegmentSwitch()
+                            },
                         )
                     }
                 },

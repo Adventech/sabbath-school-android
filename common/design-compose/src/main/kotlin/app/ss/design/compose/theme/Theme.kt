@@ -32,6 +32,9 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
+import app.ss.design.compose.extensions.haptics.DefaultSsHapticFeedback
+import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.extensions.isS
 import app.ss.design.compose.theme.color.DarkColorScheme
 import app.ss.design.compose.theme.color.LightColorScheme
@@ -65,6 +68,7 @@ fun SsTheme(
         LocalAppDimens provides dimensions,
         LocalSsColors provides colorScheme.extend(darkTheme),
         LocalWindowSizeClass provides windowSizeClass,
+        LocalSsHapticFeedback provides DefaultSsHapticFeedback(LocalHapticFeedback.current),
     ) {
         MaterialTheme(
             colorScheme = colorScheme,

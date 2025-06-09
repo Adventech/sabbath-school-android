@@ -52,6 +52,7 @@ import androidx.compose.ui.unit.sp
 import app.ss.design.compose.extensions.ContentAlpha
 import app.ss.design.compose.extensions.content.ContentSpec
 import app.ss.design.compose.extensions.content.asText
+import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
@@ -62,6 +63,7 @@ internal fun PreferenceItem(
     item: PrefListEntity,
     modifier: Modifier = Modifier
 ) {
+    val hapticFeedback = LocalSsHapticFeedback.current
     val (icon, title, summary) = remember(item) {
         when (item) {
             is PrefListEntity.Generic -> Triple(item.icon, item.title, item.summary)
@@ -87,7 +89,10 @@ internal fun PreferenceItem(
                             value = item.checked,
                             enabled = item.enabled,
                             role = Role.Switch,
-                            onValueChange = item.onCheckChanged
+                            onValueChange = {
+                                hapticFeedback.performToggleSwitch(it)
+                                item.onCheckChanged(it)
+                            }
                         )
                     }
                     is PrefListEntity.Generic -> {
@@ -95,7 +100,10 @@ internal fun PreferenceItem(
                             enabled = item.enabled,
                             onClickLabel = item.title.asText(),
                             role = Role.Button,
-                            onClick = item.onClick,
+                            onClick = {
+                                hapticFeedback.performClick()
+                                item.onClick()
+                            },
                         )
                     }
                     else -> Modifier
@@ -149,7 +157,10 @@ internal fun PreferenceItem(
         if (item is PrefListEntity.Switch) {
             Switch(
                 checked = item.checked,
-                onCheckedChange = item.onCheckChanged,
+                onCheckedChange = {
+                    hapticFeedback.performToggleSwitch(it)
+                    item.onCheckChanged(it)
+                },
                 enabled = item.enabled
             )
         }
