@@ -47,6 +47,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.extensions.modifier.keepScreenOn
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.HazeScaffold
@@ -83,6 +84,7 @@ import ss.libraries.circuit.overlay.BottomSheetOverlay
 @Composable
 fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val hapticFeedback = LocalSsHapticFeedback.current
 
     val density = LocalDensity.current
     val topPadding = WindowInsets.safeContent.asPaddingValues().calculateTopPadding()
@@ -133,8 +135,14 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                     collapsed = collapsed,
                     contentColor = contentColor,
                     actions = (state as? State.Success)?.actions ?: persistentListOf(),
-                    onNavBack = { state.eventSink(Event.OnNavBack) },
-                    onActionClick = { state.eventSink(Event.OnActionClick(it)) }
+                    onNavBack = {
+                        hapticFeedback.performClick()
+                        state.eventSink(Event.OnNavBack)
+                    },
+                    onActionClick = {
+                        hapticFeedback.performClick()
+                        state.eventSink(Event.OnActionClick(it))
+                    }
                 )
             }
         },

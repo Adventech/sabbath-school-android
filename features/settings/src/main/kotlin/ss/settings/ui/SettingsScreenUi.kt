@@ -23,6 +23,8 @@
 package ss.settings.ui
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -39,6 +41,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.content.ContentSpec
+import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
@@ -66,6 +69,7 @@ fun SettingsScreenUi(
     modifier: Modifier = Modifier
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val hapticFeedback = LocalSsHapticFeedback.current
 
     HazeScaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -75,6 +79,7 @@ fun SettingsScreenUi(
                 title = { Text(text = stringResource(id = L10nR.string.ss_settings)) },
                 navigationIcon = {
                     IconButton(onClick = {
+                        hapticFeedback.performClick()
                         state.eventSick(Event.NavBack)
                     }) {
                         IconBox(icon = Icons.ArrowBack)
@@ -99,10 +104,18 @@ fun SettingsScreenUi(
                 items = state.entities,
                 key = { it.id }
             ) { item -> item.Content() }
+
+            item { Spacer(Modifier.navigationBarsPadding()) }
         }
     }
 
     OverlayContent(state = state)
+
+    LaunchedEffect(state.overlay) {
+        if (state.overlay != null) {
+            hapticFeedback.performScreenView()
+        }
+    }
 }
 
 
@@ -135,6 +148,7 @@ private fun OverlayHost.ShowTimePicker(
     overlay: Overlay.SelectReminderTime,
     eventSick: (Event) -> Unit,
 ) {
+    val hapticFeedback = LocalSsHapticFeedback.current
     val timePickerState = rememberTimePickerState(
         initialHour = overlay.hour,
         initialMinute = overlay.minute,
@@ -155,9 +169,15 @@ private fun OverlayHost.ShowTimePicker(
             )
         )
         when (result) {
-            DialogResult.Confirm -> eventSick(Event.SetReminderTime(timePickerState.hour, timePickerState.minute))
+            DialogResult.Confirm -> {
+                eventSick(Event.SetReminderTime(timePickerState.hour, timePickerState.minute))
+                hapticFeedback.performSuccess()
+            }
             DialogResult.Cancel,
-            DialogResult.Dismiss -> eventSick(Event.OverlayDismiss)
+            DialogResult.Dismiss -> {
+                eventSick(Event.OverlayDismiss)
+                hapticFeedback.performClick()
+            }
         }
     }
 }
@@ -167,6 +187,7 @@ private fun OverlayHost.ConfirmAccountDelete(
     overlay: Overlay?,
     eventSick: (Event) -> Unit,
 ) {
+    val hapticFeedback = LocalSsHapticFeedback.current
     LaunchedEffect(overlay) {
         val result = show(
             ssAlertDialogOverlay(
@@ -183,9 +204,15 @@ private fun OverlayHost.ConfirmAccountDelete(
         )
 
         when (result) {
-            DialogResult.Confirm -> eventSick(Event.AccountDeleteConfirmed)
+            DialogResult.Confirm -> {
+                hapticFeedback.performError()
+                eventSick(Event.AccountDeleteConfirmed)
+            }
             DialogResult.Cancel,
-            DialogResult.Dismiss -> eventSick(Event.OverlayDismiss)
+            DialogResult.Dismiss -> {
+                hapticFeedback.performSuccess()
+                eventSick(Event.OverlayDismiss)
+            }
         }
     }
 }
@@ -195,6 +222,7 @@ private fun OverlayHost.ShowConfirmRemoveDownloads(
     overlay: Overlay?,
     eventSick: (Event) -> Unit,
 ) {
+    val hapticFeedback = LocalSsHapticFeedback.current
     LaunchedEffect(overlay) {
         val result = show(
             ssAlertDialogOverlay(
@@ -210,9 +238,15 @@ private fun OverlayHost.ShowConfirmRemoveDownloads(
             )
         )
         when (result) {
-            DialogResult.Confirm -> eventSick(Event.RemoveDownloads)
+            DialogResult.Confirm -> {
+                hapticFeedback.performError()
+                eventSick(Event.RemoveDownloads)
+            }
             DialogResult.Cancel,
-            DialogResult.Dismiss -> eventSick(Event.OverlayDismiss)
+            DialogResult.Dismiss -> {
+                hapticFeedback.performSuccess()
+                eventSick(Event.OverlayDismiss)
+            }
         }
     }
 }

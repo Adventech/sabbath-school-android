@@ -38,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.icon.IconBox
@@ -57,13 +58,17 @@ fun FeedTopAppBar(
     onNavigationClick: () -> Unit = {},
     onFilterLanguagesClick: () -> Unit = {},
 ) {
+    val hapticFeedback = LocalSsHapticFeedback.current
     LargeTopAppBar(
         title = { Text(text = title) },
         modifier = modifier,
         navigationIcon = {
             AvatarNavigationIcon(
                 photoUrl = photoUrl,
-                onClick = onNavigationClick
+                onClick = {
+                    onNavigationClick()
+                    hapticFeedback.performClick()
+                }
             )
         },
         actions = {
@@ -71,7 +76,10 @@ fun FeedTopAppBar(
                 icon = IconButtonSlot(
                     imageVector = MaterialIcons.Rounded.Translate,
                     contentDescription = stringResource(id = L10nR.ss_quarterlies_filter_languages),
-                    onClick = onFilterLanguagesClick
+                    onClick = {
+                        onFilterLanguagesClick()
+                        hapticFeedback.performScreenView()
+                    }
                 )
             )
         },

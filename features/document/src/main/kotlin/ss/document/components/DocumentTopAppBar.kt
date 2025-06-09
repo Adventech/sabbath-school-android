@@ -69,6 +69,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButtonResSlot
@@ -123,6 +124,7 @@ internal fun DocumentTopAppBar(
     onNavBack: () -> Unit = {},
     onActionClick: (DocumentTopAppBarAction) -> Unit = {},
 ) {
+    val hapticFeedback = LocalSsHapticFeedback.current
     var expanded by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
@@ -226,7 +228,10 @@ internal fun DocumentTopAppBar(
                         IconButtonSlot(
                             imageVector = MaterialIcons.Rounded.MoreVert,
                             contentDescription = stringResource(L10nR.string.ss_more),
-                            onClick = { expanded = true },
+                            onClick = {
+                                expanded = true
+                                hapticFeedback.performClick()
+                            },
                         )
                     )
                 }
@@ -302,6 +307,7 @@ private fun DocumentSegmentDropdown(
     modifier: Modifier = Modifier,
     onSelection: (Segment) -> Unit = {},
 ) {
+    val hapticFeedback = LocalSsHapticFeedback.current
     var expanded by remember { mutableStateOf(false) }
     DropdownMenu(
         expanded = expanded,
@@ -315,6 +321,7 @@ private fun DocumentSegmentDropdown(
                 onClick = {
                     expanded = false
                     onSelection(segment)
+                    hapticFeedback.performClick()
                 },
                 modifier = Modifier,
                 text = {
@@ -351,7 +358,10 @@ private fun DocumentSegmentDropdown(
             .sizeIn(minHeight = 48.dp)
             .padding(horizontal = 6.dp, vertical = 2.dp)
             .clip(RoundedCornerShape(12.dp))
-            .clickable { expanded = true }
+            .clickable {
+                expanded = true
+                hapticFeedback.performSegmentSwitch()
+            }
             .padding(horizontal = 12.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp)
