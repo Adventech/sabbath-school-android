@@ -51,8 +51,8 @@ import io.adventech.blockkit.ui.color.Primary950
 import io.adventech.blockkit.ui.color.Sepia300
 import io.adventech.blockkit.ui.color.Sepia400
 import io.adventech.blockkit.ui.color.parse
-import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
 import io.adventech.blockkit.ui.style.ReaderStyle.Theme
+import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
 import io.adventech.blockkit.model.TextStyle as BlockTextStyle
 
 object Styler {
@@ -74,6 +74,14 @@ object Styler {
             blockStyleColor
         }
         return color ?: template.textColorDefault()
+    }
+
+    @Composable
+    fun highlightedTextColor(): Color {
+        return when (val theme = LocalReaderStyle.current.theme) {
+            Theme.Sepia -> theme.primaryForeground()
+            else -> Theme.Light.primaryForeground()
+        }
     }
 
     fun textAlign(textStyle: BlockTextStyle?): TextAlign? {
