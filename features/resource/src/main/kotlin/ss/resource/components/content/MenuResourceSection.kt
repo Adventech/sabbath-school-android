@@ -44,6 +44,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
@@ -60,6 +61,7 @@ data class MenuResourceSection(
 
     @Composable
     override fun Content(modifier: Modifier) {
+        val hapticFeedback = LocalSsHapticFeedback.current
         var expanded by remember { mutableStateOf(false) }
         var selectedSection by remember(defaultSection) { mutableStateOf<ResourceSection?>(defaultSection) }
         DropdownMenu(
@@ -79,6 +81,7 @@ data class MenuResourceSection(
                     onClick = {
                         expanded = false
                         onSelection(section)
+                        hapticFeedback.performClick()
                     },
                     modifier = Modifier,
                     trailingIcon = {
@@ -96,7 +99,10 @@ data class MenuResourceSection(
                     .sizeIn(minHeight = 48.dp)
                     .padding(horizontal = 6.dp, vertical = 2.dp)
                     .clip(RoundedCornerShape(12.dp))
-                    .clickable { expanded = true }
+                    .clickable {
+                        expanded = true
+                        hapticFeedback.performClick()
+                    }
                     .padding(horizontal = 12.dp, vertical = 12.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp)

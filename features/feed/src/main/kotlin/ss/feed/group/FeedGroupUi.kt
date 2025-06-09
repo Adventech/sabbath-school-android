@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.appbar.SsTopAppBar
 import app.ss.design.compose.widget.appbar.TopAppBarSpec
@@ -52,6 +53,8 @@ import ss.feed.group.FeedGroupScreen.State
 @Composable
 fun FeedGroupUi(state: State, modifier: Modifier = Modifier) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val hapticFeedback = LocalSsHapticFeedback.current
+
     HazeScaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
@@ -60,7 +63,10 @@ fun FeedGroupUi(state: State, modifier: Modifier = Modifier) {
                 modifier = Modifier,
                 title = { Text(text = state.title) },
                 navigationIcon = {
-                    IconButton(onClick = { state.eventSink(Event.OnNavBack) }) {
+                    IconButton(onClick = {
+                        hapticFeedback.performClick()
+                        state.eventSink(Event.OnNavBack)
+                    }) {
                         IconBox(Icons.ArrowBack)
                     }
                 },
@@ -86,7 +92,10 @@ fun FeedGroupUi(state: State, modifier: Modifier = Modifier) {
                     resources = state.resources,
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = contentPadding,
-                    itemClick = { state.eventSink(Event.OnItemClick(it)) }
+                    itemClick = {
+                        state.eventSink(Event.OnItemClick(it))
+                        hapticFeedback.performScreenView()
+                    }
                 )
             }
         }

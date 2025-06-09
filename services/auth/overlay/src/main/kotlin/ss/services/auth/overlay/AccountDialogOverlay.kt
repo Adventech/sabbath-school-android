@@ -48,6 +48,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.content.ContentBox
@@ -99,6 +100,7 @@ class AccountDialogOverlay(
 @Composable
 private fun DialogContent(userInfo: UserInfo, modifier: Modifier = Modifier, onResult: (AccountDialogOverlay.Result) -> Unit = { }) {
     val context = LocalContext.current
+    val hapticFeedback = LocalSsHapticFeedback.current
     val listItemColors = ListItemDefaults.colors(
         containerColor = AlertDialogDefaults.containerColor
     )
@@ -152,7 +154,10 @@ private fun DialogContent(userInfo: UserInfo, modifier: Modifier = Modifier, onR
         }
 
         FilledTonalButton(
-            onClick = { onResult(AccountDialogOverlay.Result.SignOut) },
+            onClick = {
+                hapticFeedback.performError()
+                onResult(AccountDialogOverlay.Result.SignOut)
+            },
             modifier = Modifier.padding(start = 80.dp, top = 8.dp)
         ) {
             Text(text = stringResource(L10nR.ss_menu_sign_out))
@@ -167,7 +172,10 @@ private fun DialogContent(userInfo: UserInfo, modifier: Modifier = Modifier, onR
                     style = SsTheme.typography.titleMedium
                 )
             },
-            modifier = Modifier.clickable { onResult(AccountDialogOverlay.Result.GoToSettings) },
+            modifier = Modifier.clickable {
+                hapticFeedback.performScreenView()
+                onResult(AccountDialogOverlay.Result.GoToSettings)
+            },
             leadingContent = {
                 IconBox(
                     icon = Icons.Settings,
@@ -184,7 +192,10 @@ private fun DialogContent(userInfo: UserInfo, modifier: Modifier = Modifier, onR
                     style = SsTheme.typography.titleMedium
                 )
             },
-            modifier = Modifier.clickable { onResult(AccountDialogOverlay.Result.ShareApp(context)) },
+            modifier = Modifier.clickable {
+                hapticFeedback.performClick()
+                onResult(AccountDialogOverlay.Result.ShareApp(context))
+            },
             leadingContent = {
                 IconBox(
                     icon = Icons.Share,
@@ -201,7 +212,10 @@ private fun DialogContent(userInfo: UserInfo, modifier: Modifier = Modifier, onR
                     style = SsTheme.typography.titleMedium
                 )
             },
-            modifier = Modifier.clickable { onResult(AccountDialogOverlay.Result.GoToAbout) },
+            modifier = Modifier.clickable {
+                hapticFeedback.performScreenView()
+                onResult(AccountDialogOverlay.Result.GoToAbout)
+            },
             leadingContent = {
                 IconBox(
                     icon = Icons.Info,
@@ -218,7 +232,10 @@ private fun DialogContent(userInfo: UserInfo, modifier: Modifier = Modifier, onR
                     style = SsTheme.typography.titleMedium
                 )
             },
-            modifier = Modifier.clickable { onResult(AccountDialogOverlay.Result.GoToPrivacyPolicy(context)) },
+            modifier = Modifier.clickable {
+                hapticFeedback.performClick()
+                onResult(AccountDialogOverlay.Result.GoToPrivacyPolicy(context))
+            },
             leadingContent = {
                 IconBox(
                     icon = Icons.Privacy,
