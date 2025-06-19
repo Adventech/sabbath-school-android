@@ -29,13 +29,14 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.platform.TextToolbar
 import androidx.compose.ui.platform.TextToolbarStatus
 import io.adventech.blockkit.model.input.HighlightColor
+import io.adventech.blockkit.ui.input.BlocksTextActionModeCallback.Mode
 
 class BlocksTextToolbar(
     private val view: View,
     private val destroy: Boolean = false,
     private val onHighlight: (HighlightColor) -> Unit = {},
     private val onRemoveHighlight: () -> Unit = {},
-    private val onUnderline: (HighlightColor) -> Unit = {  },
+    private val onUnderline: (HighlightColor) -> Unit = {},
     private val onRemoveUnderline: () -> Unit = {},
     private val onSearch: (() -> Unit)? = null,
 ) : TextToolbar {
@@ -62,7 +63,7 @@ class BlocksTextToolbar(
         textActionModeCallback.onSelectAllRequested = onSelectAllRequested
         textActionModeCallback.onHighlightRequested = {
             hide()
-            textActionModeCallback.viewMode = BlocksTextActionModeCallback.Mode.HIGHLIGHTS
+            textActionModeCallback.viewMode = Mode.HIGHLIGHTS
             actionMode = BlocksTextToolbarHelperMethods.startActionMode(
                 view,
                 BlocksFloatingTextActionModeCallback(textActionModeCallback),
@@ -71,7 +72,7 @@ class BlocksTextToolbar(
         }
         textActionModeCallback.onUnderlineRequested = {
             hide()
-            textActionModeCallback.viewMode = BlocksTextActionModeCallback.Mode.UNDERLINE
+            textActionModeCallback.viewMode = Mode.UNDERLINE
             actionMode = BlocksTextToolbarHelperMethods.startActionMode(
                 view,
                 BlocksFloatingTextActionModeCallback(textActionModeCallback),
@@ -80,35 +81,35 @@ class BlocksTextToolbar(
         }
         onSearch?.let {
             textActionModeCallback.onSearchRequested = {
-                textActionModeCallback.viewMode = BlocksTextActionModeCallback.Mode.NONE
+                textActionModeCallback.viewMode = Mode.NONE
                 hide()
                 onSearch()
             }
         }
         textActionModeCallback.onHighlightColorRequested = { color ->
-            textActionModeCallback.viewMode = BlocksTextActionModeCallback.Mode.NONE
+            textActionModeCallback.viewMode = Mode.NONE
             hide()
             onHighlight(color)
         }
         textActionModeCallback.onUnderlineColorRequested = { color ->
-            textActionModeCallback.viewMode = BlocksTextActionModeCallback.Mode.NONE
+            textActionModeCallback.viewMode = Mode.NONE
             hide()
             onUnderline(color)
         }
         textActionModeCallback.onRemoveHighlightRequested = {
-            textActionModeCallback.viewMode = BlocksTextActionModeCallback.Mode.NONE
+            textActionModeCallback.viewMode = Mode.NONE
             hide()
             onRemoveHighlight()
         }
         textActionModeCallback.onRemoveUnderlineRequested = {
-            textActionModeCallback.viewMode = BlocksTextActionModeCallback.Mode.NONE
+            textActionModeCallback.viewMode = Mode.NONE
             hide()
             onRemoveUnderline()
         }
 
         if (actionMode == null && !destroy) {
             status = TextToolbarStatus.Shown
-            textActionModeCallback.viewMode = BlocksTextActionModeCallback.Mode.TEXT
+            textActionModeCallback.viewMode = Mode.TEXT
             actionMode = BlocksTextToolbarHelperMethods.startActionMode(
                 view,
                 BlocksFloatingTextActionModeCallback(textActionModeCallback),

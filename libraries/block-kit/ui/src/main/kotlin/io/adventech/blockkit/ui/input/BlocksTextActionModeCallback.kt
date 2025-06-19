@@ -99,8 +99,8 @@ internal class BlocksTextActionModeCallback(
         return true
     }
 
-    fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
+        when (item.itemId) {
             MenuItemOption.Copy.id -> onCopyRequested?.invoke()
             MenuItemOption.Paste.id -> onPasteRequested?.invoke()
             MenuItemOption.Cut.id -> onCutRequested?.invoke()
@@ -121,7 +121,7 @@ internal class BlocksTextActionModeCallback(
             }
             else -> return false
         }
-        mode?.finish()
+        mode.finish()
         return true
     }
 
