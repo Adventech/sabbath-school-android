@@ -22,16 +22,14 @@
 
 package io.adventech.blockkit.model.input
 
-data object UserInputType {
-    const val APPEAL = "appeal"
-    const val CHECKLIST = "checklist"
-    const val COMMENT = "comment"
-    const val COMPLETION = "completion"
-    const val HIGHLIGHTS = "highlights"
-    const val MULTIPLE_CHOICE = "multiple-choice"
-    const val POLL = "poll"
-    const val QUESTION = "question"
-    const val ANNOTATION = "annotation"
-    const val UNDERLINES = "underlines"
-    const val UNKNOWN = "unknown"
-}
+import androidx.annotation.Keep
+import com.squareup.moshi.JsonClass
+
+@Keep
+@JsonClass(generateAdapter = true)
+data class Underline(
+    val startIndex: Int,
+    val endIndex: Int,
+    val length: Int,
+    val color: HighlightColor
+)

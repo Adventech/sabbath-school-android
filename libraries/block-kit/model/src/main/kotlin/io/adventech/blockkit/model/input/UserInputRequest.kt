@@ -64,6 +64,12 @@ sealed interface UserInputRequest {
     ) : UserInputRequest
 
     @JsonClass(generateAdapter = true)
+    data class Underlines(
+        override val blockId: String,
+        val underlines: List<Underline>
+    ) : UserInputRequest
+
+    @JsonClass(generateAdapter = true)
     data class MultipleChoice(
         override val blockId: String,
         val choice: Int
