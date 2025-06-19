@@ -45,6 +45,7 @@ import androidx.core.net.toUri
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.input.Highlight
 import io.adventech.blockkit.model.input.HighlightColor
+import io.adventech.blockkit.model.input.Underline
 import io.adventech.blockkit.model.input.UserInput
 import io.adventech.blockkit.model.input.UserInputRequest
 import io.adventech.blockkit.ui.input.MarkdownTextInput
@@ -52,6 +53,7 @@ import io.adventech.blockkit.ui.input.SelectionBlockContainer
 import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.input.find
 import io.adventech.blockkit.ui.input.rememberContentHighlights
+import io.adventech.blockkit.ui.input.rememberContentUnderlines
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.theme.BlocksDynamicPreviewTheme
@@ -115,7 +117,9 @@ private fun SelectableParagraph(
     val blockStyle = blockItem.style?.text
 
     val highlights = rememberContentHighlights(blockItem.id, inputState)
+    val underlines = rememberContentUnderlines(blockItem.id, inputState)
     var localHighlights by remember(highlights) { mutableStateOf(highlights) }
+    var localUnderlines by remember(underlines) { mutableStateOf(underlines) }
 
     var textFieldValue by remember { mutableStateOf<TextFieldValue?>(null) }
     val currentSelection = textFieldValue?.selection
@@ -163,6 +167,34 @@ private fun SelectableParagraph(
             if (searchText.isNotBlank()) {
                 onSearchSelection(context, searchText)
             }
+        },
+        onUnderLine = { underline ->
+            textFieldValue = textFieldValue?.copy(
+                selection = TextRange.Zero,
+            )
+            val input: UserInput.Underlines? = inputState?.find(blockItem.id)
+            val underlines = input?.underlines.orEmpty() + underline
+            val request = UserInputRequest.Underlines(
+                blockId = blockItem.id,
+                underlines = underlines
+            )
+            localUnderlines = underlines.toImmutableList()
+            inputState?.eventSink?.invoke(UserInputState.Event.InputChanged(request))
+        },
+        onRemoveUnderline = {
+            // Remove any underline who's startIndex and endIndex are in the range of the current selection
+            val selection = currentSelection ?: return@SelectionBlockContainer
+            val input: UserInput.Underlines? = inputState?.find(blockItem.id)
+            val underlines = removeUnderlinesInRange(input?.underlines.orEmpty(), selection)
+            val request = UserInputRequest.Underlines(
+                blockId = blockItem.id,
+                underlines = underlines
+            )
+            localUnderlines = underlines.toImmutableList()
+            inputState?.eventSink?.invoke(UserInputState.Event.InputChanged(request))
+            textFieldValue = textFieldValue?.copy(
+                selection = TextRange.Zero,
+            )
         }
     ) {
         MarkdownTextInput(
@@ -183,6 +215,16 @@ private fun removeHighlightsInRange(highlights: List<Highlight>, range: TextRang
     return highlights.filterNot { highlight ->
         highlight.startIndex in range.min..range.max && highlight.endIndex in range.min..range.max ||
             highlight.startIndex <= range.max && highlight.endIndex >= range.min
+    }
+}
+
+private fun removeUnderlinesInRange(
+    underlines: List<Underline>,
+    range: TextRange
+): List<Underline> {
+    return underlines.filterNot { underline ->
+        underline.startIndex in range.min..range.max && underline.endIndex in range.min..range.max ||
+            underline.startIndex <= range.max && underline.endIndex >= range.min
     }
 }
 

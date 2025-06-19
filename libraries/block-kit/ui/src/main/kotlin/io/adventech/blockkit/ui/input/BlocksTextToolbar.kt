@@ -35,6 +35,8 @@ class BlocksTextToolbar(
     private val destroy: Boolean = false,
     private val onHighlight: (HighlightColor) -> Unit = {},
     private val onRemoveHighlight: () -> Unit = {},
+    private val onUnderline: (HighlightColor) -> Unit = {  },
+    private val onRemoveUnderline: () -> Unit = {},
     private val onSearch: (() -> Unit)? = null,
 ) : TextToolbar {
 
@@ -67,6 +69,15 @@ class BlocksTextToolbar(
                 ActionMode.TYPE_FLOATING
             )
         }
+        textActionModeCallback.onUnderlineRequested = {
+            hide()
+            textActionModeCallback.viewMode = BlocksTextActionModeCallback.Mode.UNDERLINE
+            actionMode = BlocksTextToolbarHelperMethods.startActionMode(
+                view,
+                BlocksFloatingTextActionModeCallback(textActionModeCallback),
+                ActionMode.TYPE_FLOATING
+            )
+        }
         onSearch?.let {
             textActionModeCallback.onSearchRequested = {
                 textActionModeCallback.viewMode = BlocksTextActionModeCallback.Mode.NONE
@@ -79,10 +90,20 @@ class BlocksTextToolbar(
             hide()
             onHighlight(color)
         }
+        textActionModeCallback.onUnderlineColorRequested = { color ->
+            textActionModeCallback.viewMode = BlocksTextActionModeCallback.Mode.NONE
+            hide()
+            onUnderline(color)
+        }
         textActionModeCallback.onRemoveHighlightRequested = {
             textActionModeCallback.viewMode = BlocksTextActionModeCallback.Mode.NONE
             hide()
             onRemoveHighlight()
+        }
+        textActionModeCallback.onRemoveUnderlineRequested = {
+            textActionModeCallback.viewMode = BlocksTextActionModeCallback.Mode.NONE
+            hide()
+            onRemoveUnderline()
         }
 
         if (actionMode == null && !destroy) {
