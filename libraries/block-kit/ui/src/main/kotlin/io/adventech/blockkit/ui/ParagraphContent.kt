@@ -207,6 +207,7 @@ private fun SelectableParagraph(
             textAlign = Styler.textAlign(blockStyle),
             onHandleUri = onHandleUri,
             highlights = localHighlights,
+            underlines = localUnderlines,
         )
     }
 }

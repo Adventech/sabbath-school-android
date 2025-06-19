@@ -63,10 +63,12 @@ import coil.request.ImageRequest
 import io.adventech.blockkit.model.TextStyleOffset
 import io.adventech.blockkit.model.TextStyleSize
 import io.adventech.blockkit.model.input.Highlight
+import io.adventech.blockkit.model.input.Underline
 import io.adventech.blockkit.parser.AttributedTextParser
 import io.adventech.blockkit.ui.color.AttributedTextColorOverride
 import io.adventech.blockkit.ui.color.parse
 import io.adventech.blockkit.ui.color.toColor
+import io.adventech.blockkit.ui.input.drawUnderlines
 import io.adventech.blockkit.ui.style.BlockStyleTemplate
 import io.adventech.blockkit.ui.style.StyleTemplate
 import io.adventech.blockkit.ui.style.Styler
@@ -112,6 +114,7 @@ fun MarkdownText(
     maxLines: Int = Integer.MAX_VALUE,
     overflow: TextOverflow = TextOverflow.Clip,
     highlights: ImmutableList<Highlight> = persistentListOf(),
+    underlines: ImmutableList<Underline> = persistentListOf(),
     onHandleUri: (String) -> Unit = {},
 ) {
     val styledText = rememberMarkdownText(markdownText, style, styleTemplate, color, highlights)
@@ -153,7 +156,8 @@ fun MarkdownText(
                     }
                 }
             }
-            .drawBehind(extendedSpans),
+            .drawBehind(extendedSpans)
+            .drawUnderlines(styledText, layoutResult.value, underlines),
         color = color,
         style = style,
         textAlign = textAlign,

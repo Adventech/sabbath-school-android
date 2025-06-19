@@ -42,6 +42,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import io.adventech.blockkit.model.input.Highlight
+import io.adventech.blockkit.model.input.Underline
 import io.adventech.blockkit.ui.TAG_URL
 import io.adventech.blockkit.ui.rememberMarkdownText
 import io.adventech.blockkit.ui.style.BlockStyleTemplate
@@ -72,6 +73,7 @@ internal fun MarkdownTextInput(
     styleTemplate: StyleTemplate = BlockStyleTemplate.DEFAULT,
     maxLines: Int = Integer.MAX_VALUE,
     highlights: ImmutableList<Highlight> = persistentListOf(),
+    underlines: ImmutableList<Underline> = persistentListOf(),
     onHandleUri: (String) -> Unit = {},
 ) {
     val styledText = rememberMarkdownText(markdownText, style, styleTemplate, color, highlights)
@@ -103,7 +105,8 @@ internal fun MarkdownTextInput(
         },
         modifier = modifier
             .fillMaxWidth()
-            .drawBehind(extendedSpans),
+            .drawBehind(extendedSpans)
+            .drawUnderlines(styledText, layoutResult.value, underlines),
         readOnly = true,
         textStyle = style.copy(
             textAlign = textAlign ?: style.textAlign,

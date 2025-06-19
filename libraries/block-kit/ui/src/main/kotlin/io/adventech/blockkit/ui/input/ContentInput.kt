@@ -24,7 +24,16 @@ package io.adventech.blockkit.ui.input
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextLayoutResult
+import io.adventech.blockkit.model.input.Underline
 import io.adventech.blockkit.model.input.UserInput
+import io.adventech.blockkit.ui.color.toColor
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 
@@ -67,3 +76,29 @@ internal fun rememberContentUnderlines(
         ?.underlines
         ?.toImmutableList() ?: persistentListOf()
 }
+
+internal fun Modifier.drawUnderlines(
+    text: AnnotatedString,
+    layoutResult: TextLayoutResult?,
+    underlines: ImmutableList<Underline>,
+): Modifier = this.
+    drawBehind {
+        layoutResult?.let { result ->
+            underlines.forEach { underline ->
+                if (underline.startIndex >= 0 && underline.endIndex <= text.length) {
+                    val startRect = result.getBoundingBox(underline.startIndex)
+                    val endRect = result.getBoundingBox(underline.endIndex - 1)
+
+                    val y = endRect.bottom + 2f // slight offset for better visual separation
+
+                    drawLine(
+                        color = underline.color.toColor(),
+                        start = Offset(startRect.left, y),
+                        end = Offset(endRect.right, y),
+                        strokeWidth = 4f,
+                        cap = StrokeCap.Round,
+                    )
+                }
+            }
+        }
+    }
