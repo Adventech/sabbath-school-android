@@ -41,5 +41,8 @@ enum class HighlightColor {
     @Json(name = "blue") BLUE,
     @Json(name = "yellow") YELLOW,
     @Json(name = "orange") ORANGE,
-    @Json(name = "green") GREEN
+    @Json(name = "green") GREEN,
+    @Json(name = "purple") PURPLE,
+    @Json(name = "brown") BROWN,
+    @Json(name = "red") RED,
 }
