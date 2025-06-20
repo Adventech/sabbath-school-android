@@ -48,6 +48,24 @@
         tools:ignore="HardcodedText" />
 
     <item
+        android:id="@+id/highlight_purple"
+        android:showAsAction="always"
+        android:title="🟣"
+        tools:ignore="HardcodedText" />
+
+    <item
+        android:id="@+id/highlight_brown"
+        android:showAsAction="always"
+        android:title="🟤"
+        tools:ignore="HardcodedText" />
+
+    <item
+        android:id="@+id/highlight_red"
+        android:showAsAction="always"
+        android:title="🔴"
+        tools:ignore="HardcodedText" />
+
+    <item
         android:id="@+id/highlight_remove"
         android:showAsAction="always"
         android:title="❌"

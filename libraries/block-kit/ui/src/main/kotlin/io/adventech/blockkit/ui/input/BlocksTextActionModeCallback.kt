@@ -109,13 +109,16 @@ internal class BlocksTextActionModeCallback(
             MenuItemOption.Underline.id -> {
                 // onUnderlineRequested?.invoke()
                 // Compose doesn't support underline color yet, so we use a default color for now
-                onUnderlineColorRequested?.invoke(HighlightColor.BLUE)
+                onUnderlineColorRequested?.invoke(HighlightColor.BROWN)
             }
             MenuItemOption.Search.id -> onSearchRequested?.invoke()
             BlockKitR.id.highlight_blue -> onColorRequested(HighlightColor.BLUE)
             BlockKitR.id.highlight_green -> onColorRequested(HighlightColor.GREEN)
             BlockKitR.id.highlight_orange -> onColorRequested(HighlightColor.ORANGE)
             BlockKitR.id.highlight_yellow -> onColorRequested(HighlightColor.YELLOW)
+            BlockKitR.id.highlight_purple -> onColorRequested(HighlightColor.PURPLE)
+            BlockKitR.id.highlight_brown -> onColorRequested(HighlightColor.BROWN)
+            BlockKitR.id.highlight_red -> onColorRequested(HighlightColor.RED)
             BlockKitR.id.highlight_remove -> {
                 when (viewMode) {
                     Mode.HIGHLIGHTS -> onRemoveHighlightRequested?.invoke()
