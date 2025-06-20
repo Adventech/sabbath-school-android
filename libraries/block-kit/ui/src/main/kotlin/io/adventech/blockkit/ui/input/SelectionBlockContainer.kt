@@ -39,6 +39,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.TextRange
 import androidx.core.net.toUri
 import io.adventech.blockkit.model.input.Highlight
+import io.adventech.blockkit.model.input.Underline
 import kotlinx.coroutines.delay
 
 @Composable
@@ -48,6 +49,8 @@ internal fun SelectionBlockContainer(
     onHighlight: (Highlight) -> Unit = {},
     onRemoveHighlight: () -> Unit = {},
     onSearchSelection: (TextRange) -> Unit = {},
+    onUnderLine: (Underline) -> Unit = {},
+    onRemoveUnderline: () -> Unit = {},
     content: @Composable () -> Unit,
 ) {
     val context = LocalContext.current
@@ -84,6 +87,35 @@ internal fun SelectionBlockContainer(
                 selection?.let { selection ->
                     if (selection.length > 0) {
                         onRemoveHighlight()
+                    }
+                }
+            },
+            onUnderline = { color ->
+                isDestroy = true
+
+                selection?.takeIf { it.length > 0 }?.let { selection ->
+                    val (startIndex, endIndex) = if (selection.end < selection.start) {
+                        selection.end to selection.start
+                    } else {
+                        selection.start to selection.end
+                    }
+
+                    onUnderLine(
+                        Underline(
+                            startIndex = startIndex,
+                            endIndex = endIndex,
+                            length = selection.length,
+                            color = color,
+                        )
+                    )
+                }
+            },
+            onRemoveUnderline = {
+                isDestroy = true
+
+                selection?.let { selection ->
+                    if (selection.length > 0) {
+                        onRemoveUnderline()
                     }
                 }
             },

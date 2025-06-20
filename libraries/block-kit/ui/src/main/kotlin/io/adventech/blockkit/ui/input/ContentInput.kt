@@ -47,3 +47,23 @@ internal fun rememberContentHighlights(
         ?.highlights
         ?.toImmutableList() ?: persistentListOf()
 }
+
+/**
+ * Remembers and returns an immutable list of underlines associated with the given [blockId].
+ *
+ * This function extracts underlines from the [userInputState], filtering only inputs
+ * of type [UserInput.Underlines] that match the specified [blockId].
+ *
+ * @param blockId The identifier of the block to filter underlines for.
+ * @param userInputState The state containing user inputs, which may include underlines.
+ * @return An immutable list of underlines corresponding to the [blockId].
+ */
+@Composable
+internal fun rememberContentUnderlines(
+    blockId: String,
+    userInputState: UserInputState?,
+) = remember(blockId, userInputState) {
+    userInputState?.find<UserInput.Underlines>(blockId)
+        ?.underlines
+        ?.toImmutableList() ?: persistentListOf()
+}
