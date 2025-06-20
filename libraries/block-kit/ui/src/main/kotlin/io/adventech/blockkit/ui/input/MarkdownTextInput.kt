@@ -76,7 +76,7 @@ internal fun MarkdownTextInput(
     underlines: ImmutableList<Underline> = persistentListOf(),
     onHandleUri: (String) -> Unit = {},
 ) {
-    val styledText = rememberMarkdownText(markdownText, style, styleTemplate, color, highlights)
+    val styledText = rememberMarkdownText(markdownText, style, styleTemplate, color, highlights, underlines)
 
     val layoutResult = remember { mutableStateOf<TextLayoutResult?>(null) }
 
@@ -105,8 +105,7 @@ internal fun MarkdownTextInput(
         },
         modifier = modifier
             .fillMaxWidth()
-            .drawBehind(extendedSpans)
-            .drawUnderlines(styledText, layoutResult.value, underlines),
+            .drawBehind(extendedSpans),
         readOnly = true,
         textStyle = style.copy(
             textAlign = textAlign ?: style.textAlign,
