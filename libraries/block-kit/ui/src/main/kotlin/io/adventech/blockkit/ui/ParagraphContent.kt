@@ -321,7 +321,6 @@ internal fun ParagraphContentPreviewTheme() {
                     depth = 3,
                 ),
                 modifier = Modifier.fillMaxWidth(),
-                inputState = null,
             )
 
             ParagraphContent(

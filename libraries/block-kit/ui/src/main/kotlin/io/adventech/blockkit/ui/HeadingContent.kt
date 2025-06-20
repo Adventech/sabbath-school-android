@@ -25,14 +25,13 @@ package io.adventech.blockkit.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import io.adventech.blockkit.model.BlockItem
-import io.adventech.blockkit.ui.input.UserInputState
-import io.adventech.blockkit.ui.input.rememberContentHighlights
 import io.adventech.blockkit.ui.style.HeadingStyleTemplate
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.theme.BlocksDynamicPreviewTheme
@@ -41,22 +40,21 @@ import io.adventech.blockkit.ui.style.theme.BlocksDynamicPreviewTheme
 internal fun HeadingContent(
     blockItem: BlockItem.Heading,
     modifier: Modifier = Modifier,
-    inputState: UserInputState? = null,
     onHandleUri: (String) -> Unit = {},
 ) {
     val template = HeadingStyleTemplate(blockItem.depth)
     val blockStyle = blockItem.style?.text
-    val highlights = rememberContentHighlights(blockItem.id, inputState)
 
-    MarkdownText(
-        markdownText = blockItem.markdown,
-        modifier = modifier,
-        color = Styler.textColor(blockStyle),
-        style = Styler.textStyle(blockStyle, template).copy(fontWeight = FontWeight.Bold),
-        textAlign = Styler.textAlign(blockStyle),
-        onHandleUri = onHandleUri,
-        highlights = highlights,
-    )
+    SelectionContainer {
+        MarkdownText(
+            markdownText = blockItem.markdown,
+            modifier = modifier,
+            color = Styler.textColor(blockStyle),
+            style = Styler.textStyle(blockStyle, template).copy(fontWeight = FontWeight.Bold),
+            textAlign = Styler.textAlign(blockStyle),
+            onHandleUri = onHandleUri,
+        )
+    }
 }
 
 @PreviewLightDark
