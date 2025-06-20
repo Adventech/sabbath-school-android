@@ -63,6 +63,7 @@ import coil.request.ImageRequest
 import io.adventech.blockkit.model.TextStyleOffset
 import io.adventech.blockkit.model.TextStyleSize
 import io.adventech.blockkit.model.input.Highlight
+import io.adventech.blockkit.model.input.Underline
 import io.adventech.blockkit.parser.AttributedTextParser
 import io.adventech.blockkit.ui.color.AttributedTextColorOverride
 import io.adventech.blockkit.ui.color.parse
@@ -111,10 +112,9 @@ fun MarkdownText(
     styleTemplate: StyleTemplate = BlockStyleTemplate.DEFAULT,
     maxLines: Int = Integer.MAX_VALUE,
     overflow: TextOverflow = TextOverflow.Clip,
-    highlights: ImmutableList<Highlight> = persistentListOf(),
     onHandleUri: (String) -> Unit = {},
 ) {
-    val styledText = rememberMarkdownText(markdownText, style, styleTemplate, color, highlights)
+    val styledText = rememberMarkdownText(markdownText, style, styleTemplate, color)
 
     val layoutResult = remember { mutableStateOf<TextLayoutResult?>(null) }
 
@@ -192,6 +192,7 @@ internal fun rememberMarkdownText(
     styleTemplate: StyleTemplate = BlockStyleTemplate.DEFAULT,
     color: Color = MaterialTheme.colorScheme.onSurface,
     highlights: ImmutableList<Highlight> = persistentListOf(),
+    underlines: ImmutableList<Underline> = persistentListOf(),
     attributedTextParser: AttributedTextParser = remember { AttributedTextParser() }
 ): AnnotatedString {
     val defaultFontFamily = Styler.defaultFontFamily()
@@ -204,7 +205,7 @@ internal fun rememberMarkdownText(
     val parser = remember { Parser.builder().build() }
     val parsedNode = remember(markdownText) { parser.parse(markdownText) as Document }
 
-    return remember(parsedNode, style, color, attributedTextColorOverride, highlights, fontProvider, fontSizeProvider) {
+    return remember(parsedNode, style, color, attributedTextColorOverride, highlights, underlines, fontProvider, fontSizeProvider) {
         buildAnnotatedString {
             withStyle(style.toSpanStyle()) {
                 appendMarkdownChildren(parsedNode, color, attributedTextColorOverride, style.fontSize, attributedTextParser, fontProvider, fontSizeProvider)
@@ -222,6 +223,20 @@ internal fun rememberMarkdownText(
                         ),
                         start = highlight.startIndex,
                         end = highlight.endIndex,
+                    )
+                }
+            }
+
+            // Apply underlines to the result text
+            underlines.forEach { underline ->
+                // Ensure indices are within valid bounds of the text.
+                val textLength = this.length
+                if (underline.startIndex in 0 until textLength && underline.endIndex in (underline.startIndex + 1)..textLength) {
+                    addStyle(
+                        // ignore the color for underline until there's underline color support
+                        style = SpanStyle(textDecoration = TextDecoration.Underline),
+                        start = underline.startIndex,
+                        end = underline.endIndex,
                     )
                 }
             }

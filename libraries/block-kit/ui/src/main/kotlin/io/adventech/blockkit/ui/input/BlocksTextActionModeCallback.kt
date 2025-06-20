@@ -38,9 +38,12 @@ internal class BlocksTextActionModeCallback(
     var onCutRequested: (() -> Unit)? = null,
     var onSelectAllRequested: (() -> Unit)? = null,
     var onHighlightRequested: (() -> Unit)? = null,
+    var onUnderlineRequested: (() -> Unit)? = null,
     var onSearchRequested: (() -> Unit)? = null,
     var onHighlightColorRequested: ((HighlightColor) -> Unit)? = null,
+    var onUnderlineColorRequested: ((HighlightColor) -> Unit)? = null,
     var onRemoveHighlightRequested: (() -> Unit)? = null,
+    var onRemoveUnderlineRequested: (() -> Unit)? = null,
 ) {
 
     var viewMode: Mode = Mode.NONE
@@ -50,7 +53,7 @@ internal class BlocksTextActionModeCallback(
         requireNotNull(mode) { "onCreateActionMode requires a non-null mode" }
 
         return when (viewMode) {
-            Mode.HIGHLIGHTS -> {
+            Mode.HIGHLIGHTS, Mode.UNDERLINE -> {
                 showHighlights(mode, menu)
                 true
             }
@@ -58,6 +61,9 @@ internal class BlocksTextActionModeCallback(
             Mode.TEXT -> {
                 onHighlightRequested?.let {
                     addMenuItem(menu, MenuItemOption.Highlight)
+                }
+                onUnderlineRequested?.let {
+                    addMenuItem(menu, MenuItemOption.Underline)
                 }
                 onSearchRequested?.let {
                     addMenuItem(menu, MenuItemOption.Search)
@@ -93,36 +99,45 @@ internal class BlocksTextActionModeCallback(
         return true
     }
 
-    fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
+        when (item.itemId) {
             MenuItemOption.Copy.id -> onCopyRequested?.invoke()
             MenuItemOption.Paste.id -> onPasteRequested?.invoke()
             MenuItemOption.Cut.id -> onCutRequested?.invoke()
             MenuItemOption.SelectAll.id -> onSelectAllRequested?.invoke()
             MenuItemOption.Highlight.id -> onHighlightRequested?.invoke()
+            MenuItemOption.Underline.id -> {
+                // onUnderlineRequested?.invoke()
+                // Compose doesn't support underline color yet, so we use a default color for now
+                onUnderlineColorRequested?.invoke(HighlightColor.BROWN)
+            }
             MenuItemOption.Search.id -> onSearchRequested?.invoke()
-            BlockKitR.id.highlight_blue -> {
-                onHighlightColorRequested?.invoke(HighlightColor.BLUE)
-            }
-
-            BlockKitR.id.highlight_green -> {
-                onHighlightColorRequested?.invoke(HighlightColor.GREEN)
-            }
-
-            BlockKitR.id.highlight_orange -> {
-                onHighlightColorRequested?.invoke(HighlightColor.ORANGE)
-            }
-
-            BlockKitR.id.highlight_yellow -> {
-                onHighlightColorRequested?.invoke(HighlightColor.YELLOW)
-            }
+            BlockKitR.id.highlight_blue -> onColorRequested(HighlightColor.BLUE)
+            BlockKitR.id.highlight_green -> onColorRequested(HighlightColor.GREEN)
+            BlockKitR.id.highlight_orange -> onColorRequested(HighlightColor.ORANGE)
+            BlockKitR.id.highlight_yellow -> onColorRequested(HighlightColor.YELLOW)
+            BlockKitR.id.highlight_purple -> onColorRequested(HighlightColor.PURPLE)
+            BlockKitR.id.highlight_brown -> onColorRequested(HighlightColor.BROWN)
+            BlockKitR.id.highlight_red -> onColorRequested(HighlightColor.RED)
             BlockKitR.id.highlight_remove -> {
-                onRemoveHighlightRequested?.invoke()
+                when (viewMode) {
+                    Mode.HIGHLIGHTS -> onRemoveHighlightRequested?.invoke()
+                    Mode.UNDERLINE -> onRemoveUnderlineRequested?.invoke()
+                    else -> return false
+                }
             }
             else -> return false
         }
-        mode?.finish()
+        mode.finish()
         return true
+    }
+
+    private fun onColorRequested(color: HighlightColor) {
+        when (viewMode) {
+            Mode.HIGHLIGHTS -> onHighlightColorRequested?.invoke(color)
+            Mode.UNDERLINE -> onUnderlineColorRequested?.invoke(color)
+            else -> return
+        }
     }
 
     fun onDestroyActionMode() {
@@ -131,9 +146,10 @@ internal class BlocksTextActionModeCallback(
 
     private fun updateMenuItems(mode: ActionMode, menu: Menu) {
         when (viewMode) {
-            Mode.HIGHLIGHTS -> showHighlights(mode, menu)
+            Mode.HIGHLIGHTS, Mode.UNDERLINE -> showHighlights(mode, menu)
             Mode.TEXT -> {
                 addOrRemoveMenuItem(menu, MenuItemOption.Highlight, onHighlightRequested)
+                addOrRemoveMenuItem(menu, MenuItemOption.Underline, onUnderlineRequested)
                 addOrRemoveMenuItem(menu, MenuItemOption.Search, onSearchRequested)
                 addOrRemoveMenuItem(menu, MenuItemOption.Copy, onCopyRequested)
                 addOrRemoveMenuItem(menu, MenuItemOption.Paste, onPasteRequested)
@@ -171,6 +187,7 @@ internal class BlocksTextActionModeCallback(
     enum class Mode {
         HIGHLIGHTS,
         TEXT,
+        UNDERLINE,
         NONE
     }
 }
@@ -181,7 +198,8 @@ internal enum class MenuItemOption(val id: Int) {
     Cut(2),
     SelectAll(3),
     Highlight(4),
-    Search(5),
+    Underline(5),
+    Search(6),
     ;
 
     val titleResource: Int
@@ -191,6 +209,7 @@ internal enum class MenuItemOption(val id: Int) {
             Cut -> android.R.string.cut
             SelectAll -> android.R.string.selectAll
             Highlight -> L10nR.string.ss_action_highlight
+            Underline -> L10nR.string.ss_action_underline
             Search -> L10nR.string.ss_search
         }
 
