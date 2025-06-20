@@ -106,7 +106,11 @@ internal class BlocksTextActionModeCallback(
             MenuItemOption.Cut.id -> onCutRequested?.invoke()
             MenuItemOption.SelectAll.id -> onSelectAllRequested?.invoke()
             MenuItemOption.Highlight.id -> onHighlightRequested?.invoke()
-            MenuItemOption.Underline.id -> onUnderlineRequested?.invoke()
+            MenuItemOption.Underline.id -> {
+                // onUnderlineRequested?.invoke()
+                // Compose doesn't support underline color yet, so we use a default color for now
+                onUnderlineColorRequested?.invoke(HighlightColor.BLUE)
+            }
             MenuItemOption.Search.id -> onSearchRequested?.invoke()
             BlockKitR.id.highlight_blue -> onColorRequested(HighlightColor.BLUE)
             BlockKitR.id.highlight_green -> onColorRequested(HighlightColor.GREEN)

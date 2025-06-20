@@ -233,7 +233,8 @@ internal fun rememberMarkdownText(
                 val textLength = this.length
                 if (underline.startIndex in 0 until textLength && underline.endIndex in (underline.startIndex + 1)..textLength) {
                     addStyle(
-                        style = SpanStyle(textDecoration = TextDecoration.Underline, color = underline.color.toColor()),
+                        // ignore the color for underline until there's underline color support
+                        style = SpanStyle(textDecoration = TextDecoration.Underline),
                         start = underline.startIndex,
                         end = underline.endIndex,
                     )
