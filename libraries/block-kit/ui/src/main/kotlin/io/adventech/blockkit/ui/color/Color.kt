@@ -109,6 +109,9 @@ val Color.Companion.Sepia300: Color
 val Color.Companion.Sepia400: Color
     get() = Color(0xFF3E3634)
 
+val Color.Companion.highlightForeground: Color
+    get() = Color(0xFF222222)
+
 fun Color.Companion.parse(hex: String): Color = Color(hexToLong(hex))
 
 /** Converts a hex color in the format #RRGGBB or #RRGGBBAA to a 32-bit ARGB color long. */
@@ -130,5 +133,8 @@ fun HighlightColor.toColor(): Color = when (this) {
     HighlightColor.YELLOW -> Color(0xFFDBC94C)
     HighlightColor.ORANGE -> Color(0xFFF59569)
     HighlightColor.GREEN -> Color(0xFF53E23F)
+    HighlightColor.PURPLE -> Color(0xFFA36AFC)
+    HighlightColor.BROWN -> Color(0xFFA58064)
+    HighlightColor.RED -> Color(0xFFEC5252)
     HighlightColor.UNKNOWN -> Color.Transparent
 }

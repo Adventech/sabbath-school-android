@@ -81,7 +81,7 @@ fun BlockContent(
                 ExcerptItemContent(blockItem, blockModifier, userInputState)
             }
             is BlockItem.Heading -> {
-                HeadingContent(blockItem, blockModifier, userInputState) {
+                HeadingContent(blockItem, blockModifier) {
                     onHandleUri(it, blockItem.data)
                 }
             }

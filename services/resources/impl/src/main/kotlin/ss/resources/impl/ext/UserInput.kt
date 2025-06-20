@@ -46,6 +46,7 @@ fun UserInput.type(): String {
         is UserInput.MultipleChoice -> UserInputType.MULTIPLE_CHOICE
         is UserInput.Poll -> UserInputType.POLL
         is UserInput.Question -> UserInputType.QUESTION
+        is UserInput.Underlines -> UserInputType.UNDERLINES
         UserInput.Unknown -> UserInputType.UNKNOWN
     }
 }
@@ -61,6 +62,7 @@ fun UserInputRequest.type(): String {
         is UserInputRequest.MultipleChoice -> UserInputType.MULTIPLE_CHOICE
         is UserInputRequest.Poll -> UserInputType.POLL
         is UserInputRequest.Question -> UserInputType.QUESTION
+        is UserInputRequest.Underlines -> UserInputType.UNDERLINES
         UserInputRequest.Unknown -> UserInputType.UNKNOWN
     }
 }
@@ -76,6 +78,7 @@ fun UserInputRequest.toInput(id: String, timestamp: Long): UserInput {
         is UserInputRequest.MultipleChoice -> UserInput.MultipleChoice(blockId, id, timestamp, choice)
         is UserInputRequest.Poll -> UserInput.Poll(blockId, id, timestamp, vote)
         is UserInputRequest.Question -> UserInput.Question(blockId, id, timestamp, answer)
+        is UserInputRequest.Underlines -> UserInput.Underlines(blockId, id, timestamp, underlines)
         UserInputRequest.Unknown -> throw IllegalArgumentException("Unknown UserInput type")
     }
 }

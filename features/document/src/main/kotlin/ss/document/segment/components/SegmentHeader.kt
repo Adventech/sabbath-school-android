@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -55,53 +56,58 @@ internal fun SegmentHeader(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         subtitle?.let {
-            MarkdownText(
-                markdownText = it.uppercase(),
-                modifier = Modifier.fillMaxWidth(),
-                style = (style?.subtitle?.text?.let {
-                    Styler.textStyle(it)
-                } ?: SsTheme.typography.titleLarge).copy(
-                    fontSize = 15.sp
-                ),
-                color = contentColor.copy(alpha = 0.6f),
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                textAlign = style?.let { Styler.textAlign(it.subtitle?.text) }
-            )
+            SelectionContainer {
+                MarkdownText(
+                    markdownText = it.uppercase(),
+                    modifier = Modifier.fillMaxWidth(),
+                    style = (style?.subtitle?.text?.let {
+                        Styler.textStyle(it)
+                    } ?: SsTheme.typography.titleLarge).copy(
+                        fontSize = 15.sp
+                    ),
+                    color = contentColor.copy(alpha = 0.6f),
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    textAlign = style?.let { Styler.textAlign(it.subtitle?.text) }
+                )
+            }
         }
 
         date?.dateDisplay()?.let {
-            Text(
-                text = it.uppercase(),
-                modifier = Modifier.fillMaxWidth(),
-                style = (style?.date?.text?.let {
-                    Styler.textStyle(it)
-                } ?: SsTheme.typography.titleLarge).copy(
-                    fontSize = 15.sp
-                ),
-                color = contentColor.copy(alpha = 0.7f),
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-            )
+            SelectionContainer {
+                Text(
+                    text = it.uppercase(),
+                    modifier = Modifier.fillMaxWidth(),
+                    style = (style?.date?.text?.let {
+                        Styler.textStyle(it)
+                    } ?: SsTheme.typography.titleLarge).copy(
+                        fontSize = 15.sp
+                    ),
+                    color = contentColor.copy(alpha = 0.7f),
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
         }
-
-        MarkdownText(
-            markdownText = title,
-            modifier = Modifier.fillMaxWidth(),
-            style = (style?.title?.text?.let {
-                Styler.textStyle(it).copy(
+        SelectionContainer {
+            MarkdownText(
+                markdownText = title,
+                modifier = Modifier.fillMaxWidth(),
+                style = (style?.title?.text?.let {
+                    Styler.textStyle(it).copy(
+                        fontSize = 30.sp,
+                        lineHeight = 30.sp
+                    )
+                } ?: SsTheme.typography.titleLarge).copy(
                     fontSize = 30.sp,
                     lineHeight = 30.sp
-                )
-            } ?: SsTheme.typography.titleLarge).copy(
-                fontSize = 30.sp,
-                lineHeight = 30.sp
-            ),
-            color = style?.title?.text?.color?.let { Styler.textColor(style.title?.text) } ?: contentColor,
-            maxLines = 3,
-            overflow = TextOverflow.Ellipsis,
-            textAlign = style?.let { Styler.textAlign(it.title?.text) }
-        )
+                ),
+                color = style?.title?.text?.color?.let { Styler.textColor(style.title?.text) } ?: contentColor,
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis,
+                textAlign = style?.let { Styler.textAlign(it.title?.text) }
+            )
+        }
     }
 }
 

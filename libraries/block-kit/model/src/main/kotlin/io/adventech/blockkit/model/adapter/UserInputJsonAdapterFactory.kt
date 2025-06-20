@@ -48,6 +48,7 @@ class UserInputJsonAdapterFactory : JsonAdapter.Factory {
             .withSubtype(UserInput.Poll::class.java, UserInputType.POLL)
             .withSubtype(UserInput.Question::class.java, UserInputType.QUESTION)
             .withSubtype(UserInput.Annotation::class.java, UserInputType.ANNOTATION)
+            .withSubtype(UserInput.Underlines::class.java, UserInputType.UNDERLINES)
             .withDefaultValue(UserInput.Unknown)
             .create(type, annotations, moshi)
     }
@@ -70,6 +71,7 @@ class UserInputRequestJsonAdapterFactory : JsonAdapter.Factory {
             .withSubtype(UserInputRequest.Poll::class.java, UserInputType.POLL)
             .withSubtype(UserInputRequest.Question::class.java, UserInputType.QUESTION)
             .withSubtype(UserInputRequest.Annotation::class.java, UserInputType.ANNOTATION)
+            .withSubtype(UserInputRequest.Underlines::class.java, UserInputType.UNDERLINES)
             .withDefaultValue(UserInputRequest.Unknown)
             .create(type, annotations, moshi)
     }

@@ -32,7 +32,7 @@ internal class BlocksFloatingTextActionModeCallback(
     private val callback: BlocksTextActionModeCallback
 ): ActionMode.Callback2() {
 
-    override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+    override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
         return callback.onActionItemClicked(mode, item)
     }
 
