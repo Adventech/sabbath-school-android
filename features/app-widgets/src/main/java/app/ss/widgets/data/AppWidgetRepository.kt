@@ -31,6 +31,7 @@ import app.ss.widgets.model.WeekModel
 import app.ss.widgets.model.WeekWidgetState
 import com.cryart.sabbathschool.core.extensions.context.fetchBitmap
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
@@ -80,6 +81,7 @@ class AppWidgetRepositoryImpl @Inject constructor(
         languageCode = languageCode,
     )
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun latestAppWidgetEntity(): Flow<AppWidgetEntity?> {
         return ssPrefs.getLanguageCodeFlow()
             .map { defaultQuarterlyIndex(it) }
@@ -87,6 +89,7 @@ class AppWidgetRepositoryImpl @Inject constructor(
             .flowOn(dispatcherProvider.io)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun weekState(context: Context?): Flow<WeekWidgetState> {
         return latestAppWidgetEntity()
             .mapLatest { entity ->
@@ -114,6 +117,7 @@ class AppWidgetRepositoryImpl @Inject constructor(
             .catch { Timber.e(it) }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun todayState(context: Context?): Flow<TodayWidgetState> {
         return latestAppWidgetEntity()
             .mapLatest { entity ->

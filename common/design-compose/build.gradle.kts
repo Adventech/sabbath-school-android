@@ -28,10 +28,6 @@ plugins {
 
 android {
     namespace = "app.ss.design.compose"
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
-    }
 }
 
 foundry {

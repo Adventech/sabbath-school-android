@@ -32,6 +32,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.adventech.blockkit.model.input.PDFAuxAnnotations
 import io.adventech.blockkit.model.input.UserInput
 import io.adventech.blockkit.model.input.UserInputRequest
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -70,6 +71,7 @@ class ReadPdfViewModel @Inject constructor(
     private val mediaAvailability = MutableStateFlow(MediaAvailability())
     val mediaAvailabilityFlow = mediaAvailability.asStateFlow()
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     val annotationsStateFlow: StateFlow<Map<Int, List<PDFAuxAnnotations>>> =
         flowOf(savedStateHandle.screen?.documentId)
             .filterNotNull()

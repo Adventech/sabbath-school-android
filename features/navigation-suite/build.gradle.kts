@@ -35,10 +35,7 @@ foundry {
 
 android {
     namespace = "ss.navigation.suite"
-
-    buildFeatures {
-        androidResources = true
-    }
+    androidResources.enable = true
 }
 
 ksp {

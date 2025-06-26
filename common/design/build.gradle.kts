@@ -28,10 +28,6 @@ plugins {
 
 android {
     namespace = "com.cryart.design"
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
-    }
 }
 
 dependencies {
