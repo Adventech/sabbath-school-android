@@ -31,10 +31,6 @@ plugins {
 
 android {
     namespace = "app.ss.widgets"
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-    }
 }
 
 foundry {

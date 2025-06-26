@@ -43,11 +43,6 @@ android {
     defaultConfig {
         manifestPlaceholders["psPdfKitKey"] = psPdfKitKey
     }
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
-    }
 }
 
 foundry {

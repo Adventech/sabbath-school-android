@@ -26,14 +26,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
 }
 
-android {
-    namespace = "ss.foundation.coroutines.test"
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-    }
-}
-
 dependencies {
     implementation(libs.test.coroutines)
     implementation(libs.test.junit)

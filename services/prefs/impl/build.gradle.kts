@@ -30,10 +30,6 @@ plugins {
 
 android {
     namespace = "ss.prefs.impl"
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-    }
 }
 
 dependencies {
