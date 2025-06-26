@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import app.ss.models.OfflineState
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
@@ -103,6 +104,7 @@ class ResourcePresenter @AssistedInject constructor(
                 features = features,
                 fontFamilyProvider = fontFamilyProvider,
                 overlayState = overlayState,
+                offlineState = OfflineState.PARTIAL,
                 eventSink = eventSink,
             )
 

@@ -20,45 +20,20 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    alias(libs.plugins.foundry.base)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.parcelize)
-    alias(libs.plugins.hilt)
+package ss.resource.components
+
+import app.ss.testing.roborazzi.BaseScreenshotTest
+import app.ss.testing.roborazzi.TestLightDark
+import org.junit.Test
+
+class ResourceCtaTest : BaseScreenshotTest() {
+    @Test
+    fun testSnapShot() {
+        snapshot(TestLightDark.LIGHT) { CtaButtonPreview() }
+    }
+
+    @Test
+    fun testSnapShotDark() {
+        snapshot(TestLightDark.DARK) { CtaButtonPreview() }
+    }
 }
-
-android {
-    namespace = "ss.resource"
-}
-
-foundry {
-    features { compose() }
-    android { features { snapshotTests() } }
-}
-
-ksp {
-    arg("circuit.codegen.mode", "hilt")
-}
-
-dependencies {
-    implementation(libs.coil.compose)
-    implementation(libs.google.hilt.android)
-    implementation(libs.joda.time)
-    implementation(libs.markwon.core)
-    implementation(projects.common.design)
-    implementation(projects.common.designCompose)
-    implementation(projects.common.misc)
-    implementation(projects.common.translations)
-    implementation(projects.libraries.blockKit.ui)
-    implementation(projects.libraries.circuit.api)
-    implementation(projects.libraries.pdf.api)
-    implementation(projects.services.resources.api)
-
-    testImplementation(libs.bundles.testing.common)
-
-    ksp(libs.circuit.codegen)
-    ksp(libs.google.hilt.compiler)
-}
-

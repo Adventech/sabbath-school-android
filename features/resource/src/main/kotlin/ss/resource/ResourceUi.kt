@@ -140,6 +140,7 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
                                         readMoreClick = {
                                             state.eventSink(Event.OnReadMoreClick)
                                         },
+                                        offlineState = state.offlineState,
                                     )
                                 }
                             )

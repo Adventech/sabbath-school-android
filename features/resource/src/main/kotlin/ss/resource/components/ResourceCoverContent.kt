@@ -22,8 +22,14 @@
 
 package ss.resource.components
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -32,19 +38,32 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -52,7 +71,10 @@ import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.color.SsColors
 import app.ss.design.compose.widget.button.SsButtonDefaults
+import app.ss.design.compose.widget.icon.IconBox
+import app.ss.design.compose.widget.icon.ResIcon
 import app.ss.design.compose.widget.text.ReadMoreText
+import app.ss.models.OfflineState
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.ui.MarkdownText
 import io.adventech.blockkit.ui.style.Styler
@@ -65,6 +87,7 @@ internal fun ColumnScope.CoverContent(
     resource: Resource,
     documentTitle: String?,
     type: CoverContentType,
+    offlineState: OfflineState,
     ctaOnClick: () -> Unit,
     readMoreClick: () -> Unit
 ) {
@@ -142,6 +165,8 @@ internal fun ColumnScope.CoverContent(
                 text = resource.cta?.text,
                 documentTitle = documentTitle,
                 alignment = alignment,
+                offlineState = offlineState,
+                offlineStateClick = {  }
             )
         }
     }
@@ -218,11 +243,23 @@ private fun ColumnScope.CtaButton(
     color: Color,
     text: String?,
     documentTitle: String?,
-    alignment: Alignment.Horizontal
+    alignment: Alignment.Horizontal,
+    offlineState: OfflineState,
+    offlineStateClick: () -> Unit
 ) {
     val buttonColors = SsButtonDefaults.colors(
         containerColor = color
     )
+    val offlineStateIcon = remember(offlineState) {
+        when (offlineState) {
+            OfflineState.PARTIAL,
+            OfflineState.NONE -> ResIcon.Download
+
+            OfflineState.IN_PROGRESS -> null
+            OfflineState.COMPLETE -> ResIcon.Downloaded
+        }
+    }
+
     Row(
         modifier = Modifier
             .defaultMinSize(minWidth = 140.dp)
@@ -244,6 +281,7 @@ private fun ColumnScope.CtaButton(
             ) {
                 Text(
                     text = text ?: stringResource(id = L10n.string.ss_lessons_read).uppercase(),
+                    modifier = Modifier,
                     style = SsTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Bold
                     )
@@ -264,15 +302,113 @@ private fun ColumnScope.CtaButton(
                 }
             }
         }
+
+        Spacer(
+            Modifier
+                .size(width = 0.5.dp, height = 48.dp)
+                .padding(vertical = 4.dp)
+                .background(color),
+        )
+
+        val progressAlpha by animateFloatAsState(
+            if (offlineState == OfflineState.IN_PROGRESS) 1f else 0f,
+            label = "progress"
+        )
+
+        FilledIconButton(
+            onClick = offlineStateClick,
+            modifier = Modifier
+                .graphicsLayer { translationX = -12f },
+            containerColor = color,
+            contentColor = downloadButtonIconColor
+        ) {
+            AnimatedContent(
+                targetState = offlineStateIcon,
+                label = "download-icon"
+            ) { targetIcon ->
+
+                Box(modifier = Modifier, Alignment.Center) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .alpha(progressAlpha),
+                        color = downloadButtonIconColor
+                    )
+
+                    targetIcon?.let { IconBox(icon = it) }
+                }
+            }
+        }
+
     }
 }
 
 private val readButtonElevation = 4.dp
 private val readButtonCornerRadius = 20.dp
-private val readButtonShape = RoundedCornerShape(readButtonCornerRadius)
+private val readButtonShape = RoundedCornerShape(topStart = readButtonCornerRadius, bottomStart = readButtonCornerRadius)
+private val downloadButtonIconColor = Color(0XFFFFFFFF)
+private val downloadButtonShape = RoundedCornerShape(topEnd = readButtonCornerRadius, bottomEnd = readButtonCornerRadius)
+
+@Composable
+private fun FilledIconButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    shape: Shape = downloadButtonShape,
+    containerColor: Color = Color.Unspecified,
+    contentColor: Color = Color.Unspecified,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    content: @Composable () -> Unit
+) = Surface(
+    onClick = onClick,
+    modifier = modifier.semantics { role = Role.Button },
+    enabled = enabled,
+    shape = shape,
+    color = containerColor,
+    contentColor = contentColor,
+    shadowElevation = readButtonElevation,
+    interactionSource = interactionSource
+) {
+    Box(
+        modifier = Modifier.size(40.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        content()
+    }
+}
 
 enum class CoverContentType {
     PRIMARY,
     SECONDARY,
     SECONDARY_LARGE
+}
+
+@PreviewLightDark
+@Composable
+internal fun CtaButtonPreview() {
+    SsTheme {
+        Surface {
+            Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                CtaButton(
+                    onClick = {},
+                    color = Color(0xFF6200EE),
+                    text = "Read".uppercase(),
+                    documentTitle = "Document Title",
+                    alignment = Alignment.CenterHorizontally,
+                    offlineState = OfflineState.NONE,
+                    offlineStateClick = {}
+                )
+
+                CtaButton(
+                    onClick = {},
+                    color = Color(0xFF6200EE),
+                    text = "Read".uppercase(),
+                    documentTitle = "Document Title",
+                    alignment = Alignment.CenterHorizontally,
+                    offlineState = OfflineState.COMPLETE,
+                    offlineStateClick = {}
+                )
+            }
+        }
+    }
 }

@@ -22,6 +22,7 @@
 
 package ss.resource
 
+import app.ss.models.OfflineState
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import io.adventech.blockkit.model.resource.Resource
@@ -51,6 +52,7 @@ sealed interface State: CircuitUiState {
         val features: ImmutableList<FeatureSpec>,
         val fontFamilyProvider: FontFamilyProvider,
         val overlayState: ResourceOverlayState?,
+        val offlineState: OfflineState,
         override val eventSink: (Event) -> Unit
     ): State
 
