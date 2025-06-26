@@ -76,14 +76,6 @@ object Styler {
         return color ?: template.textColorDefault()
     }
 
-    @Composable
-    fun highlightedTextColor(): Color {
-        return when (val theme = LocalReaderStyle.current.theme) {
-            Theme.Sepia -> theme.primaryForeground()
-            else -> Theme.Light.primaryForeground()
-        }
-    }
-
     fun textAlign(textStyle: BlockTextStyle?): TextAlign? {
         return when (textStyle?.align) {
             TextStyleAlignment.START -> TextAlign.Start
