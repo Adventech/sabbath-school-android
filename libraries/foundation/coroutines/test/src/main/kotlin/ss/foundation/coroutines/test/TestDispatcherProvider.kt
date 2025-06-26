@@ -23,12 +23,14 @@
 package ss.foundation.coroutines.test
 
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import ss.foundation.coroutines.DispatcherProvider
 
 class TestDispatcherProvider(private val testDispatcher: TestDispatcher) : DispatcherProvider {
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     constructor() : this(testDispatcher = UnconfinedTestDispatcher())
 
     override val io: CoroutineDispatcher = testDispatcher
