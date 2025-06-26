@@ -28,4 +28,5 @@ jobs:
         run: ./gradlew check
 
       - name: Screenshot Tests
-        run: ./gradlew globalCiVerifyRoborazzi -Pfoundry.test.snapshots=true -Proborazzi.cleanupOldScreenshots=true --stacktrace
+        run : ./gradlew testDebugUnitTest -Proborazzi.test.verify=true
+        # run: ./gradlew globalCiVerifyRoborazzi -Pfoundry.test.snapshots=true -Proborazzi.cleanupOldScreenshots=true --stacktrace
