@@ -196,7 +196,6 @@ internal fun rememberMarkdownText(
     attributedTextParser: AttributedTextParser = remember { AttributedTextParser() }
 ): AnnotatedString {
     val defaultFontFamily = Styler.defaultFontFamily()
-    val highlightedTextColor = Styler.highlightedTextColor()
     val fonts by rememberMarkdownFonts(markdownText, attributedTextParser, defaultFontFamily)
     val fontProvider: (String?) -> FontFamily = remember(fonts) { { it?.let { fonts[it] } ?: defaultFontFamily } }
     val fontSizeProvider: (TextStyleSize?) -> TextUnit = remember { { styleTemplate.defaultTextSizePoints(it).sp } }
@@ -216,10 +215,11 @@ internal fun rememberMarkdownText(
                 // Ensure indices are within valid bounds of the text.
                 val textLength = this.length
                 if (highlight.startIndex in 0 until textLength && highlight.endIndex in (highlight.startIndex + 1)..textLength) {
+                    val color = highlight.color.toColor()
                     addStyle(
                         style = SpanStyle(
-                            background = highlight.color.toColor(),
-                            color = highlightedTextColor,
+                            background = color.copy(alpha = 0.15f),
+                            color = color,
                         ),
                         start = highlight.startIndex,
                         end = highlight.endIndex,

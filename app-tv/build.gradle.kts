@@ -45,7 +45,7 @@ android {
     defaultConfig {
         applicationId = BuildAndroidConfig.APP_ID
         versionCode = appVersionCode
-        versionName = "0.8.0 - $appVersionCode"
+        versionName = "1.0.0 - $appVersionCode"
         minSdk = 25
     }
 
@@ -75,8 +75,8 @@ android {
         }
     }
 
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=androidx.tv.foundation.ExperimentalTvFoundationApi"
+    kotlin {
+        compilerOptions { optIn.add("androidx.tv.foundation.ExperimentalTvFoundationApi") }
     }
 
     buildFeatures {
