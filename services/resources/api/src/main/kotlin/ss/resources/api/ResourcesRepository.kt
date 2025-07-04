@@ -23,6 +23,7 @@
 package ss.resources.api
 
 import app.ss.models.AudioAux
+import app.ss.models.OfflineState
 import app.ss.models.PDFAux
 import app.ss.models.VideoAux
 import io.adventech.blockkit.model.feed.FeedGroup
@@ -67,4 +68,6 @@ interface ResourcesRepository {
     fun bibleVersion(): Flow<String?>
 
     fun saveBibleVersion(version: String)
+
+    fun resourceOfflineState(index: String): Flow<OfflineState>
 }

@@ -23,8 +23,8 @@
 package ss.libraries.pdf.api
 
 import android.content.Intent
-import app.ss.models.LessonPdf
 import app.ss.models.PDFAux
+import io.adventech.blockkit.model.resource.PdfAux
 import ss.libraries.circuit.navigation.PdfScreen
 
 /** API for handling pdf lessons. */
@@ -37,5 +37,5 @@ interface PdfReader {
     suspend fun downloadFiles(pdfs: List<PDFAux>): Result<List<LocalFile>>
 
     /** Returns true if this [pdf] file is downloaded. */
-    fun isDownloaded(pdf: LessonPdf): Boolean
+    fun isDownloaded(pdf: PdfAux): Boolean
 }

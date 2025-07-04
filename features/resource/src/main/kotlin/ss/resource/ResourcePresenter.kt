@@ -69,9 +69,10 @@ class ResourcePresenter @AssistedInject constructor(
         val ctaScreen = resourceCtaScreenProducer(resource)
         val readDocumentTitle = rememberRetained(resource, ctaScreen) {
             (ctaScreen as? CtaScreenState.Default)?.title?.takeIf {
-                resource?.progressTracking in setOf(ProgressTracking.AUTOMATIC, ProgressTracking.AUTOMATIC) == true
+                resource?.progressTracking in setOf(ProgressTracking.AUTOMATIC, ProgressTracking.AUTOMATIC)
             } ?: ""
         }
+        val offlineState by rememberOfflineState()
 
         var overlayState by rememberRetained { mutableStateOf<ResourceOverlayState?>(null) }
 
@@ -104,7 +105,7 @@ class ResourcePresenter @AssistedInject constructor(
                 features = features,
                 fontFamilyProvider = fontFamilyProvider,
                 overlayState = overlayState,
-                offlineState = OfflineState.PARTIAL,
+                offlineState = offlineState,
                 eventSink = eventSink,
             )
 
@@ -118,6 +119,11 @@ class ResourcePresenter @AssistedInject constructor(
     @Composable
     private fun rememberResource() = produceRetainedState<Resource?>(null) {
         resourcesRepository.resource(screen.index).collect { value = it }
+    }
+
+    @Composable
+    private fun rememberOfflineState() = produceRetainedState(OfflineState.NONE) {
+        resourcesRepository.resourceOfflineState(screen.index).collect { value = it }
     }
 
     @CircuitInject(ResourceScreen::class, SingletonComponent::class)
