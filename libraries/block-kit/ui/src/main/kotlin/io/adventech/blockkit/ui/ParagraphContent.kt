@@ -169,11 +169,29 @@ private fun SelectableParagraph(
             }
         },
         onUnderLine = { underline ->
+            val selection = currentSelection ?: return@SelectionBlockContainer
             textFieldValue = textFieldValue?.copy(
                 selection = TextRange.Zero,
             )
             val input: UserInput.Underlines? = inputState?.find(blockItem.id)
-            val underlines = input?.underlines.orEmpty() + underline
+            val existingUnderlines = input?.underlines.orEmpty()
+            if (underlinesInRange(existingUnderlines, selection).isNotEmpty()) {
+                // If there are existing underlines in the selection range, remove them
+                val updatedUnderlines = removeUnderlinesInRange(existingUnderlines, selection)
+                localUnderlines = updatedUnderlines.toImmutableList()
+                inputState?.eventSink?.invoke(
+                    UserInputState.Event.InputChanged(
+                        UserInputRequest.Underlines(
+                            blockId = blockItem.id,
+                            underlines = updatedUnderlines
+                        )
+                    )
+                )
+                return@SelectionBlockContainer
+            }
+
+            val underlines = existingUnderlines + underline
+
             val request = UserInputRequest.Underlines(
                 blockId = blockItem.id,
                 underlines = underlines
@@ -224,6 +242,16 @@ private fun removeUnderlinesInRange(
     range: TextRange
 ): List<Underline> {
     return underlines.filterNot { underline ->
+        underline.startIndex in range.min..range.max && underline.endIndex in range.min..range.max ||
+            underline.startIndex <= range.max && underline.endIndex >= range.min
+    }
+}
+
+private fun underlinesInRange(
+    underlines: List<Underline>,
+    range: TextRange
+): List<Underline> {
+    return underlines.filter { underline ->
         underline.startIndex in range.min..range.max && underline.endIndex in range.min..range.max ||
             underline.startIndex <= range.max && underline.endIndex >= range.min
     }
