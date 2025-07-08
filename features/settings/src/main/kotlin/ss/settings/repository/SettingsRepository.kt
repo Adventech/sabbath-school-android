@@ -26,7 +26,6 @@ import android.content.Context
 import android.text.format.DateFormat
 import app.ss.auth.AuthRepository
 import app.ss.design.compose.extensions.content.ContentSpec
-import app.ss.design.compose.extensions.list.DividerEntity
 import app.ss.design.compose.extensions.list.ListEntity
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.icon.ResIcon
@@ -50,16 +49,34 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import app.ss.translations.R as L10nR
 
+/**
+ * A repository for fetching and updating settings data.
+ */
 interface SettingsRepository {
 
+    /**
+     * Returns a flow of settings entities.
+     */
     fun entitiesFlow(onEntityClick: (SettingsEntity) -> Unit): Flow<List<ListEntity>>
 
+    /**
+     * Sets the reminder time.
+     */
     fun setReminderTime(hour: Int, minute: Int)
 
+    /**
+     * Signs the user out.
+     */
     fun signOut()
 
+    /**
+     * Deletes the user's account.
+     */
     fun deleteAccount()
 
+    /**
+     * Removes all downloaded content.
+     */
     fun removeAllDownloads()
 }
 
@@ -75,7 +92,7 @@ internal class SettingsRepositoryImpl @Inject constructor(
 ) : SettingsRepository, Scopable by ioScopable(dispatcherProvider) {
 
     override fun entitiesFlow(
-        onEntityClick: (SettingsEntity) -> Unit
+        onEntityClick: (SettingsEntity) -> Unit,
     ): Flow<List<ListEntity>> = combine(
         contentSyncProvider.hasDownloads(),
         prefs.reminderTimeFlow()
@@ -86,7 +103,7 @@ internal class SettingsRepositoryImpl @Inject constructor(
     private fun buildEntities(
         hasDownloads: Boolean,
         reminderTime: ReminderTime,
-        onEntityClick: (SettingsEntity) -> Unit
+        onEntityClick: (SettingsEntity) -> Unit,
     ): List<ListEntity> = listOf(
         PrefListEntity.Section(
             ContentSpec.Res(L10nR.string.ss_settings_reminder),
@@ -114,24 +131,21 @@ internal class SettingsRepositoryImpl @Inject constructor(
                 onEntityClick(SettingsEntity.Reminder.Time(reminderTime.hour, reminderTime.min))
             }
         ),
-
-        DividerEntity(id = "divider"),
-
         PrefListEntity.Section(
-            ContentSpec.Res(L10nR.string.ss_about),
-            id = "section-about"
+            ContentSpec.Res(L10nR.string.ss_settings_social),
+            id = "section-social"
         ),
         PrefListEntity.Generic(
             icon = Icons.Website,
             title = ContentSpec.Res(L10nR.string.ss_settings_website),
-            summary = ContentSpec.Res(L10nR.string.ss_settings_website_summary),
+            summary = ContentSpec.Res(L10nR.string.ss_settings_website_summary), // <-- ADDED BACK
             id = "about-website",
             onClick = { onEntityClick(SettingsEntity.About.Website) }
         ),
         PrefListEntity.Generic(
             icon = Icons.Facebook,
             title = ContentSpec.Res(L10nR.string.ss_settings_facebook),
-            summary = ContentSpec.Res(L10nR.string.ss_settings_facebook_summary),
+            summary = ContentSpec.Res(L10nR.string.ss_settings_facebook_summary), // <-- ADDED BACK
             id = "about-facebook",
             onClick = {
                 onEntityClick(SettingsEntity.About.Facebook)
@@ -140,7 +154,7 @@ internal class SettingsRepositoryImpl @Inject constructor(
         PrefListEntity.Generic(
             icon = ResIcon.Instagram,
             title = ContentSpec.Res(L10nR.string.ss_settings_instagram),
-            summary = ContentSpec.Res(L10nR.string.ss_settings_instagram_summary),
+            summary = ContentSpec.Res(L10nR.string.ss_settings_instagram_summary), // <-- ADDED BACK
             id = "about-instagram",
             onClick = {
                 onEntityClick(SettingsEntity.About.Instagram)
@@ -149,34 +163,34 @@ internal class SettingsRepositoryImpl @Inject constructor(
         PrefListEntity.Generic(
             icon = ResIcon.Github,
             title = ContentSpec.Res(L10nR.string.ss_settings_github),
-            summary = ContentSpec.Res(L10nR.string.ss_settings_github_summary),
+            summary = ContentSpec.Res(L10nR.string.ss_settings_github_summary), // <-- ADDED BACK
             id = "about-github",
             onClick = {
                 onEntityClick(SettingsEntity.About.Github)
             }
         ),
+        PrefListEntity.Section(
+            title = ContentSpec.Res(L10nR.string.ss_about),
+            id = "section-about"
+        ),
         PrefListEntity.Generic(
             icon = Icons.VersionInfo,
             title = ContentSpec.Res(L10nR.string.ss_settings_version),
-            summary = ContentSpec.Str("${appConfig.version} (${appConfig.versionCode})"),
+            summary = ContentSpec.Str("${appConfig.version} (${appConfig.versionCode})"), // This one was correct
             id = "about-version",
             onClick = {
                 onEntityClick(SettingsEntity.About.Version)
             }
         ),
-
         PrefListEntity.Generic(
             icon = Icons.Privacy,
             title = ContentSpec.Res(L10nR.string.ss_privacy_policy),
-            summary = ContentSpec.Res(L10nR.string.ss_settings_privacy_policy_summary),
+            summary = ContentSpec.Res(L10nR.string.ss_settings_privacy_policy_summary), // <-- ADDED BACK
             id = "about-privacy-policy",
             onClick = {
                 onEntityClick(SettingsEntity.About.Policy)
             }
         ),
-
-        DividerEntity(id = "divider-two"),
-
         PrefListEntity.Section(
             ContentSpec.Res(L10nR.string.ss_account),
             id = "section-account"
