@@ -22,6 +22,7 @@
 
 package ss.document
 
+import android.content.Context
 import androidx.compose.runtime.Immutable
 import com.slack.circuit.foundation.NavEvent
 import com.slack.circuit.runtime.CircuitUiEvent
@@ -77,13 +78,13 @@ sealed interface Event : CircuitUiEvent {
     data object OnNavBack : Event
 
     /** AppBar action is clicked. */
-    data class OnActionClick(val action: DocumentTopAppBarAction) : Event
+    data class OnActionClick(val action: DocumentTopAppBarAction, val context: Context) : Event
 }
 
 sealed interface SuccessEvent : Event {
     data class OnPageChange(val page: Int) : SuccessEvent
     data class OnSegmentSelection(val segment: Segment) : SuccessEvent
-    data class OnNavEvent(val event: NavEvent) : SuccessEvent
+    data class OnNavEvent(val event: NavEvent, val context: Context) : SuccessEvent
     data class OnHandleUri(val uri: String, val data: BlockData?) : SuccessEvent
     data class OnHandleReference(val model: ReferenceModel): SuccessEvent
 }

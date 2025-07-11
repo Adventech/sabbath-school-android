@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package ss.resource.components
+package ss.share.options
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.BorderStroke
@@ -32,7 +32,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.OutlinedButton
@@ -51,6 +53,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.text.style.TextAlign
@@ -64,26 +67,21 @@ import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.button.SsButtonDefaults
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
-import io.adventech.blockkit.model.resource.ShareOptions
+import com.slack.circuit.codegen.annotations.CircuitInject
+import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.model.resource.ShareFileURL
 import io.adventech.blockkit.model.resource.ShareGroup
 import io.adventech.blockkit.model.resource.ShareLinkURL
 import me.saket.cascade.CascadeDropdownMenu
 import me.saket.cascade.rememberCascadeState
+import ss.libraries.circuit.navigation.ShareOptionsScreen
 
+@CircuitInject(ShareOptionsScreen::class, SingletonComponent::class)
 @Composable
-fun ShareOptionsSheetContent(
-    shareOptions: ShareOptions,
-    color: Color,
-    modifier: Modifier = Modifier,
-    onShareLink: (ShareLinkURL) -> Unit = {},
-    onShareFile: (ShareFileURL) -> Unit = {},
-) {
+fun ShareOptionsUi(state: ShareState, modifier: Modifier = Modifier) {
     val hapticFeedback = LocalSsHapticFeedback.current
-    var selectedGroup by remember { mutableStateOf(shareOptions.shareGroups.firstOrNull()) }
-    val buttonColors = SsButtonDefaults.colors(containerColor = color)
-    var selectedLink by remember { mutableStateOf<ShareLinkURL?>(null) }
-    var selectedFile by remember { mutableStateOf<ShareFileURL?>(null) }
+    val context = LocalContext.current
+    val buttonColors = SsButtonDefaults.colors(containerColor = state.themeColor ?: SsTheme.colors.primary)
 
     Column(
         modifier = modifier
@@ -97,38 +95,35 @@ fun ShareOptionsSheetContent(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
         ) {
-            shareOptions.shareGroups.forEachIndexed { index, group ->
+            state.segments.forEachIndexed { index, group ->
                 SegmentedButton(
-                    selected = selectedGroup == group,
+                    selected = state.selectedGroup.title == group,
                     onClick = {
-                        selectedGroup = group
                         hapticFeedback.performSegmentSwitch()
+                        state.eventSink(Event.OnSegmentSelected(group))
                     },
                     colors = SegmentedButtonDefaults.colors(),
-                    shape = SegmentedButtonDefaults.itemShape(index = index, count = shareOptions.shareGroups.size)
+                    shape = SegmentedButtonDefaults.itemShape(index = index, count = state.segments.size)
                 ) {
                     Text(
-                        text = group.title,
+                        text = group,
                         style = SsTheme.typography.titleMedium
                     )
                 }
             }
         }
 
-        AnimatedContent(selectedGroup) { group ->
+        AnimatedContent(state.selectedGroup) { group ->
             when (group) {
                 is ShareGroup.File -> FilesContent(group.files, hapticFeedback) {
-                    selectedLink = null
-                    selectedFile = it
+                    state.eventSink(Event.OnShareFileClicked(it))
                 }
 
                 is ShareGroup.Link -> LinksContent(group.links, hapticFeedback) {
-                    selectedFile = null
-                    selectedLink = it
+                    state.eventSink(Event.OnShareUrlSelected(it))
                 }
 
-                is ShareGroup.Unknown,
-                null -> Unit
+                is ShareGroup.Unknown -> Unit
             }
         }
 
@@ -137,30 +132,30 @@ fun ShareOptionsSheetContent(
         ElevatedButton(
             onClick = {
                 hapticFeedback.performClick()
-
-                selectedLink?.let { onShareLink(it) }
-
-                selectedFile?.let { onShareFile(it) }
+                state.eventSink(Event.OnShareButtonClicked(context))
             },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            enabled = selectedFile != null || selectedLink != null,
+            enabled = state.shareButtonState == ShareButtonState.ENABLED,
             colors = buttonColors,
         ) {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                IconBox(
-                    icon = Icons.Share,
-                    contentColor = Color.White
-                )
-                Text(
-                    text = "Share",
-                    style = SsTheme.typography.titleMedium,
-                    color = Color.White,
-                )
+            if (state.shareButtonState == ShareButtonState.LOADING) {
+                CircularProgressIndicator(Modifier.size(32.dp))
+            } else {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    IconBox(
+                        icon = Icons.Share,
+                        contentColor = Color.White
+                    )
+                    Text(
+                        text = "Share",
+                        style = SsTheme.typography.titleMedium,
+                        color = Color.White,
+                    )
+                }
             }
         }
-
     }
 }
 
@@ -315,46 +310,60 @@ private fun FilesContent(files: List<ShareFileURL>, hapticFeedback: SsHapticFeed
 private fun Preview() {
     SsTheme {
         Surface {
-            ShareOptionsSheetContent(
-                shareOptions = ShareOptions(
-                    shareGroups = listOf(
-                        ShareGroup.Link(
-                            title = "Link",
-                            selected = null,
-                            links = listOf(
-                                ShareLinkURL(
-                                    src = "https://example.com/resource/hdhdud/dhdhd",
-                                    title = "Example Resource",
-                                ),
-                                ShareLinkURL(
-                                    src = "https://example.com/resource",
-                                    title = "Example Resource",
-                                )
+            ShareOptionsUi(
+                state = ShareState(
+                    segments = listOf("Link", "File"),
+                    selectedGroup = ShareGroup.Link(
+                        title = "Link",
+                        links = listOf(
+                            ShareLinkURL(
+                                src = "https://example.com/resource/hdhdud/dhdhd",
+                                title = "Example Resource",
                             ),
+                            ShareLinkURL(
+                                src = "https://example.com/resource",
+                                title = "Example Resource",
+                            )
                         ),
-                        ShareGroup.File(
-                            title = "PDF",
-                            selected = null,
-                            files = listOf(
-                                ShareFileURL(
-                                    src = "https://example.com/resource",
-                                    title = "English",
-                                    fileName = "example_resource.pdf",
-                                ),
-                                ShareFileURL(
-                                    src = "https://example.com/resource",
-                                    title = "French",
-                                    fileName = "example_resource.pdf",
-                                )
-                            ),
-                        )
+                        selected = null,
                     ),
-                    shareText = "Share this resource",
-                    shareCTA = true,
-                    personalize = true
-                ),
-                color = Color(0xFF6200EE),
-                modifier = Modifier.padding(16.dp)
+                    shareButtonState = ShareButtonState.ENABLED,
+                    themeColor = null,
+                ) {},
+                modifier = Modifier.padding(16.dp),
+            )
+        }
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun PreviewFile() {
+    SsTheme {
+        Surface {
+            ShareOptionsUi(
+                state = ShareState(
+                    segments = listOf("Link", "File"),
+                    selectedGroup = ShareGroup.File(
+                        title = "File",
+                        files = listOf(
+                            ShareFileURL(
+                                src = "https://example.com/resource/hdhdud/dhdhd",
+                                title = "Example Resource",
+                                fileName = null
+                            ),
+                            ShareFileURL(
+                                src = "https://example.com/resource",
+                                title = "Example Resource",
+                                fileName = null
+                            )
+                        ),
+                        selected = true
+                    ),
+                    shareButtonState = ShareButtonState.LOADING,
+                    themeColor = null,
+                ) {},
+                modifier = Modifier.padding(16.dp),
             )
         }
     }

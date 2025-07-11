@@ -110,10 +110,9 @@ class ResourcePresenter @AssistedInject constructor(
                             overlayState = ResourceOverlayState.ShareBottomSheet(
                                 options = options,
                                 primaryColorDark = resource.primaryColorDark,
+                                title = resource.title,
                                 onResult = { overlayState = null }
-                            ) { result ->
-                                handleShareResult(resource, result)
-                            }
+                            )
                         }
                     }
                 }
@@ -145,33 +144,6 @@ class ResourcePresenter @AssistedInject constructor(
     @Composable
     private fun rememberResource() = produceRetainedState<Resource?>(null) {
         resourcesRepository.resource(screen.index).collect { value = it }
-    }
-
-    private fun handleShareResult(
-        resource: Resource?,
-        result: ResourceOverlayState.ShareBottomSheet.Result,
-    ) {
-        when (result) {
-            is ResourceOverlayState.ShareBottomSheet.Result.SharedLink -> {
-                shareIntentHelper.get().shareText(result.context, result.linkURL.src)
-            }
-            is ResourceOverlayState.ShareBottomSheet.Result.SharedFile -> {
-                val fileURL = result.fileURL
-
-                // Find the first ShareFileURL that matches the fileURL
-                val file = resource?.share?.shareGroups
-                    ?.flatMap { group ->
-                        if (group is ShareGroup.File) group.files else emptyList()
-                    }
-                    ?.firstOrNull { it.src == fileURL.src }
-
-                shareIntentHelper.get().shareFile(
-                    context = result.context,
-                    fileUrl = result.fileURL.src,
-                    fileName = file?.fileName ?: resource?.title,
-                )
-            }
-        }
     }
 
     @CircuitInject(ResourceScreen::class, SingletonComponent::class)

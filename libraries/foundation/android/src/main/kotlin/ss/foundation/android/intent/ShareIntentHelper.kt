@@ -27,11 +27,17 @@ import android.content.Intent
 import android.widget.Toast
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.Response
 import ss.foundation.coroutines.DispatcherProvider
 import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.ioScopable
@@ -40,7 +46,6 @@ import java.io.File
 import java.io.FileOutputStream
 import java.net.URL
 import javax.inject.Inject
-import kotlin.text.substringAfterLast
 
 interface ShareIntentHelper {
 
@@ -56,9 +61,15 @@ interface ShareIntentHelper {
         fileName: String? = null,
         chooserTitle: String = "Share file via"
     )
+
+    fun fileExists(
+        fileUrl: String,
+        fileName: String?,
+    ): Flow<Boolean>
 }
 
 internal class ShareIntentHelperImpl @Inject constructor(
+    @param:ApplicationContext private val appContext: Context,
     private val dispatcherProvider: DispatcherProvider
 ) : ShareIntentHelper, Scopable by ioScopable(dispatcherProvider) {
 
@@ -86,11 +97,7 @@ internal class ShareIntentHelperImpl @Inject constructor(
     ) {
         scope.launch(exceptionLogger) {
             // Download file from URL
-            val url = URL(fileUrl)
-            val extension = fileUrl.substringAfterLast(".")
-            val finalFileName = fileName?.let {
-                if (!it.endsWith(".$extension", ignoreCase = true)) "$it.$extension" else it
-            } ?: url.file.substringAfterLast("/")
+            val finalFileName = fileName(fileUrl, fileName)
             val file = downloadFile(context, fileUrl, finalFileName) ?: return@launch
 
             // Get URI using FileProvider
@@ -125,7 +132,37 @@ internal class ShareIntentHelperImpl @Inject constructor(
         }
     }
 
-    private fun downloadFile(context: Context, fileUrl: String, fileName: String) : File? {
+    override fun fileExists(
+        fileUrl: String,
+        fileName: String?,
+    ): Flow<Boolean> {
+        val fileName = fileName(fileUrl, fileName)
+        return flow {
+            val file = File(appContext.cacheDir, fileName)
+            if (file.exists()) {
+                emit(true)
+            } else {
+                val downloaded = try {
+                    downloadFile(appContext, fileUrl, fileName)
+                } catch (e: Exception) {
+                    Timber.e(e, "Failed to download file")
+                    null
+                }
+                println("D_FILE: $fileName => $downloaded")
+                emit(downloaded != null)
+            }
+        }.flowOn(dispatcherProvider.io)
+    }
+
+    private fun fileName(fileUrl: String, fileName: String?): String {
+        val url = URL(fileUrl)
+        val extension = fileUrl.substringAfterLast(".")
+        return fileName?.let {
+            if (!it.endsWith(".$extension", ignoreCase = true)) "$it.$extension" else it
+        } ?: url.file.substringAfterLast("/")
+    }
+
+    private suspend fun downloadFile(context: Context, fileUrl: String, fileName: String): File? {
         val file = File(context.cacheDir, fileName)
 
         if (file.exists()) {
@@ -134,7 +171,7 @@ internal class ShareIntentHelperImpl @Inject constructor(
 
         val client = OkHttpClient()
         val request = Request.Builder().url(fileUrl).build()
-        val response = client.newCall(request).execute()
+        val response = client.newCall(request).await()
 
         if (!response.isSuccessful || response.body == null) {
             Toast.makeText(context, "Failed to download file", Toast.LENGTH_SHORT).show()
@@ -149,5 +186,9 @@ internal class ShareIntentHelperImpl @Inject constructor(
         }
 
         return file
+    }
+
+    suspend fun Call.await(): Response = withContext(dispatcherProvider.io) {
+        execute()
     }
 }

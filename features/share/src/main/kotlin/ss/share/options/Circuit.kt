@@ -20,45 +20,33 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    alias(libs.plugins.foundry.base)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.parcelize)
-    alias(libs.plugins.hilt)
+package ss.share.options
+
+import android.content.Context
+import androidx.compose.ui.graphics.Color
+import com.slack.circuit.runtime.CircuitUiEvent
+import com.slack.circuit.runtime.CircuitUiState
+import io.adventech.blockkit.model.resource.ShareFileURL
+import io.adventech.blockkit.model.resource.ShareGroup
+import io.adventech.blockkit.model.resource.ShareLinkURL
+
+data class ShareState(
+    val segments: List<String>,
+    val selectedGroup: ShareGroup,
+    val shareButtonState: ShareButtonState,
+    val themeColor: Color?,
+    val eventSink: (Event) ->  Unit,
+): CircuitUiState
+
+enum class ShareButtonState {
+    ENABLED,
+    DISABLED,
+    LOADING
 }
 
-android {
-    namespace = "ss.resource"
+sealed interface Event : CircuitUiEvent {
+    data class OnSegmentSelected(val segment: String) : Event
+    data class OnShareUrlSelected(val url: ShareLinkURL) : Event
+    data class OnShareFileClicked(val file: ShareFileURL) : Event
+    data class OnShareButtonClicked(val context: Context) : Event
 }
-
-foundry {
-    features { compose() }
-}
-
-ksp {
-    arg("circuit.codegen.mode", "hilt")
-}
-
-dependencies {
-    implementation(libs.coil.compose)
-    implementation(libs.google.hilt.android)
-    implementation(libs.joda.time)
-    implementation(libs.markwon.core)
-    implementation(projects.common.design)
-    implementation(projects.common.designCompose)
-    implementation(projects.common.misc)
-    implementation(projects.common.translations)
-    implementation(projects.libraries.blockKit.ui)
-    implementation(projects.libraries.circuit.api)
-    implementation(projects.libraries.foundation.android)
-    implementation(projects.libraries.pdf.api)
-    implementation(projects.services.resources.api)
-
-    testImplementation(libs.bundles.testing.common)
-
-    ksp(libs.circuit.codegen)
-    ksp(libs.google.hilt.compiler)
-}
-

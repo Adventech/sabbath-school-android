@@ -57,17 +57,18 @@ import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import app.ss.design.compose.widget.scaffold.SystemUiEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.foundation.CircuitContent
 import com.slack.circuit.overlay.OverlayEffect
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
 import io.noties.markwon.Markwon
 import ss.libraries.circuit.navigation.ResourceScreen
+import ss.libraries.circuit.navigation.ShareOptionsScreen
 import ss.libraries.circuit.overlay.BottomSheetOverlay
 import ss.resource.components.CoverContent
 import ss.resource.components.ResourceCover
 import ss.resource.components.ResourceLoadingView
 import ss.resource.components.ResourceTopAppBar
-import ss.resource.components.ShareOptionsSheetContent
 import ss.resource.components.footer
 import ss.resource.components.footerBackgroundColor
 import ss.resource.components.resourceSections
@@ -203,15 +204,12 @@ private fun OverlayContent(state: ResourceOverlayState?) {
             )
             is ResourceOverlayState.ShareBottomSheet -> state.onResult(
                 show(BottomSheetOverlay(skipPartiallyExpanded = true) {
-                    ShareOptionsSheetContent(
-                        shareOptions = state.options,
-                        color = Color.parse(state.primaryColorDark),
-                        onShareLink = {
-                            state.onShareResult(ResourceOverlayState.ShareBottomSheet.Result.SharedLink(it, context))
-                        },
-                        onShareFile = {
-                            state.onShareResult(ResourceOverlayState.ShareBottomSheet.Result.SharedFile(it, context))
-                        }
+                    CircuitContent(
+                        screen = ShareOptionsScreen(
+                            options = state.options,
+                            resourceColor = state.primaryColorDark,
+                            title = state.title,
+                        )
                     )
                 })
             )

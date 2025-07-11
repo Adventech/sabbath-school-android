@@ -27,8 +27,6 @@ import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.model.resource.ShareOptions
-import io.adventech.blockkit.model.resource.ShareFileURL
-import io.adventech.blockkit.model.resource.ShareLinkURL
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import kotlinx.collections.immutable.ImmutableList
 import ss.libraries.circuit.overlay.BottomSheetOverlay
@@ -87,12 +85,7 @@ sealed interface ResourceOverlayState : CircuitUiState {
     data class ShareBottomSheet(
         val options: ShareOptions,
         val primaryColorDark: String,
+        val title: String,
         val onResult: (BottomSheetOverlay.Result) -> Unit,
-        val onShareResult: (Result) -> Unit
-    ): ResourceOverlayState {
-        sealed interface Result {
-            data class SharedLink(val linkURL: ShareLinkURL, val context: Context) : Result
-            data class SharedFile(val fileURL: ShareFileURL, val context: Context) : Result
-        }
-    }
+    ): ResourceOverlayState
 }

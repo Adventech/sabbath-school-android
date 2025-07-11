@@ -20,45 +20,15 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    alias(libs.plugins.foundry.base)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.parcelize)
-    alias(libs.plugins.hilt)
-}
+package ss.libraries.circuit.navigation
 
-android {
-    namespace = "ss.resource"
-}
+import com.slack.circuit.runtime.screen.Screen
+import io.adventech.blockkit.model.resource.ShareOptions
+import kotlinx.parcelize.Parcelize
 
-foundry {
-    features { compose() }
-}
-
-ksp {
-    arg("circuit.codegen.mode", "hilt")
-}
-
-dependencies {
-    implementation(libs.coil.compose)
-    implementation(libs.google.hilt.android)
-    implementation(libs.joda.time)
-    implementation(libs.markwon.core)
-    implementation(projects.common.design)
-    implementation(projects.common.designCompose)
-    implementation(projects.common.misc)
-    implementation(projects.common.translations)
-    implementation(projects.libraries.blockKit.ui)
-    implementation(projects.libraries.circuit.api)
-    implementation(projects.libraries.foundation.android)
-    implementation(projects.libraries.pdf.api)
-    implementation(projects.services.resources.api)
-
-    testImplementation(libs.bundles.testing.common)
-
-    ksp(libs.circuit.codegen)
-    ksp(libs.google.hilt.compiler)
-}
-
+@Parcelize
+data class ShareOptionsScreen(
+    val options: ShareOptions,
+    val title: String,
+    val resourceColor: String?,
+) : Screen
