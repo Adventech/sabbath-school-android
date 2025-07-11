@@ -60,6 +60,7 @@ include(
     ":features:pdf",
     ":features:resource",
     ":features:settings",
+    ":features:share",
     ":libraries:app-widget:api",
     ":libraries:block-kit:model",
     ":libraries:block-kit:parser",

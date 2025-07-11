@@ -88,7 +88,7 @@ import ss.services.storage.impl.migration.LegacyUserInputMigration
         FeedEntity::class,
         FeedGroupEntity::class,
     ],
-    version = 28,
+    version = 30,
     exportSchema = true,
     autoMigrations = [
         AutoMigration(from = 2, to = 3),
@@ -117,6 +117,8 @@ import ss.services.storage.impl.migration.LegacyUserInputMigration
         AutoMigration(from = 25, to = 26),
         AutoMigration(from = 26, to = 27, spec = LegacyUserInputMigration::class),
         AutoMigration(from = 27, to = 28),
+        AutoMigration(from = 28, to = 29),
+        AutoMigration(from = 29, to = 30),
     ]
 )
 @TypeConverters(Converters::class, ResourcesConverters::class)

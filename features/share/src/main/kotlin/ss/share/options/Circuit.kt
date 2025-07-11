@@ -20,33 +20,33 @@
  * THE SOFTWARE.
  */
 
-package ss.libraries.storage.api.entity
+package ss.share.options
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import io.adventech.blockkit.model.Style
-import io.adventech.blockkit.model.resource.Segment
-import io.adventech.blockkit.model.resource.SegmentChipsStyle
-import io.adventech.blockkit.model.resource.ShareOptions
+import android.content.Context
+import androidx.compose.ui.graphics.Color
+import com.slack.circuit.runtime.CircuitUiEvent
+import com.slack.circuit.runtime.CircuitUiState
+import io.adventech.blockkit.model.resource.ShareFileURL
+import io.adventech.blockkit.model.resource.ShareGroup
+import io.adventech.blockkit.model.resource.ShareLinkURL
 
-@Entity(tableName = "documents")
-data class DocumentEntity(
-    @PrimaryKey val id: String,
-    val index: String,
-    val name: String,
-    val title: String,
-    val subtitle: String?,
-    val resourceId: String,
-    val resourceIndex: String,
-    val sequence: String,
-    val cover: String?,
-    val startDate: String?,
-    val endDate: String?,
-    val segments: List<Segment>?,
-    val showSegmentChips: Boolean?,
-    val titleBelowCover: Boolean?,
-    val externalURL: String?,
-    val segmentChipsStyle: SegmentChipsStyle?,
-    val style: Style?,
-    val share: ShareOptions? = null,
-)
+data class ShareState(
+    val segments: List<String>,
+    val selectedGroup: ShareGroup,
+    val shareButtonState: ShareButtonState,
+    val themeColor: Color?,
+    val eventSink: (Event) ->  Unit,
+): CircuitUiState
+
+enum class ShareButtonState {
+    ENABLED,
+    DISABLED,
+    LOADING
+}
+
+sealed interface Event : CircuitUiEvent {
+    data class OnSegmentSelected(val segment: String) : Event
+    data class OnShareUrlSelected(val url: ShareLinkURL) : Event
+    data class OnShareFileClicked(val file: ShareFileURL) : Event
+    data class OnShareButtonClicked(val context: Context) : Event
+}

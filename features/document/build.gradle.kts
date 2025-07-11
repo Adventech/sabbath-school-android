@@ -52,6 +52,7 @@ dependencies {
     implementation(projects.common.translations)
     implementation(projects.libraries.blockKit.ui)
     implementation(projects.libraries.circuit.api)
+    implementation(projects.libraries.foundation.android)
     implementation(projects.libraries.media.api)
     implementation(projects.libraries.media.resources)
     implementation(projects.libraries.pdf.api)

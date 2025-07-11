@@ -46,6 +46,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
@@ -74,13 +75,10 @@ import ss.document.components.DocumentLoadingView
 import ss.document.components.DocumentPager
 import ss.document.components.DocumentTitleBar
 import ss.document.components.DocumentTopAppBar
-import ss.document.reader.ReaderOptionsScreen
 import ss.document.segment.components.overlay.BlocksOverlay
 import ss.document.segment.components.overlay.ExcerptOverlay
-import ss.libraries.circuit.navigation.AudioPlayerScreen
 import ss.libraries.circuit.navigation.DocumentScreen
 import ss.libraries.circuit.navigation.MiniAudioPlayerScreen
-import ss.libraries.circuit.navigation.VideosScreen
 import ss.libraries.circuit.overlay.BottomSheetOverlay
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalHazeMaterialsApi::class)
@@ -89,6 +87,7 @@ import ss.libraries.circuit.overlay.BottomSheetOverlay
 fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val hapticFeedback = LocalSsHapticFeedback.current
+    val context = LocalContext.current
 
     val density = LocalDensity.current
     val topPadding = WindowInsets.safeContent.asPaddingValues().calculateTopPadding()
@@ -145,7 +144,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                     },
                     onActionClick = {
                         hapticFeedback.performClick()
-                        state.eventSink(Event.OnActionClick(it))
+                        state.eventSink(Event.OnActionClick(it, context))
                     }
                 )
             }
@@ -158,7 +157,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                 CircuitContent(
                     screen = MiniAudioPlayerScreen,
                     onNavEvent = {
-                        state.eventSink(SuccessEvent.OnNavEvent(it))
+                        state.eventSink(SuccessEvent.OnNavEvent(it, context))
                     }
                 )
             }
@@ -192,12 +191,12 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                         onCollapseChange = { collapsed = it },
                         onHandleUri = { uri, blocks -> state.eventSink(SuccessEvent.OnHandleUri(uri, blocks)) },
                         onHandleReference = { state.eventSink(SuccessEvent.OnHandleReference(it)) },
-                        onNavEvent = { state.eventSink(SuccessEvent.OnNavEvent(it)) },
+                        onNavEvent = { state.eventSink(SuccessEvent.OnNavEvent(it, context)) },
                     )
                 }
 
                 DocumentOverlay(state.overlayState, state.readerStyle) {
-                    state.eventSink(SuccessEvent.OnNavEvent(it))
+                    state.eventSink(SuccessEvent.OnNavEvent(it, context))
                 }
             }
         }

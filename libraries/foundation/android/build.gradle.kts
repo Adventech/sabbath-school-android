@@ -31,6 +31,11 @@ plugins {
 android { namespace = "ss.foundation.android" }
 
 dependencies {
-    implementation(libs.google.hilt.android)
-    ksp(libs.google.hilt.compiler)
+ api(projects.libraries.foundation.coroutines)
+
+ implementation(libs.google.hilt.android)
+ implementation(libs.square.okhttp)
+ implementation(libs.timber)
+
+ ksp(libs.google.hilt.compiler)
 }
