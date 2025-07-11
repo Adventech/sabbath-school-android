@@ -26,7 +26,7 @@ import android.content.Context
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import io.adventech.blockkit.model.resource.Resource
-import io.adventech.blockkit.model.resource.ResourceShareOptions
+import io.adventech.blockkit.model.resource.ShareOptions
 import io.adventech.blockkit.model.resource.ShareFileURL
 import io.adventech.blockkit.model.resource.ShareLinkURL
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
@@ -85,7 +85,7 @@ sealed interface ResourceOverlayState : CircuitUiState {
     ): ResourceOverlayState
 
     data class ShareBottomSheet(
-        val options: ResourceShareOptions,
+        val options: ShareOptions,
         val primaryColorDark: String,
         val onResult: (BottomSheetOverlay.Result) -> Unit,
         val onShareResult: (Result) -> Unit

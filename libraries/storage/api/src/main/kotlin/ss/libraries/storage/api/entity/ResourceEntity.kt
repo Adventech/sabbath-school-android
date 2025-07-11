@@ -36,7 +36,7 @@ import io.adventech.blockkit.model.resource.ResourceFont
 import io.adventech.blockkit.model.resource.ResourcePreferredCover
 import io.adventech.blockkit.model.resource.ResourceSection
 import io.adventech.blockkit.model.resource.ResourceSectionViewType
-import io.adventech.blockkit.model.resource.ResourceShareOptions
+import io.adventech.blockkit.model.resource.ShareOptions
 
 @Entity(tableName = "resources")
 data class ResourceEntity(
@@ -67,5 +67,5 @@ data class ResourceEntity(
     val style: Style? = null,
     val progressTracking: ProgressTracking? = null,
     val downloadable: Boolean? = null,
-    val share: ResourceShareOptions? = null,
+    val share: ShareOptions? = null,
 )

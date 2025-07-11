@@ -38,6 +38,7 @@ import com.slack.circuit.runtime.Navigator
 import com.slack.circuitx.android.IntentScreen
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.SegmentType
+import io.adventech.blockkit.model.resource.ShareOptions
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
@@ -81,7 +82,8 @@ interface TopAppbarActionsProducer {
         resourceIndex: String,
         documentIndex: String,
         documentId: String,
-        segment: Segment?
+        segment: Segment?,
+        shareOptions: ShareOptions?,
     ): TopAppbarActionsState
 }
 
@@ -97,21 +99,22 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
         resourceIndex: String,
         documentIndex: String,
         documentId: String,
-        segment: Segment?
+        segment: Segment?,
+        shareOptions: ShareOptions?,
     ): TopAppbarActionsState {
         var bottomSheetState by rememberRetained { mutableStateOf<DocumentOverlayState?>(null) }
 
-        val audio by produceRetainedState<List<AudioAux>>(emptyList()) {
+        val audio by produceRetainedState(emptyList()) {
             value = repository.audio(resourceIndex, documentIndex).getOrNull().orEmpty()
         }
-        val video by produceRetainedState<List<VideoAux>>(emptyList()) {
+        val video by produceRetainedState(emptyList()) {
             value = repository.video(resourceIndex, documentIndex).getOrNull().orEmpty()
         }
-        val pdfs by produceRetainedState<List<PDFAux>>(emptyList()) {
+        val pdfs by produceRetainedState(emptyList()) {
             if (segment?.type == SegmentType.PDF) return@produceRetainedState
             value = repository.pdf(resourceIndex, documentIndex).getOrNull().orEmpty()
         }
-        val actions = remember(audio, video, pdfs, segment) {
+        val actions = remember(audio, video, pdfs, segment, shareOptions) {
             buildList {
                 if (audio.isNotEmpty()) {
                     add(DocumentTopAppBarAction.Audio)
@@ -123,6 +126,11 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
                     if (pdfs.isNotEmpty()) {
                         add(DocumentTopAppBarAction.Pdf)
                     }
+
+                    if (shareOptions != null) {
+                        add(DocumentTopAppBarAction.Share)
+                    }
+
                     add(DocumentTopAppBarAction.DisplayOptions)
                 }
             }.toImmutableList()
@@ -183,6 +191,9 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
                                 ) { _ ->
                                     bottomSheetState = null
                                 }
+                            }
+                            DocumentTopAppBarAction.Share -> {
+
                             }
                         }
                     }

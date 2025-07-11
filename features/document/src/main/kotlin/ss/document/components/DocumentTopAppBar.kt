@@ -104,6 +104,11 @@ enum class DocumentTopAppBarAction(
         title = L10nR.string.ss_pdf_original,
         primary = false,
     ),
+    Share(
+        iconRes = DocumentR.drawable.ic_outline_share,
+        title = L10nR.string.ss_action_share,
+        primary = false,
+    ),
     DisplayOptions(
         iconRes = DocumentR.drawable.ic_text_format,
         title = L10nR.string.ss_settings_display_options,
@@ -139,7 +144,7 @@ internal fun DocumentTopAppBar(
             shape = RoundedCornerShape(16.dp),
             containerColor = SsTheme.colors.primaryBackground,
         ) {
-            actions.filter { it.primary == false }.forEach { action ->
+            actions.filter { !it.primary }.forEach { action ->
                 DropdownMenuItem(
                     text = {
                         Text(
@@ -223,7 +228,7 @@ internal fun DocumentTopAppBar(
                         )
                     )
                 }
-                if (actions.any { it.primary == false }) {
+                if (actions.any { !it.primary }) {
                     add(
                         IconButtonSlot(
                             imageVector = MaterialIcons.Rounded.MoreVert,

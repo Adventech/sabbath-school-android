@@ -98,6 +98,7 @@ class DocumentPresenter @AssistedInject constructor(
                 documentIndex = screen.index,
                 documentId = resourceDocument.id,
                 segment = selectedPage,
+                shareOptions = resourceDocument.share
             )
         } ?: TopAppbarActionsState.Empty
 

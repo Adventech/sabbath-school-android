@@ -27,7 +27,7 @@ import com.squareup.moshi.JsonClass
 
 @Keep
 @JsonClass(generateAdapter = true)
-data class ResourceShareOptions(
+data class ShareOptions(
     val shareGroups: List<ShareGroup>,
     val shareText: String,
     val shareCTA: Boolean?,

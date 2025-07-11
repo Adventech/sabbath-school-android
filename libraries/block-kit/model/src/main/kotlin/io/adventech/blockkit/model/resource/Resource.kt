@@ -58,5 +58,5 @@ data class Resource(
     val style: Style? = null,
     val progressTracking: ProgressTracking? = null,
     val downloadable: Boolean? = null,
-    val share: ResourceShareOptions? = null,
+    val share: ShareOptions? = null,
 )

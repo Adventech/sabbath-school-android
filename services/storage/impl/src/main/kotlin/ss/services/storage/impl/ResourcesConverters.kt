@@ -31,7 +31,7 @@ import io.adventech.blockkit.model.resource.ResourceCTA
 import io.adventech.blockkit.model.resource.ResourceCovers
 import io.adventech.blockkit.model.resource.ResourceFont
 import io.adventech.blockkit.model.resource.ResourceSection
-import io.adventech.blockkit.model.resource.ResourceShareOptions
+import io.adventech.blockkit.model.resource.ShareOptions
 import ss.services.storage.impl.Converters.moshi
 import java.lang.reflect.Type
 
@@ -43,8 +43,8 @@ object ResourcesConverters {
     private val ctaAdapter: JsonAdapter<ResourceCTA> by lazy {
         moshi.adapter(ResourceCTA::class.java)
     }
-    private val shareAdapter: JsonAdapter<ResourceShareOptions> by lazy {
-        moshi.adapter(ResourceShareOptions::class.java)
+    private val shareAdapter: JsonAdapter<ShareOptions> by lazy {
+        moshi.adapter(ShareOptions::class.java)
     }
     private val feedGroupsAdapter: JsonAdapter<List<FeedGroup>> by lazy {
         val listDataType: Type = Types.newParameterizedType(List::class.java, FeedGroup::class.java)
@@ -112,11 +112,11 @@ object ResourcesConverters {
     fun fromResources(resources: List<Resource>?): String? = resourcesAdapter.toJson(resources)
 
     @TypeConverter
-    fun toShareOptions(value: String?): ResourceShareOptions? = value?.let { jsonString ->
+    fun toShareOptions(value: String?): ShareOptions? = value?.let { jsonString ->
         shareAdapter.fromJson(jsonString)
     }
 
     @TypeConverter
-    fun fromShareOptions(share: ResourceShareOptions?): String? = shareAdapter.toJson(share)
+    fun fromShareOptions(share: ShareOptions?): String? = shareAdapter.toJson(share)
 
 }

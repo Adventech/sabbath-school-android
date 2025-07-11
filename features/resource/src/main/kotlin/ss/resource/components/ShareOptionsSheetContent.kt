@@ -64,7 +64,7 @@ import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.button.SsButtonDefaults
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
-import io.adventech.blockkit.model.resource.ResourceShareOptions
+import io.adventech.blockkit.model.resource.ShareOptions
 import io.adventech.blockkit.model.resource.ShareFileURL
 import io.adventech.blockkit.model.resource.ShareGroup
 import io.adventech.blockkit.model.resource.ShareLinkURL
@@ -73,7 +73,7 @@ import me.saket.cascade.rememberCascadeState
 
 @Composable
 fun ShareOptionsSheetContent(
-    shareOptions: ResourceShareOptions,
+    shareOptions: ShareOptions,
     color: Color,
     modifier: Modifier = Modifier,
     onShareLink: (ShareLinkURL) -> Unit = {},
@@ -316,7 +316,7 @@ private fun Preview() {
     SsTheme {
         Surface {
             ShareOptionsSheetContent(
-                shareOptions = ResourceShareOptions(
+                shareOptions = ShareOptions(
                     shareGroups = listOf(
                         ShareGroup.Link(
                             title = "Link",

@@ -46,4 +46,5 @@ data class ResourceDocument(
     val externalURL: String?,
     val segmentChipsStyle: SegmentChipsStyle?,
     val style: Style?,
+    val share: ShareOptions?,
 )
