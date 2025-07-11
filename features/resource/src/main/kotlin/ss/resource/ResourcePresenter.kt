@@ -22,10 +22,13 @@
 
 package ss.resource
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.core.app.ShareCompat
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
@@ -37,6 +40,7 @@ import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.model.resource.ProgressTracking
 import io.adventech.blockkit.model.resource.Resource
+import io.adventech.blockkit.model.resource.ShareGroup
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
@@ -95,8 +99,16 @@ class ResourcePresenter @AssistedInject constructor(
                     }
                 }
 
-                Event.OnShareClick -> {
+                is Event.OnShareClick -> {
+                    resource?.share?.shareGroups?.let { shareGroups ->
+                        val linkGroup = shareGroups.firstOrNull()
+                        if (shareGroups.size == 1 && linkGroup is ShareGroup.Link && linkGroup.links.size == 1) {
+                            val shareLink = linkGroup.links.first().src
+                            shareLink(event.context, shareLink)
+                        } else {
 
+                        }
+                    }
                 }
             }
         }
@@ -126,6 +138,16 @@ class ResourcePresenter @AssistedInject constructor(
     @Composable
     private fun rememberResource() = produceRetainedState<Resource?>(null) {
         resourcesRepository.resource(screen.index).collect { value = it }
+    }
+
+    private fun shareLink(context: Context, link: String) {
+        val shareIntent = ShareCompat.IntentBuilder(context)
+            .setType("text/plain")
+            .setText(link)
+            .intent
+        if (shareIntent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(Intent.createChooser(shareIntent, ""))
+        }
     }
 
     @CircuitInject(ResourceScreen::class, SingletonComponent::class)

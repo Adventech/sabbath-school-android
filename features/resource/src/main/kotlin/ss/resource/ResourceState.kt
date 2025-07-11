@@ -22,6 +22,7 @@
 
 package ss.resource
 
+import android.content.Context
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import io.adventech.blockkit.model.resource.Resource
@@ -70,7 +71,7 @@ sealed interface Event : CircuitUiEvent {
     data object OnReadMoreClick : Event
 
     /** Share button is clicked. */
-    data object OnShareClick : Event
+    data class OnShareClick(val context: Context) : Event
 }
 
 sealed interface ResourceOverlayState : CircuitUiState {

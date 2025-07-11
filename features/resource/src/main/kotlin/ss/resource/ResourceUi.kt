@@ -79,6 +79,7 @@ import com.cryart.design.R as DesignR
 fun ResourceUi(state: State, modifier: Modifier = Modifier) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val hapticFeedback = LocalSsHapticFeedback.current
+    val context = LocalContext.current
     val listState: LazyListState = rememberLazyListState()
     val collapsed by remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
     val isSystemInDarkTheme = isSystemInDarkTheme()
@@ -101,7 +102,7 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
                 },
                 onShareClick = {
                     hapticFeedback.performClick()
-                    successState?.eventSink?.invoke(Event.OnShareClick)
+                    successState?.eventSink?.invoke(Event.OnShareClick(context))
                 }
             )
         },
@@ -149,7 +150,7 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
                                         },
                                         shareClick = {
                                             hapticFeedback.performClick()
-                                            state.eventSink(Event.OnShareClick)
+                                            state.eventSink(Event.OnShareClick(context))
                                         }
                                     )
                                 }
