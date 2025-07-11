@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,39 +24,12 @@ package io.adventech.blockkit.model.resource
 
 import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass
-import io.adventech.blockkit.model.Style
-import io.adventech.blockkit.model.feed.FeedResourceKind
-import io.adventech.blockkit.model.feed.FeedType
 
 @Keep
 @JsonClass(generateAdapter = true)
-data class Resource(
-    val id: String,
-    val name: String,
-    val title: String,
-    val markdownTitle: String?,
-    val startDate: String?,
-    val endDate: String?,
-    val description: String?,
-    val markdownDescription: String?,
-    val introduction: String?,
-    val index: String,
-    val type: FeedType,
-    val credits: List<Credit>,
-    val features: List<Feature>,
-    val primaryColor: String,
-    val primaryColorDark: String,
-    val subtitle: String?,
-    val markdownSubtitle: String?,
-    val covers: ResourceCovers,
-    val kind: FeedResourceKind,
-    val sectionView: ResourceSectionViewType?,
-    val sections: List<ResourceSection>?,
-    val cta: ResourceCTA?,
-    val preferredCover: ResourcePreferredCover?,
-    val fonts: List<ResourceFont>? = null,
-    val style: Style? = null,
-    val progressTracking: ProgressTracking? = null,
-    val downloadable: Boolean? = null,
-    val share: ResourceShareOptions? = null,
+data class ResourceShareOptions(
+    val shareGroups: List<ShareGroup>,
+    val shareText: String,
+    val shareCTA: Boolean?,
+    val personalize: Boolean?
 )

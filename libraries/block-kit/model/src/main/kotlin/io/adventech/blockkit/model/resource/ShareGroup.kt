@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,39 +24,46 @@ package io.adventech.blockkit.model.resource
 
 import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass
-import io.adventech.blockkit.model.Style
-import io.adventech.blockkit.model.feed.FeedResourceKind
-import io.adventech.blockkit.model.feed.FeedType
+import dev.zacsweers.moshix.adapters.AdaptedBy
+import io.adventech.blockkit.model.adapter.ShareGroupJsonAdapterFactory
+
+@Keep
+@AdaptedBy(ShareGroupJsonAdapterFactory::class)
+sealed interface ShareGroup {
+    val title: String
+    val selected: Boolean?
+
+    @JsonClass(generateAdapter = true)
+    data class Link(
+        override val title: String,
+        override val selected: Boolean?,
+        val links: List<ShareLinkURL>
+    ): ShareGroup
+
+    @JsonClass(generateAdapter = true)
+    data class File(
+        override val title: String,
+        override val selected: Boolean?,
+        val files: List<ShareFileURL>
+    ): ShareGroup
+
+    data object Unknown : ShareGroup {
+        override val title: String = "Unknown"
+        override val selected: Boolean? = null
+    }
+}
 
 @Keep
 @JsonClass(generateAdapter = true)
-data class Resource(
-    val id: String,
-    val name: String,
-    val title: String,
-    val markdownTitle: String?,
-    val startDate: String?,
-    val endDate: String?,
-    val description: String?,
-    val markdownDescription: String?,
-    val introduction: String?,
-    val index: String,
-    val type: FeedType,
-    val credits: List<Credit>,
-    val features: List<Feature>,
-    val primaryColor: String,
-    val primaryColorDark: String,
-    val subtitle: String?,
-    val markdownSubtitle: String?,
-    val covers: ResourceCovers,
-    val kind: FeedResourceKind,
-    val sectionView: ResourceSectionViewType?,
-    val sections: List<ResourceSection>?,
-    val cta: ResourceCTA?,
-    val preferredCover: ResourcePreferredCover?,
-    val fonts: List<ResourceFont>? = null,
-    val style: Style? = null,
-    val progressTracking: ProgressTracking? = null,
-    val downloadable: Boolean? = null,
-    val share: ResourceShareOptions? = null,
+data class ShareLinkURL(
+    val title: String?,
+    val src: String
+)
+
+@Keep
+@JsonClass(generateAdapter = true)
+data class ShareFileURL(
+    val title: String?,
+    val fileName: String?,
+    val src: String
 )
