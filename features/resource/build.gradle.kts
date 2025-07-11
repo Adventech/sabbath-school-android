@@ -53,6 +53,7 @@ dependencies {
     implementation(projects.libraries.blockKit.ui)
     implementation(projects.libraries.cascadeCompose)
     implementation(projects.libraries.circuit.api)
+    implementation(projects.libraries.foundation.android)
     implementation(projects.libraries.pdf.api)
     implementation(projects.services.resources.api)
 

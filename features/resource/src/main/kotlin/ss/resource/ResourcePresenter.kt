@@ -22,18 +22,16 @@
 
 package ss.resource
 
-import android.content.Context
-import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.core.app.ShareCompat
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import dagger.Lazy
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -44,6 +42,7 @@ import io.adventech.blockkit.model.resource.ShareGroup
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import ss.foundation.android.intent.ShareIntentHelper
 import ss.libraries.circuit.navigation.ResourceScreen
 import ss.resource.components.content.ResourceSectionsStateProducer
 import ss.resource.components.spec.SharePosition
@@ -59,6 +58,7 @@ class ResourcePresenter @AssistedInject constructor(
     private val resourceSectionStateProducer: ResourceSectionsStateProducer,
     private val resourceCtaScreenProducer: ResourceCtaScreenProducer,
     private val fontFamilyProvider: FontFamilyProvider,
+    private val shareIntentHelper: Lazy<ShareIntentHelper>,
 ) : Presenter<State> {
 
     @Composable
@@ -105,15 +105,14 @@ class ResourcePresenter @AssistedInject constructor(
                         val linkGroup = shareGroups.firstOrNull()
                         if (shareGroups.size == 1 && linkGroup is ShareGroup.Link && linkGroup.links.size == 1) {
                             val shareLink = linkGroup.links.first().src
-                            shareLink(event.context, shareLink)
+                            shareIntentHelper.get().shareText(event.context, shareLink)
                         } else {
                             overlayState = ResourceOverlayState.ShareBottomSheet(
                                 options = options,
                                 primaryColorDark = resource.primaryColorDark,
                                 onResult = { overlayState = null }
                             ) { result ->
-                                overlayState = null
-                                handleShareResult(result)
+                                handleShareResult(resource, result)
                             }
                         }
                     }
@@ -149,25 +148,29 @@ class ResourcePresenter @AssistedInject constructor(
     }
 
     private fun handleShareResult(
+        resource: Resource?,
         result: ResourceOverlayState.ShareBottomSheet.Result,
     ) {
         when (result) {
             is ResourceOverlayState.ShareBottomSheet.Result.SharedLink -> {
-                shareLink(result.context, result.linkURL.src)
+                shareIntentHelper.get().shareText(result.context, result.linkURL.src)
             }
             is ResourceOverlayState.ShareBottomSheet.Result.SharedFile -> {
-                // TODO: Handle file sharing
-            }
-        }
-    }
+                val fileURL = result.fileURL
 
-    private fun shareLink(context: Context, link: String) {
-        val shareIntent = ShareCompat.IntentBuilder(context)
-            .setType("text/plain")
-            .setText(link)
-            .intent
-        if (shareIntent.resolveActivity(context.packageManager) != null) {
-            context.startActivity(Intent.createChooser(shareIntent, ""))
+                // Find the first ShareFileURL that matches the fileURL
+                val file = resource?.share?.shareGroups
+                    ?.flatMap { group ->
+                        if (group is ShareGroup.File) group.files else emptyList()
+                    }
+                    ?.firstOrNull { it.src == fileURL.src }
+
+                shareIntentHelper.get().shareFile(
+                    context = result.context,
+                    fileUrl = result.fileURL.src,
+                    fileName = file?.fileName ?: resource?.title,
+                )
+            }
         }
     }
 
