@@ -67,6 +67,7 @@ import ss.resource.components.CoverContent
 import ss.resource.components.ResourceCover
 import ss.resource.components.ResourceLoadingView
 import ss.resource.components.ResourceTopAppBar
+import ss.resource.components.ShareOptionsSheetContent
 import ss.resource.components.footer
 import ss.resource.components.footerBackgroundColor
 import ss.resource.components.resourceSections
@@ -174,6 +175,8 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
 @Composable
 private fun OverlayContent(state: ResourceOverlayState?) {
     val hapticFeedback = LocalSsHapticFeedback.current
+    val context = LocalContext.current
+
     OverlayEffect(state) {
         when (state) {
             is ResourceOverlayState.IntroductionBottomSheet -> state.onResult(
@@ -198,7 +201,20 @@ private fun OverlayContent(state: ResourceOverlayState?) {
 
                 })
             )
-
+            is ResourceOverlayState.ShareBottomSheet -> state.onResult(
+                show(BottomSheetOverlay(skipPartiallyExpanded = true) {
+                    ShareOptionsSheetContent(
+                        shareOptions = state.options,
+                        color = Color.parse(state.primaryColorDark),
+                        onShareLink = {
+                            state.onShareResult(ResourceOverlayState.ShareBottomSheet.Result.SharedLink(it, context))
+                        },
+                        onShareFile = {
+                            state.onShareResult(ResourceOverlayState.ShareBottomSheet.Result.SharedFile(it, context))
+                        }
+                    )
+                })
+            )
             null -> Unit
         }
     }

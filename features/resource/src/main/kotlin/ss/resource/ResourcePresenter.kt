@@ -100,13 +100,21 @@ class ResourcePresenter @AssistedInject constructor(
                 }
 
                 is Event.OnShareClick -> {
-                    resource?.share?.shareGroups?.let { shareGroups ->
+                    resource?.share?.let { options ->
+                        val shareGroups = options.shareGroups
                         val linkGroup = shareGroups.firstOrNull()
                         if (shareGroups.size == 1 && linkGroup is ShareGroup.Link && linkGroup.links.size == 1) {
                             val shareLink = linkGroup.links.first().src
                             shareLink(event.context, shareLink)
                         } else {
-
+                            overlayState = ResourceOverlayState.ShareBottomSheet(
+                                options = options,
+                                primaryColorDark = resource.primaryColorDark,
+                                onResult = { overlayState = null }
+                            ) { result ->
+                                overlayState = null
+                                handleShareResult(result)
+                            }
                         }
                     }
                 }
@@ -138,6 +146,19 @@ class ResourcePresenter @AssistedInject constructor(
     @Composable
     private fun rememberResource() = produceRetainedState<Resource?>(null) {
         resourcesRepository.resource(screen.index).collect { value = it }
+    }
+
+    private fun handleShareResult(
+        result: ResourceOverlayState.ShareBottomSheet.Result,
+    ) {
+        when (result) {
+            is ResourceOverlayState.ShareBottomSheet.Result.SharedLink -> {
+                shareLink(result.context, result.linkURL.src)
+            }
+            is ResourceOverlayState.ShareBottomSheet.Result.SharedFile -> {
+                // TODO: Handle file sharing
+            }
+        }
     }
 
     private fun shareLink(context: Context, link: String) {
