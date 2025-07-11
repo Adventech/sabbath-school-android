@@ -40,6 +40,7 @@ import com.pspdfkit.document.download.DownloadJob
 import com.pspdfkit.document.download.DownloadRequest
 import com.pspdfkit.ui.PdfActivityIntentBuilder
 import dagger.hilt.android.qualifiers.ApplicationContext
+import io.adventech.blockkit.model.resource.PdfAux
 import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
 import ss.libraries.circuit.navigation.PdfScreen
@@ -115,7 +116,7 @@ internal class PdfReaderImpl @Inject constructor(
         }
     }
 
-    override fun isDownloaded(pdf: LessonPdf): Boolean {
+    override fun isDownloaded(pdf: PdfAux): Boolean {
         return File(context.getDir(FILE_DIRECTORY, Context.MODE_PRIVATE), "${pdf.id}.pdf").exists()
     }
 

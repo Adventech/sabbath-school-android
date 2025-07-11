@@ -24,6 +24,7 @@ package ss.resources.api.test
 
 import androidx.annotation.VisibleForTesting
 import app.ss.models.AudioAux
+import app.ss.models.OfflineState
 import app.ss.models.PDFAux
 import app.ss.models.VideoAux
 import io.adventech.blockkit.model.feed.FeedGroup
@@ -35,6 +36,7 @@ import io.adventech.blockkit.model.resource.ResourceDocument
 import io.adventech.blockkit.model.resource.Segment
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flow
 import ss.resources.api.ResourcesRepository
 import ss.resources.model.FeedModel
 import ss.resources.model.FontModel
@@ -110,5 +112,9 @@ class FakeResourcesRepository(
 
     override fun saveBibleVersion(version: String) {
         TODO("Not yet implemented")
+    }
+
+    override fun resourceOfflineState(index: String): Flow<OfflineState> {
+        return flow { emit(OfflineState.NONE) }
     }
 }

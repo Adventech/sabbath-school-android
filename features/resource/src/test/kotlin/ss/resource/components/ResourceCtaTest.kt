@@ -20,22 +20,20 @@
  * THE SOFTWARE.
  */
 
-package ss.libraries.pdf.api
+package ss.resource.components
 
-import android.content.Intent
-import app.ss.models.PDFAux
-import io.adventech.blockkit.model.resource.PdfAux
-import ss.libraries.circuit.navigation.PdfScreen
+import app.ss.testing.roborazzi.BaseScreenshotTest
+import app.ss.testing.roborazzi.TestLightDark
+import org.junit.Test
 
-/** API for handling pdf lessons. */
-interface PdfReader {
+class ResourceCtaTest : BaseScreenshotTest() {
+    @Test
+    fun testSnapShot() {
+        snapshot(TestLightDark.LIGHT) { CtaButtonPreview() }
+    }
 
-    /** Returns an intent to read the PDF [screen]. */
-    fun launchIntent(screen: PdfScreen): Intent
-
-    /** Download these [pdfs] to device storage. */
-    suspend fun downloadFiles(pdfs: List<PDFAux>): Result<List<LocalFile>>
-
-    /** Returns true if this [pdf] file is downloaded. */
-    fun isDownloaded(pdf: PdfAux): Boolean
+    @Test
+    fun testSnapShotDark() {
+        snapshot(TestLightDark.DARK) { CtaButtonPreview() }
+    }
 }

@@ -40,6 +40,7 @@ dependencies {
     implementation(projects.common.network)
     implementation(projects.libraries.foundation.android)
     implementation(projects.libraries.lessons.api)
+    implementation(projects.libraries.pdf.api)
     implementation(projects.libraries.prefs.api)
     implementation(projects.libraries.storage.api)
 

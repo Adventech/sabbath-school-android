@@ -45,7 +45,10 @@ interface ResourcesApi {
     suspend fun languages(): Response<List<LanguageResponse>>
 
     @GET("api/v3/{language}/{type}/index.json")
-    suspend fun feed(@Path("language", encoded = true) language: String, @Path("type", encoded = true) type: String): Response<FeedResponse>
+    suspend fun feed(
+        @Path("language", encoded = true) language: String,
+        @Path("type", encoded = true) type: String,
+    ): Response<FeedResponse>
 
     @GET("api/v3/{language}/{type}/feeds/{groupId}/index.json")
     suspend fun feedGroup(
@@ -71,7 +74,7 @@ interface ResourcesApi {
         @Path("inputType", encoded = true) inputType: String,
         @Path("documentId", encoded = true) documentId: String,
         @Path("blockId", encoded = true) blockId: String,
-        @Body userInput: UserInputRequest
+        @Body userInput: UserInputRequest,
     )
 
     @GET("api/v3/{index}/audio.json")

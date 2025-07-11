@@ -24,6 +24,7 @@ package ss.resources.impl
 
 import android.content.Context
 import app.ss.models.AudioAux
+import app.ss.models.OfflineState
 import app.ss.models.PDFAux
 import app.ss.models.VideoAux
 import app.ss.network.NetworkResource
@@ -36,19 +37,26 @@ import io.adventech.blockkit.model.input.UserInput
 import io.adventech.blockkit.model.input.UserInputRequest
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.model.resource.ResourceDocument
+import io.adventech.blockkit.model.resource.ResourceSection
 import io.adventech.blockkit.model.resource.Segment
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onEmpty
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.withContext
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.ResourcesApi
+import ss.libraries.pdf.api.PdfReader
 import ss.libraries.storage.api.dao.AudioDao
 import ss.libraries.storage.api.dao.BibleVersionDao
 import ss.libraries.storage.api.dao.DocumentsDao
@@ -92,10 +100,11 @@ internal class ResourcesRepositoryImpl @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val connectivityHelper: ConnectivityHelper,
     private val ssPrefs: Lazy<SSPrefs>,
+    private val pdfReader: Lazy<PdfReader>,
 ) : ResourcesRepository {
 
     override fun languages(query: String?): Flow<List<LanguageModel>> {
-        return return (if (query.isNullOrEmpty()) {
+        return (if (query.isNullOrEmpty()) {
             languagesDao.get().onStart { syncHelper.syncLanguages() }
         } else {
             languagesDao.search("%$query%")
@@ -230,8 +239,8 @@ internal class ResourcesRepositoryImpl @Inject constructor(
                 }
 
                 is NetworkResource.Success -> {
-                    resource.value.body()?.let {
-                        Result.success(it.filter { it.target == documentIndex })
+                    resource.value.body()?.let { pdfs ->
+                        Result.success(pdfs.filter { it.target == documentIndex })
                     } ?: Result.failure(Throwable("Failed to fetch PDFs, body is null"))
                 }
             }
@@ -259,4 +268,64 @@ internal class ResourcesRepositoryImpl @Inject constructor(
 
     override fun saveBibleVersion(version: String) =
         syncHelper.saveBibleVersion(ssPrefs.get().getLanguageCode(), version)
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override fun resourceOfflineState(index: String): Flow<OfflineState> {
+        return resourcesDao.get(index)
+            .flatMapLatest { entity ->
+                val sections = entity?.sections ?: emptyList()
+
+                if (sections.isEmpty()) {
+                    flowOf(OfflineState.NONE)
+                } else {
+                    combine(sections.map { sectionState(it) }) { states ->
+                        when {
+                            states.all { it == OfflineState.COMPLETE } -> OfflineState.COMPLETE
+                            states.any { it == OfflineState.PARTIAL } -> OfflineState.PARTIAL
+                            else -> OfflineState.NONE
+                        }
+                    }
+                }
+            }
+            .catch { Timber.e(it) }
+            .flowOn(dispatcherProvider.io)
+
+    }
+
+    private fun sectionState(section: ResourceSection): Flow<OfflineState> {
+        val flows = section.documents.map { document ->
+            documentsDao.get(document.index)
+                .filterNotNull()
+                .map { docEntity ->
+                    docEntity.segments?.map { segmentState(it) }
+                        ?.let { segments ->
+                            if (segments.all { it == OfflineState.COMPLETE }) {
+                                OfflineState.COMPLETE
+                            } else if (segments.any { it == OfflineState.PARTIAL }) {
+                                OfflineState.PARTIAL
+                            } else {
+                                OfflineState.NONE
+                            }
+                        } ?: OfflineState.NONE
+                }
+        }
+        return combine(flows) { states ->
+            when {
+                states.all { it == OfflineState.COMPLETE } -> OfflineState.COMPLETE
+                states.any { it == OfflineState.COMPLETE } -> OfflineState.PARTIAL
+                else -> OfflineState.NONE
+            }
+        }
+    }
+
+    private fun segmentState(segment: Segment): OfflineState {
+        return segment.pdf?.let { pdfs ->
+            // Check if all PDFs are downloaded
+            if (pdfs.all { pdfReader.get().isDownloaded(it) } ) {
+                OfflineState.COMPLETE
+            } else {
+                OfflineState.PARTIAL
+            }
+        } ?: OfflineState.COMPLETE
+    }
 }

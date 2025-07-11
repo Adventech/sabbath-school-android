@@ -35,6 +35,7 @@ android {
 
 foundry {
     features { compose() }
+    android { features { snapshotTests() } }
 }
 
 ksp {
