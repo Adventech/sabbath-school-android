@@ -148,7 +148,6 @@ internal class ShareIntentHelperImpl @Inject constructor(
                     Timber.e(e, "Failed to download file")
                     null
                 }
-                println("D_FILE: $fileName => $downloaded")
                 emit(downloaded != null)
             }
         }.flowOn(dispatcherProvider.io)
