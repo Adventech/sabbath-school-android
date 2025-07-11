@@ -39,7 +39,7 @@ class ShareGroupJsonAdapterFactory : JsonAdapter.Factory  {
         return PolymorphicJsonAdapterFactory.of(ShareGroup::class.java, "type")
             .withSubtype(ShareGroup.Link::class.java, "link")
             .withSubtype(ShareGroup.File::class.java, "file")
-            .withDefaultValue(ShareGroup.Unknown)
+            .withDefaultValue(ShareGroup.Unknown())
             .create(type, annotations, moshi)
     }
 }

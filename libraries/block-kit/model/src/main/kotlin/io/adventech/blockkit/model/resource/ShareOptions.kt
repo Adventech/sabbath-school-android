@@ -22,14 +22,17 @@
 
 package io.adventech.blockkit.model.resource
 
+import android.os.Parcelable
 import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass
+import kotlinx.parcelize.Parcelize
 
 @Keep
 @JsonClass(generateAdapter = true)
+@Parcelize
 data class ShareOptions(
     val shareGroups: List<ShareGroup>,
     val shareText: String,
     val shareCTA: Boolean?,
     val personalize: Boolean?
-)
+): Parcelable

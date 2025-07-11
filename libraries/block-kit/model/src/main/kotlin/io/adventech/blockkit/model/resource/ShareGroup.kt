@@ -22,14 +22,17 @@
 
 package io.adventech.blockkit.model.resource
 
+import android.os.Parcelable
 import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass
 import dev.zacsweers.moshix.adapters.AdaptedBy
 import io.adventech.blockkit.model.adapter.ShareGroupJsonAdapterFactory
+import kotlinx.parcelize.Parcelize
 
 @Keep
 @AdaptedBy(ShareGroupJsonAdapterFactory::class)
-sealed interface ShareGroup {
+@Parcelize
+sealed interface ShareGroup : Parcelable {
     val title: String
     val selected: Boolean?
 
@@ -47,23 +50,25 @@ sealed interface ShareGroup {
         val files: List<ShareFileURL>
     ): ShareGroup
 
-    data object Unknown : ShareGroup {
-        override val title: String = "Unknown"
+    data class Unknown(
+        override val title: String = "Unknown",
         override val selected: Boolean? = null
-    }
+    ) : ShareGroup
 }
 
 @Keep
 @JsonClass(generateAdapter = true)
+@Parcelize
 data class ShareLinkURL(
     val title: String?,
     val src: String
-)
+) : Parcelable
 
 @Keep
 @JsonClass(generateAdapter = true)
+@Parcelize
 data class ShareFileURL(
     val title: String?,
     val fileName: String?,
     val src: String
-)
+) : Parcelable

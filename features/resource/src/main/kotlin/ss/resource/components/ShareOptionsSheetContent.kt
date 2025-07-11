@@ -127,7 +127,7 @@ fun ShareOptionsSheetContent(
                     selectedLink = it
                 }
 
-                ShareGroup.Unknown,
+                is ShareGroup.Unknown,
                 null -> Unit
             }
         }
