@@ -20,33 +20,26 @@
  * THE SOFTWARE.
  */
 
-package ss.libraries.storage.api.entity
+package io.adventech.blockkit.model.adapter
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import io.adventech.blockkit.model.Style
-import io.adventech.blockkit.model.resource.Segment
-import io.adventech.blockkit.model.resource.SegmentChipsStyle
-import io.adventech.blockkit.model.resource.ShareOptions
+import androidx.annotation.Keep
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
+import io.adventech.blockkit.model.resource.ShareGroup
+import java.lang.reflect.Type
 
-@Entity(tableName = "documents")
-data class DocumentEntity(
-    @PrimaryKey val id: String,
-    val index: String,
-    val name: String,
-    val title: String,
-    val subtitle: String?,
-    val resourceId: String,
-    val resourceIndex: String,
-    val sequence: String,
-    val cover: String?,
-    val startDate: String?,
-    val endDate: String?,
-    val segments: List<Segment>?,
-    val showSegmentChips: Boolean?,
-    val titleBelowCover: Boolean?,
-    val externalURL: String?,
-    val segmentChipsStyle: SegmentChipsStyle?,
-    val style: Style?,
-    val share: ShareOptions? = null,
-)
+@Keep
+class ShareGroupJsonAdapterFactory : JsonAdapter.Factory  {
+    override fun create(
+        type: Type,
+        annotations: Set<Annotation?>,
+        moshi: Moshi
+    ): JsonAdapter<*>? {
+        return PolymorphicJsonAdapterFactory.of(ShareGroup::class.java, "type")
+            .withSubtype(ShareGroup.Link::class.java, "link")
+            .withSubtype(ShareGroup.File::class.java, "file")
+            .withDefaultValue(ShareGroup.Unknown())
+            .create(type, annotations, moshi)
+    }
+}

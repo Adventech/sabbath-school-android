@@ -31,17 +31,21 @@ import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import dagger.Lazy
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.model.resource.ProgressTracking
 import io.adventech.blockkit.model.resource.Resource
+import io.adventech.blockkit.model.resource.ShareGroup
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import ss.foundation.android.intent.ShareIntentHelper
 import ss.libraries.circuit.navigation.ResourceScreen
 import ss.resource.components.content.ResourceSectionsStateProducer
+import ss.resource.components.spec.SharePosition
 import ss.resource.components.spec.toSpec
 import ss.resource.producer.CtaScreenState
 import ss.resource.producer.ResourceCtaScreenProducer
@@ -54,6 +58,7 @@ class ResourcePresenter @AssistedInject constructor(
     private val resourceSectionStateProducer: ResourceSectionsStateProducer,
     private val resourceCtaScreenProducer: ResourceCtaScreenProducer,
     private val fontFamilyProvider: FontFamilyProvider,
+    private val shareIntentHelper: Lazy<ShareIntentHelper>,
 ) : Presenter<State> {
 
     @Composable
@@ -68,8 +73,11 @@ class ResourcePresenter @AssistedInject constructor(
         val ctaScreen = resourceCtaScreenProducer(resource)
         val readDocumentTitle = rememberRetained(resource, ctaScreen) {
             (ctaScreen as? CtaScreenState.Default)?.title?.takeIf {
-                resource?.progressTracking in setOf(ProgressTracking.AUTOMATIC, ProgressTracking.AUTOMATIC) == true
+                resource?.progressTracking in setOf(ProgressTracking.AUTOMATIC, ProgressTracking.AUTOMATIC)
             } ?: ""
+        }
+        val sharePosition by rememberRetained(resource?.share) {
+            mutableStateOf(SharePosition.fromResource(resource))
         }
 
         var overlayState by rememberRetained { mutableStateOf<ResourceOverlayState?>(null) }
@@ -90,6 +98,24 @@ class ResourcePresenter @AssistedInject constructor(
                         }
                     }
                 }
+
+                is Event.OnShareClick -> {
+                    resource?.share?.let { options ->
+                        val shareGroups = options.shareGroups
+                        val linkGroup = shareGroups.firstOrNull()
+                        if (shareGroups.size == 1 && linkGroup is ShareGroup.Link && linkGroup.links.size == 1) {
+                            val shareLink = linkGroup.links.first().src
+                            shareIntentHelper.get().shareText(event.context, shareLink)
+                        } else {
+                            overlayState = ResourceOverlayState.ShareBottomSheet(
+                                options = options,
+                                primaryColorDark = resource.primaryColorDark,
+                                title = resource.title,
+                                onResult = { overlayState = null }
+                            )
+                        }
+                    }
+                }
             }
         }
 
@@ -104,6 +130,8 @@ class ResourcePresenter @AssistedInject constructor(
                 fontFamilyProvider = fontFamilyProvider,
                 overlayState = overlayState,
                 eventSink = eventSink,
+                sharePosition = sharePosition,
+                primaryColorDark = resource.primaryColorDark
             )
 
             else -> State.Loading(

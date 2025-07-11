@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2025. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,29 +22,53 @@
 
 package io.adventech.blockkit.model.resource
 
+import android.os.Parcelable
 import androidx.annotation.Keep
 import com.squareup.moshi.JsonClass
-import io.adventech.blockkit.model.Style
+import dev.zacsweers.moshix.adapters.AdaptedBy
+import io.adventech.blockkit.model.adapter.ShareGroupJsonAdapterFactory
+import kotlinx.parcelize.Parcelize
+
+@Keep
+@AdaptedBy(ShareGroupJsonAdapterFactory::class)
+@Parcelize
+sealed interface ShareGroup : Parcelable {
+    val title: String
+    val selected: Boolean?
+
+    @JsonClass(generateAdapter = true)
+    data class Link(
+        override val title: String,
+        override val selected: Boolean?,
+        val links: List<ShareLinkURL>
+    ): ShareGroup
+
+    @JsonClass(generateAdapter = true)
+    data class File(
+        override val title: String,
+        override val selected: Boolean?,
+        val files: List<ShareFileURL>
+    ): ShareGroup
+
+    data class Unknown(
+        override val title: String = "Unknown",
+        override val selected: Boolean? = null
+    ) : ShareGroup
+}
 
 @Keep
 @JsonClass(generateAdapter = true)
-data class ResourceDocument(
-    val id: String,
-    val index: String,
-    val name: String,
-    val title: String,
-    val subtitle: String?,
-    val resourceId: String,
-    val resourceIndex: String,
-    val sequence: String,
-    val cover: String?,
-    val startDate: String?,
-    val endDate: String?,
-    val segments: List<Segment>?,
-    val showSegmentChips: Boolean?,
-    val titleBelowCover: Boolean?,
-    val externalURL: String?,
-    val segmentChipsStyle: SegmentChipsStyle?,
-    val style: Style?,
-    val share: ShareOptions?,
-)
+@Parcelize
+data class ShareLinkURL(
+    val title: String?,
+    val src: String
+) : Parcelable
+
+@Keep
+@JsonClass(generateAdapter = true)
+@Parcelize
+data class ShareFileURL(
+    val title: String?,
+    val fileName: String?,
+    val src: String
+) : Parcelable

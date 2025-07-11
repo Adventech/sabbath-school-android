@@ -20,33 +20,19 @@
  * THE SOFTWARE.
  */
 
-package ss.libraries.storage.api.entity
+package io.adventech.blockkit.model.resource
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import io.adventech.blockkit.model.Style
-import io.adventech.blockkit.model.resource.Segment
-import io.adventech.blockkit.model.resource.SegmentChipsStyle
-import io.adventech.blockkit.model.resource.ShareOptions
+import android.os.Parcelable
+import androidx.annotation.Keep
+import com.squareup.moshi.JsonClass
+import kotlinx.parcelize.Parcelize
 
-@Entity(tableName = "documents")
-data class DocumentEntity(
-    @PrimaryKey val id: String,
-    val index: String,
-    val name: String,
-    val title: String,
-    val subtitle: String?,
-    val resourceId: String,
-    val resourceIndex: String,
-    val sequence: String,
-    val cover: String?,
-    val startDate: String?,
-    val endDate: String?,
-    val segments: List<Segment>?,
-    val showSegmentChips: Boolean?,
-    val titleBelowCover: Boolean?,
-    val externalURL: String?,
-    val segmentChipsStyle: SegmentChipsStyle?,
-    val style: Style?,
-    val share: ShareOptions? = null,
-)
+@Keep
+@JsonClass(generateAdapter = true)
+@Parcelize
+data class ShareOptions(
+    val shareGroups: List<ShareGroup>,
+    val shareText: String,
+    val shareCTA: Boolean?,
+    val personalize: Boolean?
+): Parcelable

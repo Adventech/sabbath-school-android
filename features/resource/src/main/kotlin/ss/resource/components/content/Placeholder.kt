@@ -46,66 +46,7 @@ internal object Placeholder {
         externalURL = null,
         segmentChipsStyle = null,
         style = null,
-    )
-
-    val resources: List<ResourceSection> = listOf(
-        ResourceSection(
-            id = "1",
-            name = "introduction",
-            title = "Introduction",
-            displaySequence = true,
-            isRoot = true,
-            documents = listOf(
-                document,
-                ResourceDocument(
-                    id = "1-2",
-                    index = "2",
-                    name = "why-discipleship-matters",
-                    title = "Why Discipleship Matters",
-                    subtitle = "Discover the importance of discipleship in the modern world.",
-                    resourceId = "discipleship-handbook",
-                    resourceIndex = "pm",
-                    sequence = "2",
-                    cover = "https://example.com/cover2.jpg",
-                    startDate = null,
-                    endDate = null,
-                    segments = null,
-                    showSegmentChips = false,
-                    titleBelowCover = true,
-                    externalURL = null,
-                    segmentChipsStyle = null,
-                    style = null,
-                )
-            )
-        ),
-        ResourceSection(
-            id = "2",
-            name = "practical-guidelines",
-            title = "Practical Guidelines",
-            displaySequence = false,
-            isRoot = false,
-            documents = listOf(
-                ResourceDocument(
-                    id = "2-1",
-                    index = "1",
-                    name = "how-to-disciple",
-                    title = "How to Disciple",
-                    subtitle = "Step-by-step guide to effective discipleship.",
-                    resourceId = "discipleship-handbook",
-                    resourceIndex = "pm",
-                    sequence = "1",
-                    cover = "https://example.com/cover3.jpg",
-                    startDate = null,
-                    endDate = null,
-                    segments = null,
-                    showSegmentChips = true,
-                    titleBelowCover = false,
-                    externalURL = null,
-                    segmentChipsStyle = null,
-                    style = null,
-                )
-            )
-        )
+        share = null,
     )
 
     val resourcesWithMenu: List<ResourceSection> = listOf(
@@ -145,6 +86,7 @@ internal object Placeholder {
                     externalURL = null,
                     segmentChipsStyle = null,
                     style = null,
+                    share = null,
                 ),
                 ResourceDocument(
                     id = "doc2",
@@ -175,6 +117,7 @@ internal object Placeholder {
                     externalURL = null,
                     segmentChipsStyle = null,
                     style = null,
+                    share = null
                 )
             )
         ),
@@ -213,7 +156,8 @@ internal object Placeholder {
                     titleBelowCover = true,
                     externalURL = null,
                     segmentChipsStyle = null,
-                    style = null
+                    style = null,
+                    share = null,
                 )
             )
         )

@@ -57,4 +57,6 @@ data class Resource(
     val fonts: List<ResourceFont>? = null,
     val style: Style? = null,
     val progressTracking: ProgressTracking? = null,
+    val downloadable: Boolean? = null,
+    val share: ShareOptions? = null,
 )

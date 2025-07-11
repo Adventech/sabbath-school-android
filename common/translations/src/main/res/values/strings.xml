@@ -148,6 +148,7 @@
     <string name="ss_action_comment">Comment</string>
     <string name="ss_action_highlight">Highlight</string>
     <string name="ss_action_underline">Underline</string>
+    <string name="ss_action_share">Share</string>
     <string name="ss_downloading">Downloading…</string>
     <string name="ss_off">Off</string>
 </resources>
