@@ -22,22 +22,24 @@
 
 package ss.document.producer
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import app.ss.models.AudioAux
 import app.ss.models.PDFAux
-import app.ss.models.VideoAux
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuitx.android.IntentScreen
+import dagger.Lazy
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.SegmentType
+import io.adventech.blockkit.model.resource.ShareGroup
+import io.adventech.blockkit.model.resource.ShareOptions
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
@@ -45,8 +47,10 @@ import ss.document.DocumentOverlayState
 import ss.document.DocumentOverlayState.BottomSheet
 import ss.document.components.DocumentTopAppBarAction
 import ss.document.reader.ReaderOptionsScreen
+import ss.foundation.android.intent.ShareIntentHelper
 import ss.libraries.circuit.navigation.AudioPlayerScreen
 import ss.libraries.circuit.navigation.PdfScreen
+import ss.libraries.circuit.navigation.ShareOptionsScreen
 import ss.libraries.circuit.navigation.VideosScreen
 import ss.libraries.pdf.api.PdfReader
 import ss.resources.api.ResourcesRepository
@@ -59,7 +63,7 @@ data class TopAppbarActionsState(
 ) : CircuitUiState {
 
     sealed interface Event {
-        data class OnActionClick(val action: DocumentTopAppBarAction) : Event
+        data class OnActionClick(val action: DocumentTopAppBarAction, val context: Context) : Event
     }
 
     companion object {
@@ -81,13 +85,15 @@ interface TopAppbarActionsProducer {
         resourceIndex: String,
         documentIndex: String,
         documentId: String,
-        segment: Segment?
+        segment: Segment?,
+        shareOptions: ShareOptions?,
     ): TopAppbarActionsState
 }
 
 internal class TopAppbarActionsProducerImpl @Inject constructor(
     private val repository: ResourcesRepository,
     private val pdfReader: PdfReader,
+    private val shareIntentHelper: Lazy<ShareIntentHelper>,
 ) : TopAppbarActionsProducer {
 
     @Composable
@@ -97,21 +103,22 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
         resourceIndex: String,
         documentIndex: String,
         documentId: String,
-        segment: Segment?
+        segment: Segment?,
+        shareOptions: ShareOptions?,
     ): TopAppbarActionsState {
         var bottomSheetState by rememberRetained { mutableStateOf<DocumentOverlayState?>(null) }
 
-        val audio by produceRetainedState<List<AudioAux>>(emptyList()) {
+        val audio by produceRetainedState(emptyList()) {
             value = repository.audio(resourceIndex, documentIndex).getOrNull().orEmpty()
         }
-        val video by produceRetainedState<List<VideoAux>>(emptyList()) {
+        val video by produceRetainedState(emptyList()) {
             value = repository.video(resourceIndex, documentIndex).getOrNull().orEmpty()
         }
-        val pdfs by produceRetainedState<List<PDFAux>>(emptyList()) {
+        val pdfs by produceRetainedState(emptyList()) {
             if (segment?.type == SegmentType.PDF) return@produceRetainedState
             value = repository.pdf(resourceIndex, documentIndex).getOrNull().orEmpty()
         }
-        val actions = remember(audio, video, pdfs, segment) {
+        val actions = remember(audio, video, pdfs, segment, shareOptions) {
             buildList {
                 if (audio.isNotEmpty()) {
                     add(DocumentTopAppBarAction.Audio)
@@ -123,6 +130,11 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
                     if (pdfs.isNotEmpty()) {
                         add(DocumentTopAppBarAction.Pdf)
                     }
+
+                    if (shareOptions != null) {
+                        add(DocumentTopAppBarAction.Share)
+                    }
+
                     add(DocumentTopAppBarAction.DisplayOptions)
                 }
             }.toImmutableList()
@@ -182,6 +194,27 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
                                     feedback = false,
                                 ) { _ ->
                                     bottomSheetState = null
+                                }
+                            }
+                            DocumentTopAppBarAction.Share -> {
+                                val shareGroups = shareOptions?.shareGroups ?: return@TopAppbarActionsState
+                                val linkGroup = shareGroups.firstOrNull()
+                                if (shareGroups.size == 1 && linkGroup is ShareGroup.Link && linkGroup.links.size == 1) {
+                                    val shareLink = linkGroup.links.first().src
+                                    shareIntentHelper.get().shareText(event.context, shareLink)
+                                } else {
+                                    bottomSheetState = BottomSheet(
+                                        screen = ShareOptionsScreen(
+                                            options = shareOptions,
+                                            title = segment?.title ?: "",
+                                            resourceColor = null,
+                                        ),
+                                        skipPartiallyExpanded = false,
+                                        themed = false,
+                                        feedback = false,
+                                    ) { _ ->
+                                        bottomSheetState = null
+                                    }
                                 }
                             }
                         }

@@ -52,6 +52,8 @@ fun ResourceEntity.toModel() = Resource(
     fonts = fonts,
     style = style,
     progressTracking = progressTracking,
+    downloadable = downloadable,
+    share = share,
 )
 
 fun Resource.toEntity() = ResourceEntity(
@@ -81,4 +83,6 @@ fun Resource.toEntity() = ResourceEntity(
     fonts = fonts,
     style = style,
     progressTracking = progressTracking,
+    downloadable = downloadable,
+    share = share,
 )

@@ -57,11 +57,13 @@ import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import app.ss.design.compose.widget.scaffold.SystemUiEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.foundation.CircuitContent
 import com.slack.circuit.overlay.OverlayEffect
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.ui.style.font.LocalFontFamilyProvider
 import io.noties.markwon.Markwon
 import ss.libraries.circuit.navigation.ResourceScreen
+import ss.libraries.circuit.navigation.ShareOptionsScreen
 import ss.libraries.circuit.overlay.BottomSheetOverlay
 import ss.resource.components.CoverContent
 import ss.resource.components.ResourceCover
@@ -70,6 +72,7 @@ import ss.resource.components.ResourceTopAppBar
 import ss.resource.components.footer
 import ss.resource.components.footerBackgroundColor
 import ss.resource.components.resourceSections
+import ss.resource.components.spec.SharePosition
 import com.cryart.design.R as DesignR
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -78,6 +81,7 @@ import com.cryart.design.R as DesignR
 fun ResourceUi(state: State, modifier: Modifier = Modifier) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val hapticFeedback = LocalSsHapticFeedback.current
+    val context = LocalContext.current
     val listState: LazyListState = rememberLazyListState()
     val collapsed by remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
     val isSystemInDarkTheme = isSystemInDarkTheme()
@@ -86,15 +90,21 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
     HazeScaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
+            val successState = (state as? State.Success)
             ResourceTopAppBar(
                 isShowingNavigationBar = collapsed,
                 title = state.title,
                 modifier = Modifier,
-                iconTint = (state as? State.Success)?.resource?.primaryColorDark?.let { Color.parse(it) },
+                iconTint = successState?.primaryColorDark?.let { Color.parse(it) },
+                showShare = successState?.sharePosition == SharePosition.TOOLBAR,
                 scrollBehavior = scrollBehavior,
                 onNavBack = {
                     hapticFeedback.performClick()
                     state.eventSink(Event.OnNavBack)
+                },
+                onShareClick = {
+                    hapticFeedback.performClick()
+                    successState?.eventSink?.invoke(Event.OnShareClick(context))
                 }
             )
         },
@@ -126,20 +136,24 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
                         item("cover") {
                             ResourceCover(
                                 resource = resource,
-                                modifier = Modifier,
                                 scrollOffset = { listState.firstVisibleItemScrollOffset.toFloat() },
+                                modifier = Modifier,
                                 content = {
                                     CoverContent(
                                         resource = resource,
                                         documentTitle = state.readDocumentTitle,
                                         type = it,
                                         ctaOnClick = {
-                                            state.eventSink(Event.OnCtaClick)
                                             hapticFeedback.performScreenView()
+                                            state.eventSink(Event.OnCtaClick)
                                         },
                                         readMoreClick = {
                                             state.eventSink(Event.OnReadMoreClick)
                                         },
+                                        shareClick = {
+                                            hapticFeedback.performClick()
+                                            state.eventSink(Event.OnShareClick(context))
+                                        }
                                     )
                                 }
                             )
@@ -162,6 +176,8 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
 @Composable
 private fun OverlayContent(state: ResourceOverlayState?) {
     val hapticFeedback = LocalSsHapticFeedback.current
+    val context = LocalContext.current
+
     OverlayEffect(state) {
         when (state) {
             is ResourceOverlayState.IntroductionBottomSheet -> state.onResult(
@@ -186,7 +202,17 @@ private fun OverlayContent(state: ResourceOverlayState?) {
 
                 })
             )
-
+            is ResourceOverlayState.ShareBottomSheet -> state.onResult(
+                show(BottomSheetOverlay(skipPartiallyExpanded = true) {
+                    CircuitContent(
+                        screen = ShareOptionsScreen(
+                            options = state.options,
+                            resourceColor = state.primaryColorDark,
+                            title = state.title,
+                        )
+                    )
+                })
+            )
             null -> Unit
         }
     }

@@ -98,6 +98,7 @@ class DocumentPresenter @AssistedInject constructor(
                 documentIndex = screen.index,
                 documentId = resourceDocument.id,
                 segment = selectedPage,
+                shareOptions = resourceDocument.share,
             )
         } ?: TopAppbarActionsState.Empty
 
@@ -112,7 +113,7 @@ class DocumentPresenter @AssistedInject constructor(
             when (event) {
                 Event.OnNavBack -> navigator.pop()
                 is Event.OnActionClick -> {
-                    actionsState.eventSink(TopAppbarEvent.OnActionClick(event.action))
+                    actionsState.eventSink(TopAppbarEvent.OnActionClick(event.action, event.context))
                 }
 
                 is SuccessEvent.OnPageChange -> {
@@ -124,15 +125,15 @@ class DocumentPresenter @AssistedInject constructor(
                 }
 
                 is SuccessEvent.OnNavEvent -> {
-                    when (val event = event.event) {
+                    when (val successEvent = event.event) {
                         is NavEvent.GoTo -> {
-                            if (event.screen is ExpandedAudioPlayerScreen) {
-                                actionsState.eventSink(TopAppbarEvent.OnActionClick(DocumentTopAppBarAction.Audio))
+                            if (successEvent.screen is ExpandedAudioPlayerScreen) {
+                                actionsState.eventSink(TopAppbarEvent.OnActionClick(DocumentTopAppBarAction.Audio, event.context))
                             } else {
-                                navigator.goTo(event.screen)
+                                navigator.goTo(successEvent.screen)
                             }
                         }
-                        else -> navigator.onNavEvent(event)
+                        else -> navigator.onNavEvent(successEvent)
                     }
                 }
 

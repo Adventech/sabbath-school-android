@@ -81,7 +81,7 @@ class BottomSheetOverlay(
         val sheetState = rememberModalBottomSheetState(
             skipPartiallyExpanded = skipPartiallyExpanded
         )
-        sheetState.hasExpandedState
+
         OverlayModalBottomSheet(
             onDismissRequest = {
                 navigator.finish(Result.Dismissed)

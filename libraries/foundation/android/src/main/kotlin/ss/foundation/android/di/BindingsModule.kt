@@ -28,6 +28,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.android.connectivity.ConnectivityHelperImpl
+import ss.foundation.android.intent.ShareIntentHelper
+import ss.foundation.android.intent.ShareIntentHelperImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -35,4 +37,7 @@ abstract class BindingsModule {
 
     @Binds
     internal abstract fun bindConnectivityHelper(iml: ConnectivityHelperImpl): ConnectivityHelper
+
+    @Binds
+    internal abstract fun bindShareIntentHelper(iml: ShareIntentHelperImpl): ShareIntentHelper
 }
