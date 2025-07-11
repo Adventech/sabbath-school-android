@@ -31,6 +31,7 @@ import ss.libraries.circuit.overlay.BottomSheetOverlay
 import ss.resource.components.content.ResourceSectionSpec
 import ss.resource.components.spec.CreditSpec
 import ss.resource.components.spec.FeatureSpec
+import ss.resource.components.spec.SharePosition
 
 sealed interface State: CircuitUiState {
 
@@ -51,6 +52,8 @@ sealed interface State: CircuitUiState {
         val features: ImmutableList<FeatureSpec>,
         val fontFamilyProvider: FontFamilyProvider,
         val overlayState: ResourceOverlayState?,
+        val sharePosition: SharePosition,
+        val primaryColorDark: String,
         override val eventSink: (Event) -> Unit
     ): State
 
@@ -65,6 +68,9 @@ sealed interface Event : CircuitUiEvent {
 
     /** Read more button is clicked. */
     data object OnReadMoreClick : Event
+
+    /** Share button is clicked. */
+    data object OnShareClick : Event
 }
 
 sealed interface ResourceOverlayState : CircuitUiState {

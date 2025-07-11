@@ -42,6 +42,7 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import ss.libraries.circuit.navigation.ResourceScreen
 import ss.resource.components.content.ResourceSectionsStateProducer
+import ss.resource.components.spec.SharePosition
 import ss.resource.components.spec.toSpec
 import ss.resource.producer.CtaScreenState
 import ss.resource.producer.ResourceCtaScreenProducer
@@ -68,8 +69,11 @@ class ResourcePresenter @AssistedInject constructor(
         val ctaScreen = resourceCtaScreenProducer(resource)
         val readDocumentTitle = rememberRetained(resource, ctaScreen) {
             (ctaScreen as? CtaScreenState.Default)?.title?.takeIf {
-                resource?.progressTracking in setOf(ProgressTracking.AUTOMATIC, ProgressTracking.AUTOMATIC) == true
+                resource?.progressTracking in setOf(ProgressTracking.AUTOMATIC, ProgressTracking.AUTOMATIC)
             } ?: ""
+        }
+        val sharePosition by rememberRetained(resource?.share) {
+            mutableStateOf(SharePosition.fromResource(resource))
         }
 
         var overlayState by rememberRetained { mutableStateOf<ResourceOverlayState?>(null) }
@@ -90,6 +94,10 @@ class ResourcePresenter @AssistedInject constructor(
                         }
                     }
                 }
+
+                Event.OnShareClick -> {
+
+                }
             }
         }
 
@@ -104,6 +112,8 @@ class ResourcePresenter @AssistedInject constructor(
                 fontFamilyProvider = fontFamilyProvider,
                 overlayState = overlayState,
                 eventSink = eventSink,
+                sharePosition = sharePosition,
+                primaryColorDark = resource.primaryColorDark
             )
 
             else -> State.Loading(
