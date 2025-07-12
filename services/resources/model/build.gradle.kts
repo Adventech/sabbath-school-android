@@ -29,4 +29,5 @@ plugins {
 
 dependencies {
     api(projects.common.models)
+    implementation(libs.androidx.annotations)
 }
