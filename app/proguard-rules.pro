@@ -89,3 +89,11 @@
 
 # Keep all model block-kit API models
 -keep class io.adventech.blockkit.model.** { *; }
+
+# Keep hashCode() for classes used as Map keys
+-keepclassmembers class * {
+    int hashCode();
+}
+
+# If using kotlinx-collections-immutable
+-keep class kotlinx.collections.immutable.** { *; }
