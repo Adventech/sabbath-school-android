@@ -5,6 +5,7 @@ on:
     branches:
       - develop
       - main
+      - release/*
 
 jobs:
   update_draft_release:
