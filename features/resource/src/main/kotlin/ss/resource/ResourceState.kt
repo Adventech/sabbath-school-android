@@ -22,15 +22,18 @@
 
 package ss.resource
 
+import android.content.Context
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import io.adventech.blockkit.model.resource.Resource
+import io.adventech.blockkit.model.resource.ShareOptions
 import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import kotlinx.collections.immutable.ImmutableList
 import ss.libraries.circuit.overlay.BottomSheetOverlay
 import ss.resource.components.content.ResourceSectionSpec
 import ss.resource.components.spec.CreditSpec
 import ss.resource.components.spec.FeatureSpec
+import ss.resource.components.spec.SharePosition
 
 sealed interface State: CircuitUiState {
 
@@ -51,6 +54,8 @@ sealed interface State: CircuitUiState {
         val features: ImmutableList<FeatureSpec>,
         val fontFamilyProvider: FontFamilyProvider,
         val overlayState: ResourceOverlayState?,
+        val sharePosition: SharePosition,
+        val primaryColorDark: String,
         override val eventSink: (Event) -> Unit
     ): State
 
@@ -65,6 +70,9 @@ sealed interface Event : CircuitUiEvent {
 
     /** Read more button is clicked. */
     data object OnReadMoreClick : Event
+
+    /** Share button is clicked. */
+    data class OnShareClick(val context: Context) : Event
 }
 
 sealed interface ResourceOverlayState : CircuitUiState {
@@ -72,5 +80,12 @@ sealed interface ResourceOverlayState : CircuitUiState {
     data class IntroductionBottomSheet(
         val markdown: String,
         val onResult: (BottomSheetOverlay.Result) -> Unit
+    ): ResourceOverlayState
+
+    data class ShareBottomSheet(
+        val options: ShareOptions,
+        val primaryColorDark: String,
+        val title: String,
+        val onResult: (BottomSheetOverlay.Result) -> Unit,
     ): ResourceOverlayState
 }

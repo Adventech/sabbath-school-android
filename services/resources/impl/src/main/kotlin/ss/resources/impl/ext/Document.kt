@@ -43,6 +43,7 @@ fun ResourceDocument.toEntity() = DocumentEntity(
     externalURL = externalURL,
     segmentChipsStyle = segmentChipsStyle,
     style = style,
+    share = share,
 )
 
 fun DocumentEntity.toModel() = ResourceDocument(
@@ -63,4 +64,5 @@ fun DocumentEntity.toModel() = ResourceDocument(
     externalURL = externalURL,
     segmentChipsStyle = segmentChipsStyle,
     style = style,
+    share = share,
 )

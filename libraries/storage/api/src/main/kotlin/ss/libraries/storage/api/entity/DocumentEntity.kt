@@ -27,6 +27,7 @@ import androidx.room.PrimaryKey
 import io.adventech.blockkit.model.Style
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.SegmentChipsStyle
+import io.adventech.blockkit.model.resource.ShareOptions
 
 @Entity(tableName = "documents")
 data class DocumentEntity(
@@ -47,4 +48,5 @@ data class DocumentEntity(
     val externalURL: String?,
     val segmentChipsStyle: SegmentChipsStyle?,
     val style: Style?,
+    val share: ShareOptions? = null,
 )

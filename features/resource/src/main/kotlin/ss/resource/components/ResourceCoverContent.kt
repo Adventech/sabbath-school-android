@@ -24,6 +24,7 @@ package ss.resource.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -32,11 +33,17 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,6 +52,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -52,12 +60,15 @@ import app.ss.design.compose.extensions.color.parse
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.theme.color.SsColors
 import app.ss.design.compose.widget.button.SsButtonDefaults
+import app.ss.design.compose.widget.icon.IconBox
+import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.text.ReadMoreText
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.ui.MarkdownText
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.thenIf
 import kotlinx.collections.immutable.toImmutableList
+import ss.resource.components.spec.SharePosition
 import app.ss.translations.R as L10n
 
 @Composable
@@ -66,8 +77,12 @@ internal fun ColumnScope.CoverContent(
     documentTitle: String?,
     type: CoverContentType,
     ctaOnClick: () -> Unit,
-    readMoreClick: () -> Unit
+    readMoreClick: () -> Unit,
+    shareClick: () -> Unit
 ) {
+    val showShare by remember(resource.share) {
+        derivedStateOf { SharePosition.fromResource(resource) == SharePosition.CTA }
+    }
     val textAlign: TextAlign
     val alignment: Alignment.Horizontal
     val paddingTop: Dp
@@ -91,7 +106,7 @@ internal fun ColumnScope.CoverContent(
     val descriptionColor = Styler.textColor(descriptionStyle, styleTemplate)
 
     val description: @Composable () -> Unit = {
-        resource.description?.let {
+        resource.description?.let { description ->
             resource.markdownDescription?.let {
                 MarkdownText(
                     markdownText = it,
@@ -109,7 +124,7 @@ internal fun ColumnScope.CoverContent(
 
             if (resource.markdownDescription.isNullOrEmpty()) {
                 ReadMoreText(
-                    text = it,
+                    text = description,
                     style = Styler.textStyle(descriptionStyle).copy(
                         fontSize = 15.sp,
                         color = descriptionColor
@@ -119,7 +134,7 @@ internal fun ColumnScope.CoverContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = SsTheme.dimens.grid_4, vertical = 8.dp)
-                        .thenIf((resource.introduction ?: resource.markdownDescription ?: resource.description).isNullOrEmpty() == false) {
+                        .thenIf(!(resource.introduction ?: resource.markdownDescription ?: resource.description).isNullOrEmpty()) {
                             clickable { readMoreClick() }
                         },
                     readMoreColor = Color.parse(resource.primaryColorDark),
@@ -138,9 +153,11 @@ internal fun ColumnScope.CoverContent(
         if (resource.cta?.hidden != true) {
             CtaButton(
                 onClick = ctaOnClick,
+                onShareClick = shareClick,
                 color = Color.parse(resource.primaryColorDark),
                 text = resource.cta?.text,
                 documentTitle = documentTitle,
+                showShare = showShare,
                 alignment = alignment,
             )
         }
@@ -215,9 +232,11 @@ internal fun ColumnScope.CoverContent(
 @Composable
 private fun ColumnScope.CtaButton(
     onClick: () -> Unit,
+    onShareClick: () -> Unit,
     color: Color,
     text: String?,
     documentTitle: String?,
+    showShare: Boolean,
     alignment: Alignment.Horizontal
 ) {
     val buttonColors = SsButtonDefaults.colors(
@@ -228,7 +247,8 @@ private fun ColumnScope.CtaButton(
             .defaultMinSize(minWidth = 140.dp)
             .align(alignment)
             .padding(horizontal = SsTheme.dimens.grid_4),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         ElevatedButton(
             onClick = onClick,
@@ -264,6 +284,22 @@ private fun ColumnScope.CtaButton(
                 }
             }
         }
+
+        if (showShare) {
+            ElevatedButton(
+                onClick = onShareClick,
+                modifier = Modifier.size(40.dp),
+                shape = CircleShape,
+                colors = buttonColors,
+                elevation = ButtonDefaults.elevatedButtonElevation(readButtonElevation),
+                contentPadding = PaddingValues(vertical = 0.dp)
+            ) {
+                IconBox(
+                    icon = Icons.Share,
+                    contentColor = Color.White,
+                )
+            }
+        }
     }
 }
 
@@ -275,4 +311,34 @@ enum class CoverContentType {
     PRIMARY,
     SECONDARY,
     SECONDARY_LARGE
+}
+
+@PreviewLightDark
+@Composable
+internal fun CtaButtonPreview() {
+    SsTheme {
+        Surface {
+            Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                CtaButton(
+                    onClick = {},
+                    onShareClick = {},
+                    color = Color(0xFF6200EE),
+                    text = "Read".uppercase(),
+                    documentTitle = "Document Title",
+                    showShare = false,
+                    alignment = Alignment.CenterHorizontally,
+                )
+
+                CtaButton(
+                    onClick = {},
+                    onShareClick = {},
+                    color = Color(0xFF6200EE),
+                    text = "Read".uppercase(),
+                    documentTitle = "Document Title",
+                    showShare = true,
+                    alignment = Alignment.CenterHorizontally,
+                )
+            }
+        }
+    }
 }

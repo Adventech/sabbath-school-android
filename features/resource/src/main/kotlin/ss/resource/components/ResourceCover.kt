@@ -84,8 +84,8 @@ import io.adventech.blockkit.model.resource.ResourcePreferredCover
 @Composable
 fun ResourceCover(
     resource: Resource,
-    modifier: Modifier = Modifier,
     scrollOffset: () -> Float,
+    modifier: Modifier = Modifier,
     content: @Composable ColumnScope.(CoverContentType) -> Unit
 ) {
     val isLargeScreen = isLargeScreen()

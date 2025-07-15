@@ -22,6 +22,7 @@
 
 package ss.document.producer
 
+import androidx.annotation.VisibleForTesting
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -33,6 +34,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import ss.resources.api.ResourcesRepository
+import timber.log.Timber
 
 internal class FontFamilyProviderImpl @Inject constructor(
     private val repository: ResourcesRepository,
@@ -45,33 +47,40 @@ internal class FontFamilyProviderImpl @Inject constructor(
                     val (file, attributes) = model
                     val (weight, style) = attributes.style()
 
-                    FontFamily(Font(file, weight, style))
+                    try {
+                        if (!file.exists() || file.length() == 0L) return@map default
+                        FontFamily(Font(file, weight, style))
+                    } catch (e: Exception) {
+                        Timber.e(e)
+                        default
+                    }
                 } ?: default
             }
             .catch { emit(default) }
     }
+}
 
-    private fun ResourceFontAttributes.style(): Pair<FontWeight, FontStyle> {
-        return when (this) {
-            ResourceFontAttributes.UNKNOWN -> FontWeight.Normal to FontStyle.Normal
-            ResourceFontAttributes.THIN -> FontWeight.Thin to FontStyle.Normal
-            ResourceFontAttributes.LIGHT -> FontWeight.Light to FontStyle.Normal
-            ResourceFontAttributes.EXTRA_LIGHT -> FontWeight.ExtraLight to FontStyle.Normal
-            ResourceFontAttributes.REGULAR -> FontWeight.Normal to FontStyle.Normal
-            ResourceFontAttributes.MEDIUM -> FontWeight.Medium to FontStyle.Normal
-            ResourceFontAttributes.SEMI_BOLD -> FontWeight.SemiBold to FontStyle.Normal
-            ResourceFontAttributes.BOLD -> FontWeight.Bold to FontStyle.Normal
-            ResourceFontAttributes.EXTRA_BOLD -> FontWeight.ExtraBold to FontStyle.Normal
-            ResourceFontAttributes.BLACK -> FontWeight.Black to FontStyle.Normal
-            ResourceFontAttributes.THIN_ITALIC -> FontWeight.Thin to FontStyle.Italic
-            ResourceFontAttributes.LIGHT_ITALIC -> FontWeight.Light to FontStyle.Italic
-            ResourceFontAttributes.EXTRA_LIGHT_ITALIC -> FontWeight.ExtraLight to FontStyle.Italic
-            ResourceFontAttributes.REGULAR_ITALIC -> FontWeight.Normal to FontStyle.Italic
-            ResourceFontAttributes.MEDIUM_ITALIC -> FontWeight.Medium to FontStyle.Italic
-            ResourceFontAttributes.SEMI_BOLD_ITALIC -> FontWeight.SemiBold to FontStyle.Italic
-            ResourceFontAttributes.BOLD_ITALIC -> FontWeight.Bold to FontStyle.Italic
-            ResourceFontAttributes.EXTRA_BOLD_ITALIC -> FontWeight.ExtraBold to FontStyle.Italic
-            ResourceFontAttributes.BLACK_ITALIC -> FontWeight.Black to FontStyle.Italic
-        }
+@VisibleForTesting
+fun ResourceFontAttributes.style(): Pair<FontWeight, FontStyle> {
+    return when (this) {
+        ResourceFontAttributes.UNKNOWN -> FontWeight.Normal to FontStyle.Normal
+        ResourceFontAttributes.THIN -> FontWeight.Thin to FontStyle.Normal
+        ResourceFontAttributes.LIGHT -> FontWeight.Light to FontStyle.Normal
+        ResourceFontAttributes.EXTRA_LIGHT -> FontWeight.ExtraLight to FontStyle.Normal
+        ResourceFontAttributes.REGULAR -> FontWeight.Normal to FontStyle.Normal
+        ResourceFontAttributes.MEDIUM -> FontWeight.Medium to FontStyle.Normal
+        ResourceFontAttributes.SEMI_BOLD -> FontWeight.SemiBold to FontStyle.Normal
+        ResourceFontAttributes.BOLD -> FontWeight.Bold to FontStyle.Normal
+        ResourceFontAttributes.EXTRA_BOLD -> FontWeight.ExtraBold to FontStyle.Normal
+        ResourceFontAttributes.BLACK -> FontWeight.Black to FontStyle.Normal
+        ResourceFontAttributes.THIN_ITALIC -> FontWeight.Thin to FontStyle.Italic
+        ResourceFontAttributes.LIGHT_ITALIC -> FontWeight.Light to FontStyle.Italic
+        ResourceFontAttributes.EXTRA_LIGHT_ITALIC -> FontWeight.ExtraLight to FontStyle.Italic
+        ResourceFontAttributes.REGULAR_ITALIC -> FontWeight.Normal to FontStyle.Italic
+        ResourceFontAttributes.MEDIUM_ITALIC -> FontWeight.Medium to FontStyle.Italic
+        ResourceFontAttributes.SEMI_BOLD_ITALIC -> FontWeight.SemiBold to FontStyle.Italic
+        ResourceFontAttributes.BOLD_ITALIC -> FontWeight.Bold to FontStyle.Italic
+        ResourceFontAttributes.EXTRA_BOLD_ITALIC -> FontWeight.ExtraBold to FontStyle.Italic
+        ResourceFontAttributes.BLACK_ITALIC -> FontWeight.Black to FontStyle.Italic
     }
 }

@@ -32,6 +32,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -39,6 +40,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
@@ -54,9 +56,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.theme.SsTheme
-import app.ss.design.compose.widget.appbar.SsTopAppBar
-import app.ss.design.compose.widget.appbar.TopAppBarSpec
-import app.ss.design.compose.widget.appbar.TopAppBarType
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.translations.R as L10nR
@@ -69,11 +68,14 @@ internal fun ResourceTopAppBar(
     title: String,
     modifier: Modifier = Modifier,
     iconTint: Color? = null,
+    showShare: Boolean = false,
     scrollBehavior: TopAppBarScrollBehavior? = null,
     onNavBack: () -> Unit = {},
+    onShareClick: () -> Unit = {},
 ) {
-    SsTopAppBar(
-        spec = TopAppBarSpec(TopAppBarType.Small),
+    val contentColor by topAppBarContentColor()
+
+    TopAppBar(
         modifier = modifier,
         title = {
             val density = LocalDensity.current
@@ -97,29 +99,48 @@ internal fun ResourceTopAppBar(
             }
         },
         navigationIcon = {
-            val contentColor by topAppBarContentColor()
-
             IconButton(onClick = onNavBack) {
-                AnimatedContent(isShowingNavigationBar) { isCollapsed ->
-                    if (isCollapsed) {
+                AnimatedAppBarIcon(
+                    targetState = isShowingNavigationBar,
+                    icon = {
                         Icon(
                             painter = painterResource(ResourceR.drawable.ic_arrow_backward),
                             contentDescription = stringResource(L10nR.string.ss_action_arrow_back),
                             tint = contentColor,
                         )
-                    } else {
-                        Box(
-                            modifier = Modifier
-                                .size(26.dp)
-                                .background(iconTint ?: Color.Black.copy(0.6f), CircleShape),
-                            contentAlignment = Alignment.Center
-                        ) {
+                    },
+                    boxIcon = {
+                        IconBox(
+                            icon = Icons.ArrowBack,
+                            contentColor = Color.White,
+                        )
+                    },
+                    modifier = Modifier,
+                    iconTint = iconTint
+                )
+            }
+        },
+        actions = {
+            if (showShare) {
+                IconButton(onClick = onShareClick) {
+                    AnimatedAppBarIcon(
+                        targetState = isShowingNavigationBar,
+                        icon = {
                             IconBox(
-                                icon = Icons.ArrowBack,
-                                contentColor = Color.White,
+                                icon = Icons.Share,
+                                contentColor = contentColor,
                             )
-                        }
-                    }
+                        },
+                        boxIcon = {
+                            IconBox(
+                                icon = Icons.Share,
+                                contentColor = Color.White,
+                                modifier = Modifier,
+                            )
+                        },
+                        modifier = Modifier,
+                        iconTint = iconTint
+                    )
                 }
             }
         },
@@ -140,6 +161,33 @@ private fun topAppBarContentColor(
     label = "content color"
 )
 
+@Composable
+private fun AnimatedAppBarIcon(
+    targetState: Boolean,
+    icon: @Composable () -> Unit,
+    boxIcon: @Composable BoxScope.() -> Unit,
+    modifier: Modifier = Modifier,
+    iconTint: Color? = null,
+) {
+    AnimatedContent(
+        targetState = targetState,
+        modifier = modifier,
+    ) { isVisible ->
+        if (isVisible) {
+            icon()
+        } else {
+            Box(
+                modifier = Modifier
+                    .size(32.dp)
+                    .background(iconTint ?: Color.Black.copy(0.6f), CircleShape),
+                contentAlignment = Alignment.Center,
+                content = boxIcon
+            )
+        }
+    }
+
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @PreviewLightDark
 @Composable
@@ -149,6 +197,7 @@ private fun Preview() {
             ResourceTopAppBar(
                 isShowingNavigationBar = true,
                 title = "Resource",
+                showShare = true,
             )
         }
     }
@@ -163,6 +212,7 @@ private fun PreviewTwo() {
             ResourceTopAppBar(
                 isShowingNavigationBar = false,
                 title = "Resource",
+                showShare = true
             )
         }
     }
