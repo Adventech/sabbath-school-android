@@ -82,7 +82,7 @@ internal fun SegmentBlocksContent(
                 cover = segment.cover,
                 modifier = Modifier.animateItem(),
                 headerContent = {
-                    if ((segment.titleBelowCover ?: titleBelowCover) == false) {
+                    if (!(segment.titleBelowCover ?: titleBelowCover)) {
                         SegmentHeader(
                             title = segment.markdownTitle ?: segment.title,
                             subtitle = segment.markdownSubtitle ?: segment.subtitle,
