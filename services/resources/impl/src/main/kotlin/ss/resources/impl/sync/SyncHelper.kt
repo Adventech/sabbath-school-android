@@ -256,7 +256,7 @@ internal class SyncHelperImpl @Inject constructor(
     }
 
     private fun getNativeLanguageName(languageCode: String, languageName: String): String {
-        val loc = Locale(languageCode)
+        val loc = Locale.forLanguageTag(languageCode)
         val name = loc.getDisplayLanguage(loc).takeUnless { it == languageCode } ?: languageName
         return name.replaceFirstChar { it.uppercase() }
     }
