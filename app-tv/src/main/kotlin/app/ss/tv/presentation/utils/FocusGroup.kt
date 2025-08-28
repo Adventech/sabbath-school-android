@@ -23,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.currentCompositeKeyHash
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -55,15 +54,8 @@ fun FocusGroup(
     content: @Composable FocusGroupScope.() -> Unit
 ) {
     val focusManager = LocalFocusManager.current
-    val focusGroupKeyHash = currentCompositeKeyHash
 
-    // TODO: Is this the intended way to call rememberSaveable
-    //  with key set to parentHash?
-    val previousFocusedItemHash: MutableState<Int?> = rememberSaveable(
-        key = focusGroupKeyHash.toString()
-    ) {
-        mutableStateOf(null)
-    }
+    val previousFocusedItemHash = rememberSaveable { mutableStateOf<Int?>(null) }
 
     val state = FocusGroupState(previousFocusedItemHash = previousFocusedItemHash)
 
@@ -78,7 +70,7 @@ fun FocusGroup(
                             try {
                                 state.focusRequester.requestFocus()
                             } catch (e: Exception) {
-                                Timber.e("TvFocusGroup", "TvFocusGroup: Failed to request focus", e)
+                                Timber.e(e, "TvFocusGroup: Failed to request focus")
                             }
                         } else {
                             focusManager.moveFocus(FocusDirection.Enter)
@@ -108,20 +100,6 @@ class FocusGroupScope internal constructor(private val state: FocusGroupState) {
     @Composable
     fun Modifier.restorableFocus(): Modifier =
         this.restorableFocus(focusId = rememberSaveable { generateUniqueFocusableId() })
-
-    /**
-     * Modifier that marks the current composable as the item to gain focus initially when focus
-     * enters the [FocusGroup]. When focus enters the [FocusGroup], the item will be returned focus.
-     */
-    @SuppressLint("ComposableModifierFactory")
-    @Composable
-    fun Modifier.initiallyFocused(): Modifier {
-        val focusId = rememberSaveable { generateUniqueFocusableId() }
-        if (state.noRecordedState()) {
-            state.recordFocusedItemHash(focusId)
-        }
-        return this.restorableFocus(focusId)
-    }
 
     @SuppressLint("ComposableModifierFactory")
     @OptIn(ExperimentalComposeUiApi::class)
