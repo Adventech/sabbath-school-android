@@ -176,7 +176,6 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
 @Composable
 private fun OverlayContent(state: ResourceOverlayState?) {
     val hapticFeedback = LocalSsHapticFeedback.current
-    val context = LocalContext.current
 
     OverlayEffect(state) {
         when (state) {
