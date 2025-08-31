@@ -27,7 +27,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import app.ss.design.compose.extensions.list.ListEntity
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
@@ -39,12 +38,18 @@ import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.flow.map
 import ss.libraries.circuit.navigation.CustomTabsIntentScreen
 import ss.libraries.circuit.navigation.LoginScreen
 import ss.libraries.circuit.navigation.SettingsScreen
 import ss.settings.repository.SettingsEntity
 import ss.settings.repository.SettingsRepository
+import ss.settings.ui.SettingsScreenEntity
+import ss.settings.ui.toGroupedEntities
 
+/**
+ * Presents the settings screen and handles user interactions.
+ */
 class SettingsPresenter @AssistedInject constructor(
     @param:ApplicationContext private val context: Context,
     private val repository: SettingsRepository,
@@ -62,7 +67,11 @@ class SettingsPresenter @AssistedInject constructor(
         var isSwitchChecked by rememberRetained { mutableStateOf<Boolean?>(null) }
         var overlay by rememberRetained { mutableStateOf<Overlay?>(null) }
 
-        val entities by produceRetainedState<List<ListEntity>>(emptyList(), isSwitchChecked, overlay) {
+        val entities: List<SettingsScreenEntity> by produceRetainedState(
+            initialValue = emptyList(),
+            key1 = isSwitchChecked,
+            key2 = overlay
+        ) {
             repository.entitiesFlow { entity ->
                 when (entity) {
                     SettingsEntity.Account.Delete -> {
@@ -91,7 +100,9 @@ class SettingsPresenter @AssistedInject constructor(
                         overlay = Overlay.ConfirmRemoveDownloads
                     }
                 }
-            }.collect { value = it }
+            }
+                .map { flatList -> flatList.toGroupedEntities() }
+                .collect { groupedList -> value = groupedList }
         }
         return State(entities.toImmutableList(), overlay) { event ->
             when (event) {

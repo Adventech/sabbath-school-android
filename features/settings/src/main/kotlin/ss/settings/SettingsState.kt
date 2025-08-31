@@ -24,10 +24,10 @@ package ss.settings
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
-import app.ss.design.compose.extensions.list.ListEntity
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
+import ss.settings.ui.SettingsScreenEntity
 
 sealed interface Event : CircuitUiEvent {
     data object NavBack : Event
@@ -39,7 +39,7 @@ sealed interface Event : CircuitUiEvent {
 
 @Immutable
 data class State(
-    val entities: ImmutableList<ListEntity>,
+    val entities: ImmutableList<SettingsScreenEntity>,
     val overlay: Overlay?,
     val eventSick: (Event) -> Unit,
 ) : CircuitUiState

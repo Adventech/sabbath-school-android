@@ -23,16 +23,34 @@
 package app.ss.design.compose.widget.divider
 
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.theme.SsTheme
 
+/**
+ * A divider that separates items in a list.
+ *
+ * @param modifier The modifier to be applied to the divider.
+ */
 @Composable
 fun Divider(modifier: Modifier = Modifier) {
     HorizontalDivider(
         color = SsTheme.colors.dividers,
         thickness = 0.5.dp,
         modifier = modifier
+    )
+}
+
+/**
+ * A divider that separates items in a list in the expressive style.
+ *
+ * @param modifier The modifier to be applied to the divider.
+ */
+@Composable
+fun ExpressiveDivider(modifier: Modifier = Modifier) {
+    HorizontalDivider(
+        color = MaterialTheme.colorScheme.surface
     )
 }
