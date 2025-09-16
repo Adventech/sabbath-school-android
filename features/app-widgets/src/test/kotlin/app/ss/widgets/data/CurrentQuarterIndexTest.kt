@@ -54,7 +54,7 @@ class CurrentQuarterIndexTest {
 
         val index = CurrentQuarterIndex(currentDate, "en")
 
-        index shouldBeEqualTo "en-2025-02"
+        index shouldBeEqualTo "en-2025-01"
     }
 
     @Test
@@ -68,7 +68,7 @@ class CurrentQuarterIndexTest {
 
         val index = CurrentQuarterIndex(currentDate, "en")
 
-        index shouldBeEqualTo "en-2025-03"
+        index shouldBeEqualTo "en-2025-02"
     }
 
     @Test
@@ -82,7 +82,7 @@ class CurrentQuarterIndexTest {
 
         val index = CurrentQuarterIndex(currentDate, "en")
 
-        index shouldBeEqualTo "en-2025-04"
+        index shouldBeEqualTo "en-2025-03"
     }
 
     @Test

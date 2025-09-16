@@ -23,7 +23,6 @@
 package app.ss.widgets.data
 
 import org.joda.time.DateTimeConstants
-import org.joda.time.Days
 import org.joda.time.LocalDate
 
 object CurrentQuarterIndex {
@@ -36,25 +35,30 @@ object CurrentQuarterIndex {
      * @return A string representing the quarter index in the format "languageCode-year-quarter".
      */
     operator fun invoke(currentDate: LocalDate, languageCode: String): String {
-        val year = currentDate.year
-        val firstSaturday = getFirstSaturdayOfYear(year)
+        var year = currentDate.year
 
-        // Calculate exact week number (Sat-Fri weeks)
-        val daysBetween = Days.daysBetween(firstSaturday, currentDate).days
-        val weekNumber = if (daysBetween >= 0) (daysBetween / 7) + 1 else 1
+        val q1 = firstSaturdayOnOrAfter(LocalDate(year, 1, 1))
+        val q2 = firstSaturdayOnOrAfter(LocalDate(year, 4, 1))
+        val q3 = firstSaturdayOnOrAfter(LocalDate(year, 7, 1))
+        val q4 = firstSaturdayOnOrAfter(LocalDate(year, 10, 1))
 
-        // Quarter mapping (12 weeks per quarter)
-        val quarter = when (weekNumber) {
-            in 1..12 -> "01"   // Q1 (Weeks 1-12)
-            in 13..24 -> "02"  // Q2 (Weeks 13-24)
-            in 25..36 -> "03"  // Q3 (Weeks 25-36)
-            else -> "04"       // Q4 (Weeks 37+)
+        val quarter = when {
+            currentDate < q1 -> {
+                // We're in the tail of last year's Q4
+                year -= 1
+                "04"
+            }
+            currentDate < q2 -> "01"
+            currentDate < q3 -> "02"
+            currentDate < q4 -> "03"
+            else -> "04"
         }
+
         return "$languageCode-$year-$quarter"
     }
 
-    private fun getFirstSaturdayOfYear(year: Int): LocalDate {
-        var date = LocalDate(year, 1, 1)
+    private fun firstSaturdayOnOrAfter(start: LocalDate): LocalDate {
+        var date = start
         while (date.dayOfWeek != DateTimeConstants.SATURDAY) {
             date = date.plusDays(1)
         }
