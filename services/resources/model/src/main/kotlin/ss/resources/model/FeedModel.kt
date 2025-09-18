@@ -22,8 +22,10 @@
 
 package ss.resources.model
 
+import androidx.annotation.Keep
 import io.adventech.blockkit.model.feed.FeedGroup
 
+@Keep
 data class FeedModel(
     val title: String,
     val groups: List<FeedGroup>

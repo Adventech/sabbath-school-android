@@ -31,6 +31,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
@@ -71,7 +72,8 @@ internal fun SegmentBlocksContent(
     LazyColumn(
         modifier = modifier
             .fillMaxWidth()
-            .background(readerStyle.theme.background()),
+            .background(readerStyle.theme.background())
+            .imePadding(),
         state = listState,
         verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
@@ -80,7 +82,7 @@ internal fun SegmentBlocksContent(
                 cover = segment.cover,
                 modifier = Modifier.animateItem(),
                 headerContent = {
-                    if ((segment.titleBelowCover ?: titleBelowCover) == false) {
+                    if (!(segment.titleBelowCover ?: titleBelowCover)) {
                         SegmentHeader(
                             title = segment.markdownTitle ?: segment.title,
                             subtitle = segment.markdownSubtitle ?: segment.subtitle,

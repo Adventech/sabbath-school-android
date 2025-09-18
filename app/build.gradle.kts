@@ -39,7 +39,7 @@ val appVersionCode = readPropertyValue(
     filePath = BuildAndroidConfig.VERSION_PROPS_FILE,
     key = "BUILD_NUMBER",
     defaultValue = "1"
-).toInt() + 21860
+).toInt() + 21870
 
 val webClientId = readPropertyValue(
     filePath = "$rootDir/${BuildAndroidConfig.API_KEYS_PROPS_FILE}",
@@ -218,7 +218,7 @@ object BuildAndroidConfig {
 
     object Version {
         private const val MAJOR = 5
-        private const val MINOR = 7
+        private const val MINOR = 8
         private const val PATCH = 0
 
         const val name = "$MAJOR.$MINOR.$PATCH"

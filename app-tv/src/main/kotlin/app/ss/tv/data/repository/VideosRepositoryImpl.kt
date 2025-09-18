@@ -100,7 +100,7 @@ class VideosRepositoryImpl @Inject constructor(
 
     private fun List<String>.toModel(): List<SSLanguage> {
         return map { code ->
-            val loc = Locale(code)
+            val loc = Locale.forLanguageTag(code)
             val name = loc.getDisplayLanguage(loc).takeUnless { it == code } ?: ""
             SSLanguage(
                 code = code,

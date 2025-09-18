@@ -22,9 +22,11 @@
 
 package ss.resources.model
 
+import androidx.annotation.Keep
 import io.adventech.blockkit.model.resource.ResourceFontAttributes
 import java.io.File
 
+@Keep
 data class FontModel(
     val file: File,
     val attributes: ResourceFontAttributes,

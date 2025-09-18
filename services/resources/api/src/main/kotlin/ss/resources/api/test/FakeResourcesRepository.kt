@@ -35,6 +35,7 @@ import io.adventech.blockkit.model.resource.ResourceDocument
 import io.adventech.blockkit.model.resource.Segment
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flow
 import ss.resources.api.ResourcesRepository
 import ss.resources.model.FeedModel
 import ss.resources.model.FontModel
@@ -44,6 +45,12 @@ import ss.resources.model.LanguageModel
 class FakeResourcesRepository(
     private val languagesFlow: Flow<List<LanguageModel>> = emptyFlow()
 ) : ResourcesRepository {
+
+    private val fonts = mutableMapOf<String, FontModel?>()
+
+    fun setFont(name: String, model: FontModel?) {
+        fonts[name] = model
+    }
 
     override fun languages(query: String?): Flow<List<LanguageModel>> = languagesFlow
 
@@ -101,7 +108,9 @@ class FakeResourcesRepository(
     }
 
     override fun fontFile(fontName: String): Flow<FontModel?> {
-        TODO("Not yet implemented")
+        return flow {
+            emit(fonts[fontName])
+        }
     }
 
     override fun bibleVersion(): Flow<String?> {

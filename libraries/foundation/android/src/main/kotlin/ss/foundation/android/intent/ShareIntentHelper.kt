@@ -172,15 +172,15 @@ internal class ShareIntentHelperImpl @Inject constructor(
         val request = Request.Builder().url(fileUrl).build()
         val response = client.newCall(request).await()
 
-        if (!response.isSuccessful || response.body == null) {
+        if (!response.isSuccessful) {
             Toast.makeText(context, "Failed to download file", Toast.LENGTH_SHORT).show()
             return null
         }
 
         val sink = FileOutputStream(file)
-        response.body?.byteStream().use { input ->
+        response.body.byteStream().use { input ->
             sink.use { output ->
-                input?.copyTo(output)
+                input.copyTo(output)
             }
         }
 
