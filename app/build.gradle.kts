@@ -53,7 +53,7 @@ android {
     defaultConfig {
         applicationId = BuildAndroidConfig.APP_ID
 
-        versionCode = 22753
+        versionCode = 22794
         versionName = BuildAndroidConfig.Version.name
 
         testInstrumentationRunner = "com.cryart.sabbathschool.SSAppTestRunner"
@@ -218,8 +218,8 @@ object BuildAndroidConfig {
 
     object Version {
         private const val MAJOR = 5
-        private const val MINOR = 7
-        private const val PATCH = 3
+        private const val MINOR = 8
+        private const val PATCH = 1
 
         const val name = "$MAJOR.$MINOR.$PATCH"
     }
