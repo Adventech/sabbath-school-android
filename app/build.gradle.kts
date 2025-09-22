@@ -53,7 +53,7 @@ android {
     defaultConfig {
         applicationId = BuildAndroidConfig.APP_ID
 
-        versionCode = 22794
+        versionCode = 22795
         versionName = BuildAndroidConfig.Version.name
 
         testInstrumentationRunner = "com.cryart.sabbathschool.SSAppTestRunner"
