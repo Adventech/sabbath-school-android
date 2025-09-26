@@ -87,7 +87,10 @@ android {
         val release by getting {
             isShrinkResources = true
             isMinifyEnabled = true
-            proguardFiles("proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
             if (useReleaseKeystore) {
                 signingConfig = signingConfigs.getByName("release")
             }
@@ -218,7 +221,7 @@ object BuildAndroidConfig {
 
     object Version {
         private const val MAJOR = 5
-        private const val MINOR = 8
+        private const val MINOR = 9
         private const val PATCH = 0
 
         const val name = "$MAJOR.$MINOR.$PATCH"
