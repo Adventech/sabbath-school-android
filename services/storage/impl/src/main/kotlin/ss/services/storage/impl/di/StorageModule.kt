@@ -39,6 +39,7 @@ import ss.libraries.storage.api.dao.LanguagesDao
 import ss.libraries.storage.api.dao.LessonsDao
 import ss.libraries.storage.api.dao.PublishingInfoDao
 import ss.libraries.storage.api.dao.QuarterliesDao
+import ss.libraries.storage.api.dao.QuarterlyIndexDao
 import ss.libraries.storage.api.dao.ReadsDao
 import ss.libraries.storage.api.dao.ResourcesDao
 import ss.libraries.storage.api.dao.SegmentsDao
@@ -70,6 +71,12 @@ object StorageModule {
     fun provideQuarterliesDao(
         @ApplicationContext context: Context
     ): QuarterliesDao = context.database().quarterliesDao()
+
+    @Provides
+    @Singleton
+    fun provideQuarterlyIndexDao(
+        @ApplicationContext context: Context
+    ): QuarterlyIndexDao = context.database().quarterlyIndexDao()
 
     @Provides
     @Singleton

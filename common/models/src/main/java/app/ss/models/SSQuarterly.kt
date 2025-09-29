@@ -22,6 +22,7 @@
 package app.ss.models
 
 import androidx.annotation.Keep
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import io.adventech.blockkit.model.resource.Credit
 import io.adventech.blockkit.model.resource.Feature
@@ -49,4 +50,21 @@ data class SSQuarterly(
     val features: List<Feature> = emptyList(),
     val credits: List<Credit> = emptyList(),
     val offlineState: OfflineState = OfflineState.NONE,
+)
+
+@Keep
+@JsonClass(generateAdapter = true)
+data class SSQuarterlyIndex(
+    val id: String,
+
+    val index: String,
+
+    @param:Json(name = "lang")
+    val language: String,
+
+    @param:Json(name = "start_date")
+    val startDate: String,
+
+    @param:Json(name = "end_date")
+    val endDate: String,
 )

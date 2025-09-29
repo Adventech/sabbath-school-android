@@ -24,8 +24,10 @@ package ss.lessons.impl.ext
 
 import app.ss.models.OfflineState
 import app.ss.models.SSQuarterly
+import app.ss.models.SSQuarterlyIndex
 import app.ss.models.SSQuarterlyInfo
 import ss.libraries.storage.api.entity.QuarterlyEntity
+import ss.libraries.storage.api.entity.QuarterlyIndexEntity
 import ss.libraries.storage.api.entity.QuarterlyInfoEntity
 
 internal fun SSQuarterly.toEntity(
@@ -51,6 +53,14 @@ internal fun SSQuarterly.toEntity(
     features = features,
     credits = credits,
     offlineState = offlineState,
+)
+
+internal fun SSQuarterlyIndex.toEntity(): QuarterlyIndexEntity = QuarterlyIndexEntity(
+    id = id,
+    index = index,
+    language = language,
+    startDate = startDate,
+    endDate = endDate,
 )
 
 internal fun QuarterlyEntity.toModel(): SSQuarterly = SSQuarterly(
@@ -79,4 +89,12 @@ internal fun QuarterlyEntity.toModel(): SSQuarterly = SSQuarterly(
 internal fun QuarterlyInfoEntity.toModel(): SSQuarterlyInfo = SSQuarterlyInfo(
     quarterly = quarterly.toModel(),
     lessons = lessons.sortedBy { it.order }.map { it.toModel() }
+)
+
+internal fun QuarterlyIndexEntity.toModel(): SSQuarterlyIndex = SSQuarterlyIndex(
+    id = id,
+    index = index,
+    language = language,
+    startDate = startDate,
+    endDate = endDate,
 )

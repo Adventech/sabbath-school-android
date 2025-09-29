@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.widgets.data
+package ss.lessons.impl.repository
 
 import org.amshove.kluent.shouldBeEqualTo
 import org.joda.time.LocalDate

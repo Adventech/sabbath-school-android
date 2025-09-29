@@ -123,6 +123,6 @@ object DateHelper {
         val now = DateTime.now().withTimeAtStartOfDay()
         val start = parseDate(startDate) ?: return false
         val end = parseDate(endDate) ?: return false
-        return (start.isBefore(now) == true || start.isEqual(now) == true) && (end.isAfter(now) == true || end.isEqual(now) == true)
+        return (start.isBefore(now) || start.isEqual(now)) && (end.isAfter(now) || end.isEqual(now))
     }
 }

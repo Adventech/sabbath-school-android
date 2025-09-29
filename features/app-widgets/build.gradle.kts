@@ -61,8 +61,6 @@ dependencies {
     implementation(projects.libraries.prefs.api)
     implementation(projects.libraries.storage.api)
 
-    testImplementation(libs.bundles.testing.common)
-
     ksp(libs.androidx.hilt.compiler)
     ksp(libs.google.hilt.compiler)
 }

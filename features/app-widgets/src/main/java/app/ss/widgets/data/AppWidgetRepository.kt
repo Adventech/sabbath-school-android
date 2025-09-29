@@ -40,9 +40,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
-import org.joda.time.LocalDate
 import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.helper.SyncHelper
+import ss.lessons.api.repository.QuarterlyIndexRepository
 import ss.libraries.storage.api.dao.AppWidgetDao
 import ss.libraries.storage.api.entity.AppWidgetEntity
 import ss.misc.DateHelper.formatDate
@@ -69,17 +69,15 @@ class AppWidgetRepositoryImpl @Inject constructor(
     private val ssPrefs: SSPrefs,
     private val widgetAction: AppWidgetAction,
     private val syncHelper: SyncHelper,
+    private val quarterlyIndexRepository: QuarterlyIndexRepository,
     private val dispatcherProvider: DispatcherProvider,
 ) : AppWidgetRepository {
 
     private val today get() = DateTime.now().withTimeAtStartOfDay()
 
-    private fun defaultQuarterlyIndex(
+    private suspend fun defaultQuarterlyIndex(
         languageCode: String = ssPrefs.getLanguageCode()
-    ): String = CurrentQuarterIndex(
-        currentDate = LocalDate.now(),
-        languageCode = languageCode,
-    )
+    ): String = quarterlyIndexRepository(languageCode)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun latestAppWidgetEntity(): Flow<AppWidgetEntity?> {
