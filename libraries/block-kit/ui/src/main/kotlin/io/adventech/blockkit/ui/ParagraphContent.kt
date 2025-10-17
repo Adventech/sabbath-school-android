@@ -121,19 +121,20 @@ private fun SelectableParagraph(
     var localHighlights by remember(highlights) { mutableStateOf(highlights) }
     var localUnderlines by remember(underlines) { mutableStateOf(underlines) }
 
-    var textFieldValue by remember { mutableStateOf<TextFieldValue?>(null) }
-    var currentSelection by remember(textFieldValue) { mutableStateOf(textFieldValue?.selection) }
+    var textFieldValue by remember(blockItem.markdown) {
+        mutableStateOf(TextFieldValue(blockItem.markdown))
+    }
+    val currentSelection = textFieldValue.selection
+
     fun clearSelection() {
-        textFieldValue?.let { tfv ->
-            textFieldValue = tfv.copy(selection = TextRange(tfv.selection.end))
-        }
+        val safe = textFieldValue.selection.max.coerceIn(0, textFieldValue.text.length)
+        textFieldValue = textFieldValue.copy(selection = TextRange(safe))
     }
 
     SelectionBlockContainer(
         selection = currentSelection,
         modifier = modifier,
         onHighlight = { highlight ->
-            clearSelection()
             val input: UserInput.Highlights? = inputState?.find(blockItem.id)
             val highlights = input?.highlights.orEmpty() + highlight
             val request = UserInputRequest.Highlights(
@@ -142,10 +143,11 @@ private fun SelectableParagraph(
             )
             localHighlights = highlights.toImmutableList()
             inputState?.eventSink?.invoke(UserInputState.Event.InputChanged(request))
+            clearSelection()
         },
         onRemoveHighlight = {
             // Remove any highlight who's startIndex and endIndex are in the range of the current selection
-            val selection = currentSelection ?: return@SelectionBlockContainer
+            val selection = currentSelection
             val input: UserInput.Highlights? = inputState?.find(blockItem.id)
             val highlights = removeHighlightsInRange(input?.highlights.orEmpty(), selection)
             val request = UserInputRequest.Highlights(
@@ -157,22 +159,22 @@ private fun SelectableParagraph(
             clearSelection()
         },
         onSearchSelection = { selection ->
-            val text = textFieldValue?.text ?: return@SelectionBlockContainer
+            val text = textFieldValue.text
             val start = selection.min.coerceIn(0, text.length)
             val end = selection.max.coerceIn(start, text.length)
 
             val searchText = text.substring(start, end).trim()
 
-            clearSelection()
             if (searchText.isNotBlank()) {
                 onSearchSelection(context, searchText)
             }
+            clearSelection()
         },
         onUnderLine = { underline ->
-            val selection = currentSelection ?: return@SelectionBlockContainer
-            clearSelection()
+            val selection = currentSelection
             val input: UserInput.Underlines? = inputState?.find(blockItem.id)
             val existingUnderlines = input?.underlines.orEmpty()
+
             if (underlinesInRange(existingUnderlines, selection).isNotEmpty()) {
                 // If there are existing underlines in the selection range, remove them
                 val updatedUnderlines = removeUnderlinesInRange(existingUnderlines, selection)
@@ -185,21 +187,20 @@ private fun SelectableParagraph(
                         )
                     )
                 )
-                return@SelectionBlockContainer
+            } else {
+                val underlines = existingUnderlines + underline
+                val request = UserInputRequest.Underlines(
+                    blockId = blockItem.id,
+                    underlines = underlines
+                )
+                localUnderlines = underlines.toImmutableList()
+                inputState?.eventSink?.invoke(UserInputState.Event.InputChanged(request))
             }
-
-            val underlines = existingUnderlines + underline
-
-            val request = UserInputRequest.Underlines(
-                blockId = blockItem.id,
-                underlines = underlines
-            )
-            localUnderlines = underlines.toImmutableList()
-            inputState?.eventSink?.invoke(UserInputState.Event.InputChanged(request))
+            clearSelection()
         },
         onRemoveUnderline = {
             // Remove any underline who's startIndex and endIndex are in the range of the current selection
-            val selection = currentSelection ?: return@SelectionBlockContainer
+            val selection = currentSelection
             val input: UserInput.Underlines? = inputState?.find(blockItem.id)
             val underlines = removeUnderlinesInRange(input?.underlines.orEmpty(), selection)
             val request = UserInputRequest.Underlines(
@@ -212,10 +213,9 @@ private fun SelectableParagraph(
         }
     ) { textModifier ->
         MarkdownTextInput(
-            markdownText = blockItem.markdown,
+            value = textFieldValue,
             onValueChange = { textFieldValue = it },
             modifier = textModifier,
-            selection = currentSelection ?: TextRange.Zero,
             color = Styler.textColor(blockStyle),
             style = Styler.textStyle(blockStyle),
             textAlign = Styler.textAlign(blockStyle),

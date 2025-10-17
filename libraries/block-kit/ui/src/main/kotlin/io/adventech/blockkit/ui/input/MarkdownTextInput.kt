@@ -29,14 +29,11 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextLayoutResult
-import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -63,10 +60,9 @@ import me.saket.extendedspans.drawBehind
  */
 @Composable
 internal fun MarkdownTextInput(
-    markdownText: String,
+    value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
     modifier: Modifier = Modifier,
-    selection: TextRange = TextRange.Zero,
     color: Color = MaterialTheme.colorScheme.onSurface,
     style: TextStyle = MaterialTheme.typography.bodyLarge,
     textAlign: TextAlign? = null,
@@ -76,7 +72,7 @@ internal fun MarkdownTextInput(
     underlines: ImmutableList<Underline> = persistentListOf(),
     onHandleUri: (String) -> Unit = {},
 ) {
-    val styledText = rememberMarkdownText(markdownText, style, styleTemplate, color, highlights, underlines)
+    val styledText = rememberMarkdownText(value.text, style, styleTemplate, color, highlights, underlines)
 
     val layoutResult = remember { mutableStateOf<TextLayoutResult?>(null) }
 
@@ -95,14 +91,10 @@ internal fun MarkdownTextInput(
     }
 
     val text = remember(styledText) { extendedSpans.extend(styledText) }
-    var textFieldValue by remember(text, selection) { mutableStateOf(TextFieldValue(text, selection)) }
 
     BasicTextField(
-        value = textFieldValue,
-        onValueChange = {
-            textFieldValue = it
-            onValueChange(it)
-        },
+        value = value.copy(annotatedString = text),
+        onValueChange = onValueChange,
         modifier = modifier
             .fillMaxWidth()
             .drawBehind(extendedSpans),
