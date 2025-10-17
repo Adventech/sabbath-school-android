@@ -25,6 +25,7 @@ package ss.feed.group
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -35,9 +36,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.theme.SsTheme
-import app.ss.design.compose.widget.appbar.SsTopAppBar
-import app.ss.design.compose.widget.appbar.TopAppBarSpec
-import app.ss.design.compose.widget.appbar.TopAppBarType
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.scaffold.HazeScaffold
@@ -58,8 +56,7 @@ fun FeedGroupUi(state: State, modifier: Modifier = Modifier) {
     HazeScaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            SsTopAppBar(
-                spec = TopAppBarSpec(TopAppBarType.Large),
+            LargeTopAppBar(
                 modifier = Modifier,
                 title = { Text(text = state.title) },
                 navigationIcon = {
@@ -71,7 +68,7 @@ fun FeedGroupUi(state: State, modifier: Modifier = Modifier) {
                     }
                 },
                 scrollBehavior = scrollBehavior,
-                colors = TopAppBarDefaults.largeTopAppBarColors(
+                colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color.Transparent,
                     scrolledContainerColor = Color.Transparent,
                 )
