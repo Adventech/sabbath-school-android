@@ -36,11 +36,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.input.Highlight
@@ -54,12 +56,15 @@ import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.input.find
 import io.adventech.blockkit.ui.input.rememberContentHighlights
 import io.adventech.blockkit.ui.input.rememberContentUnderlines
+import io.adventech.blockkit.ui.style.BlockStyleTemplate
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.theme.BlocksDynamicPreviewTheme
 import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
 import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.collections.immutable.toImmutableList
+import me.saket.extendedspans.ExtendedSpans
+import me.saket.extendedspans.RoundedCornerSpanPainter
 
 @Composable
 internal fun ParagraphContent(
@@ -121,9 +126,32 @@ private fun SelectableParagraph(
     var localHighlights by remember(highlights) { mutableStateOf(highlights) }
     var localUnderlines by remember(underlines) { mutableStateOf(underlines) }
 
-    var textFieldValue by remember(blockItem.markdown) {
-        mutableStateOf(TextFieldValue(blockItem.markdown))
+    val styledText = rememberMarkdownText(
+        markdownText = blockItem.markdown,
+        style = Styler.textStyle(blockStyle),
+        styleTemplate = BlockStyleTemplate.DEFAULT,
+        color = Styler.textColor(blockStyle),
+        highlights = localHighlights,
+        underlines = localUnderlines,
+    )
+
+    val extendedSpans = remember {
+        ExtendedSpans(
+            RoundedCornerSpanPainter(
+                cornerRadius = 6.sp,
+                padding = RoundedCornerSpanPainter.TextPaddingValues(horizontal = 4.sp),
+                topMargin = 2.sp,
+                bottomMargin = 2.sp,
+                stroke = RoundedCornerSpanPainter.Stroke(
+                    color = Color.Transparent,
+                ),
+            )
+        )
     }
+
+    val text = remember(styledText) { extendedSpans.extend(styledText) }
+    var textFieldValue by remember(text) { mutableStateOf(TextFieldValue(text)) }
+
     val currentSelection = textFieldValue.selection
 
     fun clearSelection() {
@@ -215,13 +243,11 @@ private fun SelectableParagraph(
         MarkdownTextInput(
             value = textFieldValue,
             onValueChange = { textFieldValue = it },
+            extendedSpans = extendedSpans,
             modifier = textModifier,
-            color = Styler.textColor(blockStyle),
             style = Styler.textStyle(blockStyle),
             textAlign = Styler.textAlign(blockStyle),
             onHandleUri = onHandleUri,
-            highlights = localHighlights,
-            underlines = localUnderlines,
         )
     }
 }
