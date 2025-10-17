@@ -122,19 +122,23 @@ private fun SelectableParagraph(
     var localUnderlines by remember(underlines) { mutableStateOf(underlines) }
 
     var textFieldValue by remember { mutableStateOf<TextFieldValue?>(null) }
-    val currentSelection = textFieldValue?.selection
+    var currentSelection by remember(textFieldValue) { mutableStateOf(textFieldValue?.selection) }
+    fun clearSelection() {
+        textFieldValue?.let { tfv ->
+            textFieldValue = tfv.copy(selection = TextRange(tfv.selection.end))
+        }
+    }
 
     SelectionBlockContainer(
         selection = currentSelection,
+        modifier = modifier,
         onHighlight = { highlight ->
-            textFieldValue = textFieldValue?.copy(
-                selection = TextRange.Zero,
-            )
+            clearSelection()
             val input: UserInput.Highlights? = inputState?.find(blockItem.id)
             val highlights = input?.highlights.orEmpty() + highlight
             val request = UserInputRequest.Highlights(
                 blockId = blockItem.id,
-                highlights = highlights
+                highlights = highlights,
             )
             localHighlights = highlights.toImmutableList()
             inputState?.eventSink?.invoke(UserInputState.Event.InputChanged(request))
@@ -150,9 +154,7 @@ private fun SelectableParagraph(
             )
             localHighlights = highlights.toImmutableList()
             inputState?.eventSink?.invoke(UserInputState.Event.InputChanged(request))
-            textFieldValue = textFieldValue?.copy(
-                selection = TextRange.Zero,
-            )
+            clearSelection()
         },
         onSearchSelection = { selection ->
             val text = textFieldValue?.text ?: return@SelectionBlockContainer
@@ -161,18 +163,14 @@ private fun SelectableParagraph(
 
             val searchText = text.substring(start, end).trim()
 
-            textFieldValue = textFieldValue?.copy(
-                selection = TextRange.Zero,
-            )
+            clearSelection()
             if (searchText.isNotBlank()) {
                 onSearchSelection(context, searchText)
             }
         },
         onUnderLine = { underline ->
             val selection = currentSelection ?: return@SelectionBlockContainer
-            textFieldValue = textFieldValue?.copy(
-                selection = TextRange.Zero,
-            )
+            clearSelection()
             val input: UserInput.Underlines? = inputState?.find(blockItem.id)
             val existingUnderlines = input?.underlines.orEmpty()
             if (underlinesInRange(existingUnderlines, selection).isNotEmpty()) {
@@ -210,15 +208,13 @@ private fun SelectableParagraph(
             )
             localUnderlines = underlines.toImmutableList()
             inputState?.eventSink?.invoke(UserInputState.Event.InputChanged(request))
-            textFieldValue = textFieldValue?.copy(
-                selection = TextRange.Zero,
-            )
+            clearSelection()
         }
-    ) {
+    ) { textModifier ->
         MarkdownTextInput(
             markdownText = blockItem.markdown,
             onValueChange = { textFieldValue = it },
-            modifier = modifier,
+            modifier = textModifier,
             selection = currentSelection ?: TextRange.Zero,
             color = Styler.textColor(blockStyle),
             style = Styler.textStyle(blockStyle),
