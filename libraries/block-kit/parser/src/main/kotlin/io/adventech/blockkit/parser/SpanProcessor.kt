@@ -20,37 +20,22 @@
  * THE SOFTWARE.
  */
 
-package io.adventech.blockkit.parser.span
+package io.adventech.blockkit.parser
 
+import androidx.compose.runtime.Stable
+import io.adventech.blockkit.parser.span.Block
+import io.adventech.blockkit.parser.span.Span
+import io.adventech.blockkit.parser.span.TextAttributes
 import kotlinx.collections.immutable.toImmutableList
 
-
-/**
- * Helper class to process a markdown string into a list of [Span]s, correctly
- * separating custom styled text from standard markdown content and handling
- * wrapping attribute markers.
- */
+@Stable
 class SpanProcessor {
-    companion object {
-        // Updated regex to capture the styled text (group 1) and the JSON object (group 3)
-        private val STYLED_REGEX = Regex("""\^\[(.*?)\]\(\s*?(\{.+?\}\s*?)\)""")
 
-        // Regexes anchored to start/end for top-level stripping
-        // Capture optional leading/trailing spaces outside the markers
-        private val BOLD_REGEX = Regex("""(\s*)(\*\*|__)(.*?)(\*\*|__)(\s*)""")
-        private val ITALIC_REGEX = Regex("""(\s*)(\*|_)(.*?)(\*|_)(\s*)""")
-        private val STRIKETHROUGH_REGEX = Regex("""(\s*)~~(.*?)~~(\s*)""")
-        private val STANDARD_LINK_REGEX = Regex("""(!?\[(.*?)\]\((.*?)\))""")
-
-        // Regex for splitting by all attribute delimiters, capturing them
-        private val ALL_DELIMITERS_REGEX = Regex("(\\*\\*|__|[*_]|~~)")
-        private val MARKER_BOLD_REGEX = Regex("""\*\*|__""")
-        private val MARKER_ITALIC_REGEX = Regex("""\*|_""")
-        private val MARKER_STRIKETHROUGH_REGEX = Regex("""~~""")
-
-        private const val ZERO_WIDTH_SPACE = "\u200B"
-    }
-
+    /**
+     * Processes a markdown string into a [Block], correctly
+     * separating custom styled text from standard markdown content and handling
+     * wrapping attribute markers.
+     */
     fun process(markdown: String): Block {
         var cleanMarkdown = markdown
         var blockAttributes: TextAttributes? = null
@@ -93,38 +78,38 @@ class SpanProcessor {
         return Block(spans = finalSpans.toImmutableList(), attributes = blockAttributes)
     }
 
-    // only used for STYLED tokens
+    // Internal token representation
     private data class Token(
         val text: String,
         val type: TokenType,
         val styledJson: String? = null,
     )
 
-    private enum class TokenType { TEXT, DELIMITER, STYLED }
+    private enum class TokenType { TEXT, DELIMITER, STYLED, STANDARD_LINK }
 
     /**
-     * Turn the input into a list of Tokens where STYLED tokens are atomic and never
-     * get split by delimiter regexes.
+     * Turn the input into a list of Tokens where STYLED and STANDARD_LINK tokens are atomic
+     * and never get split by delimiter regexes.
      */
     private fun tokenizePreservingStyled(input: String): List<Token> {
         val tokens = mutableListOf<Token>()
         var lastIndex = 0
 
-        // Walk all styled matches first
+        // 1. First pass: Tokenize STYLED matches
         val styledMatches = STYLED_REGEX.findAll(input).toList()
         for (m in styledMatches) {
             val start = m.range.first
             val end = m.range.last + 1
 
-            // Add plain slice before this styled match (will be split into delimiters later)
+            // Add plain slice before this styled match
             if (start > lastIndex) {
                 tokens.add(Token(input.substring(lastIndex, start), TokenType.TEXT))
             }
 
             // Add the styled token as atomic
             val styledText = m.groupValues[1] // inner text
-            val json = m.groupValues[2]       // json payload (group 2)
-            // Keep the raw inner text (do not alter spaces here)
+            // Trim Group 2 to ensure a clean JSON string is stored
+            val json = m.groupValues[2].trim()
             tokens.add(Token(styledText, TokenType.STYLED, styledJson = json))
 
             lastIndex = end
@@ -135,13 +120,46 @@ class SpanProcessor {
             tokens.add(Token(input.substring(lastIndex), TokenType.TEXT))
         }
 
-        // Now split any TEXT tokens by delimiters and produce DELIMITER tokens too.
-        val finalTokens = mutableListOf<Token>()
-        val delimiterRegex = ALL_DELIMITERS_REGEX
+        // 2. Intermediate pass: Tokenize STANDARD_LINK matches within existing TEXT tokens
+        val tokensWithLinks = mutableListOf<Token>()
+        val standardLinkRegex = STANDARD_LINK_REGEX
 
         for (t in tokens) {
             if (t.type != TokenType.TEXT) {
-                finalTokens.add(t) // STYLED passes through unchanged
+                tokensWithLinks.add(t) // STYLED tokens pass through
+                continue
+            }
+
+            val text = t.text
+            var cursor = 0
+            standardLinkRegex.findAll(text).forEach { m ->
+                val s = m.range.first
+                val e = m.range.last + 1
+
+                // Add plain text before the link
+                if (s > cursor) {
+                    tokensWithLinks.add(Token(text.substring(cursor, s), TokenType.TEXT))
+                }
+
+                // Add the entire link as an atomic STANDARD_LINK token
+                // m.value contains the full link string (e.g., "[text](url)")
+                tokensWithLinks.add(Token(m.value, TokenType.STANDARD_LINK))
+                cursor = e
+            }
+
+            // Add remaining tail text
+            if (cursor < text.length) {
+                tokensWithLinks.add(Token(text.substring(cursor), TokenType.TEXT))
+            }
+        }
+
+        // 3. Final pass: Split remaining pure TEXT tokens by delimiters
+        val finalTokens = mutableListOf<Token>()
+        val delimiterRegex = ALL_DELIMITERS_REGEX
+
+        for (t in tokensWithLinks) {
+            if (t.type != TokenType.TEXT) {
+                finalTokens.add(t) // STYLED and STANDARD_LINK pass through unchanged
                 continue
             }
 
@@ -167,10 +185,6 @@ class SpanProcessor {
 
     /**
      * Produce the final Spans from the token stream.
-     * - Maintains currentAttributes toggled by DELIMITER tokens.
-     * - For TEXT tokens: create Span.Markdown (with currentAttributes applied).
-     * - For STYLED tokens: call extractAttributesAndCleanText on the inner text (non-destructively),
-     *   merge any inner attributes with currentAttributes and emit Span.StyledMarkdown.
      */
     private fun resolveSegments(text: String): List<Span> {
         val tokens = tokenizePreservingStyled(text)
@@ -186,6 +200,14 @@ class SpanProcessor {
                 TokenType.TEXT -> {
                     // Plain markdown text — preserve spaces exactly and attach current attributes (if any)
                     val attrs = if (currentAttributes.hasAttributes()) currentAttributes else null
+                    // Re-adding ZWSP guards to prevent CommonMark from cross-boundary parsing
+                    spans.add(Span.Markdown(text = "$ZERO_WIDTH_SPACE${token.text}$ZERO_WIDTH_SPACE", attributes = attrs))
+                }
+
+                TokenType.STANDARD_LINK -> {
+                    // Standard Markdown Link (treated as atomic TEXT for CommonMark)
+                    val attrs = if (currentAttributes.hasAttributes()) currentAttributes else null
+                    // Re-adding ZWSP guards to prevent CommonMark from cross-boundary parsing
                     spans.add(Span.Markdown(text = "$ZERO_WIDTH_SPACE${token.text}$ZERO_WIDTH_SPACE", attributes = attrs))
                 }
 
@@ -195,8 +217,7 @@ class SpanProcessor {
                     val inner = token.text
                     val json = token.styledJson ?: "{}"
 
-                    // Extract inner attributes (non-destructive). This returns attributes
-                    // but does not mutate the inner text (so spaces remain intact).
+                    // Extract inner attributes (non-destructive).
                     val innerAttributesResult = extractAttributesAndCleanText(inner)
 
                     // Merge surrounding attributes (currentAttributes) with inner attributes
@@ -234,10 +255,10 @@ class SpanProcessor {
         }
     }
 
-    private fun extractAttributesAndCleanText(text: String): BlockInternal {
+    // --- Only detect delimiter attrs if the ENTIRE string is wrapped ---
+    private fun extractAttributesAndCleanText(text: String): TextAttributeResult {
         var collectedAttributes: TextAttributes? = null
 
-        // --- Only detect bold if the ENTIRE string is wrapped ---
         BOLD_REGEX.matchEntire(text)?.let {
             collectedAttributes = TextAttributes(bold = true)
         }
@@ -250,17 +271,34 @@ class SpanProcessor {
             collectedAttributes = collectedAttributes?.merge(TextAttributes(strikethrough = true)) ?: TextAttributes(strikethrough = true)
         }
 
-        return BlockInternal(
-            spans = emptyList(),
+        return TextAttributeResult(
             attributes = collectedAttributes,
             text = text,
         )
     }
+
+    companion object {
+        // Custom Styled Text: ^[text](json)
+        // Group 1: inner text
+        // Group 2: JSON payload including surrounding optional whitespace (\s*\{.*?\}\s*)
+        private val STYLED_REGEX = Regex("""\^\[(.*?)\]\(\s*(\{.*?\}\s*)\)""")
+
+        // Capture optional leading/trailing spaces outside the markers
+        private val BOLD_REGEX = Regex("""(\s*)(\*\*|__)(.*?)(\*\*|__)(\s*)""")
+        private val ITALIC_REGEX = Regex("""(\s*)(\*|_)(.*?)(\*|_)(\s*)""")
+        private val STRIKETHROUGH_REGEX = Regex("""(\s*)~~(.*?)~~(\s*)""")
+
+        // Standard Link: !?[text](url) - Captures the entire link structure
+        private val STANDARD_LINK_REGEX = Regex("""(!?\[(.*?)\]\((.*?)\))""")
+
+        // Regex for splitting by all attribute delimiters, capturing them
+        private val ALL_DELIMITERS_REGEX = Regex("(\\*\\*|__|[*_]|~~)")
+        private val MARKER_BOLD_REGEX = Regex("""\*\*|__""")
+        private val MARKER_ITALIC_REGEX = Regex("""\*|_""")
+        private val MARKER_STRIKETHROUGH_REGEX = Regex("""~~""")
+
+        private const val ZERO_WIDTH_SPACE = "\u200B"
+    }
 }
 
-/**
- * A private extension to hold the cleaned text during the recursive attribute stripping process.
- * This is used internally by [extractAttributesAndCleanText] to separate the text from the attributes
- * before the final [Block] is created.
- */
-private data class BlockInternal(val spans: List<Span>, val attributes: TextAttributes? = null, val text: String)
+private data class TextAttributeResult(val attributes: TextAttributes? = null, val text: String)
