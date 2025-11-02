@@ -66,6 +66,10 @@ import io.adventech.blockkit.model.TextStyleSize
 import io.adventech.blockkit.model.input.Highlight
 import io.adventech.blockkit.model.input.Underline
 import io.adventech.blockkit.parser.AttributedTextParser
+import io.adventech.blockkit.parser.SpanProcessor
+import io.adventech.blockkit.parser.span.Block
+import io.adventech.blockkit.parser.span.Span
+import io.adventech.blockkit.parser.span.TextAttributes
 import io.adventech.blockkit.ui.color.AttributedTextColorOverride
 import io.adventech.blockkit.ui.color.parse
 import io.adventech.blockkit.ui.color.toColor
@@ -205,12 +209,22 @@ internal fun rememberMarkdownText(
     val attributedTextColorOverride = rememberAttributedTextColorOverride(color, styleTemplate)
 
     val parser = remember { Parser.builder().build() }
-    val parsedNode = remember(markdownText) { parser.parse(markdownText) as Document }
+    val spanProcessor = remember { SpanProcessor() }
+    val block = remember(markdownText) { spanProcessor.process(markdownText) }
 
-    return remember(parsedNode, style, color, attributedTextColorOverride, highlights, underlines, fontProvider, fontSizeProvider) {
+    return remember(block, style, color, attributedTextColorOverride, highlights, underlines, fontProvider, fontSizeProvider) {
         buildAnnotatedString {
             withStyle(style.toSpanStyle()) {
-                appendMarkdownChildren(parsedNode, color, attributedTextColorOverride, style.fontSize, attributedTextParser, fontProvider, fontSizeProvider)
+                appendBlockContent(
+                    block = block,
+                    commonmarkParser = parser,
+                    color = color,
+                    attrTextColorOverride = attributedTextColorOverride,
+                    fontSize = style.fontSize,
+                    parser = attributedTextParser,
+                    fontProvider = fontProvider,
+                    fontSizeProvider = fontSizeProvider
+                )
             }
 
             // Apply highlights to the result text
@@ -277,8 +291,12 @@ private fun getCombinedFontFamilies(
         .let { fontFlows -> combine(fontFlows) { it.toList() } } // Combine them into a single Flow
 }
 
-private fun AnnotatedString.Builder.appendMarkdownChildren(
-    parent: Node,
+/**
+ * Builds the final AnnotatedString by appending the children of the [Block].
+ */
+private fun AnnotatedString.Builder.appendBlockContent(
+    block: Block,
+    commonmarkParser: Parser,
     color: Color,
     attrTextColorOverride: AttributedTextColorOverride,
     fontSize: TextUnit,
@@ -286,27 +304,77 @@ private fun AnnotatedString.Builder.appendMarkdownChildren(
     fontProvider: (String?) -> FontFamily,
     fontSizeProvider: (TextStyleSize?) -> TextUnit,
 ) {
+    withStyle(block.attributes.toSpanStyle()) {
+        block.spans.forEach { span ->
+            // Always parse span text as markdown
+            val document = commonmarkParser.parse(span.text) as Document
+
+            fun appendMarkdown() {
+                appendMarkdownChildren(
+                    parent = document,
+                    color = color,
+                    attrTextColorOverride = attrTextColorOverride,
+                    fontSize = fontSize,
+                    fontProvider = fontProvider,
+                    fontSizeProvider = fontSizeProvider,
+                )
+            }
+
+            when (span) {
+                is Span.StyledMarkdown -> {
+                    val style = parser.parseJsonStyle(span.json)
+                    if (style != null) {
+                        withStyle(
+                            style.toSpanStyle(
+                                attributes = span.attributes,
+                                attributedTextColorOverride = attrTextColorOverride,
+                                defaultFontSize = fontSize,
+                                fontProvider = fontProvider,
+                                fontSizeProvider = fontSizeProvider,
+                            )
+                        ) { appendMarkdown() }
+                    } else {
+                        withStyle(span.attributes.toSpanStyle()) { appendMarkdown() }
+                    }
+                }
+
+                is Span.Markdown -> {
+                    withStyle(span.attributes.toSpanStyle()) { appendMarkdown() }
+                }
+            }
+        }
+    }
+}
+
+private fun AnnotatedString.Builder.appendMarkdownChildren(
+    parent: Node,
+    color: Color,
+    attrTextColorOverride: AttributedTextColorOverride,
+    fontSize: TextUnit,
+    fontProvider: (String?) -> FontFamily,
+    fontSizeProvider: (TextStyleSize?) -> TextUnit,
+) {
     var child = parent.firstChild
     while (child != null) {
         when (child) {
             is Paragraph -> {
-                appendMarkdownChildren(child, color, attrTextColorOverride, fontSize, parser, fontProvider, fontSizeProvider)
+                appendMarkdownChildren(child, color, attrTextColorOverride, fontSize, fontProvider, fontSizeProvider)
             }
 
             is Text -> {
-                appendText(child, fontSize, parser, attrTextColorOverride, fontProvider, fontSizeProvider)
+                appendText(child)
             }
 
             is Image -> appendInlineContent(TAG_IMAGE_URL, child.destination)
             is Emphasis -> {
                 withStyle(SpanStyle(fontStyle = FontStyle.Italic)) {
-                    appendMarkdownChildren(child, color, attrTextColorOverride, fontSize, parser, fontProvider, fontSizeProvider)
+                    appendMarkdownChildren(child, color, attrTextColorOverride, fontSize, fontProvider, fontSizeProvider)
                 }
             }
 
             is StrongEmphasis -> {
                 withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
-                    appendMarkdownChildren(child, color, attrTextColorOverride, fontSize, parser, fontProvider, fontSizeProvider)
+                    appendMarkdownChildren(child, color, attrTextColorOverride, fontSize, fontProvider, fontSizeProvider)
                 }
             }
 
@@ -323,7 +391,7 @@ private fun AnnotatedString.Builder.appendMarkdownChildren(
             is Link -> {
                 withStyle(SpanStyle(color, textDecoration = TextDecoration.Underline)) {
                     withAnnotation(TAG_URL, child.destination) {
-                        appendMarkdownChildren(child, color,attrTextColorOverride, fontSize, parser, fontProvider, fontSizeProvider)
+                        appendMarkdownChildren(child, color, attrTextColorOverride, fontSize, fontProvider, fontSizeProvider)
                     }
                 }
             }
@@ -331,13 +399,13 @@ private fun AnnotatedString.Builder.appendMarkdownChildren(
             is Heading -> {
                 val fontSize = fontSizeProvider(textStyleFromLevel(child.level))
                 withStyle(SpanStyle(fontWeight = FontWeight.Bold, fontSize = fontSize)) {
-                    appendMarkdownChildren(child, color, attrTextColorOverride,fontSize, parser, fontProvider, fontSizeProvider)
+                    appendMarkdownChildren(child, color, attrTextColorOverride, fontSize, fontProvider, fontSizeProvider)
                 }
                 appendLine()
             }
 
             is ListItem -> {
-                appendMarkdownChildren(child, color, attrTextColorOverride,fontSize, parser, fontProvider, fontSizeProvider)
+                appendMarkdownChildren(child, color, attrTextColorOverride, fontSize, fontProvider, fontSizeProvider)
             }
 
             is ListBlock -> {
@@ -353,7 +421,7 @@ private fun AnnotatedString.Builder.appendMarkdownChildren(
                         append(" ")
                     }
                 }
-                appendMarkdownChildren(child.firstChild, color, attrTextColorOverride, fontSize, parser, fontProvider, fontSizeProvider)
+                appendMarkdownChildren(child.firstChild, color, attrTextColorOverride, fontSize, fontProvider, fontSizeProvider)
             }
         }
         child = child.next
@@ -372,32 +440,19 @@ private fun textStyleFromLevel(level: Int): TextStyleSize {
 }
 
 /**
- * Append text to the [AnnotatedString.Builder] with custom style handling.
+ * Append text to the [AnnotatedString.Builder] with custom url detection.
  *
  * @param text The text node to append.
- * @param parser The attributed text parser to use for parsing custom styles.
- * @param fontProvider The font provider to use for custom fonts.
- * @param fontSizeProvider The font size provider to use for custom font sizes.
  */
-private fun AnnotatedString.Builder.appendText(
-    text: Text,
-    fontSize: TextUnit,
-    parser: AttributedTextParser,
-    attrTextColorOverride: AttributedTextColorOverride,
-    fontProvider: (String?) -> FontFamily,
-    fontSizeProvider: (TextStyleSize?) -> TextUnit,
-) {
+private fun AnnotatedString.Builder.appendText(text: Text) {
     val markdown = text.literal
     var lastIndex = 0
 
     // Find all URL matches
     val plainUrlMatches = urlRegex.findAll(markdown).toList()
 
-    // Find all parser matches
-    val attributedTextMatches = parser.findAllMatches(markdown).toList()
-
     // Combine URL matches and parser matches
-    val allMatches = (attributedTextMatches + plainUrlMatches)
+    val allMatches = plainUrlMatches
         .sortedBy { it.range.first } // Sort by start index
 
     allMatches.forEach { matchResult ->
@@ -410,21 +465,6 @@ private fun AnnotatedString.Builder.appendText(
         }
 
         when (matchResult) {
-            in attributedTextMatches -> {
-                // Handle parser matches
-                val text = matchResult.groups[1]?.value ?: ""
-                val styleJson = matchResult.groups[2]?.value ?: ""
-
-                // Extract inline text style from JSON
-                val inlineTextStyle = parser.parseJsonStyle(styleJson)
-                if (inlineTextStyle != null) {
-                    withStyle(inlineTextStyle.toSpanStyle(attrTextColorOverride, fontSize, fontProvider, fontSizeProvider)) {
-                        append(text)
-                    }
-                } else {
-                    append(text)
-                }
-            }
             in plainUrlMatches -> {
                 // Handle URL matches
                 val webUrl = matchResult.value
@@ -449,6 +489,7 @@ private fun AnnotatedString.Builder.appendText(
 private val urlRegex = Regex("""(https?://|www\.)\S+[^!:,.;\s]""")
 
 private fun io.adventech.blockkit.model.TextStyle.toSpanStyle(
+    attributes: TextAttributes?,
     attributedTextColorOverride: AttributedTextColorOverride,
     defaultFontSize: TextUnit,
     fontProvider: (String?) -> FontFamily,
@@ -467,6 +508,32 @@ private fun io.adventech.blockkit.model.TextStyle.toSpanStyle(
         fontFamily = typeface?.let { fontProvider(typeface) },
         fontSize = fontSize ?: TextUnit.Unspecified,
         baselineShift = offset?.toBaselineShift(),
+        fontWeight = if (attributes?.bold == true) FontWeight.Bold else null,
+        fontStyle = if (attributes?.italic == true) FontStyle.Italic else null,
+        textDecoration = when {
+            attributes?.strikethrough == true -> TextDecoration.LineThrough
+            attributes?.underline == true -> TextDecoration.Underline
+            else -> null
+        }
+    )
+}
+
+/**
+ * Converts [TextAttributes] into a Compose [SpanStyle] to be used for styling text.
+ *
+ * This primarily handles core markdown attributes like bold, italic, and strikethrough.
+ */
+private fun TextAttributes?.toSpanStyle(): SpanStyle {
+    if (this == null) return SpanStyle()
+
+    return SpanStyle(
+        fontWeight = if (bold) FontWeight.Bold else null,
+        fontStyle = if (italic) FontStyle.Italic else null,
+        textDecoration = when {
+            strikethrough -> TextDecoration.LineThrough
+            underline -> TextDecoration.Underline
+            else -> null
+        }
     )
 }
 
