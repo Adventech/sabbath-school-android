@@ -24,6 +24,9 @@ package io.adventech.blockkit.parser
 
 import io.adventech.blockkit.model.TextStyle
 import io.adventech.blockkit.model.TextStyleSize
+import io.adventech.blockkit.parser.span.Block
+import io.adventech.blockkit.parser.span.Span
+import kotlinx.collections.immutable.persistentListOf
 import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeInstanceOf
 import org.junit.Test
@@ -58,9 +61,16 @@ class AttributedTextParserTest {
 
     @Test
     fun `parseTypeface - returns all custom typefaces in the inline styles`() {
-        val markdown = "^[Part 1]({\"style\": {\"text\": {\"color\": \"#a65726\", \"size\": \"xl\", \"typeface\": \"BaskervilleBT-Bold\"}}})â€”The Sabbath School Program ^[Part 2]({\"style\": {\"text\": {\"color\": \"#a65726\", \"size\": \"xl\", \"typeface\": \"BaskervilleBT-Bold\"}}})â€”The Sabbath School Program"
-
-        val typefaces = parser.parseTypeface(markdown)
+        val block = Block(
+            persistentListOf(
+                Span.Markdown("hello "),
+                Span.StyledMarkdown(
+                    text = "world",
+                    json = "{\"style\": {\"text\": {\"color\": \"#a65726\", \"size\": \"xl\", \"typeface\": \"BaskervilleBT-Bold\"}}}"
+                )
+            )
+        )
+        val typefaces = parser.parseTypeface(block)
 
         typefaces shouldBeEqualTo setOf("BaskervilleBT-Bold")
     }

@@ -202,15 +202,15 @@ internal fun rememberMarkdownText(
     underlines: ImmutableList<Underline> = persistentListOf(),
     attributedTextParser: AttributedTextParser = remember { AttributedTextParser() }
 ): AnnotatedString {
-    val defaultFontFamily = Styler.defaultFontFamily()
-    val fonts by rememberMarkdownFonts(markdownText, attributedTextParser, defaultFontFamily)
-    val fontProvider: (String?) -> FontFamily = remember(fonts) { { it?.let { fonts[it] } ?: defaultFontFamily } }
-    val fontSizeProvider: (TextStyleSize?) -> TextUnit = remember { { styleTemplate.defaultTextSizePoints(it).sp } }
-    val attributedTextColorOverride = rememberAttributedTextColorOverride(color, styleTemplate)
-
     val parser = remember { Parser.builder().build() }
     val spanProcessor = remember { SpanProcessor() }
     val block = remember(markdownText) { spanProcessor.process(markdownText) }
+
+    val defaultFontFamily = Styler.defaultFontFamily()
+    val fonts by rememberMarkdownFonts(block, attributedTextParser, defaultFontFamily)
+    val fontProvider: (String?) -> FontFamily = remember(fonts) { { it?.let { fonts[it] } ?: defaultFontFamily } }
+    val fontSizeProvider: (TextStyleSize?) -> TextUnit = remember { { styleTemplate.defaultTextSizePoints(it).sp } }
+    val attributedTextColorOverride = rememberAttributedTextColorOverride(color, styleTemplate)
 
     return remember(block, style, color, attributedTextColorOverride, highlights, underlines, fontProvider, fontSizeProvider) {
         buildAnnotatedString {
@@ -263,11 +263,11 @@ internal fun rememberMarkdownText(
 
 @Composable
 private fun rememberMarkdownFonts(
-    markdownText: String,
+    block: Block,
     attributedTextParser: AttributedTextParser,
     defaultFontFamily: FontFamily,
 ): State<Map<String, FontFamily>> {
-    val typefaces = remember(markdownText) { attributedTextParser.parseTypeface(markdownText) }
+    val typefaces = remember(block) { attributedTextParser.parseTypeface(block) }
     val provider = LocalFontFamilyProvider.current
 
     return produceState(emptyMap(), typefaces) {

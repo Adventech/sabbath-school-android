@@ -26,14 +26,17 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.adventech.blockkit.model.StyleContainer
 import io.adventech.blockkit.model.TextStyle
+import io.adventech.blockkit.parser.span.Block
+import io.adventech.blockkit.parser.span.Span
 import timber.log.Timber
+import kotlin.collections.forEach
 
 interface AttributedTextParserDelegate {
     fun findAllMatches(markdown: String): Sequence<MatchResult>
 
     fun parseJsonStyle(json: String): TextStyle?
 
-    fun parseTypeface(markdown: String): Set<String>
+    fun parseTypeface(block: Block): Set<String>
 }
 
 class AttributedTextParser() : AttributedTextParserDelegate {
@@ -59,14 +62,11 @@ class AttributedTextParser() : AttributedTextParserDelegate {
         }
     }
 
-    override fun parseTypeface(markdown: String): Set<String> {
+    override fun parseTypeface(block: Block): Set<String> {
         val result = mutableListOf<String>()
 
-        findAllMatches(markdown).forEach { match ->
-            // Extract the styled text
-            val style = match.groupValues[2] // The style inside (style-json)
-
-            val textStyle = parseJsonStyle(style)
+        block.spans.filterIsInstance<Span.StyledMarkdown>().forEach { span ->
+            val textStyle = parseJsonStyle(span.json)
             textStyle?.typeface?.let { result.add(it) }
         }
 
