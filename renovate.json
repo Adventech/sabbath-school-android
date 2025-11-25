@@ -3,6 +3,6 @@
   "extends": [
     "config:recommended"
   ],
-  "enabled": false,
+  "enabled": true,
   "baseBranches": ["develop"]
 }

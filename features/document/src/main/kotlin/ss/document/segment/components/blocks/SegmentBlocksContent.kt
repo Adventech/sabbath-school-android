@@ -78,7 +78,7 @@ internal fun SegmentBlocksContent(
             .background(readerStyle.theme.background())
             .imePadding(),
         state = listState,
-        verticalArrangement = Arrangement.spacedBy(20.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         item(key = "cover-${segment.id}") {
             SegmentCover(

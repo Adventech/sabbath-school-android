@@ -41,6 +41,7 @@ ksp {
 dependencies {
     implementation(libs.coil.compose)
     implementation(libs.google.hilt.android)
+    implementation(libs.kotlinx.collectionsImmutable)
     implementation(projects.common.auth)
     implementation(projects.common.core)
     implementation(projects.common.designCompose)

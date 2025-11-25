@@ -46,6 +46,7 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.google.hilt.android)
     implementation(libs.joda.time)
+    implementation(libs.kotlinx.collectionsImmutable)
     implementation(libs.timber)
     implementation(projects.common.designCompose)
     implementation(projects.common.misc)
