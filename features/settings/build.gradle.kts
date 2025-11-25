@@ -43,6 +43,7 @@ ksp {
 
 dependencies {
     implementation(libs.google.hilt.android)
+    implementation(libs.kotlinx.collectionsImmutable)
     implementation(libs.timber)
     implementation(projects.common.auth)
     implementation(projects.common.core)

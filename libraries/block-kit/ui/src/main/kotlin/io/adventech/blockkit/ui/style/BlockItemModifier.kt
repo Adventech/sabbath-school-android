@@ -27,10 +27,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.dp
 import io.adventech.blockkit.model.BlockItem
 
 @Composable
 internal fun Modifier.background(blockItem: BlockItem, nested: Boolean? = blockItem.nested): Modifier {
+    val layoutDirection = LocalLayoutDirection.current
     val blocksStyle = LocalBlocksStyle.current
     val blockStyle = blockItem.style?.block
     val blockPaddingStyle = blockStyle?.padding
@@ -39,8 +42,25 @@ internal fun Modifier.background(blockItem: BlockItem, nested: Boolean? = blockI
         blockPaddingStyle != null || (blockItem.nested ?: nested) == true
     }
 
+    val stylePaddingValues = Styler.padding(blockPaddingStyle ?: defaultWrapperPaddingStyle)
+
     return this
-        .padding(Styler.padding(blockPaddingStyle ?: defaultWrapperPaddingStyle))
+        .padding(
+            // If the style comes with vertical paddings then remove size already applied in LazyColumn
+            stylePaddingValues.copy(
+                layoutDirection = layoutDirection,
+                top = if (stylePaddingValues.calculateTopPadding() >= 16.dp) {
+                    stylePaddingValues.calculateTopPadding() - 16.dp
+                } else {
+                    stylePaddingValues.calculateTopPadding()
+                },
+                bottom = if (stylePaddingValues.calculateBottomPadding() >= 16.dp) {
+                    stylePaddingValues.calculateBottomPadding() - 16.dp
+                } else {
+                    stylePaddingValues.calculateBottomPadding()
+                }
+            )
+        )
         .background(
             color = Styler.backgroundColor(blockStyle),
             shape = if (blockStyle?.rounded == true) Styler.roundedShape() else RectangleShape,

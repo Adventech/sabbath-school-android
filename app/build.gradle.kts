@@ -84,7 +84,7 @@ android {
     }
 
     buildTypes {
-        val release by getting {
+        release {
             isShrinkResources = true
             isMinifyEnabled = true
             proguardFiles(

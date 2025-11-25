@@ -141,7 +141,7 @@ interface BlockStyleTemplate : StyleTemplate {
 
 internal data class HeadingStyleTemplate(private val depth: Int) : BlockStyleTemplate {
     override val textSizePoints: (ReaderStyle.Size, TextStyleSize) -> Float
-        get() = { size, textStyleSize ->
+        get() = { size, _ ->
             val sizeMatrix: Map<ReaderStyle.Size, Map<Int, Float>> = mapOf(
                 ReaderStyle.Size.Tiny to mapOf(
                     1 to 24f,

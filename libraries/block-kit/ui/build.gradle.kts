@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.google.hilt.android)
     implementation(libs.haze)
     implementation(libs.haze.materials)
+    implementation(libs.kotlinx.collectionsImmutable)
     implementation(libs.saket.extendedspans)
     implementation(libs.saket.telephoto)
     implementation(libs.saket.telephoto.flick)
