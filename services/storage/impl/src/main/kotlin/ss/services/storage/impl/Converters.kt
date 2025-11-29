@@ -190,7 +190,7 @@ internal object Converters {
     }
 
     @TypeConverter
-    fun fromWidgetDays(videos: List<AppWidgetDay>?): String? = widgetDaysAdapter.toJson(videos)
+    fun fromWidgetDays(days: List<AppWidgetDay>?): String? = widgetDaysAdapter.toJson(days)
 
     @TypeConverter
     fun toBlockItem(value: String?): BlockItem? = value?.let { jsonString ->

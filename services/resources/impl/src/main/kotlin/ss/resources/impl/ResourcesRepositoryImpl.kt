@@ -184,8 +184,8 @@ internal class ResourcesRepositoryImpl @Inject constructor(
                 }
 
                 is NetworkResource.Success -> {
-                    resource.value.body()?.let {
-                        val audio = it.filter { it.target.startsWith(documentIndex) }
+                    resource.value.body()?.let { audios ->
+                        val audio = audios.filter { it.target.startsWith(documentIndex) }
                         withContext(dispatcherProvider.io) {
                             audioDao.delete()
                             audioDao.insertAll(audio.map { it.toEntity() })
@@ -207,8 +207,7 @@ internal class ResourcesRepositoryImpl @Inject constructor(
                 }
 
                 is NetworkResource.Success -> {
-                    resource.value.body()?.let {
-                        val videos = it
+                    resource.value.body()?.let { videos ->
                         val entities = videos.mapIndexed { index, video -> video.toEntity("$resourceIndex-$index", documentIndex) }
                         withContext(dispatcherProvider.io) {
                             videoInfoDao.delete()
@@ -231,8 +230,8 @@ internal class ResourcesRepositoryImpl @Inject constructor(
                 }
 
                 is NetworkResource.Success -> {
-                    resource.value.body()?.let {
-                        Result.success(it.filter { it.target == documentIndex })
+                    resource.value.body()?.let { items ->
+                        Result.success(items.filter { it.target == documentIndex })
                     } ?: Result.failure(Throwable("Failed to fetch PDFs, body is null"))
                 }
             }
