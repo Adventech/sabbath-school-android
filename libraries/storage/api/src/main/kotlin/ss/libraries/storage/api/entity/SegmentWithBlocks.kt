@@ -22,29 +22,16 @@
 
 package ss.libraries.storage.api.entity
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import io.adventech.blockkit.model.Style
-import io.adventech.blockkit.model.resource.PdfAux
-import io.adventech.blockkit.model.resource.SegmentType
-import io.adventech.blockkit.model.resource.VideoClipSegment
+import androidx.room.Embedded
+import androidx.room.Relation
 
-@Entity(tableName = "segments")
-data class SegmentEntity(
-    @PrimaryKey val id: String,
-    val index: String,
-    val name: String,
-    val title: String,
-    val type: SegmentType,
-    val resourceId: String,
-    val markdownTitle: String?,
-    val subtitle: String?,
-    val markdownSubtitle: String?,
-    val titleBelowCover: Boolean?,
-    val cover: String?,
-    val date: String?,
-    val background: String?,
-    val pdf: List<PdfAux>?,
-    val video: List<VideoClipSegment>?,
-    val style: Style?,
+data class SegmentWithBlocks (
+    @Embedded
+    val segment: SegmentEntity,
+
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "segmentId",
+    )
+    val blocks: List<BlockItemEntity>
 )

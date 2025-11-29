@@ -23,28 +23,26 @@
 package ss.libraries.storage.api.entity
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
-import io.adventech.blockkit.model.Style
-import io.adventech.blockkit.model.resource.PdfAux
-import io.adventech.blockkit.model.resource.SegmentType
-import io.adventech.blockkit.model.resource.VideoClipSegment
+import io.adventech.blockkit.model.BlockItem
 
-@Entity(tableName = "segments")
-data class SegmentEntity(
+@Entity(
+    tableName = "block_items",
+    foreignKeys = [
+        ForeignKey(
+            entity = SegmentEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["segmentId"],
+            onDelete = ForeignKey.CASCADE // If Segment is deleted, blocks are deleted
+        )
+    ],
+    indices = [Index(value = ["segmentId"])]
+)
+data class BlockItemEntity(
     @PrimaryKey val id: String,
-    val index: String,
-    val name: String,
-    val title: String,
-    val type: SegmentType,
-    val resourceId: String,
-    val markdownTitle: String?,
-    val subtitle: String?,
-    val markdownSubtitle: String?,
-    val titleBelowCover: Boolean?,
-    val cover: String?,
-    val date: String?,
-    val background: String?,
-    val pdf: List<PdfAux>?,
-    val video: List<VideoClipSegment>?,
-    val style: Style?,
+    val segmentId: String,
+    val order: Int,
+    val item: BlockItem,
 )

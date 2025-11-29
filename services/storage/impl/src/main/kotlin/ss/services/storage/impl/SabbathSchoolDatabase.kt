@@ -51,6 +51,7 @@ import ss.libraries.storage.api.dao.VideoInfoDao
 import ss.libraries.storage.api.entity.AppWidgetEntity
 import ss.libraries.storage.api.entity.AudioFileEntity
 import ss.libraries.storage.api.entity.BibleVersionEntity
+import ss.libraries.storage.api.entity.BlockItemEntity
 import ss.libraries.storage.api.entity.DocumentEntity
 import ss.libraries.storage.api.entity.FeedEntity
 import ss.libraries.storage.api.entity.FeedGroupEntity
@@ -67,6 +68,7 @@ import ss.libraries.storage.api.entity.UserEntity
 import ss.libraries.storage.api.entity.UserInputEntity
 import ss.libraries.storage.api.entity.VideoClipEntity
 import ss.libraries.storage.api.entity.VideoInfoEntity
+import ss.services.storage.impl.migration.LegacySegmentsMigration
 import ss.services.storage.impl.migration.LegacyUserInputMigration
 
 @Database(
@@ -90,8 +92,9 @@ import ss.services.storage.impl.migration.LegacyUserInputMigration
         FeedEntity::class,
         FeedGroupEntity::class,
         QuarterlyIndexEntity::class,
+        BlockItemEntity::class,
     ],
-    version = 31,
+    version = 32,
     exportSchema = true,
     autoMigrations = [
         AutoMigration(from = 2, to = 3),
@@ -123,6 +126,7 @@ import ss.services.storage.impl.migration.LegacyUserInputMigration
         AutoMigration(from = 28, to = 29),
         AutoMigration(from = 29, to = 30),
         AutoMigration(from = 30, to = 31),
+        AutoMigration(from = 31, to = 32, spec = LegacySegmentsMigration::class),
     ]
 )
 @TypeConverters(Converters::class, ResourcesConverters::class)

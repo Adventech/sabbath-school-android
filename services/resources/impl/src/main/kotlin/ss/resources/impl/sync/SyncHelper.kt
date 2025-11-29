@@ -51,6 +51,7 @@ import ss.libraries.storage.api.dao.ResourcesDao
 import ss.libraries.storage.api.dao.SegmentsDao
 import ss.libraries.storage.api.dao.UserInputDao
 import ss.libraries.storage.api.entity.BibleVersionEntity
+import ss.libraries.storage.api.entity.BlockItemEntity
 import ss.libraries.storage.api.entity.LanguageEntity
 import ss.libraries.storage.api.entity.UserInputEntity
 import ss.resources.impl.ext.localId
@@ -154,7 +155,20 @@ internal class SyncHelperImpl @Inject constructor(
                 is NetworkResource.Success -> response.value.body()?.let { data ->
                     withContext(dispatcherProvider.io) {
                         documentsDao.insertItem(data.toEntity())
-                        segmentsDao.insertAll(data.segments.orEmpty().map { it.toEntity() })
+
+                        val segments = data.segments.orEmpty()
+                        val blockEntities = segments.flatMap { segment ->
+                            segment.blocks.orEmpty().mapIndexed { index, block ->
+                                BlockItemEntity(
+                                    id = block.id,
+                                    segmentId = segment.id,
+                                    order = index,
+                                    item = block,
+                                )
+                            }
+                        }
+                        segmentsDao.insertAll(segments.map { it.toEntity() })
+                        segmentsDao.insertBlocks(blockEntities)
                     }
                 }
             }
@@ -220,7 +234,17 @@ internal class SyncHelperImpl @Inject constructor(
                 }
                 is NetworkResource.Success -> response.value.body()?.let { data ->
                     withContext(dispatcherProvider.io) {
-                        segmentsDao.insertItem(data.toEntity())
+                        val segmentEntity = data.toEntity()
+                        val blockEntities = data.blocks.orEmpty().mapIndexed { index, block ->
+                            BlockItemEntity(
+                                id = block.id,
+                                segmentId = data.id,
+                                order = index,
+                                item = block,
+                            )
+                        }
+                        segmentsDao.insertItem(segmentEntity)
+                        segmentsDao.insertBlocks(blockEntities)
                     }
                 }
             }

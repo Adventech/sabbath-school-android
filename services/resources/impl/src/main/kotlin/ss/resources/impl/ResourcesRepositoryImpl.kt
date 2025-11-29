@@ -167,7 +167,7 @@ internal class ResourcesRepositoryImpl @Inject constructor(
 
     override fun saveDocumentInput(documentId: String, input: UserInputRequest) = syncHelper.saveUserInput(documentId, input)
 
-    override fun segment(id: String, index: String): Flow<Segment> = segmentsDao.get(id)
+    override fun segment(id: String, index: String): Flow<Segment> = segmentsDao.getSegmentWithBlocks(id)
         .filterNotNull()
         .map { it.toModel() }
         .onStart { syncHelper.syncSegment(index) }

@@ -23,13 +23,22 @@
 package ss.libraries.storage.api.dao
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
+import ss.libraries.storage.api.entity.BlockItemEntity
 import ss.libraries.storage.api.entity.SegmentEntity
+import ss.libraries.storage.api.entity.SegmentWithBlocks
 
 @Dao
 interface SegmentsDao: BaseDao<SegmentEntity> {
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertBlocks(blocks: List<BlockItemEntity>)
+
+    @Transaction
     @Query("SELECT * FROM segments WHERE id = :id")
-    fun get(id: String): Flow<SegmentEntity?>
+    fun getSegmentWithBlocks(id: String): Flow<SegmentWithBlocks?>
 }
