@@ -34,6 +34,7 @@ import androidx.media3.session.MediaSessionService
 import ss.libraries.media.api.DEFAULT_FORWARD
 import ss.libraries.media.api.DEFAULT_REWIND
 
+@androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 abstract class MediaService : MediaSessionService() {
 
     abstract fun sessionId(): String

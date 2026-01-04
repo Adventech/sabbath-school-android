@@ -59,6 +59,7 @@ fun MediaMetadata.toVideo(): SSVideo = SSVideo(
     target = target ?: "",
 )
 
+@androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 fun AudioFile.toMediaItem(): MediaItem = MediaItem.Builder()
     .setMediaId(id)
     .setUri(source)
@@ -84,6 +85,7 @@ fun AudioFile.toMediaItem(): MediaItem = MediaItem.Builder()
     )
     .build()
 
+@androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 fun SSVideo.toMediaItem(): MediaItem = MediaItem.Builder()
     .setMediaId(id)
     .setUri(hls ?: src)

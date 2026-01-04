@@ -53,6 +53,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @ActivityScoped
+@androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 internal class SSMediaPlayerImpl @Inject constructor(
     @param:ApplicationContext private val context: Context,
 ) : SSMediaPlayer, Player.Listener, CoroutineScope by ProcessLifecycleOwner.get().lifecycleScope {

@@ -46,7 +46,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -58,6 +58,7 @@ import androidx.tv.material3.StandardCardContainer
 import androidx.tv.material3.Text
 import app.ss.tv.presentation.extentions.PositionFocusedItemInLazyLayout
 import app.ss.tv.presentation.extentions.asPlaceholder
+import app.ss.tv.presentation.extentions.window.containerHeight
 import app.ss.tv.presentation.theme.BorderWidth
 import app.ss.tv.presentation.theme.Padding
 import app.ss.tv.presentation.theme.SSTvTheme
@@ -105,7 +106,7 @@ fun VideosScreenUi(state: State, modifier: Modifier = Modifier) {
             Spacer(
                 modifier = Modifier
                     .fillMaxSize()
-                    .height(LocalConfiguration.current.screenHeightDp.times(0.2f).dp)
+                    .height(LocalWindowInfo.current.containerHeight().times(0.2f).dp)
             )
         }
     }
