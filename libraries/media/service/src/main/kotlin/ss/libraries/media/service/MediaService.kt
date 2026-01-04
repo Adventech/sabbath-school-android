@@ -64,7 +64,7 @@ abstract class MediaService : MediaSessionService() {
             MediaSession.Builder(this, player)
                 .setId(sessionId())
                 .setSessionActivity(getSingleTopActivity())
-                .setBitmapLoader(CacheBitmapLoader(DataSourceBitmapLoader(this)))
+                .setBitmapLoader(CacheBitmapLoader(DataSourceBitmapLoader.Builder(this).build()))
                 .setCallback(sessionCallback)
                 .setCustomLayout(sessionCallback.customCommands)
                 .build()
@@ -83,7 +83,7 @@ abstract class MediaService : MediaSessionService() {
         return mediaSession
     }
 
-    private inner class MediaSessionServiceListener : Listener {
+    private class MediaSessionServiceListener : Listener {
         override fun onForegroundServiceStartNotAllowedException() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 super.onForegroundServiceStartNotAllowedException()
