@@ -45,7 +45,6 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
@@ -285,9 +284,7 @@ internal fun StoryImage(
                 width to height
             }
             val availableWidth = (realWidth / realHeight) * screenHeightInPx
-            LaunchedEffect(availableWidth) {
-                onAvailableWidth(availableWidth)
-            }
+            onAvailableWidth(availableWidth)
         }
     }
 
