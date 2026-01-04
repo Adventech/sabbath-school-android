@@ -34,7 +34,6 @@ import androidx.media3.session.MediaSessionService
 import ss.libraries.media.api.DEFAULT_FORWARD
 import ss.libraries.media.api.DEFAULT_REWIND
 
-@androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 abstract class MediaService : MediaSessionService() {
 
     abstract fun sessionId(): String
@@ -64,7 +63,7 @@ abstract class MediaService : MediaSessionService() {
             MediaSession.Builder(this, player)
                 .setId(sessionId())
                 .setSessionActivity(getSingleTopActivity())
-                .setBitmapLoader(CacheBitmapLoader(DataSourceBitmapLoader(this)))
+                .setBitmapLoader(CacheBitmapLoader(DataSourceBitmapLoader.Builder(this).build()))
                 .setCallback(sessionCallback)
                 .setCustomLayout(sessionCallback.customCommands)
                 .build()
@@ -83,7 +82,7 @@ abstract class MediaService : MediaSessionService() {
         return mediaSession
     }
 
-    private inner class MediaSessionServiceListener : Listener {
+    private class MediaSessionServiceListener : Listener {
         override fun onForegroundServiceStartNotAllowedException() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 super.onForegroundServiceStartNotAllowedException()
