@@ -97,12 +97,7 @@ class DownloadResourceWork @AssistedInject constructor(
         val request = Request.Builder().url(uri.toString()).build()
         return try {
             val response = okHttpClient.newCall(request).execute()
-            val body =
-                response.body
-                    ?: run {
-                        Timber.e("Failed to download file: $fileName")
-                        return fileName to null
-                    }
+            val body = response.body
             destination.sink().buffer().use { sink -> sink.writeAll(body.source()) }
             fileName to destination
         } catch (error: Throwable) {
