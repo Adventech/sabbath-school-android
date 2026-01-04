@@ -37,6 +37,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.text.TextRange
 import androidx.core.net.toUri
 import io.adventech.blockkit.model.input.Highlight
@@ -69,6 +70,7 @@ internal fun SelectionBlockContainer(
     content: @Composable (Modifier) -> Unit,
 ) {
     val context = LocalContext.current
+    val resources = LocalResources.current
     val canSearchSelection = remember { context.isBrowserInstalled() }
     var contextMenuState by remember { mutableStateOf(ContextMenuType.DEFAULT) }
     val currSelection by rememberUpdatedState(selection)
@@ -153,7 +155,7 @@ internal fun SelectionBlockContainer(
                             ContextMenuType.DEFAULT -> {
                                 item(
                                     key = ContextMenuKey.HighlightKey,
-                                    label = context.getString(L10nR.string.ss_action_highlight),
+                                    label = resources.getString(L10nR.string.ss_action_highlight),
                                     leadingIcon = BlockKitR.drawable.ic_format_ink_highlighter,
                                 ) {
                                     contextMenuState = ContextMenuType.HIGHLIGHT
@@ -161,7 +163,7 @@ internal fun SelectionBlockContainer(
                                 separator()
                                 item(
                                     key = ContextMenuKey.UnderlineKey,
-                                    label = context.getString(L10nR.string.ss_action_underline),
+                                    label = resources.getString(L10nR.string.ss_action_underline),
                                     leadingIcon = BlockKitR.drawable.ic_format_underlined,
                                 ) {
                                     // Underline colors not supported yet. use default for now
@@ -172,7 +174,7 @@ internal fun SelectionBlockContainer(
                                 if (canSearchSelection) {
                                     item(
                                         key = ContextMenuKey.SearchKey,
-                                        label = context.getString(L10nR.string.ss_search),
+                                        label = resources.getString(L10nR.string.ss_search),
                                         leadingIcon = BlockKitR.drawable.ic_search,
                                     ) {
                                         onSearch?.invoke()
