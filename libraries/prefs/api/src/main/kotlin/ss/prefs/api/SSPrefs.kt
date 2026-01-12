@@ -43,4 +43,6 @@ interface SSPrefs {
     fun setReaderArtifactLastModified(lastModified: String)
     fun setAppReBrandingShown()
     fun setReminderScheduled(scheduled: Boolean = true)
+    fun lastNavigationScreen(): Flow<String?>
+    fun setLastNavigationScreen(screen: String)
 }

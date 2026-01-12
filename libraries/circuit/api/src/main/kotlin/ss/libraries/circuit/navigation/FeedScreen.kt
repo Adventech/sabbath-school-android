@@ -32,6 +32,10 @@ data class FeedScreen(val type: Type) : Screen {
         PERSONAL_MINISTRIES,
         DEVOTIONALS,
         SABBATH_SCHOOL,
-        EXPLORE,
+        EXPLORE;
+
+        companion object {
+            fun fromName(name: String): Type? = entries.associateBy(Type::name)[name]
+        }
     }
 }

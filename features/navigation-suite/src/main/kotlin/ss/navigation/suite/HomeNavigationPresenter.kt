@@ -24,15 +24,11 @@ package ss.navigation.suite
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.onNavEvent
 import com.slack.circuit.retained.produceRetainedState
-import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
-import com.slack.circuit.runtime.screen.Screen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -67,13 +63,28 @@ class HomeNavigationPresenter @AssistedInject constructor(
     @Composable
     override fun present(): State {
         val navigationItems by rememberNavbarItems()
-        var hasNavigation by rememberRetained(navigationItems) { mutableStateOf(navigationItems?.isNotEmpty() == true) }
-        var selectedScreen by rememberRetained(hasNavigation) { mutableStateOf<Screen>(FeedScreen(FeedScreen.Type.SABBATH_SCHOOL)) }
+        val selectedScreen by rememberNavScreen()
 
         val items = navigationItems
         return when {
             items == null -> State.Loading
-            items.isEmpty() -> State.Fallback(
+            items.isNotEmpty() -> State.NavbarNavigation(
+                selectedItem = selectedScreen,
+                items = items,
+                eventSink = { event ->
+                    when (event) {
+                        is State.NavbarNavigation.Event.OnItemSelected -> {
+                            val screen = event.item.screen()
+                            ssPrefs.setLastNavigationScreen(screen.type.name)
+                        }
+
+                        is State.NavbarNavigation.Event.OnNavEvent -> {
+                            navigator.onNavEvent(event.navEvent)
+                        }
+                    }
+                }
+            )
+            else -> State.Fallback(
                 selectedItem = FeedScreen(FeedScreen.Type.SABBATH_SCHOOL),
                 eventSink = { event ->
                     when (event) {
@@ -83,21 +94,25 @@ class HomeNavigationPresenter @AssistedInject constructor(
                     }
                 }
             )
-            else -> State.NavbarNavigation(
-                selectedItem = selectedScreen,
-                items = items,
-                eventSink = { event ->
-                    when (event) {
-                        is State.NavbarNavigation.Event.OnItemSelected -> {
-                            selectedScreen = event.item.screen()
-                        }
+        }
+    }
 
-                        is State.NavbarNavigation.Event.OnNavEvent -> {
-                            navigator.onNavEvent(event.navEvent)
-                        }
-                    }
+    @Composable
+    private fun rememberNavScreen(): androidx.compose.runtime.State<FeedScreen> {
+        val defaultScreen = FeedScreen(FeedScreen.Type.SABBATH_SCHOOL)
+
+        return produceRetainedState(initialValue = defaultScreen) {
+            ssPrefs.lastNavigationScreen()
+                .map { name ->
+                    val type = name?.let(FeedScreen.Type::fromName)
+                        ?: FeedScreen.Type.SABBATH_SCHOOL
+                    FeedScreen(type)
                 }
-            )
+                .catch {
+                    Timber.e(it)
+                    emit(defaultScreen)
+                }
+                .collect { value = it }
         }
     }
 

@@ -90,6 +90,7 @@ internal class SSPrefsImpl(
     )
 
     private fun preferencesFlow(): Flow<Preferences> = dataStore.data
+        .flowOn(dispatcherProvider.io)
         .catch { exception ->
             Timber.e(exception)
             emit(emptyPreferences())
@@ -234,10 +235,28 @@ internal class SSPrefsImpl(
         putBoolean(SSConstants.SS_REMINDER_SCHEDULED, scheduled)
     }
 
+    override fun lastNavigationScreen(): Flow<String?> {
+        return preferencesFlow().map { preferences ->
+            preferences[stringPreferencesKey(PREF_NAV_SCREEN_KEY)]
+        }
+    }
+
+    override fun setLastNavigationScreen(screen: String) {
+        scope.launch {
+            dataStore.edit { settings ->
+                settings[stringPreferencesKey(PREF_NAV_SCREEN_KEY)] = screen
+            }
+        }
+    }
+
     override fun clear() {
         sharedPreferences.edit { clear() }
         scope.launch {
             dataStore.edit { it.clear() }
         }
+    }
+
+    private companion object {
+        const val PREF_NAV_SCREEN_KEY = "last_navigation_screen"
     }
 }
