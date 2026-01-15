@@ -36,6 +36,7 @@ foundry {
 dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.google.hilt.android)
+    implementation(libs.kotlinx.collectionsImmutable)
     implementation(projects.common.core)
     implementation(projects.common.designCompose)
     implementation(projects.libraries.circuit.api)
