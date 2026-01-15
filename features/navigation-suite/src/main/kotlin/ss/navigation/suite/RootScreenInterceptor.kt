@@ -52,13 +52,8 @@ class RootScreenInterceptor(
         navigationContext: NavigationContext,
     ): InterceptedResetRootResult {
         return when (newRoot) {
-            LoginScreen -> {
-                onReset(LoginScreen)
-                NavigationInterceptor.SuccessConsumed
-            }
-
-            HomeNavScreen -> {
-                onReset(HomeNavScreen)
+            LoginScreen, HomeNavScreen -> {
+                onReset(newRoot)
                 NavigationInterceptor.SuccessConsumed
             }
 
