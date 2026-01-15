@@ -68,10 +68,13 @@ import com.slack.circuit.foundation.LocalCircuit
 import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.foundation.rememberCircuitNavigator
 import com.slack.circuit.runtime.screen.Screen
-import com.slack.circuitx.android.rememberAndroidScreenAwareNavigator
 import com.slack.circuitx.gesturenavigation.GestureNavigationDecorationFactory
+import com.slack.circuitx.navigation.intercepting.AndroidScreenAwareNavigationInterceptor
+import com.slack.circuitx.navigation.intercepting.rememberInterceptingNavigator
 import dagger.hilt.components.SingletonComponent
+import kotlinx.collections.immutable.persistentListOf
 import ss.libraries.circuit.navigation.HomeNavScreen
+import ss.navigation.suite.State.NavbarNavigation.Event as NavbarEvent
 
 @CircuitInject(HomeNavScreen::class, SingletonComponent::class)
 @Composable
@@ -112,16 +115,24 @@ private fun NavigationSuite(
         }
     }
 
+    val interceptors = persistentListOf(
+        AndroidScreenAwareNavigationInterceptor(context),
+        state.supportInterceptorFactory.create(activity),
+        LogoutScreenInterceptor {
+            showBottomBar = false
+            state.eventSink(NavbarEvent.OnLogout)
+        })
+
     val currentBackStack = rememberTabBackStack(
         items = state.items,
         selectedScreen = state.selectedItem,
         rootScreenProvider = { it.screen() }
     )
     val circuitNavigator = rememberCircuitNavigator(currentBackStack)
-    val supportingNavigator = remember(circuitNavigator) {
-        state.navigatorFactory.create(circuitNavigator, activity)
-    }
-    val navigator = rememberAndroidScreenAwareNavigator(supportingNavigator, context)
+    val navigator = rememberInterceptingNavigator(
+        navigator = circuitNavigator,
+        interceptors = interceptors,
+    )
 
     val content: @Composable (PaddingValues) -> Unit = {
         AnimatedContent(
@@ -176,7 +187,7 @@ private fun NavigationSuite(
                                     },
                                     selected = model.screen() == state.selectedItem,
                                     onClick = {
-                                        state.eventSink(State.NavbarNavigation.Event.OnItemSelected(model))
+                                        state.eventSink(NavbarEvent.OnItemSelected(model))
                                         hapticFeedback.performSegmentSwitch()
                                     },
                                 )
@@ -201,7 +212,7 @@ private fun NavigationSuite(
                             },
                             selected = state.selectedItem == model.screen(),
                             onClick = {
-                                state.eventSink(State.NavbarNavigation.Event.OnItemSelected(model))
+                                state.eventSink(NavbarEvent.OnItemSelected(model))
                                 hapticFeedback.performSegmentSwitch()
                             },
                         )

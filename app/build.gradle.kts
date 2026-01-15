@@ -144,6 +144,7 @@ dependencies {
     implementation(libs.google.hilt.android)
     implementation(libs.google.material)
     implementation(libs.joda.time)
+    implementation(libs.kotlinx.collectionsImmutable)
     implementation(libs.timber)
     implementation(projects.common.auth)
     implementation(projects.common.core)

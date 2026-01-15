@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2026. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,31 +22,33 @@
 
 package ss.navigation.suite
 
-import com.slack.circuit.foundation.NavEvent
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
+import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.screen.Screen
-import kotlinx.collections.immutable.ImmutableList
-import ss.services.circuit.impl.interceptor.AndroidSupportingInterceptor
+import com.slack.circuitx.navigation.intercepting.InterceptedResetRootResult
+import com.slack.circuitx.navigation.intercepting.NavigationContext
+import com.slack.circuitx.navigation.intercepting.NavigationInterceptor
+import ss.libraries.circuit.navigation.LoginScreen
 
-sealed interface State : CircuitUiState {
-    object Loading : State
+/**
+ * Navigation interceptor for handling logout scenario.
+ * Calls [onLogout] when [LoginScreen] is reset.
+ */
+class LogoutScreenInterceptor(
+    private val onLogout: () -> Unit
+) : NavigationInterceptor {
 
-    data class NavbarNavigation(
-        val selectedItem: Screen,
-        val items: ImmutableList<NavbarItem>,
-        val supportInterceptorFactory: AndroidSupportingInterceptor.Factory,
-        val eventSink: (Event) -> Unit
-    ): State {
-        sealed interface Event : CircuitUiEvent {
-            data class OnItemSelected(val item: NavbarItem) : Event
-            data object OnLogout: Event
-        }
-    }
+    override fun resetRoot(
+        newRoot: Screen,
+        options: Navigator.StateOptions,
+        navigationContext: NavigationContext,
+    ): InterceptedResetRootResult {
+        return when (newRoot) {
+            LoginScreen -> {
+                onLogout()
+                NavigationInterceptor.SuccessConsumed
+            }
 
-    data class Fallback(val selectedItem: Screen, val eventSink: (Event) -> Unit): State {
-        sealed interface Event : CircuitUiEvent {
-            data class OnNavEvent(val navEvent: NavEvent) : Event
+            else -> NavigationInterceptor.Skipped
         }
     }
 }
