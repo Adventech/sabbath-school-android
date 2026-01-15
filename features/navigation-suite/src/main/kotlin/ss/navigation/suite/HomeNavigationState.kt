@@ -40,7 +40,7 @@ sealed interface State : CircuitUiState {
     ): State {
         sealed interface Event : CircuitUiEvent {
             data class OnItemSelected(val item: NavbarItem) : Event
-            data object OnLogout: Event
+            data class OnReset(val screen: Screen): Event
         }
     }
 

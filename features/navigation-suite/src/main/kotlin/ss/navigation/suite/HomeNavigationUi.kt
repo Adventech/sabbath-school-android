@@ -74,6 +74,7 @@ import com.slack.circuitx.navigation.intercepting.rememberInterceptingNavigator
 import dagger.hilt.components.SingletonComponent
 import kotlinx.collections.immutable.persistentListOf
 import ss.libraries.circuit.navigation.HomeNavScreen
+import ss.libraries.circuit.navigation.LoginScreen
 import ss.navigation.suite.State.NavbarNavigation.Event as NavbarEvent
 
 @CircuitInject(HomeNavScreen::class, SingletonComponent::class)
@@ -118,10 +119,15 @@ private fun NavigationSuite(
     val interceptors = persistentListOf(
         AndroidScreenAwareNavigationInterceptor(context),
         state.supportInterceptorFactory.create(activity),
-        LogoutScreenInterceptor {
-            showBottomBar = false
-            state.eventSink(NavbarEvent.OnLogout)
-        })
+        RootScreenInterceptor(
+            onReset = { screen ->
+                state.eventSink(NavbarEvent.OnReset(screen))
+                if (screen is LoginScreen) {
+                    showBottomBar = false
+                }
+            }
+        )
+    )
 
     val currentBackStack = rememberTabBackStack(
         items = state.items,

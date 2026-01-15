@@ -27,14 +27,23 @@ import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuitx.navigation.intercepting.InterceptedResetRootResult
 import com.slack.circuitx.navigation.intercepting.NavigationContext
 import com.slack.circuitx.navigation.intercepting.NavigationInterceptor
+import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.libraries.circuit.navigation.LoginScreen
 
 /**
- * Navigation interceptor for handling logout scenario.
- * Calls [onLogout] when [LoginScreen] is reset.
+ * A [NavigationInterceptor] that intercepts requests to reset the root to specific "sentinel" screens.
+ *
+ * Instead of performing a standard navigation reset within the current context, this interceptor
+ * captures requests for [LoginScreen] and [HomeNavScreen] and delegates them to the [onReset] callback.
+ *
+ * This pattern allows nested navigators to signal high-level app state changes (such as logging out
+ * or resetting the main dashboard) by simply attempting to navigate to those screens.
+ *
+ * @property onReset A callback invoked when a matching root screen is intercepted. The target [Screen]
+ * is passed as an argument to distinguish the requested action.
  */
-class LogoutScreenInterceptor(
-    private val onLogout: () -> Unit
+class RootScreenInterceptor(
+    private val onReset: (Screen) -> Unit,
 ) : NavigationInterceptor {
 
     override fun resetRoot(
@@ -44,7 +53,12 @@ class LogoutScreenInterceptor(
     ): InterceptedResetRootResult {
         return when (newRoot) {
             LoginScreen -> {
-                onLogout()
+                onReset(LoginScreen)
+                NavigationInterceptor.SuccessConsumed
+            }
+
+            HomeNavScreen -> {
+                onReset(HomeNavScreen)
                 NavigationInterceptor.SuccessConsumed
             }
 

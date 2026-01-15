@@ -43,7 +43,6 @@ import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
 import ss.libraries.circuit.navigation.FeedScreen
 import ss.libraries.circuit.navigation.HomeNavScreen
-import ss.libraries.circuit.navigation.LoginScreen
 import ss.prefs.api.SSPrefs
 import ss.resources.api.ResourcesRepository
 import ss.resources.model.LanguageModel
@@ -81,9 +80,8 @@ class HomeNavigationPresenter @AssistedInject constructor(
                             val screen = event.item.screen()
                             ssPrefs.setLastNavigationScreen(screen.type.name)
                         }
-
-                        is State.NavbarNavigation.Event.OnLogout -> {
-                            navigator.resetRoot(LoginScreen)
+                        is State.NavbarNavigation.Event.OnReset -> {
+                            navigator.resetRoot(event.screen)
                         }
                     }
                 }
