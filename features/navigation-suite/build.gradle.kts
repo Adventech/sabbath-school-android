@@ -43,6 +43,7 @@ ksp {
 }
 
 dependencies {
+    implementation(libs.androidx.activity.compose)
     implementation(libs.google.hilt.android)
     implementation(libs.kotlinx.collectionsImmutable)
     implementation(libs.material3.adaptive.navigation.suite)
@@ -52,6 +53,7 @@ dependencies {
     implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.prefs.api)
+    implementation(projects.services.circuit.impl)
     implementation(projects.services.resources.api)
 
     testImplementation(libs.bundles.testing.common)

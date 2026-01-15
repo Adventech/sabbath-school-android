@@ -84,8 +84,16 @@ internal fun LazyListScope.footer(
         )
     }
 
-    item {
+    item("insets") {
         Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.systemBars))
+    }
+
+    item("spacer") {
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+        )
     }
 }
 

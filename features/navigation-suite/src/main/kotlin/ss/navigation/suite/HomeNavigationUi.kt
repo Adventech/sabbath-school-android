@@ -23,14 +23,18 @@
 
 package ss.navigation.suite
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -40,15 +44,32 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffo
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldDefaults
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.widget.scaffold.HazeScaffold
+import app.ss.design.compose.widget.scaffold.LocalNavbarController
+import app.ss.design.compose.widget.scaffold.NavbarController
+import com.slack.circuit.backstack.SaveableBackStack
+import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.CircuitContent
+import com.slack.circuit.foundation.LocalCircuit
+import com.slack.circuit.foundation.NavigableCircuitContent
+import com.slack.circuit.foundation.rememberCircuitNavigator
+import com.slack.circuit.runtime.screen.Screen
+import com.slack.circuitx.android.rememberAndroidScreenAwareNavigator
+import com.slack.circuitx.gesturenavigation.GestureNavigationDecorationFactory
 import dagger.hilt.components.SingletonComponent
 import ss.libraries.circuit.navigation.HomeNavScreen
 
@@ -80,20 +101,48 @@ private fun NavigationSuite(
 ) {
     val layoutType = NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(currentWindowAdaptiveInfo())
     val hapticFeedback = LocalSsHapticFeedback.current
+    val activity = requireNotNull(LocalActivity.current) { "Local activity not provided" }
+    val context = LocalContext.current
+    val circuit = requireNotNull(LocalCircuit.current) { "Local circuit not provided" }
+    var showBottomBar by remember { mutableStateOf(true) }
+    val controller = remember {
+        object: NavbarController {
+            override fun hide() { showBottomBar = false }
+            override fun show() { showBottomBar = true }
+        }
+    }
+
+    val currentBackStack = rememberTabBackStack(
+        items = state.items,
+        selectedScreen = state.selectedItem,
+        rootScreenProvider = { it.screen() }
+    )
+    val circuitNavigator = rememberCircuitNavigator(currentBackStack)
+    val supportingNavigator = remember(circuitNavigator) {
+        state.navigatorFactory.create(circuitNavigator, activity)
+    }
+    val navigator = rememberAndroidScreenAwareNavigator(supportingNavigator, context)
 
     val content: @Composable (PaddingValues) -> Unit = {
         AnimatedContent(
-            targetState = state.selectedItem,
+            targetState = currentBackStack,
             transitionSpec = {
                 fadeIn(animationSpec = tween(300)).togetherWith(fadeOut(animationSpec = tween(300)))
             },
             label = "content",
-        ) { screen ->
-            CircuitContent(
-                screen = screen,
-                modifier = Modifier.fillMaxSize(),
-                onNavEvent = { state.eventSink(State.NavbarNavigation.Event.OnNavEvent(it)) },
-            )
+        ) { backStack ->
+            CompositionLocalProvider(LocalNavbarController provides controller) {
+                NavigableCircuitContent(
+                    navigator = navigator,
+                    backStack = backStack,
+                    modifier = Modifier.fillMaxSize(),
+                    circuit = circuit,
+                    decoratorFactory =
+                        remember(navigator) {
+                            GestureNavigationDecorationFactory(onBackInvoked = navigator::pop)
+                        },
+                )
+            }
         }
     }
 
@@ -103,24 +152,35 @@ private fun NavigationSuite(
             HazeScaffold(
                 modifier = modifier,
                 bottomBar = {
-                    NavigationBar(
-                        modifier = Modifier,
-                        containerColor = Color.Transparent,
-                    ) {
-                        state.items.forEach { model ->
-                            NavigationBarItem(
-                                icon = {
-                                    Icon(
-                                        painter = painterResource(model.iconRes),
-                                        contentDescription = stringResource(model.title),
-                                    )
-                                },
-                                selected = model.screen() == state.selectedItem,
-                                onClick = {
-                                    state.eventSink(State.NavbarNavigation.Event.OnItemSelected(model))
-                                    hapticFeedback.performSegmentSwitch()
-                                },
+                    AnimatedVisibility(
+                        visible = showBottomBar,
+                        modifier = Modifier.fillMaxWidth(),
+                        enter = fadeIn(
+                            animationSpec = tween(
+                                durationMillis = 150,
+                                delayMillis = 50
                             )
+                        ) + slideInVertically { it },
+                    ) {
+                        NavigationBar(
+                            modifier = Modifier,
+                            containerColor = Color.Transparent,
+                        ) {
+                            state.items.forEach { model ->
+                                NavigationBarItem(
+                                    icon = {
+                                        Icon(
+                                            painter = painterResource(model.iconRes),
+                                            contentDescription = stringResource(model.title),
+                                        )
+                                    },
+                                    selected = model.screen() == state.selectedItem,
+                                    onClick = {
+                                        state.eventSink(State.NavbarNavigation.Event.OnItemSelected(model))
+                                        hapticFeedback.performSegmentSwitch()
+                                    },
+                                )
+                            }
                         }
                     }
                 },
@@ -153,4 +213,26 @@ private fun NavigationSuite(
             }
         }
     }
+}
+
+@Composable
+private fun <T> rememberTabBackStack(
+    items: List<T>,
+    selectedScreen: Screen,
+    rootScreenProvider: (T) -> Screen,
+): SaveableBackStack {
+    // We iterate over all defined tabs to ensure a BackStack is
+    // consistently provided (remembered) for each one.
+    val backStacks = items.associate { item ->
+        val root = rootScreenProvider(item)
+
+        // key(root) ensures that this specific rememberSaveableBackStack
+        // is tied to this specific tab, even if the list order changes.
+        root to key(root) {
+            rememberSaveableBackStack(root = root)
+        }
+    }
+
+    return backStacks[selectedScreen]
+        ?: error("Selected screen $selectedScreen is not found in the provided tab items.")
 }

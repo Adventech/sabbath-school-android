@@ -141,5 +141,13 @@ internal fun SegmentBlocksContent(
         item(key = "spacer") { Spacer(Modifier.height(48.dp)) }
 
         item(key = "spacer-system") { Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.systemBars)) }
+
+        item("spacer-navbar") {
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(80.dp)
+            )
+        }
     }
 }

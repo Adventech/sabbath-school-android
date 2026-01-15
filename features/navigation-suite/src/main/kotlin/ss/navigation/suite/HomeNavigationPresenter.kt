@@ -46,12 +46,14 @@ import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.prefs.api.SSPrefs
 import ss.resources.api.ResourcesRepository
 import ss.resources.model.LanguageModel
+import ss.services.circuit.impl.navigator.AndroidSupportingNavigator
 import timber.log.Timber
 
 class HomeNavigationPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val resourcesRepository: ResourcesRepository,
     private val ssPrefs: SSPrefs,
+    private val navigatorFactory: AndroidSupportingNavigator.Factory
 ) : Presenter<State> {
 
     @CircuitInject(HomeNavScreen::class, SingletonComponent::class)
@@ -71,6 +73,7 @@ class HomeNavigationPresenter @AssistedInject constructor(
             items.isNotEmpty() -> State.NavbarNavigation(
                 selectedItem = selectedScreen,
                 items = items,
+                navigatorFactory = navigatorFactory,
                 eventSink = { event ->
                     when (event) {
                         is State.NavbarNavigation.Event.OnItemSelected -> {

@@ -27,6 +27,7 @@ import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
 import kotlinx.collections.immutable.ImmutableList
+import ss.services.circuit.impl.navigator.AndroidSupportingNavigator
 
 sealed interface State : CircuitUiState {
     object Loading : State
@@ -34,6 +35,7 @@ sealed interface State : CircuitUiState {
     data class NavbarNavigation(
         val selectedItem: Screen,
         val items: ImmutableList<NavbarItem>,
+        val navigatorFactory: AndroidSupportingNavigator.Factory,
         val eventSink: (Event) -> Unit
     ): State {
         sealed interface Event : CircuitUiEvent {

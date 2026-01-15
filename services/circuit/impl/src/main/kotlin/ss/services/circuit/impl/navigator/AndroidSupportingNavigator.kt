@@ -1,6 +1,6 @@
 package ss.services.circuit.impl.navigator
 
-import androidx.activity.ComponentActivity
+import android.app.Activity
 import com.cryart.sabbathschool.core.extensions.context.launchWebUrl
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.slack.circuit.runtime.Navigator
@@ -35,7 +35,7 @@ class AndroidSupportingNavigator
 constructor(
     private val appNavigator: AppNavigator,
     @Assisted private val navigator: Navigator,
-    @Assisted private val activity: ComponentActivity
+    @Assisted private val activity: Activity
 ) : Navigator by navigator {
 
   override fun goTo(screen: Screen): Boolean {
@@ -48,6 +48,6 @@ constructor(
 
   @AssistedFactory
   interface Factory {
-    fun create(navigator: Navigator, activity: ComponentActivity): AndroidSupportingNavigator
+    fun create(navigator: Navigator, activity: Activity): AndroidSupportingNavigator
   }
 }
