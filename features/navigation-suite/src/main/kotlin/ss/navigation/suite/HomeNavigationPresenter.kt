@@ -46,12 +46,14 @@ import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.prefs.api.SSPrefs
 import ss.resources.api.ResourcesRepository
 import ss.resources.model.LanguageModel
+import ss.services.circuit.impl.interceptor.AndroidSupportingInterceptor
 import timber.log.Timber
 
 class HomeNavigationPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val resourcesRepository: ResourcesRepository,
     private val ssPrefs: SSPrefs,
+    private val supportInterceptorFactory: AndroidSupportingInterceptor.Factory
 ) : Presenter<State> {
 
     @CircuitInject(HomeNavScreen::class, SingletonComponent::class)
@@ -71,15 +73,15 @@ class HomeNavigationPresenter @AssistedInject constructor(
             items.isNotEmpty() -> State.NavbarNavigation(
                 selectedItem = selectedScreen,
                 items = items,
+                supportInterceptorFactory = supportInterceptorFactory,
                 eventSink = { event ->
                     when (event) {
                         is State.NavbarNavigation.Event.OnItemSelected -> {
                             val screen = event.item.screen()
                             ssPrefs.setLastNavigationScreen(screen.type.name)
                         }
-
-                        is State.NavbarNavigation.Event.OnNavEvent -> {
-                            navigator.onNavEvent(event.navEvent)
+                        is State.NavbarNavigation.Event.OnReset -> {
+                            navigator.resetRoot(event.screen)
                         }
                     }
                 }

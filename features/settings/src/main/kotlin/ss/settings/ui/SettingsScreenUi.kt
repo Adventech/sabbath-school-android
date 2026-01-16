@@ -24,6 +24,8 @@ package ss.settings.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -102,7 +104,15 @@ fun SettingsScreenUi(
                 key = { it.id }
             ) { item -> item.Content() }
 
-            item { Spacer(Modifier.navigationBarsPadding()) }
+            item("insets") { Spacer(Modifier.navigationBarsPadding()) }
+
+            item("spacer") {
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(80.dp)
+                )
+            }
         }
     }
 

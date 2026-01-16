@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2026. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,26 +20,22 @@
  * THE SOFTWARE.
  */
 
-plugins {
-    alias(libs.plugins.foundry.base)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.parcelize)
-    alias(libs.plugins.hilt)
+package app.ss.design.compose.widget.scaffold
+
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.compositionLocalOf
+
+@Stable
+interface NavbarController {
+    fun hide()
+    fun show()
 }
 
-foundry {
-    features { compose() }
+val LocalNavbarController = compositionLocalOf<NavbarController> { DefaultController }
+
+private data object DefaultController : NavbarController {
+    override fun hide() = Unit
+    override fun show() = Unit
 }
 
-dependencies {
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.google.hilt.android)
-    implementation(libs.kotlinx.collectionsImmutable)
-    implementation(projects.common.core)
-    implementation(projects.common.designCompose)
-    implementation(projects.libraries.circuit.api)
 
-    ksp(libs.google.hilt.compiler)
-}

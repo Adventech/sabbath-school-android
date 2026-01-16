@@ -27,6 +27,7 @@ import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
 import kotlinx.collections.immutable.ImmutableList
+import ss.services.circuit.impl.interceptor.AndroidSupportingInterceptor
 
 sealed interface State : CircuitUiState {
     object Loading : State
@@ -34,11 +35,12 @@ sealed interface State : CircuitUiState {
     data class NavbarNavigation(
         val selectedItem: Screen,
         val items: ImmutableList<NavbarItem>,
+        val supportInterceptorFactory: AndroidSupportingInterceptor.Factory,
         val eventSink: (Event) -> Unit
     ): State {
         sealed interface Event : CircuitUiEvent {
             data class OnItemSelected(val item: NavbarItem) : Event
-            data class OnNavEvent(val navEvent: NavEvent) : Event
+            data class OnReset(val screen: Screen): Event
         }
     }
 
