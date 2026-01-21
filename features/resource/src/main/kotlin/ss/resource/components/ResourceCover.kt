@@ -422,5 +422,5 @@ private fun nonSplashCover(coverType: ResourceCoverType): DpSize {
 private fun defaultHeight(): Dp {
     val config = LocalConfiguration.current
     val screenHeight = LocalWindowInfo.current.containerHeight()
-    return (screenHeight.toFloat() * (if (isLargeScreen() && (config.orientation == Configuration.ORIENTATION_LANDSCAPE)) 0.8f else 0.6f)).dp
+    return (screenHeight * (if (isLargeScreen() && (config.orientation == Configuration.ORIENTATION_LANDSCAPE)) 0.8f else 0.6f)).dp
 }
