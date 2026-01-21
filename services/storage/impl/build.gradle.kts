@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.LibraryExtension
+
 /*
  * Copyright (c) 2023. Adventech <info@adventech.io>
  *
@@ -22,13 +24,12 @@
 
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.foundry.base)
     alias(libs.plugins.hilt)
 }
 
-android {
+extensions.configure<LibraryExtension> {
     namespace = "ss.services.storage.impl"
 }
 

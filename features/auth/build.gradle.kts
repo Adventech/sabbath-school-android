@@ -1,12 +1,13 @@
+import com.android.build.api.dsl.LibraryExtension
+
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.foundry.base)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
 }
 
-android {
+extensions.configure<LibraryExtension> {
     namespace = "app.ss.auth"
 }
 

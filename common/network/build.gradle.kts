@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.LibraryExtension
+
 /*
  * Copyright (c) 2023. Adventech <info@adventech.io>
  *
@@ -24,10 +26,9 @@ plugins {
     alias(libs.plugins.foundry.base)
     alias(libs.plugins.android.library)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.kotlin.android)
 }
 
-android { namespace = "app.ss.network" }
+extensions.configure<LibraryExtension> { namespace = "app.ss.network" }
 
 dependencies {
     implementation(libs.square.moshi.kotlin)

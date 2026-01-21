@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.LibraryExtension
+
 /*
  * Copyright (c) 2025. Adventech <info@adventech.io>
  *
@@ -24,12 +26,11 @@ plugins {
     alias(libs.plugins.foundry.base)
     alias(libs.plugins.ksp)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.hilt)
 }
 
-android { namespace = "app.ss.libraries.auth" }
+extensions.configure<LibraryExtension> { namespace = "app.ss.libraries.auth" }
 
 dependencies {
     implementation(libs.google.hilt.android)

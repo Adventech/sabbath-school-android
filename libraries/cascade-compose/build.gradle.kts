@@ -1,3 +1,6 @@
+import com.android.build.api.dsl.LibraryExtension
+import org.gradle.kotlin.dsl.configure
+
 /*
  * Copyright (c) 2025. Adventech <info@adventech.io>
  *
@@ -23,11 +26,10 @@
 plugins {
     alias(libs.plugins.foundry.base)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.parcelize)
 }
 
-android { namespace = "me.saket.cascade" }
+extensions.configure<LibraryExtension> { namespace = "me.saket.cascade" }
 
 foundry {
     features { compose() }

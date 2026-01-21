@@ -1,11 +1,12 @@
+import com.android.build.api.dsl.TestExtension
+
 plugins {
     alias(libs.plugins.android.test)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.foundry.base)
 }
 
-android {
+extensions.configure<TestExtension> {
     namespace = "app.ss.baselineprofile"
 
     defaultConfig {
