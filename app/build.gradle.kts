@@ -20,13 +20,13 @@
  * THE SOFTWARE.
  */
 
+import com.android.build.api.dsl.ApplicationExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.ksp)
     alias(libs.plugins.foundry.base)
@@ -47,7 +47,7 @@ val webClientId = readPropertyValue(
     defaultValue = ""
 )
 
-android {
+extensions.configure<ApplicationExtension> {
     namespace = BuildAndroidConfig.APP_ID
 
     defaultConfig {
@@ -99,12 +99,6 @@ android {
         }
     }
 
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
-        }
-    }
-
     testOptions {
         unitTests.isIncludeAndroidResources = true
         unitTests.isReturnDefaultValues = true
@@ -119,6 +113,12 @@ android {
         // our test APK to build (has no effect on our AARs)
         resources.excludes += "/META-INF/AL2.0"
         resources.excludes += "/META-INF/LGPL2.1"
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
     }
 }
 

@@ -1,3 +1,6 @@
+import com.android.build.api.dsl.LibraryExtension
+import org.gradle.kotlin.dsl.configure
+
 /*
  * Copyright (c) 2023. Adventech <info@adventech.io>
  *
@@ -23,10 +26,9 @@
 plugins {
     alias(libs.plugins.foundry.base)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
 }
 
-android { namespace = "ss.ui.placeholder" }
+extensions.configure<LibraryExtension> { namespace = "ss.ui.placeholder" }
 
 foundry {
     features { compose() }

@@ -1,3 +1,6 @@
+import com.android.build.api.dsl.LibraryExtension
+import org.gradle.kotlin.dsl.configure
+
 /*
  * Copyright (c) 2025. Adventech <info@adventech.io>
  *
@@ -24,7 +27,6 @@ plugins {
     alias(libs.plugins.foundry.base)
     alias(libs.plugins.ksp)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.hilt)
 }
@@ -33,7 +35,7 @@ foundry {
     features { compose() }
 }
 
-android {
+extensions.configure<LibraryExtension> {
     namespace = "ss.navigation.suite"
     androidResources.enable = true
 }

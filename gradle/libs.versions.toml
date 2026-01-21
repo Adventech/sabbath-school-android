@@ -258,7 +258,6 @@ foundry-root = { id = "com.slack.foundry.root", version.ref = "foundry" }
 gradle-cache-fix = { id = "org.gradle.android.cache-fix", version.ref = "gradle-cache-fix" }
 gradle-retry = { id = "org.gradle.test-retry", version.ref = "gradle-retry" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "google-hilt" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }

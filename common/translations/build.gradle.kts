@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.LibraryExtension
+
 /*
  * Copyright (c) 2020. Adventech <info@adventech.io>
  *
@@ -25,6 +27,6 @@ plugins {
     alias(libs.plugins.android.library)
 }
 
-android {
+extensions.configure<LibraryExtension> {
     namespace = "app.ss.translations"
 }

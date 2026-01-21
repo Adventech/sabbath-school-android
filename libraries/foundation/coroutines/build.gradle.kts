@@ -1,3 +1,6 @@
+import com.android.build.api.dsl.LibraryExtension
+import org.gradle.kotlin.dsl.configure
+
 /*
  * Copyright (c) 2023. Adventech <info@adventech.io>
  *
@@ -24,11 +27,10 @@ plugins {
     alias(libs.plugins.foundry.base)
     alias(libs.plugins.ksp)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt)
 }
 
-android { namespace = "ss.foundation.coroutines" }
+extensions.configure<LibraryExtension> { namespace = "ss.foundation.coroutines" }
 
 dependencies {
     api(libs.kotlin.coroutines)
