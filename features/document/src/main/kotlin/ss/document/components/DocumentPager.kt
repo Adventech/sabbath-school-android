@@ -22,7 +22,9 @@
 
 package ss.document.components
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
@@ -33,12 +35,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.dp
 import com.slack.circuit.foundation.NavEvent
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.resource.ReferenceModel
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.ui.input.UserInputState
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.coroutines.flow.distinctUntilChanged
 import ss.document.segment.SegmentUi
 
 @Composable
@@ -65,6 +70,27 @@ fun DocumentPager(
 
     val pageListStateMap = remember { mutableMapOf<Int, LazyListState>() }
 
+    // Define toolbar height threshold (Toolbar + Status Bar)
+    val density = LocalDensity.current
+    val topInsetPx = WindowInsets.statusBars.getTop(density)
+    val toolbarHeightPx = with(density) { 56.dp.toPx() } + topInsetPx
+
+    // Helper logic to determine collapse state based on scroll offset
+    fun isCollapsed(listState: LazyListState): Boolean {
+        val visibleItems = listState.layoutInfo.visibleItemsInfo
+        val coverItem = visibleItems.find { it.index == 0 }
+
+        return if (coverItem == null) {
+            // If the cover (index 0) is not in the visible list, it's scrolled away -> Collapsed
+            listState.firstVisibleItemIndex > 0
+        } else {
+            // If cover is visible, check if its bottom edge is above the toolbar
+            // (coverItem.offset is usually negative as we scroll up)
+            val coverBottom = coverItem.offset + coverItem.size
+            coverBottom <= toolbarHeightPx
+        }
+    }
+
     HorizontalPager(
         state = pagerState,
         modifier = modifier.fillMaxSize(),
@@ -76,10 +102,15 @@ fun DocumentPager(
         val listState = rememberLazyListState()
 
         LaunchedEffect(listState) {
-            snapshotFlow { listState.firstVisibleItemIndex }.collect { index ->
-                onCollapseChange(index > 0)
-                pageListStateMap[page] = listState
-            }
+            snapshotFlow { isCollapsed(listState) }
+                .distinctUntilChanged()
+                .collect { collapsed ->
+                    // Only update the callback if this is the currently displayed page
+                    if (pagerState.currentPage == page) {
+                        onCollapseChange(collapsed)
+                    }
+                    pageListStateMap[page] = listState
+                }
         }
 
         SegmentUi(
@@ -104,7 +135,8 @@ fun DocumentPager(
             onPageChange(page)
 
             pageListStateMap[page]?.let { listState ->
-                onCollapseChange(listState.firstVisibleItemIndex > 0)
+                // Immediately check the state of the new page
+                onCollapseChange(isCollapsed(listState))
             }
         }
     }
