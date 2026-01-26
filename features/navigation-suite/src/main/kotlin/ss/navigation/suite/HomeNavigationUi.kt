@@ -107,7 +107,6 @@ private fun NavigationSuite(
     val hapticFeedback = LocalSsHapticFeedback.current
     val activity = requireNotNull(LocalActivity.current) { "Local activity not provided" }
     val context = LocalContext.current
-    val circuit = requireNotNull(LocalCircuit.current) { "Local circuit not provided" }
     var showBottomBar by remember { mutableStateOf(true) }
     val controller = remember {
         object: NavbarController {
@@ -116,18 +115,20 @@ private fun NavigationSuite(
         }
     }
 
-    val interceptors = persistentListOf(
-        AndroidScreenAwareNavigationInterceptor(context),
-        state.supportInterceptorFactory.create(activity),
-        RootScreenInterceptor(
-            onReset = { screen ->
-                state.eventSink(NavbarEvent.OnReset(screen))
-                if (screen is LoginScreen) {
-                    showBottomBar = false
+    val interceptors = remember(context, activity) {
+        persistentListOf(
+            AndroidScreenAwareNavigationInterceptor(context),
+            state.supportInterceptorFactory.create(activity),
+            RootScreenInterceptor(
+                onReset = { screen ->
+                    state.eventSink(NavbarEvent.OnReset(screen))
+                    if (screen is LoginScreen) {
+                        showBottomBar = false
+                    }
                 }
-            }
+            )
         )
-    )
+    }
 
     val currentBackStack = rememberTabBackStack(
         items = state.items,
@@ -153,7 +154,6 @@ private fun NavigationSuite(
                     navigator = navigator,
                     backStack = backStack,
                     modifier = Modifier.fillMaxSize(),
-                    circuit = circuit,
                     decoratorFactory =
                         remember(navigator) {
                             GestureNavigationDecorationFactory(onBackInvoked = navigator::pop)
