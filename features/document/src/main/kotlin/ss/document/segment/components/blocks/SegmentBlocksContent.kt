@@ -134,15 +134,17 @@ internal fun SegmentBlocksContent(
                             style = segmentStyle.takeIf { segment.cover == null },
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .graphicsLayer {
-                                    val firstVisibleIndex = listState.firstVisibleItemIndex
-                                    val firstVisibleOffset = listState.firstVisibleItemScrollOffset.toFloat()
+                                .thenIf(hasCoverParallax) {
+                                    graphicsLayer {
+                                        val firstVisibleIndex = listState.firstVisibleItemIndex
+                                        val firstVisibleOffset = listState.firstVisibleItemScrollOffset.toFloat()
 
-                                    translationY = if (firstVisibleIndex == 0) {
-                                        // Inverse translation keeps text locked to original scroll position
-                                        -(firstVisibleOffset * 0.5f)
-                                    } else {
-                                        0f
+                                        translationY = if (firstVisibleIndex == 0) {
+                                            // Inverse translation keeps text locked to original scroll position
+                                            -(firstVisibleOffset * 0.5f)
+                                        } else {
+                                            0f
+                                        }
                                     }
                                 },
                         )
