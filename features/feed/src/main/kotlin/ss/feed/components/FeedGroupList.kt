@@ -37,6 +37,11 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.theme.Dimens
@@ -137,6 +142,18 @@ internal fun FeedLazyColum(
     contentPadding: PaddingValues = PaddingValues(),
     itemClick: (String) -> Unit = {},
 ) {
+    // Identify the first item's ID.
+    val currentFirstItemId = resources.firstOrNull()?.id
+    var lastKnownId by rememberSaveable { mutableStateOf(currentFirstItemId) }
+
+    // Trigger a scroll only when the first item's ID changes (A new resource is made available)
+    LaunchedEffect(currentFirstItemId) {
+        if (currentFirstItemId != null && currentFirstItemId != lastKnownId) {
+            lastKnownId = currentFirstItemId
+            state.animateScrollToItem(0)
+        }
+    }
+
     LazyColumn(
         modifier = modifier,
         state = state,
@@ -145,7 +162,9 @@ internal fun FeedLazyColum(
         items(resources, key = { it.id }) { spec ->
             FeedResourceView(
                 spec = spec,
-                modifier = Modifier.padding(horizontal = Dimens.grid_4, vertical = Dimens.grid_2)
+                modifier = Modifier
+                    .animateItem()
+                    .padding(horizontal = Dimens.grid_4, vertical = Dimens.grid_2)
             ) {
                 itemClick(spec.index)
             }

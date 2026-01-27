@@ -89,7 +89,7 @@ class FeedPresenter @AssistedInject constructor(
             resourcesRepository.feed(screen.type.toFeedType()).collect { value = it }
         }
 
-        var overlayState = rememberRetained { mutableStateOf<OverlayState?>(null) }
+        val overlayState = rememberRetained { mutableStateOf<OverlayState?>(null) }
 
         val eventSink: (Event) -> Unit = {
             eventSink(it, userInfo, overlayState, coroutineScope, feedType)
