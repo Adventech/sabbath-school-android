@@ -34,6 +34,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.appbar.FeedTopAppBar
+import app.ss.design.compose.widget.list.ScrollToTopEffect
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.overlay.OverlayEffect
@@ -110,6 +111,8 @@ fun FeedScreenUi(state: State, modifier: Modifier = Modifier) {
             }
         }
     }
+
+    ScrollToTopEffect(listState)
 }
 
 @PreviewLightDark

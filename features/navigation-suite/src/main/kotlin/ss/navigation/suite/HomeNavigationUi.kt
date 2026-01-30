@@ -57,6 +57,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
+import app.ss.design.compose.widget.list.LocalScrollToTop
 import app.ss.design.compose.widget.scaffold.HazeScaffold
 import app.ss.design.compose.widget.scaffold.LocalNavbarController
 import app.ss.design.compose.widget.scaffold.NavbarController
@@ -64,7 +65,6 @@ import com.slack.circuit.backstack.SaveableBackStack
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.CircuitContent
-import com.slack.circuit.foundation.LocalCircuit
 import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.foundation.rememberCircuitNavigator
 import com.slack.circuit.runtime.screen.Screen
@@ -73,6 +73,7 @@ import com.slack.circuitx.navigation.intercepting.AndroidScreenAwareNavigationIn
 import com.slack.circuitx.navigation.intercepting.rememberInterceptingNavigator
 import dagger.hilt.components.SingletonComponent
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.flow.MutableSharedFlow
 import ss.libraries.circuit.navigation.HomeNavScreen
 import ss.libraries.circuit.navigation.LoginScreen
 import ss.navigation.suite.State.NavbarNavigation.Event as NavbarEvent
@@ -114,6 +115,7 @@ private fun NavigationSuite(
             override fun show() { showBottomBar = true }
         }
     }
+    val scrollToTopSignal = remember { MutableSharedFlow<Unit>(extraBufferCapacity = 1) }
 
     val interceptors = remember(context, activity) {
         persistentListOf(
@@ -149,7 +151,10 @@ private fun NavigationSuite(
             },
             label = "content",
         ) { backStack ->
-            CompositionLocalProvider(LocalNavbarController provides controller) {
+            CompositionLocalProvider(
+                LocalNavbarController provides controller,
+                LocalScrollToTop provides scrollToTopSignal,
+            ) {
                 NavigableCircuitContent(
                     navigator = navigator,
                     backStack = backStack,
@@ -160,6 +165,22 @@ private fun NavigationSuite(
                         },
                 )
             }
+        }
+    }
+
+    fun handleSelection(isSelected: Boolean, model: NavbarItem) {
+        if (isSelected) {
+            if (currentBackStack.size > 1) {
+                // Reset backstack to the home screen i.e
+                // clear every screen in this stack
+                currentBackStack.popUntil { it.screen == state.selectedItem }
+            } else {
+                // Signal a scroll-to-top on current screen
+                scrollToTopSignal.tryEmit(Unit)
+            }
+        } else {
+            state.eventSink(NavbarEvent.OnItemSelected(model))
+            hapticFeedback.performSegmentSwitch()
         }
     }
 
@@ -184,6 +205,7 @@ private fun NavigationSuite(
                             containerColor = Color.Transparent,
                         ) {
                             state.items.forEach { model ->
+                                val isSelected = model.screen() == state.selectedItem
                                 NavigationBarItem(
                                     icon = {
                                         Icon(
@@ -191,11 +213,8 @@ private fun NavigationSuite(
                                             contentDescription = stringResource(model.title),
                                         )
                                     },
-                                    selected = model.screen() == state.selectedItem,
-                                    onClick = {
-                                        state.eventSink(NavbarEvent.OnItemSelected(model))
-                                        hapticFeedback.performSegmentSwitch()
-                                    },
+                                    selected = isSelected,
+                                    onClick = { handleSelection(isSelected, model) },
                                 )
                             }
                         }
@@ -209,6 +228,7 @@ private fun NavigationSuite(
             NavigationSuiteScaffold(
                 navigationSuiteItems = {
                     state.items.forEach { model ->
+                        val isSelected = state.selectedItem == model.screen()
                         item(
                             icon = {
                                 Icon(
@@ -216,11 +236,8 @@ private fun NavigationSuite(
                                     contentDescription = stringResource(model.title),
                                 )
                             },
-                            selected = state.selectedItem == model.screen(),
-                            onClick = {
-                                state.eventSink(NavbarEvent.OnItemSelected(model))
-                                hapticFeedback.performSegmentSwitch()
-                            },
+                            selected = isSelected,
+                            onClick = { handleSelection(isSelected, model) },
                         )
                     }
                 },
