@@ -74,7 +74,7 @@ import androidx.media3.common.text.Cue
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.compose.PlayerSurface
-import androidx.media3.ui.compose.SURFACE_TYPE_SURFACE_VIEW
+import androidx.media3.ui.compose.SURFACE_TYPE_TEXTURE_VIEW
 import androidx.media3.ui.compose.modifiers.resizeWithContentScale
 import androidx.media3.ui.compose.state.rememberPlayPauseButtonState
 import androidx.media3.ui.compose.state.rememberPlaybackSpeedState
@@ -172,7 +172,7 @@ private fun PlayerContent(
             modifier = scaledModifier
                 .hazeSource(hazeState)
                 .clickable { isControlVisible = !isControlVisible },
-            surfaceType = SURFACE_TYPE_SURFACE_VIEW,
+            surfaceType = SURFACE_TYPE_TEXTURE_VIEW,
         )
 
         if (presentationState.coverSurface) {
