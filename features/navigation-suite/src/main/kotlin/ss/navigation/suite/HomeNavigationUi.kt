@@ -24,13 +24,10 @@
 package ss.navigation.suite
 
 import androidx.activity.compose.LocalActivity
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -132,48 +129,41 @@ private fun NavigationSuite(
         )
     }
 
-    val currentBackStack = rememberTabBackStack(
+    val backStack = rememberTabBackStack(
         items = state.items,
         selectedScreen = state.selectedItem,
-        rootScreenProvider = { it.screen() }
-    )
-    val circuitNavigator = rememberCircuitNavigator(currentBackStack)
-    val navigator = rememberInterceptingNavigator(
-        navigator = circuitNavigator,
-        interceptors = interceptors,
+        rootScreenProvider = { it.screen() },
     )
 
     val content: @Composable (PaddingValues) -> Unit = {
-        AnimatedContent(
-            targetState = currentBackStack,
-            transitionSpec = {
-                fadeIn(animationSpec = tween(300)).togetherWith(fadeOut(animationSpec = tween(300)))
-            },
-            label = "content",
-        ) { backStack ->
-            CompositionLocalProvider(
-                LocalNavbarController provides controller,
-                LocalScrollToTop provides scrollToTopSignal,
-            ) {
-                NavigableCircuitContent(
-                    navigator = navigator,
-                    backStack = backStack,
-                    modifier = Modifier.fillMaxSize(),
-                    decoratorFactory =
-                        remember(navigator) {
-                            GestureNavigationDecorationFactory(onBackInvoked = navigator::pop)
-                        },
-                )
-            }
+        val circuitNavigator = rememberCircuitNavigator(backStack)
+        val navigator = rememberInterceptingNavigator(
+            navigator = circuitNavigator,
+            interceptors = interceptors,
+        )
+        val decoratorFactory = remember(navigator) {
+            GestureNavigationDecorationFactory(onBackInvoked = navigator::pop)
+        }
+
+        CompositionLocalProvider(
+            LocalNavbarController provides controller,
+            LocalScrollToTop provides scrollToTopSignal,
+        ) {
+            NavigableCircuitContent(
+                navigator = navigator,
+                backStack = backStack,
+                modifier = Modifier.fillMaxSize(),
+                decoratorFactory = decoratorFactory,
+            )
         }
     }
 
     fun handleSelection(isSelected: Boolean, model: NavbarItem) {
         if (isSelected) {
-            if (currentBackStack.size > 1) {
+            if (backStack.size > 1) {
                 // Reset backstack to the home screen i.e
                 // clear every screen in this stack
-                currentBackStack.popUntil { it.screen == state.selectedItem }
+                backStack.popUntil { it.screen == state.selectedItem }
             } else {
                 // Signal a scroll-to-top on current screen
                 scrollToTopSignal.tryEmit(Unit)
