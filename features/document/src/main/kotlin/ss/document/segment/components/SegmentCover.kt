@@ -22,6 +22,7 @@
 
 package ss.document.segment.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -30,6 +31,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
@@ -42,9 +45,14 @@ import app.ss.design.compose.widget.image.RemoteImage
 internal fun SegmentCover(
     cover: String?,
     modifier: Modifier = Modifier,
-    headerContent: @Composable () -> Unit = {  },
+    headerContent: @Composable () -> Unit = { },
 ) {
-    val height = LocalWindowInfo.current.containerHeight()
+    val windowInfo = LocalWindowInfo.current
+    val height = windowInfo.containerHeight()
+    // Calculate image height (50% of screen)
+    val imageHeight = (height * 0.5).dp
+    // Calculate gradient height (Image Height / 2.5)
+    val gradientHeight = imageHeight / 2.5f
 
     Box(modifier.fillMaxWidth(), contentAlignment = Alignment.BottomCenter) {
         if (cover == null) {
@@ -54,19 +62,44 @@ internal fun SegmentCover(
                         .fillMaxWidth()
                         .height((height * 0.25).dp),
                 )
-
                 headerContent()
             }
         } else {
-            ContentBox(
-                content = RemoteImage(
-                    data = cover,
-                    loading = { Box(modifier = Modifier.asPlaceholder(true, shape = RectangleShape)) },
-                ),
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height((height * 0.5).dp)
-            )
+                    .height(imageHeight)
+            ) {
+                ContentBox(
+                    content = RemoteImage(
+                        data = cover,
+                        loading = { Box(modifier = Modifier.asPlaceholder(true, shape = RectangleShape)) },
+                    ),
+                    modifier = Modifier.matchParentSize()
+                )
+
+                // Top Gradient (Scrim) for Toolbar Visibility
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(gradientHeight) // Covers top ~40% of the image
+                        .align(Alignment.TopCenter)
+                        .background(
+                            brush = Brush.verticalGradient(
+                                colors = listOf(
+                                    // Start Dark at the top (0.4 opacity)
+                                    Color.Black.copy(alpha = 0.4f),
+                                    // Fade to lighter dark
+                                    Color.Black.copy(alpha = 0.15f),
+                                    // End completely transparent
+                                    Color.Transparent
+                                ),
+                                startY = 0f,
+                                endY = Float.POSITIVE_INFINITY
+                            )
+                        )
+                )
+            }
 
             headerContent()
         }

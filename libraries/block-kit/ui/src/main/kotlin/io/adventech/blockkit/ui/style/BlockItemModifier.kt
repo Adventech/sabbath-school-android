@@ -23,7 +23,12 @@
 package io.adventech.blockkit.ui.style
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
@@ -65,6 +70,7 @@ internal fun Modifier.background(blockItem: BlockItem, nested: Boolean? = blockI
             color = Styler.backgroundColor(blockStyle),
             shape = if (blockStyle?.rounded == true) Styler.roundedShape() else RectangleShape,
         )
+        .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
         .padding(Styler.padding(blockPaddingStyle))
 }
 

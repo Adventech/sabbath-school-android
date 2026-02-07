@@ -25,13 +25,20 @@ package ss.document.segment.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -52,18 +59,23 @@ internal fun SegmentHeader(
     contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 24.dp)
 ) {
     Column(
-        modifier = modifier.padding(contentPadding),
+        modifier = modifier
+            .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
+            .padding(contentPadding),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        subtitle?.let {
+        subtitle?.let { text ->
             SelectionContainer {
                 MarkdownText(
-                    markdownText = it.uppercase(),
+                    markdownText = text.uppercase(),
                     modifier = Modifier.fillMaxWidth(),
                     style = (style?.subtitle?.text?.let {
-                        Styler.textStyle(it)
+                        Styler.textStyle(it).copy(
+                            shadow = textShadow,
+                        )
                     } ?: SsTheme.typography.titleLarge).copy(
-                        fontSize = 15.sp
+                        fontSize = 15.sp,
+                        shadow = textShadow,
                     ),
                     color = contentColor.copy(alpha = 0.6f),
                     maxLines = 2,
@@ -73,15 +85,18 @@ internal fun SegmentHeader(
             }
         }
 
-        date?.dateDisplay()?.let {
+        date?.dateDisplay()?.let { text ->
             SelectionContainer {
                 Text(
-                    text = it.uppercase(),
+                    text = text.uppercase(),
                     modifier = Modifier.fillMaxWidth(),
                     style = (style?.date?.text?.let {
-                        Styler.textStyle(it)
+                        Styler.textStyle(it).copy(
+                            shadow = textShadow,
+                        )
                     } ?: SsTheme.typography.titleLarge).copy(
-                        fontSize = 15.sp
+                        fontSize = 15.sp,
+                        shadow = textShadow,
                     ),
                     color = contentColor.copy(alpha = 0.7f),
                     maxLines = 2,
@@ -96,11 +111,13 @@ internal fun SegmentHeader(
                 style = (style?.title?.text?.let {
                     Styler.textStyle(it).copy(
                         fontSize = 30.sp,
-                        lineHeight = 30.sp
+                        lineHeight = 30.sp,
+                        shadow = textShadow,
                     )
                 } ?: SsTheme.typography.titleLarge).copy(
                     fontSize = 30.sp,
-                    lineHeight = 30.sp
+                    lineHeight = 30.sp,
+                    shadow = textShadow,
                 ),
                 color = style?.title?.text?.color?.let { Styler.textColor(style.title?.text) } ?: contentColor,
                 maxLines = 3,
@@ -114,3 +131,9 @@ internal fun SegmentHeader(
 internal fun String?.dateDisplay(): String? {
     return this?.let { DateHelper.formatDate(it) }
 }
+
+private val textShadow = Shadow(
+    color = Color.Black.copy(alpha = 0.6f),  // Dark shadow with some transparency
+    offset = Offset(0f, 4f),        // Slight vertical offset
+    blurRadius = 8f                         // Soft blur
+)
