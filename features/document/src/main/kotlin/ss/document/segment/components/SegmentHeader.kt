@@ -25,8 +25,13 @@ package ss.document.segment.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -54,7 +59,9 @@ internal fun SegmentHeader(
     contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 24.dp)
 ) {
     Column(
-        modifier = modifier.padding(contentPadding),
+        modifier = modifier
+            .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
+            .padding(contentPadding),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         subtitle?.let { text ->

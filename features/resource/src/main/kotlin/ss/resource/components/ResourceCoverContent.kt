@@ -29,11 +29,16 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
@@ -120,6 +125,7 @@ internal fun ColumnScope.CoverContent(
                     maxLines = 3,
                     modifier = Modifier
                         .fillMaxWidth()
+                        .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
                         .padding(horizontal = SsTheme.dimens.grid_4, vertical = 8.dp)
                 )
             }
@@ -135,6 +141,7 @@ internal fun ColumnScope.CoverContent(
                     readMoreMaxLines = 3,
                     modifier = Modifier
                         .fillMaxWidth()
+                        .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
                         .padding(horizontal = SsTheme.dimens.grid_4, vertical = 8.dp)
                         .thenIf(!(resource.introduction ?: resource.markdownDescription ?: resource.description).isNullOrEmpty()) {
                             clickable { readMoreClick() }
@@ -198,6 +205,7 @@ internal fun ColumnScope.CoverContent(
         overflow = TextOverflow.Ellipsis,
         modifier = Modifier
             .fillMaxWidth()
+            .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
             .padding(horizontal = SsTheme.dimens.grid_4)
             .padding(top = paddingTop, bottom = 8.dp)
     )
