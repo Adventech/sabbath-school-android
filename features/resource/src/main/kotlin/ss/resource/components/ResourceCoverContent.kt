@@ -196,7 +196,7 @@ internal fun ColumnScope.CoverContent(
             fontSize = 30.sp,
             color = titleColor,
             lineHeight = 40.sp,
-            shadow = textShadow,
+            shadow = textShadow.takeIf { type == CoverContentType.PRIMARY },
         ),
         color = titleColor,
         textAlign = Styler.textAlign(style) ?: textAlign,
