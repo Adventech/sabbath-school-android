@@ -46,7 +46,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -187,6 +189,7 @@ internal fun ColumnScope.CoverContent(
             fontSize = 30.sp,
             color = titleColor,
             lineHeight = 40.sp,
+            shadow = textShadow,
         ),
         color = titleColor,
         textAlign = Styler.textAlign(style) ?: textAlign,
@@ -228,6 +231,12 @@ internal fun ColumnScope.CoverContent(
         featuresRow()
     }
 }
+
+private val textShadow = Shadow(
+    color = Color.Black.copy(alpha = 0.8f),  // Dark shadow with some transparency
+    offset = Offset(0f, 4f),        // Slight vertical offset
+    blurRadius = 4f                         // Soft blur
+)
 
 @Composable
 private fun ColumnScope.CtaButton(
