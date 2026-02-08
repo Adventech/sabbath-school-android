@@ -65,7 +65,6 @@ import com.slack.circuit.foundation.CircuitContent
 import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.foundation.rememberCircuitNavigator
 import com.slack.circuit.runtime.screen.Screen
-import com.slack.circuitx.gesturenavigation.GestureNavigationDecorationFactory
 import com.slack.circuitx.navigation.intercepting.AndroidScreenAwareNavigationInterceptor
 import com.slack.circuitx.navigation.intercepting.rememberInterceptingNavigator
 import dagger.hilt.components.SingletonComponent
@@ -141,9 +140,6 @@ private fun NavigationSuite(
             navigator = circuitNavigator,
             interceptors = interceptors,
         )
-        val decoratorFactory = remember(navigator) {
-            GestureNavigationDecorationFactory(onBackInvoked = navigator::pop)
-        }
 
         CompositionLocalProvider(
             LocalNavbarController provides controller,
@@ -153,7 +149,6 @@ private fun NavigationSuite(
                 navigator = navigator,
                 backStack = backStack,
                 modifier = Modifier.fillMaxSize(),
-                decoratorFactory = decoratorFactory,
             )
         }
     }
