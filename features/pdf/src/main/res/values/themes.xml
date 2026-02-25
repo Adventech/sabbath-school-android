@@ -37,7 +37,6 @@
         <item name="pspdf__outlineViewStyle">@style/Widget.SS.Pdf.OutlineStyle</item>
         <item name="pspdf__contextualToolbarStyle">@style/Widget.SS.Pdf.ContextualToolbarStyle</item>
         <item name="pspdf__settingsModePickerItemStyle">@style/Widget.SS.Pdf.SettingsModePickerItemStyle</item>
-        <item name="pspdf__settingsModeLineSeparatorStyle">@style/Widget.SS.Pdf.SettingsModeLineSeparatorStyle</item>
         <item name="pspdf__tabBarStyle">@style/Widget.SS.Pdf.TabBarStyle</item>
         <item name="pspdf__textSelectionStyle">@style/Widget.SS.Pdf.TextSelectionStyle</item>
     </style>

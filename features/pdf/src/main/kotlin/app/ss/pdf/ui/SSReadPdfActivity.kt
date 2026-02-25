@@ -159,20 +159,20 @@ class SSReadPdfActivity : PdfActivity() {
     private fun loadAnnotations(document: PdfDocument, annotations: List<PDFAuxAnnotations>) {
         if (annotations.isEmpty()) return
 
-        with(document.annotationProvider) {
-            document.annotations()
-                .forEach { removeAnnotationFromPage(it) }
-
-            annotations
-                .flatMap { it.annotations }
-                .forEach { createAnnotationFromInstantJson(it) }
-        }
+//        with(document.annotationProvider) {
+//            document.annotations()
+//                .forEach { removeAnnotationFromPage(it) }
+//
+//            annotations
+//                .flatMap { it.annotations }
+//                .forEach { createAnnotationFromInstantJson(it) }
+//        }
     }
 
     override fun onStop() {
         val documents = loadedDocuments.mapNotNull { it.document }
         documents.forEachIndexed { index, pdfDocument ->
-            viewModel.saveAnnotations(pdfDocument, index)
+           // viewModel.saveAnnotations(pdfDocument, index)
         }
         readerPrefs.saveConfiguration(configuration.configuration)
         super.onStop()

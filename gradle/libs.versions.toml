@@ -46,7 +46,7 @@ ksp = "2.3.6"
 markwon = "4.6.2"
 material3-adaptive-navigation-suite = "1.4.0"
 moshix = "0.35.0"
-pdfkit = "2024.9.1"
+nutrient = "11.0.0"
 robolectric = "4.16.1"
 saket-extendedspans = "1.4.0"
 saket-telephoto = "0.18.0"
@@ -146,6 +146,7 @@ google-material = { module = "com.google.android.material:material", version.ref
 haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
 haze-materials = { module = "dev.chrisbanes.haze:haze-materials", version.ref = "haze" }
 material3-adaptive-navigation-suite = { module = "androidx.compose.material3:material3-adaptive-navigation-suite", version.ref = "material3-adaptive-navigation-suite" }
+nutrient = { module = "io.nutrient:nutrient", version.ref = "nutrient" }
 saket-extendedspans = { module = "me.saket.extendedspans:extendedspans", version.ref = "saket-extendedspans" }
 saket-telephoto = { module = "me.saket.telephoto:zoomable", version.ref = "saket-telephoto" }
 saket-telephoto-flick = { module = "me.saket.telephoto:flick", version.ref = "saket-telephoto" }
@@ -157,7 +158,6 @@ kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines
 kotlin-coroutines-guava = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-guava", version.ref = "kotlin-coroutines" }
 kotlinx-collectionsImmutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-immutable" }
 markwon-core = { module = "io.noties.markwon:core", version.ref = "markwon" }
-pdfkit = { module = "com.pspdfkit:pspdfkit", version.ref = "pdfkit" }
 snapper = { module = "dev.chrisbanes.snapper:snapper", version.ref = "snapper" }
 square-moshi-adapters = { module = "com.squareup.moshi:moshi-adapters", version.ref = "square-moshi" }
 square-moshi-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "square-moshi" }

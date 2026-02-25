@@ -33,7 +33,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven("https://customers.pspdfkit.com/maven")
+        maven("https://my.nutrient.io/maven")
     }
 }
 

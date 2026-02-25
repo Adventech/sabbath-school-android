@@ -26,10 +26,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import app.ss.pdf.model.PdfDocumentSpec
 import com.pspdfkit.jetpack.compose.interactors.rememberDocumentState
-import com.pspdfkit.jetpack.compose.utilities.ExperimentalPSPDFKitApi
 import com.pspdfkit.jetpack.compose.views.DocumentView
 
-@OptIn(ExperimentalPSPDFKitApi::class)
 @Composable
 fun PdfDocumentView(
     spec: PdfDocumentSpec,

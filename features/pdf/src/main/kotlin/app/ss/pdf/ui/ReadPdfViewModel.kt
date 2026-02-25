@@ -88,7 +88,7 @@ class ReadPdfViewModel @Inject constructor(
                 }.toMap()
             }
             .catch { Timber.e(it) }
-            .stateIn(viewModelScope, emptyMap<Int, List<PDFAuxAnnotations>>())
+            .stateIn(viewModelScope, emptyMap())
 
     init {
         checkMediaAvailability()
@@ -113,7 +113,7 @@ class ReadPdfViewModel @Inject constructor(
         _pdfFiles.update { files }
     }
 
-    fun saveAnnotations(document: PdfDocument, docIndex: Int) {
+    suspend fun saveAnnotations(document: PdfDocument, docIndex: Int) {
         val pdfs = savedStateHandle.screen?.pdfs ?: return
         val documentId = savedStateHandle.screen?.documentId ?: return
         val pdfId = pdfs.getOrNull(docIndex)?.id ?: return
@@ -141,7 +141,7 @@ class ReadPdfViewModel @Inject constructor(
     private fun invalidInstantJson(json: String) = json != "null"
 }
 
-fun PdfDocument.annotations(): List<Annotation> {
+suspend fun PdfDocument.annotations(): List<Annotation> {
     val allAnnotations = mutableListOf<Annotation>()
     for (i in 0 until pageCount) {
         val annotations = annotationProvider.getAnnotations(i)

@@ -62,11 +62,7 @@ dependencies {
     implementation(libs.androidx.preference)
     implementation(libs.google.hilt.android)
     implementation(libs.google.material)
-    implementation(libs.pdfkit) {
-        // We don't need these transitive dependencies
-        exclude(group = "com.google.android.material", module = "material")
-        exclude(group = "androidx.compose.runtime", module = "runtime") // imported as aar and breaks the build
-    }
+    implementation(libs.nutrient)
     implementation(libs.timber)
     implementation(projects.common.core)
     implementation(projects.common.design)
