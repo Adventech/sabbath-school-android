@@ -47,7 +47,6 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -55,9 +54,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.Dp
@@ -70,13 +67,13 @@ import app.ss.design.compose.extensions.window.containerHeight
 import app.ss.design.compose.extensions.window.containerWidth
 import app.ss.design.compose.widget.content.ContentBox
 import app.ss.design.compose.widget.image.RemoteImage
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import coil.size.Scale
 import dev.chrisbanes.haze.HazeDefaults
 import dev.chrisbanes.haze.HazeProgressive
+import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.HazeTint
 import dev.chrisbanes.haze.hazeEffect
+import dev.chrisbanes.haze.hazeSource
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.model.resource.ResourceCoverType
 import io.adventech.blockkit.model.resource.ResourcePreferredCover
@@ -88,8 +85,8 @@ fun ResourceCover(
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.(CoverContentType) -> Unit
 ) {
+    val hazeState = remember { HazeState() }
     val isLargeScreen = isLargeScreen()
-    var splashImageLoaded by remember { mutableStateOf(false) }
     val coverContentType by remember(resource) {
         mutableStateOf(
             if (resource.covers.splash.isNullOrEmpty()) {
@@ -108,17 +105,16 @@ fun ResourceCover(
         splashImage = resource.covers.splash,
         modifier = modifier,
         scrollOffset = scrollOffset,
-        onCoverLoaded = { splashImageLoaded = true }
+        hazeState = hazeState,
     ) {
         when (coverContentType) {
             CoverContentType.PRIMARY -> {
                 ContentPrimary(
-                    splashImage = resource.covers.splash,
                     primaryColor = resource.primaryColor,
                     primaryDarkColor = resource.primaryColorDark,
-                    splashImageLoaded = splashImageLoaded,
                     modifier = Modifier.align(Alignment.BottomCenter),
                     scrollOffset = scrollOffset,
+                    hazeState = hazeState,
                 ) {
                     content(coverContentType)
                 }
@@ -141,7 +137,7 @@ private fun CoverBox(
     splashImage: String?,
     modifier: Modifier = Modifier,
     scrollOffset: () -> Float = { 0f },
-    onCoverLoaded: () -> Unit = {},
+    hazeState: HazeState,
     content: @Composable BoxScope.() -> Unit
 ) {
     Box(
@@ -155,10 +151,10 @@ private fun CoverBox(
             cover = splashImage,
             color = color,
             modifier = Modifier
+                .hazeSource(state = hazeState)
                 .graphicsLayer {
                     translationY = scrollOffset() * 0.5f
                 },
-            onCoverLoaded = onCoverLoaded,
         )
 
         content()
@@ -167,23 +163,21 @@ private fun CoverBox(
 
 @Composable
 private fun ContentPrimary(
-    splashImage: String?,
     primaryColor: String,
     primaryDarkColor: String,
-    splashImageLoaded: Boolean,
     modifier: Modifier = Modifier,
     scrollOffset: () -> Float = { 0f },
+    hazeState: HazeState,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Box(modifier = modifier) {
-        if (HazeDefaults.blurEnabled() && splashImageLoaded) {
-            BottomHalfAsyncImage(
-                model = splashImage,
+        if (HazeDefaults.blurEnabled()) {
+            Spacer(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(0.4f)
                     .align(Alignment.BottomCenter)
-                    .hazeEffect {
+                    .hazeEffect(state = hazeState) {
                         blurEnabled = true
                         backgroundColor = Color.Transparent
                         blurRadius = 500.dp
@@ -228,29 +222,10 @@ private fun ContentPrimary(
 }
 
 @Composable
-private fun BottomHalfAsyncImage(
-    model: Any?,
-    modifier: Modifier = Modifier,
-) {
-    val context = LocalContext.current
-
-    AsyncImage(
-        model = ImageRequest.Builder(context)
-            .data(model)
-            .transformations(BottomHalfTransformation())
-            .build(),
-        contentDescription = null,
-        modifier = modifier,
-        contentScale = ContentScale.Crop
-    )
-}
-
-@Composable
 private fun CoverImageBox(
     cover: String?,
     color: String,
     modifier: Modifier = Modifier,
-    onCoverLoaded: () -> Unit = {},
 ) {
     val placeholder: @Composable () -> Unit = {
         Spacer(
@@ -266,7 +241,6 @@ private fun CoverImageBox(
             scale = Scale.FILL,
             loading = placeholder,
             error = placeholder,
-            onSuccess = { onCoverLoaded() }
         ),
         modifier = modifier
     )
