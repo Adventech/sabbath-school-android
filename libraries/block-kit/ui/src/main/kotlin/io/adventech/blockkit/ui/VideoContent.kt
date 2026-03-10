@@ -79,12 +79,6 @@ import androidx.media3.ui.compose.modifiers.resizeWithContentScale
 import androidx.media3.ui.compose.state.rememberPlayPauseButtonState
 import androidx.media3.ui.compose.state.rememberPlaybackSpeedState
 import androidx.media3.ui.compose.state.rememberPresentationState
-import dev.chrisbanes.haze.HazeDefaults
-import dev.chrisbanes.haze.HazeState
-import dev.chrisbanes.haze.hazeEffect
-import dev.chrisbanes.haze.hazeSource
-import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
-import dev.chrisbanes.haze.materials.HazeMaterials
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.ui.media.MediaPlayer
 import io.adventech.blockkit.ui.media.VideoSettingsDropdownMenu
@@ -141,7 +135,6 @@ fun VideoContent(blockItem: BlockItem.Video, modifier: Modifier = Modifier) {
 }
 
 @androidx.annotation.OptIn(UnstableApi::class)
-@OptIn(ExperimentalHazeMaterialsApi::class)
 @Composable
 private fun PlayerContent(
     exoPlayer: ExoPlayer,
@@ -150,7 +143,6 @@ private fun PlayerContent(
     modifier: Modifier = Modifier,
     onSeekTo: (Long) -> Unit = {},
 ) {
-    val hazeState = remember { HazeState() }
     var isControlVisible by rememberSaveable { mutableStateOf(!playbackState.isPlaying) }
     var isMenuVisible by rememberSaveable { mutableStateOf(isControlVisible) }
     val playPauseButtonState = rememberPlayPauseButtonState(exoPlayer)
@@ -170,7 +162,6 @@ private fun PlayerContent(
         PlayerSurface(
             player = exoPlayer,
             modifier = scaledModifier
-                .hazeSource(hazeState)
                 .clickable { isControlVisible = !isControlVisible },
             surfaceType = SURFACE_TYPE_TEXTURE_VIEW,
         )
@@ -195,11 +186,7 @@ private fun PlayerContent(
             modifier = Modifier
                 .fillMaxSize()
                 .thenIf(isControlVisible) {
-                    if (HazeDefaults.blurEnabled()) {
-                        hazeEffect(hazeState, HazeMaterials.ultraThin(containerColor = Color.Black))
-                    } else {
-                        background(overlayColor, Styler.roundedShape())
-                    }
+                    background(overlayColor, Styler.roundedShape())
                 }
                 .clip(Styler.roundedShape()),
             availableTracks = playbackTracksState.tracks,
