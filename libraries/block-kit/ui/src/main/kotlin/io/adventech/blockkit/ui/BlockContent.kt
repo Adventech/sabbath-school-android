@@ -39,7 +39,8 @@ fun BlockContent(
     parent: BlockItem? = null,
     userInputState: UserInputState? = null,
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
-    onHandleReference: (ReferenceModel) -> Unit = { _ -> }
+    onHandleReference: (ReferenceModel) -> Unit = { _ -> },
+    onFullScreenVideo: (BlockItem.Video) -> Unit = {},
 ) {
     BlockContentWrapper(
         blockItem = blockItem,
@@ -134,7 +135,7 @@ fun BlockContent(
                 TableContent(blockItem, blockModifier, userInputState, onHandleUri)
             }
             is BlockItem.Video -> {
-                VideoContent(blockItem, blockModifier)
+                VideoContent(blockItem, blockModifier, onFullScreenVideo)
             }
             is BlockItem.Carousel -> Unit
             is BlockItem.Unknown -> Unit

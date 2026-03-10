@@ -29,6 +29,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.Snapshot
 import app.ss.models.PDFAux
+import app.ss.models.media.SSVideo
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.NavEvent
 import com.slack.circuit.foundation.onNavEvent
@@ -61,6 +62,7 @@ import ss.libraries.circuit.navigation.DocumentScreen
 import ss.libraries.circuit.navigation.ExpandedAudioPlayerScreen
 import ss.libraries.circuit.navigation.PdfScreen
 import ss.libraries.circuit.navigation.ResourceScreen
+import ss.libraries.media.api.MediaNavigation
 import ss.libraries.pdf.api.PdfReader
 import ss.misc.DateHelper
 import ss.resources.api.ResourcesRepository
@@ -78,6 +80,7 @@ class DocumentPresenter @AssistedInject constructor(
     private val segmentOverlayStateProducer: SegmentOverlayStateProducer,
     private val userInputStateProducer: UserInputStateProducer,
     private val pdfReader: PdfReader,
+    private val mediaNavigation: MediaNavigation,
 ) : Presenter<State> {
 
     private val today get() = DateTime.now().withTimeAtStartOfDay()
@@ -159,6 +162,24 @@ class DocumentPresenter @AssistedInject constructor(
                     } else if (resource != null && scope == ReferenceScope.RESOURCE) {
                         navigator.goTo(ResourceScreen(resource.index))
                     }
+                }
+
+                is SuccessEvent.OnFullScreenVideo -> {
+                    val video = SSVideo(
+                        artist = resourceDocument?.title.orEmpty(),
+                        id = event.video.id,
+                        src = event.video.src,
+                        title = event.video.caption.orEmpty(),
+                        target = "",
+                        targetIndex = "",
+                        thumbnail = "",
+                        hls = if (event.video.src.endsWith(".m3u8", true)) event.video.src else null
+                    )
+
+                    mediaNavigation.videoPlayer(
+                        context = event.context,
+                        video = video,
+                    )
                 }
             }
         }

@@ -30,6 +30,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -66,6 +67,9 @@ fun MediaPlayer(
         mutableStateOf(PlaybackProgressState())
     }
 
+    var savedPosition by rememberSaveable(source) { mutableStateOf(0L) }
+    var savedIsPlaying by rememberSaveable(source) { mutableStateOf(false) }
+
     val exoPlayer = remember(context, source) {
         ExoPlayer.Builder(context)
             .setSeekBackIncrementMs(DEFAULT_REWIND)
@@ -97,6 +101,10 @@ fun MediaPlayer(
 
     DisposableEffect(source) {
         exoPlayer.setMediaItem(MediaItem.fromUri(source))
+        if (savedPosition > 0L) {
+            exoPlayer.seekTo(savedPosition)
+        }
+        exoPlayer.playWhenReady = savedIsPlaying
         exoPlayer.prepare()
 
         onDispose { exoPlayer.release() }
@@ -104,6 +112,8 @@ fun MediaPlayer(
 
     LifecycleResumeEffect(Unit) {
         onPauseOrDispose {
+            savedPosition = exoPlayer.currentPosition
+            savedIsPlaying = exoPlayer.playWhenReady
             if (exoPlayer.isPlaying) {
                 exoPlayer.pause()
                 playbackState = playbackState.copy(
@@ -119,6 +129,8 @@ fun MediaPlayer(
             progressState = progressState.copy(
                 position = exoPlayer.currentPosition,
             )
+            savedPosition = exoPlayer.currentPosition
+            savedIsPlaying = exoPlayer.playWhenReady
         }
     }
 
@@ -131,6 +143,7 @@ fun MediaPlayer(
                 progressState = progressState.copy(
                     position = position,
                 )
+                savedPosition = position
                 exoPlayer.seekTo(position)
             }
         )

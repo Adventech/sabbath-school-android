@@ -164,7 +164,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
         },
         hazeStyle = HazeMaterials.regular(containerColor),
         blurTopBar = !state.hasCover || collapsed,
-    ) { contentPadding ->
+    ) { _ ->
         when (state) {
             is State.Loading -> {
                 DocumentLoadingView()
@@ -192,6 +192,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                         onHandleUri = { uri, blocks -> state.eventSink(SuccessEvent.OnHandleUri(uri, blocks)) },
                         onHandleReference = { state.eventSink(SuccessEvent.OnHandleReference(it)) },
                         onNavEvent = { state.eventSink(SuccessEvent.OnNavEvent(it, context)) },
+                        onFullScreenVideo = { state.eventSink(SuccessEvent.OnFullScreenVideo(context, it)) }
                     )
                 }
 

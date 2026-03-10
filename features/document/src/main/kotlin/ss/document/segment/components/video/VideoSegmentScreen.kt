@@ -54,5 +54,6 @@ data class VideoSegmentScreen(
         data object OnNavBack : Event
         data class PlayVideo(val context: Context, val video: VideoClipSegment) : Event
         data class OnTopAppBarAction(val action: DocumentTopAppBarAction) : Event
+        data class OnFullScreenVideo(val context: Context, val video: BlockItem.Video): Event
     }
 }

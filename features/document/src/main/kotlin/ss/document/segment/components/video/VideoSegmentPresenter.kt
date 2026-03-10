@@ -110,6 +110,22 @@ class VideoSegmentPresenter @AssistedInject constructor(
                         else -> Unit
                     }
                 }
+
+                is Event.OnFullScreenVideo -> {
+                    val clip = segment?.video?.find { it.src == event.video.id }
+                    val video = SSVideo(
+                        artist = clip?.artist ?: segment?.title.orEmpty(),
+                        id = "",
+                        src = clip?.src ?: event.video.src,
+                        target = "",
+                        targetIndex = "",
+                        thumbnail = clip?.thumbnail.orEmpty(),
+                        title = clip?.title ?: event.video.caption.orEmpty(),
+                        hls = clip?.hls ?: if (event.video.src.endsWith(".m3u8", true)) event.video.src else null,
+                    )
+
+                    navigator.goTo(IntentScreen(mediaNavigation.videoPlayer(event.context, video)))
+                }
             }
         }
     }

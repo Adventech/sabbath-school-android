@@ -56,6 +56,7 @@ fun SegmentUi(
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
     onHandleReference: (ReferenceModel) -> Unit = { _ -> },
     onNavEvent: (NavEvent) -> Unit = {},
+    onFullScreenVideo: (BlockItem.Video) -> Unit = {},
 ) {
     when (segment.type) {
         SegmentType.UNKNOWN -> Unit
@@ -68,6 +69,7 @@ fun SegmentUi(
                 listState,
                 onHandleUri,
                 onHandleReference,
+                onFullScreenVideo,
             )
         }
 

@@ -29,6 +29,7 @@ import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
 import io.adventech.blockkit.model.BlockData
+import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.Style
 import io.adventech.blockkit.model.resource.ReferenceModel
 import io.adventech.blockkit.model.resource.Segment
@@ -87,6 +88,7 @@ sealed interface SuccessEvent : Event {
     data class OnNavEvent(val event: NavEvent, val context: Context) : SuccessEvent
     data class OnHandleUri(val uri: String, val data: BlockData?) : SuccessEvent
     data class OnHandleReference(val model: ReferenceModel): SuccessEvent
+    data class OnFullScreenVideo(val context: Context, val video: BlockItem.Video): SuccessEvent
 }
 
 

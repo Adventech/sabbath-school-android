@@ -43,6 +43,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Fullscreen
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -103,7 +104,11 @@ import ss.services.media.ui.state.rememberPlaybackTracksState
 import ss.libraries.media.resources.R as MediaR
 
 @Composable
-fun VideoContent(blockItem: BlockItem.Video, modifier: Modifier = Modifier) {
+fun VideoContent(
+    blockItem: BlockItem.Video,
+    modifier: Modifier = Modifier,
+    onFullScreenToggle: (BlockItem.Video) -> Unit = {}
+) {
     val textStyle = Styler.textStyle(null)
 
     MediaPlayer(
@@ -117,6 +122,9 @@ fun VideoContent(blockItem: BlockItem.Video, modifier: Modifier = Modifier) {
             progressState = progressState,
             modifier = Modifier,
             onSeekTo = onSeekTo,
+            onFullScreenToggle = {
+                onFullScreenToggle(blockItem)
+                                 },
         )
 
         blockItem.caption?.let {
@@ -142,6 +150,7 @@ private fun PlayerContent(
     progressState: PlaybackProgressState,
     modifier: Modifier = Modifier,
     onSeekTo: (Long) -> Unit = {},
+    onFullScreenToggle: () -> Unit = {},
 ) {
     var isControlVisible by rememberSaveable { mutableStateOf(!playbackState.isPlaying) }
     var isMenuVisible by rememberSaveable { mutableStateOf(isControlVisible) }
@@ -200,6 +209,7 @@ private fun PlayerContent(
             onPlaybackSpeedChange = { playbackSpeedState.updatePlaybackSpeed(it.speed) },
             onTrackSelected = { playbackTracksState.selectTrack(it) },
             onMenuShownChange = { isMenuVisible = it },
+            onFullScreenToggle = onFullScreenToggle,
         )
     }
 
@@ -229,6 +239,7 @@ private fun VideoControls(
     onPlaybackSpeedChange: (PlaybackSpeed) -> Unit = {},
     onTrackSelected: (SimpleTrack?) -> Unit = {},
     onMenuShownChange: (Boolean) -> Unit = {},
+    onFullScreenToggle: () -> Unit = {},
 ) {
     val (draggingProgress, setDraggingProgress) = remember { mutableStateOf<Float?>(null) }
     val currentDuration = when (draggingProgress != null) {
@@ -258,6 +269,20 @@ private fun VideoControls(
                     contentColor = contentColor,
                     onPlayPause = onPlayPause,
                 )
+
+                IconButton(
+                    onClick = onFullScreenToggle,
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(8.dp),
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Fullscreen,
+                        contentDescription = null,
+                        modifier = Modifier,
+                        tint = contentColor
+                    )
+                }
             }
 
             AnimatedVisibility(
@@ -453,6 +478,7 @@ private fun Preview() {
                     .fillMaxWidth()
                     .aspectRatio(16 / 9f)
                     .clip(Styler.roundedShape()),
+                onFullScreenToggle = {},
             )
         }
     }

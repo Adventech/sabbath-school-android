@@ -47,6 +47,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import io.adventech.blockkit.model.BlockData
+import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.resource.ReferenceModel
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.ui.BlockContent
@@ -67,7 +68,8 @@ internal fun SegmentBlocksContent(
     userInputState: UserInputState,
     listState: LazyListState = rememberLazyListState(),
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
-    onHandleReference: (ReferenceModel) -> Unit = { _ -> }
+    onHandleReference: (ReferenceModel) -> Unit = { _ -> },
+    onFullScreenVideo: (BlockItem.Video) -> Unit = {},
 ) {
     val readerStyle = LocalReaderStyle.current
     val contentColor = readerStyle.theme.primaryForeground()
@@ -193,6 +195,7 @@ internal fun SegmentBlocksContent(
                             userInputState = userInputState,
                             onHandleUri = stableOnHandleUri,
                             onHandleReference = stableOnHandleReference,
+                            onFullScreenVideo = onFullScreenVideo,
                         )
                     }
                 }
