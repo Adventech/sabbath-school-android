@@ -31,6 +31,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
@@ -85,7 +86,6 @@ internal fun SegmentBlocksContent(
             .background(readerStyle.theme.background())
             .imePadding(),
         state = listState,
-        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         item(key = "cover-${segment.id}") {
             SegmentCover(
@@ -168,7 +168,8 @@ internal fun SegmentBlocksContent(
                         .animateItem()
                         .thenIf(hasCoverParallax) {
                             background(readerStyle.theme.background())
-                        },
+                        }
+                        .padding(top = 16.dp),
                 )
             }
         }
@@ -183,7 +184,8 @@ internal fun SegmentBlocksContent(
                     .animateItem()
                     .thenIf(hasCoverParallax) {
                         background(readerStyle.theme.background())
-                    },
+                    }
+                    .padding(top = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp),
             ) {
                 segment.blocks.orEmpty().forEach { block ->
@@ -201,7 +203,7 @@ internal fun SegmentBlocksContent(
             }
         }
 
-        item(key = "spacer") { Spacer(Modifier.height(48.dp)) }
+        item(key = "spacer") { Spacer(Modifier.height(64.dp)) }
 
         item(key = "spacer-system") { Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.systemBars)) }
 
