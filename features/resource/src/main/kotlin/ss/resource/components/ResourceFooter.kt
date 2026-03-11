@@ -75,7 +75,7 @@ internal fun LazyListScope.footer(
             title = feature.title,
             description = feature.description,
             image = feature.image,
-            modifier = Modifier
+            modifier = Modifier.animateItem()
         )
     }
 
@@ -83,7 +83,7 @@ internal fun LazyListScope.footer(
         FooterItem(
             title = credit.name,
             description = credit.value,
-            modifier = Modifier
+            modifier = Modifier.animateItem()
         )
     }
 
