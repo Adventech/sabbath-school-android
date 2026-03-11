@@ -132,6 +132,7 @@ internal fun SegmentBlocksContent(
                             date = segment.date,
                             contentColor = if (segment.cover != null) Color.White else contentColor,
                             style = segmentStyle.takeIf { segment.cover == null },
+                            hasCover = hasCoverParallax,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .thenIf(hasCoverParallax) {
@@ -161,6 +162,7 @@ internal fun SegmentBlocksContent(
                     date = segment.date,
                     contentColor = contentColor,
                     style = segmentStyle,
+                    hasCover = false,
                     modifier = Modifier
                         .fillMaxWidth()
                         .animateItem()

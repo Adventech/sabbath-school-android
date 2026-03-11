@@ -85,13 +85,14 @@ private fun HiddenSegmentContent(state: State.Success, modifier: Modifier = Modi
         LocalReaderStyle provides state.readerStyle,
     ) {
         HiddenSegmentScaffold(readerStyle, modifier) {
-            item {
+            item("segment-header") {
                 SegmentHeader(
                     title = state.title,
                     subtitle = state.subtitle,
                     date = state.date,
                     contentColor = contentColor,
                     style = state.style?.segment ?: state.style?.segment,
+                    hasCover = false,
                     modifier = Modifier.fillMaxWidth(),
                     contentPadding = PaddingValues(
                         horizontal = 0.dp, vertical = 8.dp
