@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025. Adventech <info@adventech.io>
+ * Copyright (c) 2026. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,20 +22,13 @@
 
 package io.adventech.blockkit.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Surface
-import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -43,9 +36,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import io.adventech.blockkit.model.BlockData
@@ -57,7 +55,7 @@ import io.adventech.blockkit.ui.style.LocalBlocksStyle
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.theme.BlocksPreviewTheme
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun TableContent(
     blockItem: BlockItem.TableBlock,
@@ -73,117 +71,147 @@ fun TableContent(
         blockPaddingStyle != null || blockItem.nested == true
     }
 
-    Row(
-        modifier = modifier
-            .horizontalScroll(rememberScrollState())
-            .padding(Styler.padding(blockPaddingStyle ?: defaultWrapperPaddingStyle))
-            .border(BorderWidth, Styler.borderColor()),
-    ) {
-
-        Column(modifier = Modifier) {
-
-            TableRowContent(
-                cells = blockItem.header,
-                parent = blockItem,
-                userInputState = userInputState,
-                onHandleUri = onHandleUri,
-                color = Styler.genericBackgroundColorForInteractiveBlock(),
-            )
-
-            blockItem.rows.forEach { row ->
-                TableRowContent(
-                    cells = row.items,
-                    parent = blockItem,
-                    userInputState = userInputState,
-                    onHandleUri = onHandleUri,
-                )
-            }
+    val allRows = remember(blockItem) {
+        val rows = mutableListOf<List<TableCell>>()
+        if (blockItem.header.isNotEmpty()) {
+            rows.add(blockItem.header)
         }
+        blockItem.rows.forEach { row ->
+            rows.add(row.items)
+        }
+        rows
     }
 
-}
+    val columnCount = remember(allRows) { allRows.maxOfOrNull { it.size } ?: 0 }
+    val rowCount = allRows.size
 
-@Composable
-private fun TableRowContent(
-    cells: List<TableCell>,
-    parent: BlockItem,
-    userInputState: UserInputState?,
-    onHandleUri: (String, BlockData?) -> Unit,
-    modifier: Modifier = Modifier,
-    color: Color = Color.Transparent
-) {
-    Row(
-        modifier = modifier
-            .height(IntrinsicSize.Min),
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        cells.forEachIndexed { index, cell ->
-            TableCell(
-                cell = cell,
-                rowCount = cells.size,
-                parent = parent,
-                userInputState = userInputState,
-                onHandleUri = onHandleUri,
-                modifier = Modifier.background(color),
-            )
+    if (columnCount == 0 || rowCount == 0) return
 
-            if (index < cells.size - 1) {
-                VerticalDivider(
-                    modifier = Modifier,
-                    thickness = BorderWidth,
-                    color = Styler.borderColor()
-                )
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
-@Composable
-private fun TableCell(
-    cell: TableCell,
-    rowCount: Int,
-    parent: BlockItem,
-    userInputState: UserInputState?,
-    onHandleUri: (String, BlockData?) -> Unit,
-    modifier: Modifier = Modifier
-) {
     val (screenWidth, screenHeight) = LocalConfiguration.current.run {
         screenWidthDp to screenHeightDp
     }
-
     val widthSizeClass = WindowSizeClass.calculateFromSize(DpSize(screenWidth.dp, screenHeight.dp)).widthSizeClass
 
-    val cellWidth = remember(widthSizeClass) {
-        when (widthSizeClass) {
+    val density = LocalDensity.current
+    val cellWidthPx = remember(widthSizeClass, columnCount, screenWidth, density) {
+        val widthDp = when (widthSizeClass) {
             WindowWidthSizeClass.Compact -> screenWidth * 0.67
             WindowWidthSizeClass.Medium -> screenWidth * 0.5
-            WindowWidthSizeClass.Expanded -> (screenWidth / rowCount).toDouble()
+            WindowWidthSizeClass.Expanded -> if (columnCount > 0) (screenWidth / columnCount).toDouble() else screenWidth * 0.67
             else -> screenWidth * 0.67
         }
+        with(density) { widthDp.dp.roundToPx() }
     }
 
-    Column(
-        modifier = modifier.widthIn(max = cellWidth.dp)
-    ) {
-        cell.items.forEach { item ->
-            BlockContent(
-                blockItem = item,
-                modifier = Modifier
-                    .padding(12.dp),
-                parent = parent,
-                userInputState = userInputState,
-                onHandleUri = onHandleUri,
-            )
+    val borderColor = Styler.borderColor()
+    val headerColor = Styler.genericBackgroundColorForInteractiveBlock()
+    val borderWidthPx = with(density) { BorderWidth.toPx() }
+    val hasHeader = blockItem.header.isNotEmpty()
 
-            // Horizontal divider
+    val layoutInfo = remember { TableLayoutInfo() }
+
+    Box(
+        modifier = modifier
+            .horizontalScroll(rememberScrollState())
+            .padding(Styler.padding(blockPaddingStyle ?: defaultWrapperPaddingStyle))
+            .border(BorderWidth, borderColor)
+    ) {
+        Layout(
+            modifier = Modifier.drawBehind {
+                // Draw background for header row
+                if (hasHeader && layoutInfo.rowHeights.isNotEmpty()) {
+                    val headerHeight = layoutInfo.rowHeights[0].toFloat()
+                    drawRect(
+                        color = headerColor,
+                        topLeft = Offset.Zero,
+                        size = Size(size.width, headerHeight)
+                    )
+                }
+
+                // Draw vertical dividers
+                var divX = 0f
+                for (c in 0 until layoutInfo.columnWidths.size - 1) {
+                    divX += layoutInfo.columnWidths[c]
+                    drawLine(
+                        color = borderColor,
+                        start = Offset(divX, 0f),
+                        end = Offset(divX, size.height),
+                        strokeWidth = borderWidthPx
+                    )
+                }
+            },
+            content = {
+                allRows.forEach { rowCells ->
+                    for (c in 0 until columnCount) {
+                        val cell = rowCells.getOrNull(c)
+                        if (cell != null) {
+                            Box(modifier = Modifier, contentAlignment = Alignment.CenterStart) {
+                                Column {
+                                    cell.items.forEach { item ->
+                                        BlockContent(
+                                            blockItem = item,
+                                            modifier = Modifier.padding(12.dp),
+                                            parent = blockItem,
+                                            userInputState = userInputState,
+                                            onHandleUri = onHandleUri,
+                                        )
+                                    }
+                                }
+                            }
+                        } else {
+                            Box(modifier = Modifier)
+                        }
+                    }
+                }
+            }
+        ) { measurables, _ ->
+            val columnWidths = IntArray(columnCount)
+            val rowHeights = IntArray(rowCount)
+
+            val placeables = measurables.mapIndexed { index, measurable ->
+                val c = index % columnCount
+                val r = index / columnCount
+
+                val placeable = measurable.measure(Constraints(maxWidth = cellWidthPx))
+                if (placeable.width > columnWidths[c]) {
+                    columnWidths[c] = placeable.width
+                }
+                if (placeable.height > rowHeights[r]) {
+                    rowHeights[r] = placeable.height
+                }
+                placeable
+            }
+
+            layoutInfo.columnWidths = columnWidths
+            layoutInfo.rowHeights = rowHeights
+
+            val totalWidth = columnWidths.sum()
+            val totalHeight = rowHeights.sum()
+
+            layout(totalWidth, totalHeight) {
+                var y = 0
+                for (r in 0 until rowCount) {
+                    var x = 0
+                    for (c in 0 until columnCount) {
+                        val placeable = placeables[r * columnCount + c]
+                        val yOffset = y + (rowHeights[r] - placeable.height) / 2
+                        placeable.placeRelative(x, yOffset)
+
+                        x += columnWidths[c]
+                    }
+                    y += rowHeights[r]
+                }
+            }
         }
     }
 }
 
 private val BorderWidth = 0.4.dp
 
+private class TableLayoutInfo {
+    var columnWidths: IntArray = intArrayOf()
+    var rowHeights: IntArray = intArrayOf()
+}
 
 @PreviewScreenSizes
 @Composable
