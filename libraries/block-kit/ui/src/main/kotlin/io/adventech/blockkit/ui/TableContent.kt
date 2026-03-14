@@ -139,13 +139,25 @@ fun TableContent(
                         strokeWidth = borderWidthPx
                     )
                 }
+
+                // Draw horizontal dividers
+                var divY = 0f
+                for (r in 0 until layoutInfo.rowHeights.size - 1) {
+                    divY += layoutInfo.rowHeights[r]
+                    drawLine(
+                        color = borderColor,
+                        start = Offset(0f, divY),
+                        end = Offset(size.width, divY),
+                        strokeWidth = borderWidthPx
+                    )
+                }
             },
             content = {
                 allRows.forEach { rowCells ->
                     for (c in 0 until columnCount) {
                         val cell = rowCells.getOrNull(c)
                         if (cell != null) {
-                            Box(modifier = Modifier, contentAlignment = Alignment.CenterStart) {
+                            Box(modifier = Modifier, contentAlignment = Alignment.TopStart) {
                                 Column {
                                     cell.items.forEach { item ->
                                         BlockContent(
@@ -194,8 +206,7 @@ fun TableContent(
                     var x = 0
                     for (c in 0 until columnCount) {
                         val placeable = placeables[r * columnCount + c]
-                        val yOffset = y + (rowHeights[r] - placeable.height) / 2
-                        placeable.placeRelative(x, yOffset)
+                        placeable.placeRelative(x, y)
 
                         x += columnWidths[c]
                     }
