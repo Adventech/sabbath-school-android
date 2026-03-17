@@ -61,9 +61,12 @@ import ss.libraries.circuit.navigation.DocumentScreen
 import ss.libraries.circuit.navigation.ExpandedAudioPlayerScreen
 import ss.libraries.circuit.navigation.PdfScreen
 import ss.libraries.circuit.navigation.ResourceScreen
+import ss.libraries.media.model.extensions.NONE_PLAYING
 import ss.libraries.pdf.api.PdfReader
 import ss.misc.DateHelper
 import ss.resources.api.ResourcesRepository
+import ss.services.media.ui.PlaybackConnection
+import ss.services.media.ui.spec.PlaybackStateSpec
 import ss.document.DocumentOverlayState.Segment as SegmentOverlayState
 import ss.document.producer.TopAppbarActionsState.Event as TopAppbarEvent
 import ss.document.segment.producer.SegmentOverlayStateProducer.Event as SegmentOverlayEvent
@@ -78,6 +81,7 @@ class DocumentPresenter @AssistedInject constructor(
     private val segmentOverlayStateProducer: SegmentOverlayStateProducer,
     private val userInputStateProducer: UserInputStateProducer,
     private val pdfReader: PdfReader,
+    private val playbackConnection: PlaybackConnection,
 ) : Presenter<State> {
 
     private val today get() = DateTime.now().withTimeAtStartOfDay()
@@ -182,8 +186,22 @@ class DocumentPresenter @AssistedInject constructor(
                 eventSink = eventSink,
                 overlayState = overlayState,
                 userInputState = userInputState,
+                isMiniPlayerVisible = isMiniPlayerVisible(),
             )
         }
+    }
+
+    @Composable
+    private fun isMiniPlayerVisible(): Boolean {
+        val playbackState by produceRetainedState(PlaybackStateSpec.NONE) {
+            playbackConnection.playbackState.collect { value = it }
+        }
+        val nowPlaying by produceRetainedState(NONE_PLAYING) {
+            playbackConnection.nowPlaying.collect { value = it }
+        }
+        return (playbackState != PlaybackStateSpec.NONE &&
+            nowPlaying != NONE_PLAYING) &&
+            playbackState.canShowMini
     }
 
     @Composable

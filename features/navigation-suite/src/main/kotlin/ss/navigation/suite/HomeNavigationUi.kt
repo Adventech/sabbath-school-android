@@ -107,6 +107,7 @@ private fun NavigationSuite(
     var showBottomBar by remember { mutableStateOf(true) }
     val controller = remember {
         object: NavbarController {
+            override val enabled: Boolean = true
             override fun hide() { showBottomBar = false }
             override fun show() { showBottomBar = true }
         }

@@ -27,6 +27,7 @@ import androidx.compose.runtime.compositionLocalOf
 
 @Stable
 interface NavbarController {
+    val enabled: Boolean
     fun hide()
     fun show()
 }
@@ -34,6 +35,7 @@ interface NavbarController {
 val LocalNavbarController = compositionLocalOf<NavbarController> { DefaultController }
 
 private data object DefaultController : NavbarController {
+    override val enabled: Boolean = false
     override fun hide() = Unit
     override fun show() = Unit
 }

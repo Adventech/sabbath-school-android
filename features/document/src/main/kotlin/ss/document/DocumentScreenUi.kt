@@ -23,20 +23,27 @@
 package ss.document
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContent
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldDefaults
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -53,6 +60,7 @@ import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.scaffold.HazeScaffold
+import app.ss.design.compose.widget.scaffold.LocalNavbarController
 import app.ss.design.compose.widget.scaffold.SystemUiEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.CircuitContent
@@ -88,6 +96,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val hapticFeedback = LocalSsHapticFeedback.current
     val context = LocalContext.current
+    val isParentNavbarVisible = isParentNavbarVisible()
 
     val density = LocalDensity.current
     val topPadding = WindowInsets.safeContent.asPaddingValues().calculateTopPadding()
@@ -102,6 +111,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
             }
         }
     }
+    val hideMiniPlayer = (state as? State.Success)?.selectedSegment?.type == SegmentType.STORY && !collapsed
 
     val containerColor = state.containerColor()
     val contentColor = state.contentColor()
@@ -152,8 +162,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
         containerColor = containerColor,
         contentColor = contentColor,
         bottomBar = {
-            val hidePlayer = (state as? State.Success)?.selectedSegment?.type == SegmentType.STORY && !collapsed
-            if (!hidePlayer) {
+            if (!isParentNavbarVisible && !hideMiniPlayer) {
                 CircuitContent(
                     screen = MiniAudioPlayerScreen,
                     onNavEvent = {
@@ -171,28 +180,45 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
             }
 
             is State.Success -> {
-                CompositionLocalProvider(
-                    LocalFontFamilyProvider provides state.fontFamilyProvider,
-                    LocalBlocksStyle provides state.style?.blocks,
-                    LocalSegmentStyle provides state.style?.segment,
-                    LocalReaderStyle provides state.readerStyle,
-                ) {
-                    DocumentPager(
-                        segments = state.segments,
-                        titleBelowCover = state.titleBelowCover,
-                        documentId = state.documentId,
-                        documentIndex = state.documentIndex,
-                        resourceIndex = state.resourceIndex,
-                        userInputState = state.userInputState,
-                        modifier = Modifier.fillMaxSize(),
-                        initialPage = state.initialPage,
-                        onPageChange = { state.eventSink(SuccessEvent.OnPageChange(it)) },
-                        onNavBack = { state.eventSink(Event.OnNavBack) },
-                        onCollapseChange = { collapsed = it },
-                        onHandleUri = { uri, blocks -> state.eventSink(SuccessEvent.OnHandleUri(uri, blocks)) },
-                        onHandleReference = { state.eventSink(SuccessEvent.OnHandleReference(it)) },
-                        onNavEvent = { state.eventSink(SuccessEvent.OnNavEvent(it, context)) },
-                    )
+                Box(modifier = Modifier.fillMaxSize()) {
+                    CompositionLocalProvider(
+                        LocalFontFamilyProvider provides state.fontFamilyProvider,
+                        LocalBlocksStyle provides state.style?.blocks,
+                        LocalSegmentStyle provides state.style?.segment,
+                        LocalReaderStyle provides state.readerStyle,
+                    ) {
+                        val bottomPadding by animateDpAsState(targetValue =
+                            if (isParentNavbarVisible && !hideMiniPlayer && state.isMiniPlayerVisible) 56.dp else 0.dp
+                        )
+                        DocumentPager(
+                            segments = state.segments,
+                            titleBelowCover = state.titleBelowCover,
+                            documentId = state.documentId,
+                            documentIndex = state.documentIndex,
+                            resourceIndex = state.resourceIndex,
+                            userInputState = state.userInputState,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(bottom = bottomPadding),
+                            initialPage = state.initialPage,
+                            onPageChange = { state.eventSink(SuccessEvent.OnPageChange(it)) },
+                            onNavBack = { state.eventSink(Event.OnNavBack) },
+                            onCollapseChange = { collapsed = it },
+                            onHandleUri = { uri, blocks -> state.eventSink(SuccessEvent.OnHandleUri(uri, blocks)) },
+                            onHandleReference = { state.eventSink(SuccessEvent.OnHandleReference(it)) },
+                            onNavEvent = { state.eventSink(SuccessEvent.OnNavEvent(it, context)) },
+                        )
+                    }
+
+                    if (isParentNavbarVisible && !hideMiniPlayer) {
+                        CircuitContent(
+                            screen = MiniAudioPlayerScreen,
+                            onNavEvent = { state.eventSink(SuccessEvent.OnNavEvent(it, context)) },
+                            modifier = Modifier.align(Alignment.BottomCenter)
+                                .padding(contentPadding)
+                                .padding(bottom = 56.dp)
+                        )
+                    }
                 }
 
                 DocumentOverlay(state.overlayState, state.readerStyle) {
@@ -203,6 +229,14 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
     }
 
     SystemUiEffect(lightStatusBar)
+}
+
+@Stable
+@Composable
+private fun isParentNavbarVisible(): Boolean {
+    val controller = LocalNavbarController.current
+    val layoutType = NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(currentWindowAdaptiveInfo())
+    return controller.enabled && layoutType == NavigationSuiteType.NavigationBar
 }
 
 
