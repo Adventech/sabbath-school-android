@@ -47,6 +47,7 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
+import app.ss.design.compose.widget.scaffold.LocalNavbarController
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.resource.ReferenceModel
 import io.adventech.blockkit.model.resource.Segment
@@ -208,11 +209,13 @@ internal fun SegmentBlocksContent(
         item(key = "spacer-system") { Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.systemBars)) }
 
         item("spacer-navbar") {
-            Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(80.dp)
-            )
+            if (LocalNavbarController.current.enabled) {
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(80.dp)
+                )
+            }
         }
     }
 }

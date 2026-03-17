@@ -37,13 +37,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContent
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
-import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldDefaults
-import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -96,7 +92,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val hapticFeedback = LocalSsHapticFeedback.current
     val context = LocalContext.current
-    val isParentNavbarVisible = isParentNavbarVisible()
+    val isParentNavbarVisible = LocalNavbarController.current.enabled
 
     val density = LocalDensity.current
     val topPadding = WindowInsets.safeContent.asPaddingValues().calculateTopPadding()
@@ -214,7 +210,8 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                         CircuitContent(
                             screen = MiniAudioPlayerScreen,
                             onNavEvent = { state.eventSink(SuccessEvent.OnNavEvent(it, context)) },
-                            modifier = Modifier.align(Alignment.BottomCenter)
+                            modifier = Modifier
+                                .align(Alignment.BottomCenter)
                                 .padding(contentPadding)
                                 .padding(bottom = 56.dp)
                         )
@@ -230,15 +227,6 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
 
     SystemUiEffect(lightStatusBar)
 }
-
-@Stable
-@Composable
-private fun isParentNavbarVisible(): Boolean {
-    val controller = LocalNavbarController.current
-    val layoutType = NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(currentWindowAdaptiveInfo())
-    return controller.enabled && layoutType == NavigationSuiteType.NavigationBar
-}
-
 
 @Composable
 internal fun DocumentOverlay(
