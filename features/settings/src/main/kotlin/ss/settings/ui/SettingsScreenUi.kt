@@ -22,8 +22,12 @@
 
 package ss.settings.ui
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -38,10 +42,13 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.content.ContentSpec
 import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
@@ -49,6 +56,7 @@ import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.scaffold.HazeScaffold
+import app.ss.design.compose.widget.scaffold.LocalNavbarController
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.overlay.LocalOverlayHost
 import com.slack.circuit.overlay.OverlayHost
@@ -70,12 +78,13 @@ fun SettingsScreenUi(
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val hapticFeedback = LocalSsHapticFeedback.current
+    val layoutDirection = LocalLayoutDirection.current
 
     HazeScaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(
-                title = { Text(text = stringResource(id = L10nR.string.ss_settings)) },
+                title = { Text(text = stringResource(id = L10nR.string.ss_settings), fontWeight = FontWeight.Black) },
                 navigationIcon = {
                     IconButton(onClick = {
                         hapticFeedback.performClick()
@@ -94,9 +103,19 @@ fun SettingsScreenUi(
         blurTopBar = true
     ) { contentPadding ->
 
+        val bottomNavPadding by animateDpAsState(
+            targetValue = if (LocalNavbarController.current.enabled && state.entities.isNotEmpty()) 80.dp else 0.dp
+        )
+        val paddingValues = PaddingValues(
+            start = contentPadding.calculateStartPadding(layoutDirection),
+            top = contentPadding.calculateTopPadding(),
+            end = contentPadding.calculateEndPadding(layoutDirection),
+            bottom = contentPadding.calculateBottomPadding() + bottomNavPadding
+        )
+
         LazyColumn(
             modifier = Modifier,
-            contentPadding = contentPadding,
+            contentPadding = paddingValues,
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             items(
@@ -104,14 +123,8 @@ fun SettingsScreenUi(
                 key = { it.id }
             ) { item -> item.Content() }
 
-            item("insets") { Spacer(Modifier.navigationBarsPadding()) }
-
-            item("spacer") {
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(80.dp)
-                )
+            if (state.entities.isNotEmpty()) {
+                item("insets") { Spacer(Modifier.navigationBarsPadding()) }
             }
         }
     }
