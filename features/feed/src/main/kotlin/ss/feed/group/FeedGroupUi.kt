@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
@@ -67,7 +68,7 @@ fun FeedGroupUi(state: State, modifier: Modifier = Modifier) {
         topBar = {
             LargeTopAppBar(
                 modifier = Modifier,
-                title = { Text(text = state.title) },
+                title = { Text(text = state.title, fontWeight = FontWeight.Black) },
                 navigationIcon = {
                     IconButton(onClick = {
                         hapticFeedback.performClick()
