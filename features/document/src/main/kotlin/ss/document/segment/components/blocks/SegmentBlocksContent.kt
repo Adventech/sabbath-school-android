@@ -31,6 +31,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
@@ -46,6 +47,7 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
+import app.ss.design.compose.widget.scaffold.LocalNavbarController
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.resource.ReferenceModel
@@ -87,7 +89,6 @@ internal fun SegmentBlocksContent(
             .background(readerStyle.theme.background())
             .imePadding(),
         state = listState,
-        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         item(key = "cover-${segment.id}") {
             SegmentCover(
@@ -134,6 +135,7 @@ internal fun SegmentBlocksContent(
                             date = segment.date,
                             contentColor = if (segment.cover != null) Color.White else contentColor,
                             style = segmentStyle.takeIf { segment.cover == null },
+                            hasCover = hasCoverParallax,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .thenIf(hasCoverParallax) {
@@ -163,12 +165,14 @@ internal fun SegmentBlocksContent(
                     date = segment.date,
                     contentColor = contentColor,
                     style = segmentStyle,
+                    hasCover = false,
                     modifier = Modifier
                         .fillMaxWidth()
                         .animateItem()
                         .thenIf(hasCoverParallax) {
                             background(readerStyle.theme.background())
-                        },
+                        }
+                        .padding(top = 16.dp),
                 )
             }
         }
@@ -183,7 +187,8 @@ internal fun SegmentBlocksContent(
                     .animateItem()
                     .thenIf(hasCoverParallax) {
                         background(readerStyle.theme.background())
-                    },
+                    }
+                    .padding(top = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp),
             ) {
                 segment.blocks.orEmpty().forEach { block ->
@@ -202,16 +207,18 @@ internal fun SegmentBlocksContent(
             }
         }
 
-        item(key = "spacer") { Spacer(Modifier.height(48.dp)) }
+        item(key = "spacer") { Spacer(Modifier.height(64.dp)) }
 
         item(key = "spacer-system") { Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.systemBars)) }
 
         item("spacer-navbar") {
-            Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(80.dp)
-            )
+            if (LocalNavbarController.current.enabled) {
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(80.dp)
+                )
+            }
         }
     }
 }

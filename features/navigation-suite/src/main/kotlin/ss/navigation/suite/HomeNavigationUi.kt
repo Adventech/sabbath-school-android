@@ -105,8 +105,9 @@ private fun NavigationSuite(
     val activity = requireNotNull(LocalActivity.current) { "Local activity not provided" }
     val context = LocalContext.current
     var showBottomBar by remember { mutableStateOf(true) }
-    val controller = remember {
+    val controller = remember(layoutType) {
         object: NavbarController {
+            override val enabled: Boolean = layoutType == NavigationSuiteType.NavigationBar
             override fun hide() { showBottomBar = false }
             override fun show() { showBottomBar = true }
         }

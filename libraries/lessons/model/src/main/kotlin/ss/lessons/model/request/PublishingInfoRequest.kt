@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Adventech <info@adventech.io>
+ * Copyright (c) 2026. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,17 +20,12 @@
  * THE SOFTWARE.
  */
 
-package ss.resource.components
+package ss.lessons.model.request
 
-import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Surface
-import androidx.compose.ui.Modifier
-import kotlinx.collections.immutable.ImmutableList
-import ss.resource.components.content.ResourceSectionSpec
+import com.squareup.moshi.JsonClass
 
-internal fun LazyListScope.resourceSections(sections: ImmutableList<ResourceSectionSpec>) {
-    items(sections, key = { it.id }) { section ->
-        Surface(Modifier) { section.Content(Modifier) }
-    }
-}
+@JsonClass(generateAdapter = true)
+data class PublishingInfoRequest(
+    val country: String,
+    val language: String,
+)

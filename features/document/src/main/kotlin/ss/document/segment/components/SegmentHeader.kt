@@ -55,6 +55,7 @@ internal fun SegmentHeader(
     date: String?,
     contentColor: Color,
     style: SegmentStyle?,
+    hasCover: Boolean,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 24.dp)
 ) {
@@ -71,11 +72,11 @@ internal fun SegmentHeader(
                     modifier = Modifier.fillMaxWidth(),
                     style = (style?.subtitle?.text?.let {
                         Styler.textStyle(it).copy(
-                            shadow = textShadow,
+                            shadow = textShadow.takeIf { hasCover },
                         )
                     } ?: SsTheme.typography.titleLarge).copy(
                         fontSize = 15.sp,
-                        shadow = textShadow,
+                        shadow = textShadow.takeIf { hasCover },
                     ),
                     color = contentColor.copy(alpha = 0.6f),
                     maxLines = 2,
@@ -92,11 +93,11 @@ internal fun SegmentHeader(
                     modifier = Modifier.fillMaxWidth(),
                     style = (style?.date?.text?.let {
                         Styler.textStyle(it).copy(
-                            shadow = textShadow,
+                            shadow = textShadow.takeIf { hasCover },
                         )
                     } ?: SsTheme.typography.titleLarge).copy(
                         fontSize = 15.sp,
-                        shadow = textShadow,
+                        shadow = textShadow.takeIf { hasCover },
                     ),
                     color = contentColor.copy(alpha = 0.7f),
                     maxLines = 2,
@@ -112,12 +113,12 @@ internal fun SegmentHeader(
                     Styler.textStyle(it).copy(
                         fontSize = 30.sp,
                         lineHeight = 30.sp,
-                        shadow = textShadow,
+                        shadow = textShadow.takeIf { hasCover },
                     )
                 } ?: SsTheme.typography.titleLarge).copy(
                     fontSize = 30.sp,
                     lineHeight = 30.sp,
-                    shadow = textShadow,
+                    shadow = textShadow.takeIf { hasCover },
                 ),
                 color = style?.title?.text?.color?.let { Styler.textColor(style.title?.text) } ?: contentColor,
                 maxLines = 3,

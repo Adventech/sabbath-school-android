@@ -38,6 +38,8 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import ss.lessons.model.PublishingInfoData
+import ss.lessons.model.request.PublishingInfoRequest
 
 interface ResourcesApi {
 
@@ -82,4 +84,7 @@ interface ResourcesApi {
 
     @GET("api/v3/{index}/pdf.json")
     suspend fun pdf(@Path("index", encoded = true) index: String): Response<List<PDFAux>>
+
+    @POST("api/v3/misc/publishing/info")
+    suspend fun publishingInfo(@Body request: PublishingInfoRequest): Response<PublishingInfoData>
 }

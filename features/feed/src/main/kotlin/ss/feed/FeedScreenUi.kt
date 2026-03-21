@@ -22,20 +22,28 @@
 
 package ss.feed
 
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.appbar.FeedTopAppBar
 import app.ss.design.compose.widget.list.ScrollToTopEffect
 import app.ss.design.compose.widget.scaffold.HazeScaffold
+import app.ss.design.compose.widget.scaffold.LocalNavbarController
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.overlay.OverlayEffect
 import dagger.hilt.components.SingletonComponent
@@ -51,6 +59,7 @@ fun FeedScreenUi(state: State, modifier: Modifier = Modifier) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val listState = rememberLazyListState()
     val hapticFeedback = LocalSsHapticFeedback.current
+    val layoutDirection = LocalLayoutDirection.current
 
     HazeScaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -65,11 +74,19 @@ fun FeedScreenUi(state: State, modifier: Modifier = Modifier) {
         },
         blurTopBar = true,
     ) { contentPadding ->
+        val bottomNavPadding by animateDpAsState(targetValue = if (LocalNavbarController.current.enabled) 80.dp else 0.dp)
+        val paddingValues = PaddingValues(
+            start = contentPadding.calculateStartPadding(layoutDirection),
+            top = contentPadding.calculateTopPadding(),
+            end = contentPadding.calculateEndPadding(layoutDirection),
+            bottom = contentPadding.calculateBottomPadding() + bottomNavPadding
+        )
+
         when (state) {
             is State.Loading -> {
                 FeedLoadingView(
                     modifier = Modifier.fillMaxSize(),
-                    contentPadding = contentPadding,
+                    contentPadding = paddingValues,
                 )
             }
 
@@ -78,7 +95,7 @@ fun FeedScreenUi(state: State, modifier: Modifier = Modifier) {
                     groups = state.groups,
                     modifier = Modifier,
                     state = listState,
-                    contentPadding = contentPadding,
+                    contentPadding = paddingValues,
                     seeAllClick = {
                         state.eventSink(SuccessEvent.OnSeeAllClick(it))
                         hapticFeedback.performScreenView()
@@ -95,7 +112,7 @@ fun FeedScreenUi(state: State, modifier: Modifier = Modifier) {
                     resources = state.resources,
                     modifier = Modifier,
                     state = listState,
-                    contentPadding = contentPadding,
+                    contentPadding = paddingValues,
                     itemClick = { state.eventSink(SuccessEvent.OnItemClick(it)) }
                 )
             }

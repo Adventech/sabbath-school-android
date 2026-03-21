@@ -4,5 +4,7 @@
     "config:recommended"
   ],
   "enabled": true,
-  "baseBranches": ["develop"]
+  "baseBranchPatterns": [
+    "develop"
+  ]
 }

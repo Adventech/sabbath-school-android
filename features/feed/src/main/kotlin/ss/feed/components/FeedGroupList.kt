@@ -100,13 +100,6 @@ internal fun FeedLazyColum(
             )
         }
 
-        item("spacer") {
-            Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(80.dp)
-            ) // calculate bottom nav height
-        }
 
     }
 }

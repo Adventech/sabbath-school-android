@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import app.ss.models.PublishingInfo
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
@@ -36,6 +37,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
+import io.adventech.blockkit.model.feed.FeedType
 import io.adventech.blockkit.model.resource.ProgressTracking
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.model.resource.ShareGroup
@@ -43,7 +45,9 @@ import io.adventech.blockkit.ui.style.font.FontFamilyProvider
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import ss.foundation.android.intent.ShareIntentHelper
+import ss.libraries.circuit.navigation.CustomTabsIntentScreen
 import ss.libraries.circuit.navigation.ResourceScreen
+import ss.resource.ResourceOverlayState.*
 import ss.resource.components.content.ResourceSectionsStateProducer
 import ss.resource.components.spec.SharePosition
 import ss.resource.components.spec.toSpec
@@ -64,6 +68,7 @@ class ResourcePresenter @AssistedInject constructor(
     @Composable
     override fun present(): State {
         val resourceResponse by rememberResource()
+        val info by rememberPublishingInfo(resourceResponse?.type)
         var title by rememberRetained(resourceResponse) { mutableStateOf(resourceResponse?.title ?: "") }
 
         val resource = resourceResponse
@@ -93,7 +98,7 @@ class ResourcePresenter @AssistedInject constructor(
                 }
                 Event.OnReadMoreClick -> {
                     (resource?.introduction ?: resource?.markdownDescription ?: resource?.description)?.let {
-                        overlayState = ResourceOverlayState.IntroductionBottomSheet(it) { result ->
+                        overlayState = IntroductionBottomSheet(it) { _ ->
                             overlayState = null
                         }
                     }
@@ -107,7 +112,7 @@ class ResourcePresenter @AssistedInject constructor(
                             val shareLink = linkGroup.links.first().src
                             shareIntentHelper.get().shareText(event.context, shareLink)
                         } else {
-                            overlayState = ResourceOverlayState.ShareBottomSheet(
+                            overlayState = ShareBottomSheet(
                                 options = options,
                                 primaryColorDark = resource.primaryColorDark,
                                 title = resource.title,
@@ -115,6 +120,10 @@ class ResourcePresenter @AssistedInject constructor(
                             )
                         }
                     }
+                }
+
+                is Event.OnPublishingInfoClick -> {
+                    navigator.goTo(CustomTabsIntentScreen(event.url))
                 }
             }
         }
@@ -131,7 +140,8 @@ class ResourcePresenter @AssistedInject constructor(
                 overlayState = overlayState,
                 eventSink = eventSink,
                 sharePosition = sharePosition,
-                primaryColorDark = resource.primaryColorDark
+                primaryColorDark = resource.primaryColorDark,
+                publishingInfo = info?.toSpec(primaryColorHex = resource.primaryColor),
             )
 
             else -> State.Loading(
@@ -144,6 +154,18 @@ class ResourcePresenter @AssistedInject constructor(
     @Composable
     private fun rememberResource() = produceRetainedState<Resource?>(null) {
         resourcesRepository.resource(screen.index).collect { value = it }
+    }
+
+    @Composable
+    private fun rememberPublishingInfo(type: FeedType?) = produceRetainedState<PublishingInfo?>(null, key1 = type) {
+        if (type == FeedType.SS) {
+            val result = resourcesRepository.publishingInfo()
+            if (result.isSuccess) {
+                value = result.getOrNull()
+            }
+        } else {
+            value = null
+        }
     }
 
     @CircuitInject(ResourceScreen::class, SingletonComponent::class)

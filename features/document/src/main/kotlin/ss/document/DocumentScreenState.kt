@@ -69,6 +69,7 @@ sealed interface State : CircuitUiState {
         val fontFamilyProvider: FontFamilyProvider,
         val overlayState: DocumentOverlayState?,
         val userInputState: UserInputState,
+        val isMiniPlayerVisible: Boolean,
     ) : State
 
 }
