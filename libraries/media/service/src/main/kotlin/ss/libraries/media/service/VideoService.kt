@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025. Adventech <info@adventech.io>
+ * Copyright (c) 2023. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,25 +20,8 @@
  * THE SOFTWARE.
  */
 
-package ss.services.media.ui.spec
+package ss.libraries.media.service
 
-import androidx.compose.runtime.Immutable
-
-@Immutable
-data class PlaybackStateSpec(
-    val isPlaying: Boolean,
-    val isPlayEnabled: Boolean,
-    val isError: Boolean,
-    val isBuffering: Boolean,
-    val canShowMini: Boolean,
-) {
-    companion object {
-        val NONE = PlaybackStateSpec(
-            isPlaying = false,
-            isPlayEnabled = false,
-            isError = false,
-            isBuffering = false,
-            canShowMini = false,
-        )
-    }
+class VideoService : MediaService() {
+    override fun sessionId(): String = "ss.libraries.media.service.VideoService"
 }

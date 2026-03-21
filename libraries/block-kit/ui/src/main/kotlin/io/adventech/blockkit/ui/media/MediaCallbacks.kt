@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025. Adventech <info@adventech.io>
+ * Copyright (c) 2026. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,19 +20,24 @@
  * THE SOFTWARE.
  */
 
-package ss.services.media.impl.di
+package io.adventech.blockkit.ui.media
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import ss.libraries.media.api.MediaRepository
-import ss.services.media.impl.MediaRepositoryImpl
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.staticCompositionLocalOf
+import io.adventech.blockkit.model.BlockItem
 
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class SingletonBindingsModule {
-    @Binds
-    internal abstract fun bindMediaRepository(impl: MediaRepositoryImpl): MediaRepository
-
+@Stable
+interface MediaCallbacks {
+    fun play(audio: BlockItem.Audio)
+    fun play(video: BlockItem.Video)
+    fun fullscreen(video: BlockItem.Video)
 }
+
+private val Default = object : MediaCallbacks {
+    override fun play(audio: BlockItem.Audio) = Unit
+    override fun play(video: BlockItem.Video) = Unit
+    override fun fullscreen(video: BlockItem.Video) = Unit
+}
+
+
+val LocalMediaCallbacks = staticCompositionLocalOf<MediaCallbacks> { Default }

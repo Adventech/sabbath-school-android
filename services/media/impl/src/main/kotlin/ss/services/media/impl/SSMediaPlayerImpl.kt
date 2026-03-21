@@ -24,8 +24,6 @@ package ss.services.media.impl
 
 import android.content.ComponentName
 import android.content.Context
-import androidx.lifecycle.ProcessLifecycleOwner
-import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
@@ -33,14 +31,17 @@ import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
 import androidx.media3.ui.PlayerView
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.scopes.ActivityScoped
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.guava.await
 import kotlinx.coroutines.launch
+import ss.foundation.coroutines.DispatcherProvider
+import ss.foundation.coroutines.Scopable
 import ss.foundation.coroutines.flow.flowInterval
+import ss.foundation.coroutines.mainScopable
 import ss.libraries.media.api.PLAYBACK_PROGRESS_INTERVAL
 import ss.libraries.media.api.SSMediaPlayer
 import ss.libraries.media.model.NowPlaying
@@ -51,16 +52,20 @@ import ss.libraries.media.model.SSMediaItem
 import ss.libraries.media.model.extensions.id
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@ActivityScoped
-@androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
+@Singleton
 internal class SSMediaPlayerImpl @Inject constructor(
     @param:ApplicationContext private val context: Context,
-) : SSMediaPlayer, Player.Listener, CoroutineScope by ProcessLifecycleOwner.get().lifecycleScope {
+    private val dispatcherProvider: DispatcherProvider,
+) : SSMediaPlayer, Player.Listener, Scopable by mainScopable(dispatcherProvider) {
 
     override val isConnected = MutableStateFlow(false)
     override val playbackState = MutableStateFlow(PlaybackState())
     override val nowPlaying = MutableStateFlow(NowPlaying.NONE)
+    override val media3Player = MutableStateFlow<Player?>(null)
+    private val _isFullScreen = MutableStateFlow(false)
+    override val isFullScreen: StateFlow<Boolean> = _isFullScreen.asStateFlow()
     override val playbackProgress = MutableStateFlow(PlaybackProgressState())
     override val playbackSpeed = MutableStateFlow(PlaybackSpeed.NORMAL)
 
@@ -72,7 +77,7 @@ internal class SSMediaPlayerImpl @Inject constructor(
         if (mediaController?.isConnected == true) {
             return
         }
-        launch {
+        scope.launch {
             mediaController = MediaController.Builder(
                 context,
                 SessionToken(context, ComponentName(context, service)),
@@ -82,6 +87,7 @@ internal class SSMediaPlayerImpl @Inject constructor(
                     addListener(this@SSMediaPlayerImpl)
                 }
 
+            media3Player.update { mediaController }
             isConnected.update { true }
 
             startPlaybackProgress()
@@ -168,12 +174,21 @@ internal class SSMediaPlayerImpl @Inject constructor(
         }
     }
 
+    override fun toggleFullScreen(isFullScreen: Boolean) {
+        _isFullScreen.update { isFullScreen }
+    }
+
     override fun release() {
         mediaController?.run {
             stop()
+            clearMediaItems()
             release()
         }
         mediaController = null
+        media3Player.update { null }
+        isConnected.update { false }
+        playbackState.update { PlaybackState() }
+        nowPlaying.update { NowPlaying.NONE }
     }
 
     override fun onMediaMetadataChanged(mediaMetadata: MediaMetadata) {
@@ -222,7 +237,7 @@ internal class SSMediaPlayerImpl @Inject constructor(
         mediaController?.mediaMetadata?.let { onMediaMetadataChanged(it) }
     }
 
-    private fun startPlaybackProgress() = launch {
+    private fun startPlaybackProgress() = scope.launch {
         playbackState.collect { state ->
             playbackProgressInterval.cancel()
 
@@ -244,7 +259,7 @@ internal class SSMediaPlayerImpl @Inject constructor(
     }
 
     private fun startPlaybackProgressInterval(initial: PlaybackProgressState) {
-        playbackProgressInterval = launch {
+        playbackProgressInterval = scope.launch {
             flowInterval(currentProgressInterval).collect {
                 val current = playbackProgress.value.elapsed
                 val elapsed = current + PLAYBACK_PROGRESS_INTERVAL

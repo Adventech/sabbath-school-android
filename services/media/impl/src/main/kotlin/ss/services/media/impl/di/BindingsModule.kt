@@ -25,14 +25,19 @@ package ss.services.media.impl.di
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.components.SingletonComponent
+import ss.libraries.media.api.MediaRepository
 import ss.libraries.media.api.SSMediaPlayer
+import ss.services.media.impl.MediaRepositoryImpl
 import ss.services.media.impl.SSMediaPlayerImpl
 
 @Module
-@InstallIn(ActivityComponent::class)
+@InstallIn(SingletonComponent::class)
 abstract class BindingsModule {
 
     @Binds
     internal abstract fun bindSSMediaPlayer(impl: SSMediaPlayerImpl): SSMediaPlayer
+
+    @Binds
+    internal abstract fun bindMediaRepository(impl: MediaRepositoryImpl): MediaRepository
 }

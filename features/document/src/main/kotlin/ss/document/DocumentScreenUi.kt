@@ -66,7 +66,10 @@ import com.slack.circuit.overlay.OverlayEffect
 import dagger.hilt.components.SingletonComponent
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.materials.HazeMaterials
+import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.resource.SegmentType
+import io.adventech.blockkit.ui.media.LocalMediaCallbacks
+import io.adventech.blockkit.ui.media.MediaCallbacks
 import io.adventech.blockkit.ui.style.LocalBlocksStyle
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.LocalSegmentStyle
@@ -84,6 +87,7 @@ import ss.document.segment.components.overlay.ExcerptOverlay
 import ss.libraries.circuit.navigation.DocumentScreen
 import ss.libraries.circuit.navigation.MiniAudioPlayerScreen
 import ss.libraries.circuit.overlay.BottomSheetOverlay
+import ss.libraries.media.api.LocalSsMediaPlayer
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalHazeMaterialsApi::class)
 @CircuitInject(DocumentScreen::class, SingletonComponent::class)
@@ -107,7 +111,8 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
             }
         }
     }
-    val hideMiniPlayer = (state as? State.Success)?.selectedSegment?.type == SegmentType.STORY && !collapsed
+    val isMiniPlayerVisible = (state as? State.Success)?.isMiniPlayerVisible == true
+    val hideMiniPlayer = ((state as? State.Success)?.selectedSegment?.type == SegmentType.STORY && !collapsed) || !isMiniPlayerVisible
 
     val containerColor = state.containerColor()
     val contentColor = state.contentColor()
@@ -182,9 +187,11 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                         LocalBlocksStyle provides state.style?.blocks,
                         LocalSegmentStyle provides state.style?.segment,
                         LocalReaderStyle provides state.readerStyle,
+                        LocalSsMediaPlayer provides state.mediaPlayer,
+                        LocalMediaCallbacks provides mediaCallbacks(state)
                     ) {
                         val bottomPadding by animateDpAsState(targetValue =
-                            if (isParentNavbarVisible && !hideMiniPlayer && state.isMiniPlayerVisible) 56.dp else 0.dp
+                            if (isParentNavbarVisible && !hideMiniPlayer) 56.dp else 0.dp
                         )
                         DocumentPager(
                             segments = state.segments,
@@ -302,4 +309,29 @@ private fun State.containerColor(): Color = when (this) {
 private fun State.contentColor(): Color = when (this) {
     is State.Loading -> SsTheme.colors.primaryForeground
     is State.Success -> readerStyle.theme.primaryForeground()
+}
+
+@Composable
+private fun mediaCallbacks(state: State.Success): MediaCallbacks {
+    val context = LocalContext.current
+    val hapticFeedback = LocalSsHapticFeedback.current
+
+    return remember(context, state, hapticFeedback) {
+        object : MediaCallbacks {
+            override fun play(audio: BlockItem.Audio) {
+                hapticFeedback.performClick()
+                state.eventSink(SuccessEvent.OnPlayAudio(audio))
+            }
+
+            override fun play(video: BlockItem.Video) {
+                hapticFeedback.performClick()
+                state.eventSink(SuccessEvent.OnPlayVideo(video))
+            }
+
+            override fun fullscreen(video: BlockItem.Video) {
+                hapticFeedback.performClick()
+                state.eventSink(SuccessEvent.OnFullScreenVideo(context, video))
+            }
+        }
+    }
 }

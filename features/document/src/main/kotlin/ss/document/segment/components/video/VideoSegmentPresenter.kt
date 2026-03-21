@@ -23,16 +23,15 @@
 package ss.document.segment.components.video
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
-import app.ss.models.media.SSVideo
+import androidx.compose.runtime.setValue
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
-import com.slack.circuitx.android.IntentScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -40,22 +39,25 @@ import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.VideoClipSegment
+import io.adventech.blockkit.model.state.PipState
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.flow.combine
 import ss.document.DocumentOverlayState.BottomSheet
 import ss.document.components.DocumentTopAppBarAction
 import ss.document.producer.UserInputStateProducer
 import ss.document.reader.ReaderOptionsScreen
 import ss.document.segment.components.video.VideoSegmentScreen.Event
 import ss.document.segment.components.video.VideoSegmentScreen.State
-import ss.libraries.media.api.MediaNavigation
+import ss.libraries.media.api.SSMediaPlayer
+import ss.libraries.media.model.NowPlaying
 import ss.resources.api.ResourcesRepository
 
 class VideoSegmentPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     @Assisted private val screen: VideoSegmentScreen,
     private val resourcesRepository: ResourcesRepository,
-    private val mediaNavigation: MediaNavigation,
     private val userInputStateProducer: UserInputStateProducer,
+    private val mediaPlayer: SSMediaPlayer,
 ) : Presenter<State> {
 
     @Composable
@@ -66,7 +68,17 @@ class VideoSegmentPresenter @AssistedInject constructor(
         var bottomSheetState by rememberRetained { mutableStateOf<BottomSheet?>(null) }
 
         val videos = rememberRetained(segment) {
-            segment?.video.orEmpty().map { it.asBlock() }.toImmutableList()
+            segment?.video.orEmpty().map { it.asBlock(segment?.cover) }.toImmutableList()
+        }
+
+        val pipState by rememberPipState()
+
+        DisposableEffect(mediaPlayer) {
+            onDispose {
+                if (mediaPlayer.playbackState.value.isPlaying && !mediaPlayer.isFullScreen.value) {
+                    mediaPlayer.release()
+                }
+            }
         }
 
         return State(
@@ -75,26 +87,10 @@ class VideoSegmentPresenter @AssistedInject constructor(
             blocks = segment?.blocks.orEmpty(),
             userInputState = userInputState,
             overlayState = bottomSheetState,
+            pipState = pipState,
         ) { event ->
             when (event) {
                 is Event.OnNavBack -> navigator.pop()
-                is Event.PlayVideo -> {
-                    val video = event.video.run {
-                        SSVideo(
-                            artist = artist.orEmpty(),
-                            id = "",
-                            src = src,
-                            target = "",
-                            targetIndex = "",
-                            thumbnail = thumbnail.orEmpty(),
-                            title = title.orEmpty(),
-                            hls = hls,
-                        )
-                    }
-
-                    navigator.goTo(IntentScreen(mediaNavigation.videoPlayer(event.context, video)))
-                }
-
                 is Event.OnTopAppBarAction -> {
                     when (event.action) {
                         DocumentTopAppBarAction.DisplayOptions -> {
@@ -103,7 +99,7 @@ class VideoSegmentPresenter @AssistedInject constructor(
                                 skipPartiallyExpanded = false,
                                 themed = false,
                                 feedback = true,
-                            ) { result ->
+                            ) { _ ->
                                 bottomSheetState = null
                             }
                         }
@@ -114,18 +110,30 @@ class VideoSegmentPresenter @AssistedInject constructor(
         }
     }
 
-    private fun VideoClipSegment.asBlock() = BlockItem.Video(
+    private fun VideoClipSegment.asBlock(cover: String?) = BlockItem.Video(
         id = src,
         style = null,
         data = null,
         nested = null,
         src = hls ?: src,
         caption = null,
+        thumbnail = thumbnail ?: cover,
     )
 
     @Composable
     private fun rememberSegment() = produceRetainedState<Segment?>(null) {
         resourcesRepository.segment(screen.id, screen.index).collect { value = it }
+    }
+
+    @Composable
+    private fun rememberPipState() = produceRetainedState<PipState?>(null) {
+        combine(mediaPlayer.nowPlaying, mediaPlayer.playbackProgress, mediaPlayer.isFullScreen) { nowPlaying, progressState, isFullScreen ->
+            if (nowPlaying == NowPlaying.NONE || !isFullScreen) {
+                null
+            } else {
+                PipState(id = nowPlaying.id, progress = progressState.progress)
+            }
+        }.collect { value = it }
     }
 
     @CircuitInject(VideoSegmentScreen::class, SingletonComponent::class)

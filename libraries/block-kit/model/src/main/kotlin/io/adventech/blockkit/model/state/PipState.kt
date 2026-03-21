@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2026. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,10 +20,7 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback.service
+package io.adventech.blockkit.model.state
 
-import ss.libraries.media.service.MediaService
-
-class VideoService : MediaService() {
-    override fun sessionId(): String = "app.ss.media.playback.service.VideoService"
-}
+/** The progress state for a video currently playing in PIP. */
+data class PipState(val id: String, val progress: Float)

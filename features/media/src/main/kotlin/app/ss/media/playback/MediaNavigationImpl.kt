@@ -30,7 +30,7 @@ import ss.libraries.media.api.MediaNavigation
 import javax.inject.Inject
 
 internal class MediaNavigationImpl @Inject constructor() : MediaNavigation {
-    override fun videoPlayer(context: Context, video: SSVideo): Intent {
-        return VideoPlayerActivity.launchIntent(context, video)
+    override fun videoPlayer(context: Context, video: SSVideo, position: Long): Intent {
+        return VideoPlayerActivity.launchIntent(context, video, position)
     }
 }

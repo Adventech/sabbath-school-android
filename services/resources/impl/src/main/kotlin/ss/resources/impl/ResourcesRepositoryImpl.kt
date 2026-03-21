@@ -142,11 +142,11 @@ internal class ResourcesRepositoryImpl @Inject constructor(
             .flowOn(dispatcherProvider.io)
     }
 
-    override fun resource(index: String): Flow<Resource> = resourcesDao
+    override fun resource(index: String, cacheOnly: Boolean): Flow<Resource> = resourcesDao
         .get(index)
         .filterNotNull()
         .map { it.toModel() }
-        .onStart { syncHelper.syncResource(index) }
+        .onStart { if (!cacheOnly) syncHelper.syncResource(index) }
         .catch { Timber.e(it) }
         .flowOn(dispatcherProvider.io)
 

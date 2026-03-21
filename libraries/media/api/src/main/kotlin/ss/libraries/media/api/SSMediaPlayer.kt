@@ -23,8 +23,12 @@
 package ss.libraries.media.api
 
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.media3.common.Player
 import androidx.media3.ui.PlayerView
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import ss.libraries.media.model.NowPlaying
 import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.PlaybackSpeed
@@ -32,8 +36,11 @@ import ss.libraries.media.model.PlaybackState
 import ss.libraries.media.model.SSMediaItem
 
 @Stable
-interface SSMediaPlayer : SimpleMediaPlayer{
+interface SSMediaPlayer : SimpleMediaPlayer {
     val nowPlaying: StateFlow<NowPlaying>
+    val media3Player: StateFlow<Player?>
+    val isFullScreen: StateFlow<Boolean>
+    fun toggleFullScreen(isFullScreen: Boolean)
     val playbackSpeed: StateFlow<PlaybackSpeed>
     fun playItem(mediaItem: SSMediaItem, playerView: PlayerView)
     fun playItems(mediaItems: List<SSMediaItem>, index: Int = 0)
@@ -55,4 +62,18 @@ interface SimpleMediaPlayer {
     fun playItem(mediaItem: SSMediaItem)
     fun playPause()
     fun release()
+}
+
+val LocalSsMediaPlayer = staticCompositionLocalOf<SSMediaPlayer?> { null }
+
+suspend fun SSMediaPlayer.connectAndPlay(service: Class<*>, item: SSMediaItem, playerView: PlayerView? = null) {
+    connect(service)
+
+    isConnected
+        .filter { it }
+        .first()
+
+    playerView?.let {
+        playItem(item, it)
+    } ?: playItem(item)
 }

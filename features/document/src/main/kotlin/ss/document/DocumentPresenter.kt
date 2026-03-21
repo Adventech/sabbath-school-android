@@ -26,9 +26,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.Snapshot
+import androidx.core.net.toUri
 import app.ss.models.PDFAux
+import app.ss.models.media.AudioFile
+import app.ss.models.media.SSVideo
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.NavEvent
 import com.slack.circuit.foundation.onNavEvent
@@ -41,7 +45,9 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
+import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.ReferenceScope
+import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.model.resource.ResourceDocument
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.SegmentType
@@ -50,6 +56,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import ss.document.components.DocumentTopAppBarAction
 import ss.document.producer.ReaderStyleStateProducer
@@ -61,7 +68,13 @@ import ss.libraries.circuit.navigation.DocumentScreen
 import ss.libraries.circuit.navigation.ExpandedAudioPlayerScreen
 import ss.libraries.circuit.navigation.PdfScreen
 import ss.libraries.circuit.navigation.ResourceScreen
+import ss.libraries.media.api.MediaNavigation
+import ss.libraries.media.api.SSMediaPlayer
+import ss.libraries.media.api.connectAndPlay
+import ss.libraries.media.model.SSMediaItem
 import ss.libraries.media.model.extensions.NONE_PLAYING
+import ss.libraries.media.service.MusicService
+import ss.libraries.media.service.VideoService
 import ss.libraries.pdf.api.PdfReader
 import ss.misc.DateHelper
 import ss.resources.api.ResourcesRepository
@@ -82,13 +95,17 @@ class DocumentPresenter @AssistedInject constructor(
     private val userInputStateProducer: UserInputStateProducer,
     private val pdfReader: PdfReader,
     private val playbackConnection: PlaybackConnection,
+    private val mediaNavigation: MediaNavigation,
+    private val mediaPlayer: SSMediaPlayer,
 ) : Presenter<State> {
 
     private val today get() = DateTime.now().withTimeAtStartOfDay()
 
     @Composable
     override fun present(): State {
+        val coroutineScope = rememberCoroutineScope()
         val response by rememberDocument()
+        val resource by rememberResource(response?.resourceIndex)
         val documentPages by rememberDocumentSegments(response)
         var selectedPage by rememberRetained(documentPages) { mutableStateOf(documentPages.defaultPage()) }
 
@@ -164,6 +181,31 @@ class DocumentPresenter @AssistedInject constructor(
                         navigator.goTo(ResourceScreen(resource.index))
                     }
                 }
+
+                is SuccessEvent.OnFullScreenVideo -> {
+                    val video = event.video.toSSVideo(resource, resourceDocument)
+
+                    val intent = mediaNavigation.videoPlayer(
+                        context = event.context,
+                        video = video,
+                        position = mediaPlayer.playbackProgress.value.currentPosition,
+                    )
+                    navigator.goTo(IntentScreen(intent))
+                }
+
+                is SuccessEvent.OnPlayVideo -> {
+                    val video = event.video.toSSVideo(resource, resourceDocument)
+                    coroutineScope.launch {
+                        mediaPlayer.connectAndPlay(VideoService::class.java, SSMediaItem.Video(video))
+                    }
+                }
+
+                is SuccessEvent.OnPlayAudio -> {
+                    val audio = event.audio.toSSAudio(resource, resourceDocument)
+                    coroutineScope.launch {
+                        mediaPlayer.connectAndPlay(MusicService::class.java, SSMediaItem.Audio(audio, autoShowMiniPlayer = false))
+                    }
+                }
             }
         }
 
@@ -187,6 +229,7 @@ class DocumentPresenter @AssistedInject constructor(
                 overlayState = overlayState,
                 userInputState = userInputState,
                 isMiniPlayerVisible = isMiniPlayerVisible(),
+                mediaPlayer = mediaPlayer,
             )
         }
     }
@@ -199,6 +242,7 @@ class DocumentPresenter @AssistedInject constructor(
         val nowPlaying by produceRetainedState(NONE_PLAYING) {
             playbackConnection.nowPlaying.collect { value = it }
         }
+        
         return (playbackState != PlaybackStateSpec.NONE &&
             nowPlaying != NONE_PLAYING) &&
             playbackState.canShowMini
@@ -207,6 +251,13 @@ class DocumentPresenter @AssistedInject constructor(
     @Composable
     private fun rememberDocument() = produceRetainedState<ResourceDocument?>(null) {
         resourcesRepository.document(screen.index).collect { value = it }
+    }
+
+    @Composable
+    private fun rememberResource(index: String?) = produceRetainedState<Resource?>(null, key1 = index) {
+        index?.let {
+            resourcesRepository.resource(index = index, cacheOnly = true).collect { value = it }
+        }
     }
 
     @Composable
@@ -266,6 +317,32 @@ class DocumentPresenter @AssistedInject constructor(
             }
         }
     }
+
+    private fun BlockItem.Video.toSSVideo(
+        resource: Resource?,
+        document: ResourceDocument?,
+    ): SSVideo = SSVideo(
+        artist = resource?.title.orEmpty(),
+        id = id,
+        src = src,
+        title = caption ?: document?.title.orEmpty(),
+        target = "",
+        targetIndex = "",
+        thumbnail = document?.cover ?: resource?.covers?.landscape.orEmpty(),
+        hls = if (src.contains(".m3u8", true)) src else null,
+    )
+
+    private fun BlockItem.Audio.toSSAudio(
+        resource: Resource?,
+        document: ResourceDocument?,
+    ): AudioFile = AudioFile(
+        id = id,
+        title = caption ?: document?.title.orEmpty(),
+        artist = resource?.title.orEmpty(),
+        source = src.toUri(),
+        image = document?.cover ?: resource?.covers?.landscape.orEmpty(),
+    )
+
 
     @CircuitInject(DocumentScreen::class, SingletonComponent::class)
     @AssistedFactory

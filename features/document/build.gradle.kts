@@ -58,6 +58,7 @@ dependencies {
     implementation(projects.libraries.foundation.android)
     implementation(projects.libraries.media.api)
     implementation(projects.libraries.media.resources)
+    implementation(projects.libraries.media.service)
     implementation(projects.libraries.pdf.api)
     implementation(projects.libraries.prefs.api)
     implementation(projects.services.media.ui)

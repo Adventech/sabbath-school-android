@@ -46,16 +46,19 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.BundleCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.media3.ui.PlayerView
 import app.ss.design.compose.theme.SsTheme
 import app.ss.media.R
-import app.ss.media.playback.service.VideoService
+import ss.libraries.media.service.VideoService
 import app.ss.models.media.SSVideo
 import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
 import com.cryart.sabbathschool.core.extensions.view.fadeTo
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import ss.foundation.coroutines.flow.collectIn
 import ss.libraries.media.api.SSMediaPlayer
+import ss.libraries.media.api.connectAndPlay
 import ss.libraries.media.model.SSMediaItem
 import javax.inject.Inject
 import ss.libraries.media.resources.R as MediaR
@@ -94,6 +97,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         }
     }
     private var onStopCalled = false
+    private var handledInitialPosition = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
@@ -115,15 +119,15 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
             IntentFilter(ACTION_PIP_CONTROLS),
             ContextCompat.RECEIVER_NOT_EXPORTED
         )
-
-        mediaPlayer.connect(VideoService::class.java)
     }
 
     private fun collectState(video: SSVideo) {
-        mediaPlayer.isConnected.collectIn(this) { connected ->
-            if (connected) {
-                mediaPlayer.playItem(SSMediaItem.Video(video), exoPlayerView)
-            }
+        lifecycleScope.launch {
+            mediaPlayer.connectAndPlay(
+                service = VideoService::class.java,
+                item = SSMediaItem.Video(video),
+                playerView = exoPlayerView
+            )
         }
         mediaPlayer.playbackState.collectIn(this) { state ->
             if (state.isPlaying && systemUiVisible) {
@@ -133,6 +137,13 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
                     },
                     HIDE_DELAY
                 )
+
+                val position = intent.getLongExtra(ARG_POSITION, 0L)
+                if (!handledInitialPosition && position > 0L) {
+                    mediaPlayer.seekTo(position)
+                    handledInitialPosition = true
+                }
+
             } else if (state.hasEnded) {
                 showSystemUI(false)
             }
@@ -177,7 +188,11 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         val video = intent.extras?.let {
             BundleCompat.getParcelable(it, ARG_VIDEO, SSVideo::class.java)
         } ?: return
+        val position = intent.getLongExtra(ARG_POSITION, 0L)
         mediaPlayer.playItem(SSMediaItem.Video(video), exoPlayerView)
+        if (position > 0L) {
+            mediaPlayer.seekTo(position)
+        }
     }
 
     private fun hideSystemUI() {
@@ -224,18 +239,15 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         if (mediaPlayer.playbackState.value.isPlaying) {
             mediaPlayer.playPause()
         }
+        mediaPlayer.toggleFullScreen(false)
         onStopCalled = true
     }
 
     override fun onResume() {
         super.onResume()
         mediaPlayer.onResume()
+        mediaPlayer.toggleFullScreen(true)
         onStopCalled = false
-    }
-
-    override fun onDestroy() {
-        mediaPlayer.release()
-        super.onDestroy()
     }
 
     override fun onUserLeaveHint() {
@@ -322,18 +334,21 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
     companion object {
         private const val HIDE_DELAY = 3500L
         private const val ARG_VIDEO = "arg:video"
+        private const val ARG_POSITION = "arg:position"
 
         private const val ACTION_PIP_CONTROLS = "pip_media_controls"
         private const val ACTION_TYPE = "pip_media_action_type"
 
         fun launchIntent(
             context: Context,
-            video: SSVideo
+            video: SSVideo,
+            position: Long = 0L
         ): Intent = Intent(
             context,
             VideoPlayerActivity::class.java
         ).apply {
             putExtra(ARG_VIDEO, video)
+            putExtra(ARG_POSITION, position)
         }
     }
 }

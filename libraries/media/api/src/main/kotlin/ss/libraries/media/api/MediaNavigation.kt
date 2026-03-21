@@ -27,5 +27,5 @@ import android.content.Intent
 import app.ss.models.media.SSVideo
 
 interface MediaNavigation {
-    fun videoPlayer(context: Context, video: SSVideo): Intent
+    fun videoPlayer(context: Context, video: SSVideo, position: Long = 0L): Intent
 }

@@ -107,6 +107,7 @@ fun VideoSegmentScreenUi(state: State, modifier: Modifier = Modifier) {
             items(state.videos) { video ->
                 VideoContent(
                     blockItem = video,
+                    pipState = state.pipState,
                     modifier = Modifier
                         .padding(horizontal = Dimens.grid_4),
                 )
@@ -131,6 +132,7 @@ fun VideoSegmentScreenUi(state: State, modifier: Modifier = Modifier) {
                     blockItem = block,
                     modifier = Modifier,
                     userInputState = state.userInputState,
+                    pipState = state.pipState,
                     onHandleUri = { _, _ -> },
                 )
             }

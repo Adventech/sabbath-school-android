@@ -69,7 +69,7 @@ internal fun SegmentBlocksContent(
     userInputState: UserInputState,
     listState: LazyListState = rememberLazyListState(),
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
-    onHandleReference: (ReferenceModel) -> Unit = { _ -> }
+    onHandleReference: (ReferenceModel) -> Unit = { _ -> },
 ) {
     val readerStyle = LocalReaderStyle.current
     val contentColor = readerStyle.theme.primaryForeground()

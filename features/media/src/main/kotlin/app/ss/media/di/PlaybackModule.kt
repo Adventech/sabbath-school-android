@@ -25,7 +25,7 @@ package app.ss.media.di
 import android.content.ComponentName
 import android.content.Context
 import app.ss.media.playback.PlaybackConnectionImpl
-import app.ss.media.playback.service.MusicService
+import ss.libraries.media.service.MusicService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

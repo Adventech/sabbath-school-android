@@ -20,10 +20,8 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback.service
-
-import ss.libraries.media.service.MediaService
+package ss.libraries.media.service
 
 class MusicService : MediaService() {
-    override fun sessionId(): String = "app.ss.media.playback.service.MusicService"
+    override fun sessionId(): String = "ss.libraries.media.service.MusicService"
 }

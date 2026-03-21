@@ -22,8 +22,8 @@
 
 package ss.libraries.media.model
 
+import android.os.Bundle
 import androidx.core.net.toUri
-import androidx.core.os.bundleOf
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.MimeTypes
@@ -73,13 +73,13 @@ fun AudioFile.toMediaItem(): MediaItem = MediaItem.Builder()
             .setIsPlayable(true)
             .setMediaType(MediaMetadata.MEDIA_TYPE_MUSIC)
             .setExtras(
-                bundleOf(
-                    KEY_ID to id,
-                    KEY_DURATION to duration,
-                    KEY_SOURCE to source.toString(),
-                    KEY_TARGET to target,
-                    KEY_TARGET_INDEX to targetIndex,
-                )
+                Bundle().apply {
+                    putString(KEY_ID, id)
+                    putLong(KEY_DURATION, duration)
+                    putString(KEY_SOURCE, source.toString())
+                    putString(KEY_TARGET, target)
+                    putString(KEY_TARGET_INDEX, targetIndex)
+                }
             )
             .build()
     )
@@ -99,12 +99,12 @@ fun SSVideo.toMediaItem(): MediaItem = MediaItem.Builder()
             .setIsPlayable(true)
             .setMediaType(MediaMetadata.MEDIA_TYPE_VIDEO)
             .setExtras(
-                bundleOf(
-                    KEY_ID to id,
-                    KEY_SOURCE to (hls ?: src),
-                    KEY_TARGET to target,
-                    KEY_TARGET_INDEX to targetIndex,
-                )
+                Bundle().apply {
+                    putString(KEY_ID, id)
+                    putString(KEY_SOURCE, (hls ?: src))
+                    putString(KEY_TARGET, target)
+                    putString(KEY_TARGET_INDEX, targetIndex)
+                }
             )
             .build()
     )

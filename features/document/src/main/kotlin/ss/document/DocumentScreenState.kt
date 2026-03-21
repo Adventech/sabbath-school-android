@@ -29,6 +29,7 @@ import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
 import io.adventech.blockkit.model.BlockData
+import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.Style
 import io.adventech.blockkit.model.resource.ReferenceModel
 import io.adventech.blockkit.model.resource.Segment
@@ -41,6 +42,7 @@ import ss.document.segment.components.overlay.BlocksOverlay
 import ss.document.segment.components.overlay.ExcerptOverlay
 import ss.document.segment.producer.SegmentOverlayStateProducer
 import ss.libraries.circuit.overlay.BottomSheetOverlay
+import ss.libraries.media.api.SSMediaPlayer
 
 sealed interface State : CircuitUiState {
     val hasCover: Boolean
@@ -69,6 +71,7 @@ sealed interface State : CircuitUiState {
         val overlayState: DocumentOverlayState?,
         val userInputState: UserInputState,
         val isMiniPlayerVisible: Boolean,
+        val mediaPlayer: SSMediaPlayer,
     ) : State
 
 }
@@ -88,6 +91,9 @@ sealed interface SuccessEvent : Event {
     data class OnNavEvent(val event: NavEvent, val context: Context) : SuccessEvent
     data class OnHandleUri(val uri: String, val data: BlockData?) : SuccessEvent
     data class OnHandleReference(val model: ReferenceModel): SuccessEvent
+    data class OnFullScreenVideo(val context: Context, val video: BlockItem.Video): SuccessEvent
+    data class OnPlayVideo(val video: BlockItem.Video): SuccessEvent
+    data class OnPlayAudio(val audio: BlockItem.Audio): SuccessEvent
 }
 
 

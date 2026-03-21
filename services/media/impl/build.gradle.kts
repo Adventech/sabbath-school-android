@@ -38,6 +38,7 @@ dependencies {
     implementation(libs.timber)
     implementation(projects.common.network)
     implementation(projects.libraries.foundation.android)
+    implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.lessons.api)
     implementation(projects.libraries.media.api)
     implementation(projects.libraries.media.service)
