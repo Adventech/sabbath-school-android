@@ -41,10 +41,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -199,14 +197,21 @@ fun VideoContent(
                     modifier = Modifier.size(64.dp)
                 )
             } else {
+                if (!blockItem.thumbnail.isNullOrEmpty()) {
+                    AsyncImageBox(
+                        data = blockItem.thumbnail,
+                        contentDescription = blockItem.caption,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+
+                    Box(modifier = Modifier.fillMaxSize().background(overlayColor, Styler.roundedShape()))
+                }
+
                 Icon(
-                    imageVector = Icons.Rounded.PlayArrow,
+                    painter = painterResource(id = MediaR.drawable.ic_audio_icon_play),
                     contentDescription = "Play",
                     tint = Color.White,
-                    modifier = Modifier
-                        .size(64.dp)
-                        .background(Color.White.copy(alpha = 0.2f), CircleShape)
-                        .padding(8.dp)
+                    modifier = Modifier.size(64.dp)
                 )
             }
 

@@ -293,6 +293,7 @@ sealed interface BlockItem {
         override val nested: Boolean?,
         val src: String,
         val caption: String?,
+        val thumbnail: String? = null,
     ) : BlockItem
 
     @JsonClass(generateAdapter = true)

@@ -68,7 +68,7 @@ class VideoSegmentPresenter @AssistedInject constructor(
         var bottomSheetState by rememberRetained { mutableStateOf<BottomSheet?>(null) }
 
         val videos = rememberRetained(segment) {
-            segment?.video.orEmpty().map { it.asBlock() }.toImmutableList()
+            segment?.video.orEmpty().map { it.asBlock(segment?.cover) }.toImmutableList()
         }
 
         val pipState by rememberPipState()
@@ -110,13 +110,14 @@ class VideoSegmentPresenter @AssistedInject constructor(
         }
     }
 
-    private fun VideoClipSegment.asBlock() = BlockItem.Video(
+    private fun VideoClipSegment.asBlock(cover: String?) = BlockItem.Video(
         id = src,
         style = null,
         data = null,
         nested = null,
         src = hls ?: src,
         caption = null,
+        thumbnail = thumbnail ?: cover,
     )
 
     @Composable
