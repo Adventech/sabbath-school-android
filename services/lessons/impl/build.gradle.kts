@@ -1,3 +1,6 @@
+import com.android.build.api.dsl.LibraryExtension
+import org.gradle.kotlin.dsl.configure
+
 /*
  * Copyright (c) 2025. Adventech <info@adventech.io>
  *
@@ -24,14 +27,14 @@ plugins {
     alias(libs.plugins.foundry.base)
     alias(libs.plugins.ksp)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt)
 }
 
-android { namespace = "ss.lessons.impl" }
+extensions.configure<LibraryExtension> { namespace = "ss.lessons.impl" }
 
 dependencies {
     implementation(libs.google.hilt.android)
+    implementation(libs.joda.time)
     implementation(libs.moshix.adapters)
     implementation(libs.square.moshi.kotlin)
     implementation(libs.square.okhttp)
@@ -50,9 +53,6 @@ dependencies {
     compileOnly(libs.javax.annotation)
 
     testImplementation(libs.bundles.testing.common)
-    testImplementation(projects.libraries.foundation.coroutines.test)
-    testImplementation(projects.libraries.lessons.test)
-    testImplementation(projects.libraries.storage.test)
 
     ksp(libs.google.hilt.compiler)
     ksp(libs.square.moshi.codegen)

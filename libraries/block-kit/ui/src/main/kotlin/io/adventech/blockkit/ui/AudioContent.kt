@@ -56,6 +56,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
@@ -188,7 +189,8 @@ private fun PlayerContent(
                 currentDuration,
                 style = Styler.textStyle(null).copy(
                     fontFamily = Styler.defaultFontFamily(),
-                    fontSize = 14.sp
+                    fontSize = 14.sp,
+                    platformStyle = PlatformTextStyle(includeFontPadding = true)
                 ),
                 color = contentColor
             )

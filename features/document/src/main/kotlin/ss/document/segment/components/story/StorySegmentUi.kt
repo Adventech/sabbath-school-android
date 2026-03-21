@@ -38,9 +38,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onVisibilityChanged
 import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
+import app.ss.design.compose.widget.scaffold.LocalNavbarController
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.ui.BlockContent
@@ -54,6 +56,7 @@ fun StorySegmentUi(
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
 ) {
     val hapticFeedback = LocalSsHapticFeedback.current
+    val navbarController = LocalNavbarController.current
     var expanded by remember { mutableStateOf(false) }
 
     Box(
@@ -62,6 +65,19 @@ fun StorySegmentUi(
             .clickable {
                 expanded = !expanded
                 onCollapseChange(expanded)
+
+                if (expanded) {
+                    navbarController.show()
+                } else {
+                    navbarController.hide()
+                }
+            }
+            .onVisibilityChanged { visible ->
+                if (visible) {
+                    navbarController.hide()
+                } else {
+                    navbarController.show()
+                }
             },
     ) {
         BlockContent(

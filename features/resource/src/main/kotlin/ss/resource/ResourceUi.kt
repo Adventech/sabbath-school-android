@@ -71,6 +71,7 @@ import ss.resource.components.ResourceLoadingView
 import ss.resource.components.ResourceTopAppBar
 import ss.resource.components.footer
 import ss.resource.components.footerBackgroundColor
+import ss.resource.components.publishingInfo
 import ss.resource.components.resourceSections
 import ss.resource.components.spec.SharePosition
 import com.cryart.design.R as DesignR
@@ -157,6 +158,13 @@ fun ResourceUi(state: State, modifier: Modifier = Modifier) {
                                     )
                                 }
                             )
+                        }
+
+                        state.publishingInfo?.let {
+                            publishingInfo(it) {
+                                hapticFeedback.performClick()
+                                state.eventSink(Event.OnPublishingInfoClick(it.url))
+                            }
                         }
 
                         resourceSections(state.sections)

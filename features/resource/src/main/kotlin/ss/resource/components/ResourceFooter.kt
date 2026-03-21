@@ -27,13 +27,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -44,7 +48,6 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -54,8 +57,6 @@ import app.ss.design.compose.theme.color.SsColors
 import kotlinx.collections.immutable.ImmutableList
 import ss.resource.components.spec.CreditSpec
 import ss.resource.components.spec.FeatureSpec
-import java.util.Calendar
-import app.ss.translations.R as L10n
 
 internal fun LazyListScope.footer(
     credits: ImmutableList<CreditSpec>,
@@ -86,26 +87,16 @@ internal fun LazyListScope.footer(
         )
     }
 
-    item {
-        Text(
-            text = stringResource(id = L10n.string.ss_copyright, year),
-            style = SsTheme.typography.bodySmall.copy(
-                fontSize = 15.sp
-            ),
-            color = if (SsTheme.colors.isDark) {
-                SsColors.BaseGrey3
-            } else SsColors.BaseGrey2,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    horizontal = 16.dp,
-                    vertical = 10.dp
-                )
-        )
+    item("insets") {
+        Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.systemBars))
     }
 
-    item {
-        Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.systemBars))
+    item("spacer") {
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+        )
     }
 }
 
@@ -114,8 +105,6 @@ internal fun LazyListScope.footer(
 internal fun footerBackgroundColor(): Color = if (SsTheme.colors.isDark) {
     Color.Black.lighter()
 } else SsColors.BaseGrey1
-
-private val year: String = "© ${Calendar.getInstance().get(Calendar.YEAR)}"
 
 @Composable
 private fun FooterItem(
@@ -127,9 +116,10 @@ private fun FooterItem(
     Column(
         modifier = modifier
             .fillMaxWidth()
+            .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
             .padding(
                 horizontal = SsTheme.dimens.grid_4,
-                vertical = 10.dp
+                vertical = 10.dp,
             )
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {

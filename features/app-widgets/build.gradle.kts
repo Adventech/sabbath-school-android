@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.LibraryExtension
+
 /*
  * Copyright (c) 2025. Adventech <info@adventech.io>
  *
@@ -24,12 +26,11 @@ plugins {
     alias(libs.plugins.foundry.base)
     alias(libs.plugins.ksp)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.hilt)
 }
 
-android {
+extensions.configure<LibraryExtension> {
     namespace = "app.ss.widgets"
 }
 
@@ -60,8 +61,6 @@ dependencies {
     implementation(projects.libraries.lessons.api)
     implementation(projects.libraries.prefs.api)
     implementation(projects.libraries.storage.api)
-
-    testImplementation(libs.bundles.testing.common)
 
     ksp(libs.androidx.hilt.compiler)
     ksp(libs.google.hilt.compiler)

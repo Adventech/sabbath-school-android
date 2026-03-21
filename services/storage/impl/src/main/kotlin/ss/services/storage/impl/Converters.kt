@@ -90,9 +90,8 @@ internal object Converters {
         val listDataType: Type = Types.newParameterizedType(List::class.java, AppWidgetDay::class.java)
         moshi.adapter(listDataType)
     }
-    private val blockItemsAdapter: JsonAdapter<List<BlockItem>> by lazy {
-        val listDataType: Type = Types.newParameterizedType(List::class.java, BlockItem::class.java)
-        moshi.adapter(listDataType)
+    private val blockItemAdapter: JsonAdapter<BlockItem> by lazy {
+        moshi.adapter(BlockItem::class.java)
     }
     private val pdfAuxAdapter: JsonAdapter<List<PdfAux>> by lazy {
         val listDataType: Type = Types.newParameterizedType(List::class.java, PdfAux::class.java)
@@ -191,15 +190,15 @@ internal object Converters {
     }
 
     @TypeConverter
-    fun fromWidgetDays(videos: List<AppWidgetDay>?): String? = widgetDaysAdapter.toJson(videos)
+    fun fromWidgetDays(days: List<AppWidgetDay>?): String? = widgetDaysAdapter.toJson(days)
 
     @TypeConverter
-    fun toBlockItems(value: String?): List<BlockItem>? = value?.let { jsonString ->
-        blockItemsAdapter.fromJson(jsonString)
+    fun toBlockItem(value: String?): BlockItem? = value?.let { jsonString ->
+        blockItemAdapter.fromJson(jsonString)
     }
 
     @TypeConverter
-    fun fromBlockItems(videos: List<BlockItem>?): String? = blockItemsAdapter.toJson(videos)
+    fun fromBlockItem(item: BlockItem?): String? = blockItemAdapter.toJson(item)
 
     @TypeConverter
     fun toPdfAux(value: String?): List<PdfAux>? = value?.let { jsonString ->

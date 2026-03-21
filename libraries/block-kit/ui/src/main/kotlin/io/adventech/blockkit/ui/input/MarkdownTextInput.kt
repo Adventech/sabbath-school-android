@@ -29,29 +29,16 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextLayoutResult
-import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.sp
-import io.adventech.blockkit.model.input.Highlight
-import io.adventech.blockkit.model.input.Underline
 import io.adventech.blockkit.ui.TAG_URL
-import io.adventech.blockkit.ui.rememberMarkdownText
-import io.adventech.blockkit.ui.style.BlockStyleTemplate
-import io.adventech.blockkit.ui.style.StyleTemplate
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 import me.saket.extendedspans.ExtendedSpans
-import me.saket.extendedspans.RoundedCornerSpanPainter
-import me.saket.extendedspans.RoundedCornerSpanPainter.TextPaddingValues
 import me.saket.extendedspans.drawBehind
 
 /**
@@ -63,59 +50,35 @@ import me.saket.extendedspans.drawBehind
  */
 @Composable
 internal fun MarkdownTextInput(
-    markdownText: String,
+    value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
+    extendedSpans: ExtendedSpans,
     modifier: Modifier = Modifier,
-    selection: TextRange = TextRange.Zero,
-    color: Color = MaterialTheme.colorScheme.onSurface,
     style: TextStyle = MaterialTheme.typography.bodyLarge,
     textAlign: TextAlign? = null,
-    styleTemplate: StyleTemplate = BlockStyleTemplate.DEFAULT,
     maxLines: Int = Integer.MAX_VALUE,
-    highlights: ImmutableList<Highlight> = persistentListOf(),
-    underlines: ImmutableList<Underline> = persistentListOf(),
     onHandleUri: (String) -> Unit = {},
 ) {
-    val styledText = rememberMarkdownText(markdownText, style, styleTemplate, color, highlights, underlines)
-
     val layoutResult = remember { mutableStateOf<TextLayoutResult?>(null) }
-
-    val extendedSpans = remember {
-        ExtendedSpans(
-            RoundedCornerSpanPainter(
-                cornerRadius = 6.sp,
-                padding = TextPaddingValues(horizontal = 4.sp),
-                topMargin = 2.sp,
-                bottomMargin = 2.sp,
-                stroke = RoundedCornerSpanPainter.Stroke(
-                    color = Color.Transparent,
-                ),
-            )
-        )
-    }
-
-    val text = remember(styledText) { extendedSpans.extend(styledText) }
-    var textFieldValue by remember(text, selection) { mutableStateOf(TextFieldValue(text, selection)) }
+    val styledText = value.annotatedString
 
     BasicTextField(
-        value = textFieldValue,
-        onValueChange = {
-            textFieldValue = it
-            onValueChange(it)
-        },
+        value = value,
+        onValueChange = onValueChange,
         modifier = modifier
             .fillMaxWidth()
             .drawBehind(extendedSpans),
         readOnly = true,
         textStyle = style.copy(
             textAlign = textAlign ?: style.textAlign,
+            platformStyle = PlatformTextStyle(includeFontPadding = true)
         ),
         maxLines = maxLines,
         onTextLayout = {
             layoutResult.value = it
             extendedSpans.onTextLayout(it)
         },
-        interactionSource = remember { MutableInteractionSource() }
+        interactionSource = remember(styledText) { MutableInteractionSource() }
             .also { interactionSource ->
                 LaunchedEffect(interactionSource) {
                     interactionSource.interactions.collect { interaction ->

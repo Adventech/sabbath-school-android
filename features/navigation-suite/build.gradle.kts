@@ -1,3 +1,6 @@
+import com.android.build.api.dsl.LibraryExtension
+import org.gradle.kotlin.dsl.configure
+
 /*
  * Copyright (c) 2025. Adventech <info@adventech.io>
  *
@@ -24,7 +27,6 @@ plugins {
     alias(libs.plugins.foundry.base)
     alias(libs.plugins.ksp)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.hilt)
 }
@@ -33,7 +35,7 @@ foundry {
     features { compose() }
 }
 
-android {
+extensions.configure<LibraryExtension> {
     namespace = "ss.navigation.suite"
     androidResources.enable = true
 }
@@ -43,7 +45,9 @@ ksp {
 }
 
 dependencies {
+    implementation(libs.androidx.activity.compose)
     implementation(libs.google.hilt.android)
+    implementation(libs.kotlinx.collectionsImmutable)
     implementation(libs.material3.adaptive.navigation.suite)
     implementation(libs.timber)
     implementation(projects.common.designCompose)
@@ -51,6 +55,7 @@ dependencies {
     implementation(projects.libraries.circuit.api)
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.prefs.api)
+    implementation(projects.services.circuit.impl)
     implementation(projects.services.resources.api)
 
     testImplementation(libs.bundles.testing.common)

@@ -24,6 +24,7 @@ package ss.resources.impl.ext
 
 import io.adventech.blockkit.model.resource.Segment
 import ss.libraries.storage.api.entity.SegmentEntity
+import ss.libraries.storage.api.entity.SegmentWithBlocks
 
 internal fun Segment.toEntity(): SegmentEntity {
     return SegmentEntity(
@@ -38,7 +39,6 @@ internal fun Segment.toEntity(): SegmentEntity {
         markdownSubtitle = this.markdownSubtitle,
         titleBelowCover = this.titleBelowCover,
         cover = this.cover,
-        blocks = this.blocks,
         date = this.date,
         background = this.background,
         pdf = this.pdf,
@@ -47,24 +47,26 @@ internal fun Segment.toEntity(): SegmentEntity {
     )
 }
 
-internal fun SegmentEntity.toModel(): Segment {
+internal fun SegmentWithBlocks.toModel(): Segment {
     return Segment(
-        id = this.id,
-        index = this.index,
-        name = this.name,
-        title = this.title,
-        type = this.type,
-        resourceId = this.resourceId,
-        markdownTitle = this.markdownTitle,
-        subtitle = this.subtitle,
-        markdownSubtitle = this.markdownSubtitle,
-        titleBelowCover = this.titleBelowCover,
-        cover = this.cover,
-        blocks = this.blocks,
-        date = this.date,
-        background = this.background,
-        pdf = this.pdf,
-        video = this.video,
-        style = style,
+        id = segment.id,
+        index = segment.index,
+        name = segment.name,
+        title = segment.title,
+        type = segment.type,
+        resourceId = segment.resourceId,
+        markdownTitle = segment.markdownTitle,
+        subtitle = segment.subtitle,
+        markdownSubtitle = segment.markdownSubtitle,
+        titleBelowCover = segment.titleBelowCover,
+        cover = segment.cover,
+        blocks = blocks
+            .sortedBy { it.order }
+            .map { it.item },
+        date = segment.date,
+        background = segment.background,
+        pdf = segment.pdf,
+        video = segment.video,
+        style = segment.style,
     )
 }

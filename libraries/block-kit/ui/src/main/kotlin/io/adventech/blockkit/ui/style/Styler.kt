@@ -24,6 +24,8 @@ package io.adventech.blockkit.ui.style
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -32,9 +34,12 @@ import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -106,6 +111,7 @@ object Styler {
             color = textColor(blockStyle, template),
             fontSize = textSize(blockStyle, template),
             fontFamily = fontFamily(blockStyle, template),
+            platformStyle = PlatformTextStyle(includeFontPadding = true)
         )
     }
 
@@ -257,3 +263,16 @@ internal fun rememberAttributedTextColorOverride(
 
 val LocalBlocksStyle = staticCompositionLocalOf<BlocksStyle?> { null }
 val LocalSegmentStyle = staticCompositionLocalOf<SegmentStyle?> { null }
+
+internal fun PaddingValues.copy(
+    layoutDirection: LayoutDirection,
+    start: Dp? = null,
+    top: Dp? = null,
+    end: Dp? = null,
+    bottom: Dp? = null,
+) = PaddingValues(
+    start = start ?: calculateStartPadding(layoutDirection),
+    top = top ?: calculateTopPadding(),
+    end = end ?: calculateEndPadding(layoutDirection),
+    bottom = bottom ?: calculateBottomPadding(),
+)

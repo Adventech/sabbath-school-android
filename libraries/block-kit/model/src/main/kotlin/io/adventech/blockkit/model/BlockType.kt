@@ -34,6 +34,7 @@ enum class BlockType {
     @Json(name = "checklist") CHECKLIST,
     @Json(name = "list-item-checklist") CHECKLIST_ITEM,
     @Json(name = "collapse") COLLAPSE,
+    @Json(name = "carousel") CAROUSEL,
     @Json(name = "excerpt") EXCERPT,
     @Json(name = "excerpt-item") EXCERPT_ITEM,
     @Json(name = "heading") HEADING,

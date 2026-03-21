@@ -50,10 +50,10 @@ import kotlin.math.roundToLong
  * @param progressState The current playback progress state.
  * @param draggingProgress The progress value being dragged to.
  * @param setDraggingProgress The callback to set the dragging progress.
+ * @param modifier The modifier for the slider.
  * @param height The height of the slider.
  * @param thumbRadius The radius of the thumb.
  * @param onSeekTo The callback to seek to a specific position.
- * @param modifier The modifier for the slider.
  */
 @Composable
 fun PlaybackSlider(
@@ -62,10 +62,10 @@ fun PlaybackSlider(
     progressState: PlaybackProgressState,
     draggingProgress: Float?,
     setDraggingProgress: (Float?) -> Unit,
+    modifier: Modifier = Modifier,
     height: Dp = 56.dp,
     thumbRadius: Dp = 4.dp,
     onSeekTo: (Long) -> Unit,
-    modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier.height(height), contentAlignment = Alignment.Center) {
         if (isBuffering) {

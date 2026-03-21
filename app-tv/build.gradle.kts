@@ -20,6 +20,7 @@
  * THE SOFTWARE.
  */
 
+import com.android.build.api.dsl.ApplicationExtension
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -27,7 +28,6 @@ plugins {
     alias(libs.plugins.foundry.base)
     alias(libs.plugins.ksp)
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.hilt)
 }
@@ -39,7 +39,7 @@ val appVersionCode = readPropertyValue(
     defaultValue = "1"
 ).toInt() + 12500
 
-android {
+extensions.configure<ApplicationExtension> {
     namespace = "app.ss.tv"
 
     defaultConfig {
@@ -75,10 +75,6 @@ android {
         }
     }
 
-    kotlin {
-        compilerOptions { optIn.add("androidx.tv.foundation.ExperimentalTvFoundationApi") }
-    }
-
     buildFeatures {
         buildConfig = true
     }
@@ -86,6 +82,10 @@ android {
     testOptions {
         unitTests.isIncludeAndroidResources = true
     }
+}
+
+kotlin {
+    compilerOptions { optIn.add("androidx.tv.foundation.ExperimentalTvFoundationApi") }
 }
 
 foundry {

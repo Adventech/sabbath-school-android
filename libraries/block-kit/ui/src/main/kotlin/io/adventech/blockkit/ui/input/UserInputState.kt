@@ -22,8 +22,6 @@
 
 package io.adventech.blockkit.ui.input
 
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import io.adventech.blockkit.model.input.UserInput
@@ -31,7 +29,6 @@ import io.adventech.blockkit.model.input.UserInputRequest
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableMap
 
-@Stable
 data class UserInputState(
     val input: ImmutableList<UserInput>,
     val bibleVersion: String?,
@@ -39,7 +36,6 @@ data class UserInputState(
     val eventSink: (Event) -> Unit,
 ) : CircuitUiState {
 
-    @Immutable
     sealed interface Event : CircuitUiEvent {
         data class InputChanged(val input: UserInputRequest) : Event
         data class BibleVersionChanged(val version: String) : Event

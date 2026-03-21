@@ -23,6 +23,7 @@
 package ss.resource
 
 import android.content.Context
+import app.ss.models.PublishingInfo
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import io.adventech.blockkit.model.resource.Resource
@@ -33,6 +34,7 @@ import ss.libraries.circuit.overlay.BottomSheetOverlay
 import ss.resource.components.content.ResourceSectionSpec
 import ss.resource.components.spec.CreditSpec
 import ss.resource.components.spec.FeatureSpec
+import ss.resource.components.spec.PublishingInfoSpec
 import ss.resource.components.spec.SharePosition
 
 sealed interface State: CircuitUiState {
@@ -56,6 +58,7 @@ sealed interface State: CircuitUiState {
         val overlayState: ResourceOverlayState?,
         val sharePosition: SharePosition,
         val primaryColorDark: String,
+        val publishingInfo: PublishingInfoSpec?,
         override val eventSink: (Event) -> Unit
     ): State
 
@@ -73,6 +76,9 @@ sealed interface Event : CircuitUiEvent {
 
     /** Share button is clicked. */
     data class OnShareClick(val context: Context) : Event
+
+    /** Publishing info is clicked. */
+    data class OnPublishingInfoClick(val url: String): Event
 }
 
 sealed interface ResourceOverlayState : CircuitUiState {

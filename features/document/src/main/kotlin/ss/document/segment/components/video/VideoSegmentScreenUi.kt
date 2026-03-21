@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
@@ -134,8 +135,16 @@ fun VideoSegmentScreenUi(state: State, modifier: Modifier = Modifier) {
                 )
             }
 
-            item {
+            item("insets") {
                 Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.systemBars))
+            }
+
+            item("spacer") {
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(80.dp)
+                )
             }
         }
     }

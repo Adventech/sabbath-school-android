@@ -37,6 +37,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.extensions.modifier.asPlaceholder
@@ -60,7 +61,7 @@ fun FeedTopAppBar(
 ) {
     val hapticFeedback = LocalSsHapticFeedback.current
     LargeTopAppBar(
-        title = { Text(text = title) },
+        title = { Text(text = title, fontWeight = FontWeight.Black) },
         modifier = modifier,
         navigationIcon = {
             AvatarNavigationIcon(

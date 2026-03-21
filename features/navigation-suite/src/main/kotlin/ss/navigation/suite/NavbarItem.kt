@@ -36,7 +36,7 @@ enum class NavbarItem(@param:DrawableRes val iconRes: Int, @param:StringRes val 
     Explore(R.drawable.ss_ic_explore, L10nR.string.ss_explore),
 }
 
-fun NavbarItem.screen(): Screen = when (this) {
+fun NavbarItem.screen(): FeedScreen = when (this) {
     NavbarItem.SabbathSchool -> FeedScreen(FeedScreen.Type.SABBATH_SCHOOL)
     NavbarItem.AliveInJesus -> FeedScreen(FeedScreen.Type.ALIVE_IN_JESUS)
     NavbarItem.PersonalMinistries -> FeedScreen(FeedScreen.Type.PERSONAL_MINISTRIES)

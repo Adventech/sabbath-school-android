@@ -24,6 +24,7 @@ package ss.resources.api
 
 import app.ss.models.AudioAux
 import app.ss.models.PDFAux
+import app.ss.models.PublishingInfo
 import app.ss.models.VideoAux
 import io.adventech.blockkit.model.feed.FeedGroup
 import io.adventech.blockkit.model.feed.FeedType
@@ -67,4 +68,6 @@ interface ResourcesRepository {
     fun bibleVersion(): Flow<String?>
 
     fun saveBibleVersion(version: String)
+
+    suspend fun publishingInfo(): Result<PublishingInfo?>
 }

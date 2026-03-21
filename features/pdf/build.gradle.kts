@@ -20,6 +20,8 @@
  * THE SOFTWARE.
  */
 
+import com.android.build.api.dsl.LibraryExtension
+import org.gradle.kotlin.dsl.configure
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -27,7 +29,6 @@ plugins {
     alias(libs.plugins.foundry.base)
     alias(libs.plugins.ksp)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt)
 }
 
@@ -37,7 +38,7 @@ val psPdfKitKey = readPropertyValue(
     defaultValue = ""
 )
 
-android {
+extensions.configure<LibraryExtension> {
     namespace = "app.ss.pdf"
 
     defaultConfig {

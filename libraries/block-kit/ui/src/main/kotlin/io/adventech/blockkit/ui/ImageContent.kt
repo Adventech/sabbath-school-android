@@ -65,7 +65,7 @@ internal fun ImageContent(blockItem: BlockItem.Image, modifier: Modifier = Modif
     var showPreview by remember { mutableStateOf(false) }
     var loadedImage by remember { mutableStateOf(false) }
     val shape = Styler.roundedShape()
-    var aspectRatio by remember { mutableFloatStateOf(blockItem.style?.image?.aspectRatio ?: (16f / 9f)) }
+    var aspectRatio by remember(blockItem) { mutableFloatStateOf(blockItem.style?.image?.aspectRatio ?: (16f / 9f)) }
 
     Column(
         modifier = modifier.fillMaxWidth(),

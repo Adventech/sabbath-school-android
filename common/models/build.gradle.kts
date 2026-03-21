@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.LibraryExtension
+
 /*
  * Copyright (c) 2022. Adventech <info@adventech.io>
  *
@@ -23,11 +25,10 @@
 plugins {
     alias(libs.plugins.foundry.base)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.parcelize)
 }
 
-android {
+extensions.configure<LibraryExtension> {
     namespace = "app.ss.models"
 }
 

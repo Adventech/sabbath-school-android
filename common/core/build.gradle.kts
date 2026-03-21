@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.LibraryExtension
+
 /*
  * Copyright (c) 2025. Adventech <info@adventech.io>
  *
@@ -23,11 +25,10 @@
 plugins {
     alias(libs.plugins.foundry.base)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.parcelize)
 }
 
-android { namespace = "com.cryart.sabbathschool.core" }
+extensions.configure<LibraryExtension> { namespace = "com.cryart.sabbathschool.core" }
 
 dependencies {
     api(libs.circuit.runtime)

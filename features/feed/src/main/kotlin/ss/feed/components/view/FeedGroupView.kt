@@ -31,11 +31,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
@@ -63,6 +69,20 @@ internal fun FeedGroupView(
     seeAllClick: () -> Unit = {},
     itemClick: (Resource) -> Unit = {},
 ) {
+    val listState = rememberLazyListState()
+
+    // Identify the first item's ID.
+    val currentFirstItemId = group.resources?.firstOrNull()?.id
+    var lastKnownId by rememberSaveable { mutableStateOf(currentFirstItemId) }
+
+    // Trigger a scroll only when the first item's ID changes (A new resource is made available)
+    LaunchedEffect(currentFirstItemId) {
+        if (currentFirstItemId != null && currentFirstItemId != lastKnownId) {
+            lastKnownId = currentFirstItemId
+            listState.animateScrollToItem(0)
+        }
+    }
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -73,14 +93,14 @@ internal fun FeedGroupView(
 
         SnappingLazyRow(
             modifier = Modifier.fillMaxWidth(),
+            state = listState,
             contentPadding = PaddingValues(horizontal = Dimens.grid_4),
+            horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             items(group.resources.orEmpty(), key = { it.id }) { resource ->
-                FeedResourceView(resource.toSpec(group), Modifier) {
+                FeedResourceView(resource.toSpec(group), Modifier.animateItem()) {
                     itemClick(resource)
                 }
-
-                Spacer(modifier = Modifier.width(20.dp))
             }
         }
     }

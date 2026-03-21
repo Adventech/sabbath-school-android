@@ -43,10 +43,11 @@ class ReminderReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         if (isAtLeastApi(Build.VERSION_CODES.TIRAMISU) && runtimePermissions.isGranted(Manifest.permission.POST_NOTIFICATIONS).not()) {
-            dailyReminderManager.cancel()
+            // Permission not granted, don't show the notification.
+            // We still reschedule in case the user grants permission later.
         } else {
             dailyReminderManager.showNotification(context)
-            dailyReminderManager.reSchedule()
         }
+        dailyReminderManager.reSchedule()
     }
 }

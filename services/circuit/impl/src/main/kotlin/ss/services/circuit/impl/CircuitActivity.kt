@@ -41,10 +41,12 @@ import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.foundation.rememberCircuitNavigator
 import com.slack.circuit.overlay.ContentWithOverlays
 import com.slack.circuit.runtime.screen.Screen
-import com.slack.circuitx.android.rememberAndroidScreenAwareNavigator
 import com.slack.circuitx.gesturenavigation.GestureNavigationDecorationFactory
+import com.slack.circuitx.navigation.intercepting.AndroidScreenAwareNavigationInterceptor
+import com.slack.circuitx.navigation.intercepting.rememberInterceptingNavigator
 import dagger.hilt.android.AndroidEntryPoint
-import ss.services.circuit.impl.navigator.AndroidSupportingNavigator
+import kotlinx.collections.immutable.persistentListOf
+import ss.services.circuit.impl.interceptor.AndroidSupportingInterceptor
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -54,7 +56,7 @@ class CircuitActivity : ComponentActivity() {
     lateinit var circuit: Circuit
 
     @Inject
-    lateinit var supportingNavigatorFactory: AndroidSupportingNavigator.Factory
+    lateinit var supportingInterceptorFactory: AndroidSupportingInterceptor.Factory
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,10 +76,14 @@ class CircuitActivity : ComponentActivity() {
                 SsTheme(windowSizeClass = windowSizeClass) {
                     val backstack = rememberSaveableBackStack(screen)
                     val circuitNavigator = rememberCircuitNavigator(backstack)
-                    val supportingNavigator = remember(circuitNavigator) {
-                        supportingNavigatorFactory.create(circuitNavigator, this)
-                    }
-                    val navigator = rememberAndroidScreenAwareNavigator(supportingNavigator, this)
+                    val interceptors = persistentListOf(
+                        AndroidScreenAwareNavigationInterceptor(context = this),
+                        supportingInterceptorFactory.create(activity = this)
+                    )
+                    val navigator = rememberInterceptingNavigator(
+                        navigator = circuitNavigator,
+                        interceptors = interceptors,
+                    )
                     ContentWithOverlays {
                         NavigableCircuitContent(
                             navigator = navigator,

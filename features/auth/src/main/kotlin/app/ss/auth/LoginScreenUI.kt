@@ -57,6 +57,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.LinkAnnotation
@@ -163,6 +164,7 @@ private fun Buttons(
     eventSink: (Event) -> Unit = {},
 ) {
     val context = LocalContext.current
+    val resources = LocalResources.current
 
     Column(modifier = modifier.width(270.dp)) {
 
@@ -222,7 +224,7 @@ private fun Buttons(
                     append("By continuing, you agree to our Terms of Service as described in our ")
                     withLink(
                         link = LinkAnnotation.Url(
-                            url = context.getString(L10nR.string.ss_privacy_policy_url),
+                            url = resources.getString(L10nR.string.ss_privacy_policy_url),
                             styles = TextLinkStyles(
                                 style = SpanStyle(
                                     color = textColor,

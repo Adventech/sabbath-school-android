@@ -1,3 +1,6 @@
+import com.android.build.api.dsl.LibraryExtension
+import org.gradle.kotlin.dsl.configure
+
 /*
  * Copyright (c) 2025. Adventech <info@adventech.io>
  *
@@ -23,13 +26,12 @@
 plugins {
     alias(libs.plugins.foundry.base)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
 }
 
-android { namespace = "io.adventech.blockkit.ui" }
+extensions.configure<LibraryExtension> { namespace = "io.adventech.blockkit.ui" }
 
 foundry {
     features { compose() }
@@ -54,6 +56,7 @@ dependencies {
     implementation(libs.google.hilt.android)
     implementation(libs.haze)
     implementation(libs.haze.materials)
+    implementation(libs.kotlinx.collectionsImmutable)
     implementation(libs.saket.extendedspans)
     implementation(libs.saket.telephoto)
     implementation(libs.saket.telephoto.flick)

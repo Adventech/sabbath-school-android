@@ -36,6 +36,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,9 +46,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.theme.SsTheme
-import app.ss.design.compose.widget.appbar.SsTopAppBar
-import app.ss.design.compose.widget.appbar.TopAppBarSpec
-import app.ss.design.compose.widget.appbar.TopAppBarType
 import app.ss.design.compose.widget.divider.Divider
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
@@ -114,24 +112,23 @@ private fun SearchView(
     onNavBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-  var queryValue by rememberSaveable { mutableStateOf("") }
+    var queryValue by rememberSaveable { mutableStateOf("") }
 
-  SsTopAppBar(
-      spec = TopAppBarSpec(TopAppBarType.Small),
-      title = {
-        SearchInput(
-            value = queryValue,
-            onQueryChange = {
-              queryValue = it
-              onQuery(it)
-            },
-            modifier = Modifier.fillMaxWidth(),
-            placeholder = "Search Languages",
-        )
-      },
-      modifier = modifier,
-      navigationIcon = { IconButton(onClick = onNavBack) { IconBox(icon = Icons.ArrowBack) } },
-  )
+    TopAppBar(
+        title = {
+            SearchInput(
+                value = queryValue,
+                onQueryChange = {
+                    queryValue = it
+                    onQuery(it)
+                },
+                modifier = Modifier.fillMaxWidth(),
+                placeholder = "Search Languages",
+            )
+        },
+        modifier = modifier,
+        navigationIcon = { IconButton(onClick = onNavBack) { IconBox(icon = Icons.ArrowBack) } },
+    )
 }
 
 @PreviewLightDark

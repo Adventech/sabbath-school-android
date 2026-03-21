@@ -24,7 +24,6 @@ plugins {
     alias(libs.plugins.foundry.base)
     alias(libs.plugins.ksp)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.hilt)
 }
@@ -36,6 +35,7 @@ foundry {
 dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.google.hilt.android)
+    implementation(libs.kotlinx.collectionsImmutable)
     implementation(projects.common.core)
     implementation(projects.common.designCompose)
     implementation(projects.libraries.circuit.api)

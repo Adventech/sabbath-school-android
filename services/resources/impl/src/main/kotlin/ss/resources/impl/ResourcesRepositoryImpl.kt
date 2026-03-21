@@ -25,6 +25,7 @@ package ss.resources.impl
 import android.content.Context
 import app.ss.models.AudioAux
 import app.ss.models.PDFAux
+import app.ss.models.PublishingInfo
 import app.ss.models.VideoAux
 import app.ss.network.NetworkResource
 import app.ss.network.safeApiCall
@@ -49,6 +50,7 @@ import kotlinx.coroutines.withContext
 import ss.foundation.android.connectivity.ConnectivityHelper
 import ss.foundation.coroutines.DispatcherProvider
 import ss.lessons.api.ResourcesApi
+import ss.lessons.model.request.PublishingInfoRequest
 import ss.libraries.storage.api.dao.AudioDao
 import ss.libraries.storage.api.dao.BibleVersionDao
 import ss.libraries.storage.api.dao.DocumentsDao
@@ -60,6 +62,7 @@ import ss.libraries.storage.api.dao.ResourcesDao
 import ss.libraries.storage.api.dao.SegmentsDao
 import ss.libraries.storage.api.dao.UserInputDao
 import ss.libraries.storage.api.dao.VideoInfoDao
+import ss.misc.DeviceHelper
 import ss.prefs.api.SSPrefs
 import ss.resources.api.ResourcesRepository
 import ss.resources.impl.ext.toEntity
@@ -92,10 +95,11 @@ internal class ResourcesRepositoryImpl @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val connectivityHelper: ConnectivityHelper,
     private val ssPrefs: Lazy<SSPrefs>,
+    private val deviceHelper: DeviceHelper,
 ) : ResourcesRepository {
 
     override fun languages(query: String?): Flow<List<LanguageModel>> {
-        return return (if (query.isNullOrEmpty()) {
+        return (if (query.isNullOrEmpty()) {
             languagesDao.get().onStart { syncHelper.syncLanguages() }
         } else {
             languagesDao.search("%$query%")
@@ -112,6 +116,7 @@ internal class ResourcesRepositoryImpl @Inject constructor(
             .onEach { if (it == null) syncHelper.syncLanguages()  }
             .filterNotNull()
             .map { entity -> entity.toModel() }
+            .onStart { syncHelper.syncLanguages() }
             .catch { Timber.e(it) }
             .flowOn(dispatcherProvider.io)
 
@@ -166,7 +171,7 @@ internal class ResourcesRepositoryImpl @Inject constructor(
 
     override fun saveDocumentInput(documentId: String, input: UserInputRequest) = syncHelper.saveUserInput(documentId, input)
 
-    override fun segment(id: String, index: String): Flow<Segment> = segmentsDao.get(id)
+    override fun segment(id: String, index: String): Flow<Segment> = segmentsDao.getSegmentWithBlocks(id)
         .filterNotNull()
         .map { it.toModel() }
         .onStart { syncHelper.syncSegment(index) }
@@ -183,8 +188,8 @@ internal class ResourcesRepositoryImpl @Inject constructor(
                 }
 
                 is NetworkResource.Success -> {
-                    resource.value.body()?.let {
-                        val audio = it.filter { it.target.startsWith(documentIndex) }
+                    resource.value.body()?.let { audios ->
+                        val audio = audios.filter { it.target.startsWith(documentIndex) }
                         withContext(dispatcherProvider.io) {
                             audioDao.delete()
                             audioDao.insertAll(audio.map { it.toEntity() })
@@ -206,8 +211,7 @@ internal class ResourcesRepositoryImpl @Inject constructor(
                 }
 
                 is NetworkResource.Success -> {
-                    resource.value.body()?.let {
-                        val videos = it
+                    resource.value.body()?.let { videos ->
                         val entities = videos.mapIndexed { index, video -> video.toEntity("$resourceIndex-$index", documentIndex) }
                         withContext(dispatcherProvider.io) {
                             videoInfoDao.delete()
@@ -230,8 +234,8 @@ internal class ResourcesRepositoryImpl @Inject constructor(
                 }
 
                 is NetworkResource.Success -> {
-                    resource.value.body()?.let {
-                        Result.success(it.filter { it.target == documentIndex })
+                    resource.value.body()?.let { items ->
+                        Result.success(items.filter { it.target == documentIndex })
                     } ?: Result.failure(Throwable("Failed to fetch PDFs, body is null"))
                 }
             }
@@ -259,4 +263,24 @@ internal class ResourcesRepositoryImpl @Inject constructor(
 
     override fun saveBibleVersion(version: String) =
         syncHelper.saveBibleVersion(ssPrefs.get().getLanguageCode(), version)
+
+    override suspend fun publishingInfo(): Result<PublishingInfo?> {
+        val language = ssPrefs.get().getLanguageCode()
+        val country = deviceHelper.country()
+
+        return withContext(dispatcherProvider.io) {
+            when (val resource = safeApiCall(connectivityHelper) {
+                resourcesApi.publishingInfo(PublishingInfoRequest(country, language))
+            }) {
+                is NetworkResource.Failure -> {
+                    Result.failure(Throwable("Failed to fetch Publishing Info, ${resource.errorBody}"))
+                }
+                is NetworkResource.Success -> {
+                    resource.value.body()?.data?.let {
+                        Result.success(it)
+                    } ?: Result.failure(Throwable("Failed to fetch Publishing Info, body is null"))
+                }
+            }
+        }
+    }
 }

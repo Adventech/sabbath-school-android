@@ -22,25 +22,32 @@
 
 package ss.feed.group
 
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.theme.SsTheme
-import app.ss.design.compose.widget.appbar.SsTopAppBar
-import app.ss.design.compose.widget.appbar.TopAppBarSpec
-import app.ss.design.compose.widget.appbar.TopAppBarType
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
 import app.ss.design.compose.widget.scaffold.HazeScaffold
+import app.ss.design.compose.widget.scaffold.LocalNavbarController
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
 import ss.feed.components.FeedLazyColum
@@ -54,14 +61,14 @@ import ss.feed.group.FeedGroupScreen.State
 fun FeedGroupUi(state: State, modifier: Modifier = Modifier) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val hapticFeedback = LocalSsHapticFeedback.current
+    val layoutDirection = LocalLayoutDirection.current
 
     HazeScaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            SsTopAppBar(
-                spec = TopAppBarSpec(TopAppBarType.Large),
+            LargeTopAppBar(
                 modifier = Modifier,
-                title = { Text(text = state.title) },
+                title = { Text(text = state.title, fontWeight = FontWeight.Black) },
                 navigationIcon = {
                     IconButton(onClick = {
                         hapticFeedback.performClick()
@@ -71,7 +78,7 @@ fun FeedGroupUi(state: State, modifier: Modifier = Modifier) {
                     }
                 },
                 scrollBehavior = scrollBehavior,
-                colors = TopAppBarDefaults.largeTopAppBarColors(
+                colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color.Transparent,
                     scrolledContainerColor = Color.Transparent,
                 )
@@ -88,10 +95,16 @@ fun FeedGroupUi(state: State, modifier: Modifier = Modifier) {
             }
 
             is State.Success -> {
+                val bottomPadding by animateDpAsState(targetValue = if (LocalNavbarController.current.enabled) 80.dp else 0.dp)
                 FeedLazyColum(
                     resources = state.resources,
                     modifier = Modifier.fillMaxSize(),
-                    contentPadding = contentPadding,
+                    contentPadding = PaddingValues(
+                        start = contentPadding.calculateStartPadding(layoutDirection),
+                        top = contentPadding.calculateTopPadding(),
+                        end = contentPadding.calculateEndPadding(layoutDirection),
+                        bottom = contentPadding.calculateBottomPadding() + bottomPadding
+                    ),
                     itemClick = {
                         state.eventSink(Event.OnItemClick(it))
                         hapticFeedback.performScreenView()

@@ -31,6 +31,6 @@ import ss.resource.components.content.ResourceSectionSpec
 
 internal fun LazyListScope.resourceSections(sections: ImmutableList<ResourceSectionSpec>) {
     items(sections, key = { it.id }) { section ->
-        Surface { section.Content(Modifier.animateItem()) }
+        Surface(Modifier) { section.Content(Modifier) }
     }
 }

@@ -29,11 +29,16 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
@@ -46,7 +51,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -118,6 +125,7 @@ internal fun ColumnScope.CoverContent(
                     maxLines = 3,
                     modifier = Modifier
                         .fillMaxWidth()
+                        .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
                         .padding(horizontal = SsTheme.dimens.grid_4, vertical = 8.dp)
                 )
             }
@@ -133,6 +141,7 @@ internal fun ColumnScope.CoverContent(
                     readMoreMaxLines = 3,
                     modifier = Modifier
                         .fillMaxWidth()
+                        .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
                         .padding(horizontal = SsTheme.dimens.grid_4, vertical = 8.dp)
                         .thenIf(!(resource.introduction ?: resource.markdownDescription ?: resource.description).isNullOrEmpty()) {
                             clickable { readMoreClick() }
@@ -187,6 +196,7 @@ internal fun ColumnScope.CoverContent(
             fontSize = 30.sp,
             color = titleColor,
             lineHeight = 40.sp,
+            shadow = textShadow.takeIf { type == CoverContentType.PRIMARY },
         ),
         color = titleColor,
         textAlign = Styler.textAlign(style) ?: textAlign,
@@ -195,6 +205,7 @@ internal fun ColumnScope.CoverContent(
         overflow = TextOverflow.Ellipsis,
         modifier = Modifier
             .fillMaxWidth()
+            .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
             .padding(horizontal = SsTheme.dimens.grid_4)
             .padding(top = paddingTop, bottom = 8.dp)
     )
@@ -228,6 +239,12 @@ internal fun ColumnScope.CoverContent(
         featuresRow()
     }
 }
+
+private val textShadow = Shadow(
+    color = Color.Black.copy(alpha = 0.8f),  // Dark shadow with some transparency
+    offset = Offset(0f, 4f),        // Slight vertical offset
+    blurRadius = 4f                         // Soft blur
+)
 
 @Composable
 private fun ColumnScope.CtaButton(

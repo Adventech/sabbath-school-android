@@ -53,7 +53,9 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -78,7 +80,6 @@ import app.ss.design.compose.widget.icon.IconSlot
 import app.ss.design.compose.widget.icon.Icons
 import ss.libraries.media.api.PLAYBACK_PROGRESS_INTERVAL
 import ss.libraries.media.model.extensions.NONE_PLAYING
-import ss.services.media.ui.common.Dismissible
 import ss.services.media.ui.spec.NowPlayingSpec
 import ss.services.media.ui.spec.PlaybackStateSpec
 import ss.services.media.ui.spec.toSpec
@@ -134,10 +135,12 @@ fun PlaybackMiniControls(
 ) {
     val cancel: () -> Unit = { playbackConnection.releaseMini() }
 
-    Dismissible(onDismiss = cancel) {
-        Box(
-            modifier = Modifier.fillMaxWidth()
-        ) {
+    SwipeToDismissBox(
+        state = rememberSwipeToDismissBoxState(),
+        backgroundContent = {},
+        onDismiss = { cancel() },
+    ) {
+        Box(modifier = Modifier.fillMaxWidth()) {
             Surface(
                 color = Color.Transparent,
                 shape = MaterialTheme.shapes.medium,

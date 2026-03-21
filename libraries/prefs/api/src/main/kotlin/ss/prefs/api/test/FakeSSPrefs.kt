@@ -25,6 +25,7 @@ package ss.prefs.api.test
 import androidx.annotation.VisibleForTesting
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
 import ss.prefs.api.SSPrefs
 import ss.prefs.model.ReminderTime
@@ -98,4 +99,10 @@ class FakeSSPrefs(
     override fun setReminderScheduled(scheduled: Boolean) {
 
     }
+
+    override fun lastNavigationScreen(): Flow<String?> {
+        return flowOf(null)
+    }
+
+    override fun setLastNavigationScreen(screen: String) {}
 }

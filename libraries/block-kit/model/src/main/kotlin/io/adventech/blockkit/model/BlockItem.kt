@@ -312,3 +312,33 @@ sealed interface BlockItem {
         override val nested: Boolean? = null,
     ) : BlockItem
 }
+
+val BlockItem.type: BlockType
+    get() = when (this) {
+        is BlockItem.Appeal -> BlockType.APPEAL
+        is BlockItem.Audio -> BlockType.AUDIO
+        is BlockItem.BlockList -> BlockType.LIST
+        is BlockItem.BlockListItem -> BlockType.LIST_ITEM
+        is BlockItem.Carousel -> BlockType.CAROUSEL
+        is BlockItem.Checklist -> BlockType.CHECKLIST
+        is BlockItem.ChecklistItem -> BlockType.CHECKLIST_ITEM
+        is BlockItem.Collapse -> BlockType.COLLAPSE
+        is BlockItem.Excerpt -> BlockType.EXCERPT
+        is BlockItem.ExcerptItem -> BlockType.EXCERPT_ITEM
+        is BlockItem.Heading -> BlockType.HEADING
+        is BlockItem.Hr -> BlockType.HR
+        is BlockItem.Image -> BlockType.IMAGE
+        is BlockItem.MultipleChoice -> BlockType.MULTIPLE_CHOICE
+        is BlockItem.MultipleChoiceItem -> BlockType.MULTIPLE_CHOICE_ITEM
+        is BlockItem.Paragraph -> BlockType.PARAGRAPH
+        is BlockItem.Poll -> BlockType.POLL
+        is BlockItem.PollItem -> BlockType.POLL_ITEM
+        is BlockItem.Question -> BlockType.QUESTION
+        is BlockItem.Quote -> BlockType.BLOCKQUOTE
+        is BlockItem.Reference -> BlockType.REFERENCE
+        is BlockItem.Story -> BlockType.STORY
+        is BlockItem.StorySlide -> BlockType.STORY_SLIDE
+        is BlockItem.TableBlock -> BlockType.TABLE
+        is BlockItem.Unknown -> BlockType.UNKNOWN
+        is BlockItem.Video -> BlockType.VIDEO
+    }

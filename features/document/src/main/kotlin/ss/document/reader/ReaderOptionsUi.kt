@@ -22,15 +22,16 @@
 
 package ss.document.reader
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.SegmentedButton
-import androidx.compose.material3.SegmentedButtonDefaults
-import androidx.compose.material3.SingleChoiceSegmentedButtonRow
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,12 +41,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.theme.SsTheme
+import app.ss.design.compose.widget.divider.Divider
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.ResIcon
 import app.ss.design.compose.widget.material.LegacySlider
@@ -66,7 +69,7 @@ fun ReaderOptionsUi(state: State, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(bottom = 16.dp), horizontalAlignment = Alignment.CenterHorizontally,
+            .padding(bottom = 16.dp, top = 8.dp), horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         ReaderOptionsTheme(state.config.theme) {
@@ -96,28 +99,35 @@ private fun ReaderOptionsTheme(
         text = stringResource(L10nR.string.ss_settings_theme),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(horizontal = 16.dp),
         style = SsTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
     )
 
-    SingleChoiceSegmentedButtonRow(
+    FlowRow(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.Start),
     ) {
-        ReaderStyle.Theme.entries.forEachIndexed { index, item ->
-            SegmentedButton(
-                selected = theme == item,
+        ReaderStyle.Theme.entries.forEach { item ->
+            val isSelected = theme == item
+            FilterChip(
+                selected = isSelected,
                 onClick = { onSelected(item) },
-                shape = SegmentedButtonDefaults.itemShape(index = index, count = ReaderStyle.Typeface.entries.size)
-            ) {
-                Text(
-                    text = stringResource(item.label()),
-                    style = SsTheme.typography.titleMedium
-                )
-            }
+                label = {
+                    Text(
+                        text = stringResource(item.label()),
+                        style = SsTheme.typography.titleMedium
+                    )
+                },
+                leadingIcon = {
+                    LeadingCheckIcon(isSelected)
+                }
+            )
         }
     }
+
+    Divider()
 }
 
 private fun ReaderStyle.Theme.label() = when (this) {
@@ -137,29 +147,47 @@ private fun ReaderOptionsTypeface(
         text = stringResource(L10nR.string.ss_settings_typeface),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(horizontal = 16.dp),
         style = SsTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
     )
 
-    SingleChoiceSegmentedButtonRow(
+    FlowRow(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.Start),
     ) {
-        ReaderStyle.Typeface.entries.forEachIndexed { index, item ->
-            SegmentedButton(
-                selected = typeface == item,
-                onClick = { onSelected(item) },
-                shape = SegmentedButtonDefaults.itemShape(index = index, count = ReaderStyle.Typeface.entries.size)
-            ) {
-                Text(
-                    text = stringResource(item.label()),
-                    style = SsTheme.typography.titleMedium.copy(
-                        fontFamily = Styler.fontFamily(item)
+        ReaderStyle.Typeface.entries.forEach { option ->
+            val isSelected = typeface == option
+            FilterChip(
+                selected = isSelected,
+                onClick = { onSelected(option) },
+                label = {
+                    Text(
+                        text = stringResource(option.label()),
+                        style = SsTheme.typography.titleMedium.copy(
+                            fontFamily = Styler.fontFamily(option)
+                        )
                     )
-                )
-            }
+                },
+                leadingIcon = {
+                    LeadingCheckIcon(isSelected)
+                }
+            )
         }
+    }
+
+    Divider()
+}
+
+@Composable
+private fun LeadingCheckIcon(isSelected: Boolean, modifier: Modifier = Modifier) {
+    AnimatedVisibility(isSelected) {
+        Icon(
+            painter = painterResource(DocumentR.drawable.ic_check_small),
+            contentDescription = null,
+            modifier = modifier,
+        )
     }
 }
 
