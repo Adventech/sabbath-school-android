@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.resource.ReferenceModel
+import io.adventech.blockkit.model.state.PipState
 import io.adventech.blockkit.ui.input.UserInputState
 import io.adventech.blockkit.ui.style.background
 import io.adventech.blockkit.ui.style.thenIf
@@ -38,9 +39,10 @@ fun BlockContent(
     nested: Boolean? = blockItem.nested,
     parent: BlockItem? = null,
     userInputState: UserInputState? = null,
+    pipState: PipState? = null,
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
     onHandleReference: (ReferenceModel) -> Unit = { _ -> },
-    onFullScreenVideo: (BlockItem.Video) -> Unit = {},
+    onFullScreenVideo: (BlockItem.Video, Long) -> Unit = { _, _ -> },
 ) {
     BlockContentWrapper(
         blockItem = blockItem,
@@ -135,7 +137,12 @@ fun BlockContent(
                 TableContent(blockItem, blockModifier, userInputState, onHandleUri)
             }
             is BlockItem.Video -> {
-                VideoContent(blockItem, blockModifier, onFullScreenVideo)
+                VideoContent(
+                    blockItem = blockItem,
+                    pipState = pipState,
+                    modifier = blockModifier,
+                    onFullScreenToggle = onFullScreenVideo,
+                )
             }
             is BlockItem.Carousel -> Unit
             is BlockItem.Unknown -> Unit

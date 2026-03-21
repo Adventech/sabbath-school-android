@@ -71,7 +71,7 @@ internal fun SegmentBlocksContent(
     listState: LazyListState = rememberLazyListState(),
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
     onHandleReference: (ReferenceModel) -> Unit = { _ -> },
-    onFullScreenVideo: (BlockItem.Video) -> Unit = {},
+    onFullScreenVideo: (BlockItem.Video, Long) -> Unit = { _, _ -> },
 ) {
     val readerStyle = LocalReaderStyle.current
     val contentColor = readerStyle.theme.primaryForeground()

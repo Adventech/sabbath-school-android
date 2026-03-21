@@ -183,6 +183,7 @@ class DocumentPresenter @AssistedInject constructor(
                     mediaNavigation.videoPlayer(
                         context = event.context,
                         video = video,
+                        position = event.position
                     )
                 }
             }

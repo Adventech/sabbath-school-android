@@ -89,7 +89,7 @@ sealed interface SuccessEvent : Event {
     data class OnNavEvent(val event: NavEvent, val context: Context) : SuccessEvent
     data class OnHandleUri(val uri: String, val data: BlockData?) : SuccessEvent
     data class OnHandleReference(val model: ReferenceModel): SuccessEvent
-    data class OnFullScreenVideo(val context: Context, val video: BlockItem.Video): SuccessEvent
+    data class OnFullScreenVideo(val context: Context, val video: BlockItem.Video, val position: Long): SuccessEvent
 }
 
 

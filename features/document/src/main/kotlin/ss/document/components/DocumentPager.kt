@@ -62,7 +62,7 @@ fun DocumentPager(
     onCollapseChange: (Boolean) -> Unit = {},
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
     onHandleReference: (ReferenceModel) -> Unit = { _ -> },
-    onFullScreenVideo: (BlockItem.Video) -> Unit = {},
+    onFullScreenVideo: (BlockItem.Video, Long) -> Unit = { _, _ -> },
     onNavEvent: (NavEvent) -> Unit = {},
 ) {
     val pagerState = rememberPagerState(
