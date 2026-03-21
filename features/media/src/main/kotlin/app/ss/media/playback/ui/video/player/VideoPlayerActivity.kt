@@ -94,6 +94,7 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         }
     }
     private var onStopCalled = false
+    private var handledInitialPosition = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
@@ -133,6 +134,13 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
                     },
                     HIDE_DELAY
                 )
+
+                val position = intent.getLongExtra(ARG_POSITION, 0L)
+                if (!handledInitialPosition && position > 0L) {
+                    mediaPlayer.seekTo(position)
+                    handledInitialPosition = true
+                }
+
             } else if (state.hasEnded) {
                 showSystemUI(false)
             }
@@ -177,7 +185,11 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         val video = intent.extras?.let {
             BundleCompat.getParcelable(it, ARG_VIDEO, SSVideo::class.java)
         } ?: return
+        val position = intent.getLongExtra(ARG_POSITION, 0L)
         mediaPlayer.playItem(SSMediaItem.Video(video), exoPlayerView)
+        if (position > 0L) {
+            mediaPlayer.seekTo(position)
+        }
     }
 
     private fun hideSystemUI() {
@@ -322,18 +334,21 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
     companion object {
         private const val HIDE_DELAY = 3500L
         private const val ARG_VIDEO = "arg:video"
+        private const val ARG_POSITION = "arg:position"
 
         private const val ACTION_PIP_CONTROLS = "pip_media_controls"
         private const val ACTION_TYPE = "pip_media_action_type"
 
         fun launchIntent(
             context: Context,
-            video: SSVideo
+            video: SSVideo,
+            position: Long = 0L
         ): Intent = Intent(
             context,
             VideoPlayerActivity::class.java
         ).apply {
             putExtra(ARG_VIDEO, video)
+            putExtra(ARG_POSITION, position)
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025. Adventech <info@adventech.io>
+ * Copyright (c) 2026. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,7 @@
  * THE SOFTWARE.
  */
 
-package ss.libraries.media.api
+package io.adventech.blockkit.model.state
 
-import android.content.Context
-import android.content.Intent
-import app.ss.models.media.SSVideo
-
-interface MediaNavigation {
-    fun videoPlayer(context: Context, video: SSVideo, position: Long = 0L): Intent
-}
+/** The progress state for a video currently playing in PIP. */
+data class PipState(val id: String, val progress: Float)
