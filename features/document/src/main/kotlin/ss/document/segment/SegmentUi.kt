@@ -56,7 +56,7 @@ fun SegmentUi(
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
     onHandleReference: (ReferenceModel) -> Unit = { _ -> },
     onNavEvent: (NavEvent) -> Unit = {},
-    onFullScreenVideo: (BlockItem.Video) -> Unit = {},
+    onFullScreenVideo: (BlockItem.Video, Long) -> Unit = { _, _ -> },
 ) {
     when (segment.type) {
         SegmentType.UNKNOWN -> Unit

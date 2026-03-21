@@ -47,6 +47,7 @@ import androidx.compose.material.icons.rounded.Fullscreen
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -55,6 +56,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -81,6 +83,7 @@ import androidx.media3.ui.compose.state.rememberPlayPauseButtonState
 import androidx.media3.ui.compose.state.rememberPlaybackSpeedState
 import androidx.media3.ui.compose.state.rememberPresentationState
 import io.adventech.blockkit.model.BlockItem
+import io.adventech.blockkit.model.state.PipState
 import io.adventech.blockkit.ui.media.MediaPlayer
 import io.adventech.blockkit.ui.media.VideoSettingsDropdownMenu
 import io.adventech.blockkit.ui.style.LatoFontFamily
@@ -102,29 +105,51 @@ import ss.services.media.ui.state.rememberPlaybackCuesState
 import ss.services.media.ui.state.rememberPlaybackSeekState
 import ss.services.media.ui.state.rememberPlaybackTracksState
 import ss.libraries.media.resources.R as MediaR
+import io.adventech.blockkit.ui.R as BlockkitR
 
 @Composable
 fun VideoContent(
     blockItem: BlockItem.Video,
+    pipState: PipState?,
     modifier: Modifier = Modifier,
-    onFullScreenToggle: (BlockItem.Video) -> Unit = {}
+    onFullScreenToggle: (BlockItem.Video, Long) -> Unit = { _, _ -> }
 ) {
     val textStyle = Styler.textStyle(null)
+    val isPipActive = pipState != null && (pipState.id == blockItem.id || pipState.id == blockItem.src)
+
+    var lastKnownProgress by rememberSaveable(blockItem.id) { mutableFloatStateOf(0f) }
+
+    LaunchedEffect(pipState) {
+        if (isPipActive) {
+            lastKnownProgress = pipState.progress
+        }
+    }
 
     MediaPlayer(
         source = blockItem.src,
         modifier = modifier,
     ) { exoplayer, playbackState, progressState, onSeekTo ->
 
+        LaunchedEffect(isPipActive, progressState.total) {
+            if (!isPipActive && lastKnownProgress > 0f && progressState.total > 0L) {
+                val position = (lastKnownProgress * progressState.total).toLong()
+                if (position > 0L) {
+                    onSeekTo(position)
+                    lastKnownProgress = 0f
+                }
+            }
+        }
+
         PlayerContent(
             exoPlayer = exoplayer,
             playbackState = playbackState,
             progressState = progressState,
             modifier = Modifier,
+            pipState = pipState.takeIf { isPipActive },
             onSeekTo = onSeekTo,
             onFullScreenToggle = {
-                onFullScreenToggle(blockItem)
-                                 },
+                onFullScreenToggle(blockItem, progressState.position)
+            },
         )
 
         blockItem.caption?.let {
@@ -149,6 +174,7 @@ private fun PlayerContent(
     playbackState: PlaybackStateSpec,
     progressState: PlaybackProgressState,
     modifier: Modifier = Modifier,
+    pipState: PipState? = null,
     onSeekTo: (Long) -> Unit = {},
     onFullScreenToggle: () -> Unit = {},
 ) {
@@ -171,7 +197,7 @@ private fun PlayerContent(
         PlayerSurface(
             player = exoPlayer,
             modifier = scaledModifier
-                .clickable { isControlVisible = !isControlVisible },
+                .clickable(enabled = pipState == null) { isControlVisible = !isControlVisible },
             surfaceType = SURFACE_TYPE_TEXTURE_VIEW,
         )
 
@@ -181,36 +207,47 @@ private fun PlayerContent(
                 .background(Color.Black))
         }
 
-        VideoSubtitles(
-            cues = playbackCuesState.cues,
-            modifier = Modifier.align(Alignment.BottomCenter)
-        )
+        if (pipState != null) {
+            LinearProgressIndicator(
+                progress = { pipState.progress },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter),
+                color = Color.White,
+                trackColor = Color.White.copy(alpha = 0.24f),
+            )
+        } else {
+            VideoSubtitles(
+                cues = playbackCuesState.cues,
+                modifier = Modifier.align(Alignment.BottomCenter)
+            )
 
-        VideoControls(
-            visible = isControlVisible,
-            playbackState = playbackState,
-            playbackSeekState = playbackSeekState,
-            progressState = progressState,
-            playbackSpeed = PlaybackSpeed.fromSpeed(playbackSpeedState.playbackSpeed),
-            modifier = Modifier
-                .fillMaxSize()
-                .thenIf(isControlVisible) {
-                    background(overlayColor, Styler.roundedShape())
-                }
-                .clip(Styler.roundedShape()),
-            availableTracks = playbackTracksState.tracks,
-            onPlayPause = {
-                if (playPauseButtonState.showPlay && exoPlayer.currentPosition == exoPlayer.duration) {
-                    exoPlayer.seekTo(0)
-                }
-                playPauseButtonState.onClick()
-            },
-            onSeekTo = onSeekTo,
-            onPlaybackSpeedChange = { playbackSpeedState.updatePlaybackSpeed(it.speed) },
-            onTrackSelected = { playbackTracksState.selectTrack(it) },
-            onMenuShownChange = { isMenuVisible = it },
-            onFullScreenToggle = onFullScreenToggle,
-        )
+            VideoControls(
+                visible = isControlVisible,
+                playbackState = playbackState,
+                playbackSeekState = playbackSeekState,
+                progressState = progressState,
+                playbackSpeed = PlaybackSpeed.fromSpeed(playbackSpeedState.playbackSpeed),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .thenIf(isControlVisible) {
+                        background(overlayColor, Styler.roundedShape())
+                    }
+                    .clip(Styler.roundedShape()),
+                availableTracks = playbackTracksState.tracks,
+                onPlayPause = {
+                    if (playPauseButtonState.showPlay && exoPlayer.currentPosition == exoPlayer.duration) {
+                        exoPlayer.seekTo(0)
+                    }
+                    playPauseButtonState.onClick()
+                },
+                onSeekTo = onSeekTo,
+                onPlaybackSpeedChange = { playbackSpeedState.updatePlaybackSpeed(it.speed) },
+                onTrackSelected = { playbackTracksState.selectTrack(it) },
+                onMenuShownChange = { isMenuVisible = it },
+                onFullScreenToggle = onFullScreenToggle,
+            )
+        }
     }
 
     LaunchedEffect(isControlVisible, isMenuVisible, playbackState) {
@@ -269,15 +306,19 @@ private fun VideoControls(
                     contentColor = contentColor,
                     onPlayPause = onPlayPause,
                 )
+            }
 
+            AnimatedVisibility(
+                visible = visible,
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .padding(8.dp),
+            ) {
                 IconButton(
                     onClick = onFullScreenToggle,
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .padding(8.dp),
                 ) {
                     Icon(
-                        imageVector = Icons.Rounded.Fullscreen,
+                        painterResource(BlockkitR.drawable.ic_open_in_full),
                         contentDescription = null,
                         modifier = Modifier,
                         tint = contentColor

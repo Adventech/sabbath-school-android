@@ -109,9 +109,10 @@ fun VideoSegmentScreenUi(state: State, modifier: Modifier = Modifier) {
             items(state.videos) { video ->
                 VideoContent(
                     blockItem = video,
+                    pipState = state.pipState,
                     modifier = Modifier
                         .padding(horizontal = Dimens.grid_4),
-                    onFullScreenToggle = { state.eventSink(Event.OnFullScreenVideo(context = context, video = it)) },
+                    onFullScreenToggle = { video, position -> state.eventSink(Event.OnFullScreenVideo(context = context, video = video, position = position)) },
                 )
             }
 
@@ -134,8 +135,9 @@ fun VideoSegmentScreenUi(state: State, modifier: Modifier = Modifier) {
                     blockItem = block,
                     modifier = Modifier,
                     userInputState = state.userInputState,
+                    pipState = state.pipState,
                     onHandleUri = { _, _ -> },
-                    onFullScreenVideo = { state.eventSink(Event.OnFullScreenVideo(context = context, video = it)) },
+                    onFullScreenVideo = { video, position -> state.eventSink(Event.OnFullScreenVideo(context = context, video = video, position = position)) },
                 )
             }
 

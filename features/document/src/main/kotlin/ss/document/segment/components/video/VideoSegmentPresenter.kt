@@ -24,8 +24,8 @@ package ss.document.segment.components.video
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import app.ss.models.media.SSVideo
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
@@ -40,7 +40,9 @@ import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.VideoClipSegment
+import io.adventech.blockkit.model.state.PipState
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.flow.combine
 import ss.document.DocumentOverlayState.BottomSheet
 import ss.document.components.DocumentTopAppBarAction
 import ss.document.producer.UserInputStateProducer
@@ -48,6 +50,8 @@ import ss.document.reader.ReaderOptionsScreen
 import ss.document.segment.components.video.VideoSegmentScreen.Event
 import ss.document.segment.components.video.VideoSegmentScreen.State
 import ss.libraries.media.api.MediaNavigation
+import ss.libraries.media.api.SSMediaPlayer
+import ss.libraries.media.model.NowPlaying
 import ss.resources.api.ResourcesRepository
 
 class VideoSegmentPresenter @AssistedInject constructor(
@@ -56,6 +60,7 @@ class VideoSegmentPresenter @AssistedInject constructor(
     private val resourcesRepository: ResourcesRepository,
     private val mediaNavigation: MediaNavigation,
     private val userInputStateProducer: UserInputStateProducer,
+    private val mediaPlayer: SSMediaPlayer,
 ) : Presenter<State> {
 
     @Composable
@@ -69,12 +74,15 @@ class VideoSegmentPresenter @AssistedInject constructor(
             segment?.video.orEmpty().map { it.asBlock() }.toImmutableList()
         }
 
+        val pipState by rememberPipState()
+
         return State(
             title = segment?.title.orEmpty(),
             videos = videos,
             blocks = segment?.blocks.orEmpty(),
             userInputState = userInputState,
             overlayState = bottomSheetState,
+            pipState = pipState,
         ) { event ->
             when (event) {
                 is Event.OnNavBack -> navigator.pop()
@@ -103,7 +111,7 @@ class VideoSegmentPresenter @AssistedInject constructor(
                                 skipPartiallyExpanded = false,
                                 themed = false,
                                 feedback = true,
-                            ) { result ->
+                            ) { _ ->
                                 bottomSheetState = null
                             }
                         }
@@ -115,7 +123,7 @@ class VideoSegmentPresenter @AssistedInject constructor(
                     val clip = segment?.video?.find { it.src == event.video.id }
                     val video = SSVideo(
                         artist = clip?.artist ?: segment?.title.orEmpty(),
-                        id = "",
+                        id = event.video.id,
                         src = clip?.src ?: event.video.src,
                         target = "",
                         targetIndex = "",
@@ -124,7 +132,7 @@ class VideoSegmentPresenter @AssistedInject constructor(
                         hls = clip?.hls ?: if (event.video.src.endsWith(".m3u8", true)) event.video.src else null,
                     )
 
-                    navigator.goTo(IntentScreen(mediaNavigation.videoPlayer(event.context, video)))
+                    navigator.goTo(IntentScreen(mediaNavigation.videoPlayer(event.context, video, event.position)))
                 }
             }
         }
@@ -142,6 +150,17 @@ class VideoSegmentPresenter @AssistedInject constructor(
     @Composable
     private fun rememberSegment() = produceRetainedState<Segment?>(null) {
         resourcesRepository.segment(screen.id, screen.index).collect { value = it }
+    }
+
+    @Composable
+    private fun rememberPipState() = produceRetainedState<PipState?>(null) {
+        combine(mediaPlayer.nowPlaying, mediaPlayer.playbackProgress) { nowPlaying, progressState ->
+            if (nowPlaying == NowPlaying.NONE) {
+                null
+            } else {
+                PipState(id = nowPlaying.id, progress = progressState.progress)
+            }
+        }.collect { value = it }
     }
 
     @CircuitInject(VideoSegmentScreen::class, SingletonComponent::class)
