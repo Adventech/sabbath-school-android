@@ -27,6 +27,8 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.media3.common.Player
 import androidx.media3.ui.PlayerView
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import ss.libraries.media.model.NowPlaying
 import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.PlaybackSpeed
@@ -63,3 +65,15 @@ interface SimpleMediaPlayer {
 }
 
 val LocalSsMediaPlayer = staticCompositionLocalOf<SSMediaPlayer?> { null }
+
+suspend fun SSMediaPlayer.connectAndPlay(service: Class<*>, item: SSMediaItem, playerView: PlayerView? = null) {
+    connect(service)
+
+    isConnected
+        .filter { it }
+        .first()
+
+    playerView?.let {
+        playItem(item, it)
+    } ?: playItem(item)
+}

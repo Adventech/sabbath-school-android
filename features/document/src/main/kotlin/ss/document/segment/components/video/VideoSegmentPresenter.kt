@@ -23,6 +23,7 @@
 package ss.document.segment.components.video
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -71,6 +72,14 @@ class VideoSegmentPresenter @AssistedInject constructor(
         }
 
         val pipState by rememberPipState()
+
+        DisposableEffect(mediaPlayer) {
+            onDispose {
+                if (mediaPlayer.playbackState.value.isPlaying && !mediaPlayer.isFullScreen.value) {
+                    mediaPlayer.release()
+                }
+            }
+        }
 
         return State(
             title = segment?.title.orEmpty(),

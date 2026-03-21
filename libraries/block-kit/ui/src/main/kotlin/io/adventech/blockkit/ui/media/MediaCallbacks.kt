@@ -30,13 +30,13 @@ import io.adventech.blockkit.model.BlockItem
 interface MediaCallbacks {
     fun play(audio: BlockItem.Audio)
     fun play(video: BlockItem.Video)
-    fun fullscreen(video: BlockItem.Video, position: Long)
+    fun fullscreen(video: BlockItem.Video)
 }
 
 private val Default = object : MediaCallbacks {
     override fun play(audio: BlockItem.Audio) = Unit
     override fun play(video: BlockItem.Video) = Unit
-    override fun fullscreen(video: BlockItem.Video, position: Long) = Unit
+    override fun fullscreen(video: BlockItem.Video) = Unit
 }
 
 

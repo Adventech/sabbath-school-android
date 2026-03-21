@@ -36,6 +36,7 @@ data class PlaybackProgressState(
     val progress get() = ((position.toFloat() + elapsed) / (total + 1).toFloat()).coerceIn(0f, 1f)
     val bufferedProgress get() = ((buffered.toFloat()) / (total + 1).toFloat()).coerceIn(0f, 1f)
 
-    val currentDuration get() = (position + elapsed).millisToDuration()
+    val currentPosition get() = position + elapsed
+    val currentDuration get() = currentPosition.millisToDuration()
     val totalDuration get() = total.millisToDuration()
 }

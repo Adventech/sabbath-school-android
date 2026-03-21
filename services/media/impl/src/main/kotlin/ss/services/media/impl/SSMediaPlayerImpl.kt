@@ -181,6 +181,7 @@ internal class SSMediaPlayerImpl @Inject constructor(
     override fun release() {
         mediaController?.run {
             stop()
+            clearMediaItems()
             release()
         }
         mediaController = null

@@ -178,7 +178,7 @@ fun VideoContent(
             progressState = progressState,
             modifier = modifier,
             onSeekTo = { ssMediaPlayer.seekTo(it) },
-            onFullScreenToggle = { callbacks.fullscreen(blockItem, progressState.position) },
+            onFullScreenToggle = { callbacks.fullscreen(blockItem) },
         )
     } else {
         Box(

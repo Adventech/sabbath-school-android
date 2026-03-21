@@ -46,6 +46,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.BundleCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.media3.ui.PlayerView
 import app.ss.design.compose.theme.SsTheme
 import app.ss.media.R
@@ -54,8 +55,10 @@ import app.ss.models.media.SSVideo
 import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
 import com.cryart.sabbathschool.core.extensions.view.fadeTo
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import ss.foundation.coroutines.flow.collectIn
 import ss.libraries.media.api.SSMediaPlayer
+import ss.libraries.media.api.connectAndPlay
 import ss.libraries.media.model.SSMediaItem
 import javax.inject.Inject
 import ss.libraries.media.resources.R as MediaR
@@ -116,15 +119,15 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
             IntentFilter(ACTION_PIP_CONTROLS),
             ContextCompat.RECEIVER_NOT_EXPORTED
         )
-
-        mediaPlayer.connect(VideoService::class.java)
     }
 
     private fun collectState(video: SSVideo) {
-        mediaPlayer.isConnected.collectIn(this) { connected ->
-            if (connected) {
-                mediaPlayer.playItem(SSMediaItem.Video(video), exoPlayerView)
-            }
+        lifecycleScope.launch {
+            mediaPlayer.connectAndPlay(
+                service = VideoService::class.java,
+                item = SSMediaItem.Video(video),
+                playerView = exoPlayerView
+            )
         }
         mediaPlayer.playbackState.collectIn(this) { state ->
             if (state.isPlaying && systemUiVisible) {

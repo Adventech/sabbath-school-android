@@ -22,6 +22,7 @@
 
 package ss.libraries.media.model
 
+import android.os.Bundle
 import androidx.media3.common.MediaItem
 import app.ss.models.media.AudioFile
 import app.ss.models.media.SSVideo
@@ -37,7 +38,7 @@ sealed interface SSMediaItem {
     ) : SSMediaItem {
         override fun toMediaItem(): MediaItem {
             val base = audio.toMediaItem()
-            val extras = base.mediaMetadata.extras ?: android.os.Bundle()
+            val extras = base.mediaMetadata.extras ?: Bundle()
             extras.putBoolean(KEY_AUTO_SHOW_MINI_PLAYER, autoShowMiniPlayer)
             
             return base.buildUpon()
@@ -50,7 +51,21 @@ sealed interface SSMediaItem {
         }
     }
 
-    data class Video(val video: SSVideo) : SSMediaItem {
-        override fun toMediaItem(): MediaItem = video.toMediaItem()
+    data class Video(
+        val video: SSVideo,
+    ) : SSMediaItem {
+        override fun toMediaItem(): MediaItem {
+            val base = video.toMediaItem()
+            val extras = base.mediaMetadata.extras ?: Bundle()
+            extras.putBoolean(KEY_AUTO_SHOW_MINI_PLAYER, false)
+            
+            return base.buildUpon()
+                .setMediaMetadata(
+                    base.mediaMetadata.buildUpon()
+                        .setExtras(extras)
+                        .build()
+                )
+                .build()
+        }
     }
 }

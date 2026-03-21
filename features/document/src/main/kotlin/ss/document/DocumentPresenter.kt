@@ -56,9 +56,6 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import ss.document.components.DocumentTopAppBarAction
@@ -73,9 +70,9 @@ import ss.libraries.circuit.navigation.PdfScreen
 import ss.libraries.circuit.navigation.ResourceScreen
 import ss.libraries.media.api.MediaNavigation
 import ss.libraries.media.api.SSMediaPlayer
+import ss.libraries.media.api.connectAndPlay
 import ss.libraries.media.model.SSMediaItem
 import ss.libraries.media.model.extensions.NONE_PLAYING
-import ss.libraries.media.model.extensions.id
 import ss.libraries.media.service.MusicService
 import ss.libraries.media.service.VideoService
 import ss.libraries.pdf.api.PdfReader
@@ -191,7 +188,7 @@ class DocumentPresenter @AssistedInject constructor(
                     val intent = mediaNavigation.videoPlayer(
                         context = event.context,
                         video = video,
-                        position = event.position
+                        position = mediaPlayer.playbackProgress.value.currentPosition,
                     )
                     navigator.goTo(IntentScreen(intent))
                 }
@@ -363,14 +360,4 @@ internal fun sendSegmentOverlayEvent(overlayState: DocumentOverlayState, event: 
         is SegmentOverlayState.None -> overlayState.eventSink(event)
         else -> Unit
     }
-}
-
-private suspend fun SSMediaPlayer.connectAndPlay(service: Class<*>, item: SSMediaItem) {
-    connect(service)
-
-    isConnected
-        .filter { it }
-        .first()
-
-    playItem(item)
 }

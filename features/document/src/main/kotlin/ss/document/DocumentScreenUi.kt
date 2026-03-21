@@ -325,8 +325,8 @@ private fun mediaCallbacks(state: State.Success): MediaCallbacks {
                 state.eventSink(SuccessEvent.OnPlayVideo(video))
             }
 
-            override fun fullscreen(video: BlockItem.Video, position: Long) {
-                state.eventSink(SuccessEvent.OnFullScreenVideo(context, video, position))
+            override fun fullscreen(video: BlockItem.Video) {
+                state.eventSink(SuccessEvent.OnFullScreenVideo(context, video))
             }
         }
     }
