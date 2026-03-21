@@ -22,9 +22,11 @@
 
 package ss.libraries.media.test
 
+import androidx.media3.common.Player
 import androidx.media3.ui.PlayerView
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flowOf
 import ss.libraries.media.api.SSMediaPlayer
 import ss.libraries.media.model.NowPlaying
 import ss.libraries.media.model.PlaybackProgressState
@@ -61,6 +63,11 @@ class FakeSSMediaPlayer(
     override fun playItem(mediaItem: SSMediaItem) {
         this.mediaItems = listOf(mediaItem)
     }
+
+    override val media3Player: StateFlow<Player?> = MutableStateFlow(null)
+    override val isFullScreen: StateFlow<Boolean> = MutableStateFlow(false)
+
+    override fun toggleFullScreen(isFullScreen: Boolean) = Unit
 
     override fun playItem(mediaItem: SSMediaItem, playerView: PlayerView) {
         this.mediaItems = listOf(mediaItem)
