@@ -314,18 +314,22 @@ private fun State.contentColor(): Color = when (this) {
 @Composable
 private fun mediaCallbacks(state: State.Success): MediaCallbacks {
     val context = LocalContext.current
+    val hapticFeedback = LocalSsHapticFeedback.current
 
-    return remember(context) {
+    return remember(context, state, hapticFeedback) {
         object : MediaCallbacks {
             override fun play(audio: BlockItem.Audio) {
+                hapticFeedback.performClick()
                 state.eventSink(SuccessEvent.OnPlayAudio(audio))
             }
 
             override fun play(video: BlockItem.Video) {
+                hapticFeedback.performClick()
                 state.eventSink(SuccessEvent.OnPlayVideo(video))
             }
 
             override fun fullscreen(video: BlockItem.Video) {
+                hapticFeedback.performClick()
                 state.eventSink(SuccessEvent.OnFullScreenVideo(context, video))
             }
         }
