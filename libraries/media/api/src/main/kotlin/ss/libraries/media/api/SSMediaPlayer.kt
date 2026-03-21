@@ -32,7 +32,7 @@ import ss.libraries.media.model.PlaybackState
 import ss.libraries.media.model.SSMediaItem
 
 @Stable
-interface SSMediaPlayer : SimpleMediaPlayer{
+interface SSMediaPlayer : SimpleMediaPlayer {
     val nowPlaying: StateFlow<NowPlaying>
     val playbackSpeed: StateFlow<PlaybackSpeed>
     fun playItem(mediaItem: SSMediaItem, playerView: PlayerView)
