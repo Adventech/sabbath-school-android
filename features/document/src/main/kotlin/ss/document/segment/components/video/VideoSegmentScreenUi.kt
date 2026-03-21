@@ -36,7 +36,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -70,7 +69,6 @@ fun VideoSegmentScreenUi(state: State, modifier: Modifier = Modifier) {
     val containerColor = readerStyle.theme.background()
     val contentColor = readerStyle.theme.primaryForeground()
     val hapticFeedback = LocalSsHapticFeedback.current
-    val context = LocalContext.current
 
     HazeScaffold(
         modifier = modifier,
@@ -112,7 +110,6 @@ fun VideoSegmentScreenUi(state: State, modifier: Modifier = Modifier) {
                     pipState = state.pipState,
                     modifier = Modifier
                         .padding(horizontal = Dimens.grid_4),
-                    onFullScreenToggle = { video, position -> state.eventSink(Event.OnFullScreenVideo(context = context, video = video, position = position)) },
                 )
             }
 
@@ -137,7 +134,6 @@ fun VideoSegmentScreenUi(state: State, modifier: Modifier = Modifier) {
                     userInputState = state.userInputState,
                     pipState = state.pipState,
                     onHandleUri = { _, _ -> },
-                    onFullScreenVideo = { video, position -> state.eventSink(Event.OnFullScreenVideo(context = context, video = video, position = position)) },
                 )
             }
 

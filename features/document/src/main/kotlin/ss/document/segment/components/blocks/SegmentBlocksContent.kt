@@ -49,7 +49,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.widget.scaffold.LocalNavbarController
 import io.adventech.blockkit.model.BlockData
-import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.resource.ReferenceModel
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.ui.BlockContent
@@ -71,7 +70,6 @@ internal fun SegmentBlocksContent(
     listState: LazyListState = rememberLazyListState(),
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
     onHandleReference: (ReferenceModel) -> Unit = { _ -> },
-    onFullScreenVideo: (BlockItem.Video, Long) -> Unit = { _, _ -> },
 ) {
     val readerStyle = LocalReaderStyle.current
     val contentColor = readerStyle.theme.primaryForeground()
@@ -200,7 +198,6 @@ internal fun SegmentBlocksContent(
                             userInputState = userInputState,
                             onHandleUri = stableOnHandleUri,
                             onHandleReference = stableOnHandleReference,
-                            onFullScreenVideo = onFullScreenVideo,
                         )
                     }
                 }

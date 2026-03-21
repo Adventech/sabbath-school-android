@@ -41,9 +41,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Fullscreen
+import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -54,9 +55,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -73,9 +77,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.media3.common.Player
 import androidx.media3.common.text.Cue
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.compose.PlayerSurface
 import androidx.media3.ui.compose.SURFACE_TYPE_TEXTURE_VIEW
 import androidx.media3.ui.compose.modifiers.resizeWithContentScale
@@ -84,7 +92,7 @@ import androidx.media3.ui.compose.state.rememberPlaybackSpeedState
 import androidx.media3.ui.compose.state.rememberPresentationState
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.state.PipState
-import io.adventech.blockkit.ui.media.MediaPlayer
+import io.adventech.blockkit.ui.media.LocalMediaCallbacks
 import io.adventech.blockkit.ui.media.VideoSettingsDropdownMenu
 import io.adventech.blockkit.ui.style.LatoFontFamily
 import io.adventech.blockkit.ui.style.Styler
@@ -93,6 +101,7 @@ import io.adventech.blockkit.ui.style.thenIf
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.delay
+import ss.libraries.media.api.LocalSsMediaPlayer
 import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.extensions.millisToDuration
 import ss.services.media.ui.PlaybackPlayPause
@@ -104,15 +113,14 @@ import ss.services.media.ui.state.PlaybackSeekState
 import ss.services.media.ui.state.rememberPlaybackCuesState
 import ss.services.media.ui.state.rememberPlaybackSeekState
 import ss.services.media.ui.state.rememberPlaybackTracksState
-import ss.libraries.media.resources.R as MediaR
 import io.adventech.blockkit.ui.R as BlockkitR
+import ss.libraries.media.resources.R as MediaR
 
 @Composable
 fun VideoContent(
     blockItem: BlockItem.Video,
     pipState: PipState?,
     modifier: Modifier = Modifier,
-    onFullScreenToggle: (BlockItem.Video, Long) -> Unit = { _, _ -> }
 ) {
     val textStyle = Styler.textStyle(null)
     val isPipActive = pipState != null && (pipState.id == blockItem.id || pipState.id == blockItem.src)
@@ -125,68 +133,142 @@ fun VideoContent(
         }
     }
 
-    MediaPlayer(
-        source = blockItem.src,
-        modifier = modifier,
-    ) { exoplayer, playbackState, progressState, onSeekTo ->
+    val ssMediaPlayer = LocalSsMediaPlayer.current ?: return
+    val callbacks = LocalMediaCallbacks.current
 
-        LaunchedEffect(isPipActive, progressState.total) {
-            if (!isPipActive && lastKnownProgress > 0f && progressState.total > 0L) {
-                val position = (lastKnownProgress * progressState.total).toLong()
-                if (position > 0L) {
-                    onSeekTo(position)
-                    lastKnownProgress = 0f
-                }
+    val player by ssMediaPlayer.media3Player.collectAsStateWithLifecycle()
+    val mediaPlaybackState by ssMediaPlayer.playbackState.collectAsStateWithLifecycle()
+    val rawProgressState by ssMediaPlayer.playbackProgress.collectAsStateWithLifecycle()
+    val nowPlaying by ssMediaPlayer.nowPlaying.collectAsStateWithLifecycle()
+
+    val isActive = nowPlaying.id == blockItem.id
+
+    val playbackState = remember(isActive, mediaPlaybackState) {
+        if (isActive) {
+            PlaybackStateSpec.NONE.copy(
+                isPlayEnabled = true,
+                canShowMini = false,
+                isBuffering = mediaPlaybackState.isBuffering,
+                isPlaying = mediaPlaybackState.isPlaying,
+                isError = mediaPlaybackState.isError,
+            )
+        } else {
+            PlaybackStateSpec.NONE.copy(isPlayEnabled = true)
+        }
+    }
+
+    val progressState = remember(isActive, rawProgressState) {
+        if (isActive) rawProgressState else PlaybackProgressState()
+    }
+
+    LaunchedEffect(isPipActive, progressState.total) {
+        if (!isPipActive && lastKnownProgress > 0f && progressState.total > 0L) {
+            val position = (lastKnownProgress * progressState.total).toLong()
+            if (position > 0L) {
+                ssMediaPlayer.seekTo(position)
+                lastKnownProgress = 0f
             }
         }
+    }
 
+    if (isActive && player != null && !isPipActive) {
         PlayerContent(
-            exoPlayer = exoplayer,
+            player = player!!,
             playbackState = playbackState,
             progressState = progressState,
-            modifier = Modifier,
-            pipState = pipState.takeIf { isPipActive },
-            onSeekTo = onSeekTo,
-            onFullScreenToggle = {
-                onFullScreenToggle(blockItem, progressState.position)
-            },
+            modifier = modifier,
+            onSeekTo = { ssMediaPlayer.seekTo(it) },
+            onFullScreenToggle = { callbacks.fullscreen(blockItem, progressState.position) },
         )
+    } else {
+        Box(
+            modifier = modifier
+                .fillMaxWidth()
+                .aspectRatio(16 / 9f)
+                .clip(Styler.roundedShape())
+                .background(Color.Black)
+                .clickable(enabled = !isPipActive) { callbacks.play(blockItem) },
+            contentAlignment = Alignment.Center
+        ) {
 
-        blockItem.caption?.let {
-            Text(
-                text = it,
-                modifier = Modifier.fillMaxWidth(),
-                style = textStyle.copy(
-                    fontStyle = FontStyle.Italic,
-                    color = textStyle.color.copy(alpha = 0.7f),
-                ),
-                textAlign = TextAlign.Center
-            )
+            if (isPipActive) {
+                Icon(
+                    painterResource(BlockkitR.drawable.ic_picture_in_picture_large),
+                    contentDescription = "Picture in Picture",
+                    tint = Color.White.copy(alpha = 0.2f),
+                    modifier = Modifier.size(64.dp)
+                )
+            } else {
+                Icon(
+                    imageVector = Icons.Rounded.PlayArrow,
+                    contentDescription = "Play",
+                    tint = Color.White,
+                    modifier = Modifier
+                        .size(64.dp)
+                        .background(Color.White.copy(alpha = 0.2f), CircleShape)
+                        .padding(8.dp)
+                )
+            }
+
+            if (isPipActive) {
+                LinearProgressIndicator(
+                    progress = { pipState.progress },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter),
+                    color = Color.White,
+                    trackColor = Color.White.copy(alpha = 0.24f),
+                )
+            }
         }
+    }
 
+    blockItem.caption?.let {
+        Text(
+            text = it,
+            modifier = Modifier.fillMaxWidth(),
+            style = textStyle.copy(
+                fontStyle = FontStyle.Italic,
+                color = textStyle.color.copy(alpha = 0.7f),
+            ),
+            textAlign = TextAlign.Center
+        )
     }
 }
 
 @androidx.annotation.OptIn(UnstableApi::class)
 @Composable
 private fun PlayerContent(
-    exoPlayer: ExoPlayer,
+    player: Player,
     playbackState: PlaybackStateSpec,
     progressState: PlaybackProgressState,
     modifier: Modifier = Modifier,
-    pipState: PipState? = null,
     onSeekTo: (Long) -> Unit = {},
     onFullScreenToggle: () -> Unit = {},
 ) {
     var isControlVisible by rememberSaveable { mutableStateOf(!playbackState.isPlaying) }
     var isMenuVisible by rememberSaveable { mutableStateOf(isControlVisible) }
-    val playPauseButtonState = rememberPlayPauseButtonState(exoPlayer)
-    val presentationState = rememberPresentationState(exoPlayer)
-    val playbackSpeedState = rememberPlaybackSpeedState(exoPlayer)
-    val playbackTracksState = rememberPlaybackTracksState(exoPlayer)
-    val playbackCuesState = rememberPlaybackCuesState(exoPlayer)
-    val playbackSeekState = rememberPlaybackSeekState(exoPlayer)
+    val playPauseButtonState = rememberPlayPauseButtonState(player)
+    val presentationState = rememberPresentationState(player)
+    val playbackSpeedState = rememberPlaybackSpeedState(player)
+    val playbackTracksState = rememberPlaybackTracksState(player)
+    val playbackCuesState = rememberPlaybackCuesState(player)
+    val playbackSeekState = rememberPlaybackSeekState(player)
     val scaledModifier = Modifier.resizeWithContentScale(ContentScale.Fit, presentationState.videoSizeDp)
+
+    var surfaceLifecycleKey by remember { mutableIntStateOf(0) }
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                // Force PlayerSurface to recompose and reattach its surface after returning from the Activity
+                surfaceLifecycleKey++
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
 
     Box(
         modifier = modifier
@@ -194,12 +276,14 @@ private fun PlayerContent(
             .aspectRatio(16 / 9f)
             .clip(Styler.roundedShape()),
     ) {
-        PlayerSurface(
-            player = exoPlayer,
-            modifier = scaledModifier
-                .clickable(enabled = pipState == null) { isControlVisible = !isControlVisible },
-            surfaceType = SURFACE_TYPE_TEXTURE_VIEW,
-        )
+        key(surfaceLifecycleKey) {
+            PlayerSurface(
+                player = player,
+                modifier = scaledModifier
+                    .clickable { isControlVisible = !isControlVisible },
+                surfaceType = SURFACE_TYPE_TEXTURE_VIEW,
+            )
+        }
 
         if (presentationState.coverSurface) {
             Box(Modifier
@@ -207,47 +291,36 @@ private fun PlayerContent(
                 .background(Color.Black))
         }
 
-        if (pipState != null) {
-            LinearProgressIndicator(
-                progress = { pipState.progress },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.BottomCenter),
-                color = Color.White,
-                trackColor = Color.White.copy(alpha = 0.24f),
-            )
-        } else {
-            VideoSubtitles(
-                cues = playbackCuesState.cues,
-                modifier = Modifier.align(Alignment.BottomCenter)
-            )
+        VideoSubtitles(
+            cues = playbackCuesState.cues,
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
 
-            VideoControls(
-                visible = isControlVisible,
-                playbackState = playbackState,
-                playbackSeekState = playbackSeekState,
-                progressState = progressState,
-                playbackSpeed = PlaybackSpeed.fromSpeed(playbackSpeedState.playbackSpeed),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .thenIf(isControlVisible) {
-                        background(overlayColor, Styler.roundedShape())
-                    }
-                    .clip(Styler.roundedShape()),
-                availableTracks = playbackTracksState.tracks,
-                onPlayPause = {
-                    if (playPauseButtonState.showPlay && exoPlayer.currentPosition == exoPlayer.duration) {
-                        exoPlayer.seekTo(0)
-                    }
-                    playPauseButtonState.onClick()
-                },
-                onSeekTo = onSeekTo,
-                onPlaybackSpeedChange = { playbackSpeedState.updatePlaybackSpeed(it.speed) },
-                onTrackSelected = { playbackTracksState.selectTrack(it) },
-                onMenuShownChange = { isMenuVisible = it },
-                onFullScreenToggle = onFullScreenToggle,
-            )
-        }
+        VideoControls(
+            visible = isControlVisible,
+            playbackState = playbackState,
+            playbackSeekState = playbackSeekState,
+            progressState = progressState,
+            playbackSpeed = PlaybackSpeed.fromSpeed(playbackSpeedState.playbackSpeed),
+            modifier = Modifier
+                .fillMaxSize()
+                .thenIf(isControlVisible) {
+                    background(overlayColor, Styler.roundedShape())
+                }
+                .clip(Styler.roundedShape()),
+            availableTracks = playbackTracksState.tracks,
+            onPlayPause = {
+                if (playPauseButtonState.showPlay && player.currentPosition == player.duration) {
+                    player.seekTo(0)
+                }
+                playPauseButtonState.onClick()
+            },
+            onSeekTo = onSeekTo,
+            onPlaybackSpeedChange = { playbackSpeedState.updatePlaybackSpeed(it.speed) },
+            onTrackSelected = { playbackTracksState.selectTrack(it) },
+            onMenuShownChange = { isMenuVisible = it },
+            onFullScreenToggle = onFullScreenToggle,
+        )
     }
 
     LaunchedEffect(isControlVisible, isMenuVisible, playbackState) {

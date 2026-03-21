@@ -68,7 +68,7 @@ class FakeResourcesRepository(
         TODO("Not yet implemented")
     }
 
-    override fun resource(index: String): Flow<Resource> {
+    override fun resource(index: String, cacheOnly: Boolean): Flow<Resource> {
         TODO("Not yet implemented")
     }
 

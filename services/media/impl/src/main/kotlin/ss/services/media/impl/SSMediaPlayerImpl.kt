@@ -33,6 +33,8 @@ import androidx.media3.ui.PlayerView
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.guava.await
 import kotlinx.coroutines.launch
@@ -61,6 +63,9 @@ internal class SSMediaPlayerImpl @Inject constructor(
     override val isConnected = MutableStateFlow(false)
     override val playbackState = MutableStateFlow(PlaybackState())
     override val nowPlaying = MutableStateFlow(NowPlaying.NONE)
+    override val media3Player = MutableStateFlow<Player?>(null)
+    private val _isFullScreen = MutableStateFlow(false)
+    override val isFullScreen: StateFlow<Boolean> = _isFullScreen.asStateFlow()
     override val playbackProgress = MutableStateFlow(PlaybackProgressState())
     override val playbackSpeed = MutableStateFlow(PlaybackSpeed.NORMAL)
 
@@ -82,6 +87,7 @@ internal class SSMediaPlayerImpl @Inject constructor(
                     addListener(this@SSMediaPlayerImpl)
                 }
 
+            media3Player.update { mediaController }
             isConnected.update { true }
 
             startPlaybackProgress()
@@ -168,12 +174,17 @@ internal class SSMediaPlayerImpl @Inject constructor(
         }
     }
 
+    override fun toggleFullScreen(isFullScreen: Boolean) {
+        _isFullScreen.update { isFullScreen }
+    }
+
     override fun release() {
         mediaController?.run {
             stop()
             release()
         }
         mediaController = null
+        media3Player.update { null }
         isConnected.update { false }
         playbackState.update { PlaybackState() }
         nowPlaying.update { NowPlaying.NONE }

@@ -66,7 +66,10 @@ import com.slack.circuit.overlay.OverlayEffect
 import dagger.hilt.components.SingletonComponent
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.materials.HazeMaterials
+import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.resource.SegmentType
+import io.adventech.blockkit.ui.media.LocalMediaCallbacks
+import io.adventech.blockkit.ui.media.MediaCallbacks
 import io.adventech.blockkit.ui.style.LocalBlocksStyle
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.LocalSegmentStyle
@@ -84,6 +87,7 @@ import ss.document.segment.components.overlay.ExcerptOverlay
 import ss.libraries.circuit.navigation.DocumentScreen
 import ss.libraries.circuit.navigation.MiniAudioPlayerScreen
 import ss.libraries.circuit.overlay.BottomSheetOverlay
+import ss.libraries.media.api.LocalSsMediaPlayer
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalHazeMaterialsApi::class)
 @CircuitInject(DocumentScreen::class, SingletonComponent::class)
@@ -182,6 +186,8 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                         LocalBlocksStyle provides state.style?.blocks,
                         LocalSegmentStyle provides state.style?.segment,
                         LocalReaderStyle provides state.readerStyle,
+                        LocalSsMediaPlayer provides state.mediaPlayer,
+                        LocalMediaCallbacks provides mediaCallbacks(state)
                     ) {
                         val bottomPadding by animateDpAsState(targetValue =
                             if (isParentNavbarVisible && !hideMiniPlayer && state.isMiniPlayerVisible) 56.dp else 0.dp
@@ -203,7 +209,6 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                             onHandleUri = { uri, blocks -> state.eventSink(SuccessEvent.OnHandleUri(uri, blocks)) },
                             onHandleReference = { state.eventSink(SuccessEvent.OnHandleReference(it)) },
                             onNavEvent = { state.eventSink(SuccessEvent.OnNavEvent(it, context)) },
-                            onFullScreenVideo = { video, position -> state.eventSink(SuccessEvent.OnFullScreenVideo(context, video, position)) }
                         )
                     }
 
@@ -303,4 +308,25 @@ private fun State.containerColor(): Color = when (this) {
 private fun State.contentColor(): Color = when (this) {
     is State.Loading -> SsTheme.colors.primaryForeground
     is State.Success -> readerStyle.theme.primaryForeground()
+}
+
+@Composable
+private fun mediaCallbacks(state: State.Success): MediaCallbacks {
+    val context = LocalContext.current
+
+    return remember(context) {
+        object : MediaCallbacks {
+            override fun play(audio: BlockItem.Audio) {
+
+            }
+
+            override fun play(video: BlockItem.Video) {
+                state.eventSink(SuccessEvent.OnPlayVideo(video))
+            }
+
+            override fun fullscreen(video: BlockItem.Video, position: Long) {
+                state.eventSink(SuccessEvent.OnFullScreenVideo(context, video, position))
+            }
+        }
+    }
 }

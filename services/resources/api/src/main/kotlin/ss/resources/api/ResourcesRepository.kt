@@ -47,7 +47,7 @@ interface ResourcesRepository {
 
     fun feedGroup(id: String, type: FeedType): Flow<FeedGroup>
 
-    fun resource(index: String): Flow<Resource>
+    fun resource(index: String, cacheOnly: Boolean = false): Flow<Resource>
 
     fun document(index: String): Flow<ResourceDocument>
 

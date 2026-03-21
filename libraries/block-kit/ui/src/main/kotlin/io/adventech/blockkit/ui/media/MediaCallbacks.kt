@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2026. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,10 +20,24 @@
  * THE SOFTWARE.
  */
 
-package app.ss.media.playback.service
+package io.adventech.blockkit.ui.media
 
-import ss.libraries.media.service.MediaService
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.staticCompositionLocalOf
+import io.adventech.blockkit.model.BlockItem
 
-class VideoService : MediaService() {
-    override fun sessionId(): String = "app.ss.media.playback.service.VideoService"
+@Stable
+interface MediaCallbacks {
+    fun play(audio: BlockItem.Audio)
+    fun play(video: BlockItem.Video)
+    fun fullscreen(video: BlockItem.Video, position: Long)
 }
+
+private val Default = object : MediaCallbacks {
+    override fun play(audio: BlockItem.Audio) = Unit
+    override fun play(video: BlockItem.Video) = Unit
+    override fun fullscreen(video: BlockItem.Video, position: Long) = Unit
+}
+
+
+val LocalMediaCallbacks = staticCompositionLocalOf<MediaCallbacks> { Default }

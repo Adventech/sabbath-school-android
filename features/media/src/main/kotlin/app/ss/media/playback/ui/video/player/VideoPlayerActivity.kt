@@ -49,7 +49,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.media3.ui.PlayerView
 import app.ss.design.compose.theme.SsTheme
 import app.ss.media.R
-import app.ss.media.playback.service.VideoService
+import ss.libraries.media.service.VideoService
 import app.ss.models.media.SSVideo
 import com.cryart.sabbathschool.core.extensions.sdk.isAtLeastApi
 import com.cryart.sabbathschool.core.extensions.view.fadeTo
@@ -236,18 +236,15 @@ class VideoPlayerActivity : AppCompatActivity(R.layout.activity_video_player) {
         if (mediaPlayer.playbackState.value.isPlaying) {
             mediaPlayer.playPause()
         }
+        mediaPlayer.toggleFullScreen(false)
         onStopCalled = true
     }
 
     override fun onResume() {
         super.onResume()
         mediaPlayer.onResume()
+        mediaPlayer.toggleFullScreen(true)
         onStopCalled = false
-    }
-
-    override fun onDestroy() {
-        mediaPlayer.release()
-        super.onDestroy()
     }
 
     override fun onUserLeaveHint() {

@@ -39,7 +39,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.slack.circuit.foundation.NavEvent
 import io.adventech.blockkit.model.BlockData
-import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.resource.ReferenceModel
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.ui.input.UserInputState
@@ -62,7 +61,6 @@ fun DocumentPager(
     onCollapseChange: (Boolean) -> Unit = {},
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
     onHandleReference: (ReferenceModel) -> Unit = { _ -> },
-    onFullScreenVideo: (BlockItem.Video, Long) -> Unit = { _, _ -> },
     onNavEvent: (NavEvent) -> Unit = {},
 ) {
     val pagerState = rememberPagerState(
@@ -129,7 +127,6 @@ fun DocumentPager(
             onHandleUri = onHandleUri,
             onHandleReference = onHandleReference,
             onNavEvent = onNavEvent,
-            onFullScreenVideo = onFullScreenVideo,
         )
     }
 

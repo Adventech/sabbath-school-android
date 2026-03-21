@@ -23,6 +23,7 @@
 package io.adventech.blockkit.ui
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -67,13 +68,11 @@ import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.media3.common.Player
-import androidx.media3.common.util.UnstableApi
-import androidx.media3.ui.compose.state.rememberPlayPauseButtonState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.adventech.blockkit.model.AudioBlockCredits
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.model.BlockStyle
-import io.adventech.blockkit.ui.media.MediaPlayer
+import io.adventech.blockkit.ui.media.LocalMediaCallbacks
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.Styler
 import io.adventech.blockkit.ui.style.Styler.genericBackgroundColorForInteractiveBlock
@@ -81,6 +80,7 @@ import io.adventech.blockkit.ui.style.Styler.genericForegroundColorForInteractiv
 import io.adventech.blockkit.ui.style.background
 import io.adventech.blockkit.ui.style.primaryForeground
 import io.adventech.blockkit.ui.style.theme.BlocksDynamicPreviewTheme
+import ss.libraries.media.api.LocalSsMediaPlayer
 import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.extensions.millisToDuration
 import ss.services.media.ui.PlaybackPlayPause
@@ -89,16 +89,46 @@ import ss.services.media.ui.spec.PlaybackStateSpec
 
 @Composable
 fun AudioContent(blockItem: BlockItem.Audio, modifier: Modifier = Modifier) {
-    MediaPlayer(
-        source = blockItem.src,
-        modifier = modifier,
-    ) { player, playbackState, progressState, onSeekTo ->
+    val ssMediaPlayer = LocalSsMediaPlayer.current ?: return
+    val callbacks = LocalMediaCallbacks.current
+    val player by ssMediaPlayer.media3Player.collectAsStateWithLifecycle()
+    val mediaPlaybackState by ssMediaPlayer.playbackState.collectAsStateWithLifecycle()
+    val rawProgressState by ssMediaPlayer.playbackProgress.collectAsStateWithLifecycle()
+    val nowPlaying by ssMediaPlayer.nowPlaying.collectAsStateWithLifecycle()
+
+    val isActive = nowPlaying.id == blockItem.id
+
+    val playbackState = remember(isActive, mediaPlaybackState) {
+        if (isActive) {
+            PlaybackStateSpec.NONE.copy(
+                isPlayEnabled = true,
+                canShowMini = false,
+                isBuffering = mediaPlaybackState.isBuffering,
+                isPlaying = mediaPlaybackState.isPlaying,
+                isError = mediaPlaybackState.isError,
+            )
+        } else {
+            PlaybackStateSpec.NONE.copy(isPlayEnabled = true)
+        }
+    }
+
+    val progressState = remember(isActive, rawProgressState) {
+        if (isActive) rawProgressState else PlaybackProgressState()
+    }
+
+    Column(modifier = modifier) {
         PlayerContent(
-            player = player,
             playbackState = playbackState,
             progressState = progressState,
             modifier = Modifier,
-            onSeekTo = onSeekTo
+            onPlayPause = {
+                if (isActive) {
+                    ssMediaPlayer.playPause()
+                } else {
+                    callbacks.play(blockItem)
+            }
+            },
+            onSeekTo = { ssMediaPlayer.seekTo(it) },
         )
 
         Spacer(
@@ -123,31 +153,6 @@ fun AudioContent(blockItem: BlockItem.Audio, modifier: Modifier = Modifier) {
     }
 }
 
-@androidx.annotation.OptIn(UnstableApi::class)
-@Composable
-private fun PlayerContent(
-    player: Player,
-    playbackState: PlaybackStateSpec,
-    progressState: PlaybackProgressState,
-    modifier: Modifier = Modifier,
-    onSeekTo: (Long) -> Unit = {},
-) {
-    val playPauseButtonState = rememberPlayPauseButtonState(player)
-
-    PlayerContent(
-        playbackState = playbackState,
-        progressState = progressState,
-        modifier = modifier,
-        onPlayPause = {
-            if (playPauseButtonState.showPlay && player.currentPosition == player.duration) {
-                player.seekTo(0)
-            }
-            playPauseButtonState.onClick()
-        },
-        onSeekTo = onSeekTo,
-    )
-}
-
 @Composable
 private fun PlayerContent(
     playbackState: PlaybackStateSpec,
@@ -168,7 +173,7 @@ private fun PlayerContent(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.elevatedCardColors(
             containerColor = genericBackgroundColorForInteractiveBlock(),
-            contentColor = contentColor
+            contentColor = contentColor,
         ),
         shape = Styler.roundedShape(),
     ) {
@@ -190,7 +195,7 @@ private fun PlayerContent(
                 style = Styler.textStyle(null).copy(
                     fontFamily = Styler.defaultFontFamily(),
                     fontSize = 14.sp,
-                    platformStyle = PlatformTextStyle(includeFontPadding = true)
+                    platformStyle = PlatformTextStyle(includeFontPadding = true),
                 ),
                 color = contentColor
             )
@@ -214,7 +219,7 @@ private fun PlayerContent(
 private fun PlayerCaption(
     caption: String?,
     modifier: Modifier = Modifier,
-    blockStyle: BlockStyle? = null
+    blockStyle: BlockStyle? = null,
 ) {
     caption?.let {
         Text(
@@ -223,7 +228,7 @@ private fun PlayerCaption(
             style = Styler.textStyle(blockStyle?.text).copy(
                 fontFamily = Styler.defaultFontFamily(),
                 fontSize = 14.sp,
-                fontStyle = FontStyle.Italic
+                fontStyle = FontStyle.Italic,
             ),
             color = genericForegroundColorForInteractiveBlock(),
             textAlign = TextAlign.Center,
@@ -236,14 +241,14 @@ private fun PlayerCaption(
 private fun PlayerCredits(
     credits: AudioBlockCredits,
     modifier: Modifier = Modifier,
-    blockStyle: BlockStyle? = null
+    blockStyle: BlockStyle? = null,
 ) {
     val contentColor = genericForegroundColorForInteractiveBlock()
     val textStyle = Styler.textStyle(blockStyle?.text).copy(
         fontFamily = Styler.defaultFontFamily(),
         fontSize = 14.sp,
         fontStyle = FontStyle.Normal,
-        color = contentColor
+        color = contentColor,
     )
 
     var openBottomSheet by rememberSaveable { mutableStateOf(false) }
@@ -256,7 +261,7 @@ private fun PlayerCredits(
                     styles = TextLinkStyles(
                         style = textStyle
                             .copy(textDecoration = TextDecoration.Underline)
-                            .toSpanStyle()
+                            .toSpanStyle(),
                     ),
                     linkInteractionListener = {
                         openBottomSheet = true
@@ -290,7 +295,7 @@ private fun CreditsContent(credits: AudioBlockCredits, onDismiss: () -> Unit) {
         fontFamily = Styler.defaultFontFamily(),
         fontSize = 14.sp,
         fontStyle = FontStyle.Normal,
-        color = contentColor
+        color = contentColor,
     )
 
     CompositionLocalProvider(LocalReaderStyle provides readerStyle) {
@@ -306,7 +311,7 @@ private fun CreditsContent(credits: AudioBlockCredits, onDismiss: () -> Unit) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(horizontal = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(20.dp)
+                verticalArrangement = Arrangement.spacedBy(20.dp),
             ) {
                 item {
                     Text(
@@ -368,13 +373,13 @@ internal fun AudioContentPreview() {
     BlocksDynamicPreviewTheme {
         PlayerContent(
             playbackState = PlaybackStateSpec.NONE.copy(
-                isPlayEnabled = true
+                isPlayEnabled = true,
             ),
             progressState = PlaybackProgressState(
                 total = 3 * 60 * 1000,
-                position = 60 * 1000
+                position = 60 * 1000,
             ),
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(8.dp),
         )
     }
 }

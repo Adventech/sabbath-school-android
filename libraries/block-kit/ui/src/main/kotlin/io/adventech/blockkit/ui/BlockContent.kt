@@ -42,7 +42,6 @@ fun BlockContent(
     pipState: PipState? = null,
     onHandleUri: (String, BlockData?) -> Unit = { _, _ -> },
     onHandleReference: (ReferenceModel) -> Unit = { _ -> },
-    onFullScreenVideo: (BlockItem.Video, Long) -> Unit = { _, _ -> },
 ) {
     BlockContentWrapper(
         blockItem = blockItem,
@@ -141,7 +140,6 @@ fun BlockContent(
                     blockItem = blockItem,
                     pipState = pipState,
                     modifier = blockModifier,
-                    onFullScreenToggle = onFullScreenVideo,
                 )
             }
             is BlockItem.Carousel -> Unit

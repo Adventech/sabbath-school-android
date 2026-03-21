@@ -26,13 +26,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import app.ss.models.media.SSVideo
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
-import com.slack.circuitx.android.IntentScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -49,7 +47,6 @@ import ss.document.producer.UserInputStateProducer
 import ss.document.reader.ReaderOptionsScreen
 import ss.document.segment.components.video.VideoSegmentScreen.Event
 import ss.document.segment.components.video.VideoSegmentScreen.State
-import ss.libraries.media.api.MediaNavigation
 import ss.libraries.media.api.SSMediaPlayer
 import ss.libraries.media.model.NowPlaying
 import ss.resources.api.ResourcesRepository
@@ -58,7 +55,6 @@ class VideoSegmentPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     @Assisted private val screen: VideoSegmentScreen,
     private val resourcesRepository: ResourcesRepository,
-    private val mediaNavigation: MediaNavigation,
     private val userInputStateProducer: UserInputStateProducer,
     private val mediaPlayer: SSMediaPlayer,
 ) : Presenter<State> {
@@ -86,23 +82,6 @@ class VideoSegmentPresenter @AssistedInject constructor(
         ) { event ->
             when (event) {
                 is Event.OnNavBack -> navigator.pop()
-                is Event.PlayVideo -> {
-                    val video = event.video.run {
-                        SSVideo(
-                            artist = artist.orEmpty(),
-                            id = "",
-                            src = src,
-                            target = "",
-                            targetIndex = "",
-                            thumbnail = thumbnail.orEmpty(),
-                            title = title.orEmpty(),
-                            hls = hls,
-                        )
-                    }
-
-                    navigator.goTo(IntentScreen(mediaNavigation.videoPlayer(event.context, video)))
-                }
-
                 is Event.OnTopAppBarAction -> {
                     when (event.action) {
                         DocumentTopAppBarAction.DisplayOptions -> {
@@ -117,22 +96,6 @@ class VideoSegmentPresenter @AssistedInject constructor(
                         }
                         else -> Unit
                     }
-                }
-
-                is Event.OnFullScreenVideo -> {
-                    val clip = segment?.video?.find { it.src == event.video.id }
-                    val video = SSVideo(
-                        artist = clip?.artist ?: segment?.title.orEmpty(),
-                        id = event.video.id,
-                        src = clip?.src ?: event.video.src,
-                        target = "",
-                        targetIndex = "",
-                        thumbnail = clip?.thumbnail.orEmpty(),
-                        title = clip?.title ?: event.video.caption.orEmpty(),
-                        hls = clip?.hls ?: if (event.video.src.endsWith(".m3u8", true)) event.video.src else null,
-                    )
-
-                    navigator.goTo(IntentScreen(mediaNavigation.videoPlayer(event.context, video, event.position)))
                 }
             }
         }
@@ -154,8 +117,8 @@ class VideoSegmentPresenter @AssistedInject constructor(
 
     @Composable
     private fun rememberPipState() = produceRetainedState<PipState?>(null) {
-        combine(mediaPlayer.nowPlaying, mediaPlayer.playbackProgress) { nowPlaying, progressState ->
-            if (nowPlaying == NowPlaying.NONE) {
+        combine(mediaPlayer.nowPlaying, mediaPlayer.playbackProgress, mediaPlayer.isFullScreen) { nowPlaying, progressState, isFullScreen ->
+            if (nowPlaying == NowPlaying.NONE || !isFullScreen) {
                 null
             } else {
                 PipState(id = nowPlaying.id, progress = progressState.progress)
