@@ -93,6 +93,7 @@ sealed interface SuccessEvent : Event {
     data class OnHandleReference(val model: ReferenceModel): SuccessEvent
     data class OnFullScreenVideo(val context: Context, val video: BlockItem.Video, val position: Long): SuccessEvent
     data class OnPlayVideo(val video: BlockItem.Video): SuccessEvent
+    data class OnPlayAudio(val audio: BlockItem.Audio): SuccessEvent
 }
 
 

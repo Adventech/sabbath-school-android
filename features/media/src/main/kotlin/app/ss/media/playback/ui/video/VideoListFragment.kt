@@ -28,7 +28,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
-import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import app.ss.design.compose.extensions.surface.BottomSheetSurface
 import app.ss.media.playback.ui.video.player.VideoPlayerActivity
@@ -71,9 +70,9 @@ fun FragmentManager.showVideoList(
     lessonIndex: String
 ) {
     val fragment = VideoListFragment().apply {
-        arguments = bundleOf(
-            SSConstants.SS_LESSON_INDEX_EXTRA to lessonIndex
-        )
+        arguments = Bundle().apply {
+            putString(SSConstants.SS_LESSON_INDEX_EXTRA, lessonIndex)
+        }
     }
     fragment.show(this, "VideoList")
 }

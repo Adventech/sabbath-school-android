@@ -32,6 +32,7 @@ const val KEY_ID = "media:key_id"
 const val KEY_SOURCE = "media:key_source"
 const val KEY_TARGET = "media:target"
 const val KEY_TARGET_INDEX = "media:target_index"
+const val KEY_AUTO_SHOW_MINI_PLAYER = "media:auto_show_mini_player"
 
 val NONE_PLAYING: MediaMetadata = MediaMetadata.EMPTY
 
@@ -40,6 +41,7 @@ inline val MediaMetadata.id: String get() = extras?.getString(KEY_ID, "") ?: ""
 inline val MediaMetadata.source: Uri get() = (extras?.getString(KEY_SOURCE, "") ?: "").toUri()
 inline val MediaMetadata.target: String? get() = (extras?.getString(KEY_TARGET))
 inline val MediaMetadata.targetIndex: String? get() = (extras?.getString(KEY_TARGET_INDEX))
+inline val MediaMetadata.autoShowMiniPlayer: Boolean get() = extras?.getBoolean(KEY_AUTO_SHOW_MINI_PLAYER, true) ?: true
 
 fun Long.millisToDuration(): String {
     val seconds = (TimeUnit.SECONDS.convert(this, TimeUnit.MILLISECONDS) % 60).toInt()

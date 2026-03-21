@@ -111,7 +111,8 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
             }
         }
     }
-    val hideMiniPlayer = (state as? State.Success)?.selectedSegment?.type == SegmentType.STORY && !collapsed
+    val isMiniPlayerVisible = (state as? State.Success)?.isMiniPlayerVisible == true
+    val hideMiniPlayer = ((state as? State.Success)?.selectedSegment?.type == SegmentType.STORY && !collapsed) || !isMiniPlayerVisible
 
     val containerColor = state.containerColor()
     val contentColor = state.contentColor()
@@ -190,7 +191,7 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
                         LocalMediaCallbacks provides mediaCallbacks(state)
                     ) {
                         val bottomPadding by animateDpAsState(targetValue =
-                            if (isParentNavbarVisible && !hideMiniPlayer && state.isMiniPlayerVisible) 56.dp else 0.dp
+                            if (isParentNavbarVisible && !hideMiniPlayer) 56.dp else 0.dp
                         )
                         DocumentPager(
                             segments = state.segments,
@@ -317,7 +318,7 @@ private fun mediaCallbacks(state: State.Success): MediaCallbacks {
     return remember(context) {
         object : MediaCallbacks {
             override fun play(audio: BlockItem.Audio) {
-
+                state.eventSink(SuccessEvent.OnPlayAudio(audio))
             }
 
             override fun play(video: BlockItem.Video) {

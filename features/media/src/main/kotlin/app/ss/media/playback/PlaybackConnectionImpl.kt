@@ -47,6 +47,7 @@ import ss.libraries.media.model.PlaybackProgressState
 import ss.libraries.media.model.PlaybackQueue
 import ss.libraries.media.model.PlaybackSpeed
 import ss.libraries.media.model.extensions.NONE_PLAYING
+import ss.libraries.media.model.extensions.autoShowMiniPlayer
 import ss.libraries.media.model.toMediaItem
 import ss.services.media.ui.PlaybackConnection
 import ss.services.media.ui.spec.PlaybackStateSpec
@@ -240,6 +241,11 @@ internal class PlaybackConnectionImpl(
         override fun onMediaMetadataChanged(mediaMetadata: MediaMetadata) {
             super.onMediaMetadataChanged(mediaMetadata)
             nowPlaying.update { mediaMetadata }
+            playbackState.update {
+                it.copy(
+                    canShowMini = if (it.isPlaying) mediaMetadata.autoShowMiniPlayer else it.canShowMini
+                )
+            }
         }
 
         override fun onIsPlayingChanged(isPlaying: Boolean) {
@@ -248,7 +254,7 @@ internal class PlaybackConnectionImpl(
                 it.copy(
                     isPlaying = isPlaying,
                     isPlayEnabled = true,
-                    canShowMini = if (isPlaying) true else it.canShowMini
+                    canShowMini = if (isPlaying) nowPlaying.value.autoShowMiniPlayer else it.canShowMini
                 )
             }
         }

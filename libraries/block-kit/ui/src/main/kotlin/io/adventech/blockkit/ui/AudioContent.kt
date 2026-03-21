@@ -91,7 +91,6 @@ import ss.services.media.ui.spec.PlaybackStateSpec
 fun AudioContent(blockItem: BlockItem.Audio, modifier: Modifier = Modifier) {
     val ssMediaPlayer = LocalSsMediaPlayer.current ?: return
     val callbacks = LocalMediaCallbacks.current
-    val player by ssMediaPlayer.media3Player.collectAsStateWithLifecycle()
     val mediaPlaybackState by ssMediaPlayer.playbackState.collectAsStateWithLifecycle()
     val rawProgressState by ssMediaPlayer.playbackProgress.collectAsStateWithLifecycle()
     val nowPlaying by ssMediaPlayer.nowPlaying.collectAsStateWithLifecycle()
@@ -191,13 +190,13 @@ private fun PlayerContent(
             )
 
             Text(
-                currentDuration,
+                text = currentDuration,
                 style = Styler.textStyle(null).copy(
                     fontFamily = Styler.defaultFontFamily(),
                     fontSize = 14.sp,
                     platformStyle = PlatformTextStyle(includeFontPadding = true),
                 ),
-                color = contentColor
+                color = contentColor,
             )
 
             PlaybackSlider(

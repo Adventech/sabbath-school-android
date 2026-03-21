@@ -38,7 +38,7 @@ data class PlaybackStateSpec(
             isPlayEnabled = false,
             isError = false,
             isBuffering = false,
-            false
+            canShowMini = false,
         )
     }
 }

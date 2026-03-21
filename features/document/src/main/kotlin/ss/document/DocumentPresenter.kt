@@ -29,7 +29,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.Snapshot
+import androidx.core.net.toUri
 import app.ss.models.PDFAux
+import app.ss.models.media.AudioFile
 import app.ss.models.media.SSVideo
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.NavEvent
@@ -56,6 +58,7 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import ss.document.components.DocumentTopAppBarAction
@@ -64,7 +67,6 @@ import ss.document.producer.TopAppbarActionsProducer
 import ss.document.producer.TopAppbarActionsState
 import ss.document.producer.UserInputStateProducer
 import ss.document.segment.producer.SegmentOverlayStateProducer
-import ss.foundation.coroutines.DispatcherProvider
 import ss.libraries.circuit.navigation.DocumentScreen
 import ss.libraries.circuit.navigation.ExpandedAudioPlayerScreen
 import ss.libraries.circuit.navigation.PdfScreen
@@ -73,6 +75,8 @@ import ss.libraries.media.api.MediaNavigation
 import ss.libraries.media.api.SSMediaPlayer
 import ss.libraries.media.model.SSMediaItem
 import ss.libraries.media.model.extensions.NONE_PLAYING
+import ss.libraries.media.model.extensions.id
+import ss.libraries.media.service.MusicService
 import ss.libraries.media.service.VideoService
 import ss.libraries.pdf.api.PdfReader
 import ss.misc.DateHelper
@@ -198,6 +202,13 @@ class DocumentPresenter @AssistedInject constructor(
                         mediaPlayer.connectAndPlay(VideoService::class.java, SSMediaItem.Video(video))
                     }
                 }
+
+                is SuccessEvent.OnPlayAudio -> {
+                    val audio = event.audio.toSSAudio(resource, resourceDocument)
+                    coroutineScope.launch {
+                        mediaPlayer.connectAndPlay(MusicService::class.java, SSMediaItem.Audio(audio, autoShowMiniPlayer = false))
+                    }
+                }
             }
         }
 
@@ -234,6 +245,7 @@ class DocumentPresenter @AssistedInject constructor(
         val nowPlaying by produceRetainedState(NONE_PLAYING) {
             playbackConnection.nowPlaying.collect { value = it }
         }
+        
         return (playbackState != PlaybackStateSpec.NONE &&
             nowPlaying != NONE_PLAYING) &&
             playbackState.canShowMini
@@ -309,18 +321,30 @@ class DocumentPresenter @AssistedInject constructor(
         }
     }
 
-    private fun BlockItem.Video.toSSVideo(resource: Resource?, document: ResourceDocument?): SSVideo {
-        return SSVideo(
-            artist = resource?.title.orEmpty(),
-            id = id,
-            src = src,
-            title = caption ?: document?.title.orEmpty(),
-            target = "",
-            targetIndex = "",
-            thumbnail = document?.cover ?: resource?.covers?.landscape.orEmpty(),
-            hls = if (src.contains(".m3u8", true)) src else null
-        )
-    }
+    private fun BlockItem.Video.toSSVideo(
+        resource: Resource?,
+        document: ResourceDocument?,
+    ): SSVideo = SSVideo(
+        artist = resource?.title.orEmpty(),
+        id = id,
+        src = src,
+        title = caption ?: document?.title.orEmpty(),
+        target = "",
+        targetIndex = "",
+        thumbnail = document?.cover ?: resource?.covers?.landscape.orEmpty(),
+        hls = if (src.contains(".m3u8", true)) src else null,
+    )
+
+    private fun BlockItem.Audio.toSSAudio(
+        resource: Resource?,
+        document: ResourceDocument?,
+    ): AudioFile = AudioFile(
+        id = id,
+        title = caption ?: document?.title.orEmpty(),
+        artist = resource?.title.orEmpty(),
+        source = src.toUri(),
+        image = document?.cover ?: resource?.covers?.landscape.orEmpty(),
+    )
 
 
     @CircuitInject(DocumentScreen::class, SingletonComponent::class)

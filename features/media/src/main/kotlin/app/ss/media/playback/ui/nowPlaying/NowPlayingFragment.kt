@@ -28,7 +28,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
-import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import app.ss.design.compose.extensions.surface.BottomSheetSurface
 import com.cryart.design.base.TransparentBottomSheetFragment
@@ -64,10 +63,10 @@ fun FragmentManager.showNowPlaying(
     readIndex: String? = null
 ) {
     val fragment = NowPlayingFragment().apply {
-        arguments = bundleOf(
-            SSConstants.SS_LESSON_INDEX_EXTRA to lessonIndex,
-            SSConstants.SS_READ_INDEX_EXTRA to readIndex
-        )
+        arguments = Bundle().apply {
+            putString(SSConstants.SS_LESSON_INDEX_EXTRA, lessonIndex)
+            putString(SSConstants.SS_READ_INDEX_EXTRA, readIndex)
+        }
     }
     fragment.show(this, "NowPlaying")
 }
