@@ -41,14 +41,16 @@ internal fun Modifier.background(blockItem: BlockItem, nested: Boolean? = blockI
     val layoutDirection = LocalLayoutDirection.current
     val blocksStyle = LocalBlocksStyle.current
     val blockStyle = blockItem.style?.block
+    val blockWrapperStyle = blockItem.style?.wrapper
+    
     val blockPaddingStyle = blockStyle?.padding
     val blockMarginStyle = blockStyle?.margin
 
     val defaultWrapperMarginStyle = blocksStyle?.inline?.all?.wrapper?.padding?.takeUnless {
-        blockMarginStyle != null || (blockItem.nested ?: nested) == true
+        (blockItem.nested ?: nested) == true
     }
 
-    val styleMarginValues = Styler.padding(blockMarginStyle ?: defaultWrapperMarginStyle)
+    val styleMarginValues = Styler.padding(blockMarginStyle ?: blockWrapperStyle?.padding ?: defaultWrapperMarginStyle)
 
     return this
         .padding(
