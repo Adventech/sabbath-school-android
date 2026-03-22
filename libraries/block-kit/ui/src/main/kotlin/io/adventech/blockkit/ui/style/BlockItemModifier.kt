@@ -42,27 +42,28 @@ internal fun Modifier.background(blockItem: BlockItem, nested: Boolean? = blockI
     val blocksStyle = LocalBlocksStyle.current
     val blockStyle = blockItem.style?.block
     val blockPaddingStyle = blockStyle?.padding
+    val blockMarginStyle = blockStyle?.margin
 
-    val defaultWrapperPaddingStyle = blocksStyle?.inline?.all?.wrapper?.padding?.takeUnless {
-        blockPaddingStyle != null || (blockItem.nested ?: nested) == true
+    val defaultWrapperMarginStyle = blocksStyle?.inline?.all?.wrapper?.padding?.takeUnless {
+        blockMarginStyle != null || (blockItem.nested ?: nested) == true
     }
 
-    val stylePaddingValues = Styler.padding(blockPaddingStyle ?: defaultWrapperPaddingStyle)
+    val styleMarginValues = Styler.padding(blockMarginStyle ?: defaultWrapperMarginStyle)
 
     return this
         .padding(
-            // If the style comes with vertical paddings then remove size already applied in LazyColumn
-            stylePaddingValues.copy(
+            // If the style comes with vertical margins then remove size already applied in LazyColumn
+            styleMarginValues.copy(
                 layoutDirection = layoutDirection,
-                top = if (stylePaddingValues.calculateTopPadding() >= 16.dp) {
-                    stylePaddingValues.calculateTopPadding() - 16.dp
+                top = if (styleMarginValues.calculateTopPadding() >= 16.dp) {
+                    styleMarginValues.calculateTopPadding() - 16.dp
                 } else {
-                    stylePaddingValues.calculateTopPadding()
+                    styleMarginValues.calculateTopPadding()
                 },
-                bottom = if (stylePaddingValues.calculateBottomPadding() >= 16.dp) {
-                    stylePaddingValues.calculateBottomPadding() - 16.dp
+                bottom = if (styleMarginValues.calculateBottomPadding() >= 16.dp) {
+                    styleMarginValues.calculateBottomPadding() - 16.dp
                 } else {
-                    stylePaddingValues.calculateBottomPadding()
+                    styleMarginValues.calculateBottomPadding()
                 }
             )
         )
