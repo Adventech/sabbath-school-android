@@ -23,6 +23,7 @@
 package ss.resource.components
 
 import android.content.res.Configuration
+import android.os.Build
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -170,8 +171,13 @@ private fun ContentPrimary(
     hazeState: HazeState,
     content: @Composable ColumnScope.() -> Unit
 ) {
+    // Disabled on Android 12 (API 31).
+    // Haze (RenderEffect blur) causes visual artifacts and unstable rendering on this version,
+    // especially with large blur radius + translation.
+    val enableBlur = HazeDefaults.blurEnabled() && Build.VERSION.SDK_INT > Build.VERSION_CODES.S
+
     Box(modifier = modifier) {
-        if (HazeDefaults.blurEnabled()) {
+        if (enableBlur) {
             Spacer(
                 modifier = Modifier
                     .fillMaxWidth()
