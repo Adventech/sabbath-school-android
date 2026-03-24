@@ -266,7 +266,12 @@ class DocumentPresenter @AssistedInject constructor(
             if (value == persistentListOf<Segment>()) {
                 delay(150)
             }
-            value = (document?.segments?.map { it.copy(cover = it.cover ?: document.cover) } ?: emptyList())
+            value = (document?.segments?.map {
+                it.copy(
+                    cover = it.cover ?: document.cover,
+                    background = it.background ?: document.background,
+                )
+            } ?: emptyList())
                 .toImmutableList()
     }
 
