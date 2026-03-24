@@ -47,8 +47,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.widget.scaffold.LocalNavbarController
+import coil.compose.AsyncImage
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.resource.ReferenceModel
 import io.adventech.blockkit.model.resource.Segment
@@ -58,6 +60,7 @@ import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.LocalSegmentStyle
 import io.adventech.blockkit.ui.style.background
 import io.adventech.blockkit.ui.style.primaryForeground
+import io.adventech.blockkit.ui.style.showBackground
 import io.adventech.blockkit.ui.style.thenIf
 import ss.document.segment.components.SegmentCover
 import ss.document.segment.components.SegmentHeader
@@ -87,7 +90,14 @@ internal fun SegmentBlocksContent(
             .fillMaxSize()
             .background(readerStyle.theme.background()),
     ) {
-        SegmentBackground(segment.background)
+        segment.background?.takeIf { readerStyle.theme.showBackground() }?.let {
+            AsyncImage(
+                model = it,
+                contentDescription = null,
+                modifier = modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop,
+            )
+        }
 
         LazyColumn(
             modifier = Modifier
