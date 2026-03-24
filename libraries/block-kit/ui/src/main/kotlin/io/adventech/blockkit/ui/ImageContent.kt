@@ -27,6 +27,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.ui.Alignment
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -194,6 +195,7 @@ internal fun AsyncImageBox(
     contentDescription: String?,
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.Crop,
+    alignment: Alignment = Alignment.Center,
     scale: Scale = Scale.FIT,
     loading: @Composable () -> Unit = {},
     error: @Composable () -> Unit = {},
@@ -223,6 +225,7 @@ internal fun AsyncImageBox(
             contentDescription = contentDescription,
             modifier = Modifier.fillMaxSize(),
             contentScale = contentScale,
+            alignment = alignment,
         )
     }
 }

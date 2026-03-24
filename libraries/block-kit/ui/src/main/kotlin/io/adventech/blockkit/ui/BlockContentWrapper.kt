@@ -22,19 +22,18 @@
 
 package io.adventech.blockkit.ui
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import io.adventech.blockkit.model.BlockItem
 import io.adventech.blockkit.ui.style.LocalReaderStyle
-import io.adventech.blockkit.ui.style.ReaderStyle
+import io.adventech.blockkit.ui.style.showBackground
 import io.adventech.blockkit.ui.style.thenIf
+import io.adventech.blockkit.ui.style.toAlignment
 
 @Composable
 internal fun BlockContentWrapper(
@@ -43,10 +42,7 @@ internal fun BlockContentWrapper(
     blockContent: @Composable (Modifier) -> Unit
 ) {
     val theme = LocalReaderStyle.current.theme
-    val isDarkTheme = isSystemInDarkTheme()
-    val backgroundImage = remember(blockItem, theme, isDarkTheme) {
-        wrapperImage(blockItem, theme, isDarkTheme)
-    }
+    val backgroundImage = blockItem.style?.wrapper?.backgroundImage?.takeIf { theme.showBackground() }
 
     Box(
         modifier = modifier
@@ -56,23 +52,14 @@ internal fun BlockContentWrapper(
     ) {
         backgroundImage?.let {
             AsyncImageBox(
-                data = blockItem.style?.wrapper?.backgroundImage,
+                data = it,
                 contentDescription = null,
-                modifier = Modifier.fillMaxHeight(),
+                modifier = Modifier.wrapContentSize(),
                 contentScale = ContentScale.Fit,
+                alignment = blockItem.style?.wrapper?.backgroundPosition.toAlignment(),
             )
         }
 
         blockContent(Modifier)
-    }
-}
-
-private fun wrapperImage(blockItem: BlockItem, theme: ReaderStyle.Theme, isDarkTheme: Boolean): String? {
-    return blockItem.style?.wrapper?.backgroundImage?.takeIf {
-        when (theme) {
-            ReaderStyle.Theme.Light -> true
-            ReaderStyle.Theme.Auto -> !isDarkTheme
-            else -> false
-        }
     }
 }

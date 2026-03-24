@@ -23,6 +23,10 @@
 package io.adventech.blockkit.ui.style
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.ui.Alignment
+import io.adventech.blockkit.model.BackgroundPositionStyle
+import io.adventech.blockkit.model.BlockStylePositionX
+import io.adventech.blockkit.model.BlockStylePositionY
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
@@ -276,3 +280,19 @@ internal fun PaddingValues.copy(
     end = end ?: calculateEndPadding(layoutDirection),
     bottom = bottom ?: calculateBottomPadding(),
 )
+
+internal fun BackgroundPositionStyle?.toAlignment(): Alignment {
+    if (this == null) return Alignment.Center
+    return when (this.y to this.x) {
+        BlockStylePositionY.TOP to BlockStylePositionX.START -> Alignment.TopStart
+        BlockStylePositionY.TOP to BlockStylePositionX.CENTER -> Alignment.TopCenter
+        BlockStylePositionY.TOP to BlockStylePositionX.END -> Alignment.TopEnd
+        BlockStylePositionY.CENTER to BlockStylePositionX.START -> Alignment.CenterStart
+        BlockStylePositionY.CENTER to BlockStylePositionX.CENTER -> Alignment.Center
+        BlockStylePositionY.CENTER to BlockStylePositionX.END -> Alignment.CenterEnd
+        BlockStylePositionY.BOTTOM to BlockStylePositionX.START -> Alignment.BottomStart
+        BlockStylePositionY.BOTTOM to BlockStylePositionX.CENTER -> Alignment.BottomCenter
+        BlockStylePositionY.BOTTOM to BlockStylePositionX.END -> Alignment.BottomEnd
+        else -> Alignment.Center
+    }
+}
