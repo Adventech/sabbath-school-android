@@ -49,4 +49,5 @@ data class DocumentEntity(
     val segmentChipsStyle: SegmentChipsStyle?,
     val style: Style?,
     val share: ShareOptions? = null,
+    val background: String? = null,
 )

@@ -44,6 +44,7 @@ fun ResourceDocument.toEntity() = DocumentEntity(
     segmentChipsStyle = segmentChipsStyle,
     style = style,
     share = share,
+    background = background,
 )
 
 fun DocumentEntity.toModel() = ResourceDocument(
@@ -65,4 +66,5 @@ fun DocumentEntity.toModel() = ResourceDocument(
     segmentChipsStyle = segmentChipsStyle,
     style = style,
     share = share,
+    background = background,
 )

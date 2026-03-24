@@ -31,9 +31,14 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import io.adventech.blockkit.model.BlockItem
 
 @Composable
@@ -51,6 +56,17 @@ internal fun Modifier.background(blockItem: BlockItem, nested: Boolean? = blockI
     }
 
     val styleMarginValues = Styler.padding(blockMarginStyle ?: blockWrapperStyle?.padding ?: defaultWrapperMarginStyle)
+
+    val theme = LocalReaderStyle.current.theme
+    val backgroundImagePainter =
+        blockStyle?.backgroundImage?.takeIf { theme.showBackground() }?.let {
+            rememberAsyncImagePainter(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(it)
+                    .crossfade(true)
+                    .build()
+            )
+        }
 
     return this
         .padding(
@@ -73,6 +89,13 @@ internal fun Modifier.background(blockItem: BlockItem, nested: Boolean? = blockI
             color = Styler.backgroundColor(blockStyle),
             shape = if (blockStyle?.rounded == true) Styler.roundedShape() else RectangleShape,
         )
+        .thenIf(backgroundImagePainter != null) {
+            paint(
+                painter = backgroundImagePainter!!,
+                contentScale = ContentScale.Inside,
+                alignment = blockStyle.backgroundPosition.toAlignment()
+            )
+        }
         .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
         .padding(Styler.padding(blockPaddingStyle))
 }

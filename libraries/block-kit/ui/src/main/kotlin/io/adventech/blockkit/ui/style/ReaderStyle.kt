@@ -121,3 +121,13 @@ fun ReaderStyle.Theme.secondaryForeground(): Color {
         ReaderStyle.Theme.Auto -> if (isSystemInDarkTheme()) Color.Primary400 else Color.Gray700
     }
 }
+
+@Composable
+fun ReaderStyle.Theme.showBackground(): Boolean {
+    return when(this) {
+        ReaderStyle.Theme.Light -> true
+        ReaderStyle.Theme.Sepia -> false
+        ReaderStyle.Theme.Dark -> false
+        ReaderStyle.Theme.Auto -> !isSystemInDarkTheme()
+    }
+}

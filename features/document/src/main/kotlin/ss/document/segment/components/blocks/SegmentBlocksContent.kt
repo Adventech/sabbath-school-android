@@ -24,6 +24,7 @@ package ss.document.segment.components.blocks
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -46,8 +47,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.widget.scaffold.LocalNavbarController
+import coil.compose.AsyncImage
 import io.adventech.blockkit.model.BlockData
 import io.adventech.blockkit.model.resource.ReferenceModel
 import io.adventech.blockkit.model.resource.Segment
@@ -57,6 +60,7 @@ import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.LocalSegmentStyle
 import io.adventech.blockkit.ui.style.background
 import io.adventech.blockkit.ui.style.primaryForeground
+import io.adventech.blockkit.ui.style.showBackground
 import io.adventech.blockkit.ui.style.thenIf
 import ss.document.segment.components.SegmentCover
 import ss.document.segment.components.SegmentHeader
@@ -81,140 +85,154 @@ internal fun SegmentBlocksContent(
 
     val hasCoverParallax by remember(segment) { derivedStateOf { segment.cover != null && !(segment.titleBelowCover ?: titleBelowCover) } }
 
-    LazyColumn(
+    Box(
         modifier = modifier
             .fillMaxSize()
-            .background(readerStyle.theme.background())
-            .imePadding(),
-        state = listState,
+            .background(readerStyle.theme.background()),
     ) {
-        item(key = "cover-${segment.id}") {
-            SegmentCover(
-                cover = segment.cover,
-                modifier = Modifier
-                    .animateItem()
-                    .thenIf(hasCoverParallax) {
-                        // Parallax
-                        graphicsLayer {
-                            // Check if the cover is the first item visible
-                            val firstVisibleIndex = listState.firstVisibleItemIndex
-                            val firstVisibleOffset = listState.firstVisibleItemScrollOffset
-
-                            translationY = if (firstVisibleIndex == 0) {
-                                // Move the cover down by 50% of the scroll distance.
-                                // This makes it look like it's moving up at half speed.
-                                firstVisibleOffset * 0.5f
-                            } else {
-                                0f
-                            }
-                        }
-                            // Fade to Black (Draw Overlay)
-                            .drawWithContent {
-                                drawContent() // Draw the original image first
-
-                                val firstVisibleIndex = listState.firstVisibleItemIndex
-                                val firstVisibleOffset = listState.firstVisibleItemScrollOffset.toFloat()
-
-                                if (firstVisibleIndex == 0) {
-                                    // Calculate opacity: 0f (clear) to 0.7f (dark)
-                                    // We use size.height to scale the fade relative to the cover's size
-                                    val fadeAlpha = (firstVisibleOffset / size.height)
-                                        .coerceIn(0f, 0.7f) // Cap at 0.7 so it doesn't go pitch black
-
-                                    drawRect(Color.Black, alpha = fadeAlpha)
-                                }
-                            }
-                    },
-                headerContent = {
-                    if (!(segment.titleBelowCover ?: titleBelowCover)) {
-                        SegmentHeader(
-                            title = segment.markdownTitle ?: segment.title,
-                            subtitle = segment.markdownSubtitle ?: segment.subtitle,
-                            date = segment.date,
-                            contentColor = if (segment.cover != null) Color.White else contentColor,
-                            style = segmentStyle.takeIf { segment.cover == null },
-                            hasCover = hasCoverParallax,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .thenIf(hasCoverParallax) {
-                                    graphicsLayer {
-                                        val firstVisibleIndex = listState.firstVisibleItemIndex
-                                        val firstVisibleOffset = listState.firstVisibleItemScrollOffset.toFloat()
-
-                                        translationY = if (firstVisibleIndex == 0) {
-                                            // Inverse translation keeps text locked to original scroll position
-                                            -(firstVisibleOffset * 0.5f)
-                                        } else {
-                                            0f
-                                        }
-                                    }
-                                },
-                        )
-                    }
-                }
+        segment.background?.takeIf { readerStyle.theme.showBackground() }?.let {
+            AsyncImage(
+                model = it,
+                contentDescription = null,
+                modifier = modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop,
             )
         }
 
-        if ((segment.titleBelowCover ?: titleBelowCover)) {
-            item(key = "header-${segment.id}") {
-                SegmentHeader(
-                    title = segment.markdownTitle ?: segment.title,
-                    subtitle = segment.markdownSubtitle ?: segment.subtitle,
-                    date = segment.date,
-                    contentColor = contentColor,
-                    style = segmentStyle,
-                    hasCover = false,
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .imePadding(),
+            state = listState,
+        ) {
+            item(key = "cover-${segment.id}") {
+                SegmentCover(
+                    cover = segment.cover,
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .animateItem()
+                        .thenIf(hasCoverParallax) {
+                            // Parallax
+                            graphicsLayer {
+                                // Check if the cover is the first item visible
+                                val firstVisibleIndex = listState.firstVisibleItemIndex
+                                val firstVisibleOffset = listState.firstVisibleItemScrollOffset
+
+                                translationY = if (firstVisibleIndex == 0) {
+                                    // Move the cover down by 50% of the scroll distance.
+                                    // This makes it look like it's moving up at half speed.
+                                    firstVisibleOffset * 0.5f
+                                } else {
+                                    0f
+                                }
+                            }
+                                // Fade to Black (Draw Overlay)
+                                .drawWithContent {
+                                    drawContent() // Draw the original image first
+
+                                    val firstVisibleIndex = listState.firstVisibleItemIndex
+                                    val firstVisibleOffset = listState.firstVisibleItemScrollOffset.toFloat()
+
+                                    if (firstVisibleIndex == 0) {
+                                        // Calculate opacity: 0f (clear) to 0.7f (dark)
+                                        // We use size.height to scale the fade relative to the cover's size
+                                        val fadeAlpha = (firstVisibleOffset / size.height)
+                                            .coerceIn(0f, 0.7f) // Cap at 0.7 so it doesn't go pitch black
+
+                                        drawRect(Color.Black, alpha = fadeAlpha)
+                                    }
+                                }
+                        },
+                    headerContent = {
+                        if (!(segment.titleBelowCover ?: titleBelowCover)) {
+                            SegmentHeader(
+                                title = segment.markdownTitle ?: segment.title,
+                                subtitle = segment.markdownSubtitle ?: segment.subtitle,
+                                date = segment.date,
+                                contentColor = if (segment.cover != null) Color.White else contentColor,
+                                style = segmentStyle.takeIf { segment.cover == null },
+                                hasCover = hasCoverParallax,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .thenIf(hasCoverParallax) {
+                                        graphicsLayer {
+                                            val firstVisibleIndex = listState.firstVisibleItemIndex
+                                            val firstVisibleOffset = listState.firstVisibleItemScrollOffset.toFloat()
+
+                                            translationY = if (firstVisibleIndex == 0) {
+                                                // Inverse translation keeps text locked to original scroll position
+                                                -(firstVisibleOffset * 0.5f)
+                                            } else {
+                                                0f
+                                            }
+                                        }
+                                    },
+                            )
+                        }
+                    }
+                )
+            }
+
+            if ((segment.titleBelowCover ?: titleBelowCover)) {
+                item(key = "header-${segment.id}") {
+                    SegmentHeader(
+                        title = segment.markdownTitle ?: segment.title,
+                        subtitle = segment.markdownSubtitle ?: segment.subtitle,
+                        date = segment.date,
+                        contentColor = contentColor,
+                        style = segmentStyle,
+                        hasCover = false,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .animateItem()
+                            .thenIf(hasCoverParallax) {
+                                background(readerStyle.theme.background())
+                            }
+                            .padding(top = 16.dp),
+                    )
+                }
+            }
+
+
+            // Using a single `item` with a `Column` to wrap the blocks avoids LazyColumn's
+            // per-item recycling overhead. This prevents scroll jitter caused by the high
+            // composition cost of individual `BlockContent` items.
+            item(key = "blocks-container", contentType = "blocks-container") {
+                Column(
+                    modifier = Modifier
                         .animateItem()
                         .thenIf(hasCoverParallax) {
                             background(readerStyle.theme.background())
                         }
                         .padding(top = 16.dp),
-                )
-            }
-        }
-
-
-        // Using a single `item` with a `Column` to wrap the blocks avoids LazyColumn's
-        // per-item recycling overhead. This prevents scroll jitter caused by the high
-        // composition cost of individual `BlockContent` items.
-        item(key = "blocks-container", contentType = "blocks-container") {
-            Column(
-                modifier = Modifier
-                    .animateItem()
-                    .thenIf(hasCoverParallax) {
-                        background(readerStyle.theme.background())
-                    }
-                    .padding(top = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(20.dp),
-            ) {
-                segment.blocks.orEmpty().forEach { block ->
-                    // We manually provide a key here for stability within the Column
-                    key(block.id) {
-                        BlockContent(
-                            blockItem = block,
-                            modifier = Modifier,
-                            userInputState = userInputState,
-                            onHandleUri = stableOnHandleUri,
-                            onHandleReference = stableOnHandleReference,
-                        )
+                    verticalArrangement = Arrangement.spacedBy(20.dp),
+                ) {
+                    segment.blocks.orEmpty().forEach { block ->
+                        // We manually provide a key here for stability within the Column
+                        key(block.id) {
+                            BlockContent(
+                                blockItem = block,
+                                modifier = Modifier,
+                                userInputState = userInputState,
+                                onHandleUri = stableOnHandleUri,
+                                onHandleReference = stableOnHandleReference,
+                            )
+                        }
                     }
                 }
             }
-        }
 
-        item(key = "spacer") { Spacer(Modifier.height(64.dp)) }
+            item(key = "spacer") { Spacer(Modifier.height(64.dp)) }
 
-        item(key = "spacer-system") { Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.systemBars)) }
+            item(key = "spacer-system") { Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.systemBars)) }
 
-        item("spacer-navbar") {
-            if (LocalNavbarController.current.enabled) {
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(80.dp)
-                )
+            item("spacer-navbar") {
+                if (LocalNavbarController.current.enabled) {
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(80.dp)
+                    )
+                }
             }
         }
     }
