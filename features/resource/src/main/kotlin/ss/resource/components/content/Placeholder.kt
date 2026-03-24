@@ -47,6 +47,7 @@ internal object Placeholder {
         segmentChipsStyle = null,
         style = null,
         share = null,
+        background = null,
     )
 
     val resourcesWithMenu: List<ResourceSection> = listOf(
@@ -87,6 +88,7 @@ internal object Placeholder {
                     segmentChipsStyle = null,
                     style = null,
                     share = null,
+                    background = null,
                 ),
                 ResourceDocument(
                     id = "doc2",
@@ -117,7 +119,8 @@ internal object Placeholder {
                     externalURL = null,
                     segmentChipsStyle = null,
                     style = null,
-                    share = null
+                    share = null,
+                    background = null,
                 )
             )
         ),
@@ -158,6 +161,7 @@ internal object Placeholder {
                     segmentChipsStyle = null,
                     style = null,
                     share = null,
+                    background = null,
                 )
             )
         )

@@ -94,7 +94,7 @@ import ss.services.storage.impl.migration.LegacyUserInputMigration
         QuarterlyIndexEntity::class,
         BlockItemEntity::class,
     ],
-    version = 32,
+    version = 33,
     exportSchema = true,
     autoMigrations = [
         AutoMigration(from = 2, to = 3),
@@ -127,6 +127,7 @@ import ss.services.storage.impl.migration.LegacyUserInputMigration
         AutoMigration(from = 29, to = 30),
         AutoMigration(from = 30, to = 31),
         AutoMigration(from = 31, to = 32, spec = LegacySegmentsMigration::class),
+        AutoMigration(from = 32, to = 33),
     ]
 )
 @TypeConverters(Converters::class, ResourcesConverters::class)
