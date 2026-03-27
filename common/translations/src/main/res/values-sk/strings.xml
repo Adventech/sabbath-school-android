@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ Copyright (c) 2024. Adventech <info@adventech.io>
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,6 +23,7 @@
 
 <resources>
     <string name="ss_app_name">"Sobotná škola"</string>
+    <string name="ss_channel_offline_sync">Offline synchronizácia</string>
     <string name="ss_share">"Zdieľať"</string>
     <string name="ss_login_button_google">"Prihlásiť sa s účtom Google"</string>
     <string name="ss_login_button_anonymous">"Pokračovať bez prihlásenia"</string>
@@ -45,6 +47,7 @@
     <string name="ss_quarterlies_error">"Došlo k neznámej chybe. Prosím skúste to znova."</string>
     <string name="ss_quarterlies_empty">"V tejto chvíli nie sú k dispozícii žiadne štvrťroky"</string>
     <string name="ss_quarterly_item_read_text">"Otvoriť"</string>
+    <string name="ss_quarterly_downloading">Stiahnutie štvrťroka pre offline použitie…</string>
     <string name="ss_languages">Jazyky</string>
     <string name="ss_lessons_downloading">"Otváranie štvrťroku…"</string>
     <string name="ss_lessons_error">"Pri otváraní štvrťroku došlo k chybe"</string>
@@ -60,7 +63,7 @@
     <string name="ss_reading_copied">"Výber bol skopírovaný."</string>
     <string name="ss_reading_share_to">"Zdieľať výber:"</string>
 
-    <string name="ss_about_made">"Vyrobené s ❤ od Adventech"</string>
+    <string name="ss_about_made">"Vytvorené s ❤ od Adventech"</string>
     <string name="ss_settings_display_options">"Možnosti zobrazenia"</string>
     <string name="ss_settings_color_theme_light">"Svetlý"</string>
     <string name="ss_settings_color_theme_sepia">"Sépia"</string>
@@ -95,20 +98,20 @@
     <string name="ss_reading_offline_retry">"Skúsiť znova"</string>
     <string name="ss_about_text">"Adventech je nezisková organizácia v Kanade, ktorá sa venuje využívaniu technológií v službe. Poslaním Adventechu, ako oddaných Adventistov siedmeho dňa, je predovšetkým vzdávať slávu Bohu. Naším cieľom je tiež prostredníctvom našej služby prinášať jednotu celosvetovej Cirkvi adventistov siedmeho dňa. Naším hlavným cieľom je hlásať večné evanjelium prostredníctvom technológií a pokrokov v oznamovacích prostriedkoch a prispieť svojím dielom k príprave sveta na druhý príchod Ježiša."</string>
 
-    <string name="ss_delete_downloads">Odstráňte všetky stiahnuté súbory</string>
-    <string name="ss_delete_downloads_confirm">Odstránením všetkých stiahnutých súborov prídete o všetok obsah lekcií, ktorý je momentálne uložený offline. Naozaj chcete pokračovať?</string>
-    <string name="sspm_re_branding_message" translatable="false">Vitajte v oficiálnej aplikácii Oddelenie sobotnej školy a osobné služby Generálnej konferencie. Aplikácia, ktorú stále poháňa Adventech, čoskoro získa nové vylepšenia obsahu a funkcií, pričom zostane jednoduchá a ľahká v používaní.\nŠtudovať a zdieľať Božie slovo nebolo nikdy jednoduchšie!</string>
-    <string name="gc_sspm_logo_content_description" translatable="false">General Conference Sabbath School and Personal Ministries logo</string>
+    <string name="sspm_re_branding_message">Vitajte v oficiálnej aplikácii Oddelenia sobotnej školy a osobnej služby Generálnej konferencie. Aplikácia, ktorú naďalej prevádzkuje spoločnosť Adventech, čoskoro prinesie nové vylepšenia v oblasti obsahu a funkcií, pričom si zachová svoju jednoduchosť a užívateľskú prívetivosť.\nŠtúdium a zdieľanie Božieho slova nikdy nebolo jednoduchšie!</string>
+    <string name="gc_sspm_logo_content_description">General Conference Sabbath School and Personal Ministries logo</string>
     <string name="gc_sspm_about">Poslaním Oddelenia sobotnej školy a osobnej služby Generálnej konferencie je vytvárať učeníkov, ktorí potom vytvárajú ďalších učeníkov. To chceme dosiahnuť tým, že pomáhame miestnym zborom Cirkvi adventistov siedmeho dňa a ich členom objavovať zmysel a moc Sobotnej školy a že inšpirujeme a zapájame každého člena do aktívnej osobnej služby získavania duší.\n\nOddelenie sobotnej školy a osobnej služby vytvára zdroje, ktoré pomáhajú členom Cirkvi adventistov siedmeho dňa v ich ceste s Kristom a vo svedectve svetu. Cieľom aplikácie Sobotnej školy a osobné služby je spojiť mnohé z týchto zdrojov na jednom vhodnom mieste. Ako budú pribúdať ďalšie zdroje, členovia cirkvi a ich rodiny budú mať čoskoro k dispozícii bohaté zdroje, ktoré im pomôžu pri štúdiu a zdieľaní Božieho slova.\n\nPre uľahčenie údržby a vývoja aplikácie je Oddelenie sobotnej školy a osobné služby rado, že môže spolupracovať s oddaným a talentovaným tímom v Adventoch.</string>
     <string name="ss_copyright">%1$s Generálna konferencia adventistov siedmeho dňa®</string>
     <string name="ss_see_all">Vidieť všetko</string>
 
-    <string name="ss_media_notification_channel" translatable="false">Teraz sa prehráva</string>
-    <string name="ss_media_notification_channel_description" translatable="false">Zobrazuje, aké médiá sa práve prehrávajú</string>
+    <string name="ss_media_notification_channel">Teraz sa prehráva</string>
+    <string name="ss_media_notification_channel_description">Zobrazuje, aké médiá sa práve prehrávajú</string>
     <string name="ss_media_audio">Audio</string>
     <string name="ss_media_video">Video</string>
-
     <string name="ss_media_videos">Videá</string>
+    <string name="ss_media_playback_speed">Rýchlosť prehrávania</string>
+    <string name="ss_media_captions">Titulky</string>
+
     <string name="ss_pdf_original">Rozvrhnutie tlačenej verzie</string>
     <string name="ss_get_printed_resources">Získajte tlačené zdroje</string>
     <string name="ss_account">účtu</string>
@@ -123,11 +126,28 @@
     <string name="ss_action_play_pause">Prehrať alebo Pozastaviť</string>
     <string name="ss_action_playlist">Zoznam skladieb</string>
     <string name="ss_action_forward">Vpred</string>
+    <string name="ss_action_download">Stiahnuť</string>
     <string name="ss_picture_in_picture">Obraz v obraze</string>
     <string name="ss_auto">Auto</string>
     <string name="ss_delete_account">Zmazať účet</string>
     <string name="ss_delete_account_question">Zmazať účet?</string>
     <string name="ss_delete_account_warning">Odstránením účtu sa natrvalo odstránia všetky vaše údaje, ako sú komentáre a zvýraznenia. Naozaj chcete pokračovať?</string>
+    <string name="ss_delete_downloads">Odstráňte všetky stiahnuté súbory</string>
+    <string name="ss_delete_downloads_confirm">Odstránením všetkých stiahnutých súborov prídete o všetok obsah lekcií, ktorý je momentálne uložený offline. Naozaj chcete pokračovať?</string>
     <string name="ss_search">Vyhľadávanie</string>
+    <string name="ss_privacy_policy">Zásady ochrany osobných údajov</string>
 
+    <string name="ss_alive_in_jesus">Alive In Jesus</string>
+    <string name="ss_personal_ministries">Osobná služba</string>
+    <string name="ss_devotionals">Modlitby</string>
+    <string name="ss_explore">Objavujte</string>
+
+    <string name="ss_open_in_browser">Otvoriť v prehliadači</string>
+
+    <string name="ss_action_comment">Komentuj</string>
+    <string name="ss_action_highlight">Zvýrazni</string>
+    <string name="ss_action_underline">Podčiarkni</string>
+    <string name="ss_action_share">Zdieľaj</string>
+    <string name="ss_downloading">Stahovanie…</string>
+    <string name="ss_off">Vypnúť</string>
 </resources>
