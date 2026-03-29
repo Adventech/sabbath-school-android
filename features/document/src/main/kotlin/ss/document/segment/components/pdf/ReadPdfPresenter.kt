@@ -29,7 +29,6 @@ import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
-import com.slack.circuitx.android.IntentScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -55,8 +54,8 @@ class ReadPdfPresenter @AssistedInject constructor(
             documents = documents,
             eventSink = { event ->
                 when (event) {
-                    ReadPdfEvent.OpenPdf -> {
-                        navigator.goTo(IntentScreen(pdfReader.launchIntent(screen)))
+                    ReadPdfEvent.OnNavBack -> {
+                        navigator.pop()
                     }
                 }
             })

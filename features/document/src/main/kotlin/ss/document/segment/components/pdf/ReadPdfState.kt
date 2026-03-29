@@ -32,6 +32,6 @@ data class ReadPdfState(
 ) : CircuitUiState
 
 sealed interface ReadPdfEvent {
-    data object OpenPdf : ReadPdfEvent
+    data object OnNavBack : ReadPdfEvent
 }
 

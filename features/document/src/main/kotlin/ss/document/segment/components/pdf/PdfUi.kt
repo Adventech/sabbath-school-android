@@ -23,11 +23,26 @@
 package ss.document.segment.components.pdf
 
 import android.content.Context
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import app.ss.design.compose.widget.scaffold.LocalNavbarController
 import com.pspdfkit.configuration.activity.PdfActivityConfiguration
 import com.pspdfkit.configuration.activity.UserInterfaceViewMode
 import com.pspdfkit.configuration.theming.ThemeMode
@@ -36,18 +51,24 @@ import com.pspdfkit.jetpack.compose.interactors.rememberDocumentState
 import com.pspdfkit.jetpack.compose.views.DocumentView
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.ReaderStyle
+import io.adventech.blockkit.ui.style.background
+import io.adventech.blockkit.ui.style.primaryForeground
 import ss.libraries.pdf.api.LocalFile
 import ss.document.R as DocumentR
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PdfUi(document: LocalFile, modifier: Modifier = Modifier) {
+fun PdfUi(
+    document: LocalFile,
+    modifier: Modifier = Modifier,
+    eventSink: (ReadPdfEvent) -> Unit = {},
+) {
     val context = LocalContext.current
     val documentUri = document.uri
     val readerStyle = LocalReaderStyle.current
-    // 1. Resolve the mapped theme ID for UI
     val themeResId = readerStyle.theme.toPdfThemeResId()
 
-    // 2. Resolve ThemeMode for PSPDFKit's built-in document inversion
+    // Resolve ThemeMode for PSPDFKit's built-in document inversion
     val themeMode = when (readerStyle.theme) {
         ReaderStyle.Theme.Dark -> ThemeMode.NIGHT
         ReaderStyle.Theme.Auto -> if (isSystemInDarkTheme()) ThemeMode.NIGHT else ThemeMode.DEFAULT
@@ -57,11 +78,63 @@ fun PdfUi(document: LocalFile, modifier: Modifier = Modifier) {
 
     val documentState = rememberDocumentState(documentUri, pdfActivityConfiguration)
 
-    DocumentView(
-        documentState = documentState,
-        modifier = modifier,
-        documentManager = getDefaultDocumentManager()
-    )
+    val bottomPadding by animateDpAsState(if (LocalNavbarController.current.enabled) 80.dp else 0.dp)
+
+    Column(
+        modifier = modifier.fillMaxSize(),
+    ) {
+        TopAppBar(
+            title = {},
+            navigationIcon = {
+                IconButton(onClick = { eventSink(ReadPdfEvent.OnNavBack) }) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                        contentDescription = "Back"
+                    )
+                }
+            },
+            actions = {
+                IconButton(onClick = {
+                    documentState.toggleView(com.pspdfkit.R.id.pspdf__menu_option_edit_annotations)
+                }) {
+                    Icon(
+                        painter = painterResource(DocumentR.drawable.ic_pdf_annotations),
+                        contentDescription = "Annotations",
+                    )
+                }
+                IconButton(onClick = {
+                    documentState.toggleView(com.pspdfkit.R.id.pspdf__menu_option_outline)
+                }) {
+                    Icon(
+                        painter = painterResource(DocumentR.drawable.ic_pdf_bookmark),
+                        contentDescription = "Bookmarks",
+                    )
+                }
+                IconButton(onClick = {
+                    documentState.toggleView(com.pspdfkit.R.id.pspdf__menu_option_settings)
+                }) {
+                    Icon(
+                        painter = painterResource(DocumentR.drawable.ic_pdf_settings),
+                        contentDescription = "Settings",
+                    )
+                }
+            },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = readerStyle.theme.background(),
+                navigationIconContentColor = readerStyle.theme.primaryForeground(),
+                actionIconContentColor = readerStyle.theme.primaryForeground(),
+                titleContentColor = readerStyle.theme.primaryForeground(),
+            )
+        )
+
+        DocumentView(
+            documentState = documentState,
+            modifier = Modifier
+                .weight(1f)
+                .padding(bottom = bottomPadding),
+            documentManager = getDefaultDocumentManager(),
+        )
+    }
 }
 
 @Composable
@@ -76,19 +149,19 @@ fun ReaderStyle.Theme.toPdfThemeResId(): Int {
     }
 }
 
-
 @Composable
 private fun rememberPdfConfiguration(
     context: Context,
     file: LocalFile,
-    themeResId: Int, // Passed mapped theme based on LocalReaderStyle
-    themeMode: ThemeMode // Used to handle actual PDF color inversion (Night Mode)
-) = remember {
+    themeResId: Int,
+    themeMode: ThemeMode,
+) = remember(themeResId, themeMode) {
     PdfActivityConfiguration
         .Builder(context)
         .setUserInterfaceViewMode(UserInterfaceViewMode.USER_INTERFACE_VIEW_MODE_VISIBLE)
+        .defaultToolbarEnabled(false)
         .title(file.title)
-        .themeMode(themeMode) // Maps to ThemeMode.DEFAULT or ThemeMode.NIGHT
-        .theme(themeResId)    // Sets the custom Android UI theme for the UI and background
+        .themeMode(themeMode)
+        .theme(themeResId)
         .build()
 }

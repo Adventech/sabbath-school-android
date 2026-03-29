@@ -22,7 +22,6 @@
 
 package ss.document.segment.components.pdf
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -31,8 +30,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.components.SingletonComponent
-import io.adventech.blockkit.ui.style.LocalReaderStyle
-import io.adventech.blockkit.ui.style.background
 import ss.libraries.circuit.navigation.PdfScreen
 
 @CircuitInject(PdfScreen::class, SingletonComponent::class)
@@ -41,17 +38,14 @@ fun ReadPdfUi(state: ReadPdfState, modifier: Modifier = Modifier) {
     val pagerState = rememberPagerState(
         pageCount = { state.documents.size },
     )
-    val readerStyle = LocalReaderStyle.current
 
     HorizontalPager(
         state = pagerState,
-        modifier = modifier
-            .fillMaxSize()
-            .background(readerStyle.theme.background()),
+        modifier = modifier.fillMaxSize(),
         verticalAlignment = Alignment.Top,
         beyondViewportPageCount = 2,
     ) { page ->
         val document = state.documents[page]
-        PdfUi(document, Modifier)
+        PdfUi(document, Modifier, state.eventSink)
     }
 }
