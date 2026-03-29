@@ -184,7 +184,7 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
                                         )
                                     },
                                 )
-                                navigator.goTo(IntentScreen(pdfReader.launchIntent(screen)))
+                                navigator.goTo(screen)
                             }
                             DocumentTopAppBarAction.DisplayOptions -> {
                                 bottomSheetState = BottomSheet(

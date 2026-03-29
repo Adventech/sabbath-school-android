@@ -27,14 +27,12 @@ import androidx.compose.runtime.Stable
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
-import com.slack.circuitx.android.IntentScreen
 import io.adventech.blockkit.model.feed.FeedType
 import io.adventech.blockkit.model.resource.Resource
 import org.joda.time.DateTime
 import org.joda.time.DateTimeConstants
 import org.joda.time.Interval
 import ss.libraries.circuit.navigation.DocumentScreen
-import ss.libraries.pdf.api.PdfReader
 import ss.misc.DateHelper
 import ss.resource.components.content.pdfScreen
 import javax.inject.Inject
@@ -55,9 +53,7 @@ interface ResourceCtaScreenProducer {
     operator fun invoke(resource: Resource?): CtaScreenState
 }
 
-internal class ResourceCtaScreenProducerImpl @Inject constructor(
-    private val pdfReader: PdfReader
-) : ResourceCtaScreenProducer {
+internal class ResourceCtaScreenProducerImpl @Inject constructor() : ResourceCtaScreenProducer {
 
     @Composable
     override fun invoke(resource: Resource?): CtaScreenState {
@@ -77,15 +73,15 @@ internal class ResourceCtaScreenProducerImpl @Inject constructor(
         }
 
         sections.forEach { section ->
-            section.documents.forEachIndexed { index, document ->
-                val startDate = document.startDate?.let { DateHelper.parseDate(it) } ?: return@forEachIndexed
-                val endDate = document.endDate?.let { DateHelper.parseDate(it) } ?: return@forEachIndexed
+            section.documents.forEach { document ->
+                val startDate = document.startDate?.let { DateHelper.parseDate(it) } ?: return@forEach
+                val endDate = document.endDate?.let { DateHelper.parseDate(it) } ?: return@forEach
 
                 val fallsBetween = Interval(startDate, endDate.plusDays(1)).contains(dateTime)
 
                 if (fallsBetween) {
                     document.pdfScreen()?.let {
-                        return CtaScreenState.Default(IntentScreen(pdfReader.launchIntent(it)), null)
+                        return CtaScreenState.Default(it, null)
                     }
 
                     return CtaScreenState.Default(DocumentScreen(document.index), document.title)

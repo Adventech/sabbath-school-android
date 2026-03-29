@@ -44,7 +44,6 @@ import ss.libraries.circuit.navigation.CustomTabsIntentScreen
 import ss.libraries.circuit.navigation.DocumentScreen
 import ss.misc.DateHelper
 import javax.inject.Inject
-import kotlin.collections.lastIndex
 
 data class ResourceSectionsState(
     val specs: ImmutableList<ResourceSectionSpec>,
@@ -68,7 +67,8 @@ internal class ResourceSectionsStateProducerImpl @Inject constructor() : Resourc
                     navigator.goTo(CustomTabsIntentScreen(it))
                 }
                 else -> {
-                    navigator.goTo(DocumentScreen(document.index))
+                    val screen = document.pdfScreen() ?: DocumentScreen(document.index)
+                    navigator.goTo(screen)
                 }
             }
         }
