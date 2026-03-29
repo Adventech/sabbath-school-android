@@ -93,7 +93,7 @@ class DocumentPresenter @AssistedInject constructor(
     private val readerStyleStateProducer: ReaderStyleStateProducer,
     private val segmentOverlayStateProducer: SegmentOverlayStateProducer,
     private val userInputStateProducer: UserInputStateProducer,
-    private val pdfReader: PdfReader,
+   // private val pdfReader: PdfReader,
     private val playbackConnection: PlaybackConnection,
     private val mediaNavigation: MediaNavigation,
     private val mediaPlayer: SSMediaPlayer,
@@ -111,7 +111,7 @@ class DocumentPresenter @AssistedInject constructor(
 
         val resourceDocument = response
 
-        LaunchedEffect(resourceDocument) { checkPdfOnlySegment(resourceDocument) }
+       // LaunchedEffect(resourceDocument) { checkPdfOnlySegment(resourceDocument) }
 
         val actionsState = resourceDocument?.let {
             actionsProducer(
@@ -317,8 +317,8 @@ class DocumentPresenter @AssistedInject constructor(
                 },
             )
             Snapshot.withMutableSnapshot {
-                navigator.pop()
-                navigator.goTo(IntentScreen(pdfReader.launchIntent(screen)))
+            //    navigator.pop()
+               // navigator.goTo(IntentScreen(pdfReader.launchIntent(screen)))
             }
         }
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025. Adventech <info@adventech.io>
+ * Copyright (c) 2026. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,10 +20,13 @@
  * THE SOFTWARE.
  */
 
-package app.ss.pdf
+package ss.document.segment.components.pdf
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.android.IntentScreen
@@ -31,7 +34,11 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import ss.libraries.circuit.navigation.PdfScreen
+import ss.libraries.pdf.api.LocalFile
 import ss.libraries.pdf.api.PdfReader
 
 class ReadPdfPresenter @AssistedInject constructor(
@@ -42,7 +49,10 @@ class ReadPdfPresenter @AssistedInject constructor(
 
     @Composable
     override fun present(): ReadPdfState {
+        val documents by rememberFiles()
+
         return ReadPdfState(
+            documents = documents,
             eventSink = { event ->
                 when (event) {
                     ReadPdfEvent.OpenPdf -> {
@@ -50,6 +60,16 @@ class ReadPdfPresenter @AssistedInject constructor(
                     }
                 }
             })
+    }
+
+    @Composable
+    private fun rememberFiles(): State<ImmutableList<LocalFile>> = produceRetainedState<ImmutableList<LocalFile>>(persistentListOf()) {
+        val result = pdfReader.downloadFiles(screen.pdfs)
+        value = if (result.isSuccess) {
+            result.getOrDefault(emptyList()).toImmutableList()
+        } else {
+            persistentListOf()
+        }
     }
 
     @CircuitInject(PdfScreen::class, SingletonComponent::class)

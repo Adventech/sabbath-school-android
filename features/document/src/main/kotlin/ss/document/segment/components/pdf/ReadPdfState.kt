@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025. Adventech <info@adventech.io>
+ * Copyright (c) 2026. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,28 +20,18 @@
  * THE SOFTWARE.
  */
 
-package app.ss.pdf
+package ss.document.segment.components.pdf
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import app.ss.design.compose.widget.button.ButtonSpec
-import app.ss.design.compose.widget.button.SsButton
-import com.slack.circuit.codegen.annotations.CircuitInject
-import dagger.hilt.components.SingletonComponent
-import ss.libraries.circuit.navigation.PdfScreen
+import com.slack.circuit.runtime.CircuitUiState
+import kotlinx.collections.immutable.ImmutableList
+import ss.libraries.pdf.api.LocalFile
 
-@CircuitInject(PdfScreen::class, SingletonComponent::class)
-@Composable
-fun ReadPdfUi(state: ReadPdfState, modifier: Modifier = Modifier) {
-    Box(modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        SsButton(
-            spec = ButtonSpec(
-                text = "Open PDF",
-                onClick = { state.eventSink(ReadPdfEvent.OpenPdf) }
-            )
-        )
-    }
+data class ReadPdfState(
+    val documents: ImmutableList<LocalFile>,
+    val eventSink: (ReadPdfEvent) -> Unit,
+) : CircuitUiState
+
+sealed interface ReadPdfEvent {
+    data object OpenPdf : ReadPdfEvent
 }
+

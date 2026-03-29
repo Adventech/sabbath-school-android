@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.dp
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.Navigator
-import com.slack.circuitx.android.IntentScreen
 import io.adventech.blockkit.model.feed.FeedResourceKind
 import io.adventech.blockkit.model.resource.Resource
 import io.adventech.blockkit.model.resource.ResourceDocument
@@ -43,7 +42,6 @@ import org.joda.time.DateTime
 import org.joda.time.Interval
 import ss.libraries.circuit.navigation.CustomTabsIntentScreen
 import ss.libraries.circuit.navigation.DocumentScreen
-import ss.libraries.pdf.api.PdfReader
 import ss.misc.DateHelper
 import javax.inject.Inject
 import kotlin.collections.lastIndex
@@ -60,9 +58,7 @@ interface ResourceSectionsStateProducer {
     operator fun invoke(navigator: Navigator, resource: Resource): ResourceSectionsState
 }
 
-internal class ResourceSectionsStateProducerImpl @Inject constructor(
-    private val pdfReader: PdfReader
-) : ResourceSectionsStateProducer {
+internal class ResourceSectionsStateProducerImpl @Inject constructor() : ResourceSectionsStateProducer {
 
     @Composable
     override fun invoke(navigator: Navigator, resource: Resource): ResourceSectionsState {
@@ -72,15 +68,12 @@ internal class ResourceSectionsStateProducerImpl @Inject constructor(
                     navigator.goTo(CustomTabsIntentScreen(it))
                 }
                 else -> {
-                    val screen = document.pdfScreen()?.let {
-                        IntentScreen(pdfReader.launchIntent(it))
-                    } ?: DocumentScreen(document.index)
-                    navigator.goTo(screen)
+                    navigator.goTo(DocumentScreen(document.index))
                 }
             }
         }
 
-        val specs = buildList<ResourceSectionSpec> {
+        val specs = buildList {
             val content = when (resource.sectionView) {
                 ResourceSectionViewType.NORMAL -> rememberNormalViewTypeSpecs(resource, onDocumentClick)
                 ResourceSectionViewType.DROPDOWN -> rememberDropdownViewTypeSpecs(resource, onDocumentClick)
@@ -99,7 +92,7 @@ internal class ResourceSectionsStateProducerImpl @Inject constructor(
         onDocumentClick: (ResourceDocument) -> Unit,
     ): List<ResourceSectionSpec> = rememberRetained(resource) {
         buildList {
-            resource.sections.orEmpty().forEachIndexed { index, section ->
+            resource.sections.orEmpty().forEach { section ->
                 if (!section.isRoot) {
                     add(
                         HeaderResourceSection(
@@ -171,6 +164,6 @@ internal class ResourceSectionsStateProducerImpl @Inject constructor(
             }
         }
 
-        return sections.orEmpty().first { it.isRoot == false }
+        return sections.orEmpty().first { !it.isRoot }
     }
 }

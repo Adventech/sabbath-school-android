@@ -1,0 +1,32 @@
+<!--
+  ~ Copyright (c) 2021. Adventech <info@adventech.io>
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:pathData="m6.9883,22c0.4569,0 0.7273,-0.2611 1.5664,-1.0723l3.6457,-3.5897c0.0466,-0.0466 0.1305,-0.0466 0.1678,0l3.6457,3.5897c0.8392,0.8112 1.1096,1.0723 1.5664,1.0723 0.6247,0 0.9883,-0.4102 0.9883,-1.1375v-16.1865c0,-1.7716 -0.8858,-2.676 -2.6387,-2.676h-7.2914c-1.7529,0 -2.6387,0.9044 -2.6387,2.676v16.1865c0,0.7273 0.3636,1.1375 0.9883,1.1375zM7.7529,19.4825c-0.1305,0.1305 -0.2797,0.0932 -0.2797,-0.0932v-14.6946c0,-0.8019 0.4196,-1.2214 1.2401,-1.2214h7.1515c0.8112,0 1.2308,0.4196 1.2308,1.2214v14.6946c0,0.1865 -0.1399,0.2238 -0.2797,0.0932l-4.0373,-3.9161c-0.2984,-0.289 -0.69,-0.289 -0.9883,0z"
+      android:fillColor="#000"
+      android:fillType="nonZero"/>
+</vector>

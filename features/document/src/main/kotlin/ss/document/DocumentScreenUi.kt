@@ -291,11 +291,10 @@ private fun State.showTopBar(collapsed: Boolean): Boolean = when (this) {
     is State.Success -> when (selectedSegment?.type) {
         SegmentType.VIDEO -> false
         SegmentType.STORY -> collapsed
-        SegmentType.PDF,
         SegmentType.UNKNOWN,
         SegmentType.BLOCK,
-
         null -> true
+        SegmentType.PDF -> false
     }
 }
 
