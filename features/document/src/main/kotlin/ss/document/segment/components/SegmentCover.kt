@@ -60,7 +60,7 @@ internal fun SegmentCover(
                 Spacer(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height((height * 0.25).dp),
+                        .height((height * 0.15).dp),
                 )
                 headerContent()
             }

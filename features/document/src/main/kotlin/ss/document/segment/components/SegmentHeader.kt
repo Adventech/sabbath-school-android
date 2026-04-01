@@ -57,13 +57,13 @@ internal fun SegmentHeader(
     style: SegmentStyle?,
     hasCover: Boolean,
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 24.dp)
+    contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 16.dp)
 ) {
     Column(
         modifier = modifier
             .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
             .padding(contentPadding),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         subtitle?.let { text ->
             SelectionContainer {
