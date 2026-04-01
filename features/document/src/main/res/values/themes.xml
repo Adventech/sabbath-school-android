@@ -21,7 +21,7 @@
   -->
 
 <resources>
-    <style name="Theme.SS.Pdf" parent="Theme.AppCompat.DayNight">
+    <style name="Theme.SS.Pdf" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/ss_theme_color_background</item>
         <item name="colorPrimaryVariant">@color/ss_theme_color_background</item>
         <item name="colorOnPrimary">@color/text_primary</item>
@@ -31,33 +31,112 @@
         <item name="pspdf__actionBarIconsStyle">@style/Widget.SS.Pdf.ActionBar</item>
         <item name="pspdf__outlineViewStyle">@style/Widget.SS.Pdf.OutlineStyle</item>
         <item name="pspdf__contextualToolbarStyle">@style/Widget.SS.Pdf.ContextualToolbarStyle</item>
-        <item name="pspdf__settingsModePickerItemStyle">@style/Widget.SS.Pdf.SettingsModePickerItemStyle</item>
         <item name="pspdf__tabBarStyle">@style/Widget.SS.Pdf.TabBarStyle</item>
         <item name="pspdf__textSelectionStyle">@style/Widget.SS.Pdf.TextSelectionStyle</item>
     </style>
 
     <style name="Widget.SS.Pdf" parent="Theme.SS.Pdf"/>
 
+    <style name="Widget.SS.Pdf.SettingsModePickerItemStyle" parent="Widget.SS.Pdf"/>
+
+    <style name="Widget.SS.Pdf.SettingsModePickerItemStyle.Light">
+        <item name="pspdf__itemTint">@color/ss_pdf_item_tint_light</item>
+        <item name="android:textColor">@color/ss_pdf_light_fg</item>
+    </style>
+    <style name="Widget.SS.Pdf.SettingsModePickerItemStyle.Dark">
+        <item name="pspdf__itemTint">@color/ss_pdf_item_tint_dark</item>
+        <item name="android:textColor">@color/ss_pdf_dark_fg</item>
+    </style>
+    <style name="Widget.SS.Pdf.SettingsModePickerItemStyle.Sepia">
+        <item name="pspdf__itemTint">@color/ss_pdf_item_tint_sepia</item>
+        <item name="android:textColor">@color/ss_pdf_sepia_fg</item>
+    </style>
+
+    <style name="Widget.SS.Pdf.MainToolbarStyle.Light" parent="Widget.SS.Pdf.MainToolbarStyle">
+        <item name="pspdf__toolbarTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="pspdf__toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="titleTextColor">@color/ss_pdf_light_fg</item>
+    </style>
+    <style name="Widget.SS.Pdf.MainToolbarStyle.Dark" parent="Widget.SS.Pdf.MainToolbarStyle">
+        <item name="pspdf__toolbarTheme">@style/ThemeOverlay.AppCompat.Dark</item>
+        <item name="pspdf__toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
+        <item name="titleTextColor">@color/ss_pdf_dark_fg</item>
+    </style>
+    <style name="Widget.SS.Pdf.MainToolbarStyle.Sepia" parent="Widget.SS.Pdf.MainToolbarStyle">
+        <item name="pspdf__toolbarTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="pspdf__toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="titleTextColor">@color/ss_pdf_sepia_fg</item>
+    </style>
+
     <!-- Light Theme -->
-    <style name="Theme.SS.Pdf.Light" parent="Widget.SS.Pdf">
-        <item name="pspdf__backgroundColor">@color/white</item>
-        <!-- other custom colors map to Light theme -->
+    <style name="Theme.SS.Pdf.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="pspdf__backgroundColor">@color/ss_pdf_light_bg</item>
+        <item name="android:colorBackground">@color/ss_pdf_light_bg</item>
+        <item name="colorSurface">@color/ss_pdf_light_bg</item>
+        <item name="colorPrimary">@color/ss_pdf_light_header</item>
+        <item name="colorOnPrimary">@color/ss_pdf_light_fg</item>
+        <item name="colorAccent">@color/ss_pdf_light_fg</item>
+        <item name="android:textColorPrimary">@color/ss_pdf_light_fg</item>
+        <item name="pspdf__textColor">@color/ss_pdf_light_fg</item>
+        <item name="pspdf__toolbarTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="pspdf__toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+
+        <item name="pspdf__mainToolbarStyle">@style/Widget.SS.Pdf.MainToolbarStyle.Light</item>
+        <item name="pspdf__actionBarIconsStyle">@style/Widget.SS.Pdf.ActionBar</item>
+        <item name="pspdf__outlineViewStyle">@style/Widget.SS.Pdf.OutlineStyle</item>
+        <item name="pspdf__contextualToolbarStyle">@style/Widget.SS.Pdf.ContextualToolbarStyle</item>
+        <item name="pspdf__tabBarStyle">@style/Widget.SS.Pdf.TabBarStyle</item>
+        <item name="pspdf__textSelectionStyle">@style/Widget.SS.Pdf.TextSelectionStyle</item>
+        <item name="pspdf__settingsModePickerItemStyle">@style/Widget.SS.Pdf.SettingsModePickerItemStyle.Light</item>
     </style>
+
     <!-- Dark Theme -->
-    <style name="Theme.SS.Pdf.Dark" parent="Widget.SS.Pdf">
-        <item name="pspdf__backgroundColor">@color/black</item>
+    <style name="Theme.SS.Pdf.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="pspdf__backgroundColor">@color/ss_pdf_dark_bg</item>
+        <item name="android:colorBackground">@color/ss_pdf_dark_bg</item>
+        <item name="colorSurface">@color/ss_pdf_dark_bg</item>
+        <item name="colorPrimary">@color/ss_pdf_dark_header</item>
+        <item name="colorOnPrimary">@color/ss_pdf_dark_fg</item>
+        <item name="colorAccent">@color/ss_pdf_dark_fg</item>
+        <item name="android:textColorPrimary">@color/ss_pdf_dark_fg</item>
+        <item name="pspdf__textColor">@color/ss_pdf_dark_fg</item>
+        <item name="pspdf__toolbarTheme">@style/ThemeOverlay.AppCompat.Dark</item>
+        <item name="pspdf__toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
+
+        <item name="pspdf__mainToolbarStyle">@style/Widget.SS.Pdf.MainToolbarStyle.Dark</item>
+        <item name="pspdf__actionBarIconsStyle">@style/Widget.SS.Pdf.ActionBar</item>
+        <item name="pspdf__outlineViewStyle">@style/Widget.SS.Pdf.OutlineStyle</item>
+        <item name="pspdf__contextualToolbarStyle">@style/Widget.SS.Pdf.ContextualToolbarStyle</item>
+        <item name="pspdf__tabBarStyle">@style/Widget.SS.Pdf.TabBarStyle</item>
+        <item name="pspdf__textSelectionStyle">@style/Widget.SS.Pdf.TextSelectionStyle</item>
+        <item name="pspdf__settingsModePickerItemStyle">@style/Widget.SS.Pdf.SettingsModePickerItemStyle.Dark</item>
     </style>
+
     <!-- Sepia Theme -->
-    <style name="Theme.SS.Pdf.Sepia" parent="Widget.SS.Pdf">
-        <item name="pspdf__backgroundColor">@color/sepia</item>
+    <style name="Theme.SS.Pdf.Sepia" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="pspdf__backgroundColor">@color/ss_pdf_sepia_bg</item>
+        <item name="android:colorBackground">@color/ss_pdf_sepia_bg</item>
+        <item name="colorSurface">@color/ss_pdf_sepia_bg</item>
+        <item name="colorPrimary">@color/ss_pdf_sepia_header</item>
+        <item name="colorOnPrimary">@color/ss_pdf_sepia_fg</item>
+        <item name="colorAccent">@color/ss_pdf_sepia_fg</item>
+        <item name="android:textColorPrimary">@color/ss_pdf_sepia_fg</item>
+        <item name="pspdf__textColor">@color/ss_pdf_sepia_fg</item>
+        <item name="pspdf__toolbarTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="pspdf__toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+
+        <item name="pspdf__mainToolbarStyle">@style/Widget.SS.Pdf.MainToolbarStyle.Sepia</item>
+        <item name="pspdf__actionBarIconsStyle">@style/Widget.SS.Pdf.ActionBar</item>
+        <item name="pspdf__outlineViewStyle">@style/Widget.SS.Pdf.OutlineStyle</item>
+        <item name="pspdf__contextualToolbarStyle">@style/Widget.SS.Pdf.ContextualToolbarStyle</item>
+        <item name="pspdf__tabBarStyle">@style/Widget.SS.Pdf.TabBarStyle</item>
+        <item name="pspdf__textSelectionStyle">@style/Widget.SS.Pdf.TextSelectionStyle</item>
+        <item name="pspdf__settingsModePickerItemStyle">@style/Widget.SS.Pdf.SettingsModePickerItemStyle.Sepia</item>
     </style>
 
     <style name="Widget.SS.Pdf.MainToolbarStyle">
         <item name="pspdf__backgroundColor">?colorSurface</item>
         <item name="pspdf__textColor">?attr/colorOnSurface</item>
-
-        <item name="pspdf__toolbarTheme">@style/ThemeOverlay.SS.Toolbar</item>
-        <item name="pspdf__toolbarPopupTheme">@style/ThemeOverlay.AppCompat.DayNight</item>
     </style>
 
     <style name="Widget.SS.Pdf.ActionBar">
@@ -82,17 +161,13 @@
         <item name="pspdf__backgroundColor">?attr/colorSurface</item>
         <item name="pspdf__bookmarksBarBackgroundColor">?attr/colorSurface</item>
         <item name="pspdf__annotationsBarBackgroundColor">?attr/colorSurface</item>
-        <item name="pspdf__tabIndicatorColor">?attr/colorOnSurface</item>
-        <item name="pspdf__defaultTextColor">@color/text_primary</item>
+        <item name="pspdf__tabIndicatorColor">?attr/colorAccent</item>
+        <item name="pspdf__defaultTextColor">?android:textColorPrimary</item>
         <item name="pspdf__bookmarksBarIconColor">?attr/colorOnSurface</item>
-        <item name="pspdf__bookmarksDragHandleIconColor">@color/text_secondary</item>
+        <item name="pspdf__bookmarksDragHandleIconColor">?attr/colorOnSurface</item>
         <item name="pspdf__annotationsBarIconColor">?attr/colorOnSurface</item>
-        <item name="pspdf__annotationsDeleteIconColor">@color/text_secondary</item>
-        <item name="pspdf__annotationsDragHandleIconColor">@color/text_secondary</item>
-    </style>
-
-    <style name="Widget.SS.Pdf.SettingsModePickerItemStyle">
-        <item name="pspdf__itemTint">@color/ss_pdf_item_tint</item>
+        <item name="pspdf__annotationsDeleteIconColor">?attr/colorOnSurface</item>
+        <item name="pspdf__annotationsDragHandleIconColor">?attr/colorOnSurface</item>
     </style>
 
     <style name="Widget.SS.Pdf.SettingsModeLineSeparatorStyle">
@@ -100,19 +175,17 @@
         <item name="android:layout_height">1dp</item>
         <item name="android:layout_marginBottom">12dp</item>
         <item name="android:layout_marginTop">12dp</item>
-        <item name="android:background">?attr/colorOnSurface</item>
+        <item name="android:background">?attr/colorControlHighlight</item>
     </style>
 
     <style name="Widget.SS.Pdf.TabBarStyle">
-        <item name="pspdf__tabTextColor">@color/ss_pdf_text_color</item>
-        <item name="pspdf__tabColor">@color/ss_pdf_tab_color</item>
         <item name="pspdf__backgroundColor">?attr/colorSurface</item>
-        <item name="pspdf__tabIndicatorColor">?attr/colorOnSurface</item>
+        <item name="pspdf__tabIndicatorColor">?attr/colorAccent</item>
         <item name="pspdf__tabBarMinimumWidth">172dp</item>
     </style>
 
     <style name="Widget.SS.Pdf.TextSelectionStyle">
-        <item name="pspdf__leftHandleColor">@color/ss_blue</item>
-        <item name="pspdf__rightHandleColor">@color/ss_blue</item>
+        <item name="pspdf__leftHandleColor">?attr/colorAccent</item>
+        <item name="pspdf__rightHandleColor">?attr/colorAccent</item>
     </style>
 </resources>

@@ -25,7 +25,6 @@
     <application>
         <activity
             android:name=".ui.SSReadPdfActivity"
-            android:theme="@style/Theme.SS.Pdf"
             android:windowSoftInputMode="adjustNothing" />
 
         <meta-data

@@ -27,4 +27,19 @@
     <color name="pspdf__color">@color/ss_icon_tint</color>
     <!-- Issue with outline tabBar background -->
     <color name="pspdf__color_white">@color/ss_theme_color_background</color>
+
+    <!-- PDF Settings Screen Overrides -->
+    <color name="ss_pdf_light_bg">#FFFFFF</color>
+    <color name="ss_pdf_light_header">#F9FAFB</color>
+    <color name="ss_pdf_light_fg">#001328</color>
+
+    <color name="ss_pdf_dark_bg">#000000</color>
+    <color name="ss_pdf_dark_header">#1f262e</color>
+    <color name="ss_pdf_dark_fg">#F9FAFB</color>
+
+    <color name="ss_pdf_sepia_bg">#FDF4E6</color>
+    <color name="ss_pdf_sepia_header">#E8DAC4</color>
+    <color name="ss_pdf_sepia_fg">#3E3634</color>
+
+    <color name="pspdf__onPrimaryLight">@color/ss_pdf_item_tint</color>
 </resources>
