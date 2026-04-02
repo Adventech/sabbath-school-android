@@ -28,7 +28,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.core.app.TaskStackBuilder
-import androidx.core.os.bundleOf
 import app.ss.auth.AuthRepository
 import com.cryart.sabbathschool.core.navigation.AppNavigator
 import com.cryart.sabbathschool.core.navigation.Destination
@@ -105,11 +104,11 @@ constructor(
     }
 
     private fun getExtras(uri: Uri): Bundle {
-        val pairs = uri.queryParameterNames.map { key ->
-            key to uri.getQueryParameter(key)
-        }.toTypedArray()
-
-        return bundleOf(*pairs)
+        return Bundle().apply {
+            uri.queryParameterNames.forEach { key ->
+                putString(key, uri.getQueryParameter(key))
+            }
+        }
     }
 
     /**
