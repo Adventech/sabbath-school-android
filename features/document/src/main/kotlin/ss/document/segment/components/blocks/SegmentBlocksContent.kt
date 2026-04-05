@@ -186,8 +186,7 @@ internal fun SegmentBlocksContent(
                             .animateItem()
                             .thenIf(hasCoverParallax) {
                                 background(readerStyle.theme.background())
-                            }
-                            .padding(top = 16.dp),
+                            },
                     )
                 }
             }
