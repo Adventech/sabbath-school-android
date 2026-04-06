@@ -34,7 +34,6 @@ import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.Navigator
-import com.slack.circuitx.android.IntentScreen
 import dagger.Lazy
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.SegmentType
@@ -52,7 +51,6 @@ import ss.libraries.circuit.navigation.AudioPlayerScreen
 import ss.libraries.circuit.navigation.PdfScreen
 import ss.libraries.circuit.navigation.ShareOptionsScreen
 import ss.libraries.circuit.navigation.VideosScreen
-import ss.libraries.pdf.api.PdfReader
 import ss.resources.api.ResourcesRepository
 import javax.inject.Inject
 
@@ -92,7 +90,6 @@ interface TopAppbarActionsProducer {
 
 internal class TopAppbarActionsProducerImpl @Inject constructor(
     private val repository: ResourcesRepository,
-    private val pdfReader: PdfReader,
     private val shareIntentHelper: Lazy<ShareIntentHelper>,
 ) : TopAppbarActionsProducer {
 

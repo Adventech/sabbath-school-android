@@ -93,7 +93,6 @@ class DocumentPresenter @AssistedInject constructor(
     private val readerStyleStateProducer: ReaderStyleStateProducer,
     private val segmentOverlayStateProducer: SegmentOverlayStateProducer,
     private val userInputStateProducer: UserInputStateProducer,
-   // private val pdfReader: PdfReader,
     private val playbackConnection: PlaybackConnection,
     private val mediaNavigation: MediaNavigation,
     private val mediaPlayer: SSMediaPlayer,
