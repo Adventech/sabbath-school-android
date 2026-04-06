@@ -43,16 +43,23 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.foundation.CircuitContent
+import com.slack.circuit.foundation.NavEvent
+import com.slack.circuit.overlay.ContentWithOverlays
+import com.slack.circuit.overlay.OverlayEffect
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.primaryForeground
 import kotlinx.coroutines.launch
 import ss.libraries.circuit.navigation.PdfScreen
+import ss.libraries.circuit.overlay.BottomSheetOverlay
 
 @CircuitInject(PdfScreen::class, SingletonComponent::class)
 @Composable
@@ -63,6 +70,7 @@ fun ReadPdfUi(state: ReadPdfState, modifier: Modifier = Modifier) {
     val readerStyle = LocalReaderStyle.current
     val coroutineScope = rememberCoroutineScope()
     val hapticFeedback = LocalSsHapticFeedback.current
+    val context = LocalContext.current
 
     HorizontalPager(
         state = pagerState,
@@ -75,6 +83,7 @@ fun ReadPdfUi(state: ReadPdfState, modifier: Modifier = Modifier) {
 
         PdfUi(
             document = document,
+            mediaAvailability = state.mediaAvailability,
             modifier = Modifier,
             title = {
                 val hasMultipleDocs = state.documents.size > 1
@@ -95,7 +104,11 @@ fun ReadPdfUi(state: ReadPdfState, modifier: Modifier = Modifier) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    Text(document.title)
+                    Text(
+                        text = document.title,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
 
                     if (hasMultipleDocs) {
 
@@ -125,5 +138,28 @@ fun ReadPdfUi(state: ReadPdfState, modifier: Modifier = Modifier) {
             },
             eventSink = state.eventSink,
         )
+    }
+
+    ReadPdfOverlay(state.overlayState) { state.eventSink(ReadPdfEvent.OnNavEvent(it, context)) }
+}
+
+@Composable
+private fun ReadPdfOverlay(state: ReadPdfOverlayState, onNavEvent: (event: NavEvent) -> Unit,) {
+    OverlayEffect(state::class.simpleName) {
+        when (state) {
+            is ReadPdfOverlayState.BottomSheet -> state.onResult(
+                show(BottomSheetOverlay(
+                    skipPartiallyExpanded = state.skipPartiallyExpanded,
+                ) {
+                    ContentWithOverlays {
+                        CircuitContent(
+                            screen = state.screen,
+                            onNavEvent = onNavEvent,
+                        )
+                    }
+                })
+            )
+            ReadPdfOverlayState.None -> Unit
+        }
     }
 }

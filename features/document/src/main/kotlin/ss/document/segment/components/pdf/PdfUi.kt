@@ -45,18 +45,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.widget.scaffold.LocalNavbarController
+import app.ss.models.media.MediaAvailability
 import com.pspdfkit.configuration.activity.PdfActivityConfiguration
 import com.pspdfkit.configuration.activity.UserInterfaceViewMode
 import com.pspdfkit.configuration.theming.ThemeMode
-import com.pspdfkit.jetpack.compose.interactors.DocumentState
 import com.pspdfkit.jetpack.compose.interactors.getDefaultDocumentManager
 import com.pspdfkit.jetpack.compose.interactors.rememberDocumentState
 import com.pspdfkit.jetpack.compose.views.DocumentView
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.ReaderStyle
-import io.adventech.blockkit.ui.style.ReaderStyleConfig
 import io.adventech.blockkit.ui.style.background
 import io.adventech.blockkit.ui.style.primaryForeground
+import ss.document.components.DocumentTopAppBarAction
 import ss.libraries.pdf.api.LocalFile
 import app.ss.translations.R as L10nR
 import com.pspdfkit.R as PspdfR
@@ -65,6 +65,7 @@ import ss.document.R as DocumentR
 @Composable
 fun PdfUi(
     document: LocalFile,
+    mediaAvailability: MediaAvailability,
     modifier: Modifier = Modifier,
     title: @Composable () -> Unit = { Text(document.title) },
     eventSink: (ReadPdfEvent) -> Unit = {},
@@ -89,8 +90,11 @@ fun PdfUi(
     Column(modifier = modifier.fillMaxSize()) {
         PdfTopAppBar(
             title = title,
-            documentState = documentState,
-            readerStyle = readerStyle,
+            state = PdfTopAppBarState(
+                mediaAvailability = mediaAvailability,
+                documentState = documentState,
+                readerStyle = readerStyle,
+            ),
             eventSink = eventSink,
         )
 
@@ -108,11 +112,12 @@ fun PdfUi(
 @Composable
 private fun PdfTopAppBar(
     title: @Composable () -> Unit,
-    documentState: DocumentState,
-    readerStyle: ReaderStyleConfig,
+    state: PdfTopAppBarState,
     eventSink: (ReadPdfEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val (mediaAvailability, documentState, readerStyle) = state
+
     TopAppBar(
         title = title,
         modifier = modifier,
@@ -125,6 +130,20 @@ private fun PdfTopAppBar(
             }
         },
         actions = {
+            if (mediaAvailability.audio) {
+                val action = DocumentTopAppBarAction.Audio
+                MediaIcon(
+                    action = action,
+                    onClick = { eventSink(ReadPdfEvent.OnTopAppBarAction(action)) },
+                )
+            }
+            if (mediaAvailability.video) {
+                val action = DocumentTopAppBarAction.Video
+                MediaIcon(
+                    action = action,
+                    onClick = { eventSink(ReadPdfEvent.OnTopAppBarAction(action)) },
+                )
+            }
             IconButton(onClick = {
                 documentState.toggleView(PspdfR.id.pspdf__menu_option_edit_annotations)
             }) {
@@ -186,4 +205,18 @@ private fun rememberPdfConfiguration(
         .themeMode(themeMode)
         .theme(themeResId)
         .build()
+}
+
+@Composable
+private fun MediaIcon(
+    action: DocumentTopAppBarAction,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    IconButton(onClick = onClick, modifier = modifier) {
+        Icon(
+            painter = painterResource(action.iconRes),
+            contentDescription = stringResource(action.title),
+        )
+    }
 }

@@ -22,16 +22,49 @@
 
 package ss.document.segment.components.pdf
 
+import android.content.Context
+import androidx.compose.runtime.Immutable
+import app.ss.models.media.MediaAvailability
+import com.pspdfkit.jetpack.compose.interactors.DocumentState
+import com.slack.circuit.foundation.NavEvent
 import com.slack.circuit.runtime.CircuitUiState
+import com.slack.circuit.runtime.screen.Screen
+import io.adventech.blockkit.ui.style.ReaderStyleConfig
 import kotlinx.collections.immutable.ImmutableList
+import ss.document.components.DocumentTopAppBarAction
+import ss.libraries.circuit.overlay.BottomSheetOverlay
 import ss.libraries.pdf.api.LocalFile
 
 data class ReadPdfState(
     val documents: ImmutableList<LocalFile>,
+    val mediaAvailability: MediaAvailability,
+    val overlayState: ReadPdfOverlayState,
     val eventSink: (ReadPdfEvent) -> Unit,
 ) : CircuitUiState
 
 sealed interface ReadPdfEvent {
     data object OnNavBack : ReadPdfEvent
+    data class OnNavEvent(val event: NavEvent, val context: Context) : ReadPdfEvent
+    data class OnTopAppBarAction(val action: DocumentTopAppBarAction): ReadPdfEvent
 }
+
+sealed interface ReadPdfOverlayState : CircuitUiState {
+
+    data object None : ReadPdfOverlayState
+
+    /** Overlay state for a bottom sheet. */
+    @Immutable
+    data class BottomSheet(
+        val screen: Screen,
+        val skipPartiallyExpanded: Boolean,
+        val onResult: (BottomSheetOverlay.Result) -> Unit,
+    ) : ReadPdfOverlayState
+}
+
+@Immutable
+data class PdfTopAppBarState(
+    val mediaAvailability: MediaAvailability,
+    val documentState: DocumentState,
+    val readerStyle: ReaderStyleConfig,
+)
 

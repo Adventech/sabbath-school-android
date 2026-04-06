@@ -25,8 +25,14 @@ package ss.document.segment.components.pdf
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import app.ss.models.media.MediaAvailability
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.foundation.NavEvent
+import com.slack.circuit.foundation.onNavEvent
 import com.slack.circuit.retained.produceRetainedState
+import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
@@ -36,26 +42,79 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
+import ss.document.components.DocumentTopAppBarAction
+import ss.libraries.circuit.navigation.AudioPlayerScreen
+import ss.libraries.circuit.navigation.ExpandedAudioPlayerScreen
 import ss.libraries.circuit.navigation.PdfScreen
+import ss.libraries.circuit.navigation.VideosScreen
 import ss.libraries.pdf.api.LocalFile
 import ss.libraries.pdf.api.PdfReader
+import ss.resources.api.ResourcesRepository
 
 class ReadPdfPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     @Assisted private val screen: PdfScreen,
-    private val pdfReader: PdfReader
+    private val pdfReader: PdfReader,
+    private val resourcesRepository: ResourcesRepository,
 ) : Presenter<ReadPdfState> {
 
     @Composable
     override fun present(): ReadPdfState {
         val documents by rememberFiles()
+        val mediaAvailability by rememberMediaAvailability()
+        var overlayState by rememberRetained { mutableStateOf<ReadPdfOverlayState>(ReadPdfOverlayState.None) }
+
+        fun showAudioScreen() {
+            overlayState = ReadPdfOverlayState.BottomSheet(
+                screen = AudioPlayerScreen(resourceId = screen.resourceId, segmentId = screen.segmentId),
+                skipPartiallyExpanded = true,
+                onResult = { _ ->
+                    overlayState = ReadPdfOverlayState.None
+                }
+            )
+        }
+
+        fun showVideoScreen() {
+            overlayState = ReadPdfOverlayState.BottomSheet(
+                screen = VideosScreen(documentIndex = screen.documentIndex, documentId = screen.documentId),
+                skipPartiallyExpanded = true,
+                onResult = { _ ->
+                    overlayState = ReadPdfOverlayState.None
+                }
+            )
+        }
 
         return ReadPdfState(
             documents = documents,
+            mediaAvailability = mediaAvailability,
+            overlayState = overlayState,
             eventSink = { event ->
                 when (event) {
-                    ReadPdfEvent.OnNavBack -> {
-                        navigator.pop()
+                    ReadPdfEvent.OnNavBack -> navigator.pop()
+                    is ReadPdfEvent.OnNavEvent -> {
+                        when (val navEvent = event.event) {
+                            is NavEvent.GoTo -> {
+                                if (navEvent.screen is ExpandedAudioPlayerScreen) {
+                                    showAudioScreen()
+                                } else {
+                                    navigator.goTo(navEvent.screen)
+                                }
+                            }
+
+                            else -> navigator.onNavEvent(navEvent)
+                        }
+                    }
+
+                    is ReadPdfEvent.OnTopAppBarAction -> {
+                        when (event.action) {
+                            DocumentTopAppBarAction.Audio -> showAudioScreen()
+                            DocumentTopAppBarAction.Video -> showVideoScreen()
+                            // Everything else is not handled here
+                            else -> Unit
+                        }
                     }
                 }
             })
@@ -69,6 +128,24 @@ class ReadPdfPresenter @AssistedInject constructor(
         } else {
             persistentListOf()
         }
+    }
+
+    @Composable
+    private fun rememberMediaAvailability(): State<MediaAvailability> = produceRetainedState(MediaAvailability()) {
+        val documentIndex = screen.documentIndex
+        val resourceIndex = screen.resourceIndex
+
+        val audioDeferred = contentDeferred { resourcesRepository.audio(resourceIndex, documentIndex) }
+        val videoDeferred = contentDeferred { resourcesRepository.video(resourceIndex, documentIndex) }
+
+        value = MediaAvailability(
+            audio = audioDeferred.await(),
+            video = videoDeferred.await(),
+        )
+    }
+
+    private fun <T> CoroutineScope.contentDeferred(content: suspend () -> Result<List<T>>): Deferred<Boolean> {
+        return async { content().getOrDefault(emptyList()).isNotEmpty() }
     }
 
     @CircuitInject(PdfScreen::class, SingletonComponent::class)
