@@ -42,22 +42,26 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.widget.scaffold.LocalNavbarController
 import com.pspdfkit.configuration.activity.PdfActivityConfiguration
 import com.pspdfkit.configuration.activity.UserInterfaceViewMode
 import com.pspdfkit.configuration.theming.ThemeMode
+import com.pspdfkit.jetpack.compose.interactors.DocumentState
 import com.pspdfkit.jetpack.compose.interactors.getDefaultDocumentManager
 import com.pspdfkit.jetpack.compose.interactors.rememberDocumentState
 import com.pspdfkit.jetpack.compose.views.DocumentView
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.ReaderStyle
+import io.adventech.blockkit.ui.style.ReaderStyleConfig
 import io.adventech.blockkit.ui.style.background
 import io.adventech.blockkit.ui.style.primaryForeground
 import ss.libraries.pdf.api.LocalFile
+import app.ss.translations.R as L10nR
+import com.pspdfkit.R as PspdfR
 import ss.document.R as DocumentR
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PdfUi(
     document: LocalFile,
@@ -82,51 +86,12 @@ fun PdfUi(
 
     val bottomPadding by animateDpAsState(if (LocalNavbarController.current.enabled) 80.dp else 0.dp)
 
-    Column(
-        modifier = modifier.fillMaxSize(),
-    ) {
-        TopAppBar(
+    Column(modifier = modifier.fillMaxSize()) {
+        PdfTopAppBar(
             title = title,
-            navigationIcon = {
-                IconButton(onClick = { eventSink(ReadPdfEvent.OnNavBack) }) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                        contentDescription = "Back"
-                    )
-                }
-            },
-            actions = {
-                IconButton(onClick = {
-                    documentState.toggleView(com.pspdfkit.R.id.pspdf__menu_option_edit_annotations)
-                }) {
-                    Icon(
-                        painter = painterResource(DocumentR.drawable.ic_pdf_annotations),
-                        contentDescription = "Annotations",
-                    )
-                }
-                IconButton(onClick = {
-                    documentState.toggleView(com.pspdfkit.R.id.pspdf__menu_option_outline)
-                }) {
-                    Icon(
-                        painter = painterResource(DocumentR.drawable.ic_pdf_bookmark),
-                        contentDescription = "Bookmarks",
-                    )
-                }
-                IconButton(onClick = {
-                    documentState.toggleView(com.pspdfkit.R.id.pspdf__menu_option_settings)
-                }) {
-                    Icon(
-                        painter = painterResource(DocumentR.drawable.ic_pdf_settings),
-                        contentDescription = "Settings",
-                    )
-                }
-            },
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = readerStyle.theme.background(),
-                navigationIconContentColor = readerStyle.theme.primaryForeground(),
-                actionIconContentColor = readerStyle.theme.primaryForeground(),
-                titleContentColor = readerStyle.theme.primaryForeground(),
-            )
+            documentState = documentState,
+            readerStyle = readerStyle,
+            eventSink = eventSink,
         )
 
         DocumentView(
@@ -137,6 +102,61 @@ fun PdfUi(
             documentManager = getDefaultDocumentManager(),
         )
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun PdfTopAppBar(
+    title: @Composable () -> Unit,
+    documentState: DocumentState,
+    readerStyle: ReaderStyleConfig,
+    eventSink: (ReadPdfEvent) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    TopAppBar(
+        title = title,
+        modifier = modifier,
+        navigationIcon = {
+            IconButton(onClick = { eventSink(ReadPdfEvent.OnNavBack) }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                    contentDescription = stringResource(L10nR.string.ss_action_back),
+                )
+            }
+        },
+        actions = {
+            IconButton(onClick = {
+                documentState.toggleView(PspdfR.id.pspdf__menu_option_edit_annotations)
+            }) {
+                Icon(
+                    painter = painterResource(DocumentR.drawable.ic_pdf_annotations),
+                    contentDescription = stringResource(L10nR.string.ss_annotations),
+                )
+            }
+            IconButton(onClick = {
+                documentState.toggleView(PspdfR.id.pspdf__menu_option_outline)
+            }) {
+                Icon(
+                    painter = painterResource(DocumentR.drawable.ic_pdf_bookmark),
+                    contentDescription = stringResource(PspdfR.string.pspdf__activity_menu_outline),
+                )
+            }
+            IconButton(onClick = {
+                documentState.toggleView(PspdfR.id.pspdf__menu_option_settings)
+            }) {
+                Icon(
+                    painter = painterResource(DocumentR.drawable.ic_pdf_settings),
+                    contentDescription = stringResource(PspdfR.string.pspdf__activity_menu_settings),
+                )
+            }
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = readerStyle.theme.background(),
+            navigationIconContentColor = readerStyle.theme.primaryForeground(),
+            actionIconContentColor = readerStyle.theme.primaryForeground(),
+            titleContentColor = readerStyle.theme.primaryForeground(),
+        )
+    )
 }
 
 @Composable
