@@ -35,12 +35,16 @@ import ss.document.components.DocumentTopAppBarAction
 import ss.libraries.circuit.overlay.BottomSheetOverlay
 import ss.libraries.pdf.api.LocalFile
 
-data class ReadPdfState(
-    val documents: ImmutableList<LocalFile>,
-    val mediaAvailability: MediaAvailability,
-    val overlayState: ReadPdfOverlayState,
-    val eventSink: (ReadPdfEvent) -> Unit,
-) : CircuitUiState
+sealed interface ReadPdfState : CircuitUiState {
+    data object Loading : ReadPdfState
+
+    data class Success(
+        val documents: ImmutableList<LocalFile>,
+        val mediaAvailability: MediaAvailability,
+        val overlayState: ReadPdfOverlayState,
+        val eventSink: (ReadPdfEvent) -> Unit,
+    ) : ReadPdfState
+}
 
 sealed interface ReadPdfEvent {
     data object OnNavBack : ReadPdfEvent

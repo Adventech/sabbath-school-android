@@ -71,9 +71,7 @@ class ReadPdfPresenter @AssistedInject constructor(
             overlayState = ReadPdfOverlayState.BottomSheet(
                 screen = AudioPlayerScreen(resourceId = screen.resourceId, segmentId = screen.segmentId),
                 skipPartiallyExpanded = true,
-                onResult = { _ ->
-                    overlayState = ReadPdfOverlayState.None
-                }
+                onResult = { _ -> overlayState = ReadPdfOverlayState.None }
             )
         }
 
@@ -81,43 +79,45 @@ class ReadPdfPresenter @AssistedInject constructor(
             overlayState = ReadPdfOverlayState.BottomSheet(
                 screen = VideosScreen(documentIndex = screen.documentIndex, documentId = screen.documentId),
                 skipPartiallyExpanded = true,
-                onResult = { _ ->
-                    overlayState = ReadPdfOverlayState.None
-                }
+                onResult = { _ -> overlayState = ReadPdfOverlayState.None }
             )
         }
 
-        return ReadPdfState(
-            documents = documents,
-            mediaAvailability = mediaAvailability,
-            overlayState = overlayState,
-            eventSink = { event ->
-                when (event) {
-                    ReadPdfEvent.OnNavBack -> navigator.pop()
-                    is ReadPdfEvent.OnNavEvent -> {
-                        when (val navEvent = event.event) {
-                            is NavEvent.GoTo -> {
-                                if (navEvent.screen is ExpandedAudioPlayerScreen) {
-                                    showAudioScreen()
-                                } else {
-                                    navigator.goTo(navEvent.screen)
+        return when {
+            documents.isNotEmpty() -> ReadPdfState.Success(
+                documents = documents,
+                mediaAvailability = mediaAvailability,
+                overlayState = overlayState,
+                eventSink = { event ->
+                    when (event) {
+                        ReadPdfEvent.OnNavBack -> navigator.pop()
+                        is ReadPdfEvent.OnNavEvent -> {
+                            when (val navEvent = event.event) {
+                                is NavEvent.GoTo -> {
+                                    if (navEvent.screen is ExpandedAudioPlayerScreen) {
+                                        showAudioScreen()
+                                    } else {
+                                        navigator.goTo(navEvent.screen)
+                                    }
                                 }
+
+                                else -> navigator.onNavEvent(navEvent)
                             }
+                        }
 
-                            else -> navigator.onNavEvent(navEvent)
+                        is ReadPdfEvent.OnTopAppBarAction -> {
+                            when (event.action) {
+                                DocumentTopAppBarAction.Audio -> showAudioScreen()
+                                DocumentTopAppBarAction.Video -> showVideoScreen()
+                                // Everything else is not handled here
+                                else -> Unit
+                            }
                         }
                     }
-
-                    is ReadPdfEvent.OnTopAppBarAction -> {
-                        when (event.action) {
-                            DocumentTopAppBarAction.Audio -> showAudioScreen()
-                            DocumentTopAppBarAction.Video -> showVideoScreen()
-                            // Everything else is not handled here
-                            else -> Unit
-                        }
-                    }
-                }
-            })
+                },
+            )
+            else -> ReadPdfState.Loading
+        }
     }
 
     @Composable

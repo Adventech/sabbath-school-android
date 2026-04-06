@@ -24,6 +24,7 @@ package ss.document.segment.components.pdf
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -31,8 +32,10 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -45,8 +48,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
+import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.Icons
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -64,6 +69,18 @@ import ss.libraries.circuit.overlay.BottomSheetOverlay
 @CircuitInject(PdfScreen::class, SingletonComponent::class)
 @Composable
 fun ReadPdfUi(state: ReadPdfState, modifier: Modifier = Modifier) {
+    when (state) {
+        ReadPdfState.Loading -> Surface {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
+        }
+        is ReadPdfState.Success -> ReadPdfSuccessUi(state, modifier)
+    }
+}
+
+@Composable
+private fun ReadPdfSuccessUi(state: ReadPdfState.Success, modifier: Modifier = Modifier) {
     val pagerState = rememberPagerState(
         pageCount = { state.documents.size },
     )
@@ -126,9 +143,7 @@ fun ReadPdfUi(state: ReadPdfState, modifier: Modifier = Modifier) {
                                     text = { Text(doc.title) },
                                     onClick = {
                                         expanded = false
-                                        coroutineScope.launch {
-                                            pagerState.animateScrollToPage(index)
-                                        }
+                                        coroutineScope.launch { pagerState.animateScrollToPage(index) }
                                     }
                                 )
                             }
@@ -162,4 +177,10 @@ private fun ReadPdfOverlay(state: ReadPdfOverlayState, onNavEvent: (event: NavEv
             ReadPdfOverlayState.None -> Unit
         }
     }
+}
+
+@PreviewLightDark
+@Composable
+private fun PreviewLoading() {
+    SsTheme { ReadPdfUi(ReadPdfState.Loading) }
 }
