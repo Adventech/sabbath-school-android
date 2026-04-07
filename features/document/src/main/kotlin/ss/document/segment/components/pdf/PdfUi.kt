@@ -36,9 +36,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onVisibilityChanged
 import androidx.compose.ui.platform.LocalContext
@@ -56,13 +59,16 @@ import com.pspdfkit.configuration.activity.UserInterfaceViewMode
 import com.pspdfkit.configuration.page.PageFitMode
 import com.pspdfkit.configuration.settings.SettingsMenuItemType
 import com.pspdfkit.configuration.sharing.ShareFeatures
+import com.pspdfkit.document.PdfDocument
 import com.pspdfkit.jetpack.compose.interactors.DocumentListener
 import com.pspdfkit.jetpack.compose.interactors.getDefaultDocumentManager
 import com.pspdfkit.jetpack.compose.interactors.rememberDocumentState
 import com.pspdfkit.jetpack.compose.views.DocumentView
+import io.adventech.blockkit.model.input.PDFAuxAnnotations
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.background
 import io.adventech.blockkit.ui.style.primaryForeground
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
 import ss.document.components.DocumentTopAppBarAction
 import ss.libraries.pdf.api.LocalFile
@@ -84,6 +90,7 @@ fun PdfUi(
     val coroutineScope = rememberCoroutineScope()
     val documentUri = document.file.uri
     val pdfActivityConfiguration = rememberPdfConfiguration(context, document.file, config)
+    var loadedDocument by remember { mutableStateOf<PdfDocument?>(null) }
 
     val documentState = rememberDocumentState(documentUri, pdfActivityConfiguration)
 
@@ -109,30 +116,46 @@ fun PdfUi(
                 .onVisibilityChanged { visible ->
                     if (!visible) { // Save configuration once the document is not visible
                         val pdfFragment = activity?.supportFragmentManager?.findPdfFragment()
-                        // todo: Also save annotations
-                        pdfFragment?.let { eventSink(ReadPdfEvent.OnConfigurationChanged(it.configuration)) }
+                        coroutineScope.launch {
+                            val annotations = pdfFragment?.document?.annotationProvider?.getAllAnnotationsOfType(allowedAnnotations.toSet())
+                            pdfFragment?.let {
+                                eventSink(
+                                    ReadPdfEvent.OnConfigurationChanged(
+                                        config = it.configuration,
+                                        annotations = annotations,
+                                        pdfId = document.pdfId,
+                                    )
+                                )
+                            }
+                        }
                     }
                 },
             documentManager = getDefaultDocumentManager(
                 documentListener = DocumentListener(onDocumentLoaded = { pdfDoc ->
                     // set annotations
-                   // documentState.documentConnection.addAnnotationToPage()
-                    with(pdfDoc.annotationProvider) {
+                    coroutineScope.launch { pdfDoc.loadAnnotations(document.annotations) }
 
-                    }
-                    if (document.annotations.isNotEmpty()) {
-                        coroutineScope.launch {
-                            val annotations = pdfDoc.annotationProvider
-                                .getAllAnnotationsOfType(allowedAnnotations.toSet())
-                            annotations.forEach { pdfDoc.annotationProvider.removeAnnotationFromPage(it) }
-                        }
-
-                        document.annotations.flatMap { it.annotations }
-                          //  .map { create }
-                    }
+                    loadedDocument = pdfDoc
                 }),
             ),
         )
+    }
+
+    LaunchedEffect(document.annotations, loadedDocument) {
+        loadedDocument?.loadAnnotations(document.annotations)
+    }
+}
+
+private suspend fun PdfDocument.loadAnnotations(annotations: ImmutableList<PDFAuxAnnotations>) {
+    with(annotationProvider) {
+        // Remove existing
+        val existingAnnotations = annotationProvider
+            .getAllAnnotationsOfType(allowedAnnotations.toSet())
+        existingAnnotations.forEach { removeAnnotationFromPage(it) }
+
+        // Add annotations
+        annotations.flatMap { it.annotations }
+            .forEach { createAnnotationFromInstantJson(it) }
     }
 }
 
@@ -241,6 +264,7 @@ private val allowedAnnotations = listOf(
     AnnotationType.WATERMARK,
     AnnotationType.STRIKEOUT,
     AnnotationType.FREETEXT,
+    AnnotationType.UNDERLINE,
 )
 
 // I know :-(

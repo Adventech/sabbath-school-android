@@ -28,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import app.ss.models.media.MediaAvailability
+import com.pspdfkit.annotations.Annotation
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.NavEvent
 import com.slack.circuit.foundation.onNavEvent
@@ -41,6 +42,7 @@ import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
 import io.adventech.blockkit.model.input.PDFAuxAnnotations
 import io.adventech.blockkit.model.input.UserInput
+import io.adventech.blockkit.model.input.UserInputRequest
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
@@ -48,8 +50,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import ss.document.components.DocumentTopAppBarAction
+import ss.foundation.coroutines.DispatcherProvider
 import ss.libraries.circuit.navigation.AudioPlayerScreen
 import ss.libraries.circuit.navigation.ExpandedAudioPlayerScreen
 import ss.libraries.circuit.navigation.PdfScreen
@@ -66,6 +70,7 @@ class ReadPdfPresenter @AssistedInject constructor(
     private val pdfReader: PdfReader,
     private val pdfReaderPrefs: PdfReaderPrefs,
     private val resourcesRepository: ResourcesRepository,
+    private val dispatcherProvider: DispatcherProvider,
 ) : Presenter<ReadPdfState> {
 
     @Composable
@@ -75,15 +80,15 @@ class ReadPdfPresenter @AssistedInject constructor(
         val mediaAvailability by rememberMediaAvailability()
         val config by rememberPdfReaderConfig()
         var overlayState by rememberRetained { mutableStateOf<ReadPdfOverlayState>(ReadPdfOverlayState.None) }
-        val documentsState by rememberRetained(documents, annotationsMap) {
-            mutableStateOf(
+        val documentsState = rememberRetained(documents, annotationsMap) {
                 documents.mapIndexed { index, file ->
+                    val pdfId = screen.pdfs.getOrNull(index)?.id.orEmpty()
                     PdfDocumentState(
+                        pdfId = pdfId,
                         file = file,
                         annotations = annotationsMap.getOrDefault(index, emptyList()).toImmutableList(),
                     )
                 }.toImmutableList()
-            )
         }
 
         fun showAudioScreen() {
@@ -136,6 +141,8 @@ class ReadPdfPresenter @AssistedInject constructor(
 
                         is ReadPdfEvent.OnConfigurationChanged -> {
                             pdfReaderPrefs.saveConfiguration(event.config)
+
+                            event.annotations?.let { saveAnnotations(pdfId = event.pdfId, annotations = it) }
                         }
                     }
                 },
@@ -193,14 +200,42 @@ class ReadPdfPresenter @AssistedInject constructor(
                     .toList()
             }
             .map { input ->
+                val inputByPdfId = input.groupBy { it.pdfId }
                 val pdfs = screen.pdfs
                 pdfs.mapIndexed { index, pdf ->
-                    index to input.filter { it.pdfId == pdf.id }.flatMap { it.data }
+                    index to (inputByPdfId[pdf.id]?.flatMap { it.data } ?: emptyList())
                 }.toMap()
             }
             .catch { Timber.e(it) }
+            .flowOn(dispatcherProvider.default)
             .collect { value = it }
     }
+
+    private fun saveAnnotations(pdfId: String, annotations: List<Annotation>) {
+        if (pdfId.isEmpty()) return
+
+        val documentId = screen.documentId
+        val syncAnnotations = annotations.toSync()
+
+        val userInput = UserInputRequest.Annotation(
+            blockId = pdfId,
+            pdfId = pdfId,
+            data = syncAnnotations
+        )
+
+        resourcesRepository.saveDocumentInput(documentId, userInput)
+    }
+
+    private fun List<Annotation>.toSync(): List<PDFAuxAnnotations> {
+        val groupedAnnotations = groupBy { it.pageIndex }
+        return groupedAnnotations.map { (pageIndex, list) ->
+            val annotations = list.map { it.toInstantJson() }.filter(::isValidInstantJson)
+            PDFAuxAnnotations(pageIndex, annotations)
+        }
+    }
+
+
+    private fun isValidInstantJson(json: String) = json != "null"
 
     @CircuitInject(PdfScreen::class, SingletonComponent::class)
     @AssistedFactory

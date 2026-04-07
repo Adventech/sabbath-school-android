@@ -123,7 +123,7 @@ private fun ReadPdfSuccessUi(state: ReadPdfState.Success, modifier: Modifier = M
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Text(
-                        text = document.title,
+                        text = document.file.title,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
@@ -141,7 +141,7 @@ private fun ReadPdfSuccessUi(state: ReadPdfState.Success, modifier: Modifier = M
                         ) {
                             state.documents.forEachIndexed { index, doc ->
                                 DropdownMenuItem(
-                                    text = { Text(doc.title) },
+                                    text = { Text(doc.file.title) },
                                     onClick = {
                                         expanded = false
                                         coroutineScope.launch { pagerState.animateScrollToPage(index) }

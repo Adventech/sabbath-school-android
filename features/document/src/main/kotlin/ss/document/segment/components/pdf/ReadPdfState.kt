@@ -39,6 +39,7 @@ import kotlinx.collections.immutable.ImmutableList
 import ss.document.components.DocumentTopAppBarAction
 import ss.libraries.circuit.overlay.BottomSheetOverlay
 import ss.libraries.pdf.api.LocalFile
+import com.pspdfkit.annotations.Annotation
 
 sealed interface ReadPdfState : CircuitUiState {
     data object Loading : ReadPdfState
@@ -56,7 +57,11 @@ sealed interface ReadPdfEvent {
     data object OnNavBack : ReadPdfEvent
     data class OnNavEvent(val event: NavEvent, val context: Context) : ReadPdfEvent
     data class OnTopAppBarAction(val action: DocumentTopAppBarAction): ReadPdfEvent
-    data class OnConfigurationChanged(val config: PdfConfiguration) : ReadPdfEvent
+    data class OnConfigurationChanged(
+        val config: PdfConfiguration,
+        val annotations: List<Annotation>?,
+        val pdfId: String,
+    ) : ReadPdfEvent
 }
 
 sealed interface ReadPdfOverlayState : CircuitUiState {
@@ -74,8 +79,9 @@ sealed interface ReadPdfOverlayState : CircuitUiState {
 
 @Immutable
 data class PdfDocumentState(
+    val pdfId: String,
     val file: LocalFile,
-    val annotations: ImmutableList<PDFAuxAnnotations>
+    val annotations: ImmutableList<PDFAuxAnnotations>,
 )
 
 @Immutable
