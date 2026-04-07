@@ -39,12 +39,16 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.components.SingletonComponent
+import io.adventech.blockkit.model.input.PDFAuxAnnotations
+import io.adventech.blockkit.model.input.UserInput
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
 import ss.document.components.DocumentTopAppBarAction
 import ss.libraries.circuit.navigation.AudioPlayerScreen
 import ss.libraries.circuit.navigation.ExpandedAudioPlayerScreen
@@ -54,6 +58,7 @@ import ss.libraries.pdf.api.LocalFile
 import ss.libraries.pdf.api.PdfReader
 import ss.libraries.pdf.api.PdfReaderPrefs
 import ss.resources.api.ResourcesRepository
+import timber.log.Timber
 
 class ReadPdfPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
@@ -66,9 +71,20 @@ class ReadPdfPresenter @AssistedInject constructor(
     @Composable
     override fun present(): ReadPdfState {
         val documents by rememberFiles()
+        val annotationsMap by rememberDocumentAnnotations()
         val mediaAvailability by rememberMediaAvailability()
         val config by rememberPdfReaderConfig()
         var overlayState by rememberRetained { mutableStateOf<ReadPdfOverlayState>(ReadPdfOverlayState.None) }
+        val documentsState by rememberRetained(documents, annotationsMap) {
+            mutableStateOf(
+                documents.mapIndexed { index, file ->
+                    PdfDocumentState(
+                        file = file,
+                        annotations = annotationsMap.getOrDefault(index, emptyList()).toImmutableList(),
+                    )
+                }.toImmutableList()
+            )
+        }
 
         fun showAudioScreen() {
             overlayState = ReadPdfOverlayState.BottomSheet(
@@ -88,7 +104,7 @@ class ReadPdfPresenter @AssistedInject constructor(
 
         return when {
             documents.isNotEmpty() -> ReadPdfState.Success(
-                documents = documents,
+                documents = documentsState,
                 mediaAvailability = mediaAvailability,
                 config = config,
                 overlayState = overlayState,
@@ -166,6 +182,24 @@ class ReadPdfPresenter @AssistedInject constructor(
                 themeMode = pdfReaderPrefs.themeMode(),
             )
         )
+    }
+
+    @Composable
+    private fun rememberDocumentAnnotations(): State<Map<Int, List<PDFAuxAnnotations>>> = produceRetainedState(emptyMap()) {
+        resourcesRepository.documentInput(screen.documentId)
+            .map { userInputs ->
+                userInputs.asSequence()
+                    .mapNotNull { it as? UserInput.Annotation }
+                    .toList()
+            }
+            .map { input ->
+                val pdfs = screen.pdfs
+                pdfs.mapIndexed { index, pdf ->
+                    index to input.filter { it.pdfId == pdf.id }.flatMap { it.data }
+                }.toMap()
+            }
+            .catch { Timber.e(it) }
+            .collect { value = it }
     }
 
     @CircuitInject(PdfScreen::class, SingletonComponent::class)

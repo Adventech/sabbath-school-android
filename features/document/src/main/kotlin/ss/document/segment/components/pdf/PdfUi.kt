@@ -38,6 +38,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onVisibilityChanged
 import androidx.compose.ui.platform.LocalContext
@@ -62,6 +63,7 @@ import com.pspdfkit.jetpack.compose.views.DocumentView
 import io.adventech.blockkit.ui.style.LocalReaderStyle
 import io.adventech.blockkit.ui.style.background
 import io.adventech.blockkit.ui.style.primaryForeground
+import kotlinx.coroutines.launch
 import ss.document.components.DocumentTopAppBarAction
 import ss.libraries.pdf.api.LocalFile
 import java.util.EnumSet
@@ -71,16 +73,17 @@ import ss.document.R as DocumentR
 
 @Composable
 fun PdfUi(
-    document: LocalFile,
+    document: PdfDocumentState,
     mediaAvailability: MediaAvailability,
     config: PdfReaderConfig,
     modifier: Modifier = Modifier,
-    title: @Composable () -> Unit = { Text(document.title) },
+    title: @Composable () -> Unit = { Text(document.file.title) },
     eventSink: (ReadPdfEvent) -> Unit = {},
 ) {
     val context = LocalContext.current
-    val documentUri = document.uri
-    val pdfActivityConfiguration = rememberPdfConfiguration(context, document, config)
+    val coroutineScope = rememberCoroutineScope()
+    val documentUri = document.file.uri
+    val pdfActivityConfiguration = rememberPdfConfiguration(context, document.file, config)
 
     val documentState = rememberDocumentState(documentUri, pdfActivityConfiguration)
 
@@ -111,9 +114,22 @@ fun PdfUi(
                     }
                 },
             documentManager = getDefaultDocumentManager(
-                documentListener = DocumentListener(onDocumentLoaded = {
+                documentListener = DocumentListener(onDocumentLoaded = { pdfDoc ->
                     // set annotations
                    // documentState.documentConnection.addAnnotationToPage()
+                    with(pdfDoc.annotationProvider) {
+
+                    }
+                    if (document.annotations.isNotEmpty()) {
+                        coroutineScope.launch {
+                            val annotations = pdfDoc.annotationProvider
+                                .getAllAnnotationsOfType(allowedAnnotations.toSet())
+                            annotations.forEach { pdfDoc.annotationProvider.removeAnnotationFromPage(it) }
+                        }
+
+                        document.annotations.flatMap { it.annotations }
+                          //  .map { create }
+                    }
                 }),
             ),
         )

@@ -34,6 +34,7 @@ import com.pspdfkit.jetpack.compose.interactors.DocumentState
 import com.slack.circuit.foundation.NavEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
+import io.adventech.blockkit.model.input.PDFAuxAnnotations
 import kotlinx.collections.immutable.ImmutableList
 import ss.document.components.DocumentTopAppBarAction
 import ss.libraries.circuit.overlay.BottomSheetOverlay
@@ -43,7 +44,7 @@ sealed interface ReadPdfState : CircuitUiState {
     data object Loading : ReadPdfState
 
     data class Success(
-        val documents: ImmutableList<LocalFile>,
+        val documents: ImmutableList<PdfDocumentState>,
         val mediaAvailability: MediaAvailability,
         val config: PdfReaderConfig,
         val overlayState: ReadPdfOverlayState,
@@ -70,6 +71,12 @@ sealed interface ReadPdfOverlayState : CircuitUiState {
         val onResult: (BottomSheetOverlay.Result) -> Unit,
     ) : ReadPdfOverlayState
 }
+
+@Immutable
+data class PdfDocumentState(
+    val file: LocalFile,
+    val annotations: ImmutableList<PDFAuxAnnotations>
+)
 
 @Immutable
 data class PdfTopAppBarState(
