@@ -101,6 +101,7 @@ private fun ReadPdfSuccessUi(state: ReadPdfState.Success, modifier: Modifier = M
         PdfUi(
             document = document,
             mediaAvailability = state.mediaAvailability,
+            config = state.config,
             modifier = Modifier,
             title = {
                 val hasMultipleDocs = state.documents.size > 1

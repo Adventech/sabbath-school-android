@@ -24,7 +24,6 @@ package ss.document.segment.components.pdf
 
 import android.content.Context
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -40,24 +39,32 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onVisibilityChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import app.ss.design.compose.widget.scaffold.LocalNavbarController
 import app.ss.models.media.MediaAvailability
+import com.pspdfkit.annotations.AnnotationType
 import com.pspdfkit.configuration.activity.PdfActivityConfiguration
+import com.pspdfkit.configuration.activity.ThumbnailBarMode
 import com.pspdfkit.configuration.activity.UserInterfaceViewMode
-import com.pspdfkit.configuration.theming.ThemeMode
+import com.pspdfkit.configuration.page.PageFitMode
+import com.pspdfkit.configuration.settings.SettingsMenuItemType
+import com.pspdfkit.configuration.sharing.ShareFeatures
+import com.pspdfkit.jetpack.compose.interactors.DocumentListener
 import com.pspdfkit.jetpack.compose.interactors.getDefaultDocumentManager
 import com.pspdfkit.jetpack.compose.interactors.rememberDocumentState
 import com.pspdfkit.jetpack.compose.views.DocumentView
 import io.adventech.blockkit.ui.style.LocalReaderStyle
-import io.adventech.blockkit.ui.style.ReaderStyle
 import io.adventech.blockkit.ui.style.background
 import io.adventech.blockkit.ui.style.primaryForeground
 import ss.document.components.DocumentTopAppBarAction
 import ss.libraries.pdf.api.LocalFile
+import java.util.EnumSet
 import app.ss.translations.R as L10nR
 import com.pspdfkit.R as PspdfR
 import ss.document.R as DocumentR
@@ -66,26 +73,18 @@ import ss.document.R as DocumentR
 fun PdfUi(
     document: LocalFile,
     mediaAvailability: MediaAvailability,
+    config: PdfReaderConfig,
     modifier: Modifier = Modifier,
     title: @Composable () -> Unit = { Text(document.title) },
     eventSink: (ReadPdfEvent) -> Unit = {},
 ) {
     val context = LocalContext.current
     val documentUri = document.uri
-    val readerStyle = LocalReaderStyle.current
-    val themeResId = readerStyle.theme.toPdfThemeResId()
-
-    // Resolve ThemeMode for PSPDFKit's built-in document inversion
-    val themeMode = when (readerStyle.theme) {
-        ReaderStyle.Theme.Dark -> ThemeMode.NIGHT
-        ReaderStyle.Theme.Auto -> if (isSystemInDarkTheme()) ThemeMode.NIGHT else ThemeMode.DEFAULT
-        else -> ThemeMode.DEFAULT
-    }
-    val pdfActivityConfiguration = rememberPdfConfiguration(context, document, themeResId, themeMode)
+    val pdfActivityConfiguration = rememberPdfConfiguration(context, document, config)
 
     val documentState = rememberDocumentState(documentUri, pdfActivityConfiguration)
 
-    val bottomPadding by animateDpAsState(if (LocalNavbarController.current.enabled) 80.dp else 0.dp)
+    val bottomPadding by animateDpAsState(if (LocalNavbarController.current.enabled) 120.dp else 0.dp)
 
     Column(modifier = modifier.fillMaxSize()) {
         PdfTopAppBar(
@@ -93,17 +92,30 @@ fun PdfUi(
             state = PdfTopAppBarState(
                 mediaAvailability = mediaAvailability,
                 documentState = documentState,
-                readerStyle = readerStyle,
             ),
             eventSink = eventSink,
         )
+
+        val activity = LocalContext.current as? FragmentActivity
 
         DocumentView(
             documentState = documentState,
             modifier = Modifier
                 .weight(1f)
-                .padding(bottom = bottomPadding),
-            documentManager = getDefaultDocumentManager(),
+                .padding(bottom = bottomPadding)
+                .onVisibilityChanged { visible ->
+                    if (!visible) { // Save configuration once the document is not visible
+                        val pdfFragment = activity?.supportFragmentManager?.findPdfFragment()
+                        // todo: Also save annotations
+                        pdfFragment?.let { eventSink(ReadPdfEvent.OnConfigurationChanged(it.configuration)) }
+                    }
+                },
+            documentManager = getDefaultDocumentManager(
+                documentListener = DocumentListener(onDocumentLoaded = {
+                    // set annotations
+                   // documentState.documentConnection.addAnnotationToPage()
+                }),
+            ),
         )
     }
 }
@@ -116,7 +128,8 @@ private fun PdfTopAppBar(
     eventSink: (ReadPdfEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val (mediaAvailability, documentState, readerStyle) = state
+    val readerTheme = LocalReaderStyle.current.theme
+    val (mediaAvailability, documentState) = state
 
     TopAppBar(
         title = title,
@@ -170,41 +183,60 @@ private fun PdfTopAppBar(
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = readerStyle.theme.background(),
-            navigationIconContentColor = readerStyle.theme.primaryForeground(),
-            actionIconContentColor = readerStyle.theme.primaryForeground(),
-            titleContentColor = readerStyle.theme.primaryForeground(),
+            containerColor = readerTheme.background(),
+            navigationIconContentColor = readerTheme.primaryForeground(),
+            actionIconContentColor = readerTheme.primaryForeground(),
+            titleContentColor = readerTheme.primaryForeground(),
         )
     )
-}
-
-@Composable
-fun ReaderStyle.Theme.toPdfThemeResId(): Int {
-    return when (this) {
-        ReaderStyle.Theme.Light -> DocumentR.style.Theme_SS_Pdf_Light
-        ReaderStyle.Theme.Dark -> DocumentR.style.Theme_SS_Pdf_Dark
-        ReaderStyle.Theme.Sepia -> DocumentR.style.Theme_SS_Pdf_Sepia
-        ReaderStyle.Theme.Auto -> {
-            if (isSystemInDarkTheme()) DocumentR.style.Theme_SS_Pdf_Dark else DocumentR.style.Theme_SS_Pdf_Light
-        }
-    }
 }
 
 @Composable
 private fun rememberPdfConfiguration(
     context: Context,
     file: LocalFile,
-    themeResId: Int,
-    themeMode: ThemeMode,
-) = remember(themeResId, themeMode) {
+    config: PdfReaderConfig,
+) = remember(file, config) {
+    val excludedAnnotationTypes = ArrayList(EnumSet.allOf(AnnotationType::class.java))
+    allowedAnnotations.forEach { excludedAnnotationTypes.remove(it) }
+
     PdfActivityConfiguration
         .Builder(context)
         .setUserInterfaceViewMode(UserInterfaceViewMode.USER_INTERFACE_VIEW_MODE_VISIBLE)
         .defaultToolbarEnabled(false)
         .title(file.title)
-        .themeMode(themeMode)
-        .theme(themeResId)
+        .scrollMode(config.scrollMode)
+        .layoutMode(config.layoutMode)
+        .scrollDirection(config.scrollDirection)
+        .themeMode(config.themeMode)
+        .fitMode(PageFitMode.FIT_TO_WIDTH)
+        .animateScrollOnEdgeTaps(true)
+        .excludedAnnotationTypes(excludedAnnotationTypes)
+        .setEnabledShareFeatures(EnumSet.noneOf(ShareFeatures::class.java))
+        .setThumbnailBarMode(ThumbnailBarMode.THUMBNAIL_BAR_MODE_NONE)
+        .setSettingsMenuItems(EnumSet.allOf(SettingsMenuItemType::class.java))
         .build()
+}
+
+private val allowedAnnotations = listOf(
+    AnnotationType.HIGHLIGHT,
+    AnnotationType.INK,
+    AnnotationType.NOTE,
+    AnnotationType.WATERMARK,
+    AnnotationType.STRIKEOUT,
+    AnnotationType.FREETEXT,
+)
+
+// I know :-(
+private fun FragmentManager.findPdfFragment(): com.pspdfkit.ui.PdfFragment? {
+    for (fragment in fragments) {
+        if (fragment is com.pspdfkit.ui.PdfFragment) return fragment
+
+        // Recursively search child fragments
+        val child = fragment.childFragmentManager.findPdfFragment()
+        if (child != null) return child
+    }
+    return null
 }
 
 @Composable

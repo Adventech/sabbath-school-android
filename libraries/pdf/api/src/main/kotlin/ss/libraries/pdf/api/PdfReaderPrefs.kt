@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2026. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,24 +20,22 @@
  * THE SOFTWARE.
  */
 
-package app.ss.pdf.di
+package ss.libraries.pdf.api
 
-import app.ss.pdf.PdfReaderImpl
-import app.ss.pdf.PdfReaderPrefsImpl
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import ss.libraries.pdf.api.PdfReader
-import ss.libraries.pdf.api.PdfReaderPrefs
+import com.pspdfkit.configuration.PdfConfiguration
+import com.pspdfkit.configuration.page.PageLayoutMode
+import com.pspdfkit.configuration.page.PageScrollDirection
+import com.pspdfkit.configuration.page.PageScrollMode
+import com.pspdfkit.configuration.theming.ThemeMode
 
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class BindingsModule {
-
-    @Binds
-    internal abstract fun bindReaderPrefs(impl: PdfReaderPrefsImpl): PdfReaderPrefs
-
-    @Binds
-    internal abstract fun bindReader(impl: PdfReaderImpl): PdfReader
+interface PdfReaderPrefs {
+    fun scrollMode(): PageScrollMode
+    fun setScrollMode(mode: PageScrollMode)
+    fun pageLayoutMode(): PageLayoutMode
+    fun setPageLayoutMode(mode: PageLayoutMode)
+    fun scrollDirection(): PageScrollDirection
+    fun setScrollDirection(direction: PageScrollDirection)
+    fun themeMode(): ThemeMode
+    fun setThemeMode(mode: ThemeMode)
+    fun saveConfiguration(configuration: PdfConfiguration)
 }

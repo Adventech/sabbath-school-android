@@ -52,12 +52,14 @@ import ss.libraries.circuit.navigation.PdfScreen
 import ss.libraries.circuit.navigation.VideosScreen
 import ss.libraries.pdf.api.LocalFile
 import ss.libraries.pdf.api.PdfReader
+import ss.libraries.pdf.api.PdfReaderPrefs
 import ss.resources.api.ResourcesRepository
 
 class ReadPdfPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     @Assisted private val screen: PdfScreen,
     private val pdfReader: PdfReader,
+    private val pdfReaderPrefs: PdfReaderPrefs,
     private val resourcesRepository: ResourcesRepository,
 ) : Presenter<ReadPdfState> {
 
@@ -65,6 +67,7 @@ class ReadPdfPresenter @AssistedInject constructor(
     override fun present(): ReadPdfState {
         val documents by rememberFiles()
         val mediaAvailability by rememberMediaAvailability()
+        val config by rememberPdfReaderConfig()
         var overlayState by rememberRetained { mutableStateOf<ReadPdfOverlayState>(ReadPdfOverlayState.None) }
 
         fun showAudioScreen() {
@@ -87,6 +90,7 @@ class ReadPdfPresenter @AssistedInject constructor(
             documents.isNotEmpty() -> ReadPdfState.Success(
                 documents = documents,
                 mediaAvailability = mediaAvailability,
+                config = config,
                 overlayState = overlayState,
                 eventSink = { event ->
                     when (event) {
@@ -112,6 +116,10 @@ class ReadPdfPresenter @AssistedInject constructor(
                                 // Everything else is not handled here
                                 else -> Unit
                             }
+                        }
+
+                        is ReadPdfEvent.OnConfigurationChanged -> {
+                            pdfReaderPrefs.saveConfiguration(event.config)
                         }
                     }
                 },
@@ -146,6 +154,18 @@ class ReadPdfPresenter @AssistedInject constructor(
 
     private fun <T> CoroutineScope.contentDeferred(content: suspend () -> Result<List<T>>): Deferred<Boolean> {
         return async { content().getOrDefault(emptyList()).isNotEmpty() }
+    }
+
+    @Composable
+    private fun rememberPdfReaderConfig(): State<PdfReaderConfig> = rememberRetained {
+        mutableStateOf(
+            PdfReaderConfig(
+                scrollMode = pdfReaderPrefs.scrollMode(),
+                layoutMode = pdfReaderPrefs.pageLayoutMode(),
+                scrollDirection = pdfReaderPrefs.scrollDirection(),
+                themeMode = pdfReaderPrefs.themeMode(),
+            )
+        )
     }
 
     @CircuitInject(PdfScreen::class, SingletonComponent::class)

@@ -32,20 +32,9 @@ import com.pspdfkit.configuration.page.PageScrollDirection
 import com.pspdfkit.configuration.page.PageScrollMode
 import com.pspdfkit.configuration.theming.ThemeMode
 import dagger.hilt.android.qualifiers.ApplicationContext
+import ss.libraries.pdf.api.PdfReaderPrefs
 import javax.inject.Inject
 import javax.inject.Singleton
-
-interface PdfReaderPrefs {
-    fun scrollMode(): PageScrollMode
-    fun setScrollMode(mode: PageScrollMode)
-    fun pageLayoutMode(): PageLayoutMode
-    fun setPageLayoutMode(mode: PageLayoutMode)
-    fun scrollDirection(): PageScrollDirection
-    fun setScrollDirection(direction: PageScrollDirection)
-    fun themeMode(): ThemeMode
-    fun setThemeMode(mode: ThemeMode)
-    fun saveConfiguration(configuration: PdfConfiguration)
-}
 
 @Singleton
 internal class PdfReaderPrefsImpl @Inject constructor(

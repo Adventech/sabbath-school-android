@@ -40,18 +40,19 @@ import com.pspdfkit.document.download.DownloadJob
 import com.pspdfkit.document.download.DownloadRequest
 import com.pspdfkit.ui.PdfActivityIntentBuilder
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import ss.foundation.coroutines.DispatcherProvider
 import ss.libraries.circuit.navigation.PdfScreen
 import ss.libraries.pdf.api.LocalFile
 import ss.libraries.pdf.api.PdfReader
+import ss.libraries.pdf.api.PdfReaderPrefs
 import timber.log.Timber
 import java.io.File
 import java.util.EnumSet
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 @Singleton
 internal class PdfReaderImpl @Inject constructor(
@@ -122,11 +123,11 @@ internal class PdfReaderImpl @Inject constructor(
     private suspend fun downloadFile(
         context: Context,
         pdf: PDFAux
-    ): LocalFile? = suspendCoroutine { continuation ->
+    ): LocalFile? = suspendCancellableCoroutine { continuation ->
         val outputFile = File(context.getDir(FILE_DIRECTORY, Context.MODE_PRIVATE), "${pdf.id}.pdf")
         if (outputFile.exists()) {
             continuation.resume(LocalFile(pdf.title, Uri.fromFile(outputFile)))
-            return@suspendCoroutine
+            return@suspendCancellableCoroutine
         }
 
         val request: DownloadRequest = DownloadRequest.Builder(context)

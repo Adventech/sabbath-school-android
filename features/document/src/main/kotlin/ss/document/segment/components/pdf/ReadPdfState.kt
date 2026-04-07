@@ -25,11 +25,15 @@ package ss.document.segment.components.pdf
 import android.content.Context
 import androidx.compose.runtime.Immutable
 import app.ss.models.media.MediaAvailability
+import com.pspdfkit.configuration.PdfConfiguration
+import com.pspdfkit.configuration.page.PageLayoutMode
+import com.pspdfkit.configuration.page.PageScrollDirection
+import com.pspdfkit.configuration.page.PageScrollMode
+import com.pspdfkit.configuration.theming.ThemeMode
 import com.pspdfkit.jetpack.compose.interactors.DocumentState
 import com.slack.circuit.foundation.NavEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
-import io.adventech.blockkit.ui.style.ReaderStyleConfig
 import kotlinx.collections.immutable.ImmutableList
 import ss.document.components.DocumentTopAppBarAction
 import ss.libraries.circuit.overlay.BottomSheetOverlay
@@ -41,6 +45,7 @@ sealed interface ReadPdfState : CircuitUiState {
     data class Success(
         val documents: ImmutableList<LocalFile>,
         val mediaAvailability: MediaAvailability,
+        val config: PdfReaderConfig,
         val overlayState: ReadPdfOverlayState,
         val eventSink: (ReadPdfEvent) -> Unit,
     ) : ReadPdfState
@@ -50,6 +55,7 @@ sealed interface ReadPdfEvent {
     data object OnNavBack : ReadPdfEvent
     data class OnNavEvent(val event: NavEvent, val context: Context) : ReadPdfEvent
     data class OnTopAppBarAction(val action: DocumentTopAppBarAction): ReadPdfEvent
+    data class OnConfigurationChanged(val config: PdfConfiguration) : ReadPdfEvent
 }
 
 sealed interface ReadPdfOverlayState : CircuitUiState {
@@ -69,6 +75,13 @@ sealed interface ReadPdfOverlayState : CircuitUiState {
 data class PdfTopAppBarState(
     val mediaAvailability: MediaAvailability,
     val documentState: DocumentState,
-    val readerStyle: ReaderStyleConfig,
+)
+
+@Immutable
+data class PdfReaderConfig(
+    val scrollMode: PageScrollMode,
+    val layoutMode: PageLayoutMode,
+    val scrollDirection: PageScrollDirection,
+    val themeMode: ThemeMode,
 )
 

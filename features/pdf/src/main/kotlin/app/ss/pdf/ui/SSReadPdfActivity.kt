@@ -30,12 +30,8 @@ import android.widget.ProgressBar
 import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
 import app.ss.media.playback.ui.nowPlaying.showNowPlaying
 import app.ss.media.playback.ui.video.showVideoList
-import app.ss.pdf.PdfReaderPrefs
-import app.ss.pdf.R
-import com.cryart.sabbathschool.core.extensions.view.tint
 import com.pspdfkit.document.DocumentSource
 import com.pspdfkit.document.PdfDocument
 import com.pspdfkit.ui.DocumentDescriptor
@@ -44,6 +40,7 @@ import com.pspdfkit.ui.tabs.PdfTabBarCloseMode
 import dagger.hilt.android.AndroidEntryPoint
 import io.adventech.blockkit.model.input.PDFAuxAnnotations
 import ss.foundation.coroutines.flow.collectIn
+import ss.libraries.pdf.api.PdfReaderPrefs
 import javax.inject.Inject
 import app.ss.translations.R as L10n
 import ss.libraries.media.resources.R as MediaR
