@@ -27,13 +27,8 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -45,13 +40,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onVisibilityChanged
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import app.ss.design.compose.widget.scaffold.LocalNavbarController
-import app.ss.models.media.MediaAvailability
 import com.pspdfkit.annotations.AnnotationType
 import com.pspdfkit.configuration.activity.PdfActivityConfiguration
 import com.pspdfkit.configuration.activity.ThumbnailBarMode
@@ -61,6 +53,7 @@ import com.pspdfkit.configuration.settings.SettingsMenuItemType
 import com.pspdfkit.configuration.sharing.ShareFeatures
 import com.pspdfkit.document.PdfDocument
 import com.pspdfkit.jetpack.compose.interactors.DocumentListener
+import com.pspdfkit.jetpack.compose.interactors.DocumentState
 import com.pspdfkit.jetpack.compose.interactors.getDefaultDocumentManager
 import com.pspdfkit.jetpack.compose.interactors.rememberDocumentState
 import com.pspdfkit.jetpack.compose.views.DocumentView
@@ -70,17 +63,16 @@ import io.adventech.blockkit.ui.style.background
 import io.adventech.blockkit.ui.style.primaryForeground
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
+import ss.document.components.DocumentTopAppBar
 import ss.document.components.DocumentTopAppBarAction
 import ss.libraries.pdf.api.LocalFile
 import java.util.EnumSet
-import app.ss.translations.R as L10nR
 import com.pspdfkit.R as PspdfR
-import ss.document.R as DocumentR
 
 @Composable
 fun PdfUi(
     document: PdfDocumentState,
-    mediaAvailability: MediaAvailability,
+    topAppBarState: PdfTopAppBarState,
     config: PdfReaderConfig,
     modifier: Modifier = Modifier,
     title: @Composable () -> Unit = { Text(document.file.title) },
@@ -99,10 +91,8 @@ fun PdfUi(
     Column(modifier = modifier.fillMaxSize()) {
         PdfTopAppBar(
             title = title,
-            state = PdfTopAppBarState(
-                mediaAvailability = mediaAvailability,
-                documentState = documentState,
-            ),
+            state = topAppBarState,
+            documentState = documentState,
             eventSink = eventSink,
         )
 
@@ -164,69 +154,33 @@ private suspend fun PdfDocument.loadAnnotations(annotations: ImmutableList<PDFAu
 private fun PdfTopAppBar(
     title: @Composable () -> Unit,
     state: PdfTopAppBarState,
+    documentState: DocumentState,
     eventSink: (ReadPdfEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val readerTheme = LocalReaderStyle.current.theme
-    val (mediaAvailability, documentState) = state
 
-    TopAppBar(
+    DocumentTopAppBar(
         title = title,
         modifier = modifier,
-        navigationIcon = {
-            IconButton(onClick = { eventSink(ReadPdfEvent.OnNavBack) }) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                    contentDescription = stringResource(L10nR.string.ss_action_back),
-                )
-            }
-        },
-        actions = {
-            if (mediaAvailability.audio) {
-                val action = DocumentTopAppBarAction.Audio
-                MediaIcon(
-                    action = action,
-                    onClick = { eventSink(ReadPdfEvent.OnTopAppBarAction(action)) },
-                )
-            }
-            if (mediaAvailability.video) {
-                val action = DocumentTopAppBarAction.Video
-                MediaIcon(
-                    action = action,
-                    onClick = { eventSink(ReadPdfEvent.OnTopAppBarAction(action)) },
-                )
-            }
-            IconButton(onClick = {
-                documentState.toggleView(PspdfR.id.pspdf__menu_option_edit_annotations)
-            }) {
-                Icon(
-                    painter = painterResource(DocumentR.drawable.ic_pdf_annotations),
-                    contentDescription = stringResource(L10nR.string.ss_annotations),
-                )
-            }
-            IconButton(onClick = {
-                documentState.toggleView(PspdfR.id.pspdf__menu_option_outline)
-            }) {
-                Icon(
-                    painter = painterResource(DocumentR.drawable.ic_pdf_bookmark),
-                    contentDescription = stringResource(PspdfR.string.pspdf__activity_menu_outline),
-                )
-            }
-            IconButton(onClick = {
-                documentState.toggleView(PspdfR.id.pspdf__menu_option_settings)
-            }) {
-                Icon(
-                    painter = painterResource(DocumentR.drawable.ic_pdf_settings),
-                    contentDescription = stringResource(PspdfR.string.pspdf__activity_menu_settings),
-                )
-            }
-        },
+        collapsed = true,
+        contentColor = readerTheme.primaryForeground(),
+        actions = state.actions,
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = readerTheme.background(),
             navigationIconContentColor = readerTheme.primaryForeground(),
             actionIconContentColor = readerTheme.primaryForeground(),
             titleContentColor = readerTheme.primaryForeground(),
-        )
+        ),
+        onNavBack = { eventSink(ReadPdfEvent.OnNavBack) },
+        onActionClick = { action ->
+            when (action) {
+                DocumentTopAppBarAction.Annotations -> documentState.toggleView(PspdfR.id.pspdf__menu_option_edit_annotations)
+                DocumentTopAppBarAction.Outline -> documentState.toggleView(PspdfR.id.pspdf__menu_option_outline)
+                DocumentTopAppBarAction.Settings -> documentState.toggleView(PspdfR.id.pspdf__menu_option_settings)
+                else -> eventSink(ReadPdfEvent.OnTopAppBarAction(action))
+            }
+        }
     )
 }
 
@@ -277,18 +231,4 @@ private fun FragmentManager.findPdfFragment(): com.pspdfkit.ui.PdfFragment? {
         if (child != null) return child
     }
     return null
-}
-
-@Composable
-private fun MediaIcon(
-    action: DocumentTopAppBarAction,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    IconButton(onClick = onClick, modifier = modifier) {
-        Icon(
-            painter = painterResource(action.iconRes),
-            contentDescription = stringResource(action.title),
-        )
-    }
 }

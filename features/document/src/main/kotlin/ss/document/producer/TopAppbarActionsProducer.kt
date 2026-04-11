@@ -27,7 +27,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import app.ss.models.PDFAux
 import com.slack.circuit.retained.produceRetainedState
@@ -115,7 +114,7 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
             if (segment?.type == SegmentType.PDF) return@produceRetainedState
             value = repository.pdf(resourceIndex, documentIndex).getOrNull().orEmpty()
         }
-        val actions = remember(audio, video, pdfs, segment, shareOptions) {
+        val actions = rememberRetained(audio, video, pdfs, segment, shareOptions) {
             buildList {
                 if (audio.isNotEmpty()) {
                     add(DocumentTopAppBarAction.Audio)
@@ -214,6 +213,7 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
                                     }
                                 }
                             }
+                            else -> Unit
                         }
                     }
                 }

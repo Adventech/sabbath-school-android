@@ -24,13 +24,12 @@ package ss.document.segment.components.pdf
 
 import android.content.Context
 import androidx.compose.runtime.Immutable
-import app.ss.models.media.MediaAvailability
+import com.pspdfkit.annotations.Annotation
 import com.pspdfkit.configuration.PdfConfiguration
 import com.pspdfkit.configuration.page.PageLayoutMode
 import com.pspdfkit.configuration.page.PageScrollDirection
 import com.pspdfkit.configuration.page.PageScrollMode
 import com.pspdfkit.configuration.theming.ThemeMode
-import com.pspdfkit.jetpack.compose.interactors.DocumentState
 import com.slack.circuit.foundation.NavEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
@@ -39,15 +38,14 @@ import kotlinx.collections.immutable.ImmutableList
 import ss.document.components.DocumentTopAppBarAction
 import ss.libraries.circuit.overlay.BottomSheetOverlay
 import ss.libraries.pdf.api.LocalFile
-import com.pspdfkit.annotations.Annotation
 
 sealed interface ReadPdfState : CircuitUiState {
     data object Loading : ReadPdfState
 
     data class Success(
         val documents: ImmutableList<PdfDocumentState>,
-        val mediaAvailability: MediaAvailability,
         val config: PdfReaderConfig,
+        val topAppBarState: PdfTopAppBarState,
         val overlayState: ReadPdfOverlayState,
         val eventSink: (ReadPdfEvent) -> Unit,
     ) : ReadPdfState
@@ -82,12 +80,6 @@ data class PdfDocumentState(
     val pdfId: String,
     val file: LocalFile,
     val annotations: ImmutableList<PDFAuxAnnotations>,
-)
-
-@Immutable
-data class PdfTopAppBarState(
-    val mediaAvailability: MediaAvailability,
-    val documentState: DocumentState,
 )
 
 @Immutable

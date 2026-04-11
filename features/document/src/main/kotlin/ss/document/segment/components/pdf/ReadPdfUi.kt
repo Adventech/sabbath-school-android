@@ -93,14 +93,14 @@ private fun ReadPdfSuccessUi(state: ReadPdfState.Success, modifier: Modifier = M
         state = pagerState,
         modifier = modifier.fillMaxSize(),
         verticalAlignment = Alignment.Top,
-        beyondViewportPageCount = 2,
+        beyondViewportPageCount = 0,
     ) { page ->
         val document = state.documents[page]
         var expanded by remember { mutableStateOf(false) }
 
         PdfUi(
             document = document,
-            mediaAvailability = state.mediaAvailability,
+            topAppBarState = state.topAppBarState,
             config = state.config,
             modifier = Modifier,
             title = {
@@ -124,6 +124,7 @@ private fun ReadPdfSuccessUi(state: ReadPdfState.Success, modifier: Modifier = M
                 ) {
                     Text(
                         text = document.file.title,
+                        modifier = Modifier.weight(1f),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )

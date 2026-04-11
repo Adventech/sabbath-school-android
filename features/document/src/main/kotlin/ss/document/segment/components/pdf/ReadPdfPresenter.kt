@@ -27,7 +27,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import app.ss.models.media.MediaAvailability
 import com.pspdfkit.annotations.Annotation
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.NavEvent
@@ -46,9 +45,6 @@ import io.adventech.blockkit.model.input.UserInputRequest
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -70,6 +66,7 @@ class ReadPdfPresenter @AssistedInject constructor(
     private val pdfReader: PdfReader,
     private val pdfReaderPrefs: PdfReaderPrefs,
     private val resourcesRepository: ResourcesRepository,
+    private val topAppBarStateProducer: PdfTopAppBarStateProducer,
     private val dispatcherProvider: DispatcherProvider,
 ) : Presenter<ReadPdfState> {
 
@@ -77,7 +74,7 @@ class ReadPdfPresenter @AssistedInject constructor(
     override fun present(): ReadPdfState {
         val documents by rememberFiles()
         val annotationsMap by rememberDocumentAnnotations()
-        val mediaAvailability by rememberMediaAvailability()
+        val topAppBarState = topAppBarStateProducer(screen)
         val config by rememberPdfReaderConfig()
         var overlayState by rememberRetained { mutableStateOf<ReadPdfOverlayState>(ReadPdfOverlayState.None) }
         val documentsState = rememberRetained(documents, annotationsMap) {
@@ -110,7 +107,7 @@ class ReadPdfPresenter @AssistedInject constructor(
         return when {
             documents.isNotEmpty() -> ReadPdfState.Success(
                 documents = documentsState,
-                mediaAvailability = mediaAvailability,
+                topAppBarState = topAppBarState,
                 config = config,
                 overlayState = overlayState,
                 eventSink = { event ->
@@ -159,24 +156,6 @@ class ReadPdfPresenter @AssistedInject constructor(
         } else {
             persistentListOf()
         }
-    }
-
-    @Composable
-    private fun rememberMediaAvailability(): State<MediaAvailability> = produceRetainedState(MediaAvailability()) {
-        val documentIndex = screen.documentIndex
-        val resourceIndex = screen.resourceIndex
-
-        val audioDeferred = contentDeferred { resourcesRepository.audio(resourceIndex, documentIndex) }
-        val videoDeferred = contentDeferred { resourcesRepository.video(resourceIndex, documentIndex) }
-
-        value = MediaAvailability(
-            audio = audioDeferred.await(),
-            video = videoDeferred.await(),
-        )
-    }
-
-    private fun <T> CoroutineScope.contentDeferred(content: suspend () -> Result<List<T>>): Deferred<Boolean> {
-        return async { content().getOrDefault(emptyList()).isNotEmpty() }
     }
 
     @Composable
