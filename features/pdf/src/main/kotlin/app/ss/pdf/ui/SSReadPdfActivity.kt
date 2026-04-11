@@ -48,8 +48,8 @@ import ss.libraries.media.resources.R as MediaR
 @AndroidEntryPoint
 class SSReadPdfActivity : PdfActivity() {
 
-    @Inject
-    lateinit var readerPrefs: PdfReaderPrefs
+//    @Inject
+//    lateinit var readerPrefs: PdfReaderPrefs
 
     private val viewModel by viewModels<ReadPdfViewModel>()
 
@@ -171,7 +171,7 @@ class SSReadPdfActivity : PdfActivity() {
         documents.forEachIndexed { index, pdfDocument ->
            // viewModel.saveAnnotations(pdfDocument, index)
         }
-        readerPrefs.saveConfiguration(configuration.configuration)
+        // readerPrefs.saveConfiguration(configuration.configuration)
         super.onStop()
     }
 

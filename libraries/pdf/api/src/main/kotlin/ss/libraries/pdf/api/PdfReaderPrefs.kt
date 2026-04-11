@@ -27,15 +27,16 @@ import com.pspdfkit.configuration.page.PageLayoutMode
 import com.pspdfkit.configuration.page.PageScrollDirection
 import com.pspdfkit.configuration.page.PageScrollMode
 import com.pspdfkit.configuration.theming.ThemeMode
+import kotlinx.coroutines.flow.Flow
 
 interface PdfReaderPrefs {
-    fun scrollMode(): PageScrollMode
+    fun scrollMode(): Flow<PageScrollMode>
     fun setScrollMode(mode: PageScrollMode)
-    fun pageLayoutMode(): PageLayoutMode
+    fun pageLayoutMode(): Flow<PageLayoutMode>
     fun setPageLayoutMode(mode: PageLayoutMode)
-    fun scrollDirection(): PageScrollDirection
+    fun scrollDirection(): Flow<PageScrollDirection>
     fun setScrollDirection(direction: PageScrollDirection)
-    fun themeMode(): ThemeMode
+    fun themeMode(): Flow<ThemeMode>
     fun setThemeMode(mode: ThemeMode)
     fun saveConfiguration(configuration: PdfConfiguration)
 }

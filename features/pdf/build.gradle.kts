@@ -58,6 +58,7 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core)
+    implementation(libs.androidx.datastore.prefs)
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.preference)
     implementation(libs.google.hilt.android)
@@ -95,7 +96,7 @@ fun Project.readPropertyValue(
         val keyProps = Properties().apply {
             load(FileInputStream(file))
         }
-        return keyProps.getProperty(key, defaultValue)
+        keyProps.getProperty(key, defaultValue)
     } else {
         defaultValue
     }

@@ -28,6 +28,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.pspdfkit.annotations.Annotation
+import com.pspdfkit.configuration.page.PageLayoutMode
+import com.pspdfkit.configuration.page.PageScrollDirection
+import com.pspdfkit.configuration.page.PageScrollMode
+import com.pspdfkit.configuration.theming.ThemeMode
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.NavEvent
 import com.slack.circuit.foundation.onNavEvent
@@ -46,6 +50,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import ss.document.components.DocumentTopAppBarAction
@@ -77,7 +82,7 @@ class ReadPdfPresenter @AssistedInject constructor(
         val topAppBarState = topAppBarStateProducer(screen)
         val config by rememberPdfReaderConfig()
         var overlayState by rememberRetained { mutableStateOf<ReadPdfOverlayState>(ReadPdfOverlayState.None) }
-        val documentsState = rememberRetained(documents, annotationsMap) {
+        val documentsState = rememberRetained(documents, annotationsMap, config) {
                 documents.mapIndexed { index, file ->
                     val pdfId = screen.pdfs.getOrNull(index)?.id.orEmpty()
                     PdfDocumentState(
@@ -159,15 +164,27 @@ class ReadPdfPresenter @AssistedInject constructor(
     }
 
     @Composable
-    private fun rememberPdfReaderConfig(): State<PdfReaderConfig> = rememberRetained {
-        mutableStateOf(
-            PdfReaderConfig(
-                scrollMode = pdfReaderPrefs.scrollMode(),
-                layoutMode = pdfReaderPrefs.pageLayoutMode(),
-                scrollDirection = pdfReaderPrefs.scrollDirection(),
-                themeMode = pdfReaderPrefs.themeMode(),
-            )
+    private fun rememberPdfReaderConfig(): State<PdfReaderConfig> = produceRetainedState(
+        PdfReaderConfig(
+            scrollMode = PageScrollMode.CONTINUOUS,
+            layoutMode = PageLayoutMode.SINGLE,
+            scrollDirection = PageScrollDirection.VERTICAL,
+            themeMode = ThemeMode.DEFAULT,
         )
+    ) {
+        combine(
+            pdfReaderPrefs.scrollMode(),
+            pdfReaderPrefs.pageLayoutMode(),
+            pdfReaderPrefs.scrollDirection(),
+            pdfReaderPrefs.themeMode()
+        ) { scrollMode, layoutMode, scrollDirection, themeMode ->
+            PdfReaderConfig(
+                scrollMode = scrollMode,
+                layoutMode = layoutMode,
+                scrollDirection = scrollDirection,
+                themeMode = themeMode,
+            )
+        }.collect { value = it }
     }
 
     @Composable
