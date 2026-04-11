@@ -47,7 +47,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -60,8 +59,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.design.compose.extensions.isLargeScreen
 import app.ss.design.compose.extensions.modifier.asPlaceholder
 import app.ss.design.compose.extensions.modifier.thenIf
@@ -80,21 +77,6 @@ import app.ss.models.media.SSVideo
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import app.ss.translations.R as L10n
-
-@Composable
-internal fun VideoListScreen(
-    viewModel: VideoListViewModel = viewModel(),
-    isAtTop: (Boolean) -> Unit = {},
-    onVideoClick: (SSVideo) -> Unit
-) {
-    val videoList by viewModel.videoListFlow.collectAsStateWithLifecycle()
-
-    VideoListScreen(
-        videoList = videoList,
-        isAtTop = isAtTop,
-        onVideoClick = onVideoClick
-    )
-}
 
 @Composable
 internal fun VideoListScreen(
