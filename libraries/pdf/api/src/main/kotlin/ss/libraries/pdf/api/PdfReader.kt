@@ -22,16 +22,11 @@
 
 package ss.libraries.pdf.api
 
-import android.content.Intent
 import app.ss.models.LessonPdf
 import app.ss.models.PDFAux
-import ss.libraries.circuit.navigation.PdfScreen
 
 /** API for handling pdf lessons. */
 interface PdfReader {
-
-    /** Returns an intent to read the PDF [screen]. */
-    fun launchIntent(screen: PdfScreen): Intent
 
     /** Download these [pdfs] to device storage. */
     suspend fun downloadFiles(pdfs: List<PDFAux>): Result<List<LocalFile>>
