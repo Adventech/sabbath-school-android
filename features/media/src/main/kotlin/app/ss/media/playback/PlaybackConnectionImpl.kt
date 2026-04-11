@@ -56,7 +56,7 @@ import timber.log.Timber
 internal class PlaybackConnectionImpl(
     private val context: Context,
     private val serviceComponent: ComponentName,
-    coroutineScope: CoroutineScope = ProcessLifecycleOwner.Companion.get().lifecycleScope
+    coroutineScope: CoroutineScope = ProcessLifecycleOwner.get().lifecycleScope
 ) : PlaybackConnection, CoroutineScope by coroutineScope {
 
     override val isConnected = MutableStateFlow(false)

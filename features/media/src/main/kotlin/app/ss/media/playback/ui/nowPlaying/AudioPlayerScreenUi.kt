@@ -51,8 +51,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconSlot
@@ -81,41 +79,6 @@ fun AudioPlayerScreenUi(state: AudioPlayerState, modifier: Modifier = Modifier) 
             // Loading state
         }
     }
-}
-
-@Composable
-internal fun NowPlayingScreen(
-    viewModel: NowPlayingViewModel = viewModel(),
-    isDraggable: (Boolean) -> Unit = {}
-) {
-    val playbackConnection = viewModel.playbackConnection
-    val playbackState by playbackConnection.playbackState
-        .collectAsStateWithLifecycle()
-    val nowPlaying by viewModel.nowPlayingAudio
-        .collectAsStateWithLifecycle()
-    val playbackQueue by playbackConnection.playbackQueue
-        .collectAsStateWithLifecycle()
-    val playbackSpeed by playbackConnection.playbackSpeed
-        .collectAsStateWithLifecycle()
-    val playbackProgressState by playbackConnection.playbackProgress
-        .collectAsStateWithLifecycle()
-    val nowPlayingAudio = if (nowPlaying.id.isEmpty()) {
-        playbackQueue.currentAudio ?: nowPlaying
-    } else {
-        nowPlaying
-    }
-
-    NowPlayingScreen(
-        spec = NowPlayingScreenSpec(
-            nowPlayingAudio,
-            playbackQueue,
-            playbackState,
-            playbackProgressState,
-            playbackConnection,
-            playbackSpeed,
-            isDraggable
-        )
-    )
 }
 
 @Composable

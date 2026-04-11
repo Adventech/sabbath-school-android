@@ -45,6 +45,7 @@ ksp {
 }
 
 dependencies {
+    implementation(libs.androidx.activity.compose)
     implementation(libs.coil.compose)
     implementation(libs.google.hilt.android)
     implementation(libs.joda.time)

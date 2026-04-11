@@ -26,7 +26,6 @@ import android.view.MotionEvent
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
-import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.Spring
@@ -61,7 +60,7 @@ import app.ss.models.media.AudioFile
 import ss.services.media.ui.spec.PlaybackQueueSpec
 import ss.services.media.ui.spec.toSpec
 
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalSharedTransitionApi::class)
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun NowPlayingDetail(
     spec: NowPlayingScreenSpec,
@@ -147,7 +146,6 @@ internal fun NowPlayingDetail(
     }
 }
 
-@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 private fun RowContent(
     nowPlayingAudio: AudioFile,
@@ -188,7 +186,6 @@ private fun RowContent(
     }
 }
 
-@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 private fun ColumnContent(
     nowPlayingAudio: AudioFile,

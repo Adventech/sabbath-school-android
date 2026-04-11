@@ -23,6 +23,7 @@
 package ss.document.segment.components.pdf
 
 import android.content.Context
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -96,7 +97,7 @@ fun PdfUi(
             eventSink = eventSink,
         )
 
-        val activity = LocalContext.current as? FragmentActivity
+        val activity = LocalActivity.current as? FragmentActivity
 
         DocumentView(
             documentState = documentState,
