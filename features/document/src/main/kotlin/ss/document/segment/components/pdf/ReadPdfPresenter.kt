@@ -136,7 +136,7 @@ class ReadPdfPresenter @AssistedInject constructor(
                             }
                         }
 
-                        is ReadPdfEvent.OnConfigurationChanged -> {
+                        is ReadPdfEvent.OnDocumentHidden -> {
                             pdfReaderPrefs.saveConfiguration(event.config)
 
                             event.annotations?.let { saveAnnotations(pdfId = event.pdfId, annotations = it) }

@@ -55,7 +55,7 @@ sealed interface ReadPdfEvent {
     data object OnNavBack : ReadPdfEvent
     data class OnNavEvent(val event: NavEvent, val context: Context) : ReadPdfEvent
     data class OnTopAppBarAction(val action: DocumentTopAppBarAction): ReadPdfEvent
-    data class OnConfigurationChanged(
+    data class OnDocumentHidden(
         val config: PdfConfiguration,
         val annotations: List<Annotation>?,
         val pdfId: String,

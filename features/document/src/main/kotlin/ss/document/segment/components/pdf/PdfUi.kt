@@ -110,7 +110,7 @@ fun PdfUi(
                             val annotations = pdfFragment?.document?.annotationProvider?.getAllAnnotationsOfType(allowedAnnotations.toSet())
                             pdfFragment?.let {
                                 eventSink(
-                                    ReadPdfEvent.OnConfigurationChanged(
+                                    ReadPdfEvent.OnDocumentHidden(
                                         config = it.configuration,
                                         annotations = annotations,
                                         pdfId = document.pdfId,
