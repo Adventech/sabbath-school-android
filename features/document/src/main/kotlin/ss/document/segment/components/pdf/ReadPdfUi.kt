@@ -94,6 +94,7 @@ private fun ReadPdfSuccessUi(state: ReadPdfState.Success, modifier: Modifier = M
         modifier = modifier.fillMaxSize(),
         verticalAlignment = Alignment.Top,
         beyondViewportPageCount = 0,
+        userScrollEnabled = false,
     ) { page ->
         val document = state.documents[page]
         var expanded by remember { mutableStateOf(false) }
