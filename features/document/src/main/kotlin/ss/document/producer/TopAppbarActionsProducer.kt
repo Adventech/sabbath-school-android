@@ -27,14 +27,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import app.ss.models.PDFAux
 import com.slack.circuit.retained.produceRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.Navigator
-import com.slack.circuitx.android.IntentScreen
 import dagger.Lazy
 import io.adventech.blockkit.model.resource.Segment
 import io.adventech.blockkit.model.resource.SegmentType
@@ -52,7 +50,6 @@ import ss.libraries.circuit.navigation.AudioPlayerScreen
 import ss.libraries.circuit.navigation.PdfScreen
 import ss.libraries.circuit.navigation.ShareOptionsScreen
 import ss.libraries.circuit.navigation.VideosScreen
-import ss.libraries.pdf.api.PdfReader
 import ss.resources.api.ResourcesRepository
 import javax.inject.Inject
 
@@ -92,7 +89,6 @@ interface TopAppbarActionsProducer {
 
 internal class TopAppbarActionsProducerImpl @Inject constructor(
     private val repository: ResourcesRepository,
-    private val pdfReader: PdfReader,
     private val shareIntentHelper: Lazy<ShareIntentHelper>,
 ) : TopAppbarActionsProducer {
 
@@ -118,7 +114,7 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
             if (segment?.type == SegmentType.PDF) return@produceRetainedState
             value = repository.pdf(resourceIndex, documentIndex).getOrNull().orEmpty()
         }
-        val actions = remember(audio, video, pdfs, segment, shareOptions) {
+        val actions = rememberRetained(audio, video, pdfs, segment, shareOptions) {
             buildList {
                 if (audio.isNotEmpty()) {
                     add(DocumentTopAppBarAction.Audio)
@@ -184,7 +180,7 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
                                         )
                                     },
                                 )
-                                navigator.goTo(IntentScreen(pdfReader.launchIntent(screen)))
+                                navigator.goTo(screen)
                             }
                             DocumentTopAppBarAction.DisplayOptions -> {
                                 bottomSheetState = BottomSheet(
@@ -217,6 +213,7 @@ internal class TopAppbarActionsProducerImpl @Inject constructor(
                                     }
                                 }
                             }
+                            else -> Unit
                         }
                     }
                 }

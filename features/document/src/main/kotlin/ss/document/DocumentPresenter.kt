@@ -23,14 +23,11 @@
 package ss.document
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.Snapshot
 import androidx.core.net.toUri
-import app.ss.models.PDFAux
 import app.ss.models.media.AudioFile
 import app.ss.models.media.SSVideo
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -66,7 +63,6 @@ import ss.document.producer.UserInputStateProducer
 import ss.document.segment.producer.SegmentOverlayStateProducer
 import ss.libraries.circuit.navigation.DocumentScreen
 import ss.libraries.circuit.navigation.ExpandedAudioPlayerScreen
-import ss.libraries.circuit.navigation.PdfScreen
 import ss.libraries.circuit.navigation.ResourceScreen
 import ss.libraries.media.api.MediaNavigation
 import ss.libraries.media.api.SSMediaPlayer
@@ -75,7 +71,6 @@ import ss.libraries.media.model.SSMediaItem
 import ss.libraries.media.model.extensions.NONE_PLAYING
 import ss.libraries.media.service.MusicService
 import ss.libraries.media.service.VideoService
-import ss.libraries.pdf.api.PdfReader
 import ss.misc.DateHelper
 import ss.resources.api.ResourcesRepository
 import ss.services.media.ui.PlaybackConnection
@@ -93,7 +88,6 @@ class DocumentPresenter @AssistedInject constructor(
     private val readerStyleStateProducer: ReaderStyleStateProducer,
     private val segmentOverlayStateProducer: SegmentOverlayStateProducer,
     private val userInputStateProducer: UserInputStateProducer,
-    private val pdfReader: PdfReader,
     private val playbackConnection: PlaybackConnection,
     private val mediaNavigation: MediaNavigation,
     private val mediaPlayer: SSMediaPlayer,
@@ -110,8 +104,6 @@ class DocumentPresenter @AssistedInject constructor(
         var selectedPage by rememberRetained(documentPages) { mutableStateOf(documentPages.defaultPage()) }
 
         val resourceDocument = response
-
-        LaunchedEffect(resourceDocument) { checkPdfOnlySegment(resourceDocument) }
 
         val actionsState = resourceDocument?.let {
             actionsProducer(
@@ -290,37 +282,6 @@ class DocumentPresenter @AssistedInject constructor(
             val date = segment.date?.let { DateHelper.parseDate(it) }
             date?.isEqual(today) == true
         } ?: firstOrNull()
-    }
-
-    private fun checkPdfOnlySegment(resourceDocument: ResourceDocument?) {
-        val document = resourceDocument ?: return
-        val segments = document.segments ?: return
-        val blocks = segments.flatMap { it.blocks.orEmpty() }
-        val pdfs = segments.flatMap { it.pdf.orEmpty() }
-
-        if (blocks.isEmpty() && pdfs.isNotEmpty()) {
-            val pdfs = segments.flatMap { it.pdf.orEmpty() }
-            val screen = PdfScreen(
-                documentId = document.id,
-                resourceId = document.resourceId,
-                resourceIndex = document.resourceIndex,
-                documentIndex = document.index,
-                segmentId = null,
-                pdfs = pdfs.map {
-                    PDFAux(
-                        id = it.id,
-                        src = it.src,
-                        title = it.title,
-                        target = it.target,
-                        targetIndex = it.targetIndex,
-                    )
-                },
-            )
-            Snapshot.withMutableSnapshot {
-                navigator.pop()
-                navigator.goTo(IntentScreen(pdfReader.launchIntent(screen)))
-            }
-        }
     }
 
     private fun BlockItem.Video.toSSVideo(

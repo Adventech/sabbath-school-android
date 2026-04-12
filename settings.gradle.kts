@@ -33,7 +33,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven("https://customers.pspdfkit.com/maven")
+        maven("https://my.nutrient.io/maven")
     }
 }
 
@@ -57,7 +57,6 @@ include(
     ":features:feed",
     ":features:media",
     ":features:navigation-suite",
-    ":features:pdf",
     ":features:resource",
     ":features:settings",
     ":features:share",
@@ -91,6 +90,7 @@ include(
     ":services:lessons:impl",
     ":services:media:impl",
     ":services:media:ui",
+    ":services:pdf:impl",
     ":services:prefs:impl",
     ":services:resources:api",
     ":services:resources:impl",

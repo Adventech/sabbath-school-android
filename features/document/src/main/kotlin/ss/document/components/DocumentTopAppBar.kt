@@ -42,7 +42,6 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -52,6 +51,7 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
@@ -73,14 +73,13 @@ import app.ss.design.compose.extensions.haptics.LocalSsHapticFeedback
 import app.ss.design.compose.theme.SsTheme
 import app.ss.design.compose.widget.icon.IconBox
 import app.ss.design.compose.widget.icon.IconButtonResSlot
-import app.ss.design.compose.widget.icon.IconButtonSlot
 import app.ss.design.compose.widget.icon.Icons
 import io.adventech.blockkit.model.resource.Segment
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import ss.misc.DateHelper
-import androidx.compose.material.icons.Icons as MaterialIcons
 import app.ss.translations.R as L10nR
+import com.pspdfkit.R as PspdfR
 import ss.document.R as DocumentR
 import ss.libraries.media.resources.R as MediaR
 
@@ -113,6 +112,21 @@ enum class DocumentTopAppBarAction(
         iconRes = DocumentR.drawable.ic_text_format,
         title = L10nR.string.ss_settings_display_options,
         primary = false,
+    ),
+    Annotations(
+        iconRes = DocumentR.drawable.ic_pdf_annotations,
+        title = L10nR.string.ss_annotations,
+        primary = true,
+    ),
+    Outline(
+        iconRes = DocumentR.drawable.ic_pdf_bookmark,
+        title = PspdfR.string.pspdf__activity_menu_outline,
+        primary = true,
+    ),
+    Settings(
+        iconRes = DocumentR.drawable.ic_pdf_settings,
+        title = PspdfR.string.pspdf__activity_menu_settings,
+        primary = true,
     )
 }
 
@@ -126,11 +140,21 @@ internal fun DocumentTopAppBar(
     contentColor: Color = SsTheme.colors.primaryForeground,
     scrollBehavior: TopAppBarScrollBehavior? = null,
     actions: ImmutableList<DocumentTopAppBarAction> = persistentListOf(),
+    colors: TopAppBarColors = TopAppBarDefaults.topAppBarColors(
+        containerColor = Color.Transparent,
+        scrolledContainerColor = Color.Transparent,
+    ),
     onNavBack: () -> Unit = {},
     onActionClick: (DocumentTopAppBarAction) -> Unit = {},
 ) {
     val hapticFeedback = LocalSsHapticFeedback.current
     var expanded by remember { mutableStateOf(false) }
+
+    val primaryActions = remember(actions) { actions.filter { it.primary } }
+    val nonPrimaryActions = remember(actions) { actions.filter { !it.primary } }
+    val visibleActions = remember(primaryActions) { primaryActions.take(2) }
+    val overflowActions = remember(primaryActions, nonPrimaryActions) { primaryActions.drop(2) + nonPrimaryActions }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -144,7 +168,7 @@ internal fun DocumentTopAppBar(
             shape = RoundedCornerShape(16.dp),
             containerColor = SsTheme.colors.primaryBackground,
         ) {
-            actions.filter { !it.primary }.forEach { action ->
+            overflowActions.forEach { action ->
                 DropdownMenuItem(
                     text = {
                         Text(
@@ -219,7 +243,8 @@ internal fun DocumentTopAppBar(
         },
         actions = {
             buildList {
-                actions.filter { it.primary }.forEach { action ->
+                // Add the visible primary actions (up to 2)
+                visibleActions.forEach { action ->
                     add(
                         IconButtonResSlot(
                             iconRes = action.iconRes,
@@ -228,10 +253,12 @@ internal fun DocumentTopAppBar(
                         )
                     )
                 }
-                if (actions.any { !it.primary }) {
+
+                // Add the "More" icon if there are any secondary or overflowed primary actions
+                if (overflowActions.isNotEmpty()) {
                     add(
-                        IconButtonSlot(
-                            imageVector = MaterialIcons.Rounded.MoreVert,
+                        IconButtonResSlot(
+                            iconRes = DocumentR.drawable.ic_more_vert,
                             contentDescription = stringResource(L10nR.string.ss_more),
                             onClick = {
                                 expanded = true
@@ -242,12 +269,7 @@ internal fun DocumentTopAppBar(
                 }
             }.forEach { icon ->
                 val iconColor by topAppBarContentColor(collapsible, collapsed, contentColor)
-                val onClick = (icon as? IconButtonSlot)?.onClick ?: (icon as? IconButtonResSlot)?.onClick
-                IconButton(
-                    onClick = {
-                        onClick?.invoke()
-                    },
-                ) {
+                IconButton(onClick = { icon.onClick() }) {
                     IconBox(
                         icon = icon,
                         contentColor = iconColor,
@@ -256,10 +278,7 @@ internal fun DocumentTopAppBar(
             }
         },
         scrollBehavior = scrollBehavior,
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.Transparent,
-            scrolledContainerColor = Color.Transparent,
-        )
+        colors = colors
     )
 }
 

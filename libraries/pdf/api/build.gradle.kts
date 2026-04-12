@@ -4,6 +4,7 @@ plugins {
 }
 
 dependencies {
+    implementation(libs.nutrient)
     implementation(projects.common.models)
     implementation(projects.libraries.circuit.api)
 }

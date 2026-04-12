@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025. Adventech <info@adventech.io>
+ * Copyright (c) 2026. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,15 +22,21 @@
 
 package ss.libraries.pdf.api
 
-import app.ss.models.LessonPdf
-import app.ss.models.PDFAux
+import com.pspdfkit.configuration.PdfConfiguration
+import com.pspdfkit.configuration.page.PageLayoutMode
+import com.pspdfkit.configuration.page.PageScrollDirection
+import com.pspdfkit.configuration.page.PageScrollMode
+import com.pspdfkit.configuration.theming.ThemeMode
+import kotlinx.coroutines.flow.Flow
 
-/** API for handling pdf lessons. */
-interface PdfReader {
-
-    /** Download these [pdfs] to device storage. */
-    suspend fun downloadFiles(pdfs: List<PDFAux>): Result<List<LocalFile>>
-
-    /** Returns true if this [pdf] file is downloaded. */
-    fun isDownloaded(pdf: LessonPdf): Boolean
+interface PdfReaderPrefs {
+    fun scrollMode(): Flow<PageScrollMode>
+    fun setScrollMode(mode: PageScrollMode)
+    fun pageLayoutMode(): Flow<PageLayoutMode>
+    fun setPageLayoutMode(mode: PageLayoutMode)
+    fun scrollDirection(): Flow<PageScrollDirection>
+    fun setScrollDirection(direction: PageScrollDirection)
+    fun themeMode(): Flow<ThemeMode>
+    fun setThemeMode(mode: ThemeMode)
+    fun saveConfiguration(configuration: PdfConfiguration)
 }

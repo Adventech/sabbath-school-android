@@ -1,8 +1,5 @@
-import com.android.build.api.dsl.LibraryExtension
-import org.gradle.kotlin.dsl.configure
-
 /*
- * Copyright (c) 2025. Adventech <info@adventech.io>
+ * Copyright (c) 2026. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,53 +20,63 @@ import org.gradle.kotlin.dsl.configure
  * THE SOFTWARE.
  */
 
+import com.android.build.api.dsl.LibraryExtension
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.foundry.base)
     alias(libs.plugins.ksp)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.hilt)
 }
 
+val psPdfKitKey = readPropertyValue(
+    filePath = "$rootDir/${BuildAndroidConfig.API_KEYS_PROPS_FILE}",
+    key = "PSPDFKIT_LICENSE",
+    defaultValue = ""
+)
+
 extensions.configure<LibraryExtension> {
-    namespace = "ss.document"
-}
+    namespace = "ss.services.pdf.impl"
 
-foundry {
-    features { compose() }
-}
-
-
-ksp {
-    arg("circuit.codegen.mode", "hilt")
+    defaultConfig {
+        manifestPlaceholders["psPdfKitKey"] = psPdfKitKey
+    }
 }
 
 dependencies {
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.coil.compose)
+    implementation(libs.androidx.datastore.prefs)
+    implementation(libs.androidx.preference)
     implementation(libs.google.hilt.android)
-    implementation(libs.joda.time)
-    implementation(libs.kotlinx.collectionsImmutable)
     implementation(libs.nutrient)
     implementation(libs.timber)
-    implementation(projects.common.design)
-    implementation(projects.common.designCompose)
-    implementation(projects.common.misc)
-    implementation(projects.common.translations)
-    implementation(projects.libraries.blockKit.ui)
-    implementation(projects.libraries.circuit.api)
-    implementation(projects.libraries.foundation.android)
-    implementation(projects.libraries.media.api)
-    implementation(projects.libraries.media.resources)
-    implementation(projects.libraries.media.service)
+    implementation(projects.common.models)
+    implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.pdf.api)
-    implementation(projects.libraries.prefs.api)
-    implementation(projects.services.media.ui)
-    implementation(projects.services.resources.api)
 
-    testImplementation(libs.bundles.testing.common)
-
-    ksp(libs.circuit.codegen)
     ksp(libs.google.hilt.compiler)
 }
 
+/**
+ * Reads a value saved in a [Properties] file
+ */
+fun Project.readPropertyValue(
+    filePath: String,
+    key: String,
+    defaultValue: String
+): String {
+    val file = file(filePath)
+    return if (file.exists()) {
+        val keyProps = Properties().apply {
+            load(FileInputStream(file))
+        }
+        keyProps.getProperty(key, defaultValue)
+    } else {
+        defaultValue
+    }
+}
+
+object BuildAndroidConfig {
+    const val API_KEYS_PROPS_FILE = "release/ss_public_keys.properties"
+}

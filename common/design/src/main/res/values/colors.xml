@@ -38,6 +38,7 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="black_40">#66000000</color>
+    <color name="sepia">#FDF4E6</color>
 
     <color name="list_divider">#80D7D7D7</color>
     <color name="ss_gray_1">#EFEFEF</color>
