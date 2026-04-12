@@ -39,6 +39,7 @@ import com.pspdfkit.configuration.page.PageScrollMode
 import com.pspdfkit.configuration.theming.ThemeMode
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ss.foundation.coroutines.DispatcherProvider
@@ -75,7 +76,7 @@ private val Context.pdfDataStore: DataStore<Preferences> by preferencesDataStore
 internal class PdfReaderPrefsImpl(
     private val dataStore: DataStore<Preferences>,
     private val sharedPreferences: SharedPreferences,
-    dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
 ) : PdfReaderPrefs, Scopable by ioScopable(dispatcherProvider) {
 
     @Inject
@@ -95,9 +96,9 @@ internal class PdfReaderPrefsImpl(
 
     override fun scrollMode(): Flow<PageScrollMode> = dataStore.data.map { preferences ->
         preferences[scrollModeKey]?.let {
-            runCatching { PageScrollMode.valueOf(it) }.getOrNull()
+            PageScrollMode.valueOf(it)
         } ?: PageScrollMode.CONTINUOUS
-    }
+    }.flowOn(dispatcherProvider.io)
 
     override fun setScrollMode(mode: PageScrollMode) {
         sharedPreferences.edit { putString(KEY_SCROLL_MODE, mode.name) }
@@ -106,9 +107,9 @@ internal class PdfReaderPrefsImpl(
 
     override fun pageLayoutMode(): Flow<PageLayoutMode> = dataStore.data.map { preferences ->
         preferences[layoutModeKey]?.let {
-            runCatching { PageLayoutMode.valueOf(it) }.getOrNull()
+            PageLayoutMode.valueOf(it)
         } ?: PageLayoutMode.SINGLE
-    }
+    }.flowOn(dispatcherProvider.io)
 
     override fun setPageLayoutMode(mode: PageLayoutMode) {
         sharedPreferences.edit { putString(KEY_LAYOUT_MODE, mode.name) }
@@ -117,9 +118,9 @@ internal class PdfReaderPrefsImpl(
 
     override fun scrollDirection(): Flow<PageScrollDirection> = dataStore.data.map { preferences ->
         preferences[scrollDirectionKey]?.let {
-            runCatching { PageScrollDirection.valueOf(it) }.getOrNull()
+            PageScrollDirection.valueOf(it)
         } ?: PageScrollDirection.VERTICAL
-    }
+    }.flowOn(dispatcherProvider.io)
 
     override fun setScrollDirection(direction: PageScrollDirection) {
         sharedPreferences.edit { putString(KEY_SCROLL_DIRECTION, direction.name) }
@@ -127,10 +128,8 @@ internal class PdfReaderPrefsImpl(
     }
 
     override fun themeMode(): Flow<ThemeMode> = dataStore.data.map { preferences ->
-        preferences[themeModeKey]?.let {
-            runCatching { ThemeMode.valueOf(it) }.getOrNull()
-        } ?: ThemeMode.DEFAULT
-    }
+        preferences[themeModeKey]?.let { ThemeMode.valueOf(it) } ?: ThemeMode.DEFAULT
+    }.flowOn(dispatcherProvider.io)
 
     override fun setThemeMode(mode: ThemeMode) {
         sharedPreferences.edit { putString(KEY_THEME_MODE, mode.name) }
