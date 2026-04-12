@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2026. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,6 @@
  */
 
 import com.android.build.api.dsl.LibraryExtension
-import org.gradle.kotlin.dsl.configure
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -39,25 +38,14 @@ val psPdfKitKey = readPropertyValue(
 )
 
 extensions.configure<LibraryExtension> {
-    namespace = "app.ss.pdf"
+    namespace = "ss.services.pdf.impl"
 
     defaultConfig {
         manifestPlaceholders["psPdfKitKey"] = psPdfKitKey
     }
 }
 
-foundry {
-    features { compose() }
-}
-
-ksp {
-    arg("circuit.codegen.mode", "hilt")
-}
-
 dependencies {
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.core)
     implementation(libs.androidx.datastore.prefs)
     implementation(libs.androidx.preference)
     implementation(libs.google.hilt.android)
@@ -67,7 +55,6 @@ dependencies {
     implementation(projects.libraries.foundation.coroutines)
     implementation(projects.libraries.pdf.api)
 
-    ksp(libs.circuit.codegen)
     ksp(libs.google.hilt.compiler)
 }
 

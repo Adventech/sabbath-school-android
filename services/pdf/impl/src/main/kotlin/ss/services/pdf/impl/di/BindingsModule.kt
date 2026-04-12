@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2026. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,10 +20,10 @@
  * THE SOFTWARE.
  */
 
-package app.ss.pdf.di
+package ss.services.pdf.impl.di
 
-import app.ss.pdf.PdfReaderImpl
-import app.ss.pdf.PdfReaderPrefsImpl
+import ss.services.pdf.impl.PdfReaderImpl
+import ss.services.pdf.impl.PdfReaderPrefsImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
