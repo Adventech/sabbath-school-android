@@ -1,6 +1,6 @@
 [versions]
 androidx-activity = "1.13.0"
-androidx-annotations = "1.9.1"
+androidx-annotations = "1.10.0"
 androidx-appcompat = "1.7.1"
 androidx-browser = "1.10.0"
 androidx-compose-bom = "2026.03.01"
