@@ -42,6 +42,7 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import io.adventech.blockkit.model.BlockItem
@@ -245,7 +246,9 @@ private fun SelectableParagraph(
             onValueChange = { textFieldValue = it },
             extendedSpans = extendedSpans,
             modifier = textModifier,
-            style = Styler.textStyle(blockStyle),
+            style = Styler.textStyle(blockStyle).copy(
+                lineHeight = 1.3.em,
+            ),
             textAlign = Styler.textAlign(blockStyle),
             onHandleUri = onHandleUri,
         )
