@@ -115,7 +115,6 @@ fun DocumentScreenUi(state: State, modifier: Modifier = Modifier) {
     HazeScaffold(
         modifier = modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection)
-            .keepScreenOn(),
         topBar = {
             AnimatedVisibility(
                 visible = state.showTopBar(collapsed),
