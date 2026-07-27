@@ -19,11 +19,6 @@ jobs:
           distribution: 'zulu'
           java-version: '21'
 
-      - name: Decrypt secrets
-        run: ./release/decrypt-secrets.sh
-        env:
-          ENCRYPT_KEY: ${{ secrets.ENCRYPT_KEY }}
-
       - name: Run Code Quality Checks
         run: ./gradlew check
 
