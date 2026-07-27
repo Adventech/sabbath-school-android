@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Adventech <info@adventech.io>
+ * Copyright (c) 2026. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,35 +20,21 @@
  * THE SOFTWARE.
  */
 
-package app.ss.pdf.di
+package app.ss.auth
 
-import app.ss.auth.PrivateUserDataCleaner
-import app.ss.pdf.FilePdfAnnotationJournal
-import app.ss.pdf.PdfAnnotationJournal
-import app.ss.pdf.PdfReaderImpl
-import app.ss.pdf.PdfReaderPrefs
-import app.ss.pdf.PdfReaderPrefsImpl
-import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dagger.multibindings.IntoSet
-import ss.libraries.pdf.api.PdfReader
+import dagger.multibindings.Multibinds
+
+/** Clears app-private durable state that is scoped to the signed-in user. */
+fun interface PrivateUserDataCleaner {
+    fun clearPrivateUserData()
+}
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class BindingsModule {
-
-    @Binds
-    internal abstract fun bindReaderPrefs(impl: PdfReaderPrefsImpl): PdfReaderPrefs
-
-    @Binds
-    internal abstract fun bindReader(impl: PdfReaderImpl): PdfReader
-
-    @Binds
-    internal abstract fun bindAnnotationJournal(impl: FilePdfAnnotationJournal): PdfAnnotationJournal
-
-    @Binds
-    @IntoSet
-    internal abstract fun bindPrivateUserDataCleaner(impl: FilePdfAnnotationJournal): PrivateUserDataCleaner
+internal abstract class PrivateUserDataCleanerModule {
+    @Multibinds
+    abstract fun privateUserDataCleaners(): Set<PrivateUserDataCleaner>
 }

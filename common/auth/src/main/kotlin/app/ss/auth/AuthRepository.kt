@@ -81,7 +81,8 @@ internal class AuthRepositoryImpl @Inject constructor(
     private val userDao: UserDao,
     private val userInputDao: UserInputDao,
     private val dispatcherProvider: DispatcherProvider,
-    private val connectivityHelper: ConnectivityHelper
+    private val connectivityHelper: ConnectivityHelper,
+    private val privateUserDataCleaners: Set<@JvmSuppressWildcards PrivateUserDataCleaner>,
 ) : AuthRepository {
 
     override suspend fun getUser(): Result<SSUser?> = withContext(dispatcherProvider.io) {
@@ -120,6 +121,10 @@ internal class AuthRepositoryImpl @Inject constructor(
     override suspend fun logout() = withContext(dispatcherProvider.io) {
         userDao.clear()
         userInputDao.clear()
+        privateUserDataCleaners.forEach { cleaner ->
+            runCatching(cleaner::clearPrivateUserData)
+                .onFailure { Timber.e(it, "Failed to clear private user data") }
+        }
     }
 
     override suspend fun deleteAccount() {

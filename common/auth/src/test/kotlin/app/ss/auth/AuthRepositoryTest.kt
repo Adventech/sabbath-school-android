@@ -49,6 +49,8 @@ class AuthRepositoryTest {
     private val fakeUserDao = FakeUserDao()
     private val fakeUserInputDao = FakeUserInputDao()
     private val fakeConnectivityHelper = FakeConnectivityHelper(true)
+    private var privateUserDataCleared = false
+    private val privateUserDataCleaner = PrivateUserDataCleaner { privateUserDataCleared = true }
 
     private val fakeUser = UserEntity(
         uid = "uid",
@@ -68,6 +70,7 @@ class AuthRepositoryTest {
         userInputDao = fakeUserInputDao,
         dispatcherProvider = TestDispatcherProvider(),
         connectivityHelper = fakeConnectivityHelper,
+        privateUserDataCleaners = setOf(privateUserDataCleaner),
     )
 
     @Test
@@ -129,6 +132,13 @@ class AuthRepositoryTest {
         repository.logout()
 
         fakeUserInputDao.items shouldNotContain userInput
+    }
+
+    @Test
+    fun `logout - should clear private user data journals`() = runTest {
+        repository.logout()
+
+        privateUserDataCleared shouldBe true
     }
 
 }
