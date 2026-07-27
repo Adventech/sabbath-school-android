@@ -23,6 +23,7 @@
 package io.adventech.blockkit.ui.color
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
 import io.adventech.blockkit.model.input.HighlightColor
 
 val Color.Companion.Primary: Color
@@ -138,3 +139,6 @@ fun HighlightColor.toColor(): Color = when (this) {
     HighlightColor.RED -> Color(0xFFEC5252)
     HighlightColor.UNKNOWN -> Color.Transparent
 }
+
+internal fun HighlightColor.toHighlightSpanStyle(): SpanStyle =
+    SpanStyle(background = toColor().copy(alpha = 0.15f))
