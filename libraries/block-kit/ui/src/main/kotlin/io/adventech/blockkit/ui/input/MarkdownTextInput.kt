@@ -37,7 +37,7 @@ import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
-import io.adventech.blockkit.ui.TAG_URL
+import io.adventech.blockkit.ui.urlAt
 import me.saket.extendedspans.ExtendedSpans
 import me.saket.extendedspans.drawBehind
 
@@ -88,14 +88,7 @@ internal fun MarkdownTextInput(
                             val offset = interaction.press.pressPosition
                             val position = layoutResult.getOffsetForPosition(offset)
 
-                            styledText
-                                .getStringAnnotations(position, position)
-                                .firstOrNull()
-                                ?.let { annotation ->
-                                    if (annotation.tag == TAG_URL) {
-                                        onHandleUri(annotation.item)
-                                    }
-                                }
+                            styledText.urlAt(position)?.let(onHandleUri)
                         }
                     }
                 }
