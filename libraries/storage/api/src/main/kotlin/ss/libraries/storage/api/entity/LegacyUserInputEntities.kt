@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025. Adventech <info@adventech.io>
+ * Copyright (c) 2026. Adventech <info@adventech.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,32 +20,34 @@
  * THE SOFTWARE.
  */
 
-package app.ss.storage.test
+package ss.libraries.storage.api.entity
 
-import androidx.annotation.VisibleForTesting
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
-import ss.libraries.storage.api.dao.UserInputDao
-import ss.libraries.storage.api.entity.UserInputEntity
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-@VisibleForTesting(otherwise = VisibleForTesting.NONE)
-class FakeUserInputDao : FakeBaseDao<UserInputEntity>(), UserInputDao {
+@Entity(tableName = "legacy_annotations_v26")
+data class LegacyPdfAnnotationsV26Entity(
+    @PrimaryKey val index: String,
+    val pdfIndex: String,
+    val pageIndex: Int,
+    val annotations: String,
+    @ColumnInfo(defaultValue = "1675209600")
+    val timestamp: Long,
+)
 
-    override fun getDocumentInput(documentId: String): Flow<List<UserInputEntity>> {
-        return flowOf(items.toList().filter { it.documentId == documentId })
-    }
+@Entity(tableName = "legacy_comments_v26")
+data class LegacyReadCommentsV26Entity(
+    @PrimaryKey val readIndex: String,
+    val comments: String,
+    @ColumnInfo(defaultValue = "1675209600")
+    val timestamp: Long,
+)
 
-    override fun getId(localId: String): String? {
-        return items.find { it.localId == localId }?.id
-    }
-
-    override fun clearCurrent() {
-        items.clear()
-    }
-
-    override fun clearLegacyAnnotations() = Unit
-
-    override fun clearLegacyComments() = Unit
-
-    override fun clearLegacyHighlights() = Unit
-}
+@Entity(tableName = "legacy_highlights_v26")
+data class LegacyReadHighlightsV26Entity(
+    @PrimaryKey val readIndex: String,
+    val highlights: String,
+    @ColumnInfo(defaultValue = "1675209600")
+    val timestamp: Long,
+)

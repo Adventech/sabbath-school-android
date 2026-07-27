@@ -24,6 +24,7 @@ package ss.libraries.storage.api.dao
 
 import androidx.room.Dao
 import androidx.room.Query
+import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 import ss.libraries.storage.api.entity.UserInputEntity
 
@@ -36,6 +37,23 @@ interface UserInputDao : BaseDao<UserInputEntity> {
     @Query("SELECT id FROM user_input WHERE localId = :localId")
     fun getId(localId: String): String?
 
+    @Transaction
+    fun clear() {
+        clearCurrent()
+        clearLegacyAnnotations()
+        clearLegacyComments()
+        clearLegacyHighlights()
+    }
+
     @Query("DELETE FROM user_input")
-    fun clear()
+    fun clearCurrent()
+
+    @Query("DELETE FROM legacy_annotations_v26")
+    fun clearLegacyAnnotations()
+
+    @Query("DELETE FROM legacy_comments_v26")
+    fun clearLegacyComments()
+
+    @Query("DELETE FROM legacy_highlights_v26")
+    fun clearLegacyHighlights()
 }
