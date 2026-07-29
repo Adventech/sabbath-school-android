@@ -109,6 +109,9 @@ import org.commonmark.parser.Parser
 internal const val TAG_URL = "url"
 internal const val TAG_IMAGE_URL = "imageUrl"
 
+internal fun AnnotatedString.urlAt(position: Int): String? =
+    getStringAnnotations(TAG_URL, position, position).firstOrNull()?.item
+
 @Composable
 fun MarkdownText(
     markdownText: String,
@@ -149,14 +152,7 @@ fun MarkdownText(
                 detectTapGestures { offset ->
                     layoutResult.value?.let { layoutResult ->
                         val position = layoutResult.getOffsetForPosition(offset)
-                        styledText
-                            .getStringAnnotations(position, position)
-                            .firstOrNull()
-                            ?.let { annotation ->
-                                if (annotation.tag == TAG_URL) {
-                                    onHandleUri(annotation.item)
-                                }
-                            }
+                        styledText.urlAt(position)?.let(onHandleUri)
                     }
                 }
             }
