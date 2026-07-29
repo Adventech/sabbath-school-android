@@ -72,7 +72,7 @@ import io.adventech.blockkit.parser.span.Span
 import io.adventech.blockkit.parser.span.TextAttributes
 import io.adventech.blockkit.ui.color.AttributedTextColorOverride
 import io.adventech.blockkit.ui.color.parse
-import io.adventech.blockkit.ui.color.toColor
+import io.adventech.blockkit.ui.color.toHighlightSpanStyle
 import io.adventech.blockkit.ui.style.BlockStyleTemplate
 import io.adventech.blockkit.ui.style.StyleTemplate
 import io.adventech.blockkit.ui.style.Styler
@@ -233,12 +233,8 @@ internal fun rememberMarkdownText(
                 // Ensure indices are within valid bounds of the text.
                 val textLength = this.length
                 if (highlight.startIndex in 0 until textLength && highlight.endIndex in (highlight.startIndex + 1)..textLength) {
-                    val color = highlight.color.toColor()
                     addStyle(
-                        style = SpanStyle(
-                            background = color.copy(alpha = 0.15f),
-                            color = color,
-                        ),
+                        style = highlight.color.toHighlightSpanStyle(),
                         start = highlight.startIndex,
                         end = highlight.endIndex,
                     )
