@@ -6,7 +6,40 @@ on:
       - main
       - develop
 
+permissions:
+  contents: read
+
 jobs:
+  quality:
+    name: Code Quality and Screenshot Tests
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+
+      - name: Gradle cache
+        uses: gradle/actions/setup-gradle@v5
+
+      - name: Verify pull request CI policy
+        run: python3 .github/scripts/verify_pull_request_ci.py
+
+      - name: Run Code Quality Checks
+        run: ./gradlew check
+
+      - name: Screenshot Tests
+        run: ./gradlew testDebugUnitTest -Proborazzi.test.verify=true
+
   testing:
     name: Test Suite [Instrumented]
 
