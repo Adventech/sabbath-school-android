@@ -25,6 +25,12 @@ package app.ss.pdf.ui
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.ss.pdf.PdfAnnotationJournal
+import app.ss.pdf.PdfAnnotationKey
+import app.ss.pdf.PdfAnnotationRestorePlan
+import app.ss.pdf.PdfAnnotationSaveQueue
+import app.ss.pdf.PdfAnnotationSession
+import app.ss.pdf.normalized
 import app.ss.models.media.MediaAvailability
 import com.pspdfkit.annotations.Annotation
 import com.pspdfkit.document.PdfDocument
@@ -52,11 +58,17 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class ReadPdfViewModel @Inject constructor(
+internal class ReadPdfViewModel @Inject constructor(
     private val pdfReader: PdfReader,
     private val resourcesRepository: ResourcesRepository,
+    annotationJournal: PdfAnnotationJournal,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+
+    private val annotationSession = PdfAnnotationSession(annotationJournal)
+    private val annotationSaveQueue = PdfAnnotationSaveQueue(viewModelScope) { (key, annotations) ->
+        saveRequest(key.documentId, key.pdfId, annotations)
+    }
 
     private val _pdfFiles = MutableStateFlow<List<LocalFile>>(emptyList())
     val pdfsFilesFlow: StateFlow<List<LocalFile>> = _pdfFiles.asStateFlow()
@@ -82,10 +94,8 @@ class ReadPdfViewModel @Inject constructor(
                     .toList()
             }
             .map { input ->
-                val pdfs = savedStateHandle.screen?.pdfs.orEmpty()
-                pdfs.mapIndexed { index, pdf ->
-                    index to input.filter { it.pdfId == pdf.id }.flatMap { it.data }
-                }.toMap()
+                val pdfIds = savedStateHandle.screen?.pdfs.orEmpty().map { it.id }
+                mapAnnotationsByPdfId(pdfIds, input)
             }
             .catch { Timber.e(it) }
             .stateIn(viewModelScope, emptyMap<Int, List<PDFAuxAnnotations>>())
@@ -114,31 +124,101 @@ class ReadPdfViewModel @Inject constructor(
     }
 
     fun saveAnnotations(document: PdfDocument, docIndex: Int) {
-        val pdfs = savedStateHandle.screen?.pdfs ?: return
-        val documentId = savedStateHandle.screen?.documentId ?: return
-        val pdfId = pdfs.getOrNull(docIndex)?.id ?: return
-
-        val syncAnnotations = document.annotations().toSync()
-
-        val userInput = UserInputRequest.Annotation(
-            blockId = pdfId,
-            pdfId = pdfId,
-            data = syncAnnotations
-        )
-
-       resourcesRepository.saveDocumentInput(documentId, userInput)
+        captureAnnotations(document, docIndex, flush = false)
     }
 
-    private fun List<Annotation>.toSync(): List<PDFAuxAnnotations> {
-        val groupedAnnotations = groupBy { it.pageIndex }
-        return groupedAnnotations.keys.mapNotNull { pageIndex ->
-            val list = groupedAnnotations[pageIndex] ?: return@mapNotNull null
-            val annotations = list.map { it.toInstantJson() }.filter(::invalidInstantJson)
-            PDFAuxAnnotations(pageIndex, annotations)
+    fun flushAnnotations(document: PdfDocument, docIndex: Int) {
+        captureAnnotations(document, docIndex, flush = true)
+    }
+
+    private fun captureAnnotations(
+        document: PdfDocument,
+        docIndex: Int,
+        flush: Boolean,
+    ) {
+        val annotations = try {
+            document.annotations().toSync()
+        } catch (error: RuntimeException) {
+            Timber.e(error, "Unable to serialize a complete PDF annotation snapshot")
+            return
+        }
+        saveAnnotations(annotations, docIndex, flush)
+    }
+
+    fun restorePlan(
+        docIndex: Int,
+        remoteAnnotations: List<PDFAuxAnnotations>?,
+    ): PdfAnnotationRestorePlan? {
+        val pdfs = savedStateHandle.screen?.pdfs ?: return null
+        val documentId = savedStateHandle.screen?.documentId ?: return null
+        val pdfId = pdfs.getOrNull(docIndex)?.id ?: return null
+        val key = PdfAnnotationKey(documentId, pdfId)
+        val plan = if (remoteAnnotations == null) {
+            annotationSession.resolveAbsent(key)
+        } else {
+            annotationSession.resolve(key, remoteAnnotations)
+        }
+        return plan?.also {
+            if (plan.replayRequired) annotationSaveQueue.flush(key, plan.annotations)
         }
     }
 
-    private fun invalidInstantJson(json: String) = json != "null"
+    private fun saveAnnotations(
+        annotations: List<PDFAuxAnnotations>,
+        docIndex: Int,
+        flush: Boolean,
+    ) {
+        val pdfs = savedStateHandle.screen?.pdfs ?: return
+        val documentId = savedStateHandle.screen?.documentId ?: return
+        val pdfId = pdfs.getOrNull(docIndex)?.id ?: return
+        val key = PdfAnnotationKey(documentId, pdfId)
+
+        if (!annotationSession.record(key, annotations)) {
+            Timber.e("Unable to durably journal PDF annotations")
+        }
+        if (flush) {
+            annotationSaveQueue.flush(key, annotations)
+        } else {
+            annotationSaveQueue.enqueue(key, annotations)
+        }
+    }
+
+    private fun saveRequest(
+        documentId: String,
+        pdfId: String,
+        annotations: List<PDFAuxAnnotations>,
+    ) {
+        val userInput = UserInputRequest.Annotation(
+            blockId = pdfId,
+            pdfId = pdfId,
+            data = annotations.normalized(),
+        )
+
+        resourcesRepository.saveDocumentInput(documentId, userInput)
+    }
+}
+
+internal fun mapAnnotationsByPdfId(
+    pdfIds: List<String>,
+    inputs: List<UserInput.Annotation>,
+): Map<Int, List<PDFAuxAnnotations>> {
+    val inputsByPdfId = inputs.groupBy { it.pdfId }
+    return pdfIds.mapIndexedNotNull { index, pdfId ->
+        inputsByPdfId[pdfId]?.let { matches -> index to matches.flatMap { it.data } }
+    }.toMap()
+}
+
+internal fun List<Annotation>.toSync(): List<PDFAuxAnnotations> {
+    val groupedAnnotations = groupBy { it.pageIndex }
+    return groupedAnnotations.keys.mapNotNull { pageIndex ->
+        val list = groupedAnnotations[pageIndex] ?: return@mapNotNull null
+        val annotations = list.map { annotation ->
+            annotation.toInstantJson().also { json ->
+                check(json != "null") { "PDF annotation did not serialize" }
+            }
+        }
+        PDFAuxAnnotations(pageIndex, annotations)
+    }.normalized()
 }
 
 fun PdfDocument.annotations(): List<Annotation> {

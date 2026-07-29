@@ -35,7 +35,11 @@ import app.ss.media.playback.ui.nowPlaying.showNowPlaying
 import app.ss.media.playback.ui.video.showVideoList
 import app.ss.pdf.PdfReaderPrefs
 import app.ss.pdf.R
+import app.ss.pdf.PdfAnnotationRestorePlan
+import app.ss.pdf.normalized
 import com.cryart.sabbathschool.core.extensions.view.tint
+import com.pspdfkit.annotations.Annotation
+import com.pspdfkit.annotations.AnnotationProvider
 import com.pspdfkit.document.DocumentSource
 import com.pspdfkit.document.PdfDocument
 import com.pspdfkit.ui.DocumentDescriptor
@@ -44,6 +48,8 @@ import com.pspdfkit.ui.tabs.PdfTabBarCloseMode
 import dagger.hilt.android.AndroidEntryPoint
 import io.adventech.blockkit.model.input.PDFAuxAnnotations
 import ss.foundation.coroutines.flow.collectIn
+import timber.log.Timber
+import java.util.IdentityHashMap
 import javax.inject.Inject
 import app.ss.translations.R as L10n
 import ss.libraries.media.resources.R as MediaR
@@ -57,6 +63,8 @@ class SSReadPdfActivity : PdfActivity() {
     private val viewModel by viewModels<ReadPdfViewModel>()
 
     private var loadedDocuments: List<DocumentDescriptor> = emptyList()
+    private val annotationListeners = IdentityHashMap<PdfDocument, AnnotationProvider.OnAnnotationUpdatedListener>()
+    private val restoringDocuments = java.util.Collections.newSetFromMap(IdentityHashMap<PdfDocument, Boolean>())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -140,7 +148,9 @@ class SSReadPdfActivity : PdfActivity() {
         viewModel.annotationsStateFlow.collectIn(this) { annotations ->
             annotations.forEach { (index, annotations) ->
                 val document = documentCoordinator.documents.getOrNull(index)?.document ?: return@forEach
-                loadAnnotations(document, annotations)
+                viewModel.restorePlan(index, annotations)?.let { plan ->
+                    loadAnnotations(document, plan)
+                }
             }
         }
 
@@ -148,34 +158,78 @@ class SSReadPdfActivity : PdfActivity() {
     }
 
     override fun onDocumentLoaded(document: PdfDocument) {
-        val index = loadedDocuments.indexOfFirst { it.uid == documentCoordinator.visibleDocument?.uid }
+        val index = loadedDocuments.indexOfFirst { descriptor ->
+            descriptor.document === document || descriptor.uid == document.uid
+        }
         if (index >= 0) {
-            viewModel.annotationsStateFlow.value[index]?.let { annotations ->
-                loadAnnotations(document, annotations)
+            registerAnnotationListener(document, index)
+            val annotations = viewModel.annotationsStateFlow.value[index]
+            viewModel.restorePlan(index, annotations)?.let { plan ->
+                loadAnnotations(document, plan)
             }
         }
     }
 
-    private fun loadAnnotations(document: PdfDocument, annotations: List<PDFAuxAnnotations>) {
-        if (annotations.isEmpty()) return
+    private fun registerAnnotationListener(document: PdfDocument, index: Int) {
+        if (annotationListeners.containsKey(document)) return
+        val listener = object : AnnotationProvider.OnAnnotationUpdatedListener {
+            override fun onAnnotationCreated(annotation: Annotation) = annotationsChanged(document, index)
+            override fun onAnnotationUpdated(annotation: Annotation) = annotationsChanged(document, index)
+            override fun onAnnotationRemoved(annotation: Annotation) = annotationsChanged(document, index)
 
-        with(document.annotationProvider) {
-            document.annotations()
-                .forEach { removeAnnotationFromPage(it) }
-
-            annotations
-                .flatMap { it.annotations }
-                .forEach { createAnnotationFromInstantJson(it) }
+            override fun onAnnotationZOrderChanged(
+                pageIndex: Int,
+                oldOrder: List<Annotation>,
+                newOrder: List<Annotation>,
+            ) = annotationsChanged(document, index)
         }
+        document.annotationProvider.addOnAnnotationUpdatedListener(listener)
+        annotationListeners[document] = listener
+    }
+
+    private fun annotationsChanged(document: PdfDocument, index: Int) {
+        if (document in restoringDocuments) return
+        viewModel.saveAnnotations(document, index)
+    }
+
+    private fun loadAnnotations(document: PdfDocument, plan: PdfAnnotationRestorePlan) {
+        restoringDocuments += document
+        val restored = try {
+            replaceAnnotationsSafely(
+                current = { document.annotations().toSync() },
+                clear = {
+                    document.annotations().forEach(document.annotationProvider::removeAnnotationFromPage)
+                },
+                apply = { annotations ->
+                    annotations
+                        .flatMap { it.annotations }
+                        .forEach { json ->
+                            checkNotNull(document.annotationProvider.createAnnotationFromInstantJson(json))
+                        }
+                },
+                candidate = plan.annotations,
+                fallback = plan.fallback,
+            )
+        } finally {
+            restoringDocuments -= document
+        }
+        if (!restored) Timber.e("Rejected malformed PDF annotation payload and restored known-good state")
     }
 
     override fun onStop() {
-        val documents = loadedDocuments.mapNotNull { it.document }
-        documents.forEachIndexed { index, pdfDocument ->
-            viewModel.saveAnnotations(pdfDocument, index)
+        loadedDocuments.map { it.document }.forEachIndexedPresent { index, pdfDocument ->
+            viewModel.flushAnnotations(pdfDocument, index)
         }
         readerPrefs.saveConfiguration(configuration.configuration)
         super.onStop()
+    }
+
+    override fun onDestroy() {
+        annotationListeners.forEach { (document, listener) ->
+            document.annotationProvider.removeOnAnnotationUpdatedListener(listener)
+        }
+        annotationListeners.clear()
+        super.onDestroy()
     }
 
     companion object {
@@ -185,3 +239,44 @@ class SSReadPdfActivity : PdfActivity() {
 }
 
 internal const val ARG_PDF_SCREEN = "as_arg_pdf_screen"
+
+internal fun <T : Any> List<T?>.forEachIndexedPresent(action: (Int, T) -> Unit) {
+    forEachIndexed { index, value ->
+        if (value != null) action(index, value)
+    }
+}
+
+internal fun replaceAnnotationsSafely(
+    current: () -> List<PDFAuxAnnotations>,
+    clear: () -> Unit,
+    apply: (List<PDFAuxAnnotations>) -> Unit,
+    candidate: List<PDFAuxAnnotations>,
+    fallback: List<PDFAuxAnnotations>?,
+): Boolean {
+    val before = try {
+        current().normalized()
+    } catch (_: Exception) {
+        return false
+    }
+    val replacement = candidate.normalized()
+    if (before == replacement) return true
+
+    return try {
+        clear()
+        apply(replacement)
+        true
+    } catch (_: Exception) {
+        val preferredRecovery = fallback?.normalized() ?: before
+        val recovered = runCatching {
+            clear()
+            apply(preferredRecovery)
+        }.isSuccess
+        if (!recovered && preferredRecovery != before) {
+            runCatching {
+                clear()
+                apply(before)
+            }
+        }
+        false
+    }
+}

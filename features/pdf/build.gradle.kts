@@ -68,6 +68,7 @@ dependencies {
         exclude(group = "androidx.compose.runtime", module = "runtime") // imported as aar and breaks the build
     }
     implementation(libs.timber)
+    implementation(projects.common.auth)
     implementation(projects.common.core)
     implementation(projects.common.design)
     implementation(projects.common.designCompose)
@@ -81,6 +82,8 @@ dependencies {
     implementation(projects.libraries.media.resources)
     implementation(projects.libraries.pdf.api)
     implementation(projects.services.resources.api)
+
+    testImplementation(libs.bundles.testing.common)
 
     ksp(libs.circuit.codegen)
     ksp(libs.google.hilt.compiler)
