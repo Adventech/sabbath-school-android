@@ -31,6 +31,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,7 +50,6 @@ import io.adventech.blockkit.model.input.Highlight
 import io.adventech.blockkit.model.input.HighlightColor
 import io.adventech.blockkit.model.input.Underline
 import io.adventech.blockkit.model.input.UserInput
-import io.adventech.blockkit.model.input.UserInputRequest
 import io.adventech.blockkit.ui.input.MarkdownTextInput
 import io.adventech.blockkit.ui.input.SelectionBlockContainer
 import io.adventech.blockkit.ui.input.UserInputState
@@ -123,16 +123,29 @@ private fun SelectableParagraph(
 
     val highlights = rememberContentHighlights(blockItem.id, inputState)
     val underlines = rememberContentUnderlines(blockItem.id, inputState)
-    var localHighlights by remember(highlights) { mutableStateOf(highlights) }
-    var localUnderlines by remember(underlines) { mutableStateOf(underlines) }
+    val persistedHighlights: UserInput.Highlights? = inputState?.find(blockItem.id)
+    val persistedUnderlines: UserInput.Underlines? = inputState?.find(blockItem.id)
+    val inputReducer = remember(blockItem.id) {
+        ParagraphUserInputReducer(
+            blockId = blockItem.id,
+            initialHighlights = highlights,
+            initialUnderlines = underlines,
+        )
+    }
+    LaunchedEffect(persistedHighlights) {
+        inputReducer.acceptPersistedHighlights(highlights)
+    }
+    LaunchedEffect(persistedUnderlines) {
+        inputReducer.acceptPersistedUnderlines(underlines)
+    }
 
     val styledText = rememberMarkdownText(
         markdownText = blockItem.markdown,
         style = Styler.textStyle(blockStyle),
         styleTemplate = BlockStyleTemplate.DEFAULT,
         color = Styler.textColor(blockStyle),
-        highlights = localHighlights,
-        underlines = localUnderlines,
+        highlights = inputReducer.highlights,
+        underlines = inputReducer.underlines,
     )
 
     val extendedSpans = remember {
@@ -163,26 +176,13 @@ private fun SelectableParagraph(
         selection = currentSelection,
         modifier = modifier,
         onHighlight = { highlight ->
-            val input: UserInput.Highlights? = inputState?.find(blockItem.id)
-            val highlights = input?.highlights.orEmpty() + highlight
-            val request = UserInputRequest.Highlights(
-                blockId = blockItem.id,
-                highlights = highlights,
-            )
-            localHighlights = highlights.toImmutableList()
+            val request = inputReducer.addHighlight(highlight)
             inputState?.eventSink?.invoke(UserInputState.Event.InputChanged(request))
             clearSelection()
         },
         onRemoveHighlight = {
             // Remove any highlight who's startIndex and endIndex are in the range of the current selection
-            val selection = currentSelection
-            val input: UserInput.Highlights? = inputState?.find(blockItem.id)
-            val highlights = removeHighlightsInRange(input?.highlights.orEmpty(), selection)
-            val request = UserInputRequest.Highlights(
-                blockId = blockItem.id,
-                highlights = highlights
-            )
-            localHighlights = highlights.toImmutableList()
+            val request = inputReducer.removeHighlights(currentSelection)
             inputState?.eventSink?.invoke(UserInputState.Event.InputChanged(request))
             clearSelection()
         },
@@ -199,43 +199,13 @@ private fun SelectableParagraph(
             clearSelection()
         },
         onUnderLine = { underline ->
-            val selection = currentSelection
-            val input: UserInput.Underlines? = inputState?.find(blockItem.id)
-            val existingUnderlines = input?.underlines.orEmpty()
-
-            if (underlinesInRange(existingUnderlines, selection).isNotEmpty()) {
-                // If there are existing underlines in the selection range, remove them
-                val updatedUnderlines = removeUnderlinesInRange(existingUnderlines, selection)
-                localUnderlines = updatedUnderlines.toImmutableList()
-                inputState?.eventSink?.invoke(
-                    UserInputState.Event.InputChanged(
-                        UserInputRequest.Underlines(
-                            blockId = blockItem.id,
-                            underlines = updatedUnderlines
-                        )
-                    )
-                )
-            } else {
-                val underlines = existingUnderlines + underline
-                val request = UserInputRequest.Underlines(
-                    blockId = blockItem.id,
-                    underlines = underlines
-                )
-                localUnderlines = underlines.toImmutableList()
-                inputState?.eventSink?.invoke(UserInputState.Event.InputChanged(request))
-            }
+            val request = inputReducer.toggleUnderline(underline, currentSelection)
+            inputState?.eventSink?.invoke(UserInputState.Event.InputChanged(request))
             clearSelection()
         },
         onRemoveUnderline = {
             // Remove any underline who's startIndex and endIndex are in the range of the current selection
-            val selection = currentSelection
-            val input: UserInput.Underlines? = inputState?.find(blockItem.id)
-            val underlines = removeUnderlinesInRange(input?.underlines.orEmpty(), selection)
-            val request = UserInputRequest.Underlines(
-                blockId = blockItem.id,
-                underlines = underlines
-            )
-            localUnderlines = underlines.toImmutableList()
+            val request = inputReducer.removeUnderlines(currentSelection)
             inputState?.eventSink?.invoke(UserInputState.Event.InputChanged(request))
             clearSelection()
         }
@@ -249,33 +219,6 @@ private fun SelectableParagraph(
             textAlign = Styler.textAlign(blockStyle),
             onHandleUri = onHandleUri,
         )
-    }
-}
-
-private fun removeHighlightsInRange(highlights: List<Highlight>, range: TextRange): List<Highlight> {
-    return highlights.filterNot { highlight ->
-        highlight.startIndex in range.min..range.max && highlight.endIndex in range.min..range.max ||
-            highlight.startIndex <= range.max && highlight.endIndex >= range.min
-    }
-}
-
-private fun removeUnderlinesInRange(
-    underlines: List<Underline>,
-    range: TextRange
-): List<Underline> {
-    return underlines.filterNot { underline ->
-        underline.startIndex in range.min..range.max && underline.endIndex in range.min..range.max ||
-            underline.startIndex <= range.max && underline.endIndex >= range.min
-    }
-}
-
-private fun underlinesInRange(
-    underlines: List<Underline>,
-    range: TextRange
-): List<Underline> {
-    return underlines.filter { underline ->
-        underline.startIndex in range.min..range.max && underline.endIndex in range.min..range.max ||
-            underline.startIndex <= range.max && underline.endIndex >= range.min
     }
 }
 
