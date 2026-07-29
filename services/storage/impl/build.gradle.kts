@@ -31,7 +31,10 @@ plugins {
 
 extensions.configure<LibraryExtension> {
     namespace = "ss.services.storage.impl"
+    sourceSets.getByName("test").assets.directories.add("schemas")
 }
+
+foundry { android { features { robolectric() } } }
 
 ksp { arg("room.schemaLocation", "$projectDir/schemas") }
 
@@ -44,6 +47,9 @@ dependencies {
     implementation(libs.moshix.adapters)
     implementation(libs.square.moshi.kotlin)
     implementation(libs.timber)
+
+    testImplementation(libs.androidx.room.testing)
+    testImplementation(libs.bundles.testing.common)
 
     ksp(libs.androidx.room.compiler)
     ksp(libs.google.hilt.compiler)

@@ -22,10 +22,21 @@
 
 package ss.services.storage.impl.migration
 
-import androidx.room.DeleteTable
-import androidx.room.migration.AutoMigrationSpec
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
-@DeleteTable(tableName = "annotations")
-@DeleteTable(tableName = "comments")
-@DeleteTable(tableName = "highlights")
-class LegacyUserInputMigration: AutoMigrationSpec
+/**
+ * Losslessly quarantines legacy user input whose identifiers and payload formats cannot be safely
+ * mapped to the block-based user input model during a SQL migration.
+ *
+ * These tables are isolated from the active user input model but remain managed recovery tables so
+ * they follow the same logout and account-deletion cleanup lifecycle.
+ */
+internal object LegacyUserInputMigration : Migration(26, 27) {
+
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("ALTER TABLE `annotations` RENAME TO `legacy_annotations_v26`")
+        db.execSQL("ALTER TABLE `comments` RENAME TO `legacy_comments_v26`")
+        db.execSQL("ALTER TABLE `highlights` RENAME TO `legacy_highlights_v26`")
+    }
+}
