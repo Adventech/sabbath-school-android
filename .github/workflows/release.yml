@@ -8,23 +8,26 @@ on:
 
 jobs:
   update_draft_release:
-    runs-on: macos-latest
+    runs-on: macos-15
     steps:
       - uses: release-drafter/release-drafter@v7
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   submit-release:
-    runs-on: macos-latest
+    runs-on: macos-15
     steps:
       - name: Checkout repo
         uses: actions/checkout@v6
+
+      - name: Verify reproducible build inputs
+        run: python3 .github/scripts/verify_build_reproducibility.py
 
       - name: Set up JDK
         uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
-          java-version: '21'
+          java-version-file: '.java-version'
 
       - name: Decrypt secrets
         run: ./release/decrypt-secrets.sh
