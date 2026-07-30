@@ -2,13 +2,19 @@
 name: Labeler
 on: [pull_request]
 
+permissions:
+  contents: read
+
 jobs:
   label:
+    permissions:
+      contents: read
+      pull-requests: write
 
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/labeler@main
+      - uses: actions/labeler@b8dd2d9be0f68b860e7dae5dae7d772984eacd6d # v6
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           configuration-path: ".github/labels_config.yml"
