@@ -10,7 +10,7 @@ jobs:
   testing:
     name: Test Suite [Instrumented]
 
-    runs-on: macos-latest
+    runs-on: macos-15
     strategy:
       matrix:
         api-level: [34]
@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
-          java-version: '23'
+          java-version-file: '.java-version'
 
       - name: Gradle cache
         uses: gradle/actions/setup-gradle@v6
