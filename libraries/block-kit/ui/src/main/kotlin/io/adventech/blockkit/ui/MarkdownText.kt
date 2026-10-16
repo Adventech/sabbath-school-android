@@ -500,8 +500,8 @@ private fun AnnotatedString.Builder.appendText(text: Text) {
     }
 }
 
-// Regex to detect plain web URLs
-private val urlRegex = Regex("""(https?://|www\.)\S+[^!:,.;\s]""")
+// Exclude SpanProcessor's zero-width guards from automatically detected URLs.
+internal val urlRegex = Regex("""(https?://|www\.)[^\s\u200B]*[^!:,.;\s\u200B]""")
 
 private fun io.adventech.blockkit.model.TextStyle.toSpanStyle(
     attributes: TextAttributes?,
