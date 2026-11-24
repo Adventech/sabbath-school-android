@@ -21,7 +21,7 @@
   -->
 
 <resources>
-    <string name="ss_app_name">"Sabato Mokykla"</string>
+    <string name="ss_app_name">"Sabatos mokykla"</string>
     <string name="ss_share">"Dalintis"</string>
     <string name="ss_login_button_google">"Prisijunkite naudodami „Google“"</string>
     <string name="ss_login_button_anonymous">"Prisijungti anonimiškai"</string>
@@ -29,7 +29,7 @@
     <string name="ss_menu_sign_out">"Atsijungti"</string>
     <string name="ss_menu_read_now">"Skaityti dabar"</string>
     <string name="ss_menu_share_app">"Dalytis programa"</string>
-    <string name="ss_menu_share_app_text">"Patikrinkite naują naudojamą Sabato Mokyklos programą - %1$s"</string>
+    <string name="ss_menu_share_app_text">"Patikrinkite naują naudojamą Sabatos mokyklos programą - %1$s"</string>
     <string name="ss_my_highlights">"Mano akcentai"</string>
     <string name="ss_my_notes">"Mano pastabos"</string>
     <string name="ss_settings">"Nustatymai"</string>
@@ -86,7 +86,7 @@
     <string name="ss_settings_reminder">"Dienos priminimas"</string>
     <string name="ss_settings_reminder_summary">"Patikrinkite, ar norite atlikti kasdieninį priminimą apie tyrimą"</string>
     <string name="ss_settings_reminder_time">"Priminimo laikas"</string>
-    <string name="ss_settings_reminder_text">"Laikas mokytis sabato mokyklos pamokos"</string>
+    <string name="ss_settings_reminder_text">"Laikas mokytis sabatos mokyklos pamokos"</string>
     <string name="ss_reading_offline">"Tu esi atsijungęs. Jei norite perskaityti šią pamoką, vėl prisijunkite."</string>
     <string name="ss_reading_offline_retry">"Bandykite dar kartą"</string>
     <string name="ss_about_text">"Adventecho misija pirmiausia yra svarbiausia - suteikti šlovę mūsų Lᴏʀᴅ, Senųjų Dienų. Mes esame pasiryžę atlikti savo tarnybą per technologijas. Mūsų tikslas - suvienyti mūsų septintosios dienos adventistų bažnyčią. Mūsų tikslas - paskelbti gerą naujieną šiam pasauliui technologijų ir komunikacijos pažangos dėka. Mūsų tikslas yra liudyti Jėzaus antrąjį atėjimą.
